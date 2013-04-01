@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+    
+
+	<h:outputText value="#{msg['TIPO_CARACTERISTICA_CODIGO']}" class="lbl_input" />
+	<h:inputText value="#{tipoCaracteristicaController.bean.codigo}"
+	   id="codigo"
+	   disabled="#{not tipoCaracteristicaController.isEditable('codigo')}" />
+	<h:message for="codigo" errorClass="faces-error" />
+
+	<h:outputText value="#{msg['TIPO_CARACTERISTICA_NOMBRE']}" class="lbl_input" />
+	<h:inputText value="#{tipoCaracteristicaController.bean.nombreCaracteristica}"
+		id="nombreCaracteristica"
+		disabled="#{not tipoCaracteristicaController.isEditable('nombreCaracteristica')}" />
+	<h:message for="nombreCaracteristica" errorClass="faces-error" />
+	
+</ui:composition>

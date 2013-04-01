@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:orchestra="http://myfaces.apache.org/orchestra"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- 1. initialization of all orchestra modules (required for core15 module) -->
+	<import resource="classpath*:/META-INF/spring-orchestra-init.xml" />
+
+	<!-- 2. the conversation scopes -->
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="conversation.manual">
+					<bean
+						class="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
+						<property name="timeout" value="30" />
+						<property name="advices">
+							<list>
+								<ref bean="persistentContextConversationInterceptor" />
+							</list>
+						</property>
+					</bean>
+				</entry>
+
+				<entry key="conversation.access">
+					<bean
+						class="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
+						<property name="timeout" value="30" />
+						<property name="advices">
+							<list>
+								<ref bean="persistentContextConversationInterceptor" />
+							</list>
+						</property>
+						<property name="lifetime" value="access" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- 3. the "entity manager" manager -->
+	<bean id="persistentContextConversationInterceptor"
+		class="org.apache.myfaces.orchestra.conversation.spring.PersistenceContextConversationInterceptor">
+		<property name="persistenceContextFactory" ref="persistentContextFactory" />
+	</bean>
+
+	<!-- 4. conversation - persistence adapter -->
+	<bean id="persistentContextFactory"
+		class="org.apache.myfaces.orchestra.conversation.spring.JpaPersistenceContextFactory">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+</beans>

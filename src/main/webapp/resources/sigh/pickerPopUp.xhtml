@@ -1,0 +1,80 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+	<cc:interface componentType="pickerButton">
+		<cc:attribute name="urlColumns"
+			default="#{cc.attrs.pickerField.urlColumns}" />
+		<cc:attribute name="popupTitle" default="Seleccione una entidad" />
+		<cc:attribute name="render" default="#{cc.attrs.pickerField.id}" />
+		<cc:attribute name="idDataTable" default="pickerDataTable" />
+		<cc:attribute name="options" />
+		<cc:attribute name="pickerField"
+			type="py.una.med.base.dynamic.forms.PickerField" />
+		<cc:attribute name="width" default="850" />
+		<cc:attribute name="idBasicFilter" default="idBasicFilter" />
+		<cc:attribute name="height" default="600" />
+		<cc:attribute name="pickerId"
+			default="#{cc.attrs.pickerField.popupID}" />
+	</cc:interface>
+	<cc:implementation>
+		<rich:popupPanel id="#{cc.attrs.pickerId}" width="#{cc.attrs.width}"
+			height="#{cc.attrs.height}" modal="true" show="false">
+
+
+			<h:form id="formulario">
+				<f:facet name="header">
+					<h:outputText value="#{cc.attrs.title}" />
+				</f:facet>
+				<f:facet name="controls">
+					<a4j:commandButton value="x" immediate="true"
+						styleClass="btn-cancel" title="Salir"
+						render="#{cc.attrs.pickerId}" />
+				</f:facet>
+
+				<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
+					switchType="client">
+					<sigh:basicFilter2 id="#{cc.attrs.idBasicFilter}"
+						simpleFilter="#{cc.attrs.pickerField.listHelper.simpleFilter}"
+						searchRender="#{cc.attrs.idDataTable}"
+						filterOptions="#{cc.attrs.pickerField.listHelper.filterOptions}">
+					</sigh:basicFilter2>
+				</rich:collapsiblePanel>
+
+
+				<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
+					switchType="client">
+
+					<rich:extendedDataTable
+						value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
+						rows="15" selection="#{cc.currentSelection}">
+						<a4j:ajax execute="@form" event="selectionchange"
+							listener="#{cc.selectionListener}" render="formulario" />
+						<ui:include src="#{cc.attrs.urlColumns}" />
+					</rich:extendedDataTable>
+				</rich:collapsiblePanel>
+
+
+				<h:outputText
+					value="Valor Seleccionado: #{cc.attrs.pickerField.getFormmatedOption(cc.selectedItem)} "
+					id="pickerResult" />
+				<h:panelGrid id="picker_control" columns="2">
+					<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
+						render="#{cc.attrs.render}" id="buttonSelect"
+						oncomplete="#{rich:component(cc.attrs.pickerId)}.hide(); return false;">
+						<f:setPropertyActionListener
+							target="#{cc.attrs.pickerField.value}" value="#{cc.selectedItem}" />
+					</a4j:commandButton>
+					<a4j:commandButton value="#{msg['PICKER_CANCELAR']}"
+						oncomplete="#{rich:component(cc.attrs.pickerId)}.hide(); return false;"
+						immediate="true">
+					</a4j:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</rich:popupPanel>
+	</cc:implementation>
+</ui:composition>

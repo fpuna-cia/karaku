@@ -1,0 +1,16 @@
+
+<ui:composition template="/views/templates/header.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tsigh="http://www.pol.una.py/jsf/sigh">
+	<ui:define name="content">
+		<tsigh:security hasPermission="admin">
+			<h:outputText value="Bienvenido al Sistema de Gestion Integral" />
+		</tsigh:security>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,17 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<cc:interface>
+	</cc:interface>
+	<cc:implementation>
+		<rich:collapsiblePanel header="Mapa de navegacion" switchType="client">
+			<c:forEach items="#{breadcrumbController.items}" var="item">
+				<h:outputLabel value=" / " />
+				<h:outputLabel value="#{item.name}" />
+			</c:forEach>
+		</rich:collapsiblePanel>
+	</cc:implementation>
+</ui:composition>

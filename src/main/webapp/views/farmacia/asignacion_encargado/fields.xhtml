@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+	<h:outputText value="#{msg['ASIGNACION_ENCARGADO_FECHA_DESDE']}"
+		class="lbl_input" />
+	<h:inputText value="#{asignacionEncargadoController.bean.fechaDesde}"
+		id="fechaDesde"
+		disabled="#{not asignacionEncargadoController.isEditable('fechaDesde')}"
+		style="width: 300px" />
+	<h:message for="fechaDesde" errorClass="faces-error" />
+
+	<h:outputText value="#{msg['ASIGNACION_ENCARGADO_FECHA_HASTA']}"
+		class="lbl_input" />
+	<h:inputText value="#{asignacionEncargadoController.bean.fechaHasta}"
+		id="fechaHasta"
+		disabled="#{not asignacionEncargadoController.isEditable('fechaHasta')}"
+		style="width: 300px" />
+	<h:message for="fechaHasta" errorClass="faces-error" />
+
+	<h:outputText value="#{msg['ASIGNACION_ENCARGADO_OBSERVACION']}"
+		class="lbl_input" />
+	<h:inputText value="#{asignacionEncargadoController.bean.observacion}"
+		id="observacion"
+		disabled="#{not asignacionEncargadoController.isEditable('observacion')}"
+		style="width: 300px" />
+	<h:message for="observacion" errorClass="faces-error" />
+
+	<h:outputText value="#{msg['ASIGNACION_ENCARGADO_ENCARGADO']}" class="lbl_input" />
+	<h:selectOneMenu value="#{asignacionEncargadoController.bean.encargado}"
+		id="encargado" converter="#{asignacionEncargadoController.converter}"
+		disabled="#{not asignacionEncargadoController.isEditable('encargado')}">
+		<f:selectItem itemLabel="#{msg['ASIGNACION_ENCARGADO_SELECCIONAR_ENCARGADO']}" />
+		<f:selectItems value="#{asignacionEncargadoController.encargados}" />
+	</h:selectOneMenu>
+	<h:message for="encargado" errorClass="faces-error" />
+	
+	<h:outputText value="#{msg['ASIGNACION_ENCARGADO_DEPOSITO']}" class="lbl_input" />
+	<h:selectOneMenu value="#{asignacionEncargadoController.bean.deposito}"
+		id="deposito" converter="#{asignacionEncargadoController.converter}"
+		disabled="#{not asignacionEncargadoController.isEditable('deposito')}">
+		<f:selectItem itemLabel="#{msg['ASIGNACION_ENCARGADO_SELECCIONAR_DEPOSITO']}" />
+		<f:selectItems value="#{asignacionEncargadoController.depositos}" />
+	</h:selectOneMenu>
+	<h:message for="deposito" errorClass="faces-error" />
+
+</ui:composition>

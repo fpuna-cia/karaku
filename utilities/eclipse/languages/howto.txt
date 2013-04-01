@@ -1,0 +1,22 @@
+Como configurar el paquete de idioma español para eclipse
+
+ir a:
+Windows -> 
+ Preferences -> 
+  General -> 
+   Editors -> 
+    Text Editors -> 
+     Spelling	
+o:
+Windows -> 
+ Preferences -> 
+  Buscar: spelling
+
+1. Poner en parte donde dice User defined dictionary, poner la 
+   ubicacion del archivo ES.txt
+2. Poner en el encoding Other ISO 8859-1
+3. Reiniciar ecilpse (File -> Restart)
+
+Cualquier consulta, comunicarse con Arturo Volpe, o enviar un mail a 
+arturovolpe@gmail.com
+

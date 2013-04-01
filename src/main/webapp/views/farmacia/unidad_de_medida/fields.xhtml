@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+	<h:outputText value="#{msg['UNIDAD_DE_MEDIDA_CODIGO_UNICO']}"
+		class="lbl_input" />
+	<h:inputText value="#{unidadDeMedidaController.bean.codigoUnico}"
+		id="codigoUnico" 
+		disabled="#{not unidadDeMedidaController.isEditable('codigoUnico')}" style="text-transform: none;"/>
+	<h:message for="codigoUnico" errorClass="faces-error" />
+
+	<h:outputText value="#{msg['UNIDAD_DE_MEDIDA_DESCRIPCION']}"
+		class="lbl_input" />
+	<h:inputText value="#{unidadDeMedidaController.bean.descripcion}"
+		id="descripcion" 
+		disabled="#{not unidadDeMedidaController.isEditable('descripcion')}" style="text-transform: none;"/>
+	<h:message for="descripcion" errorClass="faces-error" />
+
+	<h:outputText value="#{msg['UNIDAD_DE_MEDIDA_ABREVIATURA']}"
+		class="lbl_input" />
+	<h:inputText value="#{unidadDeMedidaController.bean.abreviatura}"
+		id="abreviatura" 
+		disabled="#{not unidadDeMedidaController.isEditable('abreviatura')}" style="text-transform: none;"/>
+	<h:message for="abreviatura" errorClass="faces-error" />
+
+</ui:composition>

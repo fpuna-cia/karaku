@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+import re
+import sys
+
+path = sys.argv[1]
+
+message = ''
+with open(path) as f:
+    message = ''.join(f.readlines())
+
+match = re.search( r'refs #(\d+)', message)
+if match:
+    print '[OK] Issue reference found'
+else:
+    print '[ERROR] No issue reference was found'
+    sys.exit(1)
+

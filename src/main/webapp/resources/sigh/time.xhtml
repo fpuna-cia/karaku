@@ -1,0 +1,20 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich">
+	<cc:interface componentType="customTimeBean">
+		<cc:attribute name="date" type="java.util.Date" required="true" />
+		<cc:attribute name="hasSeconds" default="true"></cc:attribute>
+	</cc:interface>
+	<cc:implementation>
+		<rich:inputNumberSpinner value="#{cc.hours}" minValue="0"
+			maxValue="23" />
+		<h:outputLabel value=":" />
+		<rich:inputNumberSpinner value="#{cc.minutes}" minValue="0"
+			maxValue="59" />
+		<h:outputLabel value=":" rendered="#{cc.attrs.hasSeconds}" />
+		<rich:inputNumberSpinner value="#{cc.seconds}" minValue="0"
+			maxValue="59" rendered="#{cc.attrs.hasSeconds}" />
+	</cc:implementation>
+</ui:composition>

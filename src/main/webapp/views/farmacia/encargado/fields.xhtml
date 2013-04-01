@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+	<h:outputText value="#{msg['ENCARGADO_CODIGO_UNICO']}"
+		class="lbl_input" />
+	<h:inputText value="#{encargadoController.bean.codigoUnico}"
+		id="codigoUnico"
+		disabled="#{not encargadoController.isEditable('codigoUnico')}"
+		maxlength="5"
+		style="width: 300px" />
+	<h:message for="codigoUnico" errorClass="faces-error" />
+
+
+	<h:outputText value="#{msg['ENCARGADO_PERSONA']}" class="lbl_input" />
+	<h:selectOneMenu value="#{encargadoController.bean.persona}" 
+	id="persona" converter="#{encargadoController.personaConverter}"
+	disabled="#{not encargadoController.isEditable('persona')}">
+		<f:selectItem itemLabel="#{msg['ENCARGADO_SELECCIONAR_PERSONA']}"/>
+		<f:selectItems value="#{encargadoController.personas}"/>
+	</h:selectOneMenu>
+	<h:message for="persona" errorClass="faces-error" />
+
+</ui:composition>

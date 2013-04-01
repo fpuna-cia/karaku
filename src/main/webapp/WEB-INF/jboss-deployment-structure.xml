@@ -1,0 +1,10 @@
+<jboss-deployment-structure>
+	<deployment>
+		<!-- Excluimos el loggin por defecto de manera a que tome la configuracion 
+			de logback.xml -->
+		<exclusions>
+			<module name="org.apache.log4j" />
+			<module name="org.slf4j" />
+		</exclusions>
+	</deployment>
+</jboss-deployment-structure>

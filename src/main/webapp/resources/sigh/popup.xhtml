@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+
+	<composite:attribute name="popupId" default="popupID" />
+	<composite:attribute name="width" default="550" />
+	<composite:attribute name="height" default="300" />
+	<composite:attribute name="title" required="true" />
+	<composite:attribute name="show" default="false" />
+</composite:interface>
+<composite:implementation>
+
+	<rich:popupPanel id="#{cc.attrs.popupId}" modal="true"
+		show="#{cc.attrs.show}" resizeable="false" width="#{cc.attrs.width}"
+		height="#{cc.attrs.height}">
+		<f:facet name="header">
+			<h:outputText value="#{cc.attrs.title}" />
+		</f:facet>
+		<f:facet name="controls">
+			<h:form>
+				<a4j:commandButton value="x" immediate="true"
+					styleClass="btn-cancel"
+					onclick="#{rich:component(cc.attrs.popupId)}.hide(); return false;"
+					title="Salir" />
+			</h:form>
+		</f:facet>
+
+		<composite:insertChildren />
+
+	</rich:popupPanel>
+
+
+</composite:implementation>
+</html>

@@ -1,0 +1,167 @@
+* {
+	margin: 0;
+}
+
+body {
+	background-color: #D5DED9;
+}
+
+html,body {
+	height: 100%;
+}
+
+#wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -40px;
+}
+
+.footer,.push {
+	text-align: right;
+	height: 40px;
+}
+
+input[type="text"] {
+	text-transform: uppercase;
+}
+
+#top {
+	position: relative;
+	background-color: #99B2B7;
+	color: #99B2B7;
+	padding: 2px;
+	margin: 10px 10px 10px 10px;
+}
+
+#bottom {
+	position: absolute;
+	background-color: #c2dfef;
+	padding: 5px;
+	margin: 10px 0px 0px 0px;
+}
+
+#left {
+	float: left;
+	padding: 0px;
+	width: 170px;
+}
+
+#right {
+	float: right;
+	background-color: #ece3a5;
+	padding: 5px;
+	width: 150px;
+}
+
+.center_content {
+	position: relative;
+	background-color: #dddddd;
+	padding: 5px;
+	margin-left: 200px;
+}
+
+.left_content {
+	background-color: #dddddd;
+	padding: 5px;
+	margin-left: 200px;
+}
+
+.right_content {
+	background-color: #dddddd;
+	padding: 5px;
+	margin: 0px 170px 0px 170px;
+}
+
+#top a:link,#top a:visited {
+	color: gray;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#top a:link:hover,#top a:visited:hover {
+	color: black;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+/*
+	Este estilo sera aplicado a todas las primeras columnas (label del input)
+*/
+.form_label {
+	text-align: right;
+}
+
+/*
+	Este estilo sera aplicado a todos los inputs de los formularios
+*/
+.form_input {
+	text-transform: uppercase;
+}
+
+/*
+	Este estilo sera aplicado a todos los errores de los inputs
+*/
+.form_error {
+	text-align: left;
+	color: blue;
+}
+/*
+	Estilo para los mensajes de error generales
+	@see http://docs.jboss.org/richfaces/latest_4_0_X/Component_Reference/en-US/html/chap-Component_Reference-Output_and_messages.html#sect-Component_Reference-Output_and_messages-richmessage
+*/
+.rf-msg-err,.rf-msgs-err,.rf-msg-ftl,.rf-msgs-ftl,.rf-msg-inf,.rf-msgs-inf,.rf-msg-wrn,.rf-msgs-wrn,.rf-msg-ok,.rf-msgs-ok
+	{
+	display: list-item;
+	margin-left: 20px;
+	padding-left: 0px;
+	color: blue;
+}
+
+.rf-msg-err,.rf-msgs-err {
+	background-image: none;
+}
+
+.faces-error {
+	text-align: left;
+	color: blue;
+}
+/*
+	Estilo para los botones de la izquierda 
+*/
+.list_button_class {
+	text-align: left;
+	width: 20%;
+}
+
+.list_export_class {
+	text-align: center;
+}
+/*
+	Estilo para los botones de paginacion
+*/
+.list_pagin_class {
+	text-align: right;
+	width: 20%;
+}
+
+.commandButton {
+    /* Remove all decorations */
+    border: none;
+    display: inline;
+    margin: 0em;
+    padding: 0em;
+    outline: none;
+    outline-offset: 0em;
+    /* Look like a link */
+    background: none;
+    color: blue;
+    cursor: pointer;
+    font: inherit;
+    text-decoration: underline;
+}
+/* Remove extra space inside buttons in Firefox */
+.commandbutton::-moz-focus-inner {
+    border: none;
+    padding: 0em;
+ }

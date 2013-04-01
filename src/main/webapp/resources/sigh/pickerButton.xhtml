@@ -1,0 +1,36 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+	<cc:interface>
+		<cc:attribute name="buttonAction" />
+		<cc:attribute name="buttonRender" />
+		<cc:attribute name="resultValue"
+			default="#{cc.attrs.pickerField.formmatedSelectedOption}" />
+		<cc:attribute name="panelId" default="#{cc.attrs.pickerField.id}" />
+		<cc:attribute name="pickerField"
+			type="py.una.med.base.dynamic.forms.PickerField" />
+	</cc:interface>
+
+	<cc:implementation>
+		<rich:panel id="#{cc.attrs.panelId}" style="border:0px;padding:0px">
+			<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
+				rendered="#{cc.attrs.pickerField.hasCodeInput}"
+				disabled="empty cc.attrs.pickerField.keyListener">
+				<a4j:ajax event="blur"
+					listener="#{cc.attrs.pickerField.keyUpListener}"
+					disabled="#{not cc.attrs.pickerField.hasCodeInput}"
+					render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage}"
+					execute="valueId" immediate="true" />
+			</h:inputText>
+			<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"
+				oncomplete="RichFaces.$('#{cc.attrs.pickerField.popUpClientID}').show(); return false;"
+				render="#{cc.attrs.buttonRender}" value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
+			<h:outputLabel value="#{cc.attrs.resultValue}" />
+		</rich:panel>
+	</cc:implementation>
+</ui:composition>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
+	xmlns:o="http://myfaces.apache.org/orchestra">
+
+<composite:interface
+	displayName="Componente que renderiza una lista simple, incluye mensajes, busqueda simple, avanzada, lista de registros y botones de exportar y crear">
+	<composite:attribute name="controller" required="true"
+		type="py.una.med.base.controller.ISIGHBaseController"
+		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
+	<composite:attribute name="idListEntities" default="idListEntities"
+		displayName="id de la tabla de entidades (dataTable), el nombre de la variable de esta tabla es dataTable" />
+	<composite:attribute name="urlColumns" required="true" />
+	<composite:attribute name="urlSearchForm" required="true" />
+	<composite:facet name="extraButtons" />
+	<composite:attribute name="deleteButtonName" />
+	<composite:attribute name="withRowExports" default="false"
+		type="java.lang.Boolean"
+		displayName="Muestra una columna con las opciones de exportacion" />
+	<composite:attribute name="withRowActions" default="true"
+		type="java.lang.Boolean"
+		displayName="Muestra una columna con las acciones editar, borrar y ver" />
+</composite:interface>
+<composite:implementation>
+
+	<h:outputLabel value="#{cc.attrs.controller.usarController}" />
+
+	<rich:collapsiblePanel header="#{msg['LIST_MENSSAGES_HEADER']}"
+		switchType="client">
+		<rich:messages ajaxRendered="true" showDetail="true"
+			id="#{cc.attrs.controller.messageIdName}" globalOnly="true">
+		</rich:messages>
+	</rich:collapsiblePanel>
+
+	<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
+		switchType="client">
+		<h:form>
+			<sigh:basic_filter controller="#{cc.attrs.controller}"
+				searchRender="#{cc.attrs.idListEntities}">
+				<a4j:commandButton value="#{msg['LIST_ADVANCED_SEARCH_BUTTON']}"
+					render="pgSearch"
+					actionListener="#{cc.attrs.controller.preSearch()}" execute="@this"
+					oncomplete="#{rich:component('puSearch')}.show()" />
+				<a4j:commandButton value="#{msg['LIST_CLEAR']}"
+					action="#{cc.attrs.controller.clearFilters}"
+					render="@form, #{cc.attrs.idListEntities}" execute="@this" />
+			</sigh:basic_filter>
+		</h:form>
+	</rich:collapsiblePanel>
+
+	<o:separateConversationContext>
+		<h:form>
+			<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
+				switchType="client">
+				<sigh:dataTable items="#{cc.attrs.controller.entities}"
+					idDataTable="#{cc.attrs.idListEntities}"
+					controller="#{cc.attrs.controller}"
+					deleteText="#{cc.attrs.deleteButtonName}"
+					withActions="#{cc.attrs.withRowActions}" width="100%"
+					withExports="#{cc.attrs.withRowExports}">
+					<ui:include src="#{cc.attrs.urlColumns}" />
+				</sigh:dataTable>
+			</rich:collapsiblePanel>
+		</h:form>
+	</o:separateConversationContext>
+	<h:panelGrid columns="3" width="100%"
+		columnClasses="list_button_class,list_export_class,list_pagin_class">
+		<h:form>
+
+			<h:commandButton value="Crear" immediate="true"
+				action="#{cc.attrs.controller.preCreate()}" render="panelGridCreate" />
+			<h:panelGrid columns="3">
+				<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
+				<h:graphicImage value="/resources/images/csv_ico.jpg"
+					alt="Exportar a csv" style="width:20px;height:20px" />
+				<h:graphicImage value="/resources/images/pdf-ico.jpg"
+					alt="Exportar a pdf" style="width:20px;height:20px" />
+			</h:panelGrid>
+			<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
+				render="#{cc.attrs.idListEntities}" />
+		</h:form>
+	</h:panelGrid>
+
+</composite:implementation>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+
+	<h:outputText value="#{msg['VALOR_CODIGO_UNICO']}" class="lbl_input" />
+	<h:inputText value="#{valorController.bean.codigoUnico}" id="codigoUnico"
+		disabled="#{not valorController.isEditable('codigoUnico')}" 
+		style="text-transform:uppercase;"/>
+	<h:message for="codigoUnico" errorClass="faces-error" />
+	
+	<h:outputText value="#{msg['VALOR_DESCRIPCION_VALOR']}" class="lbl_input" />
+	<h:inputText value="#{valorController.bean.descripcionValor}" id="descripcionValor"
+		disabled="#{not valorController.isEditable('descripcionValor')}" 
+		style="text-transform:uppercase;"/>
+	<h:message for="descripcionValor" errorClass="faces-error" />
+	
+	<h:outputText value="#{msg['VALOR_VALOR']}" class="lbl_input" />
+	<h:inputText value="#{valorController.bean.valor}" id="valor"
+		disabled="#{not valorController.isEditable('valor')}" 
+		style="text-transform:uppercase;"/>
+	<h:message for="valor" errorClass="faces-error" />
+ 
+	<h:outputText value="#{msg['VALOR_TIPO_CARACTERISTICA']}" class="lbl_input" />
+	<h:selectOneMenu value="#{valorController.bean.tipoCaracteristica}"
+		id="tipoCaracteristica"
+		converter="#{valorController.tipoCaracteristicaConverter}"
+		disabled="#{not valorController.isEditable('tipoCaracteristica')}">
+		<f:selectItem itemLabel="#{msg['VALOR_TIPO_CARACTERISTICA']}" />
+		<f:selectItems value="#{valorController.tipoCaracteristica}" />
+	</h:selectOneMenu>
+	<h:message for="tipoCaracteristica" errorClass="faces-error" />
+	
+	<h:outputText value="#{msg['VALOR_UNIDAD_DE_MEDIDA']}" class="lbl_input" />
+	<h:selectOneMenu value="#{valorController.bean.unidadDeMedida}"
+		id="unidadDeMedida"
+		converter="#{valorController.unidadDeMedidaConverter}"
+		disabled="#{not valorController.isEditable('unidadDeMedida')}">
+		<f:selectItem itemLabel="#{msg['VALOR_UNIDAD_DE_MEDIDA']}" />
+		<f:selectItems value="#{valorController.unidadDeMedida}" />
+	</h:selectOneMenu>
+	<h:message for="unidadDeMedida" errorClass="faces-error" />
+	
+	
+</ui:composition>

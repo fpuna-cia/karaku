@@ -1,0 +1,70 @@
+<!-- <?xml version='1.0' encoding='UTF-8' ?> -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="cssLayout.css" />
+
+	<title>SIGH</title>
+</h:head>
+
+<h:body>
+
+	<div id="wrapper">
+		<div id="top" class="top">
+			<ui:insert name="top">
+				<rich:panel>
+					<table style="width: 100%;">
+						<tr style="width: 100%;">
+							<td style="text-align: left;">
+								<table>
+									<tr>
+										<td><h:graphicImage value="/resources/images/logo.jpg"
+												width="50" height="50" alt="Facultad de Medicina" /></td>
+
+										<td><h:outputLabel value="#{msg['HEADER_USER']}: " /> <h:outputText
+												value="#{request.userPrincipal.name}" /> <br></br> <h:outputText
+												value="#{menuController.title}" /></td>
+									</tr>
+								</table>
+							</td>
+							<td style="text-align: right"><a
+								href="#{menuController.logoutUrl}"> <h:outputText
+										value="#{msg['HEADER_LOGOUT']}" /></a></td>
+						</tr>
+					</table>
+				</rich:panel>
+			</ui:insert>
+		</div>
+		<div id="left">
+			<ui:insert name="left">
+				<sigh:menu />
+			</ui:insert>
+		</div>
+
+		<div id="content" class="center_content">
+			<sigh:breadcrumb />
+			<ui:insert name="content">Content</ui:insert>
+		</div>
+		<div class="push"></div>
+	</div>
+	<div class="footer">
+		<h:outputLabel value="#{menuController.title}" />
+		<h:outputLabel value=":" />
+		<h:outputLabel value="#{menuController.version}" />
+		<br />
+		<h:outputLabel value="#{msg['MENU_IP_ADRESS']}" />
+		<h:outputLabel value="#{menuController.ipAdress}" />
+	</div>
+</h:body>
+
+</html>

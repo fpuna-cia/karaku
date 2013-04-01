@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+	<h:outputText value="#{msg['CLASIFICACION_ARTICULO_CODIGO_UNICO']}"
+		class="lbl_input" />
+	<h:inputText
+		maxlength="5"
+		value="#{clasificacionArticuloController.bean.codigoUnico}"
+		id="codigoUnico"
+		disabled="#{not clasificacionArticuloController.isEditable('descripcion')}">
+		<a4j:ajax event="keyup" render="codigoUnicoLargo" />
+	</h:inputText>
+	<h:message for="codigoUnico" errorClass="faces-error" />
+
+	<h:outputText value="#{msg['CLASIFICACION_ARTICULO_DESCRIPCION']}"
+		class="lbl_input" />
+	<h:inputText
+		value="#{clasificacionArticuloController.bean.descripcion}"
+		id="descripcion"
+		disabled="#{not clasificacionArticuloController.isEditable('descripcion')}" />
+	<h:message for="descripcion" errorClass="faces-error" />
+
+	<h:outputText
+		value="#{msg['CLASIFICACION_ARTICULO_CODIGO_UNICO_LARGO']}"
+		class="lbl_input" />
+	<h:inputText
+		value="#{clasificacionArticuloController.codigoUnicoLargo}"
+		id="codigoUnicoLargo"
+		disabled="true" />
+	<h:message for="codigoUnicoLargo" errorClass="faces-error" />
+
+	<h:outputText
+		value="#{msg['CLASIFICACION_ARTICULO_TIPO_CLASIFICACION']}"
+		class="lbl_input" />
+	<h:selectOneMenu
+		valueChangeListener="#{clasificacionArticuloController.changeTipo}"
+		immediate="true"
+		value="#{clasificacionArticuloController.bean.tipoClasificacion}"
+		style="width:130px;" id="tipoClasificacion"
+		converter="#{clasificacionArticuloController.tipoClasificacionConverter}"
+		disabled="#{not clasificacionArticuloController.isEditable('tipoClasificacion')}">
+		<f:selectItem
+			itemLabel="#{msg['CLASIFICACION_ARTICULO_SELECCIONAR_TIPO_CLASIFICACION']}" />
+		<f:selectItems
+			value="#{clasificacionArticuloController.tipoClasificacion}" />
+		<f:ajax render="clasificacionPadre" />
+	</h:selectOneMenu>
+	<h:message for="tipoClasificacion" errorClass="faces-error" />
+
+	<h:outputText value="#{msg['CLASIFICACION_ARTICULO_IMPUTABLE']}"
+		class="lbl_input" />
+	<h:selectOneRadio
+		value="#{clasificacionArticuloController.bean.imputable}"
+		id="imputable"
+		disabled="#{not clasificacionArticuloController.isEditable('imputable')}">
+		<f:selectItem
+			itemLabel="#{msg['CLASIFICACION_ARTICULO_IMPUTABLE_SI']}"
+			itemValue="S" />
+		<f:selectItem
+			itemLabel="#{msg['CLASIFICACION_ARTICULO_IMPUTABLE_NO']}"
+			itemValue="N" />
+	</h:selectOneRadio>
+	<h:message for="imputable" errorClass="faces-error" />
+
+	<h:outputText
+		value="#{msg['CLASIFICACION_ARTICULO_CLASIFICACION_PADRE']}"
+		class="lbl_input" />
+	<h:selectOneMenu
+		value="#{clasificacionArticuloController.bean.clasificacionPadre}"
+		style="width:130px;" id="clasificacionPadre"
+		converter="#{clasificacionArticuloController.clasificacionArticuloPadreConverter}"
+		disabled="#{not clasificacionArticuloController.isEditable('clasificacionPadre')}">
+		<a4j:ajax event="valueChange"  render="codigoUnicoLargo" ></a4j:ajax>
+		<f:selectItem
+			itemLabel="#{msg['CLASIFICACION_ARTICULO_SELECCIONAR_TIPO_CLASIFICACION']}" />
+		<f:selectItems
+			value="#{clasificacionArticuloController.clasificacionArticuloPadre}" />
+	</h:selectOneMenu>
+	<h:message for="clasificacionPadre" errorClass="faces-error" />
+
+</ui:composition>

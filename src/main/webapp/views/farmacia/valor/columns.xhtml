@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
+	xmlns:tsigh="http://www.pol.una.py/jsf/sigh">
+
+	<rich:column>
+		<f:facet name="header">
+			<h:outputText value="#{msg['VALOR_CODIGO_UNICO']}" />
+		</f:facet>
+		<h:outputText value="#{item.codigoUnico}" />
+	</rich:column>
+
+	<rich:column>
+		<f:facet name="header">
+			<h:outputText value="#{msg['VALOR_DESCRIPCION_VALOR']}" />
+		</f:facet>
+		<h:outputText value="#{item.descripcionValor}" />
+	</rich:column>
+	
+	<rich:column>
+		<f:facet name="header">
+			<h:outputText value="#{msg['VALOR_VALOR']}" />
+		</f:facet>
+		<h:outputText value="#{item.valor}" />
+	</rich:column>
+	
+	  
+	<rich:column>
+		<f:facet name="header">
+			<h:outputText value="#{msg['VALOR_TIPO_CARACTERISTICA']}" />
+		</f:facet>
+		<h:outputText value="#{item.tipoCaracteristica.nombreCaracteristica}" />
+	</rich:column>
+	
+	<rich:column>
+		<f:facet name="header">
+			<h:outputText value="#{msg['VALOR_UNIDAD_DE_MEDIDA']}" />
+		</f:facet>
+		<h:outputText value="#{item.unidadDeMedida.descripcion}" />
+	</rich:column>
+	
+</ui:composition>
