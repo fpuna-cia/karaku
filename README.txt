@@ -29,4 +29,4 @@ Para desarrollar y ejecutar este sistema se requiere:
     
     
 Links
-(1) http://goo.gl/wqZE9
+(1) http://wikimed.pol.una.py/doku.php?id=agregar_connectores_m2e
