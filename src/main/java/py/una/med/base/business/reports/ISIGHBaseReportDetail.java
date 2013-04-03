@@ -44,7 +44,7 @@ public interface ISIGHBaseReportDetail<T> {
 	 *            Registro cuyos detalles deben ser visualizados.
 	 */
 	public void generateReport(SIGHReportDetails report,
-			Map<String, Object> params, String type, T bean, Class<T> clazz);
+			Map<String, Object> params, String type, T bean, Class<?> clazz);
 
 	/**
 	 * Metodo que genera un reporte utilizando un archivo especifico, donde se
@@ -72,5 +72,5 @@ public interface ISIGHBaseReportDetail<T> {
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 */
 	void generateReport(String path, SIGHReportDetails report,
-			Map<String, Object> params, String type, T bean, Class<T> clazz);
+			Map<String, Object> params, String type, T bean, Class<?> clazz);
 }

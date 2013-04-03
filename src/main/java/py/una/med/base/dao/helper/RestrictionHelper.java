@@ -6,6 +6,7 @@ import org.hibernate.criterion.LikeExpression;
 import py.una.med.base.dao.restrictions.NumberLike;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.where.Clause;
+import py.una.med.base.dao.where.Not;
 import py.una.med.base.dao.where.Or;
 
 /**
@@ -43,25 +44,38 @@ public class RestrictionHelper<T> {
 	public Criteria applyRestrictions(final Criteria criteria,
 			final Where<T> where, Map<String, String> alias) {
 
-		if (alias == null)
+		if (alias == null) {
 			throw new NullPointerException("Alias can't be null");
-		if ((where == null) || (where.getCriterions() == null))
+		}
+		if ((where == null)
+				|| (where.getCriterions() == null && where.getClauses() == null)) {
 			return criteria;
-
-		for (Clause cr : where.getClauses()) {
-			if (cr.getCriterion().getClass().equals(LikeExpression.class)) {
-				LikeExpressionHelper.applyNestedCriteria(criteria,
-						(LikeExpression) cr.getCriterion(), alias);
-			} else if (cr.getCriterion().getClass().equals(NumberLike.class)) {
-				NumberLikerExpressionHelper.applyNestedCriteria(criteria,
-						(NumberLike) cr.getCriterion(), alias);
-			} else if (cr.getClass().equals(Or.class)) {
-				alias = OrExpressionHelper.applyNestedCriteria(criteria,
-						(Or) cr, alias);
-			} else {
-				criteria.add(cr.getCriterion());
+		}
+		if (where.getClauses() != null) {
+			for (Clause cr : where.getClauses()) {
+				if (cr.getCriterion().getClass().equals(LikeExpression.class)) {
+					LikeExpressionHelper.applyNestedCriteria(criteria,
+							(LikeExpression) cr.getCriterion(), alias);
+				} else if (cr.getCriterion().getClass()
+						.equals(NumberLike.class)) {
+					NumberLikerExpressionHelper.applyNestedCriteria(criteria,
+							(NumberLike) cr.getCriterion(), alias);
+				} else if (cr.getClass().equals(Or.class)) {
+					alias = OrExpressionHelper.applyNestedCriteria(criteria,
+							(Or) cr, alias);
+				} else if (cr.getClass().equals(Not.class)) {
+					alias = NotExpressionHelper.applyNestedCriteria(criteria,
+							(Not) cr, alias);
+				} else {
+					criteria.add(cr.getCriterion());
+				}
 			}
 		}
+		// if (where.getCriterions() != null) {
+		// for (Criterion c : where.getCriterions()) {
+		// criteria.add(c);
+		// }
+		// }
 		return criteria;
 	}
 

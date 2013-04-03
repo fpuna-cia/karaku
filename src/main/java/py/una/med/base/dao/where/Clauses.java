@@ -39,4 +39,9 @@ public class Clauses {
 
 		return new Or(clauses);
 	}
+
+	public static Clause not(final Clause clause) {
+
+		return new Not(clause);
+	}
 }

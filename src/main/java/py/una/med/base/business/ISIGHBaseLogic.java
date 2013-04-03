@@ -159,7 +159,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * py.una.med.base.repo.BaseDAO#getAll(py.una.med.util.dao.search.ISearchParam
+	 * py.una.med.base.repo.BaseDAO#getAll(py.una.med.base.dao.search.ISearchParam
 	 * )
 	 */
 	public Long getCount();

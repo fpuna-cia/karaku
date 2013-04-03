@@ -27,7 +27,7 @@
 	</bean>
 	<context:component-scan base-package="py.una.med.*" />
 
-	<context:component-scan base-package="py.una.med.util.dao" />
+	<context:component-scan base-package="py.una.med.base.dao" />
 
 
 

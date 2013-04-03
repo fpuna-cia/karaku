@@ -28,7 +28,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 
 	@Override
 	public void generateReport(SIGHReportDetails report,
-			Map<String, Object> params, String type, T bean, Class<T> clazz) {
+			Map<String, Object> params, String type, T bean, Class<?> clazz) {
 
 		JRDataSource datasource = new JRBeanCollectionDataSource(
 				getDetails(bean));
@@ -38,7 +38,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 
 	@Override
 	public void generateReport(String path, SIGHReportDetails report,
-			Map<String, Object> params, String type, T bean, Class<T> clazz) {
+			Map<String, Object> params, String type, T bean, Class<?> clazz) {
 
 		JRDataSource datasource = new JRBeanCollectionDataSource(
 				getDetails(bean));

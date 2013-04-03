@@ -12,7 +12,7 @@
 
 <composite:interface>
 	<composite:attribute name="controller" required="true"
-		type="py.una.med.base.mvc.ISIGHAdvancedController"
+		type="py.una.med.base.controller.ISIGHAdvancedController"
 		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
 	<composite:attribute name="urlFormDatosBasicos" required="true" />
 	<composite:facet name="detailHeader" />
@@ -29,8 +29,8 @@
 
 
 		<h:form>
-			<h:outputLabel value="#{controller.tabDisabled}" />
-			<rich:tabPanel id="tabPanel" 
+			<h:outputLabel value="#{personaFisicaControllerV2.tabDisabled}" />
+			<rich:tabPanel id="tabPanel"
 				itemChangeListener="#{cc.attrs.controller.tabChange}">
 				<rich:tab header="Datos básicos" name="firstTab">
 					<h:panelGrid columns="6" style="width:100%"
@@ -39,11 +39,14 @@
 					</h:panelGrid>
 					<rich:panel>
 						<h:commandButton action="#{cc.attrs.controller.doEdit()}"
-							value="Guardar" rendered="#{cc.attrs.controller.edit}" />
+							value="Editar"
+							rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}" />
 						<h:commandButton action="#{cc.attrs.controller.doCreate()}"
-							value="Crear" rendered="#{cc.attrs.controller.create}" />
+							value="Crear"
+							rendered="#{cc.attrs.controller.create  and authorityController.hasRole(cc.attrs.controller.createPermission)}" />
 						<h:commandButton action="#{cc.attrs.controller.doDelete()}"
-							value="Eliminar" rendered="#{cc.attrs.controller.isDelete()}" />
+							value="Eliminar"
+							rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />
 					</rich:panel>
 				</rich:tab>
 

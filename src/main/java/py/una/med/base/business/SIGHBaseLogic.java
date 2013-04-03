@@ -139,7 +139,7 @@ public abstract class SIGHBaseLogic<T, ID extends Serializable> implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * py.una.med.base.business.ISIGHBaseLogic#getCount(py.una.med.util.dao.
+	 * py.una.med.base.business.ISIGHBaseLogic#getCount(py.una.med.base.dao.
 	 * restrictions.Where)
 	 */
 	@Override

@@ -9,7 +9,8 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:composite="http://java.sun.com/jsf/composite"
 	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
-	xmlns:o="http://myfaces.apache.org/orchestra">
+	xmlns:o="http://myfaces.apache.org/orchestra"
+	xmlns:tsigh="http://www.pol.una.py/jsf/sigh">
 
 <composite:interface
 	displayName="Componente que renderiza una lista simple, incluye mensajes, busqueda simple, avanzada, lista de registros y botones de exportar y crear">
@@ -31,63 +32,73 @@
 </composite:interface>
 <composite:implementation>
 
-	<h:outputLabel value="#{cc.attrs.controller.usarController}" />
+	<tsigh:security
+		hasPermission="#{cc.attrs.controller.defaultPermission}">
+		<h:outputLabel value="#{cc.attrs.controller.usarController}" />
 
-	<rich:collapsiblePanel header="#{msg['LIST_MENSSAGES_HEADER']}"
-		switchType="client">
-		<rich:messages ajaxRendered="true" showDetail="true"
-			id="#{cc.attrs.controller.messageIdName}" globalOnly="true">
-		</rich:messages>
-	</rich:collapsiblePanel>
+		<rich:collapsiblePanel header="#{msg['LIST_MENSSAGES_HEADER']}"
+			switchType="client">
+			<rich:messages ajaxRendered="true" showDetail="true"
+				id="#{cc.attrs.controller.messageIdName}" globalOnly="true">
+			</rich:messages>
+		</rich:collapsiblePanel>
 
-	<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
-		switchType="client">
-		<h:form>
-			<sigh:basic_filter controller="#{cc.attrs.controller}"
-				searchRender="#{cc.attrs.idListEntities}">
-				<a4j:commandButton value="#{msg['LIST_ADVANCED_SEARCH_BUTTON']}"
-					render="pgSearch"
-					actionListener="#{cc.attrs.controller.preSearch()}" execute="@this"
-					oncomplete="#{rich:component('puSearch')}.show()" />
-				<a4j:commandButton value="#{msg['LIST_CLEAR']}"
-					action="#{cc.attrs.controller.clearFilters}"
-					render="@form, #{cc.attrs.idListEntities}" execute="@this" />
-			</sigh:basic_filter>
-		</h:form>
-	</rich:collapsiblePanel>
+		<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
+			switchType="client">
+			<h:form>
+				<sigh:basic_filter controller="#{cc.attrs.controller}"
+					searchRender="#{cc.attrs.idListEntities}">
+					<a4j:commandButton value="#{msg['LIST_ADVANCED_SEARCH_BUTTON']}"
+						render="pgSearch"
+						actionListener="#{cc.attrs.controller.preSearch()}"
+						execute="@this" oncomplete="#{rich:component('puSearch')}.show()" />
+					<a4j:commandButton value="#{msg['LIST_CLEAR']}"
+						action="#{cc.attrs.controller.clearFilters}"
+						render="@form, #{cc.attrs.idListEntities}" execute="@this" />
+				</sigh:basic_filter>
+			</h:form>
+		</rich:collapsiblePanel>
 
-	<o:separateConversationContext>
-		<h:form>
-			<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
-				switchType="client">
-				<sigh:dataTable items="#{cc.attrs.controller.entities}"
-					idDataTable="#{cc.attrs.idListEntities}"
-					controller="#{cc.attrs.controller}"
-					deleteText="#{cc.attrs.deleteButtonName}"
-					withActions="#{cc.attrs.withRowActions}" width="100%"
-					withExports="#{cc.attrs.withRowExports}">
-					<ui:include src="#{cc.attrs.urlColumns}" />
-				</sigh:dataTable>
-			</rich:collapsiblePanel>
-		</h:form>
-	</o:separateConversationContext>
-	<h:panelGrid columns="3" width="100%"
-		columnClasses="list_button_class,list_export_class,list_pagin_class">
-		<h:form>
+		<o:separateConversationContext>
+			<h:form>
+				<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
+					switchType="client">
+					<sigh:dataTable items="#{cc.attrs.controller.entities}"
+						idDataTable="#{cc.attrs.idListEntities}"
+						controller="#{cc.attrs.controller}"
+						deleteText="#{cc.attrs.deleteButtonName}"
+						withActions="#{cc.attrs.withRowActions}" width="100%"
+						withExports="#{cc.attrs.withRowExports}">
+						<ui:include src="#{cc.attrs.urlColumns}" />
+					</sigh:dataTable>
+				</rich:collapsiblePanel>
+			</h:form>
+		</o:separateConversationContext>
+		<h:panelGrid columns="3" width="100%"
+			columnClasses="list_button_class,list_export_class,list_pagin_class">
+			<h:form>
 
-			<h:commandButton value="Crear" immediate="true"
-				action="#{cc.attrs.controller.preCreate()}" render="panelGridCreate" />
-			<h:panelGrid columns="3">
-				<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
-				<h:graphicImage value="/resources/images/csv_ico.jpg"
-					alt="Exportar a csv" style="width:20px;height:20px" />
-				<h:graphicImage value="/resources/images/pdf-ico.jpg"
-					alt="Exportar a pdf" style="width:20px;height:20px" />
-			</h:panelGrid>
-			<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
-				render="#{cc.attrs.idListEntities}" />
-		</h:form>
-	</h:panelGrid>
-
+				<tsigh:security
+					hasPermission="#{cc.attrs.controller.createPermission}">
+					<h:commandButton value="Crear" immediate="true"
+						action="#{cc.attrs.controller.preCreate()}"
+						render="panelGridCreate" />
+				</tsigh:security>
+				<h:panelGrid columns="3">
+					<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
+					<h:commandLink action="#{cc.attrs.controller.generateReport('xls')}">
+						<h:graphicImage value="/resources/images/csv_ico.jpg"
+							alt="Exportar a csv" style="width:20px;height:20px" />
+					</h:commandLink>	
+					<h:commandLink action="#{cc.attrs.controller.generateReport('pdf')}">			
+						<h:graphicImage value="/resources/images/pdf-ico.jpg"
+							alt="Exportar a pdf" style="width:20px;height:20px" />
+					</h:commandLink>				
+				</h:panelGrid>
+				<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
+					render="#{cc.attrs.idListEntities}" />
+			</h:form>
+		</h:panelGrid>
+	</tsigh:security>
 </composite:implementation>
 </html>

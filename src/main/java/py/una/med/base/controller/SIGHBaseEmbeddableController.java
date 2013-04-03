@@ -73,6 +73,11 @@ public abstract class SIGHBaseEmbeddableController<T, ID extends Serializable>
 		}
 	}
 
+	public Object getHeaderBean() {
+
+		return mainController.getHeaderBean();
+	}
+
 	@Override
 	public void init() {
 

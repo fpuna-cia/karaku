@@ -82,6 +82,8 @@ public abstract class SIGHBaseMainController<T, ID extends Serializable>
 	@Override
 	public void save() {
 
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -135,6 +137,13 @@ public abstract class SIGHBaseMainController<T, ID extends Serializable>
 
 		init();
 		return super.preCreate();
+	}
+
+	@Override
+	public String preView() {
+
+		init();
+		return super.preView();
 	}
 
 	@Override
