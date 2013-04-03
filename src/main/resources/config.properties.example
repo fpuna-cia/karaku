@@ -1,5 +1,5 @@
 application.homePage = faces/views/index.xhtml
-application.host = http://localhost:8080/SIGHImpl
+application.host = http://localhost:8080/metafarmacia3
 cas.server.host = http://10.1.5.81:8181
 ldap.server.host = ldap://10.1.5.81:389
 ldap.DN = dc=med,dc=una,dc=py
@@ -7,12 +7,15 @@ ldap.user = uid=Cas,ou=users,dc=med,dc=una,dc=py
 ldap.user.password = cas
 
 
-jboss.entity.manager.factory.jndi.name = java:jboss/base/persistence
+jboss.entity.manager.factory.jndi.name = java:jboss/base/persistence/NOMBRE_PERSISTENCE
 data-source = java:jboss/datasources/BaseDS
 hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
 hibernate.show_sql = true
-hibernate.format_sql = true
+hibernate.format_sql = false
 base-package-hibernate = py.una.med.*
 
-menu_location = menu.xml
 
+
+#lista separada por espacios de bundles
+language_bundles = ../language.properties.base ../language.properties.farmacia ../language.properties.stock
+menu_location = menu/farmacia.xml menu/stock.xml menu/base.xml
