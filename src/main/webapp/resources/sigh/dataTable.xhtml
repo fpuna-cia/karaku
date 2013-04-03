@@ -39,13 +39,9 @@
 <composite:implementation>
 	<rich:extendedDataTable value="#{cc.attrs.items}" var="item"
 		id="#{cc.attrs.idDataTable}" rows="15" selectionMode="single"
-		style="height:#{cc.attrs.height}; width:#{cc.attrs.width}"
-		selection="#{extTableSelectionBean.selection}">
+		style="height:#{cc.attrs.height}; width:#{cc.attrs.width}">
 
-		<a4j:ajax execute="@form" event="selectionchange"
-			listener="#{extTableSelectionBean.selectionListener}"
-			disabled="#{cc.attrs.disableSelection}"
-			render="#{cc.attrs.renderOnClick}" />
+
 		<composite:insertChildren />
 		<c:if test="#{cc.attrs.withActions}">
 			<rich:column width="50%">
@@ -68,7 +64,7 @@
 					</h:commandButton>
 					<h:commandButton value="#{cc.attrs.deleteText}"
 						action="#{cc.attrs.controller.preDelete()}"
-						rendered="#{cc.attrs.deleteVisible and authorityController.hasRole(cc.attrs.controller.deletePermission)}"						
+						rendered="#{cc.attrs.deleteVisible and authorityController.hasRole(cc.attrs.controller.deletePermission)}"
 						styleClass="commandButton">
 						<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
 							value="#{item}" />
