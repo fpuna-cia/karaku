@@ -6,9 +6,9 @@
 	<groupId>py.una.med</groupId>
 	<artifactId>SIGHFarmacia</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.1.0</version>
+	<version>SYSTEM:VERSION.BASE:VERSION</version>
 
-	<name>Sistema Integral de Gestion Hospitalaria - Farmacia</name>
+	<name>Sistema Integral de Gestion Hospitalaria - SYSTEM_NAME</name>
 
 	<properties>
 		<!-- Spring version -->
@@ -688,6 +688,41 @@
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>default-cli</id>
+						<phase>validate</phase>
+						<configuration>
+							<target>
+								<echo message="Concatenando Validationmessages.properties" />
+								<concat destfile="tmp/validation/ValidationMessages.properties"
+									append="true">
+									<filelist dir="base/src/main/resources/language/validation"
+										files="base.properties" />
+									<filelist dir="farmacia/src/main/resources/language/validation"
+										files="farmacia.properties" />
+								</concat>
+								<echo message="Finalizando creacion de ValidationMessages.properties" />
+								<echo message="Concatenando Validationmessages_es_PY.properties" />
+								<concat destfile="tmp/validation/ValidationMessages_es_PY.properties"
+									append="true">
+									<filelist dir="base/src/main/resources/language/validation"
+										files="base_es_PY.properties" />
+									<filelist dir="farmacia/src/main/resources/language/validation"
+										files="farmacia_es_PY.properties" />
+								</concat>
+								<echo message="Finalizando creacion de ValidationMessages.properties" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
