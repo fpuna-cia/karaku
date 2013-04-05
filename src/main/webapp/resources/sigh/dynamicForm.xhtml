@@ -51,7 +51,7 @@
 						<c:when
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.CalendarField'}">
 							<h:outputLabel value="#{item.label}" />
-							<rich:calendar binding="#{item.bind}" id="#{item.bind.id}" />
+							<rich:calendar binding="#{item.bind}" id="#{item.id}" />
 							<rich:message for="#{item.id}" />
 						</c:when>
 					</c:choose>
