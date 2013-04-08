@@ -7,10 +7,8 @@ package py.una.med.base.business.reports;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.EntityManager;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
@@ -28,9 +26,6 @@ import py.una.med.base.reports.ExportReport;
  */
 @Service
 public class SIGHBaseReportSimple implements ISIGHBaseReportSimple {
-
-	@Autowired
-	EntityManager em;
 
 	@Override
 	public <T> List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where) {

@@ -108,6 +108,40 @@ public class ExportReport {
 	}
 
 	/**
+	 * Genera un reporte utilizando el template basico de configuracion que se
+	 * encuentra en la aplicacion, y el contenido es generado de forma dinamica.
+	 * Es utilizado para los reportes de la grilla cuyas columnas son atributos
+	 * calculados<br>
+	 * 
+	 * @param columns
+	 *            Columnas que seran visualizadas en el reporte
+	 * @param dataSource
+	 *            Datasource que contiene la lista filtrada de acuerdo a los
+	 *            criterios de seleccion.
+	 * @param params
+	 *            Parametros especificos del reporte
+	 * @param type
+	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @return reporte generado
+	 */
+	public static <T> void exportSimpleReport(LinkedList<Column> columns,
+			JRDataSource dataSource, Map<String, Object> params, String type) {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					DynamicUtils.buildReportSimple(columns),
+					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(jasperPrint, params, dataSource, type);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * Genera un reporte del tipo cabecera-detalle de forma dinamica utilizando
 	 * un template base, tanto los atributos de la cabecera como los detalles
 	 * son generados de forma dinamica.

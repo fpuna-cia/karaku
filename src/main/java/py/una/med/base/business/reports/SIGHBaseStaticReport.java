@@ -21,7 +21,7 @@ import py.una.med.base.reports.ExportReport;
  * @version 1.0 21/03/2013
  * 
  */
-public abstract class SIGHBaseReportStatic implements ISIGHBaseReportStatic {
+public abstract class SIGHBaseStaticReport implements ISIGHBaseStaticReport {
 
 	@Override
 	public abstract <T> List<?> getList(ISIGHBaseLogic<T, ?> logic,

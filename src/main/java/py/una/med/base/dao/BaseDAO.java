@@ -5,6 +5,7 @@ package py.una.med.base.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.EntityManager;
 import org.hibernate.NonUniqueResultException;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
@@ -170,4 +171,6 @@ public interface BaseDAO<T, ID extends Serializable> {
 	 * @return cantidad de registros
 	 */
 	public Long getCount(Where<T> where);
+
+	public EntityManager getEntityManager();
 }

@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
+import py.una.med.base.business.ISIGHBaseLogic;
+import py.una.med.base.reports.Column;
 import py.una.med.base.reports.ExportReport;
 import py.una.med.base.util.ListHelper;
 import ar.com.fdvs.dj.domain.DynamicReport;
@@ -27,14 +29,21 @@ public abstract class SIGHBaseReportAvanced<T> implements
 		ISIGHBaseReportAvanced<T> {
 
 	@Override
-	public DRDataSource getDataSource(HashMap<String, Object> listFilters,
-			List<String> listOrder) {
+	public DRDataSource getStructDataSource() {
 
 		DRDataSource dataSource = new DRDataSource(
-				ListHelper.asArray(getStructDataSource()));
+				ListHelper.asArray(getColumnsDataSource()));
+		return dataSource;
+	}
 
-		List<?> aRet = getList(listFilters, listOrder);
-		dataSource.add(new Object[] { "", "", "", "", "" });
+	@Override
+	public DRDataSource getDataSource(ISIGHBaseLogic<T, ?> logic,
+			HashMap<String, Object> listFilters, List<String> listOrder) {
+
+		DRDataSource dataSource = getStructDataSource();
+
+		List<?> aRet = getList(logic, listFilters, listOrder);
+
 		for (Object o : aRet) {
 			dataSource.add((Object[]) o);
 		}
@@ -42,21 +51,28 @@ public abstract class SIGHBaseReportAvanced<T> implements
 	}
 
 	@Override
-	public abstract LinkedList<String> getStructDataSource();
+	public LinkedList<String> getColumnsDataSource() {
+
+		LinkedList<String> template = new LinkedList<String>();
+		for (Column column : getColumnsReport()) {
+			template.add(column.getField());
+		}
+		return template;
+	}
 
 	@Override
-	public abstract List<?> getList(HashMap<String, Object> listFilters,
-			List<String> listOrder);
+	public abstract List<?> getList(ISIGHBaseLogic<T, ?> logic,
+			HashMap<String, Object> listFilters, List<String> listOrder);
 
 	@Override
 	public void generateReport(Map<String, Object> params, String type,
-			HashMap<String, Object> listFilters, List<String> listOrder) {
+			ISIGHBaseLogic<T, ?> logic, HashMap<String, Object> listFilters,
+			List<String> listOrder) {
 
-		DRDataSource dataSource = getDataSource(listFilters, listOrder);
-		params.put("datas", dataSource);
 		try {
-			ExportReport.exportAvancedReport(builReport(), dataSource, params,
-					type);
+			ExportReport.exportAvancedReport(
+					builReport(params, listFilters, listOrder),
+					getDataSource(logic, listFilters, listOrder), params, type);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,6 +81,7 @@ public abstract class SIGHBaseReportAvanced<T> implements
 	}
 
 	@Override
-	public abstract DynamicReport builReport() throws ColumnBuilderException,
-			ClassNotFoundException;
+	public abstract DynamicReport builReport(Map<String, Object> params,
+			HashMap<String, Object> listFilters, List<String> listOrder)
+			throws ColumnBuilderException, ClassNotFoundException;
 }

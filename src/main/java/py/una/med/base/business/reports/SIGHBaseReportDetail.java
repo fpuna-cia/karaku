@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.reports.ExportReport;
 import py.una.med.base.reports.SIGHReportDetails;
 
@@ -24,24 +25,26 @@ public abstract class SIGHBaseReportDetail<T> implements
 		ISIGHBaseReportDetail<T> {
 
 	@Override
-	public abstract List<?> getDetails(T bean);
+	public abstract List<?> getDetails(ISIGHBaseLogic<T, ?> logic, T bean);
 
 	@Override
 	public void generateReport(SIGHReportDetails report,
-			Map<String, Object> params, String type, T bean, Class<?> clazz) {
+			Map<String, Object> params, String type,
+			ISIGHBaseLogic<T, ?> logic, T bean, Class<?> clazz) {
 
-		JRDataSource datasource = new JRBeanCollectionDataSource(
-				getDetails(bean));
+		JRDataSource datasource = new JRBeanCollectionDataSource(getDetails(
+				logic, bean));
 		ExportReport
 				.exportDetailReport(report, clazz, datasource, params, type);
 	}
 
 	@Override
 	public void generateReport(String path, SIGHReportDetails report,
-			Map<String, Object> params, String type, T bean, Class<?> clazz) {
+			Map<String, Object> params, String type,
+			ISIGHBaseLogic<T, ?> logic, T bean, Class<?> clazz) {
 
-		JRDataSource datasource = new JRBeanCollectionDataSource(
-				getDetails(bean));
+		JRDataSource datasource = new JRBeanCollectionDataSource(getDetails(
+				logic, bean));
 		ExportReport.exportDetailReport(path, report, clazz, datasource,
 				params, type);
 	}

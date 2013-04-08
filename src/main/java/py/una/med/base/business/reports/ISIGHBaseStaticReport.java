@@ -1,5 +1,5 @@
 /**
- * @ISIGHBaseReportStatic 1.0 21/03/13. Sistema Integral de Gestion Hospitalaria
+ * @ISIGHBaseStaticReport 1.0 21/03/13. Sistema Integral de Gestion Hospitalaria
  */
 
 package py.una.med.base.business.reports;
@@ -18,10 +18,10 @@ import py.una.med.base.dao.restrictions.Where;
  * @version 1.0 21/03/2013
  * 
  */
-public interface ISIGHBaseReportStatic {
+public interface ISIGHBaseStaticReport {
 
 	/**
-	 * Obtiene la lista de elementos aplicando los fitros ingresados, si no se
+	 * Obtiene la lista de elementos aplicando los filtros ingresados, si no se
 	 * ingresa filtro alguno retorna toda la lista de registros almacenados.
 	 * 
 	 * @param logic

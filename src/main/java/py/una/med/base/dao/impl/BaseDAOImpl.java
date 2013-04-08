@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,6 +64,7 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 
 	@Autowired
 	EntityManager em;
+
 	@Autowired
 	CaseSensitiveHelper sensitiveHelper;
 
@@ -71,6 +73,12 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 	Class<T> clazz;
 
 	private RestrictionHelper<T> helper;
+
+	@Override
+	public EntityManager getEntityManager() {
+
+		return em;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -91,8 +99,9 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 	 */
 	private Criteria configureExample(final Criteria criteria, final T example) {
 
-		if (example == null)
+		if (example == null) {
 			return criteria;
+		}
 		try {
 			for (final Field f : example.getClass().getDeclaredFields()) {
 				if ((f.getAnnotation(OneToOne.class) == null)
@@ -221,10 +230,12 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 		isp.setOffset(0);
 
 		List<T> result = getAll(where, isp);
-		if ((result == null) || (result.size() == 0))
+		if ((result == null) || (result.size() == 0)) {
 			return null;
-		if (result.size() == 1)
+		}
+		if (result.size() == 1) {
 			return result.get(0);
+		}
 
 		throw new NonUniqueResultException(result.size());
 	}
@@ -325,10 +336,11 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 
 		Class<T> clase = getClassOfT();
 		Table t = clase.getAnnotation(Table.class);
-		if (t == null)
+		if (t == null) {
 			return clase.getSimpleName().toLowerCase();
-		else
+		} else {
 			return t.name();
+		}
 	};
 
 	@Override

@@ -43,10 +43,11 @@ public class DynamicUtils {
 	 * base para la configuracion general. Se utiliza para los reportes simples.
 	 * 
 	 * @param columns
-	 *            Lista de columnas -> [header, field]
+	 *            Lista de columnas -> [header, field], que deben ser generadas
+	 *            de forma dinamica.
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
-	 * @return reporte dinamico estructurado listo para ser generado
+	 * @return Reporte dinamico estructurado listo para ser generado
 	 * @throws ColumnBuilderException
 	 * @throws ClassNotFoundException
 	 */
@@ -60,6 +61,36 @@ public class DynamicUtils {
 		setWhenNotData(structReport);
 
 		buildColumnHeader(structReport, columns, clazz);
+
+		structReport.setUseFullPageWidth(true);
+
+		return structReport.build();
+	}
+
+	/**
+	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template
+	 * base para la configuracion general. Se utiliza para los reportes simples,
+	 * cuya grilla no define los atributos fisicos de la entidad, sino son
+	 * atributos transformados.
+	 * 
+	 * @param columns
+	 *            Lista de columnas -> [header, field] que deben ser generadas
+	 *            de forma dinamica.
+	 * @return Reporte dinamico estructurado listo para ser generado
+	 * @throws ColumnBuilderException
+	 * @throws ClassNotFoundException
+	 */
+	public static <T> DynamicReport buildReportSimple(LinkedList<Column> columns)
+			throws ColumnBuilderException, ClassNotFoundException {
+
+		FastReportBuilder structReport = new FastReportBuilder();
+
+		setTemplatePortrait(structReport);
+		setWhenNotData(structReport);
+
+		addColumn(structReport, columns);
+
+		structReport.setDefaultStyles(null, null, getStyleColumnHeader(), null);
 
 		structReport.setUseFullPageWidth(true);
 
@@ -178,7 +209,7 @@ public class DynamicUtils {
 						DJConstants.SUBREPORT_PARAM_ORIGIN_FIELD,
 						DJConstants.DATA_SOURCE_TYPE_COLLECTION);
 			} catch (Exception e) {
-				// TODO: handle exception
+				System.out.println("Error al construir el reporte");
 			}
 		}
 		return structReportHead;
@@ -255,7 +286,11 @@ public class DynamicUtils {
 			Class<?> clazz) throws ColumnBuilderException,
 			ClassNotFoundException {
 
-		addColumn(structReport, columns, clazz);
+		if (clazz.equals(Object.class)) {
+			addColumn(structReport, columns);
+		} else {
+			addColumn(structReport, columns, clazz);
+		}
 
 		structReport.setDefaultStyles(getStyleTitle(), null,
 				getStyleColumnHeaderDetails(), null);
@@ -305,7 +340,7 @@ public class DynamicUtils {
 
 	/**
 	 * Metodo que agrega las columnas al reporte, el tipo de las columnas
-	 * generadas es del tipo String, se utiliza para el caso que el objeto
+	 * generadas es del tipo Object, se utiliza para el caso que el objeto
 	 * utilizado dentro del reporte no sea un objeto fisico existente, sino uno
 	 * creado en memoria.
 	 * 
@@ -317,15 +352,13 @@ public class DynamicUtils {
 	 * @throws ColumnBuilderException
 	 * @throws ClassNotFoundException
 	 */
-	@SuppressWarnings("unused")
-	private static FastReportBuilder addColumn(
-			final FastReportBuilder structReport,
-			final LinkedList<Column> columns) throws ColumnBuilderException,
+	private static FastReportBuilder addColumn(FastReportBuilder structReport,
+			LinkedList<Column> columns) throws ColumnBuilderException,
 			ClassNotFoundException {
 
 		for (Column column : columns) {
 			structReport.addColumn(column.getTitle(), column.getField(),
-					String.class.getName(), column.getWidth());
+					Object.class.getName(), column.getWidth());
 
 		}
 		return structReport;
@@ -345,9 +378,13 @@ public class DynamicUtils {
 
 		Class<?> clazzDetail = null;
 		try {
-			Field field = clazz.getDeclaredField(detail.getField());
-			clazzDetail = (Class<?>) ((ParameterizedType) field
-					.getGenericType()).getActualTypeArguments()[0];
+			if (detail.getField().contains(".")) {
+				clazzDetail = Object.class;
+			} else {
+				Field field = clazz.getDeclaredField(detail.getField());
+				clazzDetail = (Class<?>) ((ParameterizedType) field
+						.getGenericType()).getActualTypeArguments()[0];
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

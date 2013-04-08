@@ -147,5 +147,4 @@ public abstract class SIGHBaseLogic<T, ID extends Serializable> implements
 
 		return getDao().getCount(where);
 	}
-
 }
