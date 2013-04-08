@@ -36,6 +36,13 @@
 	<composite:attribute name="withMessages" default="true"
 		type="java.lang.Boolean" />
 
+	<composite:attribute name="withCreateButton" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el boton crear sera visible" />
+	<composite:attribute name="withDeleteVisible" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el enlace borrar sera visible" />
+
 </composite:interface>
 <composite:implementation
 	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
@@ -77,6 +84,7 @@
 				controller="#{cc.attrs.controller}"
 				deleteText="#{cc.attrs.deleteButtonName}"
 				withActions="#{cc.attrs.withRowActions}" width="100%"
+				deleteVisible="#{cc.attrs.withDeleteVisible}" 
 				withExports="#{cc.attrs.withRowExports}">
 				<ui:include src="#{cc.attrs.urlColumns}" />
 			</sigh:dataTable>
@@ -91,6 +99,7 @@
 				<tsigh:security
 					hasPermission="#{cc.attrs.controller.createPermission}">
 					<h:commandButton value="Crear" immediate="true"
+						rendered="#{cc.attrs.withCreateButton}"
 						action="#{cc.attrs.controller.preCreate()}"
 						render="panelGridCreate" />
 				</tsigh:security>
