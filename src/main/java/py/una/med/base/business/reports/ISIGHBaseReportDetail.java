@@ -20,19 +20,25 @@ import py.una.med.base.reports.SIGHReportDetails;
 public interface ISIGHBaseReportDetail<T> {
 
 	/**
+	 * Nos retorna el logic para poder acceder al dao correspondiente de manera
+	 * a tener acceso a la base de datos
+	 * 
+	 * @return
+	 */
+	public ISIGHBaseLogic<T, ?> getBaseLogic();
+
+	/**
 	 * Metodo que realiza la consulta HQL especifica, la cual obtiene los
 	 * elementos necesarios para generar el reporte.
 	 * 
-	 * @param logic
-	 *            Logic parametrico que nos proporciona la funcionalidad de
-	 *            consultar a la base de datos.
+	 * 
 	 * @param bean
 	 *            Registro cuyos detalles deben ser visualizados.
 	 * 
 	 * @param bean
 	 * @return Detalles
 	 */
-	public List<?> getDetails(ISIGHBaseLogic<T, ?> logic, T bean);
+	public List<?> getDetails(T bean);
 
 	/**
 	 * Metodo que genera un reporte utilizando el template base, donde solo se
@@ -46,15 +52,12 @@ public interface ISIGHBaseReportDetail<T> {
 	 *            Parametros del reporte
 	 * @param type
 	 *            Tipo de exportacion puede ser PDF o XLS.
-	 * @param logic
-	 *            Logic parametrico que nos proporciona la funcionalidad de
-	 *            consultar a la base de datos.
+	 * 
 	 * @param bean
 	 *            Registro cuyos detalles deben ser visualizados.
 	 */
 	public void generateReport(SIGHReportDetails report,
-			Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, T bean, Class<?> clazz);
+			Map<String, Object> params, String type, T bean, Class<?> clazz);
 
 	/**
 	 * Metodo que genera un reporte utilizando un archivo especifico, donde se
@@ -76,15 +79,12 @@ public interface ISIGHBaseReportDetail<T> {
 	 *            Parametros del reporte
 	 * @param type
 	 *            Tipo de exportacion puede ser PDF o XLS.
-	 * @param logic
-	 *            Logic parametrico que nos proporciona la funcionalidad de
-	 *            consultar a la base de datos.
+	 * 
 	 * @param bean
 	 *            Registro cuyos detalles deben ser visualizados.
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 */
 	public void generateReport(String path, SIGHReportDetails report,
-			Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, T bean, Class<?> clazz);
+			Map<String, Object> params, String type, T bean, Class<?> clazz);
 }

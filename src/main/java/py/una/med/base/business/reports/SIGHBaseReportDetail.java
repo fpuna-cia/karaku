@@ -25,26 +25,27 @@ public abstract class SIGHBaseReportDetail<T> implements
 		ISIGHBaseReportDetail<T> {
 
 	@Override
-	public abstract List<?> getDetails(ISIGHBaseLogic<T, ?> logic, T bean);
+	public abstract ISIGHBaseLogic<T, ?> getBaseLogic();
+
+	@Override
+	public abstract List<?> getDetails(T bean);
 
 	@Override
 	public void generateReport(SIGHReportDetails report,
-			Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, T bean, Class<?> clazz) {
+			Map<String, Object> params, String type, T bean, Class<?> clazz) {
 
-		JRDataSource datasource = new JRBeanCollectionDataSource(getDetails(
-				logic, bean));
+		JRDataSource datasource = new JRBeanCollectionDataSource(
+				getDetails(bean));
 		ExportReport
 				.exportDetailReport(report, clazz, datasource, params, type);
 	}
 
 	@Override
 	public void generateReport(String path, SIGHReportDetails report,
-			Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, T bean, Class<?> clazz) {
+			Map<String, Object> params, String type, T bean, Class<?> clazz) {
 
-		JRDataSource datasource = new JRBeanCollectionDataSource(getDetails(
-				logic, bean));
+		JRDataSource datasource = new JRBeanCollectionDataSource(
+				getDetails(bean));
 		ExportReport.exportDetailReport(path, report, clazz, datasource,
 				params, type);
 	}
