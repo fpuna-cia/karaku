@@ -47,6 +47,15 @@ public class Column {
 		this.width = 20;
 	}
 
+	public Column(String field) {
+
+		super();
+		this.title = field;
+		this.field = field;
+		this.nameField = field;
+		this.width = 20;
+	}
+
 	public Column(String title, String nameField, String field, int width) {
 
 		super();

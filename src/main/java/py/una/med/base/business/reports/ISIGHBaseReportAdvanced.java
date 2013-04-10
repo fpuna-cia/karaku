@@ -22,7 +22,15 @@ import ar.com.fdvs.dj.domain.builders.ColumnBuilderException;
  * @since 1.0
  * @version 1.1 15/03/2013
  */
-public interface ISIGHBaseReportAvanced<T> {
+public interface ISIGHBaseReportAdvanced<T> {
+
+	/**
+	 * Nos retorna el logic para poder acceder al dao correspondiente de manera
+	 * a tener acceso a la base de datos
+	 * 
+	 * @return
+	 */
+	public ISIGHBaseLogic<T, ?> getBaseLogic();
 
 	/**
 	 * Metodo que forma un datasource en base a la estructura definida en
@@ -33,17 +41,14 @@ public interface ISIGHBaseReportAvanced<T> {
 	 * caracteristica sobreescribiendo este metodo. Por defecto se asume que la
 	 * consulta retorna todos los atributos necesarios ya calculados.
 	 * 
-	 * @param logic
-	 *            Logic parametrico que nos proporciona la funcionalidad de
-	 *            consultar a la base de datos.
 	 * @param listFilters
 	 *            Filtros ingresados para realizar la consulta
 	 * @param listOrder
 	 *            Lista de ordenes en el cual se desea visualizar el reporte
 	 * @return
 	 */
-	public DRDataSource getDataSource(ISIGHBaseLogic<T, ?> logic,
-			HashMap<String, Object> listFilters, List<String> listOrder);
+	public DRDataSource getDataSource(HashMap<String, Object> listFilters,
+			List<String> listOrder);
 
 	/**
 	 * Metodo que obtiene un datasource vacio, con la estructura de columnas
@@ -74,9 +79,7 @@ public interface ISIGHBaseReportAvanced<T> {
 	 * Metodo que realiza la consulta a la base de datos. Dicha consulta es
 	 * especifica de cada reporte.
 	 * 
-	 * @param logic
-	 *            Logic parametrico que nos proporciona la funcionalidad de
-	 *            consultar a la base de datos.
+	 * 
 	 * @param listFilters
 	 *            Filtros ingresados para realizar la consulta.
 	 * @param listOrder
@@ -84,8 +87,8 @@ public interface ISIGHBaseReportAvanced<T> {
 	 * @return Lista de elementos que cumplen con las condiciones de filtro
 	 *         ingresadas o seleccionadas.
 	 */
-	public List<?> getList(ISIGHBaseLogic<T, ?> logic,
-			HashMap<String, Object> listFilters, List<String> listOrder);
+	public List<?> getList(HashMap<String, Object> listFilters,
+			List<String> listOrder);
 
 	/**
 	 * Metodo que genera el reporte fisicamente.
@@ -94,23 +97,21 @@ public interface ISIGHBaseReportAvanced<T> {
 	 *            Parametros generales y especificos del reporte
 	 * @param type
 	 *            Tipo de exportacion, puede ser XLS o PDF
-	 * @param logic
-	 *            Logic parametrico que nos proporciona la funcionalidad de
-	 *            consultar a la base de datos.
+	 * 
 	 * @param listFilters
 	 *            Filtros ingresados para realizar la consulta
 	 * @param listOrder
 	 *            Lista de ordenes en el cual se desea visualizar el reporte
 	 */
 	public void generateReport(Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, HashMap<String, Object> listFilters,
-			List<String> listOrder);
+			HashMap<String, Object> listFilters, List<String> listOrder);
 
 	/**
 	 * Define el reporte complejo especifico para cada caso.
 	 * 
 	 * @param params
 	 *            Parametros generales y especificos del reporte
+	 * 
 	 * @param listFilters
 	 *            Filtros ingresados para realizar la consulta
 	 * @param listOrder

@@ -25,8 +25,11 @@ import ar.com.fdvs.dj.domain.builders.ColumnBuilderException;
  * @version 1.1 12/03/2013
  * 
  */
-public abstract class SIGHBaseReportAvanced<T> implements
-		ISIGHBaseReportAvanced<T> {
+public abstract class SIGHBaseReportAdvanced<T> implements
+		ISIGHBaseReportAdvanced<T> {
+
+	@Override
+	public abstract ISIGHBaseLogic<T, ?> getBaseLogic();
 
 	@Override
 	public DRDataSource getStructDataSource() {
@@ -37,12 +40,12 @@ public abstract class SIGHBaseReportAvanced<T> implements
 	}
 
 	@Override
-	public DRDataSource getDataSource(ISIGHBaseLogic<T, ?> logic,
-			HashMap<String, Object> listFilters, List<String> listOrder) {
+	public DRDataSource getDataSource(HashMap<String, Object> listFilters,
+			List<String> listOrder) {
 
 		DRDataSource dataSource = getStructDataSource();
 
-		List<?> aRet = getList(logic, listFilters, listOrder);
+		List<?> aRet = getList(listFilters, listOrder);
 
 		for (Object o : aRet) {
 			dataSource.add((Object[]) o);
@@ -61,18 +64,17 @@ public abstract class SIGHBaseReportAvanced<T> implements
 	}
 
 	@Override
-	public abstract List<?> getList(ISIGHBaseLogic<T, ?> logic,
-			HashMap<String, Object> listFilters, List<String> listOrder);
+	public abstract List<?> getList(HashMap<String, Object> listFilters,
+			List<String> listOrder);
 
 	@Override
 	public void generateReport(Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, HashMap<String, Object> listFilters,
-			List<String> listOrder) {
+			HashMap<String, Object> listFilters, List<String> listOrder) {
 
 		try {
 			ExportReport.exportAvancedReport(
 					builReport(params, listFilters, listOrder),
-					getDataSource(logic, listFilters, listOrder), params, type);
+					getDataSource(listFilters, listOrder), params, type);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

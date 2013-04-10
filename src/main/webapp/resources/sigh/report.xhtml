@@ -6,13 +6,14 @@
 	xmlns:rich="http://richfaces.org/rich">
 	<cc:interface>
 		<cc:attribute name="controller" required="true"
-			type="py.una.med.base.mvc.reports.ISIGHBaseReportController" />
+			type="py.una.med.base.controller.reports.ISIGHBaseReportController" />
 		<cc:attribute name="nameReport" required="true"
 			type="java.lang.String" />
 		<cc:attribute name="urlFilter" type="java.lang.String" required="true" />
 		<cc:attribute name="idPanelGridOrder" default="idPanelGridOrder" />
 		<cc:attribute name="idPanelGridFormat" default="idPanelGridFormat" />
 		<cc:attribute name="idPanelGridFilter" default="idPanelGridFilter" />
+		<cc:attribute name="withOrder" default="true" />
 	</cc:interface>
 
 	<cc:implementation>
@@ -27,8 +28,7 @@
 				<div align="center">
 					<h:outputText value="#{cc.attrs.nameReport}"
 						style="font-size: 11pt" />
-					<br />
-					<br />
+					<br /> <br />
 					<h:outputText value="#{msg['BASE_REPORT_CONFIG_PARAMS']}" />
 				</div>
 				<fieldset>
@@ -43,10 +43,12 @@
 
 				<fieldset>
 					<legend>
-						<h:outputText value="#{msg['BASE_REPORT_ORDER']}" />
+						<h:outputText value="#{msg['BASE_REPORT_ORDER']}"
+							rendered="#{cc.attrs.withOrder}" />
 					</legend>
 					<h:panelGrid columns="3" id="#{cc.attrs.idPanelGridOrder}"
-						columnClasses="form_label,form_input,form_error">
+						columnClasses="form_label,form_input,form_error"
+						rendered="#{cc.attrs.withOrder}">
 						<rich:pickList value="#{cc.attrs.controller.orderSelected}"
 							sourceCaption="Disponibles" targetCaption="Seleccionados"
 							listWidth="165px" listHeight="100px" orderable="true">
