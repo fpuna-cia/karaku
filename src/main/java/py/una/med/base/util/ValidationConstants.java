@@ -80,6 +80,11 @@ public class ValidationConstants {
 	public static final String DIGITS = "[0-9]*";
 
 	/**
+	 * Expresión que admite una cadena arbitraria de dígitos y guiones medios
+	 */
+	public static final String DIGITS_HYPHEN = "[0-9\\-]*";
+
+	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas además de dígitos
 	 */
