@@ -7,6 +7,7 @@ package py.una.med.base.business.reports;
 import java.util.List;
 import java.util.Map;
 import py.una.med.base.business.ISIGHBaseLogic;
+import py.una.med.base.reports.Align;
 import py.una.med.base.reports.SIGHReportDetails;
 
 /**
@@ -48,6 +49,8 @@ public interface ISIGHBaseReportDetail<T> {
 	 * @param report
 	 *            Estructura que contiene la definicion estructural del reporte
 	 *            y datos necesarios para generar el mismo.
+	 * @param align
+	 *            Alineacion con la cual se desea visualizar el reporte
 	 * @param params
 	 *            Parametros del reporte
 	 * @param type
@@ -56,7 +59,7 @@ public interface ISIGHBaseReportDetail<T> {
 	 * @param bean
 	 *            Registro cuyos detalles deben ser visualizados.
 	 */
-	public void generateReport(SIGHReportDetails report,
+	public void generateReport(SIGHReportDetails report, Align align,
 			Map<String, Object> params, String type, T bean, Class<?> clazz);
 
 	/**

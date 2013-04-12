@@ -9,6 +9,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import py.una.med.base.business.ISIGHBaseLogic;
+import py.una.med.base.reports.Align;
 import py.una.med.base.reports.ExportReport;
 import py.una.med.base.reports.SIGHReportDetails;
 
@@ -31,13 +32,13 @@ public abstract class SIGHBaseReportDetail<T> implements
 	public abstract List<?> getDetails(T bean);
 
 	@Override
-	public void generateReport(SIGHReportDetails report,
+	public void generateReport(SIGHReportDetails report, Align align,
 			Map<String, Object> params, String type, T bean, Class<?> clazz) {
 
 		JRDataSource datasource = new JRBeanCollectionDataSource(
 				getDetails(bean));
-		ExportReport
-				.exportDetailReport(report, clazz, datasource, params, type);
+		ExportReport.exportDetailReport(report, align, clazz, datasource,
+				params, type);
 	}
 
 	@Override

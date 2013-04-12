@@ -149,6 +149,8 @@ public class ExportReport {
 	 * @param report
 	 *            Estructura que contiene la definicion estructural del reporte
 	 *            y datos necesarios para generar el mismo.
+	 * @param align
+	 *            Alineacion con la cual se desea visualizar el reporte
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @param dataSource
@@ -160,13 +162,13 @@ public class ExportReport {
 	 *            Tipo de exportacion, puede ser XLS o PDF
 	 */
 	public static <T> void exportDetailReport(SIGHReportDetails report,
-			Class<T> clazz, JRDataSource dataSource,
+			Align align, Class<T> clazz, JRDataSource dataSource,
 			Map<String, Object> params, String type) {
 
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					DynamicUtils.buildReportDetail(report, clazz),
+					DynamicUtils.buildReportDetail(report, align, clazz),
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 

@@ -105,6 +105,8 @@ public class DynamicUtils {
 	 * @param report
 	 *            Estructura que contiene la definicion y datos necesarios para
 	 *            generar el reporte.
+	 * @param align
+	 *            Alineacion con la cual se desea visualizar el reporte
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @return Reporte dinamico estructurado listo para ser generado
@@ -112,15 +114,20 @@ public class DynamicUtils {
 	 * @throws ClassNotFoundException
 	 */
 	public static <T> DynamicReport buildReportDetail(SIGHReportDetails report,
-			Class<T> clazz) throws ColumnBuilderException,
+			Align align, Class<T> clazz) throws ColumnBuilderException,
 			ClassNotFoundException {
 
 		FastReportBuilder structReportHead = new FastReportBuilder();
-		setTemplatePortrait(structReportHead);
+
+		setAlignReport(structReportHead, align);
+
 		setWhenNotData(structReportHead);
 
 		buildColumnHeader(structReportHead, report.getColumns(), clazz);
-		addDetails(structReportHead, report, clazz);
+
+		if (!(report.getDetails() == null)) {
+			addDetails(structReportHead, report, clazz);
+		}
 
 		structReportHead.setUseFullPageWidth(true);
 
@@ -467,6 +474,19 @@ public class DynamicUtils {
 		structReport.setWhenNoData(
 				I18nHelper.getMessage("BASE_REPORT_NOT_DATA"), null);
 		return structReport;
+	}
+
+	public static FastReportBuilder setAlignReport(FastReportBuilder report,
+			Align align) {
+
+		if (align.equals(Align.HORIZONTAL)) {
+			setTemplateLandScape(report);
+		} else {
+			setTemplatePortrait(report);
+
+		}
+		return report;
+
 	}
 
 	/**
