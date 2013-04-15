@@ -7,6 +7,7 @@ package py.una.med.base.util;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.annotation.PostConstruct;
+import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -14,8 +15,11 @@ import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import org.hibernate.exception.ConstraintViolationException;
 import org.richfaces.component.UIColumn;
@@ -177,9 +181,10 @@ public class ControllerHelper {
 		UIViewRoot root = context.getViewRoot();
 
 		UIComponent c = findComponent(root, id);
-		if (c == null)
+		if (c == null) {
 			throw new RuntimeException("NO se encontro comoponente con id "
 					+ id);
+		}
 		return c.getClientId(context);
 	}
 
@@ -205,13 +210,15 @@ public class ControllerHelper {
 	 */
 	private UIComponent findComponent(final UIComponent c, final String id) {
 
-		if (id.equals(c.getId()))
+		if (id.equals(c.getId())) {
 			return c;
+		}
 		Iterator<UIComponent> kids = c.getFacetsAndChildren();
 		while (kids.hasNext()) {
 			UIComponent found = findComponent(kids.next(), id);
-			if (found != null)
+			if (found != null) {
 				return found;
+			}
 		}
 		return null;
 	}
@@ -314,9 +321,69 @@ public class ControllerHelper {
 	 */
 	public Exception convertException(final Exception e, final Class<?> clazz) {
 
-		if (e instanceof ConstraintViolationException)
+		if (e instanceof ConstraintViolationException) {
 			return uniqueHelper.createUniqueException(e, clazz);
+		}
 		return e;
 	}
 
+	/**
+	 * Actualizamos los valores de todos los componentes hijos de un componente
+	 * cuyo id se pasa como parametro, no toma en cuenta validaciones y deberia
+	 * funcionar igual a {@link UIComponentBase#processUpdates(FacesContext)}.
+	 * Se crea un nuevo metodo que realiza el trabajo ya que el
+	 * {@link UIComponent#processUpdates(FacesContext)} no realiza correctamente
+	 * su trabajo si no se valida antes el formulario, esto se debe a quel el
+	 * flujo normal de JSF es primero validar y luego actualizar, que serian las
+	 * fases 3 y 4.<br>
+	 * El proceso se describe a continuacion
+	 * <ol>
+	 * <li>Obtencion de elementos: se obtiene el componente a travez de su ID,
+	 * el contexto de faces y el contexto de las expresiones del lenguaje</li>
+	 * <li>Se obtiene un {@link SIGHConverterV2} para convertir los combos</li>
+	 * <li>Se itera sobre la lista de los hijos del componente a actualizar</li>
+	 * <ol>
+	 * <li>Se verifica si es un combobox, si este es el caso se convierte su
+	 * valor y se actualiza el objeto</li>
+	 * <li>Para otro caso, se obtiene su valor y se lo actualiza sin realizar
+	 * validaciones</li>
+	 * </ol>
+	 * 
+	 * </ol> <b>Observaciones:</b> no se verifica si algun valor no es
+	 * compatible con su destino, esto es si se ingresa una cadena en el lugar
+	 * de un numero, se lanzara una excepcion del tipo
+	 * 
+	 * @param componentID
+	 *            es el id del lado servidor del objeto que sera actualizado.
+	 */
+	public void updateModel(String componentID) {
+
+		// Obtenemos el id
+		UIComponent formulario = findComponent(componentID);
+		SIGHConverterV2 converter = new SIGHConverterV2();
+		FacesContext context = FacesContext.getCurrentInstance();
+		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+		for (UIComponent component : formulario.getChildren()) {
+			// Si es un valor submiteable, o INPUTEaBLE
+			if (component instanceof HtmlSelectOneMenu) {
+				HtmlSelectOneMenu com = (HtmlSelectOneMenu) component;
+				Object newValue = com.getSubmittedValue();
+				if (newValue == null) {
+					continue;
+				}
+				ValueExpression value = com.getValueExpression("value");
+				newValue = converter.getAsObject(context, com,
+						newValue.toString());
+				value.setValue(elContext, newValue);
+				continue;
+			}
+			if (component instanceof UIInput) {
+				UIInput com = (UIInput) component;
+				Object newValue = com.getSubmittedValue();
+				ValueExpression value = com.getValueExpression("value");
+
+				value.setValue(elContext, newValue);
+			}
+		}
+	}
 }

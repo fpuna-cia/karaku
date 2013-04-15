@@ -179,6 +179,8 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 	@HasRole(SIGHSecurity.DEFAULT)
 	public void doSearch() {
 
+		helper.updateModel("pgSearch");
+
 		log.info("do search llamado");
 		setExample(getBean());
 	}
