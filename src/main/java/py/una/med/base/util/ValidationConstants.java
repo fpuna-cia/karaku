@@ -24,7 +24,7 @@ public class ValidationConstants {
 	private static final String uc_nasal = "ÃẼĨÕŨỸÄËÏÖÜŸÂÊÎÔÛŶ";
 	private static final String nasal = lc_nasal + uc_nasal;
 
-	private static final String special = "\\(\\),\\.\\+\\-\\*\\$\\/\\\\";
+	private static final String special = "\\s\\(\\),\\.\\+\\-\\*\\$\\/\\\\";
 
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní (incluído el ')
@@ -98,5 +98,8 @@ public class ValidationConstants {
 	 */
 	public static final String ALPHANUMERIC_SPE = "[a-zA-Z0-9ñÑ" + grave
 			+ special + " ]*";
+
+	public static final String GN_WORDS_SPE_DIG = "[a-zA-Z0-9'ñÑ" + grave
+			+ nasal + special + " ]*";
 
 }
