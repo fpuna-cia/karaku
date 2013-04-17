@@ -75,6 +75,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 		log.info("Clear Filters called");
 		setExample(null);
 		setFilterValue("");
+		setFilterOption("");
 	}
 
 	public void createFacesMessage(Severity severity, String code) {

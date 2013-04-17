@@ -17,11 +17,14 @@
 	<h:panelGrid columns="5">
 		<rich:inplaceInput defaultLabel="Ingrese un filtro"
 			value="#{cc.attrs.controller.filterValue}" style="width:200px" />
-		<rich:select enableManualInput="true" selectFirst="true"
-			defaultLabel="Ingrese la columna"
-			value="#{cc.attrs.controller.filterOption}">
+
+		<h:selectOneMenu value="#{cc.attrs.controller.filterOption}"
+			id="filterOption">
+			<f:selectItem itemLabel="#{msg['BASE_SELECT_SIMPLE_SEARCH']}"
+				noSelectionOption="true" />
 			<f:selectItems value="#{cc.attrs.controller.searchSelectItemsList}" />
-		</rich:select>
+		</h:selectOneMenu>
+
 		<a4j:commandButton value="#{msg['BASE_SEARCH_SIMPLE_SEARCH']}"
 			action="#{cc.attrs.controller.doSimpleSearch()}"
 			render="#{cc.attrs.searchRender}" />
