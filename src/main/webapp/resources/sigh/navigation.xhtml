@@ -17,13 +17,24 @@
 </composite:interface>
 <composite:implementation>
 	<h:outputText id="page" value="#{cc.attrs.helper.getFormattedPage()}" />
+	
+	<a4j:commandButton id="init" value="&lt;&lt;"
+		action="#{cc.attrs.helper.goInitPage()}"
+		disabled="#{not cc.attrs.helper.hasLast()}"
+		render="#{cc.attrs.render}, page, last, next, end, init" />
+	
 	<a4j:commandButton id="last" value="&lt;"
 		action="#{cc.attrs.helper.last}"
 		disabled="#{not cc.attrs.helper.hasLast()}"
-		render="#{cc.attrs.render}, page, last, next" />
+		render="#{cc.attrs.render}, page, last, next, end, init" />
 	<a4j:commandButton id="next" value="&gt;"
 		action="#{cc.attrs.helper.next}"
 		disabled="#{not cc.attrs.helper.hasNext()}"
-		render="#{cc.attrs.render}, page, last, next" />
+		render="#{cc.attrs.render}, page, last, next,  end, init" />
+		
+	<a4j:commandButton id="end" value="&gt;&gt;"
+		action="#{cc.attrs.helper.goMaxPage()}"
+		disabled="#{not cc.attrs.helper.hasNext()}"
+		render="#{cc.attrs.render}, page, last, next, end, init" />
 </composite:implementation>
 </html>

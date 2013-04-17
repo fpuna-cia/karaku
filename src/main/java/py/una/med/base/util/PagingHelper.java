@@ -1,7 +1,6 @@
 package py.una.med.base.util;
 
 import java.io.Serializable;
-
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
@@ -38,6 +37,17 @@ public class PagingHelper<T, ID extends Serializable> {
 			return;
 		}
 		this.page++;
+	}
+
+	public void goMaxPage() {
+
+		this.page = getMaxPage(currentCount) - 1;
+
+	}
+
+	public void goInitPage() {
+
+		this.page = 0;
 	}
 
 	public void last() {
@@ -113,6 +123,7 @@ public class PagingHelper<T, ID extends Serializable> {
 	}
 
 	public void calculate(ISIGHBaseLogic<T, ID> logic, Where<T> where) {
+
 		currentCount = logic.getCountByExample(new EntityExample<T>(example));
 		totalCount = logic.getCount();
 	}
