@@ -27,4 +27,6 @@ public interface ISIGHBaseReportController<T, ID extends Serializable> {
 
 	public abstract void generateReport();
 
+	public String getDefaultPermission();
+
 }

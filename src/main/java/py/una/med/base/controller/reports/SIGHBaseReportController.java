@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.Serializer;
@@ -145,6 +146,12 @@ public abstract class SIGHBaseReportController<T, ID extends Serializable>
 
 		getLabels().put(field, lp);
 		return labels.get(field);
+	}
+
+	@Override
+	public String getDefaultPermission() {
+
+		return "SIGH";
 	}
 
 }

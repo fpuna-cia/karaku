@@ -18,7 +18,7 @@
 
 	<cc:implementation>
 
-		<h:form>
+		<h:form rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 			<rich:collapsiblePanel header="#{msg['LIST_MENSSAGES_HEADER']}">
 				<rich:messages ajaxRendered="true" showDetail="true" id="cambiar"
 					globalOnly="true" />
