@@ -22,12 +22,15 @@ public class SIGHConverter<T, ID extends Serializable> implements Converter {
 	public String getAsString(final FacesContext context,
 			final UIComponent component, final Object object) {
 
-		if (context == null)
+		if (context == null) {
 			throw new NullPointerException("context");
-		if (component == null)
+		}
+		if (component == null) {
 			throw new NullPointerException("component");
-		if (object == null)
+		}
+		if (object == null) {
 			return "";
+		}
 
 		try {
 			return getIdValue(object).toString();

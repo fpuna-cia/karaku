@@ -33,10 +33,12 @@ public class StringUtils {
 
 	public static boolean isValid(final String string) {
 
-		if (string == null)
+		if (string == null) {
 			return false;
-		if ("".equals(string.trim()))
+		}
+		if ("".equals(string.trim())) {
 			return false;
+		}
 		return true;
 	}
 
@@ -60,8 +62,9 @@ public class StringUtils {
 	public static String join(final String separator, final int start,
 			final int end, final String ... strings) {
 
-		if (strings == null)
+		if (strings == null) {
 			return "";
+		}
 		StringBuilder sb = new StringBuilder();
 		for (int i = start; i <= end; i++) {
 			sb.append(strings[i]);
@@ -125,16 +128,18 @@ public class StringUtils {
 			if (!Consonantes.contains(singular.charAt(singular.length() - 2))) {
 				plural = singular.concat("es");
 				return plural;
-			} else
+			} else {
 				return singular;
+			}
 		}
 		if (singular.endsWith("s") || singular.endsWith("S")
 				|| singular.endsWith("x") || singular.endsWith("X")) {
 			if ((singular.length() <= 4) || (singular.length() > 8)) {
 				plural = singular.concat("es");
 				return plural;
-			} else
+			} else {
 				return singular;
+			}
 		}
 		if (singular.endsWith("y") || singular.endsWith("Y")) {
 			if (Vocales.contains(singular.charAt(singular.length() - 2))) {

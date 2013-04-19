@@ -74,8 +74,9 @@ public class I18nHelper {
 		bundles = new ArrayList<ResourceBundle>();
 		List<String> bundlesLocation = getBundlesLocation();
 		for (String bundle : bundlesLocation) {
-			if (bundle.equals(""))
+			if (bundle.equals("")) {
 				continue;
+			}
 			FacesContext facesContext = FacesContext.getCurrentInstance();
 			Locale locale = facesContext.getViewRoot().getLocale();
 			ResourceBundle toAdd = ResourceBundle.getBundle(bundle, locale);
@@ -87,8 +88,9 @@ public class I18nHelper {
 
 		for (ResourceBundle bundle : getBundles()) {
 			try {
-				if (bundle.getString(key) != null)
+				if (bundle.getString(key) != null) {
 					return bundle.getString(key);
+				}
 			} catch (Exception e) {
 
 			}
@@ -123,7 +125,9 @@ public class I18nHelper {
 	public static String getName(DisplayName displayName) {
 
 		if ("".equals(displayName.toString()))
+		{
 			return "";
+		}
 		return getMessage(displayName.key().substring(1,
 				displayName.key().length() - 1));
 	}

@@ -1,7 +1,6 @@
 package py.una.med.base.util;
 
 import java.lang.reflect.Field;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,6 +16,7 @@ public class SIGHConverterV2 implements Converter {
 				value, this);
 	}
 
+	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object object) {
 
@@ -26,8 +26,9 @@ public class SIGHConverterV2 implements Converter {
 		if (component == null) {
 			throw new NullPointerException("component");
 		}
-		if (object == null)
+		if (object == null) {
 			return "";
+		}
 
 		try {
 			return getIdValue(object).toString();
