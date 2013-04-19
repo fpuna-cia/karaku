@@ -128,55 +128,65 @@ public class Menu {
 
 			// TODO optimizar
 			Menu aRet = null;
-			if (menus == null)
+			if (menus == null) {
 				return null;
+			}
 			for (Menu menu : menus) {
 				aRet = findMenu(menu, url);
-				if (aRet != null)
+				if (aRet != null) {
 					return aRet;
+				}
 			}
 			return null;
 		}
 
 		private Menu findMenu(Menu root, String url) {
 
-			if (root == null)
+			if (root == null) {
 				return null;
-			if (url.equals(root.getUrl()))
+			}
+			if (url.equals(root.getUrl())) {
 				return root;
+			}
 			Menu aRet = null;
 			for (Menu menu : root.getChildrens()) {
 				aRet = findMenu(menu, url);
-				if (aRet != null)
+				if (aRet != null) {
 					return aRet;
+				}
 			}
 			return null;
 		}
 
 		private Menu findMenuById(Menu root, String id) {
 
-			if (root == null)
+			if (root == null) {
 				return null;
-			if (id.equals(root.getId()))
+			}
+			if (id.equals(root.getId())) {
 				return root;
+			}
 			Menu aRet = null;
 			for (Menu menu : root.getChildrens()) {
 				aRet = findMenuById(menu, id);
-				if (aRet != null)
+				if (aRet != null) {
 					return aRet;
+				}
 			}
 			return null;
 		}
 
 		public Menu getPadre(Menu hijo) {
 
-			if (hijo.getIdFather() == null || "".equals(hijo.getIdFather()))
+			if (hijo.getIdFather() == null || "".equals(hijo.getIdFather())) {
 				return null;
+			}
 			Menu aRet;
 			for (Menu menu : menus) {
 				aRet = findMenuById(menu, hijo.getIdFather());
-				if (aRet != null)
+				if (aRet != null) {
 					return aRet;
+				}
 			}
 			return null;
 		}

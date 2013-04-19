@@ -7,16 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
-
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.util.EntityExample;
@@ -83,8 +80,9 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 			if (displayName == null) {
 				continue;
 			}
-			if (I18nHelper.getName(displayName).equals(value))
+			if (I18nHelper.getName(displayName).equals(value)) {
 				return f;
+			}
 		}
 		return null;
 	}
@@ -101,16 +99,19 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 			where.setExample(new EntityExample<T>(getExample()));
 			return where;
 		}
-		if (!StringUtils.isValid(getFilterOption()))
+		if (!StringUtils.isValid(getFilterOption())) {
 			return where;
-		if (!StringUtils.isValid(getFilterValue()))
+		}
+		if (!StringUtils.isValid(getFilterValue())) {
 			return where;
+		}
 		try {
 			Field f = getField(getFilterOption());
 			DisplayName displayName = f.getAnnotation(DisplayName.class);
-			if (displayName == null)
+			if (displayName == null) {
 				throw new RuntimeException(
 						"Llamado a filtro generico sin la anotacion DisplayName, agrege la antoacion o reimplemente este metodo y capture este tipo de campos");
+			}
 			T example = getBaseEntity();
 			f.setAccessible(true);
 			if (!"".equals(displayName.path())) {
@@ -183,7 +184,7 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_CREATE)	
+	@HasRole(SIGHSecurity.DEFAULT_CREATE)
 	public String preCreate() {
 
 		setMode(Mode.NEW);
@@ -192,7 +193,7 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_DELETE)	
+	@HasRole(SIGHSecurity.DEFAULT_DELETE)
 	public String doDelete() {
 
 		try {
@@ -217,7 +218,7 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_EDIT)	
+	@HasRole(SIGHSecurity.DEFAULT_EDIT)
 	public String doEdit() {
 
 		try {
@@ -255,7 +256,7 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 	 * asegurandose de retornar lo que retorna el metodo {@link #postCreate()}.
 	 */
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_CREATE)	
+	@HasRole(SIGHSecurity.DEFAULT_CREATE)
 	public String doCreate() {
 
 		try {

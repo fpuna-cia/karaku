@@ -53,8 +53,9 @@ public class SIGHSecurity {
 		} else if (DEFAULT_DELETE.equals(permission)) {
 			permission = controller.getDeletePermission();
 		}
-		if (!AuthorityController.hasRoleStatic(permission))
+		if (!AuthorityController.hasRoleStatic(permission)) {
 			throw new AccessDeniedException(String.format(
 					"User doesn't have permission %s", permission));
+		}
 	}
 }
