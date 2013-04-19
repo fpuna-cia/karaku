@@ -34,8 +34,9 @@ public class CaseSensitiveHelper {
 	 */
 	public <T> T analize(final T entity) {
 
-		if (entity == null)
+		if (entity == null) {
 			return entity;
+		}
 		Class<?> clzz = entity.getClass();
 
 		do {
@@ -85,8 +86,9 @@ public class CaseSensitiveHelper {
 	private <T> boolean handleAnnotation(final T object, final Field f,
 			final CaseSensitive caseSensitive) {
 
-		if (caseSensitive != null)
+		if (caseSensitive != null) {
 			return false;
+		}
 		try {
 			if (f.getType().equals(String.class)) {
 				f.setAccessible(true);
@@ -96,8 +98,9 @@ public class CaseSensitiveHelper {
 					f.set(object, value);
 				}
 				return true;
-			} else
+			} else {
 				return false;
+			}
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {

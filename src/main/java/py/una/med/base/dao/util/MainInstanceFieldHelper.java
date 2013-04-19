@@ -45,8 +45,9 @@ public class MainInstanceFieldHelper {
 			fields = new HashMap<Class<?>, List<Field>>(1);
 		}
 		List<Field> aRet = fields.get(clazz);
-		if (aRet != null)
+		if (aRet != null) {
 			return aRet;
+		}
 		return generateAndCreateFields(clazz);
 	}
 }

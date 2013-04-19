@@ -40,20 +40,23 @@ public class MainInstanceHelper {
 	static Object fetchAttribute(final Session session, final String hql,
 			final MainInstance principal, final Object parent) {
 
-		if (!session.isOpen())
+		if (!session.isOpen()) {
 			throw new org.hibernate.LazyInitializationException(
 					"Session is closed, failed to load Main instance "
 							+ principal.path());
+		}
 		Query query = session.createQuery(hql);
 		query.setMaxResults(2);
 		query.setParameter("value", principal.value());
 		query.setParameter("mainEntity", parent);
 		List<Object> list = query.list();
-		if ((list == null) || (list.size() == 0))
+		if ((list == null) || (list.size() == 0)) {
 			return null;
-		if (list.size() > 1)
+		}
+		if (list.size() > 1) {
 			throw new NonUniqueResultException("Attribute "
 					+ principal.attribute() + " has more than 1 principal");
+		}
 		return list.get(0);
 	}
 
@@ -202,8 +205,9 @@ public class MainInstanceHelper {
 	public void help(final Object entity, final Session session)
 			throws Exception {
 
-		if (entity == null)
+		if (entity == null) {
 			return;
+		}
 
 		for (Field f : MainInstanceFieldHelper.getMainInstanceFields(entity
 				.getClass())) {
@@ -225,8 +229,9 @@ public class MainInstanceHelper {
 	public void helpList(final List<?> entities, final Session session)
 			throws Exception {
 
-		if ((entities == null) || (entities.size() == 0))
+		if ((entities == null) || (entities.size() == 0)) {
 			return;
+		}
 		Class<?> clazz = entities.get(0).getClass();
 		for (Field f : MainInstanceFieldHelper.getMainInstanceFields(clazz)) {
 			MainInstance principal = f.getAnnotation(MainInstance.class);

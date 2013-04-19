@@ -13,29 +13,35 @@ public class SearchParamJPAHelper<T> {
 
 	public TypedQuery<T> apply(SearchParam params, TypedQuery<T> query) {
 
-		if (params == null)
+		if (params == null) {
 			return query;
+		}
 
-		if (params.getLimit() != null && params.getLimit() > 0L)
+		if (params.getLimit() != null && params.getLimit() > 0L) {
 			query.setMaxResults(params.getLimit().intValue());
-		if (params.getOffset() != null && params.getOffset() > 0L)
+		}
+		if (params.getOffset() != null && params.getOffset() > 0L) {
 			query.setFirstResult(params.getOffset().intValue());
+		}
 		return query;
 	}
 
 	public CriteriaQuery<T> apply(SearchParam params, CriteriaQuery<T> query,
 			Root<T> root, CriteriaBuilder builder) {
 
-		if (params == null)
+		if (params == null) {
 			return query;
+		}
 		ArrayList<Order> orders = new ArrayList<Order>();
-		if (params.getOrders() != null)
+		if (params.getOrders() != null) {
 			for (OrderParam orderParam : params.getOrders()) {
-				if (orderParam.isAsc())
+				if (orderParam.isAsc()) {
 					orders.add(builder.asc(root.get(orderParam.getColumnName())));
-				else
+				} else {
 					orders.add(builder.desc(root.get(orderParam.getColumnName())));
+				}
 			}
+		}
 		query.orderBy(orders);
 		return query;
 	}
