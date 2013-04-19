@@ -4,6 +4,7 @@
 package py.una.med.base.dynamic.tables;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlOutputText;
 import org.richfaces.component.UIColumn;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
 import py.una.med.base.util.ELHelper;
@@ -94,8 +95,9 @@ public abstract class Column {
 	 */
 	public final UIColumn getColumn() {
 
-		if (builded)
+		if (builded) {
 			return bind;
+		}
 		builded = true;
 		bind.getFacets().put("header", getHeader());
 		if (hasBoddy()) {
