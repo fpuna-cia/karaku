@@ -42,16 +42,33 @@ public class BreadcrumbItem {
 	}
 
 	@Override
+	public int hashCode() {
+
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
-		if (obj instanceof BreadcrumbItem) {
-			BreadcrumbItem other = (BreadcrumbItem) obj;
-			if (other.uri == null || this.uri == null)
-				return false;
-			return uri.compareTo(other.uri) == 0;
+		if (this == obj) {
+			return true;
 		}
-		return false;
+
+		if (!(obj instanceof BreadcrumbItem)) {
+			return false;
+		}
+		BreadcrumbItem other = (BreadcrumbItem) obj;
+		if (uri == null) {
+			if (other.uri != null) {
+				return false;
+			}
+		} else if (!uri.equals(other.uri)) {
+			return false;
+		}
+		return true;
 	}
+
 }
