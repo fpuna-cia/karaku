@@ -130,7 +130,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 			getBaseLogic().add(bean);
 
 			createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
-					"BASE_ABM_CREATE_SUCESS");
+					"BASE_ABM_CREATE_SUCCESS");
 			postCreate();
 			return goList();
 		} catch (Exception e) {
