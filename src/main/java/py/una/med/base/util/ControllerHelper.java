@@ -108,7 +108,7 @@ public class ControllerHelper {
 
 	/**
 	 * Retorna el mensaje internacionalizado del codigo dado, para claves no
-	 * encontradas retorna &&&&&&&&&&&&&code&&&&&&&
+	 * encontradas retorna &&&&&code&&&&&&
 	 * 
 	 * @param code
 	 *            llave del mensaje
@@ -118,11 +118,11 @@ public class ControllerHelper {
 
 		if (code == null) {
 			log.info("Buscando cadena con llave null");
-			return getDegeneratedString(code);
+			return getDegeneratedString("null");
 		}
 		if ("".equals(code)) {
 			log.info("Buscando cadena con llave vacia");
-			return getDegeneratedString(code);
+			return getDegeneratedString("empty");
 		}
 		return i18nHelper.getString(code);
 	}

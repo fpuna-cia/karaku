@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.I18nHelper;
 
 /**
@@ -137,7 +138,7 @@ public abstract class Field {
 
 	/**
 	 * Retorna el mensaje internacionalizado del codigo dado, para claves no
-	 * encontradas retorna &&&&&&&&&&&&&code&&&&&&&
+	 * encontradas retorna &&&&&code&&&&&
 	 * 
 	 * @param code
 	 *            llave del mensaje
@@ -146,10 +147,10 @@ public abstract class Field {
 	public String getMessage(String code) {
 
 		if (code == null) {
-			return getDegeneratedString(code);
+			return getDegeneratedString("null");
 		}
 		if ("".equals(code)) {
-			return getDegeneratedString(code);
+			return getDegeneratedString("empty");
 		}
 		return I18nHelper.getMessage(code);
 	}
