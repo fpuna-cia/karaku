@@ -34,13 +34,13 @@ import py.una.med.base.util.MenuHelper;
 public class SIGHConfiguration {
 
 	@Autowired
-	ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 
 	@Autowired
-	PropertiesUtil propertiesUtil;
+	private PropertiesUtil propertiesUtil;
 
 	@Autowired
-	I18nHelper i18nHelper;
+	private I18nHelper i18nHelper;
 	/**
 	 * Define un scope de conversacion de acceso para el uso de apache
 	 * orchestra, esta cadena se configura, ademas, en el archvo

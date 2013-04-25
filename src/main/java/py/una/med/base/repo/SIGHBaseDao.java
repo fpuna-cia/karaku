@@ -45,10 +45,10 @@ public class SIGHBaseDao<T, ID extends Serializable> extends BaseDAOImpl<T, ID>
 	};
 
 	@Autowired
-	ControllerHelper helper;
+	private ControllerHelper helper;
 
-	Method prePersist;
-	Method preUpdate;
+	private Method prePersist;
+	private Method preUpdate;
 	private boolean metodoscargados;
 
 	public Method getPrePersist() {

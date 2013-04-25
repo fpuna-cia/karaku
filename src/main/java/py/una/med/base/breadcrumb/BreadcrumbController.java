@@ -44,11 +44,11 @@ public class BreadcrumbController {
 	public static final String BREADCRUM_URL = "?breadcrum_reset=true";
 
 	@Autowired
-	Menus menus;
+	private Menus menus;
 
-	List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
+	private List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
 
-	ISIGHBaseController<?, ?> actualController;
+	private ISIGHBaseController<?, ?> actualController;
 
 	/**
 	 * Agrega un registro a la miga de pan.
@@ -149,31 +149,32 @@ public class BreadcrumbController {
 	 * @return String
 	 */
 	private String getModeMessage() {
+
 		String message = "";
 		switch (actualController.getMode()) {
-		case EDIT: {
-			message = "BREADCRUM_EDIT";
-			break;
-		}
-		case VIEW: {
-			message = "BREADCRUM_VIEW";
-			break;
-		}
-		case DELETE: {
-			message = "BREADCRUM_DELETE";
-			break;
-		}
-		case NEW: {
-			message = "BREADCRUM_CREATE";
-			break;
-		}
-		default: {
-			message = "BREADCRUM_UNKNOWN";
-		}
+			case EDIT: {
+				message = "BREADCRUM_EDIT";
+				break;
+			}
+			case VIEW: {
+				message = "BREADCRUM_VIEW";
+				break;
+			}
+			case DELETE: {
+				message = "BREADCRUM_DELETE";
+				break;
+			}
+			case NEW: {
+				message = "BREADCRUM_CREATE";
+				break;
+			}
+			default: {
+				message = "BREADCRUM_UNKNOWN";
+			}
 		}
 		return I18nHelper.getMessage(message);
 	}
-	
+
 	/**
 	 * Dado un item del menu, genera su miga de pan para ser agregada a la lista
 	 * de items
