@@ -72,8 +72,8 @@ public class PagingHelper<T, ID extends Serializable> {
 
 	public String getFormattedPage() {
 
-		Long firstRecord = new Long(page * rowsForPage + 1);
-		Long limit = new Long(page * rowsForPage + rowsForPage);
+		Long firstRecord = Long.valueOf(page * rowsForPage + 1);
+		Long limit = Long.valueOf(page * rowsForPage + rowsForPage);
 
 		if (page + 1 == getMaxPage(currentCount)) {
 			limit = currentCount;
