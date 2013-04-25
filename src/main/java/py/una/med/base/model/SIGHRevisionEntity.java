@@ -4,11 +4,16 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 import py.una.med.base.audit.SIGHRevisionListener;
+
 /**
  * 
  * 
@@ -18,13 +23,15 @@ import py.una.med.base.audit.SIGHRevisionListener;
  * 
  */
 @Entity
+@Table(name="revision_entity")
 @RevisionEntity(SIGHRevisionListener.class)
+@SequenceGenerator(name = "REVISION_ENTITY_SEQ", sequenceName = "revision_entity_id_seq")
 public class SIGHRevisionEntity implements Serializable {
 
 	private static final long serialVersionUID = 1;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REVISION_ENTITY_SEQ")
 	@RevisionNumber
 	private Long id;
 
