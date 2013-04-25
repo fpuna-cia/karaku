@@ -5,14 +5,12 @@
 package py.una.med.base.exception;
 
 import java.util.Iterator;
-
 import javax.faces.FacesException;
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,21 +30,24 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 	private ExceptionHandler wrapped;
 
 	public SIGHExceptionHandler(ExceptionHandler wrapped) {
+
 		this.wrapped = wrapped;
 	}
 
 	@Override
 	public ExceptionHandler getWrapped() {
+
 		return wrapped;
 	}
 
 	@Override
 	public void handle() throws FacesException {
+
 		// itera sobre todas las excepciones no controladas
 		Iterator<ExceptionQueuedEvent> iterator = getUnhandledExceptionQueuedEvents()
 				.iterator();
 		while (iterator.hasNext()) {
-			ExceptionQueuedEvent event = (ExceptionQueuedEvent) iterator.next();
+			ExceptionQueuedEvent event = iterator.next();
 			ExceptionQueuedEventContext context = (ExceptionQueuedEventContext) event
 					.getSource();
 
@@ -103,13 +104,18 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 	 *            Excepción lanzada.
 	 */
 	private void printLog(Throwable t) {
+
 		// obtiene el stackTrace
 		StackTraceElement stackTrace[] = t.getStackTrace();
 
-		String temp = t.getMessage() + "" + ". Stack Trace: \n\t\t\t\t";
+		StringBuffer buf = new StringBuffer();
+		buf.append(t.getMessage() + "" + ". Stack Trace: \n\t\t\t\t");
 		for (StackTraceElement stackTraceElement : stackTrace) {
-			temp += stackTraceElement.toString() + "\n\t\t\t\t";
+			buf.append(stackTraceElement.toString() + "\n\t\t\t\t");
 		}
+
+		String temp = buf.toString();
+
 		logger.error(temp);
 	}
 

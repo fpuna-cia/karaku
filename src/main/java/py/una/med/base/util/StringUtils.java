@@ -158,11 +158,11 @@ public class StringUtils {
 
 	public static String pluralize(final List<String> terms) {
 
-		String plural = "";
+		StringBuffer buf = new StringBuffer();
 		for (String term : terms) {
-			plural += pluralize(term) + " ";
+			buf.append(pluralize(term) + " ");
 		}
-		return plural;
+		return buf.toString();
 	}
 
 }
