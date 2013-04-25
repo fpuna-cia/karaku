@@ -30,7 +30,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class MenuController {
 
 	@Autowired
-	Manifest manifest;
+	private Manifest manifest;
 
 	/**
 	 * Retorna la URI para crear links de logout para la aplicacion

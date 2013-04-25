@@ -45,13 +45,13 @@ public abstract class BaseController<T, ID extends Serializable> implements
 	private T bean;
 
 	@Autowired
-	I18nHelper i18nHelper;
+	private I18nHelper i18nHelper;
 
 	private T example;
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	PagingHelper<T, ID> pagingHelper;
+	private PagingHelper<T, ID> pagingHelper;
 
 	private String messageIdName;
 

@@ -46,7 +46,7 @@ public abstract class SIGHBaseMainController<T, ID extends Serializable>
 		}
 	}
 
-	List<ISIGHEmbeddableController> controllers;
+	private List<ISIGHEmbeddableController> controllers;
 
 	@Override
 	public List<ISIGHEmbeddableController> getEmbeddableControllers() {

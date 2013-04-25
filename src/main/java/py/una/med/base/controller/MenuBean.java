@@ -41,7 +41,7 @@ public class MenuBean {
 	private Menus menus;
 
 	@Autowired
-	I18nHelper helper;
+	private I18nHelper helper;
 
 	private HashMap<String, Boolean> expanded;
 

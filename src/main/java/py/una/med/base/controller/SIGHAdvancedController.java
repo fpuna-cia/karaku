@@ -45,11 +45,11 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 		ISIGHAdvancedController<T, ID> {
 
 	@Autowired
-	ControllerHelper helper;
+	private ControllerHelper helper;
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	T bean;
+	private T bean;
 
 	@Override
 	public abstract ISIGHBaseLogic<T, ID> getBaseLogic();

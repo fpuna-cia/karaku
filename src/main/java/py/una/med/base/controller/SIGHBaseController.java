@@ -44,7 +44,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 	}
 
 	@Autowired
-	BreadcrumbController breadcrumController;
+	private BreadcrumbController breadcrumController;
 
 	private static final int ROWS_FOR_PAGE = 10;
 
@@ -62,12 +62,12 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	PagingHelper<T, ID> pagingHelper;
+	private PagingHelper<T, ID> pagingHelper;
 
 	private String messageIdName;
 
 	@Autowired
-	I18nHelper i18nHelper;
+	private I18nHelper i18nHelper;
 
 	@Override
 	public void clearFilters() {
@@ -277,7 +277,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 	}
 
 	@Autowired
-	SIGHBaseReportSimple baseReportSimple;
+	private SIGHBaseReportSimple baseReportSimple;
 
 	@Override
 	public void generateReport(String type) {
@@ -295,7 +295,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 	}
 
 	@Autowired
-	ControllerHelper helper;
+	private ControllerHelper helper;
 
 	@Override
 	public LinkedList<Column> getColumns() {

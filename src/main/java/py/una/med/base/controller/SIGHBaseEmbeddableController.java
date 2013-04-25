@@ -3,9 +3,7 @@ package py.una.med.base.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.security.HasRole;
@@ -30,10 +28,10 @@ public abstract class SIGHBaseEmbeddableController<T, ID extends Serializable>
 
 	private ISIGHMainController mainController;
 
-	boolean isEmbedded;
+	private boolean isEmbedded;
 
 	@Autowired
-	ControllerHelper helper;
+	private ControllerHelper helper;
 
 	@Override
 	public void setMainController(ISIGHMainController mainController) {
@@ -210,6 +208,7 @@ public abstract class SIGHBaseEmbeddableController<T, ID extends Serializable>
 
 	@Override
 	public String getDefaultPermission() {
+
 		if (mainController == null) {
 			return super.getDefaultPermission();
 		} else {
