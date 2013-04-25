@@ -10,6 +10,7 @@
 	xmlns:composite="http://java.sun.com/jsf/composite"
 	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
 	xmlns:o="http://myfaces.apache.org/orchestra"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:tsigh="http://www.pol.una.py/jsf/sigh">
 
 <composite:interface
@@ -29,6 +30,8 @@
 	<composite:attribute name="withRowActions" default="true"
 		type="java.lang.Boolean"
 		displayName="Muestra una columna con las acciones editar, borrar y ver" />
+	<composite:attribute name="withAdvancedSearch" default="true"
+		type="java.lang.Boolean" />
 </composite:interface>
 <composite:implementation>
 
@@ -86,19 +89,40 @@
 				</tsigh:security>
 				<h:panelGrid columns="3">
 					<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
-					<h:commandLink action="#{cc.attrs.controller.generateReport('xls')}">
+					<h:commandLink
+						action="#{cc.attrs.controller.generateReport('xls')}">
 						<h:graphicImage value="/resources/images/csv_ico.jpg"
 							alt="Exportar a csv" style="width:20px;height:20px" />
-					</h:commandLink>	
-					<h:commandLink action="#{cc.attrs.controller.generateReport('pdf')}">			
+					</h:commandLink>
+					<h:commandLink
+						action="#{cc.attrs.controller.generateReport('pdf')}">
 						<h:graphicImage value="/resources/images/pdf-ico.jpg"
 							alt="Exportar a pdf" style="width:20px;height:20px" />
-					</h:commandLink>				
+					</h:commandLink>
 				</h:panelGrid>
 				<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
 					render="#{cc.attrs.idListEntities}" />
 			</h:form>
 		</h:panelGrid>
+		<c:if
+			test="#{cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+			<sigh:popup title="#{msg['BASE_FORM_SEARCH']}" popupId="puSearch">
+				<h:form>
+					<rich:messages id="globalMessages" globalOnly="true" />
+					<h:panelGrid columns="3"
+						columnClasses="form_label,form_input,form_error" id="pgSearch">
+						<ui:include src="#{cc.attrs.urlSearchForm}" />
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<a4j:commandButton
+							actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
+							render="globalMessages, @form, #{cc.attrs.idListEntities}" />
+						<a4j:commandButton value="Volver" immediate="true"
+							oncomplete="#{rich:component('puSearch')}.hide()" />
+					</h:panelGrid>
+				</h:form>
+			</sigh:popup>
+		</c:if>
 	</tsigh:security>
 </composite:implementation>
 </html>
