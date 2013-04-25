@@ -28,6 +28,7 @@
 
 		<slf4j.version>1.6.1</slf4j.version>
 		<logback.version>0.9.26</logback.version>
+		<org.liquibase.version>2.0.5</org.liquibase.version>
 
 	</properties>
 
@@ -617,6 +618,13 @@
 			<artifactId>myfaces-orchestra-core20</artifactId>
 			<version>1.5</version>
 		</dependency>
+		
+		<!-- db migration tool -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${org.liquibase.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -625,6 +633,9 @@
 		<sourceDirectory>base/src/main/java</sourceDirectory>
 		<testSourceDirectory>base/src/test/java</testSourceDirectory>
 
+		<filters>
+			<filter>base/src/main/database/liquibase.properties</filter>
+		</filters>
 
 
 		<plugins>
@@ -775,6 +786,12 @@
 						<resource>
 							<directory>stock/src/main/webapp/views</directory>
 							<targetPath>views</targetPath>
+						</resource>
+						<!-- DATABASE -->
+						<resource>
+							<directory>base/src/main/database/</directory>
+							<targetPath>WEB-INF/classes/database/base</targetPath>
+							<filtering>true</filtering>
 						</resource>
 					</webResources>
 					<archive>

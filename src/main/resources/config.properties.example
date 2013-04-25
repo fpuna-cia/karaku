@@ -19,3 +19,5 @@ base-package-hibernate = py.una.med.*
 #lista separada por espacios de bundles
 language_bundles = ../language.properties.base ../language.properties.farmacia ../language.properties.stock
 menu_location = menu/farmacia.xml menu/stock.xml menu/base.xml
+
+liquibase.changelog-file = classpath:database/SYSTEM/db-changelog.xml

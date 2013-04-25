@@ -15,23 +15,27 @@
 		   http://www.springframework.org/schema/aop 
      	   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<!-- JDNI name for EntityManagerFactory is defined in src/main/resources/META-INF/persistence.xml -->
+	<jee:jndi-lookup jndi-name="${data-source}" id="DataSource"
+		expected-type="javax.sql.DataSource" />
 
+	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+		<property name="dataSource" ref="DataSource" />
+		<property name="changeLog" value="${liquibase.changelog-file}" />
+	</bean>
 
-
-
+	<!-- JDNI name for EntityManagerFactory is defined in SISTEMA/src/main/resources/META-INF/persistence.xml -->
 	<jee:jndi-lookup jndi-name="${jboss.entity.manager.factory.jndi.name}"
 		id="entityManagerFactory" expected-type="javax.persistence.EntityManagerFactory" />
 
-	<bean id="entityManager"
+
+
+	<bean id="entityManager" depends-on="liquibase"
 		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<jee:jndi-lookup jndi-name="${data-source}" id="DataSource"
-		expected-type="javax.sql.DataSource" />
 
-	<bean id="SessionFactory"
+	<bean id="SessionFactory" depends-on="liquibase"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="packagesToScan" value="${base-package-hibernate}" />
 		<property name="dataSource" ref="DataSource" />
@@ -39,6 +43,7 @@
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}
 				</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
 			</props>
@@ -51,5 +56,7 @@
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
+
+
 
 </beans>
