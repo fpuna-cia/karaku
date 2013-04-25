@@ -47,6 +47,8 @@ import java.util.NoSuchElementException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
+import javax.faces.component.UISelectMany;
+import javax.faces.component.UISelectOne;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
@@ -370,7 +372,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 		/**
 		 * The source <code>UISelectItems</code>.
 		 */
-		protected UISelectItems sourceComponent;
+		private UISelectItems sourceComponent;
 
 		// -------------------------------------------------------- Constructors
 

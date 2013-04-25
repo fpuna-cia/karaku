@@ -11,7 +11,7 @@ public class PagingHelper<T, ID extends Serializable> {
 
 	private int rowsForPage = 10;
 	private int page = 0;
-	T example;
+	private T example;
 	private Long currentCount;
 	private Long totalCount;
 

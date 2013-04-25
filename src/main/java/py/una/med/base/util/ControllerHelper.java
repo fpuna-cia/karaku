@@ -47,7 +47,7 @@ public class ControllerHelper {
 	private Logger log;
 
 	@Autowired
-	UniqueHelper uniqueHelper;
+	private UniqueHelper uniqueHelper;
 
 	/**
 	 * Construye el controller
@@ -59,7 +59,7 @@ public class ControllerHelper {
 	}
 
 	@Autowired
-	I18nHelper i18nHelper;
+	private I18nHelper i18nHelper;
 
 	/**
 	 * Crea un mensaje global, que sera mostrado en lugares como <br>

@@ -21,10 +21,10 @@ public class MenuHelper {
 	private static FileReader fr;
 
 	private static Menus actual;
-	static JAXBContext context;
-	static Marshaller m;
+	private static JAXBContext context;
+	private static Marshaller m;
 	private static Unmarshaller um;
-	static BufferedReader br;
+	private static BufferedReader br;
 
 	public static void main(String[] args) throws Exception {
 

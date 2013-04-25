@@ -1,26 +1,27 @@
 package py.una.med.base.util;
 
 import java.util.List;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 
 public class SIGHCustomJasperDataSource extends JRAbstractBeanDataSource {
 
-	List<?> objects;
+	private List<?> objects;
 	// Representa a la fila actual
-	int row = -1;
+	private int row = -1;
 	// Representa a la columna actual;
-	int column;
+	private int column;
 
 	public SIGHCustomJasperDataSource(List<?> objects) {
+
 		super(true);
 		this.objects = objects;
 	}
 
 	@Override
 	public void moveFirst() throws JRException {
+
 		row = -1;
 		column = 0;
 
@@ -28,6 +29,7 @@ public class SIGHCustomJasperDataSource extends JRAbstractBeanDataSource {
 
 	@Override
 	public boolean next() throws JRException {
+
 		row++;
 		column = 0;
 		if (this.objects.size() <= row) {
@@ -38,6 +40,7 @@ public class SIGHCustomJasperDataSource extends JRAbstractBeanDataSource {
 
 	@Override
 	public Object getFieldValue(JRField jrField) throws JRException {
+
 		if (objects.get(row) instanceof String) {
 			if (column == 0) {
 				column++;

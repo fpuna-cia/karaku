@@ -94,8 +94,8 @@ public class UniqueHelper {
 			this.uniqueConstraintName = uniqueConstraintName;
 		}
 
-		String uniqueConstraintName;
-		List<String> fields;
+		private String uniqueConstraintName;
+		private List<String> fields;
 
 		/**
 		 * Agrega un nuevo field a la lista de fields manejados por esta clase

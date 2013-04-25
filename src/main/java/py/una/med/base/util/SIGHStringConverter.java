@@ -17,7 +17,7 @@ import javax.faces.context.FacesContext;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class SIGHStringConverter extends SIGHConverterV2 {
 
-	LabelProvider provider;
+	private LabelProvider provider;
 
 	/**
 	 * 
@@ -47,10 +47,11 @@ public class SIGHStringConverter extends SIGHConverterV2 {
 	public Object getAsObject(final FacesContext context,
 			final UIComponent component, final String value) {
 
-		if (provider == null)
+		if (provider == null) {
 			return super.getAsObject(context, component, value);
-		else
+		} else {
 			return provider.getAsString(super.getAsObject(context, component,
 					value));
+		}
 	}
 }
