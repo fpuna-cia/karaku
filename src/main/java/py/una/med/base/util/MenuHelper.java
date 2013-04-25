@@ -374,9 +374,6 @@ public class MenuHelper {
 
 	private static boolean addMenu(Menu root, Menu newMenu) {
 
-		if (root.getChildrens() == null) {
-			root.setChildrens(new ArrayList<Menu>());
-		}
 		if (newMenu.getIdFather() != null
 				&& newMenu.getIdFather().equals(root.getId())) {
 			if (!exist(root, newMenu)) {
