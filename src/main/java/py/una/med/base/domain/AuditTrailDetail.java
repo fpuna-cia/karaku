@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * Detalle de una auditoria
@@ -17,10 +19,12 @@ import javax.persistence.ManyToOne;
  * 
  */
 @Entity
+@Table(name = "audit_trail_detail")
+@SequenceGenerator(name = "AUDIT_TRAIL_DETAIL_SEQ", sequenceName = "audit_trail_detail_id_seq")
 public class AuditTrailDetail {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "AUDIT_TRAIL_DETAIL_SEQ")
 	private Long id;
 
 	@ManyToOne

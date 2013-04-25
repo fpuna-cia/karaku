@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * Tabla que representa la auditoria
@@ -18,12 +20,14 @@ import javax.persistence.OneToMany;
  * 
  */
 @Entity
+@Table(name = "audit_trail")
+@SequenceGenerator(name = "AUDIT_TRAIL_SEQ", sequenceName = "audit_trail_id_seq")
 public class AuditTrail implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "AUDIT_TRAIL_SEQ")
 	private Long id;
 
 	private String username;
