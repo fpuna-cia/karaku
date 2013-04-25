@@ -4,6 +4,7 @@
 package py.una.med.base.dynamic.tables;
 
 import javax.el.ValueExpression;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
 
@@ -17,7 +18,7 @@ import py.una.med.base.dynamic.forms.SIGHComponentFactory;
  */
 public class SimpleColumn extends SimpleHeaderColumn {
 
-	HtmlOutputText body;
+	private HtmlOutputText body;
 
 	public SimpleColumn() {
 

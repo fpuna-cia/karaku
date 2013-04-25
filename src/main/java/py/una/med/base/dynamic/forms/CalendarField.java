@@ -15,7 +15,7 @@ import org.richfaces.component.UICalendar;
  */
 public class CalendarField extends LabelField {
 
-	UICalendar bind;
+	private UICalendar bind;
 
 	/**
 	 * 

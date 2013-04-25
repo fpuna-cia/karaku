@@ -38,16 +38,16 @@ public class DataTable<T, ID extends Serializable> {
 	private static final int DEFAULT_WIDTH = 350;
 	private static final int DEFAULT_HEIGH = 620;
 
-	SIGHListHelper<T, ID> listHelper;
-	boolean idAdded;
-	boolean actionsAdded;
-	boolean exportsAdded;
-	List<Column> columns;
-	int width = DEFAULT_WIDTH;
-	int heigh = DEFAULT_HEIGH;
-	UIExtendedDataTable table;
-	boolean withExports = false;
-	boolean withActions = true;
+	private SIGHListHelper<T, ID> listHelper;
+	private boolean idAdded;
+	private boolean actionsAdded;
+	private boolean exportsAdded;
+	private List<Column> columns;
+	private int width = DEFAULT_WIDTH;
+	private int heigh = DEFAULT_HEIGH;
+	private UIExtendedDataTable table;
+	private boolean withExports = false;
+	private boolean withActions = true;
 
 	/**
 	 * 

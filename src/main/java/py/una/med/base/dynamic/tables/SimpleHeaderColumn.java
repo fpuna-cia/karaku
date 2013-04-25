@@ -4,6 +4,7 @@
  */
 package py.una.med.base.dynamic.tables;
 
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
 /**
@@ -16,7 +17,7 @@ import javax.faces.component.html.HtmlOutputText;
  */
 public abstract class SimpleHeaderColumn extends Column {
 
-	HtmlOutputText header;
+	private HtmlOutputText header;
 
 	public void setHeader(final HtmlOutputText header) {
 

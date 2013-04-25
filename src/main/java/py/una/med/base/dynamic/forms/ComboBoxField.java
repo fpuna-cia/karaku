@@ -40,7 +40,7 @@ public class ComboBoxField<T> extends LabelField {
 	 */
 	public static final String TYPE = "py.una.med.base.dynamic.forms.ComboBoxField";
 
-	SIGHConverterV2 converter;
+	private SIGHConverterV2 converter;
 	private HtmlSelectOneMenu bind;
 	private ValueChangeListener changeListener;
 	private List<String> toRender;

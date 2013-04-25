@@ -33,11 +33,11 @@ public abstract class Column {
 
 	public static final String defaultValueExpression = "#{item.ATTRIBUTE}";
 	public static final String defaultI8NExpression = "#{msg['KEY']}";
-	UIColumn bind;
-	UIComponent body;
-	UIComponent header;
-	ELHelper elHelper;
-	boolean builded;
+	private UIColumn bind;
+	private UIComponent body;
+	private UIComponent header;
+	protected ELHelper elHelper;
+	private boolean builded;
 
 	public Column() {
 

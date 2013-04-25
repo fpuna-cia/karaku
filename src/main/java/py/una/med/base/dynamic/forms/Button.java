@@ -19,7 +19,7 @@ import py.una.med.base.util.ELHelper;
  */
 public class Button extends Field {
 
-	HtmlCommandButton bind;
+	private HtmlCommandButton bind;
 
 	/**
 	 * Crea una nueva instancia con un botón sin acciones

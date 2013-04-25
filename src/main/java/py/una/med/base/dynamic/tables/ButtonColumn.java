@@ -6,6 +6,7 @@ package py.una.med.base.dynamic.tables;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlCommandButton;
 import py.una.med.base.dynamic.forms.Button;
 
 /**
@@ -20,7 +21,7 @@ import py.una.med.base.dynamic.forms.Button;
  */
 public class ButtonColumn extends SimpleHeaderColumn {
 
-	List<Button> buttons;
+	private List<Button> buttons;
 
 	public ButtonColumn() {
 

@@ -30,8 +30,8 @@ import py.una.med.base.util.ELHelper;
 public class SIGHSetPropertyActionListener implements ActionListener,
 		StateHolder {
 
-	ValueExpression source;
-	ValueExpression target;
+	private ValueExpression source;
+	private ValueExpression target;
 	private boolean isTransient;
 
 	public SIGHSetPropertyActionListener() {

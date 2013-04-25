@@ -57,7 +57,7 @@ public class TextField extends LabelField {
 	/**
 	 * Tipo de este componente
 	 */
-	public static String TYPE = "py.una.med.base.dynamic.forms.TextField";
+	private static final String TYPE = "py.una.med.base.dynamic.forms.TextField";
 
 	/*
 	 * (non-Javadoc)
