@@ -22,7 +22,7 @@ import py.una.med.base.dao.where.Or;
  */
 public class RestrictionHelper<T> {
 
-	Map<String, String> alias;
+	private Map<String, String> alias;
 
 	/**
 	 * Agrega todas las restriciones a la criteria, si encuentra expresiones del

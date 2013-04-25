@@ -60,17 +60,17 @@ import py.una.med.base.dao.util.MainInstanceHelper;
 public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 		BaseDAO<T, ID> {
 
-	SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 
 	@Autowired
-	EntityManager em;
+	private EntityManager em;
 
 	@Autowired
-	CaseSensitiveHelper sensitiveHelper;
+	private CaseSensitiveHelper sensitiveHelper;
 
-	Logger logger = LoggerFactory.getLogger(BaseDAOImpl.class);
+	private Logger logger = LoggerFactory.getLogger(BaseDAOImpl.class);
 
-	Class<T> clazz;
+	private Class<T> clazz;
 
 	private RestrictionHelper<T> helper;
 

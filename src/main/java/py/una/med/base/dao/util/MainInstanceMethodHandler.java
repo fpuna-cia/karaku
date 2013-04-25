@@ -21,17 +21,17 @@ import py.una.med.base.dao.annotations.MainInstance;
  */
 public class MainInstanceMethodHandler<T> implements MethodHandler {
 
-	boolean consulted;
+	private boolean consulted;
 
-	Session session;
+	private Session session;
 
-	T embedded;
+	private T embedded;
 
 	private final String hql;
 
-	MainInstance principal;
+	private MainInstance principal;
 
-	Class<T> clazz;
+	private Class<T> clazz;
 
 	private final Object entity;
 

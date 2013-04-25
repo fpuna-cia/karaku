@@ -18,27 +18,30 @@ public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
 		BaseDAO<T, ID> {
 
 	@PersistenceContext(name = "primary")
-	EntityManager entityManager;
+	private EntityManager entityManager;
 
 	@PersistenceContext(name = "primary")
-	EntityManager persisteContext;
+	private EntityManager persisteContext;
 
-	Class<T> clazz;
+	private Class<T> clazz;
 
-	SearchParamJPAHelper<T> helper = new SearchParamJPAHelper<T>();
+	private SearchParamJPAHelper<T> helper = new SearchParamJPAHelper<T>();
 
 	private Class<T> clazzT;
 
+	@Override
 	public EntityManager getEntityManager() {
 
 		return entityManager;
 	}
 
+	@Override
 	public T getById(ID id) {
 
 		return getEntityManager().find(getClassOfT(), id);
 	}
 
+	@Override
 	public T getByExample(T example) {
 
 		return null;
@@ -63,12 +66,14 @@ public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
 		return null;
 	}
 
+	@Override
 	public T update(T entity) {
 
 		getEntityManager().merge(entity);
 		return entity;
 	}
 
+	@Override
 	public T add(T entity) {
 
 		try {
@@ -80,17 +85,20 @@ public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
 		return entity;
 	}
 
+	@Override
 	public void remove(T entity) {
 
 		getEntityManager().remove(update(entity));
 
 	}
 
+	@Override
 	public void remove(ID id) {
 
 		getEntityManager().refresh(getById(id));
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Class<T> getClassOfT() {
 
@@ -102,6 +110,7 @@ public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
 		return clazzT;
 	}
 
+	@Override
 	public String getTableName() {
 
 		Class<T> clase = getClassOfT();

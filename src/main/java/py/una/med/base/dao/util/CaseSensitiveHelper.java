@@ -21,7 +21,7 @@ import py.una.med.base.dao.annotations.CaseSensitive;
 public class CaseSensitiveHelper {
 
 	@Autowired
-	LanguageBean languageBean;
+	private LanguageBean languageBean;
 
 	/**
 	 * Analiza una entidad pasada como parámetro y convierte todas las cadenas a

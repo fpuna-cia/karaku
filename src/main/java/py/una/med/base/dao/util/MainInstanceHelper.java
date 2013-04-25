@@ -87,7 +87,7 @@ public class MainInstanceHelper {
 		return sb.toString();
 	}
 
-	int c = 0;
+	private int c = 0;
 
 	/**
 	 * Método principal que maneja la creación de instancias principales, se

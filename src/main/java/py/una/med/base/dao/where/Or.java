@@ -16,7 +16,7 @@ import org.hibernate.criterion.Restrictions;
  */
 public class Or implements Clause {
 
-	Clause[] clauses;
+	private Clause[] clauses;
 
 	public Or(Clause[] clauses) {
 

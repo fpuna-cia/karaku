@@ -23,7 +23,7 @@ import py.una.med.base.dao.annotations.MainInstance;
  */
 public class MainInstanceFieldHelper {
 
-	public static Map<Class<?>, List<Field>> fields;
+	private static Map<Class<?>, List<Field>> fields;
 
 	private static <T> List<Field> generateAndCreateFields(final Class<T> clazz) {
 

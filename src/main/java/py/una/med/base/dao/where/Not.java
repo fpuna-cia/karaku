@@ -5,7 +5,7 @@ import org.hibernate.criterion.Restrictions;
 
 public class Not implements Clause {
 
-	Clause clause;
+	private Clause clause;
 
 	public Not(Clause clause) {
 
