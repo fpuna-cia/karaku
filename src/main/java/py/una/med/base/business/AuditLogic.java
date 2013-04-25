@@ -27,10 +27,10 @@ public class AuditLogic extends SIGHBaseLogic<AuditTrail, Integer> implements
 		IAuditLogic {
 
 	@Autowired
-	IAuditTrailDao dao;
+	private IAuditTrailDao dao;
 
 	@Autowired
-	IAuditTrailDetailDao detailDao;
+	private IAuditTrailDetailDao detailDao;
 
 	@Override
 	public ISIGHBaseDao<AuditTrail, Integer> getDao() {

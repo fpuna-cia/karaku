@@ -23,9 +23,9 @@ import py.una.med.base.util.ELParser;
 public class SIGHEntityFilterHandler {
 
 	@Autowired
-	SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 
-	ExpressionParser parser;
+	private ExpressionParser parser;
 
 	@PostConstruct
 	public void init() {

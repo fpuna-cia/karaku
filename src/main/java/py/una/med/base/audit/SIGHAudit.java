@@ -36,10 +36,10 @@ import py.una.med.base.domain.AuditTrailDetail;
 @Service
 public class SIGHAudit {
 
-	Logger log = LoggerFactory.getLogger(SIGHAudit.class);
+	private Logger log = LoggerFactory.getLogger(SIGHAudit.class);
 
 	@Autowired
-	IAuditLogic logic;
+	private IAuditLogic logic;
 
 	/**
 	 * Metodo que se encarga de extraer los parametros del metodo llamado, como
