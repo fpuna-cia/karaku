@@ -113,7 +113,7 @@ public class I18nHelper {
 
 	public static String getName(DisplayName displayName) {
 
-		if ("".equals(displayName))
+		if ("".equals(displayName.toString()))
 			return "";
 		return getMessage(displayName.key().substring(1,
 				displayName.key().length() - 1));
