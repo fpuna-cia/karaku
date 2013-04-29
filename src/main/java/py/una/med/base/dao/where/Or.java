@@ -21,7 +21,7 @@ public class Or implements Clause {
 	public Or(Clause[] clauses) {
 
 		super();
-		this.clauses = clauses;
+		this.clauses = clauses.clone();
 	}
 
 	public Clause[] getClauses() {

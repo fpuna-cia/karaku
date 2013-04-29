@@ -87,7 +87,7 @@ public class SelectHelper {
 
 		public ArrayIterator(SelectItem items[]) {
 
-			this.items = items;
+			this.items = items.clone();
 		}
 
 		private SelectItem items[];
