@@ -16,7 +16,7 @@ import javax.faces.component.UINamingContainer;
 @SuppressWarnings("deprecation")
 public class Time extends UINamingContainer {
 
-	Date date;
+	private Date date;
 
 	private Date getDate() {
 

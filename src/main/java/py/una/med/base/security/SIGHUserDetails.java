@@ -34,7 +34,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class SIGHUserDetails implements Serializable, UserDetails {
 
-	static Logger logger = LoggerFactory.getLogger(SIGHUserDetails.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(SIGHUserDetails.class);
 
 	private static final long serialVersionUID = 1L;
 
