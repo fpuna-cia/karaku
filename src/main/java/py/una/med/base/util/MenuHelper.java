@@ -240,10 +240,10 @@ public class MenuHelper {
 			System.out
 					.println("Ingrese un permiso, empieze con - para terminar");
 			per = br.readLine();
-			if (!per.startsWith("-")) {
+			if (per != null && !per.startsWith("-")) {
 				aRet.addPermission(per);
 			}
-		} while (!per.startsWith("-"));
+		} while (per != null && !per.startsWith("-"));
 		System.out.println("Ingrese un padre: ");
 		do {
 			try {
