@@ -58,9 +58,19 @@ public class I18nHelper {
 
 	private static List<ResourceBundle> getBundles() {
 
-		if (bundles != null)
+		if (bundles != null) {
 			return bundles;
+		} else {
+			initializeBundles();
+		}
+		return bundles;
+	}
 
+	private synchronized static void initializeBundles() {
+
+		if (bundles != null) {
+			return;
+		}
 		bundles = new ArrayList<ResourceBundle>();
 		List<String> bundlesLocation = getBundlesLocation();
 		for (String bundle : bundlesLocation) {
@@ -71,7 +81,6 @@ public class I18nHelper {
 			ResourceBundle toAdd = ResourceBundle.getBundle(bundle, locale);
 			bundles.add(toAdd);
 		}
-		return bundles;
 	}
 
 	private static String findInBundles(String key) throws KeyNotFoundException {
