@@ -108,15 +108,16 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 		// obtiene el stackTrace
 		StackTraceElement stackTrace[] = t.getStackTrace();
 
-		StringBuffer buf = new StringBuffer();
-		buf.append(t.getMessage() + "" + ". Stack Trace: \n\t\t\t\t");
+		StringBuilder buf = new StringBuilder();
+		buf.append(t.getMessage());
+		buf.append(". Stack Trace: \n\t\t\t\t");
 		for (StackTraceElement stackTraceElement : stackTrace) {
-			buf.append(stackTraceElement.toString() + "\n\t\t\t\t");
+			buf.append(stackTraceElement.toString());
+			buf.append("\n\t\t\t\t");
 		}
 
 		String temp = buf.toString();
 
 		logger.error(temp);
 	}
-
 }

@@ -158,9 +158,10 @@ public class StringUtils {
 
 	public static String pluralize(final List<String> terms) {
 
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		for (String term : terms) {
-			buf.append(pluralize(term) + " ");
+			buf.append(pluralize(term));
+			buf.append(" ");
 		}
 		return buf.toString();
 	}
