@@ -24,7 +24,7 @@ public class ValidationConstants {
 	private static final String uc_nasal = "ÃẼĨÕŨỸÄËÏÖÜŸÂÊÎÔÛŶ";
 	private static final String nasal = lc_nasal + uc_nasal;
 
-	private static final String special = "\\s\\(\\),\\.\\+\\-\\*\\$\\/\\\\";
+	private static final String special = "\\(\\),\\.\\+\\-\\*\\$\\/\\\\";
 
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní (incluído el ')
@@ -57,6 +57,12 @@ public class ValidationConstants {
 	 * minúsculas
 	 */
 	public static final String WORDS = "[a-zA-ZñÑ" + grave + " ]*";
+
+	/**
+	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
+	 * minúsculas sin espacios
+	 */
+	public static final String WORD = "[a-zA-ZñÑ" + grave + "]*";
 	/**
 	 * Expresión que admite caracteres del castellano sólo en mayúsculas
 	 */
@@ -73,6 +79,13 @@ public class ValidationConstants {
 	 */
 	public static final String WORDS_SPE = "[a-zA-ZñÑ" + grave + special
 			+ " ]*";
+	/**
+	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
+	 * minúsculas (sin espacios)además de caracteres especiales como por ejemplo
+	 * [ <code>, . + - * $ / \</code>]
+	 * 
+	 */
+	public static final String WORD_SPE = "[a-zA-ZñÑ" + grave + special + "]*";
 
 	/**
 	 * Expresión que admite una cantidad arbitraria de dígitos
