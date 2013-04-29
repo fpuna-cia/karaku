@@ -28,7 +28,12 @@ public abstract class Field {
 	 */
 	public Field() {
 
-		id = getClass().getSimpleName() + idCounter++ + "";
+		id = getClass().getSimpleName() + getNewId();
+	}
+
+	private static String getNewId() {
+
+		return String.valueOf(idCounter++);
 	}
 
 	private String id;
