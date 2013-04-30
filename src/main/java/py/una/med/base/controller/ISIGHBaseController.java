@@ -12,6 +12,7 @@ import javax.faces.model.SelectItem;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.controller.SIGHBaseController.Mode;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.reports.Column;
 import py.una.med.base.util.PagingHelper;
 
@@ -190,4 +191,13 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	public String getCreatePermission();
 
 	public String getEditPermission();
+	
+	/**
+	 * Metodo vacio que debe ser implementado en la clase que desea definir
+	 * alguna configuración especial en la obtención de valores desde la base de
+	 * datos 
+	 * 
+	 * @param sp parametro de busqueda definido en el paginHelper y a aser confirgurado
+	 */
+	public void configureSearchParam(ISearchParam sp);
 }
