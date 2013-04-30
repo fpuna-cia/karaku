@@ -32,13 +32,14 @@ public class SIGHSecurity {
 
 		String permission = annotation.value();
 		if (StringUtils.isInvalid(permission)) {
-			// LANZAR UNA EXCEPCION O ALGO
+			throw new AccessDeniedException(String.format(
+					"Permission invalid %s", permission));
 		}
 
 		Object target = joinPoint.getTarget();
 
-		if (target instanceof ISIGHBaseController) {
-			// LANZAR OTRA VEZ
+		if (!(target instanceof ISIGHBaseController)) {
+			throw new AccessDeniedException(String.format("Controller invalid"));
 		}
 
 		ISIGHBaseController controller = (ISIGHBaseController) target;
