@@ -60,6 +60,7 @@ public class MenuBean {
 		menupanel.setTopGroupExpandedRightIcon("chevronUp");
 		menupanel.setTopGroupCollapsedRightIcon("chevronDown");
 		menupanel.setItemLeftIcon("disc");
+		menupanel.setStyleClass("menu");
 		menupanel.getChildren().clear();
 		menupanel.getChildren().addAll(buildMenu());
 		return menupanel;

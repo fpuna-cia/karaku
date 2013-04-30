@@ -165,3 +165,9 @@ input[type="text"] {
     border: none;
     padding: 0em;
  }
+ 
+.menu {/*Permite que el menu salga alineado*/
+	min-width: 190px;
+	width: 190px;
+	max-width: 190px;
+}
