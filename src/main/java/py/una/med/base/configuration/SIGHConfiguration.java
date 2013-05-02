@@ -4,6 +4,7 @@
 package py.una.med.base.configuration;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -58,11 +60,13 @@ public class SIGHConfiguration {
 	 * Construye una instancia de {@link Menus}.
 	 * 
 	 * @return nueva instancia de Menus
+	 * @throws IOException
+	 * @throws JAXBException
 	 * @throws Exception
 	 *             imposible leer archivo
 	 */
 	@Bean
-	public Menus getMenu() throws Exception {
+	public Menus getMenu() throws IOException, JAXBException {
 
 		// XXX mejorar mexclar arboles
 		Menus toRet = new Menus();

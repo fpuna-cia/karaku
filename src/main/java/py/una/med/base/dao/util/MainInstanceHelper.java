@@ -6,6 +6,7 @@
 package py.una.med.base.dao.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -112,7 +113,8 @@ public class MainInstanceHelper {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <T> List<T> configureAndReturnList(final Session session,
 			final Criteria criteria, final Class<T> clase,
-			final Map<String, String> alias) throws Exception {
+			final Map<String, String> alias) throws IllegalArgumentException,
+			IllegalAccessException {
 
 		List<Field> fields = MainInstanceFieldHelper
 				.getMainInstanceFields(clase);
@@ -200,10 +202,15 @@ public class MainInstanceHelper {
 	 *            Session hibernate durante la cual tendrá sentido el proxy
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws InstantiationException
+	 * @throws NoSuchMethodException
 	 * @throws Exception
 	 */
 	public void help(final Object entity, final Session session)
-			throws Exception {
+			throws IllegalArgumentException, IllegalAccessException,
+			NoSuchMethodException, InstantiationException,
+			InvocationTargetException {
 
 		if (entity == null) {
 			return;
@@ -224,10 +231,17 @@ public class MainInstanceHelper {
 	 * 
 	 * @param entities
 	 * @param session
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 * @throws InstantiationException
+	 * @throws NoSuchMethodException
 	 * @throws Exception
 	 */
 	public void helpList(final List<?> entities, final Session session)
-			throws Exception {
+			throws IllegalArgumentException, IllegalAccessException,
+			NoSuchMethodException, InstantiationException,
+			InvocationTargetException {
 
 		if ((entities == null) || (entities.size() == 0)) {
 			return;
@@ -247,7 +261,9 @@ public class MainInstanceHelper {
 
 	private <T> T newInstance(final Object entity, final Session em,
 			final MainInstance principal, final Class<T> fieldType)
-			throws Exception {
+			throws NoSuchMethodException, IllegalArgumentException,
+			InstantiationException, IllegalAccessException,
+			InvocationTargetException {
 
 		ProxyFactory factory = new ProxyFactory();
 		factory.setSuperclass(fieldType);

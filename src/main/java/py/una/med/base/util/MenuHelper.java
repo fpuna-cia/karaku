@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import py.una.med.base.domain.Menu;
@@ -26,34 +27,44 @@ public class MenuHelper {
 	private static Unmarshaller um;
 	private static BufferedReader br;
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 
 		br = new BufferedReader(new InputStreamReader(System.in));
-		context = JAXBContext.newInstance(Menus.class);
-		m = context.createMarshaller();
+		try {
+			context = JAXBContext.newInstance(Menus.class);
+			m = context.createMarshaller();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
 		actualizarWriter();
 		int opcionPrincipal;
 		do {
 			opcionPrincipal = menuPrincipal(br);
-			switch (opcionPrincipal) {
-				case 1:
-					crear(br);
-					break;
-				case 2:
-					imprimir(br);
-					break;
-				case 3:
-					modificar(br, actual);
-					break;
-				case 4:
-					cambiarMenu(br);
-					break;
+			try {
+				switch (opcionPrincipal) {
+					case 1:
+						crear(br);
+						break;
+					case 2:
+						imprimir(br);
+						break;
+					case 3:
+						modificar(br, actual);
+						break;
+					case 4:
+						cambiarMenu(br);
+						break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
 		} while (opcionPrincipal != -2);
 	}
 
 	private static void modificar(BufferedReader br, Menus menus)
-			throws Exception {
+			throws IOException, JAXBException {
 
 		int opcionCrear;
 		do {
@@ -176,13 +187,14 @@ public class MenuHelper {
 		return aDel;
 	}
 
-	private static void imprimir(BufferedReader br) throws Exception {
+	private static void imprimir(BufferedReader br) throws JAXBException {
 
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		m.marshal(actual, System.out);
 	}
 
-	private static void crear(BufferedReader br) throws Exception {
+	private static void crear(BufferedReader br) throws IOException,
+			JAXBException {
 
 		Menus menus = new Menus();
 		modificar(br, menus);
