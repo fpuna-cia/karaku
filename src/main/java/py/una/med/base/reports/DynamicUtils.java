@@ -29,7 +29,12 @@ import ar.com.fdvs.dj.domain.constants.VerticalAlign;
  * @since 1.0
  * @version 1.5 19/03/2013
  */
-public class DynamicUtils {
+public final class DynamicUtils {
+
+	private DynamicUtils() {
+
+		// No-op
+	}
 
 	/**
 	 * Ubicacion del template base dentro de la aplicacion.

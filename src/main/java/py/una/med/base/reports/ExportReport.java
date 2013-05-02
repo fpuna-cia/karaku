@@ -31,7 +31,12 @@ import ar.com.fdvs.dj.domain.DynamicReport;
  * @since 1.0
  * @version 1.4 07/03/2013
  */
-public class ExportReport {
+public final class ExportReport {
+
+	private ExportReport() {
+
+		// No-op
+	}
 
 	private static final String FILE_LOCATION_TEMPLATE = "report/base/";
 	private static final String FILE_LOCATION = "report/";

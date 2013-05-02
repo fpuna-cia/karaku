@@ -32,7 +32,12 @@ import org.richfaces.component.behavior.ComponentControlBehavior;
  * 
  */
 
-public class SIGHComponentFactory {
+public final class SIGHComponentFactory {
+
+	private SIGHComponentFactory() {
+
+		// No-op
+	}
 
 	public static HtmlSelectOneMenu getNewSelectOneMenu() {
 
