@@ -6,7 +6,12 @@ import javax.persistence.OneToOne;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 
-public class ExampleHelper {
+public final class ExampleHelper {
+
+	private ExampleHelper() {
+
+		// No-op
+	}
 
 	public static <T> void addRelations(T example, Criteria criteria) {
 

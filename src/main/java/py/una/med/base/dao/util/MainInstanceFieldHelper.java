@@ -21,7 +21,12 @@ import py.una.med.base.dao.annotations.MainInstance;
  * @version 1.0 Feb 14, 2013
  * 
  */
-public class MainInstanceFieldHelper {
+public final class MainInstanceFieldHelper {
+
+	private MainInstanceFieldHelper() {
+
+		// No-op
+	}
 
 	private static Map<Class<?>, List<Field>> fields;
 

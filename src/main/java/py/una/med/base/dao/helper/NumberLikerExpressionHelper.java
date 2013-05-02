@@ -2,7 +2,6 @@ package py.una.med.base.dao.helper;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import py.una.med.base.dao.restrictions.NumberLike;
@@ -16,7 +15,12 @@ import py.una.med.base.dao.restrictions.NumberLike;
  * @version 1.1 08/02/2013
  * 
  */
-public class NumberLikerExpressionHelper {
+public final class NumberLikerExpressionHelper {
+
+	private NumberLikerExpressionHelper() {
+
+		// No-op
+	}
 
 	public static Map<String, String> applyNestedCriteria(Criteria criteria,
 			NumberLike likeExpression, Map<String, String> aliases) {

@@ -5,7 +5,12 @@ import java.lang.reflect.Modifier;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-public class Util {
+public final class Util {
+
+	private Util() {
+
+		// No-op
+	}
 
 	public static boolean isUsable(Field f) {
 

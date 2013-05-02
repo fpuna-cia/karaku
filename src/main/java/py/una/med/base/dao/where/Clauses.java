@@ -11,7 +11,12 @@ import py.una.med.base.dao.restrictions.NumberLike;
  * @version 1.1 08/02/2013
  * 
  */
-public class Clauses {
+public final class Clauses {
+
+	private Clauses() {
+
+		// No-op
+	}
 
 	public static Clause iLike(final String path, final Object object) {
 

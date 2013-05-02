@@ -21,7 +21,12 @@ import py.una.med.base.dao.where.Or;
  * @version 1.0 12/03/2013
  * 
  */
-public class OrExpressionHelper {
+public final class OrExpressionHelper {
+
+	private OrExpressionHelper() {
+
+		// No-op
+	}
 
 	public static Map<String, String> applyNestedCriteria(Criteria criteria,
 			Or or, Map<String, String> aliases) {
