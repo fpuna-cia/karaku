@@ -174,18 +174,6 @@ public abstract class SIGHBaseEmbeddableController<T, ID extends Serializable>
 	}
 
 	@Override
-	public String preEdit() {
-
-		return super.preEdit();
-	}
-
-	@Override
-	public String preCreate() {
-
-		return super.preCreate();
-	}
-
-	@Override
 	public abstract String goEdit();
 
 	@Override

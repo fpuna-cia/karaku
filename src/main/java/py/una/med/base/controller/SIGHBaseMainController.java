@@ -110,12 +110,6 @@ public abstract class SIGHBaseMainController<T, ID extends Serializable>
 	}
 
 	@Override
-	public String preList() {
-
-		return super.preList();
-	}
-
-	@Override
 	@HasRole(SIGHSecurity.DEFAULT_EDIT)
 	public String preEdit() {
 
