@@ -11,11 +11,10 @@ import org.hibernate.criterion.Restrictions;
 
 public class LikeExpressionHelper {
 
-	protected LikeExpressionHelper() {
-
+	private LikeExpressionHelper() {
 		// No-op
 	}
-
+	
 	public static Map<String, String> applyNestedCriteria(Criteria criteria,
 			LikeExpression likeExpression, Map<String, String> aliases) {
 
