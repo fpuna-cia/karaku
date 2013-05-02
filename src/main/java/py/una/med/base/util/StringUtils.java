@@ -13,7 +13,12 @@ import java.util.List;
  * @version 1.1 08/02/2013
  * 
  */
-public class StringUtils {
+public final class StringUtils {
+
+	private StringUtils() {
+
+		// No-op
+	}
 
 	private static List<Character> Vocales = Arrays.asList('a', 'e', 'i', 'o',
 			'u', 'A', 'E', 'I', 'O', 'U');

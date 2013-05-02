@@ -1,6 +1,12 @@
 package py.una.med.base.util;
 
-public class Serializer {
+public final class Serializer {
+
+	private Serializer() {
+
+		// No-op
+	}
+
 	/**
 	 * Dado un stringBuilder, un key y un value retorna el sb concatenado con el
 	 * key, seguido de dos puntos y finalizado con ;<br>
@@ -18,6 +24,7 @@ public class Serializer {
 	 */
 	public static StringBuilder contruct(StringBuilder sb, String key,
 			String value) {
+
 		if (sb.length() > 0) {
 			sb.append("; ");
 		}

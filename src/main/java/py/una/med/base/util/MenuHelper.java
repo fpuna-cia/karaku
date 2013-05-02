@@ -14,7 +14,12 @@ import javax.xml.bind.Unmarshaller;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.domain.Menu.Menus;
 
-public class MenuHelper {
+public final class MenuHelper {
+
+	private MenuHelper() {
+
+		// No-op
+	}
 
 	private static final String BASE_MENU = "src/main/resources/menu.xml";
 	private static String menuActual = BASE_MENU;

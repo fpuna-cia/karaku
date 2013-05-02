@@ -11,7 +11,12 @@ import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 
-public class SelectHelper {
+public final class SelectHelper {
+
+	private SelectHelper() {
+
+		// No-op
+	}
 
 	public static <T> List<SelectItem> getSelectItems(Collection<T> items,
 			LabelProvider<T> labelProvider) {

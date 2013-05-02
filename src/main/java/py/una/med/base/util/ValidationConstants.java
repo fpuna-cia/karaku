@@ -14,7 +14,12 @@ package py.una.med.base.util;
  * @version 1.0 Feb 28, 2013
  * 
  */
-public class ValidationConstants {
+public final class ValidationConstants {
+
+	private ValidationConstants() {
+
+		// No-op
+	}
 
 	private static final String lc_grave = "áéíóú";
 	private static final String uc_grave = "ÁÉÍÓÚ";

@@ -21,7 +21,12 @@ package py.una.med.base.util;
  * @version 2.0 19/02/2013
  * 
  */
-public class ELParser {
+public final class ELParser {
+
+	private ELParser() {
+
+		// No-op
+	}
 
 	/**
 	 * Separador que se utiliza para partir expresiones

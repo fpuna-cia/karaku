@@ -17,7 +17,12 @@ import java.util.List;
  * @version 1.0 08/03/2013
  * 
  */
-public class ListHelper {
+public final class ListHelper {
+
+	private ListHelper() {
+
+		// No-op
+	}
 
 	/**
 	 * Retorna un ArrayList de items, es lo mismo que
