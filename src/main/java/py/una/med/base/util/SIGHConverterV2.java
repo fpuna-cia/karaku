@@ -21,10 +21,10 @@ public class SIGHConverterV2 implements Converter {
 			Object object) {
 
 		if (context == null) {
-			throw new NullPointerException("context");
+			throw new IllegalArgumentException("context");
 		}
 		if (component == null) {
-			throw new NullPointerException("component");
+			throw new IllegalArgumentException("component");
 		}
 		if (object == null) {
 			return "";

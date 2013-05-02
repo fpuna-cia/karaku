@@ -23,10 +23,10 @@ public class SIGHConverter<T, ID extends Serializable> implements Converter {
 			final UIComponent component, final Object object) {
 
 		if (context == null) {
-			throw new NullPointerException("context");
+			throw new IllegalArgumentException("context");
 		}
 		if (component == null) {
-			throw new NullPointerException("component");
+			throw new IllegalArgumentException("component");
 		}
 		if (object == null) {
 			return "";

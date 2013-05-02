@@ -117,7 +117,7 @@ public class PickerField<T> extends LabelField {
 	public void setListHelper(final SIGHListHelper<T, Long> listHelper) {
 
 		if (listHelper == null) {
-			throw new NullPointerException("List Helper can be null");
+			throw new IllegalArgumentException("keyListener can be null");
 		}
 		this.listHelper = listHelper;
 	}
@@ -165,7 +165,7 @@ public class PickerField<T> extends LabelField {
 	public void setKeyListener(final KeyListener keyListener) {
 
 		if (keyListener == null) {
-			throw new NullPointerException("keyListener can be null");
+			throw new IllegalArgumentException("keyListener can be null");
 		}
 		setHasCodeInput(true);
 		this.keyListener = keyListener;
@@ -211,7 +211,7 @@ public class PickerField<T> extends LabelField {
 		}
 		FacesContext fc = FacesContext.getCurrentInstance();
 		if (codeExpression == null) {
-			throw new NullPointerException("Code Expression not set, "
+			throw new IllegalArgumentException("Code Expression not set, "
 					+ "set one with PickerField#setCodeExpression(expression))");
 		}
 		System.out.println("Retornando:"

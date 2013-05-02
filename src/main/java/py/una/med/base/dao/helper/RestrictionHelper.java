@@ -45,7 +45,7 @@ public class RestrictionHelper<T> {
 			final Where<T> where, Map<String, String> alias) {
 
 		if (alias == null) {
-			throw new NullPointerException("Alias can't be null");
+			throw new IllegalArgumentException("Alias can't be null");
 		}
 		if ((where == null)
 				|| (where.getCriterions() == null && where.getClauses() == null)) {
