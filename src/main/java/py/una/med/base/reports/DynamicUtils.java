@@ -34,9 +34,9 @@ public class DynamicUtils {
 	/**
 	 * Ubicacion del template base dentro de la aplicacion.
 	 */
-	private static String FILE_PORTRAIT_LOCATION = "report/base/PageBaseReportPortrait.jrxml";
-	private static String FILE_LOCATION = "report/";
-	private static String FILE_LANDSCAPE_LOCATION = "report/base/PageBaseReportLandscape.jrxml";
+	private static final String FILE_PORTRAIT_LOCATION = "report/base/PageBaseReportPortrait.jrxml";
+	private static final String FILE_LOCATION = "report/";
+	private static final String FILE_LANDSCAPE_LOCATION = "report/base/PageBaseReportLandscape.jrxml";
 
 	/**
 	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template

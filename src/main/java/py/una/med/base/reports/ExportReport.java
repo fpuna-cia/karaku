@@ -33,12 +33,12 @@ import ar.com.fdvs.dj.domain.DynamicReport;
  */
 public class ExportReport {
 
-	private static String FILE_LOCATION_TEMPLATE = "report/base/";
-	private static String FILE_LOCATION = "report/";
-	private static String EXPORT_TYPE_EXCEL = "xls";
-	private static String EXPORT_TYPE_PDF = "pdf";
-	private static String MEDIA_TYPE_EXCEL = "application/vnd.ms-excel";
-	private static String MEDIA_TYPE_PDF = "application/pdf";
+	private static final String FILE_LOCATION_TEMPLATE = "report/base/";
+	private static final String FILE_LOCATION = "report/";
+	private static final String EXPORT_TYPE_EXCEL = "xls";
+	private static final String EXPORT_TYPE_PDF = "pdf";
+	private static final String MEDIA_TYPE_EXCEL = "application/vnd.ms-excel";
+	private static final String MEDIA_TYPE_PDF = "application/pdf";
 
 	/**
 	 * Obtiene los parametros genericos para los reportes simples<br>
