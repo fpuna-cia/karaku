@@ -1,3 +1,7 @@
+/**
+ * @PagingHelper 1.0 03/05/13. Sistema Integral de Gestión Hospitalaria
+ */
+
 package py.una.med.base.util;
 
 import java.io.Serializable;
@@ -5,21 +9,40 @@ import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.search.SearchParam;
-import py.una.med.base.dao.util.EntityExample;
 
+/**
+ * Clase que se encarga de la paginación de las tablas
+ * 
+ * @author Arturo Volpe
+ * @author Uriel Gonzalez
+ * @since 1.0
+ * @version 1.0 03/05/2013
+ * 
+ */
 public class PagingHelper<T, ID extends Serializable> {
 
 	private int rowsForPage = 10;
 	private int page = 0;
-	private T example;
 	private Long currentCount;
-	private Long totalCount;
 
+	/**
+	 * Inicializa un nueva instancia, el punto de entrada de esta clase es
+	 * {@link #calculate(ISIGHBaseLogic, Where)}, y para obtener los resultados
+	 * utilizar {@link #getISearchparam()}
+	 * 
+	 * @param rowsForPage
+	 *            cantidad de filas por página
+	 */
 	public PagingHelper(int rowsForPage) {
 
 		this.rowsForPage = rowsForPage;
 	}
 
+	/**
+	 * Retorna un {@link ISearchParam} configurado con la paginación actual
+	 * 
+	 * @return
+	 */
 	public ISearchParam getISearchparam() {
 
 		SearchParam sp = new SearchParam();
@@ -28,10 +51,10 @@ public class PagingHelper<T, ID extends Serializable> {
 		return sp;
 	}
 
+	/**
+	 * Avanza una página
+	 */
 	public void next() {
-
-		// TODO controlar que al llegar a la última pagina se deshabilite el
-		// boton siguiente
 
 		if (page + 1 > getMaxPage(currentCount)) {
 			return;
@@ -39,27 +62,39 @@ public class PagingHelper<T, ID extends Serializable> {
 		this.page++;
 	}
 
-	public void goMaxPage() {
+	/**
+	 * Se mueve a la ultima página
+	 */
+	public void last() {
 
 		this.page = getMaxPage(currentCount) - 1;
 
 	}
 
-	public void goInitPage() {
+	/**
+	 * Se mueve a la primera página
+	 */
+	public void first() {
 
 		this.page = 0;
 	}
 
-	public void last() {
+	/**
+	 * Se mueve a la página anterior
+	 */
+	public void previous() {
 
-		// TODO controlar que al llegar a la primera pagina se deshabilite el
-		// boton atras
 		if (page > 0) {
 			this.page--;
 		}
 
 	}
 
+	/**
+	 * Retorna la página actual, es un valor entre 1 y MAX
+	 * 
+	 * @return página actual
+	 */
 	public int getPage() {
 
 		return page;
@@ -67,9 +102,19 @@ public class PagingHelper<T, ID extends Serializable> {
 
 	public void setPage(int page) {
 
+		if (page > getMaxPage()) {
+			throw new IllegalArgumentException(
+					"La página no debe ser mayor al limite");
+		}
 		this.page = page;
+
 	}
 
+	/**
+	 * Retorna
+	 * 
+	 * @return
+	 */
 	public String getFormattedPage() {
 
 		Long firstRecord = Long.valueOf(page * rowsForPage + 1);
@@ -83,17 +128,20 @@ public class PagingHelper<T, ID extends Serializable> {
 			limit = 0L;
 			firstRecord = 0L;
 		}
-		String formattedPage = firstRecord + "-" + limit + " de "
-				+ currentCount;
 
-		return formattedPage;
+		return String.format("%d - %d de %d", firstRecord, limit, currentCount);
+	}
+
+	private int getMaxPage() {
+
+		return getMaxPage(currentCount);
 	}
 
 	private int getMaxPage(Long count) {
 
 		// TODO cambiar la forma de redondear hacia arriba, usar ceil
 
-		double total = totalCount;
+		double total = currentCount;
 		double rowForPage = rowsForPage;
 		int maxPage = (int) (count / rowsForPage);
 
@@ -104,6 +152,12 @@ public class PagingHelper<T, ID extends Serializable> {
 		return maxPage;
 	}
 
+	/**
+	 * Verifica si se puede avanzar una página
+	 * 
+	 * @return <code>true</code> si se puede avanzar <code>false</code> en caso
+	 *         contrario
+	 */
 	public boolean hasNext() {
 
 		if (page + 1 == getMaxPage(currentCount)) {
@@ -113,7 +167,13 @@ public class PagingHelper<T, ID extends Serializable> {
 		}
 	}
 
-	public boolean hasLast() {
+	/**
+	 * Verifica si se puede volver atrás una página
+	 * 
+	 * @return <code>true</code> si no es la primera página, y
+	 *         <code>false</code> si es la primera página
+	 */
+	public boolean hasPrevious() {
 
 		if (page == 0) {
 			return false;
@@ -122,9 +182,27 @@ public class PagingHelper<T, ID extends Serializable> {
 		}
 	}
 
+	/**
+	 * Actualiza los valores de la paginación, este método es el punto de
+	 * entrada del {@link PagingHelper}, se debe llamar primero a este método
+	 * para que se calculen los limites de la consulta
+	 * 
+	 * <br>
+	 * Si la página actual es mayor a la máxima página con la configuración
+	 * actual, se vuelve a 0
+	 * 
+	 * @param logic
+	 *            lógica del caso de uso
+	 * @param where
+	 *            where configurado con los parámetros de búsqueda
+	 */
 	public void calculate(ISIGHBaseLogic<T, ID> logic, Where<T> where) {
 
-		currentCount = logic.getCountByExample(new EntityExample<T>(example));
-		totalCount = logic.getCount();
+		assert logic != null;
+		currentCount = logic.getCount(where);
+
+		if (page > getMaxPage(currentCount)) {
+			first();
+		}
 	}
 }

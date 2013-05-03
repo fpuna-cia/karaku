@@ -333,7 +333,8 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 			pagingHelper = new PagingHelper<T, ID>(getRowsForPage());
 		}
 
-		pagingHelper.calculate(getBaseLogic(), null);
+		pagingHelper.calculate(getBaseLogic(), getWhereReport());
+
 		ISearchParam sp = pagingHelper.getISearchparam();
 		configureSearchParam(sp);
 		if (getExample() != null) {
@@ -355,7 +356,10 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 	/**
 	 * Metodo a ser implementado para el caso específico.
 	 */
-	public void configureSearchParam(ISearchParam sp) {}
+	@Override
+	public void configureSearchParam(ISearchParam sp) {
+
+	}
 
 	public T getExample() {
 
@@ -502,18 +506,18 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 			mode = Mode.VIEW;
 		}
 		switch (mode) {
-		case VIEW:
-			return false;
-		case EDIT:
-			return true;
-		case NEW:
-			return true;
-		case DELETE:
-			return false;
-		case SEARCH:
-			return true;
-		default:
-			break;
+			case VIEW:
+				return false;
+			case EDIT:
+				return true;
+			case NEW:
+				return true;
+			case DELETE:
+				return false;
+			case SEARCH:
+				return true;
+			default:
+				break;
 		}
 		return true;
 	}

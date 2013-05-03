@@ -62,7 +62,7 @@
 		<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
 			switchType="client">
 			<sigh:basic_filter controller="#{cc.attrs.controller}"
-				searchRender="#{cc.attrs.idListEntities}, #{cc.attrs.controller.messageIdName}">
+				searchRender="#{cc.attrs.idListEntities}, #{cc.attrs.controller.messageIdName} idPagingPanel">
 				<a4j:commandButton value="#{msg['LIST_ADVANCED_SEARCH_BUTTON']}"
 					render="pgSearch"
 					actionListener="#{cc.attrs.controller.preSearch()}" execute="@this"
@@ -70,7 +70,7 @@
 					rendered="#{cc.attrs.withAdvancedSearch}" />
 				<a4j:commandButton value="#{msg['LIST_CLEAR']}"
 					action="#{cc.attrs.controller.clearFilters}"
-					render="@form,#{cc.attrs.idListEntities}, #{cc.attrs.controller.messageIdName}"
+					render="@form,#{cc.attrs.idListEntities}, #{cc.attrs.controller.messageIdName} idPagingPanel"
 					execute="@this" />
 			</sigh:basic_filter>
 		</rich:collapsiblePanel>
@@ -84,7 +84,7 @@
 				controller="#{cc.attrs.controller}"
 				deleteText="#{cc.attrs.deleteButtonName}"
 				withActions="#{cc.attrs.withRowActions}" width="100%"
-				deleteVisible="#{cc.attrs.withDeleteVisible}" 
+				deleteVisible="#{cc.attrs.withDeleteVisible}"
 				withExports="#{cc.attrs.withRowExports}">
 				<ui:include src="#{cc.attrs.urlColumns}" />
 			</sigh:dataTable>
@@ -115,14 +115,15 @@
 						alt="Exportar a pdf" style="width:20px;height:20px" />
 				</h:commandLink>
 			</h:panelGrid>
+
 			<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
-				render="#{cc.attrs.idListEntities}" />
+				idPanel="idPagingPanel" render="#{cc.attrs.idListEntities}" />
 		</h:panelGrid>
 	</h:form>
 	<c:if
 		test="#{cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 		<sigh:popup title="#{msg['BASE_FORM_SEARCH']}" popupId="puSearch">
-			<h:form id="nathonga_gordonga">
+			<h:form>
 				<rich:messages id="globalMessages" globalOnly="true" />
 				<h:panelGrid columns="3"
 					columnClasses="form_label,form_input,form_error" id="pgSearch">
@@ -131,7 +132,7 @@
 				<h:panelGrid columns="2">
 					<a4j:commandButton
 						actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
-						render="globalMessages, @form, #{cc.attrs.idListEntities}"
+						render="globalMessages, @form, #{cc.attrs.idListEntities} idPagingPanel"
 						immediate="true">
 
 					</a4j:commandButton>
