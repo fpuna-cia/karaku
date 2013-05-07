@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.ParseException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -89,25 +88,15 @@ public class SIGHAudit {
 		ExpressionParser parser = new SpelExpressionParser();
 		if (toAudit != null) {
 			for (String string : toAudit) {
-				try {
-
-					Expression exp = parser.parseExpression(string);
-					Object value = exp.getValue(object);
-					AuditTrailDetail detail = new AuditTrailDetail();
-					detail.setHeader(auditTrail);
-					detail.setValue((Serializable) value);
-					detail.setExpression(string);
-					details.add(detail);
-					System.out.println(string + ":" + value);
-					log.info("Audit", string + ":" + value);
-				} catch (ParseException e) {
-					log.error("Error al parsear", e);
-					throw new RuntimeException("Imposible parsear", e);
-				} catch (ClassCastException cce) {
-					log.error("Imposible serializar " + string, cce);
-					throw new RuntimeException(
-							"Imposible serializar " + string, cce);
-				}
+				Expression exp = parser.parseExpression(string);
+				Object value = exp.getValue(object);
+				AuditTrailDetail detail = new AuditTrailDetail();
+				detail.setHeader(auditTrail);
+				detail.setValue((Serializable) value);
+				detail.setExpression(string);
+				details.add(detail);
+				System.out.println(string + ":" + value);
+				log.info("Audit", string + ":" + value);
 			}
 		}
 

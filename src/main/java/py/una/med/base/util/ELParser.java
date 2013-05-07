@@ -53,7 +53,7 @@ public final class ELParser {
 			return Integer.parseInt(expression.substring(1,
 					expression.indexOf("}")));
 		} catch (Exception e) {
-			throw new RuntimeException(
+			throw new IllegalArgumentException(
 					"Los parametros deben tener formato {NUMBER}");
 		}
 	}

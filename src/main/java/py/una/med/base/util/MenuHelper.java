@@ -213,9 +213,9 @@ public final class MenuHelper {
 			if (!f.exists()) {
 				f.createNewFile();
 			} else {
-				um = context.createUnmarshaller();
-				fr = new FileReader(f);
 				try {
+					um = context.createUnmarshaller();
+					fr = new FileReader(f);
 					actual = (Menus) um.unmarshal(fr);
 				} catch (Exception e) {
 					System.out
@@ -223,9 +223,9 @@ public final class MenuHelper {
 					actual = new Menus();
 				}
 			}
-			System.out.println("Listo para ebrribir en " + f.getAbsolutePath());
+			System.out.println("Listo para escribir en " + f.getAbsolutePath());
 		} catch (Exception e) {
-			throw new RuntimeException("Archivo invalido", e);
+			System.out.println("No se pudo crear el archivo");
 		}
 	}
 

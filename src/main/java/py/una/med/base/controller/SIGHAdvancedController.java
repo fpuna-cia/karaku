@@ -18,6 +18,7 @@ import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.where.Clauses;
+import py.una.med.base.exception.NotDisplayNameException;
 import py.una.med.base.model.DisplayName;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
@@ -109,8 +110,7 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 			Field f = getField(getFilterOption());
 			DisplayName displayName = f.getAnnotation(DisplayName.class);
 			if (displayName == null) {
-				throw new RuntimeException(
-						"Llamado a filtro generico sin la anotacion DisplayName, agrege la antoacion o reimplemente este metodo y capture este tipo de campos");
+				throw new NotDisplayNameException();
 			}
 			T example = getBaseEntity();
 			f.setAccessible(true);
@@ -142,6 +142,7 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 				where.setExample(new EntityExample<T>(example));
 				return where;
 			}
+			throw new NotDisplayNameException();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

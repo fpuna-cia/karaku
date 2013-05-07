@@ -12,9 +12,10 @@ import org.hibernate.criterion.Restrictions;
 public class LikeExpressionHelper {
 
 	protected LikeExpressionHelper() {
-		
-				// No-op
-			}
+
+		// No-op
+	}
+
 	public static Map<String, String> applyNestedCriteria(Criteria criteria,
 			LikeExpression likeExpression, Map<String, String> aliases) {
 
@@ -66,8 +67,9 @@ public class LikeExpressionHelper {
 
 		String[] partes = property.split("\\.");
 		if (partes.length > 2) {
-			throw new RuntimeException("Pruebas con dos partes nomas!");
+			throw new IllegalArgumentException("Pruebas con dos partes nomas!");
 		}
+
 		if (aliases == null) {
 			aliases = new HashMap<String, String>();
 		}
@@ -86,8 +88,8 @@ public class LikeExpressionHelper {
 		try {
 			return getField("value").get(likeExpression);
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"Imposible obtener field 'propertyName'", e.getCause());
+			throw new IllegalArgumentException(
+					"Imposible obtener field 'value'");
 		}
 	}
 
@@ -96,8 +98,8 @@ public class LikeExpressionHelper {
 		try {
 			return (String) getField("propertyName").get(likeExpression);
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"Imposible obtener field 'propertyName'", e.getCause());
+			throw new IllegalArgumentException(
+					"Imposible obtener field 'propertyName'");
 		}
 	}
 
@@ -108,7 +110,7 @@ public class LikeExpressionHelper {
 			f.setAccessible(true);
 			return f;
 		} catch (Exception e) {
-			throw new RuntimeException("Imposible obtener field", e.getCause());
+			throw new IllegalArgumentException("Imposible obtener field");
 		}
 	}
 }

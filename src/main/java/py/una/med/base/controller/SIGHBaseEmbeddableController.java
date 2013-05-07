@@ -50,7 +50,7 @@ public abstract class SIGHBaseEmbeddableController<T, ID extends Serializable>
 	public void delegateChild(Object child) {
 
 		if (!getClazz().isAssignableFrom(child.getClass())) {
-			throw new RuntimeException(
+			throw new IllegalArgumentException(
 					"Intentando delegar un hijo que no corresponde a la clase del controller");
 		}
 		mainController.configureChildBean(child);

@@ -73,7 +73,7 @@ public final class NumberLikerExpressionHelper {
 
 		String[] partes = property.split("\\.");
 		if (partes.length > 2) {
-			throw new RuntimeException("Pruebas con dos partes nomas!");
+			throw new IllegalArgumentException("Pruebas con dos partes nomas!");
 		}
 		if (aliases == null) {
 			aliases = new HashMap<String, String>();

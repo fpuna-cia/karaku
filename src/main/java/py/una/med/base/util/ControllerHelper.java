@@ -182,8 +182,8 @@ public class ControllerHelper {
 
 		UIComponent c = findComponent(root, id);
 		if (c == null) {
-			throw new RuntimeException("NO se encontro comoponente con id "
-					+ id);
+			throw new IllegalArgumentException(
+					"NO se encontro comoponente con id " + id);
 		}
 		return c.getClientId(context);
 	}

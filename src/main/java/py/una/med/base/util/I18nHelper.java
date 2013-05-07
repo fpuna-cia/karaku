@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import javax.faces.context.FacesContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.exception.KeyNotFoundException;
+import py.una.med.base.exception.NotLoadFileConfigurationException;
 import py.una.med.base.model.DisplayName;
 
 /**
@@ -27,31 +28,22 @@ import py.una.med.base.model.DisplayName;
 @Component
 public class I18nHelper {
 
+	private static final String LANGUAGE_BUNDLES_KEY = "language_bundles";
+
 	private static ArrayList<ResourceBundle> bundles;
 
 	private static List<String> getBundlesLocation() {
 
 		Resource resource = new ClassPathResource(
 				SIGHConfiguration.CONFIG_LOCATION);
-		Scanner sc;
+
+		Properties prop = new Properties();
 		try {
-			sc = new Scanner(resource.getInputStream());
+			prop.load(resource.getInputStream());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new NotLoadFileConfigurationException();
 		}
-		String line = "";
-		while (sc.hasNextLine()) {
-			line = sc.nextLine();
-			if (line.startsWith("language_bundles")) {
-				break;
-			}
-		}
-		sc.close();
-		if (!line.contains("=")) {
-			throw new RuntimeException(
-					"Archivo de configuraicon no contiene ubicacion de archivos de idiomas");
-		}
-		String value = line.split("=")[1];
+		String value = prop.getProperty(LANGUAGE_BUNDLES_KEY);
 
 		return Arrays.asList(value.split(" "));
 	}
@@ -124,8 +116,7 @@ public class I18nHelper {
 
 	public static String getName(DisplayName displayName) {
 
-		if ("".equals(displayName.toString()))
-		{
+		if ("".equals(displayName.toString())) {
 			return "";
 		}
 		return getMessage(displayName.key().substring(1,

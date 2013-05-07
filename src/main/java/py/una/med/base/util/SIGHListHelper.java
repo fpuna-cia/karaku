@@ -17,6 +17,7 @@ import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.where.Clauses;
+import py.una.med.base.exception.NotDisplayNameException;
 import py.una.med.base.model.DisplayName;
 
 /**
@@ -110,10 +111,7 @@ public class SIGHListHelper<T, ID extends Serializable> {
 			T example = clazz.newInstance();
 			DisplayName displayName = f.getAnnotation(DisplayName.class);
 			if (displayName == null) {
-				throw new RuntimeException(
-						"Llamado a filtro generico sin la anotacion DisplayName, "
-								+ "agrege la antotacion o reimplemente este metodo "
-								+ "y capture este tipo de campos");
+				throw new NotDisplayNameException();
 			}
 			f.setAccessible(true);
 			if (!"".equals(displayName.path())) {
