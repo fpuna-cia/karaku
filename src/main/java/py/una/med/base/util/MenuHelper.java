@@ -243,7 +243,7 @@ public final class MenuHelper {
 		System.out.println("Ingrese un id: ");
 		do {
 			aRet.setId(br.readLine());
-			if (aRet.getId() == "") {
+			if (aRet.getId().equals("")) {
 				return aRet;
 			}
 			leido = true;
@@ -265,7 +265,7 @@ public final class MenuHelper {
 		do {
 			try {
 				aRet.setIdFather(br.readLine());
-				if (aRet.getId() == "") {
+				if (aRet.getId().equals("")) {
 					return aRet;
 				}
 				leido = true;
