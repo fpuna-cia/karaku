@@ -2,6 +2,8 @@ package py.una.med.base.dao.util;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import py.una.med.base.controller.LanguageBean;
@@ -20,6 +22,7 @@ import py.una.med.base.dao.annotations.CaseSensitive;
 @Component
 public class CaseSensitiveHelper {
 
+	private Logger log = LoggerFactory.getLogger(CaseSensitiveHelper.class);
 	@Autowired
 	private LanguageBean languageBean;
 
@@ -102,9 +105,9 @@ public class CaseSensitiveHelper {
 				return false;
 			}
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			log.error("Error al obtener el Id", e);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			log.error("Error al obtener el objeto", e);
 		}
 		return false;
 	}

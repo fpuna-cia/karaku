@@ -27,7 +27,6 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +114,7 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 				criteria.add(Restrictions.eq(f.getName(), f.get(example)));
 			}
 		} catch (final Exception e) {
-			e.printStackTrace();
+			logger.error("Error al agregar la relación", e);
 		}
 		return criteria;
 	}
@@ -138,8 +137,7 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 			return helper2.configureAndReturnList(getSession(), criteria,
 					getClassOfT(), alias);
 		} catch (Exception e) {
-			Log.error("Imposible obtener lista de elementos", e);
-			e.printStackTrace();
+			logger.error("Imposible obtener lista de elementos", e);
 			return new ArrayList<T>();
 		}
 	}
@@ -395,7 +393,7 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 			}
 			return null;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error("Error al obtener el Id", ex);
 			return null;
 		}
 	};

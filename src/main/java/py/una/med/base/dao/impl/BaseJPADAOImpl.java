@@ -10,12 +10,16 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import py.una.med.base.dao.BaseDAO;
 import py.una.med.base.dao.helper.SearchParamJPAHelper;
 import py.una.med.base.dao.search.SearchParam;
 
 public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
 		BaseDAO<T, ID> {
+
+	private Logger log = LoggerFactory.getLogger(BaseJPADAOImpl.class);
 
 	@PersistenceContext(name = "primary")
 	private EntityManager entityManager;
@@ -80,7 +84,7 @@ public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
 			entityManager.persist(entity);
 			entityManager.flush();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error al crear la entidad", e);
 		}
 		return entity;
 	}
