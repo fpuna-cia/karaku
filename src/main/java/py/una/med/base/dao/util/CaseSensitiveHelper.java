@@ -1,6 +1,7 @@
 package py.una.med.base.dao.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +94,7 @@ public class CaseSensitiveHelper {
 			return false;
 		}
 		try {
-			if (f.getType().equals(String.class)) {
+			if (isAssignable(f)) {
 				f.setAccessible(true);
 				String value = (String) f.get(object);
 				if (value != null) {
@@ -110,5 +111,35 @@ public class CaseSensitiveHelper {
 			log.error("Error al obtener el objeto", e);
 		}
 		return false;
+	}
+
+	/**
+	 * Verifica si un field puede ser asignable. Se define un fiel asignable
+	 * como aquel que no es estatico, final.
+	 * 
+	 * Como nota general tener en cuenta que un campo que no es String es
+	 * inmediatamente no asignable
+	 * 
+	 * @param field
+	 *            a ser evaluado
+	 * @return <code>true</code> si es asignable, <code>false</code> en caso
+	 *         contrario
+	 */
+	private boolean isAssignable(Field f) {
+
+		if (f == null) {
+			throw new IllegalArgumentException("Field f cannot be null");
+		}
+		if (!f.getType().equals(String.class)) {
+			return false;
+		}
+		int modifier = f.getModifiers();
+		if (Modifier.isFinal(modifier)) {
+			return false;
+		}
+		if (Modifier.isStatic(modifier)) {
+			return false;
+		}
+		return true;
 	}
 }
