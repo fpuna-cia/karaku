@@ -6,9 +6,13 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.persistence.Id;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Deprecated
 public class SIGHConverter<T, ID extends Serializable> implements Converter {
+
+	private Logger log = LoggerFactory.getLogger(SIGHConverter.class);
 
 	@Override
 	public Object getAsObject(final FacesContext context,
@@ -35,7 +39,7 @@ public class SIGHConverter<T, ID extends Serializable> implements Converter {
 		try {
 			return getIdValue(object).toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error al obtener el Id", e);
 		}
 		return null;
 	}
@@ -53,7 +57,7 @@ public class SIGHConverter<T, ID extends Serializable> implements Converter {
 			}
 			return null;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.error("Error al obtener el Id", ex);
 			return null;
 		}
 	};

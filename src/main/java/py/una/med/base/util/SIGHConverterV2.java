@@ -5,8 +5,12 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.persistence.Id;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SIGHConverterV2 implements Converter {
+
+	private Logger log = LoggerFactory.getLogger(SIGHConverterV2.class);
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
@@ -33,7 +37,7 @@ public class SIGHConverterV2 implements Converter {
 		try {
 			return getIdValue(object).toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error al obtener el Id", e);
 		}
 		System.out.println("HOLA 2");
 		return null;
@@ -52,7 +56,7 @@ public class SIGHConverterV2 implements Converter {
 			}
 			return null;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.error("Error al obtener el Id", ex);
 			return null;
 		}
 	};

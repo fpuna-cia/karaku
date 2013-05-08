@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.model.SelectItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
@@ -36,6 +38,7 @@ public class SIGHListHelper<T, ID extends Serializable> {
 	private Where<T> baseWhere;
 	private List<SelectItem> filterOptions;
 	private Class<T> clazz;
+	private Logger log = LoggerFactory.getLogger(SIGHListHelper.class);
 
 	public SIGHListHelper(Class<T> clazz, ISIGHBaseLogic<T, ID> logic) {
 
@@ -135,13 +138,13 @@ public class SIGHListHelper<T, ID extends Serializable> {
 					f.set(example, new SimpleDateFormat("dd/MM/yyyy")
 							.parse(simpleFilter.getValue()));
 				} catch (ParseException parseException) {
-					parseException.printStackTrace();
+					log.error("Error al parsear", parseException);
 				}
 				where.setExample(new EntityExample<T>(example));
 				return where;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error al crear el Where", e);
 		}
 		return where;
 	}
