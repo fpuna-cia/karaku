@@ -144,7 +144,7 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 			}
 			throw new NotDisplayNameException();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error al obtener los filtros", e);
 		}
 		return where;
 	}

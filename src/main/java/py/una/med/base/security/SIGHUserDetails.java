@@ -80,7 +80,7 @@ public class SIGHUserDetails implements Serializable, UserDetails {
 			}
 
 		} catch (NamingException e) {
-			e.printStackTrace();
+			logger.error("Error al recuperar detalles del usuario", e);
 		}
 
 	}

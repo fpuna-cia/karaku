@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import py.una.med.base.dao.impl.BaseDAOImpl;
@@ -15,6 +17,8 @@ import py.una.med.base.util.ControllerHelper;
 @Repository
 public class SIGHBaseDao<T, ID extends Serializable> extends BaseDAOImpl<T, ID>
 		implements ISIGHBaseDao<T, ID> {
+
+	private Logger log = LoggerFactory.getLogger(SIGHBaseDao.class);
 
 	@Override
 	@Autowired
@@ -89,13 +93,13 @@ public class SIGHBaseDao<T, ID extends Serializable> extends BaseDAOImpl<T, ID>
 				getPrePersist().invoke(entity, (Object[]) null);
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("Error al intentar persistir", e);
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("Error al intentar persistir", e);
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("Error al intentar persistir", e);
 			}
 		}
 	}
@@ -107,13 +111,13 @@ public class SIGHBaseDao<T, ID extends Serializable> extends BaseDAOImpl<T, ID>
 				getPreUpdate().invoke(entity, (Object[]) null);
 			} catch (IllegalArgumentException e) {
 				helper.showException(e);
-				e.printStackTrace();
+				log.error("Error al intentar actualizar", e);
 			} catch (IllegalAccessException e) {
 				helper.showException(e);
-				e.printStackTrace();
+				log.error("Error al intentar actualizar", e);
 			} catch (InvocationTargetException e) {
 				helper.showException(e);
-				e.printStackTrace();
+				log.error("Error al intentar actualizar", e);
 			}
 		}
 	}

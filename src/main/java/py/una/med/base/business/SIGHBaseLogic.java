@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import java.util.List;
 import javax.persistence.Id;
 import org.hibernate.NonUniqueResultException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.dao.restrictions.Where;
@@ -26,6 +28,8 @@ import py.una.med.base.dao.util.EntityExample;
 @Transactional
 public abstract class SIGHBaseLogic<T, ID extends Serializable> implements
 		ISIGHBaseLogic<T, ID> {
+
+	private Logger log = LoggerFactory.getLogger(SIGHBaseLogic.class);
 
 	@Override
 	@Transactional(readOnly = true)
@@ -91,7 +95,7 @@ public abstract class SIGHBaseLogic<T, ID extends Serializable> implements
 			}
 			return null;
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.error("Error al obtener el Id", ex);
 			return null;
 		}
 	};
@@ -102,7 +106,7 @@ public abstract class SIGHBaseLogic<T, ID extends Serializable> implements
 		try {
 			return getDao().getClassOfT().newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Error al obtener una instancia", e);
 			return null;
 		}
 	}
