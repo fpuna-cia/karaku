@@ -33,8 +33,8 @@ public final class MainInstanceFieldHelper {
 	private static <T> List<Field> generateAndCreateFields(final Class<T> clazz) {
 
 		List<Field> aRet = new ArrayList<Field>();
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field f : fields) {
+		Field[] fieldz = clazz.getDeclaredFields();
+		for (Field f : fieldz) {
 			MainInstance principal = f.getAnnotation(MainInstance.class);
 			if (principal != null) {
 				aRet.add(f);

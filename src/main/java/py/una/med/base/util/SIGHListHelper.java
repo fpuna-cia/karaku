@@ -111,7 +111,7 @@ public class SIGHListHelper<T, ID extends Serializable> {
 		}
 		try {
 			Field f = getField(simpleFilter.getOption(), clazz);
-			T example = clazz.newInstance();
+			T ejemplo = clazz.newInstance();
 			DisplayName displayName = f.getAnnotation(DisplayName.class);
 			if (displayName == null) {
 				throw new NotDisplayNameException();
@@ -124,23 +124,23 @@ public class SIGHListHelper<T, ID extends Serializable> {
 				return where;
 			}
 			if (f.getType().equals(String.class)) {
-				f.set(example, simpleFilter.getValue());
-				where.setExample(new EntityExample<T>(example));
+				f.set(ejemplo, simpleFilter.getValue());
+				where.setExample(new EntityExample<T>(ejemplo));
 				return where;
 			}
 			if (f.getType().isAssignableFrom(Number.class)) {
-				f.set(example, Integer.valueOf(simpleFilter.getValue()));
-				where.setExample(new EntityExample<T>(example));
+				f.set(ejemplo, Integer.valueOf(simpleFilter.getValue()));
+				where.setExample(new EntityExample<T>(ejemplo));
 				return where;
 			}
 			if (f.getType().equals(Date.class)) {
 				try {
-					f.set(example, new SimpleDateFormat("dd/MM/yyyy")
+					f.set(ejemplo, new SimpleDateFormat("dd/MM/yyyy")
 							.parse(simpleFilter.getValue()));
 				} catch (ParseException parseException) {
 					log.error("Error al parsear", parseException);
 				}
-				where.setExample(new EntityExample<T>(example));
+				where.setExample(new EntityExample<T>(ejemplo));
 				return where;
 			}
 		} catch (Exception e) {
