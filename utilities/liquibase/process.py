@@ -47,6 +47,9 @@ def fix_tag(tag):
 
 	if tag.tag == 'createTable':
 		return fix_create_table(tag)
+	if tag.tag == 'createSequence':
+		tag.set('schemaName', schema_name)
+		return tag
 
 
 def fix_create_table(create_table):
@@ -57,6 +60,7 @@ def fix_create_table(create_table):
 				#agregamos el parentesis que falta
 				default_value_numeric += ')'
 				child.set('defaultValueNumeric', default_value_numeric)
+	create_table.set('schemaName', schema_name)
 	return create_table
 
 def get_secuence_name(change):
@@ -121,10 +125,10 @@ XML_SUFFIX = '''
 
 changes = {}
 
-param_number = 8
+param_number = 9
 
 if len(sys.argv) != param_number:
-	print 'Requere {1} parametros, pasados {0}'.format(len(sys.argv), param_number)
+	print 'Requiere {1} parametros, pasados {0}'.format(len(sys.argv), param_number)
 	print 'Uso:'
 	print '[1]	Archivo a partir'
 	print '[2]	Carpeta destino'
@@ -133,6 +137,7 @@ if len(sys.argv) != param_number:
 	print '[5]	Id inicial (## se reemplaza por un numero)'
 	print '[6]	Numero inicial'
 	print '[7]	Agregar secuencia (0 = NO)'
+	print '[8]	Nombre del esquema'
 	sys.exit(9)
 
 source = joinfile(sys.argv[1])
@@ -143,6 +148,7 @@ id_string = sys.argv[5]
 id_start = sys.argv[6]
 val = 0
 add_seq = sys.argv[7] != '0'
+schema_name = sys.argv[8]
 
 
 if not target_folder.endswith('/'):
@@ -153,7 +159,6 @@ if not prefix.endswith('/'):
 changes_xml = source.split('</changeSet>')
 
 for change_xml in changes_xml:
-
 	'''
 	<changeSet author='avolpe@pol.una.py' id='1'>
 		<createTable tableName='zona'>
