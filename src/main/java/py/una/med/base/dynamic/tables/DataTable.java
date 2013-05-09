@@ -59,7 +59,7 @@ public class DataTable<T, ID extends Serializable> {
 		table.setVar(DATA_TABLE_VARIABLE);
 	}
 
-	public String getCurrentStyle() {
+	private String getCurrentStyle() {
 
 		String cStyle = DEFAULT_STYLE.replaceFirst("HEIGHT", heigh + "");
 		cStyle = DEFAULT_STYLE.replaceFirst("WIDTH", width + "");

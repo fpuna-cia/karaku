@@ -50,8 +50,8 @@ public class PickerField<T> extends LabelField {
 
 		super();
 		System.out.println("Creando pickerField con id: " + getId());
-		setCodeInput(SIGHComponentFactory.getHtmlInputText());
-		setPopupID(getId() + "popup");
+		this.codeInput = SIGHComponentFactory.getHtmlInputText();
+		this.popupID = getId() + "popup";
 	}
 
 	/*

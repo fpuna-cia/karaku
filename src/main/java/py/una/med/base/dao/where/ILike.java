@@ -58,6 +58,6 @@ public class ILike implements Clause {
 		super();
 		this.path = path;
 		this.value = value;
-		setMode(mode);
+		this.mode = mode;
 	}
 }

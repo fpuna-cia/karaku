@@ -61,11 +61,10 @@ public class ComboBoxField<T> extends LabelField {
 		super();
 		this.withDefault = withDefault;
 		converter = new SIGHConverterV2();
-		setBind(SIGHComponentFactory.getNewSelectOneMenu());
-		getBind().setId(getId());
-		getBind().setConverter(converter);
+		this.bind = SIGHComponentFactory.getNewSelectOneMenu();
+		this.bind.setId(getId());
+		this.bind.setConverter(converter);
 		toRender = new ArrayList<String>();
-		addDefault();
 	}
 
 	private UISelectItem getDefaultSelectItem() {
