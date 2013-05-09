@@ -243,12 +243,13 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 	protected T edit(T entity, final boolean withMessage) {
 
 		log.info("Do edit llamado");
-		entity = getBaseLogic().update(entity);
+		T entidad = entity;
+		entidad = getBaseLogic().update(entity);
 		if (withMessage) {
 			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
 					"BASE_ABM_EDIT_SUCCESS");
 		}
-		return entity;
+		return entidad;
 	}
 
 	/**
@@ -282,10 +283,11 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 	protected T create(T entity) {
 
 		log.info("Create llamado");
-		entity = getBaseLogic().add(entity);
+		T entidad = entity;
+		entidad = getBaseLogic().add(entity);
 		createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
 				"BASE_ABM_CREATE_SUCCESS");
-		return entity;
+		return entidad;
 	}
 
 }

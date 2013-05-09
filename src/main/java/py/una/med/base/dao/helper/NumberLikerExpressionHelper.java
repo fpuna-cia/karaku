@@ -63,8 +63,9 @@ public final class NumberLikerExpressionHelper {
 	 * @return
 	 */
 	public static String configureAlias(Criteria criteria,
-			NumberLike numberlike, Map<String, String> aliases) {
+			NumberLike numberlike, final Map<String, String> aliases) {
 
+		Map<String, String> aliass = aliases;
 		String property = numberlike.getPropiedad();
 		if (!property.contains(".")) {
 
@@ -75,14 +76,14 @@ public final class NumberLikerExpressionHelper {
 		if (partes.length > 2) {
 			throw new IllegalArgumentException("Pruebas con dos partes nomas!");
 		}
-		if (aliases == null) {
-			aliases = new HashMap<String, String>();
+		if (aliass == null) {
+			aliass = new HashMap<String, String>();
 		}
 
-		String alias = aliases.get(partes[0]);
+		String alias = aliass.get(partes[0]);
 		if (alias == null) {
 			alias = partes[0] + "_";
-			aliases.put(partes[0], alias);
+			aliass.put(partes[0], alias);
 			criteria.createAlias(partes[0], alias);
 		}
 		return alias + "." + partes[1];

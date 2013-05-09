@@ -81,12 +81,13 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T add(T entity) {
+	public T add(final T entity) {
 
-		sensitiveHelper.analize(entity);
-		entity = (T) getSession().merge(entity);
+		T entidad = entity;
+		sensitiveHelper.analize(entidad);
+		entidad = (T) getSession().merge(entidad);
 		getSession().flush();
-		return entity;
+		return entidad;
 	}
 
 	/**
@@ -370,13 +371,13 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public T update(T entity) {
+	public T update(final T entity) {
 
-		sensitiveHelper.analize(entity);
-		sensitiveHelper.analize(entity);
-		entity = ((T) getSession().merge(entity));
+		T entidad = entity;
+		sensitiveHelper.analize(entidad);
+		entidad = ((T) getSession().merge(entidad));
 		getSession().flush();
-		return entity;
+		return entidad;
 	}
 
 	@SuppressWarnings("unchecked")

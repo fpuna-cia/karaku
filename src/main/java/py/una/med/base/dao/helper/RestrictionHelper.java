@@ -42,9 +42,11 @@ public class RestrictionHelper<T> {
 	 */
 	@SuppressWarnings("deprecation")
 	public Criteria applyRestrictions(final Criteria criteria,
-			final Where<T> where, Map<String, String> alias) {
+			final Where<T> where, final Map<String, String> alias) {
 
-		if (alias == null) {
+		Map<String, String> aliaz = alias;
+
+		if (aliaz == null) {
 			throw new IllegalArgumentException("Alias can't be null");
 		}
 		if ((where == null)
@@ -55,17 +57,17 @@ public class RestrictionHelper<T> {
 			for (Clause cr : where.getClauses()) {
 				if (cr.getCriterion().getClass().equals(LikeExpression.class)) {
 					LikeExpressionHelper.applyNestedCriteria(criteria,
-							(LikeExpression) cr.getCriterion(), alias);
+							(LikeExpression) cr.getCriterion(), aliaz);
 				} else if (cr.getCriterion().getClass()
 						.equals(NumberLike.class)) {
 					NumberLikerExpressionHelper.applyNestedCriteria(criteria,
-							(NumberLike) cr.getCriterion(), alias);
+							(NumberLike) cr.getCriterion(), aliaz);
 				} else if (cr.getClass().equals(Or.class)) {
-					alias = OrExpressionHelper.applyNestedCriteria(criteria,
-							(Or) cr, alias);
+					aliaz = OrExpressionHelper.applyNestedCriteria(criteria,
+							(Or) cr, aliaz);
 				} else if (cr.getClass().equals(Not.class)) {
-					alias = NotExpressionHelper.applyNestedCriteria(criteria,
-							(Not) cr, alias);
+					aliaz = NotExpressionHelper.applyNestedCriteria(criteria,
+							(Not) cr, aliaz);
 				} else {
 					criteria.add(cr.getCriterion());
 				}
