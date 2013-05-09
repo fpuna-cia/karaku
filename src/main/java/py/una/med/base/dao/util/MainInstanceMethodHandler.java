@@ -5,6 +5,7 @@
  */
 package py.una.med.base.dao.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javassist.util.proxy.MethodHandler;
 import org.hibernate.Session;
@@ -64,7 +65,8 @@ public class MainInstanceMethodHandler<T> implements MethodHandler {
 	 */
 	@Override
 	public Object invoke(Object proxy, Method method, Method proceed,
-			Object[] args) throws Throwable {
+			Object[] args) throws IllegalArgumentException,
+			IllegalAccessException, InvocationTargetException {
 
 		if (!consulted) {
 			initialize();
