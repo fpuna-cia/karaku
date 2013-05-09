@@ -10,7 +10,12 @@ import py.una.med.base.dao.where.Clause;
 import py.una.med.base.dao.where.ILike;
 import py.una.med.base.dao.where.Not;
 
-public class NotExpressionHelper extends LikeExpressionHelper {
+public class NotExpressionHelper {
+
+	private NotExpressionHelper() {
+
+		// No op
+	}
 
 	public static Map<String, String> applyNestedCriteria(Criteria criteria,
 			Not not, Map<String, String> aliases) {
