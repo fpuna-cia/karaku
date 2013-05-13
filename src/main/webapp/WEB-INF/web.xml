@@ -37,10 +37,14 @@
 		<param-value>/WEB-INF/sigh.taglib.xml</param-value>
 	</context-param>
 	<!-- RICH FACES THEMES -->
-	<!-- <context-param> -->
-	<!-- <param-name>org.richfaces.skin</param-name> -->
-	<!-- <param-value>classic</param-value> -->
-	<!-- </context-param> -->
+	<!--<context-param>-->
+	<!--	<param-name>org.richfaces.skin</param-name>-->
+	<!--	<param-value>classic</param-value>-->
+	<!--</context-param>-->
+	<context-param>
+		<param-name>org.richfaces.skin</param-name>
+		<param-value>sigh</param-value>
+	</context-param>
 
 	<!-- <context-param> -->
 	<!-- <param-name>facelets.LIBRARIES</param-name> -->

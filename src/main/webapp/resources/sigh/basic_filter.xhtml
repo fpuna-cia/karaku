@@ -15,9 +15,8 @@
 </composite:interface>
 <composite:implementation>
 	<h:panelGrid columns="5">
-		<rich:inplaceInput defaultLabel="Ingrese un filtro"
-			value="#{cc.attrs.controller.filterValue}" style="width:200px" />
-
+		<rich:inplaceInput defaultLabel="Ingrese un filtro..."
+			value="#{cc.attrs.controller.filterValue}"	style="width: 200px;"/>
 		<h:selectOneMenu value="#{cc.attrs.controller.filterOption}"
 			id="filterOption">
 			<f:selectItem itemLabel="#{msg['BASE_SELECT_SIMPLE_SEARCH']}"

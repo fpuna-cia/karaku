@@ -12,59 +12,60 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" name="default.css" />
-	<h:outputStylesheet library="css" name="cssLayout.css" />
-
+	<h:outputStylesheet library="css" name="custom-bootstrap.css" />
+	<h:outputStylesheet library="css" name="theme.css" />
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css' />
+	
 	<title>SIGH</title>
 </h:head>
 
 <h:body>
-
-	<div id="wrapper">
-		<div id="top" class="top">
-			<ui:insert name="top">
+	<div id="top" class="row">
+				<ui:insert name="top">
 				<rich:panel>
-					<table style="width: 100%;">
-						<tr style="width: 100%;">
-							<td style="text-align: left;">
-								<table>
-									<tr>
-										<td><h:graphicImage value="/resources/images/logo.jpg"
-												width="50" height="50" alt="Facultad de Medicina" /></td>
-
-										<td><h:outputLabel value="#{msg['HEADER_USER']}: " /> <h:outputText
-												value="#{request.userPrincipal.name}" /> <br></br> <h:outputText
-												value="#{menuController.title}" /></td>
-									</tr>
-								</table>
-							</td>
-							<td style="text-align: right"><a
-								href="#{menuController.logoutUrl}"> <h:outputText
-										value="#{msg['HEADER_LOGOUT']}" /></a></td>
-						</tr>
-					</table>
+					<div class="row-fluid">
+						<div class="span2">
+							<h:graphicImage value="/resources/images/logo.jpg" alt="Facultad de Medicina" />
+						</div>
+						<div class="span8"><h1>#{menuController.title}</h1></div>
+						<div class="span2 user-login">
+							<ul class="unstyled inline">
+								<li class="divider"><h:outputLabel value="#{msg['HEADER_USER']}: " /> <h:outputText value="#{request.userPrincipal.name}" /></li>
+								<li><a href="#{menuController.logoutUrl}"> <h:outputText value="#{msg['HEADER_LOGOUT']}" /></a></li>
+							</ul>
+						</div>
+					</div>
 				</rich:panel>
 			</ui:insert>
+	</div>
+	<div class="container-fluid main-content">
+		<div class="row-fluid">
+			<div class="span2">
+				<ui:insert name="left">
+					<sigh:menu />
+				</ui:insert>
+			</div>
+			<div class="span10">
+				<sigh:breadcrumb />
+				<ui:insert name="content">Content</ui:insert>
+			</div>
 		</div>
-		<div id="left">
-			<ui:insert name="left">
-				<sigh:menu />
-			</ui:insert>
-		</div>
-
-		<div id="content" class="center_content">
-			<sigh:breadcrumb />
-			<ui:insert name="content">Content</ui:insert>
-		</div>
-		<div class="push"></div>
 	</div>
 	<div class="footer">
-		<h:outputLabel value="#{menuController.title}" />
-		<h:outputLabel value=":" />
-		<h:outputLabel value="#{menuController.version}" />
-		<br />
-		<h:outputLabel value="#{msg['MENU_IP_ADRESS']}" />
-		<h:outputLabel value="#{menuController.ipAdress}" />
+		<table>
+			<tr>
+				<td>#{msg['SYSTEM_VERSION_TITLE']}</td>
+				<td>:</td>
+				<td>#{menuController.version}</td>
+			</tr>
+			<tr>
+				<td>#{msg['MENU_IP_ADRESS']}</td>
+				<td>:</td>
+				<td>#{menuController.ipAdress}</td>
+			</tr>
+		</table>
 	</div>
+	
 </h:body>
 
 </html>
