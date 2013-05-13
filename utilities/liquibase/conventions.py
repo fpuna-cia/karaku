@@ -61,6 +61,7 @@ conv["DUC"] = 'dropUniqueConstraint'
 conv["AUC"] = 'addUniqueConstraint'
 conv["CS"] = "createSequence"
 conv['DNNC'] = 'dropNotNullConstraint'
+conv['DI'] = 'dropIndex'
 
 
 def get_conv_key(value):

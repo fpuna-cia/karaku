@@ -71,14 +71,14 @@ def get_table_name(table) :
 
 def is_part_of_system(system_tables, table_name):
 	name = get_table_name(table_name).lower()
-	print name
-	print "....."
+	#print name
+	#print "....."
 	for table in system_tables:
-		print table["name"].lower()
+		#print table["name"].lower()
 		
 		if table["name"].lower() == name:
 			return True
-	print "....."
+	#print "....."
 	return False
 
 def apply_changes(source, target):
