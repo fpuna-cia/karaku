@@ -6,12 +6,15 @@ package py.una.med.base.business.reports;
 
 import java.util.List;
 import java.util.Map;
+import javax.faces.application.FacesMessage;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.reports.Align;
 import py.una.med.base.reports.ExportReport;
 import py.una.med.base.reports.SIGHReportDetails;
+import py.una.med.base.util.ControllerHelper;
 
 /**
  * Clase que implementa el servicio para reportes del tipo cabecera-detalle. Se
@@ -25,6 +28,12 @@ import py.una.med.base.reports.SIGHReportDetails;
 public abstract class SIGHBaseReportDetail<T> implements
 		ISIGHBaseReportDetail<T> {
 
+	@Autowired
+	private ExportReport exportReport;
+
+	@Autowired
+	private ControllerHelper controllerHelper;
+
 	@Override
 	public abstract ISIGHBaseLogic<T, ?> getBaseLogic();
 
@@ -35,20 +44,36 @@ public abstract class SIGHBaseReportDetail<T> implements
 	public void generateReport(SIGHReportDetails report, Align align,
 			Map<String, Object> params, String type, T bean, Class<?> clazz) {
 
-		JRDataSource datasource = new JRBeanCollectionDataSource(
-				getDetails(bean));
-		ExportReport.exportDetailReport(report, align, clazz, datasource,
-				params, type);
+		try {
+			JRDataSource datasource = new JRBeanCollectionDataSource(
+					getDetails(bean));
+			exportReport.exportDetailReport(report, align, clazz, datasource,
+					params, type);
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+		} catch (Exception e) {
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+		}
+
 	}
 
 	@Override
 	public void generateReport(String path, SIGHReportDetails report,
 			Map<String, Object> params, String type, T bean, Class<?> clazz) {
 
-		JRDataSource datasource = new JRBeanCollectionDataSource(
-				getDetails(bean));
-		ExportReport.exportDetailReport(path, report, clazz, datasource,
-				params, type);
+		try {
+			JRDataSource datasource = new JRBeanCollectionDataSource(
+					getDetails(bean));
+			exportReport.exportDetailReport(path, report, clazz, datasource,
+					params, type);
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+		} catch (Exception e) {
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+		}
+
 	}
 
 }

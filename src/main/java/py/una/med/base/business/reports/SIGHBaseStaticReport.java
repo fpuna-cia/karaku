@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.ExportReport;
 
 /**
@@ -23,6 +25,9 @@ import py.una.med.base.reports.ExportReport;
  */
 public abstract class SIGHBaseStaticReport implements ISIGHBaseStaticReport {
 
+	@Autowired
+	private ExportReport exportReport;
+
 	@Override
 	public abstract <T> List<?> getList(ISIGHBaseLogic<T, ?> logic,
 			Where<T> where);
@@ -30,10 +35,10 @@ public abstract class SIGHBaseStaticReport implements ISIGHBaseStaticReport {
 	@Override
 	public <T> void generateReport(String fileReport,
 			Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, Where<T> where) {
+			ISIGHBaseLogic<T, ?> logic, Where<T> where) throws ReportException {
 
 		JRDataSource dataSource = new JRBeanCollectionDataSource(getList(logic,
 				where));
-		ExportReport.exportReportStatic(fileReport, dataSource, params, type);
+		exportReport.exportReportStatic(fileReport, dataSource, params, type);
 	}
 }

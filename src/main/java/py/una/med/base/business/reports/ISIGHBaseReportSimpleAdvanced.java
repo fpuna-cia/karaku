@@ -4,12 +4,12 @@
  */
 package py.una.med.base.business.reports;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 
 /**
@@ -29,7 +29,7 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 * 
 	 * @return Esqueleto del datasource a ser utilizado
 	 */
-	public DRDataSource getStructDataSource();
+	DRDataSource getStructDataSource();
 
 	/**
 	 * Metodo que obtiene el datasource correctamente estructurado, cargado con
@@ -42,7 +42,7 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 *            Representa los filtros ingresados por el usuario.
 	 * @return Datasource que sera utilizado para generar el reporte.
 	 */
-	public DRDataSource getDataSource(ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	DRDataSource getDataSource(ISIGHBaseLogic<T, ?> logic, Where<T> where);
 
 	/**
 	 * Metodo que define la estructura del dataSource. Dicha estructura debe
@@ -50,7 +50,7 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 * 
 	 * @return Columnas que definen la estructura del DataSource.
 	 */
-	public LinkedList<String> getColumnsDataSource();
+	List<String> getColumnsDataSource();
 
 	/**
 	 * Define las columnas que contendra el reporte, las mismas son generadas de
@@ -58,7 +58,7 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 * 
 	 * @return Columnas que deben ser generadas de forma dinamica.
 	 */
-	public LinkedList<Column> getColumnsReport();
+	List<Column> getColumnsReport();
 
 	/**
 	 * Obtiene la lista de elementos aplicando los fitros ingresados, si no se
@@ -72,7 +72,7 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 * @return Lista filtrada
 	 */
 
-	public List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where);
 
 	/**
 	 * Metodo que genera el reporte fisicamente.s
@@ -86,8 +86,9 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 *            consultar a la base de datos.
 	 * @param where
 	 *            Representa los filtros introducidos
+	 * @throws ReportException
 	 */
-	public void generateReport(Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	void generateReport(Map<String, Object> params, String type,
+			ISIGHBaseLogic<T, ?> logic, Where<T> where) throws ReportException;
 
 }

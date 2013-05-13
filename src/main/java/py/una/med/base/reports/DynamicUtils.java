@@ -7,8 +7,9 @@ package py.una.med.base.reports;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.LinkedList;
 import java.util.List;
+import org.springframework.stereotype.Component;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.SIGHReportDetails.Detail;
 import py.una.med.base.util.I18nHelper;
 import ar.com.fdvs.dj.core.DJConstants;
@@ -16,7 +17,6 @@ import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.domain.DJCrosstab;
 import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.Style;
-import ar.com.fdvs.dj.domain.builders.ColumnBuilderException;
 import ar.com.fdvs.dj.domain.builders.FastReportBuilder;
 import ar.com.fdvs.dj.domain.constants.Font;
 import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
@@ -29,12 +29,8 @@ import ar.com.fdvs.dj.domain.constants.VerticalAlign;
  * @since 1.0
  * @version 1.5 19/03/2013
  */
+@Component
 public final class DynamicUtils {
-
-	private DynamicUtils() {
-
-		// No-op
-	}
 
 	/**
 	 * Ubicacion del template base dentro de la aplicacion.
@@ -53,12 +49,10 @@ public final class DynamicUtils {
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @return Reporte dinamico estructurado listo para ser generado
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
+	 * @throws ReportException
 	 */
-	public static <T> DynamicReport buildReportSimple(
-			LinkedList<Column> columns, Class<T> clazz)
-			throws ColumnBuilderException, ClassNotFoundException {
+	public <T> DynamicReport buildReportSimple(List<Column> columns,
+			Class<T> clazz) throws ReportException {
 
 		FastReportBuilder structReport = new FastReportBuilder();
 
@@ -82,11 +76,10 @@ public final class DynamicUtils {
 	 *            Lista de columnas -> [header, field] que deben ser generadas
 	 *            de forma dinamica.
 	 * @return Reporte dinamico estructurado listo para ser generado
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
+	 * @throws ReportException
 	 */
-	public static <T> DynamicReport buildReportSimple(LinkedList<Column> columns)
-			throws ColumnBuilderException, ClassNotFoundException {
+	public <T> DynamicReport buildReportSimple(List<Column> columns)
+			throws ReportException {
 
 		FastReportBuilder structReport = new FastReportBuilder();
 
@@ -115,12 +108,10 @@ public final class DynamicUtils {
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @return Reporte dinamico estructurado listo para ser generado
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
+	 * @throws ReportException
 	 */
-	public static <T> DynamicReport buildReportDetail(SIGHReportDetails report,
-			Align align, Class<T> clazz) throws ColumnBuilderException,
-			ClassNotFoundException {
+	public <T> DynamicReport buildReportDetail(SIGHReportDetails report,
+			Align align, Class<T> clazz) throws ReportException {
 
 		FastReportBuilder structReportHead = new FastReportBuilder();
 
@@ -159,12 +150,10 @@ public final class DynamicUtils {
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @return
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
+	 * @throws ReportException
 	 */
-	public static <T> DynamicReport buildReportDetail(String path,
-			SIGHReportDetails report, Class<T> clazz)
-			throws ColumnBuilderException, ClassNotFoundException {
+	public <T> DynamicReport buildReportDetail(String path,
+			SIGHReportDetails report, Class<T> clazz) throws ReportException {
 
 		FastReportBuilder structReportHead = new FastReportBuilder();
 		setTemplate(path, structReportHead);
@@ -190,39 +179,33 @@ public final class DynamicUtils {
 	 *            Clase de la entidad principal sobre la cual se desea realizar
 	 *            el reporte
 	 * @return
+	 * @throws ReportException
 	 */
-	public static <T> FastReportBuilder addDetails(
-			FastReportBuilder structReportHead, SIGHReportDetails report,
-			Class<T> clazz) {
+	public <T> FastReportBuilder addDetails(FastReportBuilder structReportHead,
+			SIGHReportDetails report, Class<T> clazz) throws ReportException {
 
 		Style titleStyle = new Style();
 		titleStyle.setHorizontalAlign(HorizontalAlign.LEFT);
 		for (Detail detail : report.getDetails()) {
-			try {
-				structReportHead.addField(detail.getField(),
-						List.class.getName());
+			structReportHead.addField(detail.getField(), List.class.getName());
 
-				FastReportBuilder structSubreport = new FastReportBuilder();
-				structSubreport.setTitle(detail.getTitle());
-				structSubreport.setTitleStyle(titleStyle);
-				structSubreport.setUseFullPageWidth(true);
+			FastReportBuilder structSubreport = new FastReportBuilder();
+			structSubreport.setTitle(detail.getTitle());
+			structSubreport.setTitleStyle(titleStyle);
+			structSubreport.setUseFullPageWidth(true);
 
-				setWhenNotData(structSubreport);
+			setWhenNotData(structSubreport);
 
-				Class<?> clazzDetail = getClazzDetail(clazz, detail);
+			Class<?> clazzDetail = getClazzDetail(clazz, detail);
 
-				buildColumnDetail(structSubreport, detail.getColumns(),
-						clazzDetail);
+			buildColumnDetail(structSubreport, detail.getColumns(), clazzDetail);
 
-				DynamicReport subreport = structSubreport.build();
+			DynamicReport subreport = structSubreport.build();
 
-				structReportHead.addConcatenatedReport(subreport,
-						new ClassicLayoutManager(), detail.getField(),
-						DJConstants.SUBREPORT_PARAM_ORIGIN_FIELD,
-						DJConstants.DATA_SOURCE_TYPE_COLLECTION);
-			} catch (Exception e) {
-				System.out.println("Error al construir el reporte");
-			}
+			structReportHead.addConcatenatedReport(subreport,
+					new ClassicLayoutManager(), detail.getField(),
+					DJConstants.SUBREPORT_PARAM_ORIGIN_FIELD,
+					DJConstants.DATA_SOURCE_TYPE_COLLECTION);
 		}
 		return structReportHead;
 	}
@@ -233,11 +216,9 @@ public final class DynamicUtils {
 	 * @param crosstab
 	 *            Crosstab estructurado a ser agregado al reporte.
 	 * @return
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
 	 */
-	public static DynamicReport builReportCrossTab(DJCrosstab crosstab)
-			throws ColumnBuilderException, ClassNotFoundException {
+	public DynamicReport builReportCrossTab(DJCrosstab crosstab)
+			throws ClassNotFoundException {
 
 		FastReportBuilder structReport = new FastReportBuilder();
 		setTemplateLandScape(structReport);
@@ -246,8 +227,7 @@ public final class DynamicUtils {
 
 		setWhenNotData(structReport);
 
-		DynamicReport report = structReport.build();
-		return report;
+		return structReport.build();
 
 	}
 
@@ -263,13 +243,11 @@ public final class DynamicUtils {
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @return Reporte con las correspondientes columnas generadas y estilos
 	 *         aplicados.
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
+	 * @throws ReportException
 	 */
-	private static <T> FastReportBuilder buildColumnHeader(
-			FastReportBuilder structReport, LinkedList<Column> columns,
-			Class<T> clazz) throws ColumnBuilderException,
-			ClassNotFoundException {
+	private <T> FastReportBuilder buildColumnHeader(
+			FastReportBuilder structReport, List<Column> columns, Class<T> clazz)
+			throws ReportException {
 
 		addColumn(structReport, columns, clazz);
 
@@ -290,13 +268,10 @@ public final class DynamicUtils {
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @return Reporte con las correspondientes columnas generadas y estilos
 	 *         aplicados
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
+	 * @throws ReportException
 	 */
-	private static FastReportBuilder buildColumnDetail(
-			FastReportBuilder structReport, LinkedList<Column> columns,
-			Class<?> clazz) throws ColumnBuilderException,
-			ClassNotFoundException {
+	private FastReportBuilder buildColumnDetail(FastReportBuilder structReport,
+			List<Column> columns, Class<?> clazz) throws ReportException {
 
 		if (clazz.equals(Object.class)) {
 			addColumn(structReport, columns);
@@ -321,13 +296,10 @@ public final class DynamicUtils {
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @return Reporte con las correspondientes columnas generadas
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
+	 * @throws ReportException
 	 */
-	private static <T> FastReportBuilder addColumn(
-			FastReportBuilder structReport, LinkedList<Column> columns,
-			Class<T> clazz) throws ColumnBuilderException,
-			ClassNotFoundException {
+	private <T> FastReportBuilder addColumn(FastReportBuilder structReport,
+			List<Column> columns, Class<T> clazz) throws ReportException {
 
 		for (Column column : columns) {
 			try {
@@ -343,8 +315,10 @@ public final class DynamicUtils {
 							column.getWidth());
 				}
 
-			} catch (Exception e) {
-				System.out.println("El atributo no existe");
+			} catch (ClassNotFoundException e) {
+				throw new ReportException(e);
+			} catch (NoSuchFieldException e) {
+				throw new ReportException(e);
 			}
 		}
 		return structReport;
@@ -361,16 +335,19 @@ public final class DynamicUtils {
 	 * @param columns
 	 *            Lista de columnas que deben ser generadas
 	 * @return Reporte con las correspondiente columnas generadas
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
+	 * @throws ReportException
 	 */
-	private static FastReportBuilder addColumn(FastReportBuilder structReport,
-			LinkedList<Column> columns) throws ColumnBuilderException,
-			ClassNotFoundException {
+	private FastReportBuilder addColumn(FastReportBuilder structReport,
+			List<Column> columns) throws ReportException {
 
 		for (Column column : columns) {
-			structReport.addColumn(column.getTitle(), column.getField(),
-					Object.class.getName(), column.getWidth());
+			try {
+				structReport.addColumn(column.getTitle(), column.getField(),
+						Object.class.getName(), column.getWidth());
+
+			} catch (ClassNotFoundException e) {
+				throw new ReportException(e);
+			}
 
 		}
 		return structReport;
@@ -385,8 +362,10 @@ public final class DynamicUtils {
 	 * @param detail
 	 *            Detalle que se desea agregar al reporte
 	 * @return Clase del detalle
+	 * @throws ReportException
 	 */
-	private static Class<?> getClazzDetail(Class<?> clazz, Detail detail) {
+	private Class<?> getClazzDetail(Class<?> clazz, Detail detail)
+			throws ReportException {
 
 		Class<?> clazzDetail = null;
 		try {
@@ -397,8 +376,8 @@ public final class DynamicUtils {
 				clazzDetail = (Class<?>) ((ParameterizedType) field
 						.getGenericType()).getActualTypeArguments()[0];
 			}
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (NoSuchFieldException e) {
+			throw new ReportException(e);
 		}
 		return clazzDetail;
 	}
@@ -409,7 +388,7 @@ public final class DynamicUtils {
 	 * 
 	 * @return StyleTitle
 	 */
-	public static Style getStyleTitle() {
+	public Style getStyleTitle() {
 
 		Style styleTitle = new Style();
 		styleTitle.setFont(Font.ARIAL_MEDIUM_BOLD);
@@ -423,7 +402,7 @@ public final class DynamicUtils {
 	 * @return StyleColumnHeader
 	 */
 
-	public static Style getStyleColumnHeader() {
+	public Style getStyleColumnHeader() {
 
 		Style styleColumns = new Style();
 		styleColumns.setTransparent(false);
@@ -442,7 +421,7 @@ public final class DynamicUtils {
 	 * @return StyleColumnHeader
 	 */
 
-	public static Style getStyleColumnHeaderDetails() {
+	public Style getStyleColumnHeaderDetails() {
 
 		Style styleColumns = new Style();
 		styleColumns.setTransparent(false);
@@ -460,10 +439,9 @@ public final class DynamicUtils {
 	 * @return
 	 */
 
-	public static Style getStyleColumnPivot() {
+	public Style getStyleColumnPivot() {
 
-		Style styleColumns = new Style();
-		return styleColumns;
+		return new Style();
 	}
 
 	/**
@@ -473,15 +451,14 @@ public final class DynamicUtils {
 	 * @param structReport
 	 * @return
 	 */
-	private static FastReportBuilder setWhenNotData(
-			FastReportBuilder structReport) {
+	private FastReportBuilder setWhenNotData(FastReportBuilder structReport) {
 
 		structReport.setWhenNoData(
 				I18nHelper.getMessage("BASE_REPORT_NOT_DATA"), null);
 		return structReport;
 	}
 
-	public static FastReportBuilder setAlignReport(FastReportBuilder report,
+	public FastReportBuilder setAlignReport(FastReportBuilder report,
 			Align align) {
 
 		if (align.equals(Align.HORIZONTAL)) {
@@ -500,8 +477,7 @@ public final class DynamicUtils {
 	 * @param report
 	 * @return
 	 */
-	private static FastReportBuilder setTemplatePortrait(
-			FastReportBuilder report) {
+	private FastReportBuilder setTemplatePortrait(FastReportBuilder report) {
 
 		report.setTemplateFile(FILE_PORTRAIT_LOCATION, true, false, true, true);
 		return report;
@@ -513,8 +489,7 @@ public final class DynamicUtils {
 	 * @param report
 	 * @return
 	 */
-	private static FastReportBuilder setTemplateLandScape(
-			FastReportBuilder report) {
+	private FastReportBuilder setTemplateLandScape(FastReportBuilder report) {
 
 		report.setTemplateFile(FILE_LANDSCAPE_LOCATION, true, false, true, true);
 		return report;
@@ -529,8 +504,7 @@ public final class DynamicUtils {
 	 * @param report
 	 * @return
 	 */
-	private static FastReportBuilder setTemplate(String path,
-			FastReportBuilder report) {
+	private FastReportBuilder setTemplate(String path, FastReportBuilder report) {
 
 		report.setTemplateFile(FILE_LOCATION + path, true, false, true, true);
 		return report;

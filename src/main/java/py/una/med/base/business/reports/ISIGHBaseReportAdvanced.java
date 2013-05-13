@@ -5,15 +5,13 @@
 
 package py.una.med.base.business.reports;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
 import py.una.med.base.business.ISIGHBaseLogic;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 import ar.com.fdvs.dj.domain.DynamicReport;
-import ar.com.fdvs.dj.domain.builders.ColumnBuilderException;
 
 /**
  * Iterface que define el servicio para los reportes complejos.
@@ -30,7 +28,7 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 * 
 	 * @return
 	 */
-	public ISIGHBaseLogic<T, ?> getBaseLogic();
+	ISIGHBaseLogic<T, ?> getBaseLogic();
 
 	/**
 	 * Metodo que forma un datasource en base a la estructura definida en
@@ -47,7 +45,7 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 *            Lista de ordenes en el cual se desea visualizar el reporte
 	 * @return
 	 */
-	public DRDataSource getDataSource(HashMap<String, Object> listFilters,
+	DRDataSource getDataSource(Map<String, Object> listFilters,
 			List<String> listOrder);
 
 	/**
@@ -57,14 +55,14 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 * 
 	 * @return Esqueleto del datasource a ser utilizado
 	 */
-	public DRDataSource getStructDataSource();
+	DRDataSource getStructDataSource();
 
 	/**
 	 * Metodo que define las columnas que tendra el dataSource.
 	 * 
 	 * @return Columnas que definen la estructura del DataSource.
 	 */
-	public LinkedList<String> getColumnsDataSource();
+	List<String> getColumnsDataSource();
 
 	/**
 	 * Define las columnas que contendra el reporte, las mismas son generadas de
@@ -73,7 +71,7 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 * 
 	 * @return Columnas que deben ser generadas de forma dinamica.
 	 */
-	public LinkedList<Column> getColumnsReport();
+	List<Column> getColumnsReport();
 
 	/**
 	 * Metodo que realiza la consulta a la base de datos. Dicha consulta es
@@ -87,8 +85,7 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 * @return Lista de elementos que cumplen con las condiciones de filtro
 	 *         ingresadas o seleccionadas.
 	 */
-	public List<?> getList(HashMap<String, Object> listFilters,
-			List<String> listOrder);
+	List<?> getList(Map<String, Object> listFilters, List<String> listOrder);
 
 	/**
 	 * Metodo que genera el reporte fisicamente.
@@ -102,9 +99,11 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 *            Filtros ingresados para realizar la consulta
 	 * @param listOrder
 	 *            Lista de ordenes en el cual se desea visualizar el reporte
+	 * @throws ReportException
 	 */
-	public void generateReport(Map<String, Object> params, String type,
-			HashMap<String, Object> listFilters, List<String> listOrder);
+	void generateReport(Map<String, Object> params, String type,
+			Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException;
 
 	/**
 	 * Define el reporte complejo especifico para cada caso.
@@ -117,10 +116,7 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 * @param listOrder
 	 *            Lista de ordenes en el cual se desea visualizar el reporte
 	 * @return
-	 * @throws ColumnBuilderException
-	 * @throws ClassNotFoundException
 	 */
-	public DynamicReport builReport(Map<String, Object> params,
-			HashMap<String, Object> listFilters, List<String> listOrder)
-			throws ColumnBuilderException, ClassNotFoundException;
+	DynamicReport builReport(Map<String, Object> params,
+			Map<String, Object> listFilters, List<String> listOrder);
 }

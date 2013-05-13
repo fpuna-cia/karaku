@@ -5,9 +5,8 @@
 package py.una.med.base.controller;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.model.SelectItem;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.controller.SIGHBaseController.Mode;
@@ -29,73 +28,73 @@ import py.una.med.base.util.PagingHelper;
  */
 public interface ISIGHBaseController<T, ID extends Serializable> {
 
-	public void clearFilters();
+	void clearFilters();
 
-	public String doCancel();
+	String doCancel();
 
-	public String doCreate();
+	String doCreate();
 
-	public String doDelete();
+	String doDelete();
 
-	public String doEdit();
+	String doEdit();
 
-	public void doSearch();
+	void doSearch();
 
-	public ISIGHBaseLogic<T, ID> getBaseLogic();
+	ISIGHBaseLogic<T, ID> getBaseLogic();
 
-	public abstract List<String> getBaseSearchItems();
+	abstract List<String> getBaseSearchItems();
 
-	public T getBean();
+	T getBean();
 
-	public List<T> getEntities();
+	List<T> getEntities();
 
-	public Where<T> getFilters();
+	Where<T> getFilters();
 
-	public String getMessageIdName();
+	String getMessageIdName();
 
-	public Mode getMode();
+	Mode getMode();
 
-	public PagingHelper<T, ID> getPagingHelper();
+	PagingHelper<T, ID> getPagingHelper();
 
 	/**
 	 * Esta lista del tipo SelectItem es necesaria para los combobox hechos con
 	 * este objeto.
 	 */
-	public List<SelectItem> getSearchSelectItemsList();
+	List<SelectItem> getSearchSelectItemsList();
 
-	public String getUsarController();
+	String getUsarController();
 
-	public String goDelete();
+	String goDelete();
 
-	public String goEdit();
+	String goEdit();
 
-	public String goList();
+	String goList();
 
-	public String goNew();
+	String goNew();
 
-	public String goView();
+	String goView();
 
-	public boolean isCreate();
+	boolean isCreate();
 
-	public boolean isDelete();
+	boolean isDelete();
 
-	public boolean isEdit();
+	boolean isEdit();
 
-	public boolean isSearch();
+	boolean isSearch();
 
-	public boolean isView();
+	boolean isView();
 
-	public String postCreate();
+	String postCreate();
 
-	public String postDelete();
+	String postDelete();
 
-	public String postEdit();
+	String postEdit();
 
-	public void postSearch();
+	void postSearch();
 
-	public String preCreate();
+	String preCreate();
 
-	public String preDelete();
+	String preDelete();
 
 	/**
 	 * Metodo que sera invocado antes de editar un elemento, este metodo debe
@@ -104,22 +103,22 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * 
 	 * @return cadena que representa la pagina donde se editara el bean
 	 */
-	public String preEdit();
+	String preEdit();
 
 	/**
 	 * Metodo que sera invocado antes de mostrar la lista de elementos
 	 * 
 	 * @return cadena que representa la pagina donde se mostrara la lista
 	 */
-	public String preList();
+	String preList();
 
-	public void preSearch();
+	void preSearch();
 
-	public String preView();
+	String preView();
 
-	public void setBean(T bean);
+	void setBean(T bean);
 
-	public void setFilterValue(String filterValue);
+	void setFilterValue(String filterValue);
 
 	/**
 	 * Metodo que sera invocado cuando se desea generar algun reporte, el mismo
@@ -129,7 +128,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * 
 	 * @return Entidad que representa los filtros ingresados
 	 */
-	public Where<T> getWhereReport();
+	Where<T> getWhereReport();
 
 	/**
 	 * Metodo que sera invocado cuando se desea generar algun reporte, el mismo
@@ -138,8 +137,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * 
 	 * @return String que representa los criterios de seleccion
 	 */
-	public HashMap<String, Object> getParamsFilter(
-			HashMap<String, Object> paramsReport);
+	Map<String, Object> getParamsFilter(Map<String, Object> paramsReport);
 
 	/**
 	 * /** Metodo que sera invocado cuando se desea generar algun reporte
@@ -150,7 +148,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 *            Tipo de exportacion puede ser xls o pdf
 	 * @return Reporte generado
 	 */
-	public void generateReport(String type);
+	void generateReport(String type);
 
 	/**
 	 * /** Metodo que sera invocado cuando se desea generar algun reporte
@@ -161,7 +159,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 *            Tipo de exportacion puede ser xls o pdf
 	 * @return Reporte generado
 	 */
-	public void generateReportDetail(String type);
+	void generateReportDetail(String type);
 
 	/**
 	 * Invoca al controllerHelper y obtiene las columnas que son visualizadas en
@@ -169,7 +167,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * 
 	 * @return Columnas definidas en la grilla del ABM
 	 */
-	public LinkedList<Column> getColumns();
+	List<Column> getColumns();
 
 	/**
 	 * Genera el titulo del reporte simple, dependiendo del nombre de la
@@ -177,27 +175,29 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * 
 	 * @return Titulo del reporte
 	 */
-	public String getHeaderReport();
+	String getHeaderReport();
 
 	/**
 	 * Retorna una cadena generada con un permiso por defecto
 	 * 
 	 * @return
 	 */
-	public String getDefaultPermission();
+	String getDefaultPermission();
 
-	public String getDeletePermission();
+	String getDeletePermission();
 
-	public String getCreatePermission();
+	String getCreatePermission();
 
-	public String getEditPermission();
-	
+	String getEditPermission();
+
 	/**
 	 * Metodo vacio que debe ser implementado en la clase que desea definir
 	 * alguna configuración especial en la obtención de valores desde la base de
-	 * datos 
+	 * datos
 	 * 
-	 * @param sp parametro de busqueda definido en el paginHelper y a aser confirgurado
+	 * @param sp
+	 *            parametro de busqueda definido en el paginHelper y a aser
+	 *            confirgurado
 	 */
-	public void configureSearchParam(ISearchParam sp);
+	void configureSearchParam(ISearchParam sp);
 }

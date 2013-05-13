@@ -1,18 +1,15 @@
-/*
- * @MenuController.java 1.0 21/02/2013
+/**
+ * @MenuController 1.0 21/02/13. Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.controller;
 
-import java.util.jar.Manifest;
 import javax.faces.application.ProjectStage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import py.una.med.base.util.Util;
 
 /**
  * Controlador que provee funcionalidades transversales para la aplicacion, se
@@ -30,7 +27,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class MenuController {
 
 	@Autowired
-	private Manifest manifest;
+	private Util util;
 
 	/**
 	 * Retorna la URI para crear links de logout para la aplicacion
@@ -39,9 +36,7 @@ public class MenuController {
 	 */
 	public String getLogoutUrl() {
 
-		return FacesContext.getCurrentInstance().getExternalContext()
-				.getRequestContextPath()
-				+ "/j_spring_cas_security_logout";
+		return util.getLogoutUrl();
 	}
 
 	/**
@@ -51,7 +46,7 @@ public class MenuController {
 	 */
 	public String getTitle() {
 
-		return manifest.getMainAttributes().getValue("specification-title");
+		return util.getTitle();
 	}
 
 	/**
@@ -61,7 +56,7 @@ public class MenuController {
 	 */
 	public String getVersion() {
 
-		return manifest.getMainAttributes().getValue("specification-version");
+		return util.getVersion();
 	}
 
 	/**
@@ -73,8 +68,7 @@ public class MenuController {
 	 */
 	public String getIpAdress() {
 
-		return ((ServletRequestAttributes) RequestContextHolder
-				.currentRequestAttributes()).getRequest().getRemoteAddr();
+		return util.getIpAdress();
 	}
 
 	/**
@@ -86,8 +80,7 @@ public class MenuController {
 	 */
 	public boolean isDevelop() {
 
-		return FacesContext.getCurrentInstance().isProjectStage(
-				ProjectStage.Development);
+		return util.isDevelop();
 	}
 
 	/**
@@ -98,7 +91,6 @@ public class MenuController {
 	 */
 	public boolean isDebug() {
 
-		return java.lang.management.ManagementFactory.getRuntimeMXBean()
-				.getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;
+		return util.isDebug();
 	}
 }

@@ -4,14 +4,15 @@
 
 package py.una.med.base.business.reports;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 import py.una.med.base.reports.ExportReport;
 
@@ -27,6 +28,9 @@ import py.una.med.base.reports.ExportReport;
 @Service
 public class SIGHBaseReportSimple implements ISIGHBaseReportSimple {
 
+	@Autowired
+	private ExportReport exportReport;
+
 	@Override
 	public <T> List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where) {
 
@@ -38,12 +42,12 @@ public class SIGHBaseReportSimple implements ISIGHBaseReportSimple {
 
 	@Override
 	public <T> void generateReport(Map<String, Object> params, String type,
-			LinkedList<Column> columns, ISIGHBaseLogic<T, ?> logic,
-			Where<T> where, Class<T> clazz) {
+			List<Column> columns, ISIGHBaseLogic<T, ?> logic, Where<T> where,
+			Class<T> clazz) throws ReportException {
 
 		JRDataSource datasource = new JRBeanCollectionDataSource(getList(logic,
 				where));
-		ExportReport.exportSimpleReport(columns, clazz, datasource, params,
+		exportReport.exportSimpleReport(columns, clazz, datasource, params,
 				type);
 	}
 

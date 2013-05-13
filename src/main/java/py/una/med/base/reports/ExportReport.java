@@ -5,11 +5,12 @@
 package py.una.med.base.reports;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -17,9 +18,13 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.util.I18nHelper;
+import py.una.med.base.util.Util;
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.domain.DynamicReport;
@@ -31,95 +36,53 @@ import ar.com.fdvs.dj.domain.DynamicReport;
  * @since 1.0
  * @version 1.4 07/03/2013
  */
-public final class ExportReport {
+@Component
+public class ExportReport {
 
-	private ExportReport() {
-
-		// No-op
-	}
-
-	private static final String FILE_LOCATION_TEMPLATE = "report/base/";
-	private static final String FILE_LOCATION = "report/";
 	private static final String EXPORT_TYPE_EXCEL = "xls";
 	private static final String EXPORT_TYPE_PDF = "pdf";
+	private static final String FILE_LOCATION = "report/";
+	private static final String FILE_LOCATION_TEMPLATE = "report/base/";
 	private static final String MEDIA_TYPE_EXCEL = "application/vnd.ms-excel";
 	private static final String MEDIA_TYPE_PDF = "application/pdf";
 
-	/**
-	 * Obtiene los parametros genericos para los reportes simples<br>
-	 * 
-	 * @return Lista de parametros generales que seran enviados al template
-	 *         basico para los reportes
-	 */
-	private static Map<String, Object> getDetailsReport(
-			Map<String, Object> params) throws IOException {
+	@Autowired
+	private Util util;
 
-		ClassPathResource imagePath = new ClassPathResource(
-				FILE_LOCATION_TEMPLATE + "logo.jpg");
-
-		params.put("logo", imagePath.getInputStream());
-		params.put("nombreInstitucion",
-				I18nHelper.getMessage("BASE_REPORT_NAME_INSTITUTION"));
-		params.put("nombreEstablecimiento",
-				I18nHelper.getMessage("BASE_REPORT_NAME_ESTABLISHMENT"));
-		params.put("date", I18nHelper.getMessage("BASE_REPORT_DATE"));
-		params.put("time", I18nHelper.getMessage("BASE_REPORT_TIME"));
-		params.put("selectionCriteria",
-				I18nHelper.getMessage("BASE_REPORT_SELECTION_CRITERIA"));
-		params.put("user", I18nHelper.getMessage("BASE_REPORT_USER"));
-		params.put("userName", SecurityContextHolder.getContext()
-				.getAuthentication().getName());
-		params.put("nameSystem",
-				I18nHelper.getMessage("BASE_REPORT_NAME_SYSTEM"));
-		params.put("page", I18nHelper.getMessage("BASE_REPORT_PAGE"));
-		params.put("pageThe", I18nHelper.getMessage("BASE_REPORT_PAGE_THE"));
-		return params;
-	}
+	@Autowired
+	private DynamicUtils dynamicUtils;
 
 	/**
-	 * Genera un reporte utilizando el template basico de configuracion que se
-	 * encuentra en la aplicacion, y el contenido es generado de forma dinamica.
-	 * Es utilizado para los reportes de la grilla<br>
+	 * * Metodo que compila un archivo .jrxml<br>
+	 * <b>Por ejemplo</b><br>
+	 * <ol>
+	 * <li><b>HolaMundo</b>, retorna [Hola,Mundo]
+	 * </ol>
 	 * 
-	 * @param columns
-	 *            Columnas que seran visualizadas en el reporte
-	 * @param clazz
-	 *            Clase de la entidad sobre la cual se desea realizar el reporte
-	 * @param dataSource
-	 *            Datasource que contiene la lista filtrada de acuerdo a los
-	 *            criterios de seleccion.
-	 * @param params
-	 *            Parametros especificos del reporte
-	 * @param type
-	 *            Tipo de exportacion, puede ser XLS o PDF
-	 * @return reporte generado
+	 * 1. fileReport.jrxml, retorna fileReport.jasper * * @param fileReport * @return
+	 * archivo compilado
+	 * 
+	 * @throws ReportException
 	 */
-	public static <T> void exportSimpleReport(LinkedList<Column> columns,
-			Class<T> clazz, JRDataSource dataSource,
-			Map<String, Object> params, String type) {
+	private JasperReport compile(String fileReport) throws ReportException {
 
-		JasperPrint jasperPrint;
 		try {
-			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					DynamicUtils.buildReportSimple(columns, clazz),
-					new ClassicLayoutManager(), dataSource,
-					getDetailsReport(params));
-
-			generate(jasperPrint, params, dataSource, type);
-
-		} catch (Exception e) {
-			e.printStackTrace();
+			ClassPathResource resource = new ClassPathResource(FILE_LOCATION
+					+ fileReport);
+			return JasperCompileManager
+					.compileReport(resource.getInputStream());
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
 		}
 	}
 
 	/**
-	 * Genera un reporte utilizando el template basico de configuracion que se
-	 * encuentra en la aplicacion, y el contenido es generado de forma dinamica.
-	 * Es utilizado para los reportes de la grilla cuyas columnas son atributos
-	 * calculados<br>
+	 * Genera un reporte complejo de forma dinamica.
 	 * 
-	 * @param columns
-	 *            Columnas que seran visualizadas en el reporte
+	 * @param report
+	 *            Reporte complejo especifico
 	 * @param dataSource
 	 *            Datasource que contiene la lista filtrada de acuerdo a los
 	 *            criterios de seleccion.
@@ -127,22 +90,24 @@ public final class ExportReport {
 	 *            Parametros especificos del reporte
 	 * @param type
 	 *            Tipo de exportacion, puede ser XLS o PDF
-	 * @return reporte generado
+	 * @throws ReportException
 	 */
-	public static <T> void exportSimpleReport(LinkedList<Column> columns,
-			JRDataSource dataSource, Map<String, Object> params, String type) {
+	public void exportAvancedReport(DynamicReport report,
+			JRDataSource dataSource, Map<String, Object> params, String type)
+			throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
-			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					DynamicUtils.buildReportSimple(columns),
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(report,
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, dataSource, type);
+			generate(jasperPrint, params, type);
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
 		}
 	}
 
@@ -165,22 +130,25 @@ public final class ExportReport {
 	 *            Parametros especificos del reporte.
 	 * @param type
 	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @throws ReportException
 	 */
-	public static <T> void exportDetailReport(SIGHReportDetails report,
-			Align align, Class<T> clazz, JRDataSource dataSource,
-			Map<String, Object> params, String type) {
+	public <T> void exportDetailReport(SIGHReportDetails report, Align align,
+			Class<T> clazz, JRDataSource dataSource,
+			Map<String, Object> params, String type) throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					DynamicUtils.buildReportDetail(report, align, clazz),
+					dynamicUtils.buildReportDetail(report, align, clazz),
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, dataSource, type);
+			generate(jasperPrint, params, type);
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
 		}
 	}
 
@@ -206,52 +174,26 @@ public final class ExportReport {
 	 *            Parametros especificos del reporte.
 	 * @param type
 	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @throws ReportException
 	 */
 
-	public static <T> void exportDetailReport(String path,
-			SIGHReportDetails report, Class<T> clazz, JRDataSource dataSource,
-			Map<String, Object> params, String type) {
+	public <T> void exportDetailReport(String path, SIGHReportDetails report,
+			Class<T> clazz, JRDataSource dataSource,
+			Map<String, Object> params, String type) throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					DynamicUtils.buildReportDetail(path, report, clazz),
+					dynamicUtils.buildReportDetail(path, report, clazz),
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, dataSource, type);
+			generate(jasperPrint, params, type);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Genera un reporte complejo de forma dinamica.
-	 * 
-	 * @param report
-	 *            Reporte complejo especifico
-	 * @param dataSource
-	 *            Datasource que contiene la lista filtrada de acuerdo a los
-	 *            criterios de seleccion.
-	 * @param params
-	 *            Parametros especificos del reporte
-	 * @param type
-	 *            Tipo de exportacion, puede ser XLS o PDF
-	 */
-	public static void exportAvancedReport(DynamicReport report,
-			JRDataSource dataSource, Map<String, Object> params, String type) {
-
-		JasperPrint jasperPrint;
-		try {
-			jasperPrint = DynamicJasperHelper.generateJasperPrint(report,
-					new ClassicLayoutManager(), dataSource,
-					getDetailsReport(params));
-
-			generate(jasperPrint, params, dataSource, type);
-
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
 		}
 	}
 
@@ -274,19 +216,100 @@ public final class ExportReport {
 	 *            Parametros especificos del reporte
 	 * @param type
 	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @throws ReportException
 	 */
-	public static <T> void exportReportStatic(String fileReport,
-			JRDataSource dataSource, Map<String, Object> params, String type) {
+	public <T> void exportReportStatic(String fileReport,
+			JRDataSource dataSource, Map<String, Object> params, String type)
+			throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = JasperFillManager.fillReport(compile(fileReport),
 					getDetailsReport(params), dataSource);
 
-			generate(jasperPrint, params, dataSource, type);
+			generate(jasperPrint, params, type);
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	/**
+	 * Genera un reporte utilizando el template basico de configuracion que se
+	 * encuentra en la aplicacion, y el contenido es generado de forma dinamica.
+	 * Es utilizado para los reportes de la grilla<br>
+	 * 
+	 * @param columns
+	 *            Columnas que seran visualizadas en el reporte
+	 * @param clazz
+	 *            Clase de la entidad sobre la cual se desea realizar el reporte
+	 * @param dataSource
+	 *            Datasource que contiene la lista filtrada de acuerdo a los
+	 *            criterios de seleccion.
+	 * @param params
+	 *            Parametros especificos del reporte
+	 * @param type
+	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @return reporte generado
+	 * @throws ReportException
+	 */
+	public <T> void exportSimpleReport(List<Column> columns, Class<T> clazz,
+			JRDataSource dataSource, Map<String, Object> params, String type)
+			throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buildReportSimple(columns, clazz),
+					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	/**
+	 * Genera un reporte utilizando el template basico de configuracion que se
+	 * encuentra en la aplicacion, y el contenido es generado de forma dinamica.
+	 * Es utilizado para los reportes de la grilla cuyas columnas son atributos
+	 * calculados<br>
+	 * 
+	 * @param columns
+	 *            Columnas que seran visualizadas en el reporte
+	 * @param dataSource
+	 *            Datasource que contiene la lista filtrada de acuerdo a los
+	 *            criterios de seleccion.
+	 * @param params
+	 *            Parametros especificos del reporte
+	 * @param type
+	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @return reporte generado
+	 * @throws ReportException
+	 */
+	public <T> void exportSimpleReport(List<Column> columns,
+			JRDataSource dataSource, Map<String, Object> params, String type)
+			throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buildReportSimple(columns),
+					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
 		}
 	}
 
@@ -297,14 +320,12 @@ public final class ExportReport {
 	 *            Estructura del reporte a generar
 	 * @param params
 	 *            Parametros del reporte
-	 * @param datasource
-	 *            Datasource que contiene la lista filtrada de acuerdo a los
-	 *            criterios de seleccion.
 	 * @param type
 	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @throws ReportException
 	 */
-	private static void generate(JasperPrint jasperPrint,
-			Map<String, Object> params, JRDataSource datasource, String type) {
+	private void generate(JasperPrint jasperPrint, Map<String, Object> params,
+			String type) throws ReportException {
 
 		try {
 
@@ -342,31 +363,41 @@ public final class ExportReport {
 			}
 
 			FacesContext.getCurrentInstance().responseComplete();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
 		}
-	};
+	}
 
 	/**
-	 * * Metodo que compila un archivo .jrxml<br>
-	 * <b>Por ejemplo</b><br>
-	 * <ol>
-	 * <li><b>HolaMundo</b>, retorna [Hola,Mundo]
-	 * </ol>
+	 * Obtiene los parametros genericos para los reportes simples<br>
 	 * 
-	 * 1. fileReport.jrxml, retorna fileReport.jasper * * @param fileReport * @return
-	 * archivo compilado
+	 * @return Lista de parametros generales que seran enviados al template
+	 *         basico para los reportes
 	 */
-	private static JasperReport compile(String fileReport) {
+	private Map<String, Object> getDetailsReport(Map<String, Object> params)
+			throws IOException {
 
-		try {
-			ClassPathResource resource = new ClassPathResource(FILE_LOCATION
-					+ fileReport);
-			return JasperCompileManager
-					.compileReport(resource.getInputStream());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+		ClassPathResource imagePath = new ClassPathResource(
+				FILE_LOCATION_TEMPLATE + "logo.jpg");
+
+		params.put("logo", imagePath.getInputStream());
+		params.put("nombreInstitucion",
+				I18nHelper.getMessage("BASE_REPORT_NAME_INSTITUTION"));
+		params.put("nombreEstablecimiento",
+				I18nHelper.getMessage("BASE_REPORT_NAME_ESTABLISHMENT"));
+		params.put("date", I18nHelper.getMessage("BASE_REPORT_DATE"));
+		params.put("time", I18nHelper.getMessage("BASE_REPORT_TIME"));
+		params.put("selectionCriteria",
+				I18nHelper.getMessage("BASE_REPORT_SELECTION_CRITERIA"));
+		params.put("user", I18nHelper.getMessage("BASE_REPORT_USER"));
+		params.put("userName", SecurityContextHolder.getContext()
+				.getAuthentication().getName());
+		params.put("nameSystem", util.getNameSystem());
+		params.put("page", I18nHelper.getMessage("BASE_REPORT_PAGE"));
+		params.put("pageThe", I18nHelper.getMessage("BASE_REPORT_PAGE_THE"));
+		return params;
+	};
+
 }

@@ -1,32 +1,41 @@
+/**
+ * @ISIGHBaseReportController 1.0 12/03/13. Sistema Integral de Gestion
+ *                            Hospitalaria
+ */
 package py.una.med.base.controller.reports;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface del controlador utilizado para manejar los reportes complejos.
+ * 
+ * @author Nathalia Ochoa
+ * @since 1.0
+ * @version 1.0 13/05/2013
+ * 
+ */
 public interface ISIGHBaseReportController<T, ID extends Serializable> {
 
-	public HashMap<String, Object> getFilterOptions();
+	Map<String, Object> getFilterOptions();
 
-	public void setFilterOptions(LinkedHashMap<String, Object> filterOptions);
+	void setFilterOptions(Map<String, Object> filterOptions);
 
-	public abstract List<String> getBaseOrderOptions();
+	List<String> getBaseOrderOptions();
 
-	public List<String> getOrderSelected();
+	List<String> getOrderSelected();
 
-	public void setOrderSelected(List<String> orderSelected);
+	void setOrderSelected(List<String> orderSelected);
 
-	public String getTypeExport();
+	String getTypeExport();
 
-	public void setTypeExport(String typeExport);
+	void setTypeExport(String typeExport);
 
-	public Map<String, Object> getFilterReport(
-			HashMap<String, Object> paramsReport);
+	Map<String, Object> getFilterReport(Map<String, Object> paramsReport);
 
-	public abstract void generateReport();
+	void generateReport();
 
-	public String getDefaultPermission();
+	String getDefaultPermission();
 
 }

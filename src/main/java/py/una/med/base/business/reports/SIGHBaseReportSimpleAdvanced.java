@@ -8,8 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 import py.una.med.base.reports.ExportReport;
 import py.una.med.base.util.ListHelper;
@@ -25,6 +27,9 @@ import py.una.med.base.util.ListHelper;
  */
 public abstract class SIGHBaseReportSimpleAdvanced<T> implements
 		ISIGHBaseReportSimpleAdvanced<T> {
+
+	@Autowired
+	private ExportReport exportReport;
 
 	@Override
 	public DRDataSource getStructDataSource() {
@@ -44,7 +49,7 @@ public abstract class SIGHBaseReportSimpleAdvanced<T> implements
 	};
 
 	@Override
-	public LinkedList<String> getColumnsDataSource() {
+	public List<String> getColumnsDataSource() {
 
 		LinkedList<String> template = new LinkedList<String>();
 		for (Column column : getColumnsReport()) {
@@ -54,7 +59,7 @@ public abstract class SIGHBaseReportSimpleAdvanced<T> implements
 	}
 
 	@Override
-	public abstract LinkedList<Column> getColumnsReport();
+	public abstract List<Column> getColumnsReport();
 
 	@Override
 	public abstract DRDataSource getDataSource(ISIGHBaseLogic<T, ?> logic,
@@ -62,9 +67,9 @@ public abstract class SIGHBaseReportSimpleAdvanced<T> implements
 
 	@Override
 	public void generateReport(Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, Where<T> where) {
+			ISIGHBaseLogic<T, ?> logic, Where<T> where) throws ReportException {
 
-		ExportReport.exportSimpleReport(getColumnsReport(),
+		exportReport.exportSimpleReport(getColumnsReport(),
 				getDataSource(logic, where), params, type);
 
 	}

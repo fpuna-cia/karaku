@@ -3,8 +3,8 @@ package py.una.med.base.controller;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +23,7 @@ import py.una.med.base.business.reports.SIGHBaseReportSimple;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.util.EntityExample;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
@@ -252,15 +253,13 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 			return where;
 		}
 		if (getFilterValue() != null && !getFilterValue().equals("")) {
-			Where<T> where = getFilters();
-			return where;
+			return getFilters();
 		}
 		return null;
 	}
 
 	@Override
-	public HashMap<String, Object> getParamsFilter(
-			HashMap<String, Object> paramsReport) {
+	public Map<String, Object> getParamsFilter(Map<String, Object> paramsReport) {
 
 		if (example != null) {
 			paramsReport.put("selectionFilters",
@@ -285,8 +284,17 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 		HashMap<String, Object> paramsReport = new HashMap<String, Object>();
 		paramsReport.put("titleReport", getHeaderReport());
 		Class<T> clazz = getBaseLogic().getDao().getClassOfT();
-		baseReportSimple.generateReport(getParamsFilter(paramsReport), type,
-				getColumns(), getBaseLogic(), getWhereReport(), clazz);
+		try {
+			baseReportSimple
+					.generateReport(getParamsFilter(paramsReport), type,
+							getColumns(), getBaseLogic(), getWhereReport(),
+							clazz);
+			createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
+					"BASE_REPORT_CREATE_SUCCESS");
+		} catch (ReportException e) {
+			createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
+					"BASE_REPORT_CREATE_FAILURE");
+		}
 	}
 
 	@Override
@@ -298,7 +306,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 	private ControllerHelper helper;
 
 	@Override
-	public LinkedList<Column> getColumns() {
+	public List<Column> getColumns() {
 
 		return helper.getColumns();
 	}

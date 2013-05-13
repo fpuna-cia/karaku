@@ -4,7 +4,7 @@
 
 package py.una.med.base.reports;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Clase utilizada para representar los reportes del tipo cabecera-detalle.
@@ -16,8 +16,8 @@ import java.util.LinkedList;
  */
 public class SIGHReportDetails {
 
-	private LinkedList<Column> columns;
-	private LinkedList<Detail> details;
+	private List<Column> columns;
+	private List<Detail> details;
 
 	/**
 	 * Construye una estructura que representa un reporte del tipo
@@ -28,15 +28,14 @@ public class SIGHReportDetails {
 	 * @param details
 	 *            Detalles del reporte principal
 	 */
-	public SIGHReportDetails(LinkedList<Column> columns,
-			LinkedList<Detail> details) {
+	public SIGHReportDetails(List<Column> columns, List<Detail> details) {
 
 		super();
 		this.columns = columns;
 		this.details = details;
 	}
 
-	public SIGHReportDetails(LinkedList<Detail> details) {
+	public SIGHReportDetails(List<Detail> details) {
 
 		super();
 		this.details = details;
@@ -47,22 +46,22 @@ public class SIGHReportDetails {
 		details.add(detail);
 	}
 
-	public LinkedList<Column> getColumns() {
+	public List<Column> getColumns() {
 
 		return columns;
 	}
 
-	public void setColumns(LinkedList<Column> columns) {
+	public void setColumns(List<Column> columns) {
 
 		this.columns = columns;
 	}
 
-	public LinkedList<Detail> getDetails() {
+	public List<Detail> getDetails() {
 
 		return details;
 	}
 
-	public void setDetails(LinkedList<Detail> details) {
+	public void setDetails(List<Detail> details) {
 
 		this.details = details;
 	}
@@ -71,9 +70,9 @@ public class SIGHReportDetails {
 
 		private String title;
 		private String field;
-		private LinkedList<Column> columns;
+		private List<Column> columns;
 
-		public Detail(String title, String field, LinkedList<Column> columns) {
+		public Detail(String title, String field, List<Column> columns) {
 
 			super();
 			this.title = title;
@@ -106,12 +105,12 @@ public class SIGHReportDetails {
 			this.field = field;
 		}
 
-		public LinkedList<Column> getColumns() {
+		public List<Column> getColumns() {
 
 			return columns;
 		}
 
-		public void setColumns(LinkedList<Column> columns) {
+		public void setColumns(List<Column> columns) {
 
 			this.columns = columns;
 		}

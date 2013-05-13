@@ -26,7 +26,7 @@ public interface ISIGHBaseReportDetail<T> {
 	 * 
 	 * @return
 	 */
-	public ISIGHBaseLogic<T, ?> getBaseLogic();
+	ISIGHBaseLogic<T, ?> getBaseLogic();
 
 	/**
 	 * Metodo que realiza la consulta HQL especifica, la cual obtiene los
@@ -39,7 +39,7 @@ public interface ISIGHBaseReportDetail<T> {
 	 * @param bean
 	 * @return Detalles
 	 */
-	public List<?> getDetails(T bean);
+	List<?> getDetails(T bean);
 
 	/**
 	 * Metodo que genera un reporte utilizando el template base, donde solo se
@@ -59,7 +59,7 @@ public interface ISIGHBaseReportDetail<T> {
 	 * @param bean
 	 *            Registro cuyos detalles deben ser visualizados.
 	 */
-	public void generateReport(SIGHReportDetails report, Align align,
+	void generateReport(SIGHReportDetails report, Align align,
 			Map<String, Object> params, String type, T bean, Class<?> clazz);
 
 	/**
@@ -88,6 +88,6 @@ public interface ISIGHBaseReportDetail<T> {
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 */
-	public void generateReport(String path, SIGHReportDetails report,
+	void generateReport(String path, SIGHReportDetails report,
 			Map<String, Object> params, String type, T bean, Class<?> clazz);
 }

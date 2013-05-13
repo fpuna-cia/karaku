@@ -2,22 +2,21 @@
  * @SIGHBaseReportController 1.0 12/03/13. Sistema Integral de Gestion
  *                           Hospitalaria
  */
-
 package py.una.med.base.controller.reports;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.Serializer;
 
 /**
  * 
+ * Controlador utilizado para manejar los reportes complejos, es decir aquellos
+ * que implican una serie de filtros y/o lista de ordenes.
  * 
  * @author Nathalia Ochoa
  * @since 1.0
@@ -31,12 +30,12 @@ public abstract class SIGHBaseReportController<T, ID extends Serializable>
 	/**
 	 * Mantiene los filtros ingresados
 	 */
-	private LinkedHashMap<String, Object> filterOptions;
+	private Map<String, Object> filterOptions;
 	/**
 	 * Se utiliza para indicar el valor que debe ser visualizado en los filtros
 	 * para los componentes de la vista, en caso de que sea necesario.
 	 */
-	private LinkedHashMap<String, LabelProvider> labels;
+	private Map<String, LabelProvider> labels;
 	/**
 	 * Mantiene la lista de ordenes seleccionados
 	 */
@@ -54,8 +53,7 @@ public abstract class SIGHBaseReportController<T, ID extends Serializable>
 	public abstract void generateReport();
 
 	@Override
-	public Map<String, Object> getFilterReport(
-			HashMap<String, Object> paramsReport) {
+	public Map<String, Object> getFilterReport(Map<String, Object> paramsReport) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -115,7 +113,7 @@ public abstract class SIGHBaseReportController<T, ID extends Serializable>
 	}
 
 	@Override
-	public HashMap<String, Object> getFilterOptions() {
+	public Map<String, Object> getFilterOptions() {
 
 		if (filterOptions == null) {
 			filterOptions = new LinkedHashMap<String, Object>();
@@ -124,12 +122,12 @@ public abstract class SIGHBaseReportController<T, ID extends Serializable>
 	}
 
 	@Override
-	public void setFilterOptions(LinkedHashMap<String, Object> filterOptions) {
+	public void setFilterOptions(Map<String, Object> filterOptions) {
 
 		this.filterOptions = filterOptions;
 	}
 
-	public LinkedHashMap<String, LabelProvider> getLabels() {
+	public Map<String, LabelProvider> getLabels() {
 
 		if (labels == null) {
 			labels = new LinkedHashMap<String, LabelProvider>();
@@ -137,7 +135,7 @@ public abstract class SIGHBaseReportController<T, ID extends Serializable>
 		return labels;
 	}
 
-	public void setLabels(LinkedHashMap<String, LabelProvider> labels) {
+	public void setLabels(Map<String, LabelProvider> labels) {
 
 		this.labels = labels;
 	}

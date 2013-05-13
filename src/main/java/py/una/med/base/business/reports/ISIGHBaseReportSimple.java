@@ -4,11 +4,11 @@
 
 package py.una.med.base.business.reports;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 
 /**
@@ -32,7 +32,7 @@ public interface ISIGHBaseReportSimple {
 	 *            Representa los filtros ingresados por el usuario.
 	 * @return Lista filtrada
 	 */
-	public <T> List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	<T> List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where);
 
 	/**
 	 * Metodo que genera el datasource necesario y el reporte correspondiente.
@@ -50,8 +50,9 @@ public interface ISIGHBaseReportSimple {
 	 *            Representa los filtros introducidos
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se realizara el reporte.
+	 * @throws ReportException
 	 */
-	public <T> void generateReport(Map<String, Object> params, String type,
-			LinkedList<Column> columns, ISIGHBaseLogic<T, ?> logic,
-			Where<T> where, Class<T> clazz);
+	<T> void generateReport(Map<String, Object> params, String type,
+			List<Column> columns, ISIGHBaseLogic<T, ?> logic, Where<T> where,
+			Class<T> clazz) throws ReportException;
 }

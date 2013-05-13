@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.exception.ReportException;
 
 /**
  * Interface que define el servicio para generar reportes completamente
@@ -31,7 +32,7 @@ public interface ISIGHBaseStaticReport {
 	 *            Representa los filtros ingresados por el usuario.
 	 * @return Lista filtrada
 	 */
-	public <T> List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	<T> List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where);
 
 	/**
 	 * 
@@ -52,8 +53,9 @@ public interface ISIGHBaseStaticReport {
 	 *            consultar a la base de datos.
 	 * @param where
 	 *            Representa los filtros introducidos
+	 * @throws ReportException
 	 */
-	public <T> void generateReport(String fileReport,
-			Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	<T> void generateReport(String fileReport, Map<String, Object> params,
+			String type, ISIGHBaseLogic<T, ?> logic, Where<T> where)
+			throws ReportException;
 }
