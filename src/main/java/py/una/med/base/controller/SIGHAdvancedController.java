@@ -2,6 +2,7 @@ package py.una.med.base.controller;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -125,8 +126,10 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 				where.setExample(new EntityExample<T>(example));
 				return where;
 			}
-			if (f.getType().isAssignableFrom(Number.class)) {
-				f.set(example, Integer.valueOf(getFilterValue()));
+			if (Number.class.isAssignableFrom(f.getType())) {
+				Method method = f.getType().getMethod("valueOf", String.class);
+				Object o = method.invoke(null, getFilterValue());
+				f.set(example, o);
 				where.setExample(new EntityExample<T>(example));
 				return where;
 			}
