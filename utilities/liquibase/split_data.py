@@ -19,7 +19,7 @@ NS = 'http://www.liquibase.org/xml/ns/dbchangelog'
 #http://stackoverflow.com/questions/567879/how-can-i-process-command-line-arguments-in-python
 parser = argparse.ArgumentParser(description=program_description, epilog=program_epilog, formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('--author', dest='author', help='Autor de los cambios', default='avolpe@pol.una.py')
-parser.add_argument('--file-name', dest='file_name', help='''Nombre de los archivos.
+parser.add_argument('-f', '--file-name', dest='file_name', help='''Nombre de los archivos.
 - DDDD se cambia por la fecha
 - TTTT se cambia por la tabla
 default: DDDD_TTTT_ID''', default='DDDD_TTTT_ID')
@@ -27,8 +27,8 @@ parser.add_argument('--id', dest='id', help='''Identificador de cada changeset,
 TTTT por la tabla.
 CCCC por la columna
 default: conf_public_TTTT_id_##''', default='conf_public_TTTT_id_01')
-parser.add_argument('-f', '--file-source', dest='source', type=file, 
-	help='Archivo a partir', default='db-changelog.xml')
+parser.add_argument('-s', '--file-source', dest='source', type=file, 
+	help='Archivo a partir')
 parser.add_argument('-e', '--encoding', dest='e', 
 	help='Codificacion para escribir', default='iso-8859-1')
 parser.add_argument('-v', '--verbose', dest='v', 
@@ -37,6 +37,12 @@ parser.add_argument('-p', '--prefix', dest='prefix',
 	help='Prefijo de para los include', default='')
 args = parser.parse_args()
 
+if not args.source:
+	try :
+		args.source = file('db-changelog.xml', 'r')
+	except:
+		print "Please create a file with name db-changelog.xml or pass a -s argument"
+		exit()
 def get_root_changelog():
 	xml = '''<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

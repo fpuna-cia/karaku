@@ -32,16 +32,16 @@ def disable():
     BColors.FAIL = ''
     BColors.ENDC = ''
 
-args = False
+enable_log = False
 def enable_log(value, color = True):
-    global args
-    args = value
+    global enable_log
+    enable_log = value
     if not color:
         disable()
 
 def log(string, level='debug', nivel=0, active=None):
     if not active:
-        active = args
+        active = enable_log
     if active :
         if level == 'debug':
             imprimir(BColors.OKBLUE, string, nivel)

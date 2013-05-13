@@ -49,7 +49,6 @@ parser.add_argument('-x', '--fix', dest='x', help='Arregla los errores',
 	default=True, action='store_const', const=False)
 parser.add_argument('-s', '--simulation', dest='s', help='Simula todos los cambios',
 	default=False, action='store_const', const=True)
-
 sequence_numbers = {}
 
 
@@ -203,6 +202,8 @@ def verify(fil, element, log_level):
 		new_full_path = fil.replace(old_name, new_name)
 		#movemos el archivo
 		replace(fil, new_full_path)
+		old_path = fil
+		fil = new_full_path
 		#modificamos el element
 		#obtenemos el nombre classpath:
 		element.set('file', utils.from_filesystem_to_classpath(new_full_path))
@@ -225,16 +226,22 @@ def verify(fil, element, log_level):
 		#print change_set.get('id')
 		#print change_set.get('author')
 		lb_file.full_fix()
+		#print "###{0}".format(lb_file)
 		#print lb_file.system
 		new_id = get_id(lb_file)
+		#print "###NED_ID {0}".format(new_id)
 		#print new_id
 		nex_val = 1
+		if new_id == 'idp_public_exclusion-codigo-identificacion_auc_##':
+			print "HOLAAA {0} ({1})".format(old_path, len(change_sets))
 		if new_id in sequence_numbers:
 			nex_val = sequence_numbers[new_id] + 1
 		sequence_numbers[new_id] = nex_val
+		#print "###NEXT_VAL {0}".format(nex_val)
 
 		new_id = new_id.replace('##', '%03d' % nex_val)
 		
+		#print "###FINAL_ID {0}".format(new_id)
 		if new_id != change_set.get('id'):
 			#print new_id
 			#print change_set.get('id')
@@ -248,7 +255,6 @@ def verify(fil, element, log_level):
 		save_change_log(fil, root)
 
 	return fixed
-
 
 def get_id(lb_file):
 	return conventions.liquibase_id_name.format(
@@ -370,4 +376,6 @@ fix_change_log(args.file)
 # 		#print fil
 # 		#print os.path.join(root, fil)
 
+#for key in sequence_numbers.keys():
+#	log('{0}: {1}'.format(key, sequence_numbers[key]))
 log (program_epilog, 'ALL')

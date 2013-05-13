@@ -1,7 +1,7 @@
 #!bin/bash
 
 liquibase \
-		--url=jdbc:postgresql://localhost:5432/configuracion \
+		--url=jdbc:postgresql://localhost:5432/identificacion \
 		--driver=org.postgresql.Driver \
 		--username=postgres \
 		--password="postgres" \
