@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+  <changeSet author="avolpe@pol.una.py" id="base_audit_audit-trail_ct_001">
+    <createSequence incrementBy="${liquibase.sequence.increment_by}" maxValue="${liquibase.sequence.max_value}" minValue="${liquibase.sequence.min_value}" schemaName="${liquibase.audit.schema}" sequenceName="AUDIT_TRAIL_ID_SEQ" startValue="${liquibase.sequence.start_value}"/>
+    <createTable tableName="audit_trail" schemaName="${liquibase.audit.schema}">
+      <column name="id" type="BIGINT" defaultValueNumeric="nextval('AUDIT_TRAIL_ID_SEQ'::regclass))">
+        <constraints nullable="false"/>
+      </column>
+      <column name="ip" type="VARCHAR(255)"/>
+      <column name="methodsignature" type="VARCHAR(255)"/>
+      <column name="username" type="VARCHAR(255)"/>
+    </createTable>
+    <addPrimaryKey tableName="audit_trail" constraintName="audittrail_pkey" columnNames="id"/>
+  </changeSet>
+</databaseChangeLog>

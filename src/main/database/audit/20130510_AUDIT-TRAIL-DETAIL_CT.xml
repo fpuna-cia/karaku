@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+  <changeSet author="avolpe@pol.una.py" id="base_audit_audit-trail-detail_ct_001">
+    <createSequence incrementBy="${liquibase.sequence.increment_by}" maxValue="${liquibase.sequence.max_value}" minValue="${liquibase.sequence.min_value}" schemaName="${liquibase.audit.schema}" sequenceName="AUDIT_TRAIL_DETAIL_ID_SEQ" startValue="${liquibase.sequence.start_value}"/>
+    <createTable tableName="audit_trail_detail" schemaName="${liquibase.audit.schema}">
+      <column name="id" type="BIGINT" defaultValueNumeric="nextval('AUDIT_TRAIL_DETAIL_ID_SEQ'::regclass))">
+        <constraints nullable="false"/>
+      </column>
+      <column name="expression" type="VARCHAR(255)"/>
+      <column name="value" type="${liquibase.column.binary}"/>
+      <column name="header_id" type="BIGINT"/>
+    </createTable>
+    <addPrimaryKey tableName="audit_trail_detail" constraintName="audittraildetail_pkey" columnNames="id"/>
+    <addForeignKeyConstraint baseTableName="audit_trail_detail" constraintName="fk_header_id_audittraildetail_audittrail" baseColumnNames="header_id" referencedTableName="audit_trail" referencedColumnNames="id"/>
+  </changeSet>
+</databaseChangeLog>
