@@ -6,6 +6,8 @@
 
 	<security:http entry-point-ref="casEntryPoint"
 		use-expressions="true">
+		<security:intercept-url pattern="/endpoints/**"
+			access="true" />
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />
 		<security:custom-filter position="CAS_FILTER"
