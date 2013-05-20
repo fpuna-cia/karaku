@@ -84,7 +84,6 @@ public class MainInstanceHelper {
 		sb.append("join o.").append(principal.attribute()).append(" p ");
 		sb.append("where p.").append(principal.path()).append(" like :value");
 		sb.append("and o like :mainEntity");
-		System.out.println(sb.toString());
 		return sb.toString();
 	}
 

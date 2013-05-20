@@ -185,7 +185,6 @@ public class ComboBoxField<T> extends LabelField {
 	 */
 	public void changeListener(final ValueChangeEvent event) {
 
-		System.out.println("ComboBoxField.changeListener()");
 		if (changeListener != null) {
 			changeListener.processValueChange(event);
 		}

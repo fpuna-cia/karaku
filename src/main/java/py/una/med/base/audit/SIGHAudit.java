@@ -60,21 +60,17 @@ public class SIGHAudit {
 	 */
 	public void doAudit(JoinPoint joinPoint, Audit annotation) {
 
-		System.out.println("Auditando...");
 		AuditTrail auditTrail = new AuditTrail();
 
 		List<AuditTrailDetail> details = new ArrayList<AuditTrailDetail>();
-		System.out.println("Signature: " + joinPoint.getSignature().toString());
 		auditTrail.setMethodSignature(joinPoint.getSignature().toShortString());
 
 		String ip = ((ServletRequestAttributes) RequestContextHolder
 				.currentRequestAttributes()).getRequest().getRemoteAddr();
-		System.out.println("Ip: " + ip);
 		auditTrail.setIp(ip);
 
 		String userName = SecurityContextHolder.getContext()
 				.getAuthentication().getName();
-		System.out.println("UserName: " + userName);
 		auditTrail.setUsername(userName);
 
 		// String ip = ((ServletRequestAttributes) RequestContextHolder
@@ -95,7 +91,6 @@ public class SIGHAudit {
 				detail.setValue((Serializable) value);
 				detail.setExpression(string);
 				details.add(detail);
-				System.out.println(string + ":" + value);
 				log.info("Audit", string + ":" + value);
 			}
 		}
@@ -117,7 +112,6 @@ public class SIGHAudit {
 				detail.setValue((Serializable) value);
 				detail.setExpression(string);
 				details.add(detail);
-				System.out.println(string);
 			}
 		}
 		logic.saveAudit(auditTrail, details);

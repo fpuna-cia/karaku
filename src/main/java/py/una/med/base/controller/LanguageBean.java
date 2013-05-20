@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-
 import org.springframework.stereotype.Component;
 
 @ManagedBean(name = "language")
@@ -39,8 +37,6 @@ public class LanguageBean implements Serializable {
 	public void countryLocaleCodeChanged(ValueChangeEvent e) {
 
 		String newLocaleValue = e.getNewValue().toString();
-
-		System.out.println("opción = " + newLocaleValue);
 
 		// loop a map to compare the locale code
 		for (Map.Entry<String, Locale> entry : countries.entrySet()) {

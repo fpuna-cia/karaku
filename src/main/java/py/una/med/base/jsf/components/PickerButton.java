@@ -74,7 +74,6 @@ public class PickerButton extends UINamingContainer {
 			dataTable.setRowKey(selectionKey);
 			if (dataTable.isRowAvailable()) {
 				setSelectedItem(dataTable.getRowData());
-				System.out.println("Cambiando a: " + selectionKey);
 
 			}
 		}

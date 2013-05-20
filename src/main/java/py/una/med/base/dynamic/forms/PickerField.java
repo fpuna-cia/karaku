@@ -49,7 +49,6 @@ public class PickerField<T> extends LabelField {
 	public PickerField() {
 
 		super();
-		System.out.println("Creando pickerField con id: " + getId());
 		this.codeInput = SIGHComponentFactory.getHtmlInputText();
 		this.popupID = getId() + "popup";
 	}
@@ -205,7 +204,6 @@ public class PickerField<T> extends LabelField {
 	 */
 	public String getCode() {
 
-		System.out.println("PickerField.getCode()");
 		if (!hasCodeInput) {
 			return "";
 		}
@@ -214,9 +212,6 @@ public class PickerField<T> extends LabelField {
 			throw new IllegalArgumentException("Code Expression not set, "
 					+ "set one with PickerField#setCodeExpression(expression))");
 		}
-		System.out.println("Retornando:"
-				+ codeExpression.getValue(fc.getELContext()).toString());
-		System.out.println("Current selected " + getFormmatedSelectedOption());
 		return codeExpression.getValue(fc.getELContext()).toString();
 	}
 
@@ -306,7 +301,6 @@ public class PickerField<T> extends LabelField {
 	 */
 	public String getFormmatedOption(final T option) {
 
-		System.out.println("PickerField.getFormmatedOption()");
 		if (getValueLabelProvider() == null) {
 			if (option == null) {
 				return "";

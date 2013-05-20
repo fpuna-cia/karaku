@@ -39,7 +39,6 @@ public class SIGHConverterV2 implements Converter {
 		} catch (Exception e) {
 			log.error("Error al obtener el Id", e);
 		}
-		System.out.println("HOLA 2");
 		return null;
 	}
 

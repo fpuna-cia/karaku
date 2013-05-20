@@ -46,7 +46,6 @@ public class MainInstanceMethodHandler<T> implements MethodHandler {
 		this.entity = entity;
 		this.principal = principal;
 		hql = MainInstanceHelper.generateHQL(entity, principal);
-		System.out.println(hql);
 	}
 
 	@SuppressWarnings("unchecked")

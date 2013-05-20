@@ -26,7 +26,6 @@ public class Not implements Clause {
 		} else {
 			// Criterion aRet = clause.getCriterion();
 			Criterion aRet = Restrictions.not(clause.getCriterion());
-			System.out.println("----------que paso aca ----------");
 			return aRet;
 
 		}
