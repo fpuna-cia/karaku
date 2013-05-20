@@ -22,9 +22,9 @@ import py.una.med.base.util.ControllerHelper;
  * @param <ID>
  *            Clase del id de la entidad
  */
-public abstract class SIGHBaseEmbeddableController<T, ID extends Serializable>
-		extends SIGHAdvancedController<T, ID> implements
-		ISIGHAdvancedController<T, ID>, ISIGHEmbeddableController {
+public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
+		extends SIGHAdvancedController<T, K> implements
+		ISIGHAdvancedController<T, K>, ISIGHEmbeddableController {
 
 	private ISIGHMainController mainController;
 

@@ -24,9 +24,9 @@ import py.una.med.base.security.SIGHSecurity;
  *            clase de la clave primaria de la entidad
  * 
  */
-public abstract class SIGHBaseMainController<T, ID extends Serializable>
-		extends SIGHAdvancedController<T, ID> implements
-		ISIGHAdvancedController<T, ID>, ISIGHMainController {
+public abstract class SIGHBaseMainController<T, K extends Serializable> extends
+		SIGHAdvancedController<T, K> implements ISIGHAdvancedController<T, K>,
+		ISIGHMainController {
 
 	@Override
 	public abstract List<ISIGHEmbeddableController> configureEmbeddableControllers();

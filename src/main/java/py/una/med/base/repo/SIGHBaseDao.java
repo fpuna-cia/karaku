@@ -15,8 +15,8 @@ import py.una.med.base.dao.util.CaseSensitiveHelper;
 import py.una.med.base.util.ControllerHelper;
 
 @Repository
-public class SIGHBaseDao<T, ID extends Serializable> extends BaseDAOImpl<T, ID>
-		implements ISIGHBaseDao<T, ID> {
+public class SIGHBaseDao<T, K extends Serializable> extends BaseDAOImpl<T, K>
+		implements ISIGHBaseDao<T, K> {
 
 	private Logger log = LoggerFactory.getLogger(SIGHBaseDao.class);
 

@@ -25,8 +25,8 @@ import py.una.med.base.util.SelectHelper;
 @ManagedBean
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Deprecated
-public abstract class BaseController<T, ID extends Serializable> implements
-		IBaseController<T, ID> {
+public abstract class BaseController<T, K extends Serializable> implements
+		IBaseController<T, K> {
 
 	private static final int ROWS_FOR_PAGE = 10;
 
@@ -51,7 +51,7 @@ public abstract class BaseController<T, ID extends Serializable> implements
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private PagingHelper<T, ID> pagingHelper;
+	private PagingHelper<T, K> pagingHelper;
 
 	private String messageIdName;
 
@@ -147,7 +147,7 @@ public abstract class BaseController<T, ID extends Serializable> implements
 		log.info("Get Entidades llamado");
 
 		if (pagingHelper == null) {
-			pagingHelper = new PagingHelper<T, ID>(getRowsForPage());
+			pagingHelper = new PagingHelper<T, K>(getRowsForPage());
 		}
 
 		pagingHelper.calculate(getBaseLogic(), null);
@@ -161,7 +161,7 @@ public abstract class BaseController<T, ID extends Serializable> implements
 		return getAllEntities(sp);
 	}
 
-	public PagingHelper<T, ID> getPagingHelper() {
+	public PagingHelper<T, K> getPagingHelper() {
 
 		return pagingHelper;
 	}
@@ -371,7 +371,7 @@ public abstract class BaseController<T, ID extends Serializable> implements
 	}
 
 	@Override
-	public abstract ISIGHBaseLogic<T, ID> getBaseLogic();
+	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
 
 	public Boolean getSucess() {
 

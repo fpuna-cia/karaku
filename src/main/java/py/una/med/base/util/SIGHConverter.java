@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Deprecated
-public class SIGHConverter<T, ID extends Serializable> implements Converter {
+public class SIGHConverter<T, K extends Serializable> implements Converter {
 
 	private Logger log = LoggerFactory.getLogger(SIGHConverter.class);
 

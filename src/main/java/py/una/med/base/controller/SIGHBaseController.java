@@ -37,8 +37,8 @@ import py.una.med.base.util.StringUtils;
 @Controller
 @ManagedBean
 @Scope(value = "session")
-public abstract class SIGHBaseController<T, ID extends Serializable> implements
-		ISIGHBaseController<T, ID> {
+public abstract class SIGHBaseController<T, K extends Serializable> implements
+		ISIGHBaseController<T, K> {
 
 	public static enum Mode {
 		LIST, VIEW, EDIT, NEW, SEARCH, DELETE
@@ -63,7 +63,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private PagingHelper<T, ID> pagingHelper;
+	private PagingHelper<T, K> pagingHelper;
 
 	private String messageIdName;
 
@@ -219,7 +219,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 	}
 
 	@Override
-	public abstract ISIGHBaseLogic<T, ID> getBaseLogic();
+	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
 
 	@Override
 	public abstract List<String> getBaseSearchItems();
@@ -338,7 +338,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 		log.info("Get Entidades llamado");
 
 		if (pagingHelper == null) {
-			pagingHelper = new PagingHelper<T, ID>(getRowsForPage());
+			pagingHelper = new PagingHelper<T, K>(getRowsForPage());
 		}
 
 		pagingHelper.calculate(getBaseLogic(), getWhereReport());
@@ -419,7 +419,7 @@ public abstract class SIGHBaseController<T, ID extends Serializable> implements
 	}
 
 	@Override
-	public PagingHelper<T, ID> getPagingHelper() {
+	public PagingHelper<T, K> getPagingHelper() {
 
 		return pagingHelper;
 	}

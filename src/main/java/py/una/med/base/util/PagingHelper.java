@@ -19,7 +19,7 @@ import py.una.med.base.dao.search.SearchParam;
  * @version 1.0 03/05/2013
  * 
  */
-public class PagingHelper<T, ID extends Serializable> {
+public class PagingHelper<T, K extends Serializable> {
 
 	private int rowsForPage = 10;
 	private int page = 0;
@@ -196,7 +196,7 @@ public class PagingHelper<T, ID extends Serializable> {
 	 * @param where
 	 *            where configurado con los parámetros de búsqueda
 	 */
-	public void calculate(ISIGHBaseLogic<T, ID> logic, Where<T> where) {
+	public void calculate(ISIGHBaseLogic<T, K> logic, Where<T> where) {
 
 		assert logic != null;
 		currentCount = logic.getCount(where);

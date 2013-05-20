@@ -24,8 +24,8 @@ import py.una.med.base.util.Serializer;
  * 
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class SIGHBaseReportController<T, ID extends Serializable>
-		implements ISIGHBaseReportController<T, ID> {
+public abstract class SIGHBaseReportController<T, K extends Serializable>
+		implements ISIGHBaseReportController<T, K> {
 
 	/**
 	 * Mantiene los filtros ingresados

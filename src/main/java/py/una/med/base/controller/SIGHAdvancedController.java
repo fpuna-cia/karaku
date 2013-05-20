@@ -42,9 +42,8 @@ import py.una.med.base.util.StringUtils;
  */
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
-public abstract class SIGHAdvancedController<T, ID extends Serializable>
-		extends SIGHBaseController<T, ID> implements
-		ISIGHAdvancedController<T, ID> {
+public abstract class SIGHAdvancedController<T, K extends Serializable> extends
+		SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
 
 	@Autowired
 	private ControllerHelper helper;
@@ -54,7 +53,7 @@ public abstract class SIGHAdvancedController<T, ID extends Serializable>
 	private T bean;
 
 	@Override
-	public abstract ISIGHBaseLogic<T, ID> getBaseLogic();
+	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
 
 	@Override
 	public List<String> getBaseSearchItems() {

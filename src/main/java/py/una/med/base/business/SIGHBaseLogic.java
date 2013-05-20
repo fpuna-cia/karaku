@@ -26,8 +26,8 @@ import py.una.med.base.dao.util.EntityExample;
  */
 @Service
 @Transactional
-public abstract class SIGHBaseLogic<T, ID extends Serializable> implements
-		ISIGHBaseLogic<T, ID> {
+public abstract class SIGHBaseLogic<T, K extends Serializable> implements
+		ISIGHBaseLogic<T, K> {
 
 	private Logger log = LoggerFactory.getLogger(SIGHBaseLogic.class);
 
@@ -40,7 +40,7 @@ public abstract class SIGHBaseLogic<T, ID extends Serializable> implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public T getById(ID id) {
+	public T getById(K id) {
 
 		return getDao().getById(id);
 	}
@@ -82,13 +82,13 @@ public abstract class SIGHBaseLogic<T, ID extends Serializable> implements
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public ID getIdValue(T obj) {
+	public K getIdValue(T obj) {
 
 		try {
 			for (Field field : obj.getClass().getDeclaredFields()) {
 				if (field.isAnnotationPresent(Id.class)) {
 					field.setAccessible(true);
-					ID data = (ID) field.get(obj);
+					K data = (K) field.get(obj);
 					field.setAccessible(false);
 					return data;
 				}

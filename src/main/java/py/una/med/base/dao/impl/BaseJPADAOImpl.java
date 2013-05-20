@@ -16,8 +16,8 @@ import py.una.med.base.dao.BaseDAO;
 import py.una.med.base.dao.helper.SearchParamJPAHelper;
 import py.una.med.base.dao.search.SearchParam;
 
-public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
-		BaseDAO<T, ID> {
+public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
+		BaseDAO<T, K> {
 
 	private Logger log = LoggerFactory.getLogger(BaseJPADAOImpl.class);
 
@@ -40,7 +40,7 @@ public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
 	}
 
 	@Override
-	public T getById(ID id) {
+	public T getById(K id) {
 
 		return getEntityManager().find(getClassOfT(), id);
 	}
@@ -97,7 +97,7 @@ public abstract class BaseJPADAOImpl<T, ID extends Serializable> implements
 	}
 
 	@Override
-	public void remove(ID id) {
+	public void remove(K id) {
 
 		getEntityManager().refresh(getById(id));
 	}

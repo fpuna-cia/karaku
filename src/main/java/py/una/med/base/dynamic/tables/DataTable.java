@@ -28,7 +28,7 @@ import py.una.med.base.util.StringUtils;
  * style="height:#{cc.attrs.height}; width:#{cc.attrs.width}"
  * selection="#{extTableSelectionBean.selection}">
  */
-public class DataTable<T, ID extends Serializable> {
+public class DataTable<T, K extends Serializable> {
 
 	/**
 	 * 
@@ -38,7 +38,7 @@ public class DataTable<T, ID extends Serializable> {
 	private static final int DEFAULT_WIDTH = 350;
 	private static final int DEFAULT_HEIGH = 620;
 
-	private SIGHListHelper<T, ID> listHelper;
+	private SIGHListHelper<T, K> listHelper;
 	private boolean idAdded;
 	private boolean actionsAdded;
 	private boolean exportsAdded;

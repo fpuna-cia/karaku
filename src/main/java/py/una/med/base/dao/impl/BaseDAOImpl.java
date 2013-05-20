@@ -56,8 +56,8 @@ import py.una.med.base.dao.util.MainInstanceHelper;
  * 
  * 
  */
-public abstract class BaseDAOImpl<T, ID extends Serializable> implements
-		BaseDAO<T, ID> {
+public abstract class BaseDAOImpl<T, K extends Serializable> implements
+		BaseDAO<T, K> {
 
 	private SessionFactory sessionFactory;
 
@@ -241,7 +241,7 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public T getById(final ID id) {
+	public T getById(final K id) {
 
 		return (T) getSession().get(getClassOfT(), id);
 	}
@@ -343,7 +343,7 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 	};
 
 	@Override
-	public void remove(final ID id) {
+	public void remove(final K id) {
 
 		// TODO lograr que no haga una consulta antes de eliminar
 		Object o = getSession().load(getClassOfT(), id);
@@ -381,13 +381,13 @@ public abstract class BaseDAOImpl<T, ID extends Serializable> implements
 	}
 
 	@SuppressWarnings("unchecked")
-	private ID getIdValue(final T obj) {
+	private K getIdValue(final T obj) {
 
 		try {
 			for (Field field : obj.getClass().getDeclaredFields()) {
 				if (field.isAnnotationPresent(Id.class)) {
 					field.setAccessible(true);
-					ID data = (ID) field.get(obj);
+					K data = (K) field.get(obj);
 					field.setAccessible(false);
 					return data;
 				}

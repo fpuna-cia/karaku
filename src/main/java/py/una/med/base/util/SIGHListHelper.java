@@ -29,29 +29,29 @@ import py.una.med.base.model.DisplayName;
  * @version 1.0 Feb 25, 2013
  * 
  */
-public class SIGHListHelper<T, ID extends Serializable> {
+public class SIGHListHelper<T, K extends Serializable> {
 
 	private SimpleFilter simpleFilter;
-	private PagingHelper<T, ID> helper;
-	private ISIGHBaseLogic<T, ID> logic;
+	private PagingHelper<T, K> helper;
+	private ISIGHBaseLogic<T, K> logic;
 	private EntityExample<T> example;
 	private Where<T> baseWhere;
 	private List<SelectItem> filterOptions;
 	private Class<T> clazz;
 	private Logger log = LoggerFactory.getLogger(SIGHListHelper.class);
 
-	public SIGHListHelper(Class<T> clazz, ISIGHBaseLogic<T, ID> logic) {
+	public SIGHListHelper(Class<T> clazz, ISIGHBaseLogic<T, K> logic) {
 
 		this(clazz, new SimpleFilter(), logic);
 	}
 
 	public SIGHListHelper(Class<T> clazz, SimpleFilter simpleFilter,
-			ISIGHBaseLogic<T, ID> logic) {
+			ISIGHBaseLogic<T, K> logic) {
 
 		this.clazz = clazz;
 		this.simpleFilter = simpleFilter;
 		this.logic = logic;
-		helper = new PagingHelper<T, ID>(15);
+		helper = new PagingHelper<T, K>(15);
 	}
 
 	/**
