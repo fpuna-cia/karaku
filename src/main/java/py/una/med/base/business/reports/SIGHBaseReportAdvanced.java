@@ -83,5 +83,6 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 
 	@Override
 	public abstract DynamicReport builReport(Map<String, Object> params,
-			Map<String, Object> listFilters, List<String> listOrder);
+			Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException;
 }

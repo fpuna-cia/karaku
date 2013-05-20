@@ -116,7 +116,9 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 * @param listOrder
 	 *            Lista de ordenes en el cual se desea visualizar el reporte
 	 * @return
+	 * @throws ReportException
 	 */
 	DynamicReport builReport(Map<String, Object> params,
-			Map<String, Object> listFilters, List<String> listOrder);
+			Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException;
 }
