@@ -21,3 +21,9 @@ language_bundles = ../language.properties.base ../language.properties.farmacia .
 menu_location = menu/farmacia.xml menu/stock.xml menu/base.xml
 
 liquibase.changelog-file = classpath:database/SYSTEM/db-changelog.xml
+
+# modificar estas lineas para que se corresponda con el fragmento de URL de los sistemas, esto se utiliza en el
+# HostResolver.java
+conf.urlFragment = metafarmacia3
+idp.urlFragment = idp
+saf.urlFragment =  saf
