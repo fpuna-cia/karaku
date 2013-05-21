@@ -61,7 +61,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	private SessionFactory sessionFactory;
 
-	@Autowired
+//	@Autowired
 	private EntityManager em;
 
 	@Autowired

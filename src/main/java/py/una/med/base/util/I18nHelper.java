@@ -3,20 +3,17 @@
  */
 package py.una.med.base.util;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.faces.context.FacesContext;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.exception.KeyNotFoundException;
-import py.una.med.base.exception.NotLoadFileConfigurationException;
 import py.una.med.base.model.DisplayName;
 
 /**
@@ -28,22 +25,24 @@ import py.una.med.base.model.DisplayName;
 @Component
 public class I18nHelper {
 
-	private static final String LANGUAGE_BUNDLES_KEY = "language_bundles";
+	@Autowired
+	private static PropertiesUtil propertiesUtil;
 
 	private static ArrayList<ResourceBundle> bundles;
 
 	private static List<String> getBundlesLocation() {
 
-		Resource resource = new ClassPathResource(
-				SIGHConfiguration.CONFIG_LOCATION);
-
-		Properties prop = new Properties();
-		try {
-			prop.load(resource.getInputStream());
-		} catch (IOException e) {
-			throw new NotLoadFileConfigurationException();
-		}
-		String value = prop.getProperty(LANGUAGE_BUNDLES_KEY);
+		// Resource resource = new ClassPathResource(
+		// SIGHConfiguration.CONFIG_LOCATION);
+		//
+		// Properties prop = new Properties();
+		// try {
+		// prop.load(resource.getInputStream());
+		// } catch (IOException e) {
+		// throw new NotLoadFileConfigurationException();
+		// }
+		String value = propertiesUtil
+				.getProperty(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
 
 		return Arrays.asList(value.split(" "));
 	}
@@ -63,8 +62,8 @@ public class I18nHelper {
 		if (bundles != null) {
 			return;
 		}
-		bundles = new ArrayList<ResourceBundle>();
 		List<String> bundlesLocation = getBundlesLocation();
+		bundles = new ArrayList<ResourceBundle>(bundlesLocation.size());
 		for (String bundle : bundlesLocation) {
 			if (bundle.equals("")) {
 				continue;
@@ -90,6 +89,13 @@ public class I18nHelper {
 		throw new KeyNotFoundException(key);
 	}
 
+	/**
+	 * Retorna la cadena internacionalizada de la llave pasada, busca en todos
+	 * los archivos de internacionalizacion definidos en el karaku.properties.
+	 * 
+	 * @param key llave del archivo de internacionalizacion
+	 * @return cadena internacionalizad de acuerdo al locale actual
+	 */
 	public String getString(String key) {
 
 		return findInBundles(key);
@@ -100,7 +106,7 @@ public class I18nHelper {
 		return findInBundles(key);
 	}
 
-	public static List<String> convertStrings(String ... strings) {
+	public static List<String> convertStrings(String... strings) {
 
 		ArrayList<String> convert = new ArrayList<String>(strings.length);
 		for (String s : strings) {
@@ -121,6 +127,18 @@ public class I18nHelper {
 		}
 		return getMessage(displayName.key().substring(1,
 				displayName.key().length() - 1));
+	}
+
+	/**
+	 * Asigna un properties util a la clase estatica.
+	 * 
+	 * @param propertiesUtil
+	 *            bean properties util
+	 */
+	@Autowired
+	public void setPropertiesUtil(PropertiesUtil propertiesUtil) {
+
+		I18nHelper.propertiesUtil = propertiesUtil;
 	}
 
 }

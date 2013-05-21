@@ -15,30 +15,46 @@
 		   http://www.springframework.org/schema/aop 
      	   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<jee:jndi-lookup jndi-name="${data-source}" id="DataSource"
-		expected-type="javax.sql.DataSource" />
+	<!-- <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" -->
+	<!-- destroy-method="close" -->
+	<!-- p:driverClassName="com.mysql.jdbc.Driver" -->
+	<!-- p:url="jdbc:mysql://localhost:3306/mydb" -->
+	<!-- p:username="root" -->
+	<!-- p:password="masterkaoli"/> -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.user}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+	<!-- </beans> -->
+	<!-- <jee:jndi-lookup jndi-name="${data-source}" id="dataSource" -->
+	<!-- expected-type="javax.sql.DataSource" /> -->
 
 	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
-		<property name="dataSource" ref="DataSource" />
+		<property name="dataSource" ref="dataSource" />
 		<property name="changeLog" value="${liquibase.changelog-file}" />
 	</bean>
 
 	<!-- JDNI name for EntityManagerFactory is defined in SISTEMA/src/main/resources/META-INF/persistence.xml -->
-	<jee:jndi-lookup jndi-name="${jboss.entity.manager.factory.jndi.name}"
-		id="entityManagerFactory" expected-type="javax.persistence.EntityManagerFactory" />
+	<!-- <jee:jndi-lookup jndi-name="${jboss.entity.manager.factory.jndi.name}" -->
+	<!-- id="entityManagerFactory" expected-type="javax.persistence.EntityManagerFactory" 
+		/> -->
 
 
 
-	<bean id="entityManager" depends-on="liquibase"
-		class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
+	<!-- <bean id="entityManager" depends-on="liquibase" -->
+	<!-- class="org.springframework.orm.jpa.support.SharedEntityManagerBean"> -->
+	<!-- <property name="entityManagerFactory" ref="entityManagerFactory" /> -->
+	<!-- </bean> -->
 
 
 	<bean id="SessionFactory" depends-on="liquibase"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="packagesToScan" value="${base-package-hibernate}" />
-		<property name="dataSource" ref="DataSource" />
+		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}
@@ -50,13 +66,13 @@
 		</property>
 	</bean>
 
-	<tx:annotation-driven transaction-manager="txManager" />
 
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 
+	<tx:annotation-driven transaction-manager="txManager" />
 
 
 </beans>

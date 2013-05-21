@@ -14,21 +14,11 @@
 		<constructor-arg value="/META-INF/MANIFEST.MF" type="java.io.InputStream" />
 	</bean>
 
-	<bean id="propertyPlaceholder"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<value>classpath:config.properties</value>
-		</property>
-	</bean>
-	<bean class="py.una.med.base.configuration.PropertiesUtil">
-		<property name="locations">
-			<value>classpath:config.properties</value>
-		</property>
-	</bean>
+<!-- 	<bean id="propertyPlaceholder" class="py.una.med.base.configuration.PropertiesUtil"> -->
+<!-- 		<property name="locations"> -->
+<!-- 			<value>classpath:karaku.properties</value> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 	<context:component-scan base-package="py.una.med.*" />
-
-	<context:component-scan base-package="py.una.med.base.dao" />
-
-
 
 </beans>
