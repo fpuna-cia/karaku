@@ -7,6 +7,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutcomeTargetLink;
+import javax.faces.component.html.HtmlOutputLink;
+import javax.faces.context.FacesContext;
 import org.richfaces.component.UIPanelMenu;
 import org.richfaces.component.UIPanelMenuGroup;
 import org.richfaces.component.UIPanelMenuItem;
@@ -15,9 +17,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
 import py.una.med.base.breadcrumb.BreadcrumbController;
+import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.domain.Menu.Menus;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
+import py.una.med.base.util.HostResolver;
 import py.una.med.base.util.I18nHelper;
 
 /**
@@ -44,6 +48,12 @@ public class MenuBean {
 	private I18nHelper helper;
 
 	private HashMap<String, Boolean> expanded;
+
+	@Autowired
+	private PropertiesUtil properties;
+
+	@Autowired
+	private HostResolver hostResolver;
 
 	/**
 	 * Configura y retorna un menu
@@ -128,21 +138,45 @@ public class MenuBean {
 	private UIComponent getSingleMenu(Menu menu) {
 
 		UIPanelMenuItem item = SIGHComponentFactory.getMenuItem();
-		// XXX ver mejor forma de validar esto
-		if (menu.getUrl() != null && !menu.getUrl().startsWith("/v")) {
-			menu.setUrl("/views/" + menu.getUrl());
-		}
-		// /
+
 		item.setId(menu.getIdFather() + menu.getId());
-		// item.setLeftIcon(mod.getIconURI());
 		item.setLabel(helper.getString(menu.getName()));
-		HtmlOutcomeTargetLink link = SIGHComponentFactory.getLink();
+		UIComponent link;
+
 		if (menu.getUrl() != null) {
-			link.setOutcome(menu.getUrl() + BreadcrumbController.BREADCRUM_URL);
+			String menuUrl = menu.getUrl();
+			String appPlaceHolder = properties
+					.getProperty("application.appUrlPlaceHolder");
+
+			if (menuUrl.startsWith(appPlaceHolder)
+					|| menuUrl.startsWith("/view")) {
+				// link correspondiente a este sistema
+				menuUrl = menuUrl.replace(appPlaceHolder, "");
+				link = SIGHComponentFactory.getLink();
+				((HtmlOutcomeTargetLink) link).setOutcome(menuUrl
+						+ BreadcrumbController.BREADCRUM_URL);
+				menu.setUrl(menuUrl);
+			} else {
+				String urlPlaceHolder = menuUrl.substring(0,
+						menuUrl.indexOf("/"));
+				// link a otro sistema
+				menuUrl = menuUrl.replace(urlPlaceHolder,
+						hostResolver.getSystemURL(urlPlaceHolder));
+				link = FacesContext
+						.getCurrentInstance()
+						.getApplication()
+						.createComponent(FacesContext.getCurrentInstance(),
+								HtmlOutputLink.COMPONENT_TYPE,
+								"javax.faces.Link");
+				((HtmlOutputLink) link).setValue(menuUrl
+						+ BreadcrumbController.BREADCRUM_URL);
+				menu.setUrl(menuUrl);
+			}
+		} else {
+			link = SIGHComponentFactory.getLink();
 		}
-		// link.setValue(children.getName());
+
 		link.getChildren().add(item);
-		// menuGroup.getChildren().add(link);
 		return link;
 	}
 
