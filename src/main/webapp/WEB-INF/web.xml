@@ -28,8 +28,7 @@
 				classpath:/META-INF/spring/security-app-context.xml,
 				classpath:/META-INF/spring/infrastructure.xml,
 				classpath:/META-INF/spring/applicationContext-aop.xml,
-				classpath:/META-INF/spring/applicationContext-orchestra.xml,
-				classpath:/META-INF/spring/spring-ws-config.xml
+				classpath:/META-INF/spring/applicationContext-orchestra.xml
 				</param-value>
 	</context-param>
 

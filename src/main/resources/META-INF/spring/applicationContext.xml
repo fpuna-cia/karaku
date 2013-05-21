@@ -14,11 +14,12 @@
 		<constructor-arg value="/META-INF/MANIFEST.MF" type="java.io.InputStream" />
 	</bean>
 
-<!-- 	<bean id="propertyPlaceholder" class="py.una.med.base.configuration.PropertiesUtil"> -->
-<!-- 		<property name="locations"> -->
-<!-- 			<value>classpath:karaku.properties</value> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
+	<!-- <bean id="propertyPlaceholder" class="py.una.med.base.configuration.PropertiesUtil"> -->
+	<!-- <property name="locations"> -->
+	<!-- <value>classpath:karaku.properties</value> -->
+	<!-- </property> -->
+	<!-- </bean> -->
 	<context:component-scan base-package="py.una.med.*" />
 
+	<import resource="classpath:/META-INF/spring/spring-*.xml" />
 </beans>
