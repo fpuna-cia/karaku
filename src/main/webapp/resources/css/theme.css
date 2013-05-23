@@ -13,6 +13,13 @@ body {
 	background-color: #D5DED9;
 }
 
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu'), url(../fonts/Ubuntu.woff) format('woff');
+}
+
 button, input[type="reset"], input[type="submit"], input[type="button"] {
 	display: inline-block;
 	*display: inline;
@@ -282,7 +289,7 @@ li.divider:after {
 
 #top h1 {
 	font-size: 2.8em;
-	font-family: 'Ubuntu', sans-serif;
+	font-family: 'Ubuntu', sans-serif !important;
 	color: #99B2B7;
 	text-shadow: 1px 0 rgba(0,0,0,0.5);
 }
