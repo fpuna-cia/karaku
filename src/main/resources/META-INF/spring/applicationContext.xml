@@ -22,4 +22,7 @@
 	<context:component-scan base-package="py.una.med.*" />
 
 	<import resource="classpath:/META-INF/spring/spring-*.xml" />
+	<import resource="classpath:/META-INF/spring/security-app-context.xml" />
+	<import resource="classpath:/META-INF/spring/applicationContext-aop.xml" />
+	<import resource="classpath:/META-INF/spring/applicationContext-orchestra.xml" />
 </beans>

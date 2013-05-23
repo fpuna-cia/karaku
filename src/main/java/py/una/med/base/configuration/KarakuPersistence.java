@@ -3,13 +3,10 @@
  */
 package py.una.med.base.configuration;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.richfaces.application.push.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,11 +113,13 @@ public class KarakuPersistence {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Bean
 	public Object liquibase() {
 		if (!liquibase) {
 			return null;
 		}
+		@SuppressWarnings("rawtypes")
 		Class clazz = null;
 		try {
 			clazz = Class
