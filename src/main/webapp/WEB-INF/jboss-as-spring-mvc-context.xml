@@ -9,17 +9,9 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<context:component-scan base-package="py.una.med.*" />
-	<security:global-method-security
-		pre-post-annotations="enabled" />
-	<mvc:annotation-driven />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	</bean>
-
-	<bean class="org.springframework.context.support.ResourceBundleMessageSource"
-		id="messageSource">
-		<property name="basename" value="../language.properties.locale" />
 	</bean>
 
 	<mvc:resources mapping="/static/**" location="/" />

@@ -1,6 +1,7 @@
 package py.una.med.base.exception;
 
-public class KarakuWrongConfigurationFileException extends RuntimeException {
+public class KarakuWrongConfigurationFileException extends
+		KarakuRuntimeException {
 
 	private static final String MESSAGE = "Can't read file (%s), check the path and the permissions";
 	/**

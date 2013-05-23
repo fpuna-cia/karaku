@@ -25,7 +25,6 @@ import py.una.med.base.model.DisplayName;
 @Component
 public class I18nHelper {
 
-	@Autowired
 	private static PropertiesUtil propertiesUtil;
 
 	private static ArrayList<ResourceBundle> bundles;

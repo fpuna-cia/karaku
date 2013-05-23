@@ -1,0 +1,27 @@
+application.homePage = faces/views/index.xhtml
+application.appUrlPlaceHolder = SIGH
+
+jboss.entity.manager.factory.jndi.name = java:jboss/base/persistence/sigh
+
+# Driver de la base de datos
+karaku.jpa.driverName = org.postgresql.Driver
+karaku.jpa.enabled = true
+karaku.liquibase.enabled = false
+
+hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+hibernate.show_sql = true
+hibernate.format_sql = false
+hibernate.hbm2ddl.auto = validate
+hibernate.envers.schema = audit
+base-package-hibernate = py.una.med.*
+
+#Archivo donde se almacena informacion cambiante, las propiedades 
+#dentro de este archivo se mexclan con las principales, y pueden
+#ser utilizadas dentro de la definicion de cualquier bean
+karaku.changing.properties = /etc/SIGH.properties
+
+#lista separada por espacios de bundles
+language_bundles = ../language.properties.base ../language.properties.configuracion ../language.properties.identificacion ../language.properties.farmacia
+menu_location =  menu/configuracion.xml menu/identificacion.xml menu/farmacia.xml menu/base.xml
+
+liquibase.changelog-file = classpath:database/base/db-changelog.xml

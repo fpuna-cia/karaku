@@ -10,10 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+
+import py.una.med.base.exception.KarakuPropertyNotFoundException;
 import py.una.med.base.exception.KarakuWrongConfigurationFileException;
 
 /**
@@ -81,6 +84,35 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 			main.put(entry.getKey(), value);
 		}
 		return main;
+	}
+
+	/**
+	 * Retorna el valor almacenado, en caso de no estar contenido, retorna el
+	 * valor por defecto.
+	 * 
+	 * @param key
+	 * @param def
+	 * @return valor almacenado
+	 */
+	public String get(final String key, final String def) {
+		if (propertiesMap.containsKey(key)) {
+			return propertiesMap.get(key);
+		}
+		return def;
+	}
+
+	/**
+	 * Retorna el valor almacenado, en caso de no estar en el contenido, lanza
+	 * una excepcion.
+	 * 
+	 * @param key
+	 * @return valor almacenado
+	 */
+	public String get(final String key) {
+		if (propertiesMap.containsKey(key))
+			return propertiesMap.get(key);
+		else
+			throw new KarakuPropertyNotFoundException(key);
 	}
 
 	public String getProperty(final String name) {
