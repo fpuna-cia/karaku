@@ -10,26 +10,12 @@ package py.una.med.base.domain;
  * @version 1.0 May 24, 2013
  * 
  */
-public class BaseEntity {
-
-	private Long id;
+public abstract class BaseEntity {
 
 	/**
 	 * @return id
 	 */
-	public Long getId() {
-
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            id para setear
-	 */
-	public void setId(Long id) {
-
-		this.id = id;
-	}
+	public abstract Long getId();
 
 	/*
 	 * (non-Javadoc)
@@ -41,7 +27,7 @@ public class BaseEntity {
 
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		result += getClass().hashCode();
 		return result;
 	}
@@ -71,13 +57,14 @@ public class BaseEntity {
 		 */
 		if (obj.getClass().isAssignableFrom(getClass())) {
 			BaseEntity other = (BaseEntity) obj;
-			if (this.id == null) {
-				if (other.id == null)
+			if (this.getId() == null) {
+				if (other.getId() == null) {
 					return true;
-				else
+				} else {
 					return false;
+				}
 			} else {
-				return id.equals(other.id);
+				return getId().equals(other.getId());
 			}
 
 		}
