@@ -25,7 +25,7 @@ public class HostResolver {
 	 * Retorna la URL del sistema dado como parámetro
 	 * 
 	 * @param app
-	 *            "CONF", "IDP" o "SAF"
+	 *            "CONF", "IDP", "SAF", "SIGH"
 	 **/
 	public String getSystemURL(final String app) {
 
@@ -39,6 +39,9 @@ public class HostResolver {
 			url += "/" + properties.getProperty("idp.urlFragment") + "/faces";
 		} else if ("SAF".equals(app)) {
 			url += "/" + properties.getProperty("saf.urlFragment") + "/faces";
+		} else if ("SIGH".equals(app)) {
+			// punto de acceso a los sistemas
+			url += "/" + properties.getProperty("sigh.urlFragment") + "/faces";
 		}
 		return url;
 	}

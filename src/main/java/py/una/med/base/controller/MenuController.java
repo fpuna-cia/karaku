@@ -3,12 +3,15 @@
  */
 package py.una.med.base.controller;
 
+import java.io.IOException;
 import javax.faces.application.ProjectStage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
+import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.util.Util;
 
 /**
@@ -28,6 +31,9 @@ public class MenuController {
 
 	@Autowired
 	private Util util;
+
+	@Autowired
+	private PropertiesUtil properties;
 
 	/**
 	 * Retorna la URI para crear links de logout para la aplicacion
@@ -92,5 +98,21 @@ public class MenuController {
 	public boolean isDebug() {
 
 		return util.isDebug();
+	}
+
+	/**
+	 * Metodo que redirige a la pagina principal.
+	 **/
+	public void toIndex() {
+
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		String indexUrl = properties.getProperty("application.homePage")
+				+ "?breadcrum_reset=true";
+		try {
+			ctx.getExternalContext().redirect(indexUrl);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

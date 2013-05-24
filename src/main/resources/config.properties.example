@@ -18,7 +18,6 @@ application.host = http://localhost:8080/SIGHSistema
 #debe ir la URL para acceder al servidor, y depende de la red, incluso
 #si esta en la misma maquina se puede poner localhost:PORT, tener en 
 #cuenta que el sistema solo funciona (ACTUALMENTE) con http.
-application.homePage = faces/views/index.xhtml
 cas.server.host = http://10.1.5.81:8181
 
 #Ubicacion del servidor LDAP, para acceso de los roles de cada usuario,
@@ -50,3 +49,8 @@ database.password = confidential
 conf.urlFragment = SIGHConfiguracion
 idp.urlFragment = SIGHIdentificacion
 saf.urlFragment =  SIGHFarmacia
+sigh.urlFragment = SIGH
+
+# URL a la pagina principal del sistema SIGH. Notar que la primera parte de la URL
+# debe corresponderse con sigh.urlFragment 
+application.homePage = /SIGH/faces/views/index.xhtml

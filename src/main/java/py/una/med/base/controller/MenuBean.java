@@ -157,9 +157,10 @@ public class MenuBean {
 						+ BreadcrumbController.BREADCRUM_URL);
 				menu.setUrl(menuUrl);
 			} else {
+				// link a otro sistema
 				String urlPlaceHolder = menuUrl.substring(0,
 						menuUrl.indexOf("/"));
-				// link a otro sistema
+
 				menuUrl = menuUrl.replace(urlPlaceHolder,
 						hostResolver.getSystemURL(urlPlaceHolder));
 				link = FacesContext
