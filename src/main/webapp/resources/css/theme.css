@@ -467,6 +467,12 @@ li.divider:after {
 }
 
 /* rich:popupPanel */
+.rf-pp-cntr {
+	-webkit-box-sizing: initial;
+	   -moz-box-sizing: initial;
+	        box-sizing: initial;
+}
+
 .rf-pp-hdr {
 	border-color: black !important;
 }
