@@ -9,7 +9,8 @@
 	font-family: arial, sans-serif !important;
 }
 
-body {
+html, body {
+	height: 100%;
 	background-color: #D5DED9;
 }
 
@@ -148,6 +149,7 @@ input[type="text"] {
 /* Este estilo sera aplicado a todos los inputs de los formularios */
 .form_input {
 	text-transform: uppercase;
+	text-align: left;
 }
 
 /* Este estilo sera aplicado a todos los errores de los inputs */
@@ -180,7 +182,7 @@ input[type="text"] {
 	font-size: 11px !important;
 }
 
-.list_pagin_class > span {
+.list_pagin_class > span > span {
 	margin-right: 5px;
 }
 
@@ -200,6 +202,17 @@ input[type="text"] {
 
 .main-content * {
 	font-size: 13px !important;
+}
+
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -63px;
+}
+.push {
+    height: 63px;
 }
 /** fin estilos generales **/
 
@@ -302,7 +315,8 @@ li.divider:after {
 	-webkit-border-radius: 10px !important;
 	-moz-border-radius: 10px !important;
 	border-radius: 10px !important;
-	background-color: white !important;	
+	background-color: white !important;
+	margin-bottom: 0px !important;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -353,20 +367,38 @@ li.divider:after {
 }
 
 .footer {
-	position: absolute;
-	bottom: 0px;
-	right: 10px;
-	height: 4em;
+  	height: 3em;
+	width: 100%;
+	padding-right: 20px;
+	margin-bottom: 10px;
+}
+
+.footer > table {
+	float: right;
 }
 /** estilos para wrapper y footer **/
 
 
 /** overrides de componentes de richfaces **/
-.rf-cp-hdr, .rf-pm-top-gr-hdr, .rf-edt-hdr, .rf-edt-tbl-hdr, .rf-pp-hdr {
+
+/* se normalizan los headers para los distintos elementos */
+.rf-cp-hdr, 
+.rf-pm-top-gr-hdr, 
+.rf-edt-hdr, 
+.rf-edt-tbl-hdr, 
+.rf-pp-hdr, 
+.rf-p-hdr {
 	background-color: #99B2B7 !important;
 	border-color: rgba(0,0,0,0.4) !important;
 	color: black !important;
 	background-image: none !important;
+}
+
+/* margin entre paneles */
+.rf-cp,  /* rich:collapsiblePanel*/ 
+.rf-p    /* rich:panel */
+{
+	margin-bottom: 10px;
 }
 
 /* rich:extendedDataTable */
@@ -407,9 +439,9 @@ li.divider:after {
 	width: 100% !important;
 }
 
-.rf-edt-rsz {
+/*.rf-edt-rsz {
 	width: 100px !important;
-}
+}*/
 
 .rf-edt-c-cnt > input[class=commandButton] {
 	margin-left: 5px;
@@ -423,6 +455,10 @@ li.divider:after {
 
 .actions .rf-edt-c-cnt {
 
+}
+
+.data-table-exports .rf-edt-c-cnt /* exports column in dataTable */{
+	margin: 0 auto;
 }
 
 /* rich:inplaceInput */
@@ -491,8 +527,13 @@ td.form_input select {
 	width: 100% !important;
 }
 
-/* rich:collapsiblePanel y menu */
-.rf-cp, .rf-cp-hdr, .rf-pm-top-gr, .rf-pm-top-itm  {
+.rf-cp,         /* rich:collapsiblePanel */
+.rf-cp-hdr,     /* rich:collapsiblePanel header */
+.rf-pm-top-gr,  /* rich:panelMenu group */
+.rf-pm-top-itm, /* rich:panelMenu top item */
+.rf-p,          /* rich:panel */
+.rf-p-hdr,      /* rich:panel header */
+.rf-cal-extr    /* rich:calendar calendar exterior */{
    -webkit-border-radius: 4px;
       -moz-border-radius: 4px;
            border-radius: 4px;	
@@ -501,6 +542,78 @@ td.form_input select {
 .rf-pm-top-itm:hover, .rf-pm-gr-hdr:hover {
 	color: #99B2B7 !important;
 }
+
+
+.rf-tab-hdr { /* rich:tabPanel header*/
+	background-color: inherit !important;
+	border: none !important;
+	color: black !important;
+	background-image: none !important;	
+}
+
+.rf-tab-hdr-tabline-vis.rf-tab-hdr-tabline-top /* rich:tabPanel header tabline*/ {
+	background: none !important;
+	border-color: #E2F6E2 !important;
+}
+
+.rf-tab-hdr-act /* rich:tabPanel active tab */ {
+	background: #99B2B7 !important;
+	font-widht: normal !important;
+	border: 1px solid #99B2B7 !important;
+	border-bottom-width: 0px !important;
+	border-color: rgba(0,0,0,0.4) !important;
+	-webkit-border-top-left-radius: 4px;
+	   -moz-border-top-left-radius: 4px;
+	     -o-border-top-left-radius: 4px;
+	    -ms-border-top-left-radius: 4px;
+	        border-top-left-radius: 4px;
+	
+	-webkit-border-top-right-radius: 4px;
+	   -moz-border-top-right-radius: 4px;
+	     -o-border-top-right-radius: 4px;
+	    -ms-border-top-right-radius: 4px;
+	        border-top-right-radius: 4px;
+}
+
+.rf-tab-hdr-dis.rf-tab-hdr-top /* rich:tabPanel inactive tab */ {
+	border: none !important;
+	padding-top: 2px !important;
+}
+
+.rf-tab-hdr-brd /* rich:tabPanel tab header border */ {
+	border: none !important;
+	border-top: 0px !important;
+	height: 0px !important;
+	background: none !important;	
+}
+
+.rf-insp-btns /* rich:inputNumberSpinner buttons of spinner*/ {
+	background-color: initial !important;
+	background-image: none !important;
+	height: 26px !important;
+	padding-top: 5px !important;
+}
+
+.form_input > .rf-insp + label {
+	margin-right: 5px !important;
+}
+
+.rf-insp-inp /* rich:inputNumberSpinner input field */ {
+	vertical-align: initial !important;
+}
+
+.rf-cal-hdr,      /* rich:calendar calendar header */
+.rf-cal-tl,       /* rich:calendar calendar toolbars */
+.rf-cal-hdr-month /* rich:calendar month header */ {
+	background-color: #99B2B7 !important;
+	color: black !important;
+}
+
+.rf-cal-ftr /* rich:calendar footer */ {
+	border-bottom: 1px solid !important;
+	border-bottom-color: #C0C0C0 !important;
+}
+
 
 @media (min-width: 768px) and (max-width: 1024px) {
 	.rf-edt-c-cnt, .rf-edt-hdr-c-cnt {

@@ -39,7 +39,7 @@
 
 	<h:outputLabel value="#{cc.attrs.controller.usarController}" />
 
-	
+
 	<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
 		switchType="client">
 
@@ -79,12 +79,14 @@
 		<h:panelGrid columns="3">
 			<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
 			<h:commandLink action="#{cc.attrs.controller.generateReport('xls')}">
-				<h:graphicImage value="/resources/images/csv_ico.jpg"
-					alt="Exportar a csv" style="width:20px;height:20px" />
+				<h:graphicImage value="/resources/images/csv-ico.png"
+					alt="Exportar a CSV" title="Exportar a CSV"
+					style="width:24px;height:24px" />
 			</h:commandLink>
 			<h:commandLink action="#{cc.attrs.controller.generateReport('pdf')}">
-				<h:graphicImage value="/resources/images/pdf-ico.jpg"
-					alt="Exportar a pdf" style="width:20px;height:20px" />
+				<h:graphicImage value="/resources/images/pdf-ico.png"
+					alt="Exportar a PDF" title="Exportar a PDF"
+					style="width:24px;height:24px" />
 			</h:commandLink>
 		</h:panelGrid>
 		<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"

@@ -62,6 +62,8 @@
 			</h:form>
 		</rich:collapsiblePanel>
 
+		<div class="space"></div>
+
 		<o:separateConversationContext>
 			<h:form>
 				<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
@@ -77,9 +79,9 @@
 				</rich:collapsiblePanel>
 			</h:form>
 		</o:separateConversationContext>
-		<h:panelGrid columns="3" width="100%"
-			columnClasses="list_button_class,list_export_class,list_pagin_class">
-			<h:form>
+		<h:form>
+			<h:panelGrid columns="3" width="100%"
+				columnClasses="list_button_class,list_export_class,list_pagin_class">
 
 				<tsigh:security
 					hasPermission="#{cc.attrs.controller.createPermission}">
@@ -91,19 +93,21 @@
 					<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
 					<h:commandLink
 						action="#{cc.attrs.controller.generateReport('xls')}">
-						<h:graphicImage value="/resources/images/csv_ico.jpg"
-							alt="Exportar a csv" style="width:20px;height:20px" />
+						<h:graphicImage value="/resources/images/csv-ico.png"
+							alt="Exportar a CSV" title="Exportar a CSV"
+							style="width:24px;height:24px" />
 					</h:commandLink>
 					<h:commandLink
 						action="#{cc.attrs.controller.generateReport('pdf')}">
-						<h:graphicImage value="/resources/images/pdf-ico.jpg"
-							alt="Exportar a pdf" style="width:20px;height:20px" />
+						<h:graphicImage value="/resources/images/pdf-ico.png"
+							alt="Exportar a PDF" title="Exportar a PDF"
+							style="width:24px;height:24px" />
 					</h:commandLink>
 				</h:panelGrid>
 				<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
 					render="#{cc.attrs.idListEntities}" />
-			</h:form>
-		</h:panelGrid>
+			</h:panelGrid>
+		</h:form>
 		<c:if
 			test="#{cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 			<sigh:popup title="#{msg['BASE_FORM_SEARCH']}" popupId="puSearch">
