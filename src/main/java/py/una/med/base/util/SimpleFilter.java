@@ -1,6 +1,6 @@
 package py.una.med.base.util;
 
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 
 /**
  * Clase que representa a un filtro simple con valor y opciones
@@ -13,7 +13,7 @@ public class SimpleFilter {
 
 	private String option;
 
-	@Pattern(regexp = "[a-z]*", message = "Debe ser una cadena")
+	@NotNull
 	private String value;
 
 	public String getOption() {
