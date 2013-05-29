@@ -117,6 +117,20 @@ public final class ValidationConstants {
 	public static final String ALPHANUMERIC_SPE = "[a-zA-Z0-9ñÑ" + grave
 			+ special + " ]*";
 
+	/**
+	 * Expresión que admite caracteres del castellano en mayúsculas además de
+	 * dígitos
+	 */
+	public static final String ALPHANUMERIC_UC = "[A-Z0-9Ñ" + uc_grave + " ]*";
+
+	/**
+	 * Expresión que admite caracteres del castellano en mayúsculas además de
+	 * dígitos y caracteres especiales como por ejemplo [
+	 * <code>, . + - * $ / \</code>]
+	 */
+	public static final String ALPHANUMERIC_UC_SPE = "[A-Z0-9Ñ" + uc_grave
+			+ special + " ]*";
+
 	public static final String GN_WORDS_SPE_DIG = "[a-zA-Z0-9'ñÑ" + grave
 			+ nasal + special + " ]*";
 
