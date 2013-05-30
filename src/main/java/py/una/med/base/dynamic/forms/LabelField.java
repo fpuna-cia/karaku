@@ -3,6 +3,8 @@
  */
 package py.una.med.base.dynamic.forms;
 
+import py.una.med.base.util.I18nHelper;
+
 /**
  * 
  * @author Arturo Volpe Torres
@@ -28,7 +30,7 @@ public abstract class LabelField extends Field {
 	 */
 	public void setLabel(String label) {
 
-		this.label = label;
+		this.label = (I18nHelper.getMessage(label));
 	}
 
 }

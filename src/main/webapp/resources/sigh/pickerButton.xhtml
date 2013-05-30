@@ -17,20 +17,20 @@
 	</cc:interface>
 
 	<cc:implementation>
-		<rich:panel id="#{cc.attrs.panelId}" style="border:0px;padding:0px">
-			<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
-				rendered="#{cc.attrs.pickerField.hasCodeInput}"
-				disabled="empty cc.attrs.pickerField.keyListener">
-				<a4j:ajax event="blur"
-					listener="#{cc.attrs.pickerField.keyUpListener}"
-					disabled="#{not cc.attrs.pickerField.hasCodeInput}"
-					render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage}"
-					execute="valueId" immediate="true" />
-			</h:inputText>
-			<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"
-				oncomplete="RichFaces.$('#{cc.attrs.pickerField.popUpClientID}').show(); return false;"
-				render="#{cc.attrs.buttonRender}" value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
-			<h:outputLabel value="#{cc.attrs.resultValue}" />
-		</rich:panel>
+		<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
+			rendered="#{cc.attrs.pickerField.hasCodeInput}"
+			disabled="empty cc.attrs.pickerField.keyListener">
+			<a4j:ajax event="blur"
+				listener="#{cc.attrs.pickerField.keyUpListener}"
+				disabled="#{not cc.attrs.pickerField.hasCodeInput}"
+				render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage}"
+				execute="valueId" immediate="true" />
+		</h:inputText>
+		<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"
+			oncomplete="RichFaces.$('#{cc.attrs.pickerField.popUpClientID}').show(); return false;"
+			render="#{cc.attrs.buttonRender}"
+			value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
+		<h:outputLabel value="#{cc.attrs.resultValue}" />
+
 	</cc:implementation>
 </ui:composition>

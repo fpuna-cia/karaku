@@ -8,11 +8,13 @@ import javax.faces.application.Application;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
+import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutcomeTargetLink;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
+import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UIColumn;
@@ -124,6 +126,19 @@ public final class SIGHComponentFactory {
 		return (UICommandButton) getApplication().createComponent(getContext(),
 				UICommandButton.COMPONENT_TYPE,
 				"org.richfaces.CommandButtonRenderer");
+	}
+
+	public static HtmlSelectOneRadio getHtmlSelectOneRadio() {
+
+		return (HtmlSelectOneRadio) getApplication().createComponent(
+				getContext(), HtmlSelectOneRadio.COMPONENT_TYPE,
+				"javax.faces.Menu");
+	}
+
+	public static AjaxBehavior getAjaxBehavior() {
+
+		return (AjaxBehavior) getApplication().createBehavior(
+				AjaxBehavior.BEHAVIOR_ID);
 	}
 
 	public static HtmlCommandButton getCommandButton() {

@@ -51,6 +51,7 @@ public class PickerField<T> extends LabelField {
 		super();
 		this.codeInput = SIGHComponentFactory.getHtmlInputText();
 		this.popupID = getId() + "popup";
+
 	}
 
 	/*
@@ -212,6 +213,12 @@ public class PickerField<T> extends LabelField {
 			throw new IllegalArgumentException("Code Expression not set, "
 					+ "set one with PickerField#setCodeExpression(expression))");
 		}
+		
+		Object value = codeExpression.getValue(fc.getELContext());
+		if (value == null) {
+			return "";
+		}
+		
 		return codeExpression.getValue(fc.getELContext()).toString();
 	}
 

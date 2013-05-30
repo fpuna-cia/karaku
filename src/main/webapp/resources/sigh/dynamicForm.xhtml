@@ -43,6 +43,18 @@
 							<h:message for="#{item.id}" />
 						</c:when>
 						<c:when
+							test="#{item.type eq 'py.una.med.base.dynamic.forms.ButtonField'}">
+
+							<h:panelGroup id="#{item.id}">
+								<h:outputLabel value="#{item.textField.label}" />
+								<h:inputText binding="#{item.textField.bind}"
+									id="#{item.textField.id}" />
+								<h:commandButton binding="#{item.bind}" />
+							</h:panelGroup>
+							<h:outputLabel value="" />
+							<h:outputLabel value="" />
+						</c:when>
+						<c:when
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.ComboBoxField'}">
 							<h:outputLabel value="#{item.label}" />
 							<h:selectOneMenu binding="#{item.bind}" id="#{item.bind.id}" />

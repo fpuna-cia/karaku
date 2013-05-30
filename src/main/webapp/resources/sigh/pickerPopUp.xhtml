@@ -25,7 +25,9 @@
 		<rich:popupPanel id="#{cc.attrs.pickerId}" width="#{cc.attrs.width}"
 			height="#{cc.attrs.height}" modal="true" show="false">
 
-
+			<rich:panel header="Debug INFO" rendered="#{menuController.debug}">
+				<h:outputLabel value="Version 1" />
+			</rich:panel>
 			<h:form id="formulario">
 				<f:facet name="header">
 					<h:outputText value="#{cc.attrs.title}" />
@@ -52,7 +54,8 @@
 
 					<rich:extendedDataTable
 						value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
-						rows="15" selection="#{cc.currentSelection}">
+						rows="15" selection="#{cc.currentSelection}"
+						selectionMode="single">
 						<a4j:ajax execute="@form" event="selectionchange"
 							listener="#{cc.selectionListener}" render="formulario2" />
 						<ui:include src="#{cc.attrs.urlColumns}" />
