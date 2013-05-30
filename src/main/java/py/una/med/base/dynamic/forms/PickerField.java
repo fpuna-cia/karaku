@@ -5,9 +5,13 @@ package py.una.med.base.dynamic.forms;
 
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.validator.ValidatorException;
+
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.LabelProvider.StringLabelProvider;
 import py.una.med.base.util.SIGHListHelper;
@@ -42,6 +46,11 @@ public class PickerField<T> extends LabelField {
 	private HtmlInputText codeInput;
 	private boolean buttonDisabled;
 	private boolean popupShow;
+	private T temp;
+	private boolean nullable;
+	private boolean selected;
+
+	// private HtmlInputText hidden;
 
 	/**
 	 * Crea un picker field, con ID autogenerado
@@ -288,11 +297,9 @@ public class PickerField<T> extends LabelField {
 	 * 
 	 * @return opcion correctamente formateada
 	 */
-	@SuppressWarnings("unchecked")
 	public String getFormmatedSelectedOption() {
 
-		T option = (T) getValueExpression().getValue(
-				getFacesContext().getELContext());
+		T option = getValue();
 		return getFormmatedOption(option);
 
 	}
@@ -376,9 +383,16 @@ public class PickerField<T> extends LabelField {
 
 	public void setValue(final T value) {
 
-		FacesContext fc = FacesContext.getCurrentInstance();
+		temp = value;
+		selected = true;
+		// FacesContext fc = FacesContext.getCurrentInstance();
+		//
+		// getValueExpression().setValue(fc.getELContext(), value);
+	}
 
-		getValueExpression().setValue(fc.getELContext(), value);
+	public void initialize() {
+
+		selected = false;
 	}
 
 	/**
@@ -388,8 +402,14 @@ public class PickerField<T> extends LabelField {
 	@SuppressWarnings("unchecked")
 	public T getValue() {
 
-		FacesContext fc = FacesContext.getCurrentInstance();
-		return (T) getValueExpression().getValue(fc.getELContext());
+		// Si se selecciono un valor
+		if (selected)
+			return temp;
+		else {
+			FacesContext fc = FacesContext.getCurrentInstance();
+			temp = (T) getValueExpression().getValue(fc.getELContext());
+			return temp;
+		}
 
 	}
 
@@ -409,7 +429,7 @@ public class PickerField<T> extends LabelField {
 		return true;
 	}
 
-	public boolean isButtonDisabled() {
+	public boolean isButtonDisabled() {			
 
 		return buttonDisabled;
 	}
@@ -422,5 +442,58 @@ public class PickerField<T> extends LabelField {
 	public String getIdMessage() {
 
 		return getId() + "messages";
+	}
+
+	public PickerValidator getValidator() {
+
+		return new PickerValidator();
+	}
+
+	public boolean isNullable() {
+
+		return nullable;
+	}
+
+	public void setNullable(boolean nullable) {
+
+		this.nullable = nullable;
+	}
+
+	public UIInput getHidden() {
+
+		HiddenText hidden = new HiddenText();
+		return hidden;
+	}
+
+	public void setHidden(UIInput hidden) {
+
+	}
+
+	public class PickerValidator implements javax.faces.validator.Validator {
+
+		@Override
+		public void validate(FacesContext context, UIComponent component,
+				Object value) throws ValidatorException {
+
+			if (!isNullable() && temp == null) {
+				FacesMessage msg = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR,
+						getMessage("COMPONENT_PICKER_NOT_SELECTED"),
+						getMessage("COMPONENT_PICKER_NOT_SELECTED"));
+				throw new ValidatorException(msg);
+			}
+
+		}
+	}
+
+	private class HiddenText extends HtmlInputText {
+
+		@Override
+		public void updateModel(FacesContext context) {
+
+			T objectToSave = PickerField.this.getValue();
+			PickerField.this.getValueExpression().setValue(
+					context.getELContext(), objectToSave);
+		}
 	}
 }

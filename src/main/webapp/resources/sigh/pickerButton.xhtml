@@ -17,6 +17,11 @@
 	</cc:interface>
 
 	<cc:implementation>
+
+		<h:inputHidden binding="#{cc.attrs.pickerField.hidden}"
+			id="hiddenInput">
+			<f:validator binding="#{cc.attrs.pickerField.validator}" />
+		</h:inputHidden>
 		<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
 			rendered="#{cc.attrs.pickerField.hasCodeInput}"
 			disabled="empty cc.attrs.pickerField.keyListener">
@@ -31,6 +36,10 @@
 			render="#{cc.attrs.buttonRender}"
 			value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
 		<h:outputLabel value="#{cc.attrs.resultValue}" />
+		<h:panelGroup>
+			<h:outputLabel value="#{cc.attrs.resultValue}" />
+			<rich:message for="hiddenInput" />
+		</h:panelGroup>
 
 	</cc:implementation>
 </ui:composition>

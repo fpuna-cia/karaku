@@ -40,7 +40,7 @@
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.TextField'}">
 							<h:outputLabel value="#{item.label}" />
 							<h:inputText binding="#{item.bind}" id="#{item.bind.id}" />
-							<h:message for="#{item.id}" />
+							<h:message for="#{item.bind.id}" />
 						</c:when>
 						<c:when
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.ButtonField'}">
@@ -58,7 +58,7 @@
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.ComboBoxField'}">
 							<h:outputLabel value="#{item.label}" />
 							<h:selectOneMenu binding="#{item.bind}" id="#{item.bind.id}" />
-							<h:message for="#{item.id}" />
+							<h:message for="#{item.bind.id}" />
 						</c:when>
 						<c:when
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.CalendarField'}">
