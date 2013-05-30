@@ -108,48 +108,32 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 	@HasRole(SIGHSecurity.DEFAULT_EDIT)
 	public String doEdit() {
 
-		try {
-			if (mainController != null) {
-				delegateChild(getBean());
-			}
-			edit(getBean());
-			return postEdit();
-		} catch (Exception e) {
-			helper.showException(e);
-
-			return "";
+		if (mainController != null) {
+			delegateChild(getBean());
 		}
+		return super.doEdit();
 	}
 
 	@Override
 	@HasRole(SIGHSecurity.DEFAULT_DELETE)
 	public String doDelete() {
 
-		try {
-			delete(getBean());
-			return super.postDelete();
-		} catch (Exception e) {
-
-			helper.showException(e);
-			return "";
-		}
+		return super.doDelete();
 	}
 
+	/**
+	 * Metodo que se encarga de la craecion, delega la responsabilidad al
+	 * controler principal y luego llama a {@link SIGHAdvancedController}
+	 * heredado para que se encarge de guardar.
+	 */
 	@Override
 	@HasRole(SIGHSecurity.DEFAULT_CREATE)
 	public String doCreate() {
 
-		try {
-			if (mainController != null) {
-				delegateChild(getBean());
-
-			}
-			create(getBean());
-			return postCreate();
-		} catch (Exception e) {
-			helper.showException(e);
-			return "";
+		if (mainController != null) {
+			delegateChild(getBean());
 		}
+		return super.doCreate();
 	}
 
 	@Override
