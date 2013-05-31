@@ -44,7 +44,8 @@
 						filterOptions="#{cc.attrs.pickerField.listHelper.filterOptions}">
 					</sigh:basicFilter2>
 				</rich:collapsiblePanel>
-
+			</h:form>
+			<h:form id="formulario2">
 
 				<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
 					switchType="client">
@@ -53,10 +54,11 @@
 						value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
 						rows="15" selection="#{cc.currentSelection}">
 						<a4j:ajax execute="@form" event="selectionchange"
-							listener="#{cc.selectionListener}" render="formulario" />
+							listener="#{cc.selectionListener}" render="formulario2" />
 						<ui:include src="#{cc.attrs.urlColumns}" />
 					</rich:extendedDataTable>
 				</rich:collapsiblePanel>
+
 
 
 				<h:outputText
