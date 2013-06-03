@@ -108,7 +108,7 @@ public class MenuBean {
 			return null;
 		}
 
-		if (menu.getChildrens() == null || menu.getChildrens().size() == 0) {
+		if ((menu.getChildrens() == null) || (menu.getChildrens().size() == 0)) {
 			return getSingleMenu(menu);
 		} else {
 			return getMultipleMenu(menu);
@@ -144,7 +144,7 @@ public class MenuBean {
 		UIComponent link;
 
 		if (menu.getUrl() != null) {
-			String menuUrl = menu.getUrl();
+			String menuUrl = menu.getUrl().trim();
 			String appPlaceHolder = properties
 					.getProperty("application.appUrlPlaceHolder");
 
