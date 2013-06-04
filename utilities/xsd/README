@@ -1,0 +1,34 @@
+XSD's utilizados por el sistema.
+================================
+
+Estos xsd's son de las librerias que se utilizan, no representan servicios
+proveidos ni usados por la aplicacion.
+
+Son una utilidad que sirve para acortar el tiempo de validacion en Eclipse,
+para su uso se los debe indicar explicitamente en Eclipse.
+
+Notar que la asignacion se hace una vez por workspace, y 'deberia' ser 
+suficiente. (Eclipse permite la asignacion por proyecto, pero no se 
+considera necesaria)
+
+Pasos:
+------
+
+1- Windows -> Preferences
+2- XML -> XML Catalog
+3- Add
+4- Seleccionar un XSD y presionar Ok
+5- Ir a 4 a no ser que no haya mas XSD's a importar
+6- Project -> Clean
+
+Lista de XSD's:
+---------------
+
+- dbchangelog-2.0: utilizado por liquibase
+- spring-tx: utilizado por el framework de transacciones de spring
+- web-services-2.0: utilizado por el framework de web services de spring
+
+
+Cualquier consulta enviar mail a avolpe@pol.una.py o preguntar personalmente.
+
+
