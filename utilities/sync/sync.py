@@ -213,7 +213,10 @@ def process_database(system_name, system_path, system_tables):
 
 
 def process_java(system_name, system_path, system_entities):
-    java_replication_target = args.database.replace('###', system_name.lower())
+    java_replication_target = args.java_folder.replace('###', system_name.lower())
+    print config_path(system_path)
+    print args.java_folder.replace('###', system_name.lower())
+    print os.path.join(config_path(system_path), args.java_folder.replace('###', system_name.lower()))
     java_replication_source = os.path.join(config_path(system_path), args.java_folder.replace('###', system_name.lower()))
     log("--------Java Replication-----------")
     log("Target: " + java_replication_target)
@@ -295,9 +298,23 @@ parser.add_argument(
     action='store_const',
     const=True
 )
-parser.add_argument('-v', '--verbose', dest='v', help='Imprime todas las operaciones', default=None, action='store_const', const=True)
-parser.add_argument('-ndb', '--no--database', dest='db', help='Sincroniza archivos liquibase', default=True, action='store_const', const=False)
-parser.add_argument('-njv', '--no--java', dest='java', help='Sincroniza archivos java', default=True, action='store_const', const=False)
+parser.add_argument(
+    '--java-folder',
+    dest='java_folder',
+    help='Ubicacion de la carpeta de clases java (./###/src/main/java)',
+    default='./###/src/main/java',
+)
+parser.add_argument(
+    '-v',
+    '--verbose',
+    dest='v',
+    help='Imprime todas las operaciones',
+    default=None,
+    action='store_const',
+    const=True
+)
+parser.add_argument('-ndb', '--no--database', dest='db', help='No Sincroniza archivos liquibase', default=True, action='store_const', const=False)
+parser.add_argument('-njv', '--no--java', dest='java', help='No Sincroniza archivos java', default=True, action='store_const', const=False)
 
 current_dir = os.getcwd()
 
