@@ -304,20 +304,10 @@ public final class DynamicUtils {
 		for (Column column : columns) {
 			try {
 
-				if (column.getField().contains(".")) {
-					structReport.addColumn(column.getTitle(),
-							column.getField(), Object.class.getName(),
-							column.getWidth());
-				} else {
-					Field field = clazz.getDeclaredField(column.getNameField());
-					structReport.addColumn(column.getTitle(),
-							column.getField(), field.getType().getName(),
-							column.getWidth());
-				}
+				structReport.addColumn(column.getTitle(), column.getField(),
+						Object.class.getName(), column.getWidth());
 
 			} catch (ClassNotFoundException e) {
-				throw new ReportException(e);
-			} catch (NoSuchFieldException e) {
 				throw new ReportException(e);
 			}
 		}
