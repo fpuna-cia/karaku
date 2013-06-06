@@ -45,14 +45,14 @@
 						<c:when
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.ButtonField'}">
 
+							<h:outputLabel value="#{item.textField.label}" />
 							<h:panelGroup id="#{item.id}">
-								<h:outputLabel value="#{item.textField.label}" />
 								<h:inputText binding="#{item.textField.bind}"
 									id="#{item.textField.id}" />
 								<h:commandButton binding="#{item.bind}" />
 							</h:panelGroup>
-							<h:outputLabel value="" />
-							<h:outputLabel value="" />
+							<h:message for="#{item.bind.id}" />
+
 						</c:when>
 						<c:when
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.ComboBoxField'}">
@@ -61,9 +61,15 @@
 							<h:message for="#{item.bind.id}" />
 						</c:when>
 						<c:when
+							test="#{item.type eq 'py.una.med.base.dynamic.forms.RadioButtonField'}">
+							<h:outputLabel value="#{item.label}" />
+							<h:selectOneRadio binding="#{item.bind}" id="#{item.bind.id}" />
+							<h:message for="#{item.bind.id}" />
+						</c:when>
+						<c:when
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.CalendarField'}">
 							<h:outputLabel value="#{item.label}" />
-							<rich:calendar binding="#{item.bind}" id="#{item.id}" />
+							<rich:calendar binding="#{item.bind}" id="#{item.id}"/>
 							<rich:message for="#{item.id}" />
 						</c:when>
 					</c:choose>

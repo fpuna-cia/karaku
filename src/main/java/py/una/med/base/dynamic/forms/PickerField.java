@@ -222,12 +222,12 @@ public class PickerField<T> extends LabelField {
 			throw new IllegalArgumentException("Code Expression not set, "
 					+ "set one with PickerField#setCodeExpression(expression))");
 		}
-		
+
 		Object value = codeExpression.getValue(fc.getELContext());
 		if (value == null) {
 			return "";
 		}
-		
+
 		return codeExpression.getValue(fc.getELContext()).toString();
 	}
 
@@ -392,6 +392,7 @@ public class PickerField<T> extends LabelField {
 
 	public void initialize() {
 
+		temp = null;
 		selected = false;
 	}
 
@@ -403,11 +404,12 @@ public class PickerField<T> extends LabelField {
 	public T getValue() {
 
 		// Si se selecciono un valor
-		if (selected)
+		if (selected) {		
+			selected = false; 
 			return temp;
-		else {
+		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
-			temp = (T) getValueExpression().getValue(fc.getELContext());
+			temp = (T) getValueExpression().getValue(fc.getELContext());			
 			return temp;
 		}
 
@@ -429,7 +431,7 @@ public class PickerField<T> extends LabelField {
 		return true;
 	}
 
-	public boolean isButtonDisabled() {			
+	public boolean isButtonDisabled() {
 
 		return buttonDisabled;
 	}
