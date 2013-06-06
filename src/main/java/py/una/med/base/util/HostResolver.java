@@ -39,6 +39,8 @@ public class HostResolver {
 			url += "/" + properties.getProperty("idp.urlFragment") + "/faces";
 		} else if ("SAF".equals(app)) {
 			url += "/" + properties.getProperty("saf.urlFragment") + "/faces";
+		} else if ("SOC".equals(app)) {
+			url += "/" + properties.getProperty("soc.urlFragment") + "/faces";
 		} else if ("SIGH".equals(app)) {
 			// punto de acceso a los sistemas
 			url += "/" + properties.getProperty("sigh.urlFragment") + "/faces";
