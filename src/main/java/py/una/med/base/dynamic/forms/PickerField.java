@@ -30,6 +30,11 @@ public class PickerField<T> extends LabelField {
 				Object submittedValue);
 	}
 
+	public static interface ValueChangeListener<T> {
+
+		public boolean onChange(Field source, T value);
+	}
+
 	/**
 	 * Tipo de este componente
 	 */
@@ -48,6 +53,7 @@ public class PickerField<T> extends LabelField {
 	private T temp;
 	private boolean nullable;
 	private boolean selected;
+	private ValueChangeListener<T> valueChangeListener;
 
 	/**
 	 * Crea un picker field, con ID autogenerado
@@ -90,7 +96,7 @@ public class PickerField<T> extends LabelField {
 			if (!bool) {
 				getValueExpression().setValue(fc.getELContext(), null);
 				createFacesMessage(FacesMessage.SEVERITY_WARN, "",
-						"No se encuentra la entidad seleccionada");
+						"MESSAGE_ENTITY_NOT_FOUND");
 			}
 		}
 
@@ -392,6 +398,7 @@ public class PickerField<T> extends LabelField {
 
 		// Si se selecciono un valor
 		if (selected) {
+			selected = false;
 			return temp;
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -482,5 +489,27 @@ public class PickerField<T> extends LabelField {
 			PickerField.this.getValueExpression().setValue(
 					context.getELContext(), objectToSave);
 		}
+	}
+
+	/**
+	 * Se encarga de llamar al metodo
+	 * {@link ValueChangeListener#onChange(Field, Object)} cuando existe un
+	 * cambio en el valor asociado al {@link PickerField}
+	 **/
+	public void changeValueListener() {
+
+		if (valueChangeListener == null) {
+			return;
+		}
+		valueChangeListener.onChange(this, getValue());
+	}
+
+	/**
+	 * Setea el {@link ValueChangeListener} cuando existe un cambio en el valor
+	 * asociado al {@link PickerField}
+	 **/
+	public void setValueChangeListener(ValueChangeListener<T> listener) {
+
+		this.valueChangeListener = listener;
 	}
 }

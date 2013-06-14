@@ -12,6 +12,7 @@
 		<cc:attribute name="resultValue"
 			default="#{cc.attrs.pickerField.formmatedSelectedOption}" />
 		<cc:attribute name="panelId" default="#{cc.attrs.pickerField.id}" />
+		<cc:attribute name="reRenderRegionId" default="" />
 		<cc:attribute name="pickerField"
 			type="py.una.med.base.dynamic.forms.PickerField" />
 	</cc:interface>
@@ -27,7 +28,7 @@
 			<a4j:ajax event="blur"
 				listener="#{cc.attrs.pickerField.keyUpListener}"
 				disabled="#{not cc.attrs.pickerField.hasCodeInput}"
-				render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage}"
+				render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage} #{cc.attrs.reRenderRegionId}"
 				execute="valueId" immediate="true" />
 		</h:inputText>
 		<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"

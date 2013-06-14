@@ -20,6 +20,7 @@
 		<cc:attribute name="height" default="600" />
 		<cc:attribute name="pickerId"
 			default="#{cc.attrs.pickerField.popupID}" />
+		<cc:attribute name="reRenderRegionId" default="" />
 	</cc:interface>
 	<cc:implementation>
 		<rich:popupPanel id="#{cc.attrs.pickerId}" width="#{cc.attrs.width}"
@@ -69,7 +70,9 @@
 					id="pickerResult" />
 				<h:panelGrid id="picker_control" columns="2">
 					<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
-						render="#{cc.attrs.render}" id="buttonSelect"
+						action="#{cc.attrs.pickerField.changeValueListener()}"
+						render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"
+						id="buttonSelect"
 						oncomplete="#{rich:component(cc.attrs.pickerId)}.hide(); return false;">
 						<f:setPropertyActionListener
 							target="#{cc.attrs.pickerField.value}" value="#{cc.selectedItem}" />
