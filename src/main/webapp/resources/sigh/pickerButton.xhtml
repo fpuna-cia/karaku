@@ -35,7 +35,6 @@
 			oncomplete="RichFaces.$('#{cc.attrs.pickerField.popUpClientID}').show(); return false;"
 			render="#{cc.attrs.buttonRender}"
 			value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
-		<h:outputLabel value="#{cc.attrs.resultValue}" />
 		<h:panelGroup id="#{cc.attrs.panelId}">
 			<h:outputLabel value="#{cc.attrs.resultValue}" />
 			<rich:message for="hiddenInput" />
