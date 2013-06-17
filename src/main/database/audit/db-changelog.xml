@@ -1,6 +1,0 @@
-<?xml version='1.0' encoding='iso-8859-1'?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-  <include file="database/base/audit/20130510_AUDIT-TRAIL_CT.xml"/>
-  <include file="database/base/audit/20130510_AUDIT-TRAIL-DETAIL_CT.xml"/>
-  <include file="database/base/audit/20130510_REVISION-ENTITY_CT.xml"/>
-</databaseChangeLog>

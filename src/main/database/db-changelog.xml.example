@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<!-- Este archivo representa el log de cambios que se realizan a la base 
+		de datos, por este motivo, ningún log se debe cambiar, o eliminar. -->
+
+	<!--La semántica de este archivo es como sigue: -->
+	<!--=========================================== -->
+
+	<!--1. Este archivo solo incluye a otros archivos, no debe tener ningún 
+		changeSet -->
+	<!--2. Política de tablas replicadas: Aquellos cambios que sean heredados 
+		de otros sistemas, recibirán el mismo tratamiento que un cambio echo en este 
+		sistema, esto a fin de mantener la coherencia de este archivo con el concepto 
+		de un log -->
+	<!-- 3. Este archivo es muy extenso, y es propenso a crecer exponencialmente 
+		en el tiempo. -->
+	<!-- 4. Que un archivo sea incluido antes que otro implica que fue creado 
+		antes o que debe ser impactado antes. -->
+	<!-- 5. Este archivo debería soportar la migración de CUALQUIER ESTADO de 
+		la base de datos, al estado actual de la misma. Por este motivo, cualquier 
+		cambio realizado a este archivo debe deja la base de datos en un estado consistente. 
+		Por ejemplo un cambio que se componga de N cambios, deberá entrar completo. -->
+	<!-- 6. Este archivo debería soportar la migración de CUALQUIER ESTADO de 
+		la base de datos, al estado actual de la misma. -->
+	<!-- Mas información en http://appcia.cnc.una.py/wf/index.php/Db-changelog.xml -->
+	<!-- ================================================================== -->
+
+	<!-- Tablas iniciales de KARAKU -->
+	<include file="database/base/audit/20130510_AUDIT-TRAIL_CT.xml" />
+	<include file="database/base/audit/20130510_AUDIT-TRAIL-DETAIL_CT.xml" />
+	<include file="database/base/audit/20130510_REVISION-ENTITY_CT.xml" />
+	<!-- __________________________ -->
+
+	<!-- Mantener esta línea al final del archivo, y solo agregar líneas arriba 
+		de ella -->
+</databaseChangeLog>
