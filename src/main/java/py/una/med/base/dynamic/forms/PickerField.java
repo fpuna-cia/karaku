@@ -11,7 +11,6 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.validator.ValidatorException;
-
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.LabelProvider.StringLabelProvider;
 import py.una.med.base.util.SIGHListHelper;
@@ -404,12 +403,12 @@ public class PickerField<T> extends LabelField {
 	public T getValue() {
 
 		// Si se selecciono un valor
-		if (selected) {		
-			selected = false; 
+		if (selected) {
+			// selected = false;
 			return temp;
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
-			temp = (T) getValueExpression().getValue(fc.getELContext());			
+			temp = (T) getValueExpression().getValue(fc.getELContext());
 			return temp;
 		}
 
