@@ -7,6 +7,9 @@ package py.una.med.base.dynamic.tables;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
+import py.una.med.base.dynamic.forms.SIGHComponentFactory;
+import py.una.med.base.util.I18nHelper;
+
 /**
  * Columna que tiene como cabecera un {@link HtmlInputText}
  * 
@@ -15,7 +18,7 @@ import javax.faces.component.html.HtmlOutputText;
  * @version 1.0 Mar 13, 2013
  * 
  */
-public abstract class SimpleHeaderColumn extends Column {
+public abstract class SimpleHeaderColumn extends AbstractColumn {
 
 	private HtmlOutputText header;
 
@@ -30,9 +33,12 @@ public abstract class SimpleHeaderColumn extends Column {
 		return header;
 	}
 
-	public void setHeaderText(final String text) {
+	public void setHeaderText(final String key) {
 
-		getHeader().setValue(getI18nStringExpression(text));
+		if (getHeader() == null) {
+			setHeader(SIGHComponentFactory.getHtmlOutputText());
+		}
+		getHeader().setValue(I18nHelper.getMessage(key));
 	}
 
 }

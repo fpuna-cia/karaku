@@ -29,19 +29,31 @@ import py.una.med.base.util.ELHelper;
  * @version 1.0 Mar 11, 2013
  * 
  */
-public abstract class Column {
+public abstract class AbstractColumn {
 
-	public static final String defaultValueExpression = "#{item.ATTRIBUTE}";
-	public static final String defaultI8NExpression = "#{msg['KEY']}";
-	private UIColumn bind;
-	private UIComponent body;
-	private UIComponent header;
-	protected ELHelper elHelper;
+	public static final String DEFAULT_VALUE_EXPRESSION = "#{item.ATTRIBUTE}";
+	public static final String DEFAULT_I18N_EXPRESSION = "#{msg['KEY']}";
+	private final UIColumn bind;
+	// private UIComponent header;
+	private final ELHelper elHelper;
 	private boolean builded;
 
-	public Column() {
+	private static int idCount = 0;
+
+	/**
+	 * Retorna un id único para ser utilizado por un componente.
+	 * 
+	 * @return Cadena única para la columna
+	 */
+	protected static String getNextId() {
+
+		return AbstractColumn.class.getSimpleName() + ++idCount;
+	}
+
+	public AbstractColumn() {
 
 		bind = SIGHComponentFactory.getRichColumn();
+		bind.setId(getNextId());
 		elHelper = ELHelper.INSTANCE;
 	}
 
@@ -51,32 +63,17 @@ public abstract class Column {
 	}
 
 	/**
-	 * Retorna una cadena que se una expression de EL, esta cadena sirve para
-	 * poder internacionalizar la llave pasada como parámetro, la cadena
-	 * resultado tiene el formato #{msg['KEY']} donde KEY es el parámetro
-	 * pasado.
-	 * 
-	 * @param key
-	 *            coligo del archivo de internacionalizasen
-	 * @return valor del archivo de internacionalizasen
-	 */
-	public static String getI18nStringExpression(final String key) {
-
-		return defaultI8NExpression.replaceFirst("KEY", key);
-	}
-
-	/**
-	 * Retorna una cadena que es una expression del lenguaje que sirve para
-	 * acceder a atributos de la variable de la {@link DataTable}, la cadena
-	 * retornada por este metido tiene el formato #{item.ATTRIBUTE}, donde
-	 * ATTRIBUTE es la cadena pasada como parametro
+	 * Retorna una cadena EL que sirve para acceder a atributos de la variable
+	 * de la {@link DataTable}, la cadena retornada por este metido tiene el
+	 * formato #{item.ATTRIBUTE}, donde ATTRIBUTE es la cadena pasada como
+	 * parametro
 	 * 
 	 * @param attribute
 	 * @return
 	 */
 	public static String getAttributeStringExpression(final String attribute) {
 
-		return defaultValueExpression.replaceFirst("ATTRIBUTE", attribute);
+		return DEFAULT_VALUE_EXPRESSION.replaceFirst("ATTRIBUTE", attribute);
 	}
 
 	/**
@@ -88,31 +85,20 @@ public abstract class Column {
 	}
 
 	/**
-	 * Metodo de acceso a una columna, en este metodo se realiza la union de la
-	 * cabecera (como facet) y el cuerpo a una columna.
-	 * 
-	 * @return
-	 */
-	public final UIColumn getColumn() {
-
-		if (builded) {
-			return bind;
-		}
-		builded = true;
-		bind.getFacets().put("header", getHeader());
-		if (hasBoddy()) {
-			bind.getChildren().clear();
-			bind.getChildren().add(getBody());
-		}
-		return bind;
-	}
-
-	/**
 	 * Método en el que se construye la columna, sucesivas clases deben heredar
 	 * este método y agregar código de inicialización
 	 */
 	public void build() {
 
+		if (builded) {
+			return;
+		}
+		builded = true;
+		bind.getFacets().put("header", getHeader());
+		if (hasBoddy()) {
+			// bind.getChildren().clear();
+			bind.getChildren().add(getBody());
+		}
 	}
 
 	/**

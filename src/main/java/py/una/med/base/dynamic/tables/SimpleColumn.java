@@ -18,7 +18,7 @@ import py.una.med.base.dynamic.forms.SIGHComponentFactory;
  */
 public class SimpleColumn extends SimpleHeaderColumn {
 
-	private HtmlOutputText body;
+	private final HtmlOutputText body;
 
 	public SimpleColumn() {
 
@@ -41,7 +41,7 @@ public class SimpleColumn extends SimpleHeaderColumn {
 
 	public void bindAttribute(final String attribute, final Class<?> returnType) {
 
-		bindExpressionValue(elHelper.makeValueExpression(
+		bindExpressionValue(getHelper().makeValueExpression(
 				getAttributeStringExpression(attribute), returnType));
 	}
 

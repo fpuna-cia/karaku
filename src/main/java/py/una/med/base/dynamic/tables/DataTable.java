@@ -3,15 +3,18 @@
  */
 package py.una.med.base.dynamic.tables;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import org.richfaces.component.UIExtendedDataTable;
+import org.richfaces.model.SelectionMode;
+import py.una.med.base.dynamic.data.AbstractPagingDataSource;
+import py.una.med.base.dynamic.forms.Field;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
-import py.una.med.base.util.SIGHListHelper;
 import py.una.med.base.util.StringUtils;
 
 /**
- * Clase que representa una tabla <br>
+ * Clase que representa una tabla, se asume durante la construcción de este
+ * elemento, que la variable para referenciar al bind es 'table' <br>
  * </br>TODO:
  * <ol>
  * <li>Agregar configuración de span</li>
@@ -28,26 +31,24 @@ import py.una.med.base.util.StringUtils;
  * style="height:#{cc.attrs.height}; width:#{cc.attrs.width}"
  * selection="#{extTableSelectionBean.selection}">
  */
-public class DataTable<T, K extends Serializable> {
+public class DataTable extends Field {
 
 	/**
 	 * 
 	 */
 	public static final String DATA_TABLE_VARIABLE = "item";
-	private static final String DEFAULT_STYLE = "height:HEIGHTpx; width:WIDTHpx";
-	private static final int DEFAULT_WIDTH = 350;
-	private static final int DEFAULT_HEIGH = 620;
 
-	private SIGHListHelper<T, K> listHelper;
-	private boolean idAdded;
-	private boolean actionsAdded;
-	private boolean exportsAdded;
-	private List<Column> columns;
-	private int width = DEFAULT_WIDTH;
-	private int heigh = DEFAULT_HEIGH;
-	private UIExtendedDataTable table;
-	private boolean withExports = false;
-	private boolean withActions = true;
+	// private SIGHListHelper<T, K> listHelper;
+	// private boolean idAdded;
+	// private boolean actionsAdded;
+	// private boolean exportsAdded;
+	private List<AbstractColumn> columns;
+	private final UIExtendedDataTable table;
+
+	private AbstractPagingDataSource dataSource;
+
+	// private boolean withExports = false;
+	// private boolean withActions = true;
 
 	/**
 	 * 
@@ -55,22 +56,18 @@ public class DataTable<T, K extends Serializable> {
 	public DataTable() {
 
 		table = SIGHComponentFactory.getDataTable();
-		table.setStyle(getCurrentStyle());
+//		table.setStyle(getCurrentStyle());
 		table.setVar(DATA_TABLE_VARIABLE);
-	}
-
-	private String getCurrentStyle() {
-
-		String cStyle = DEFAULT_STYLE.replaceFirst("HEIGHT", heigh + "");
-		cStyle = DEFAULT_STYLE.replaceFirst("WIDTH", width + "");
-		return cStyle;
 	}
 
 	/**
 	 * @return columns
 	 */
-	public List<Column> getColumns() {
+	public List<AbstractColumn> getColumns() {
 
+		if (columns == null) {
+			columns = new ArrayList<AbstractColumn>();
+		}
 		return columns;
 	}
 
@@ -78,10 +75,17 @@ public class DataTable<T, K extends Serializable> {
 	 * @param columns
 	 *            columns para setear
 	 */
-	public void setColumns(final List<Column> columns) {
+	public void setColumns(final List<AbstractColumn> columns) {
 
-		idAdded = false;
+		// idAdded = false;
 		this.columns = columns;
+	}
+
+	public void addColumn(AbstractColumn ... columns) {
+
+		for (AbstractColumn column : columns) {
+			getColumns().add(column);
+		}
 	}
 
 	/**
@@ -118,4 +122,64 @@ public class DataTable<T, K extends Serializable> {
 
 		table.setRowClasses(StringUtils.join(" ", clases));
 	}
+
+	boolean builded = false;
+
+	public void build() {
+
+		if (builded) {
+			return;
+		}
+		builded = true;
+		for (AbstractColumn column : getColumns()) {
+			column.build();
+			table.getChildren().add(column.getBind());
+		}
+		//
+		// table.setv
+		// table.setValueExpression(
+		// "value",
+		// getElHelper().makeValueExpression("#{table.dataSource.items}",
+		// List.class));
+		getDataSource().refresh();
+		table.setValue(getDataSource().getItems());
+	}
+
+	public UIExtendedDataTable getBind() {
+
+		return table;
+	}
+
+	@Override
+	public boolean disable() {
+
+		return false;
+	}
+
+	@Override
+	public boolean enable() {
+
+		return false;
+	}
+
+	public SelectionMode getSelectionMode() {
+
+		return table.getSelectionMode();
+	}
+
+	public void setSelectionMode(SelectionMode selectionMode) {
+
+		table.setSelectionMode(selectionMode);
+	}
+
+	public void setPagingDataSource(AbstractPagingDataSource ds) {
+
+		dataSource = ds;
+	}
+
+	public AbstractPagingDataSource getDataSource() {
+
+		return dataSource;
+	}
+
 }
