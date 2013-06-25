@@ -89,7 +89,7 @@ public class AsyncConfiguration implements AsyncConfigurer {
 			return Integer.parseInt(properties.get(key, def + ""));
 		} catch (NumberFormatException nfe) {
 			throw new KarakuRuntimeException("The key " + key
-					+ " doesn't contain a integer");
+					+ " doesn't contain a integer", nfe);
 		}
 	}
 }

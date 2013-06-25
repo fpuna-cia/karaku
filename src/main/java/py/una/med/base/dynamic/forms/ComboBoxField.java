@@ -67,6 +67,16 @@ public class ComboBoxField<T> extends LabelField {
 		toRender = new ArrayList<String>();
 	}
 
+	/**
+	 * Retorna el converter por defecto de este objeto
+	 * 
+	 * @return converter
+	 */
+	public SIGHConverterV2 getConverter() {
+
+		return converter;
+	}
+
 	private UISelectItem getDefaultSelectItem() {
 
 		if (defaultSelectItem == null) {

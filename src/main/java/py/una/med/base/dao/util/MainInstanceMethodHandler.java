@@ -24,15 +24,15 @@ public class MainInstanceMethodHandler<T> implements MethodHandler {
 
 	private boolean consulted;
 
-	private Session session;
+	private final Session session;
 
 	private T embedded;
 
 	private final String hql;
 
-	private MainInstance principal;
+	private final MainInstance principal;
 
-	private Class<T> clazz;
+	private final Class<T> clazz;
 
 	private final Object entity;
 
@@ -72,6 +72,14 @@ public class MainInstanceMethodHandler<T> implements MethodHandler {
 		}
 
 		return method.invoke(embedded, args);
+	}
+
+	/**
+	 * @return clazz
+	 */
+	public Class<T> getClazz() {
+
+		return clazz;
 	}
 
 }

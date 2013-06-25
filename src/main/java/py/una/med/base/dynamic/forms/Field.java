@@ -9,7 +9,7 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import py.una.med.base.util.ControllerHelper;
+import py.una.med.base.util.ELHelper;
 import py.una.med.base.util.I18nHelper;
 
 /**
@@ -23,12 +23,14 @@ public abstract class Field {
 
 	private static int idCounter = 0;
 
+	private final ELHelper elHelper = ELHelper.INSTANCE;
+
 	/**
 	 * Construye un nuevo field con un id generado
 	 */
 	public Field() {
 
-		id = getClass().getSimpleName() + getNewId();
+		this.id = this.getClass().getSimpleName() + getNewId();
 	}
 
 	private static String getNewId() {
@@ -40,18 +42,26 @@ public abstract class Field {
 
 	/**
 	 * Retorna el tipo de este componente, se utiliza como URI para poder
-	 * individualizar un tipo de componente.
+	 * individualizar un tipo de componente. Por defecto se utiliza el nombre
+	 * completo de la clase.
 	 * 
-	 * @return Cadena que representa de manera unica un componente
+	 * @return Cadena que representa de manera única un componente
 	 */
-	public abstract String getType();
+	public String getType() {
+
+		return this.getClass().getName();
+	}
 
 	/**
-	 * @return id
+	 * Retorna un identificador único de esta instancia, este identificador se
+	 * genera incrementalmente por el numero de elementos dinámicos generados.
+	 * 
+	 * @return cadena que representa de manera única esta instancia de este
+	 *         componente.
 	 */
 	public String getId() {
 
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -71,7 +81,7 @@ public abstract class Field {
 	@Override
 	public String toString() {
 
-		return getId();
+		return this.getId();
 	}
 
 	public FacesContext getFacesContext() {
@@ -84,8 +94,8 @@ public abstract class Field {
 	public abstract boolean enable();
 
 	/**
-	 * Dado un ID (vease {@link ControllerHelper#getClientId(String)}) retorna
-	 * el componente al que pertenece
+	 * Dado un ID del lado del cliente (asignado en el XHTML o por código)
+	 * retorna el componente al que pertenece.
 	 * 
 	 * @param id
 	 *            id del cliente para obtener el componente
@@ -96,8 +106,7 @@ public abstract class Field {
 		FacesContext context = FacesContext.getCurrentInstance();
 		UIViewRoot root = context.getViewRoot();
 
-		UIComponent c = findComponent(root, id);
-		return c;
+		return this.findComponent(root, id);
 	}
 
 	/**
@@ -110,7 +119,7 @@ public abstract class Field {
 		}
 		Iterator<UIComponent> kids = c.getFacetsAndChildren();
 		while (kids.hasNext()) {
-			UIComponent found = findComponent(kids.next(), id);
+			UIComponent found = this.findComponent(kids.next(), id);
 			if (found != null) {
 				return found;
 			}
@@ -128,17 +137,17 @@ public abstract class Field {
 	 * @param detail
 	 *            Clave internacionalizada del detalle
 	 * @param componentId
-	 *            Nombre del componente,
-	 *            {@link ControllerHelper#getClientId(String)}
+	 *            Nombre del componente
 	 */
 	public void createFacesMessage(Severity severity, String summary,
 			String detail) {
 
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 
-		FacesMessage msg = new FacesMessage(severity, getMessage(summary),
-				getMessage(detail));
-		facesContext.addMessage(findComponent(getId()).getClientId(), msg);
+		FacesMessage msg = new FacesMessage(severity, this.getMessage(summary),
+				this.getMessage(detail));
+		facesContext.addMessage(this.findComponent(this.getId()).getClientId(),
+				msg);
 	}
 
 	/**
@@ -152,10 +161,10 @@ public abstract class Field {
 	public String getMessage(String code) {
 
 		if (code == null) {
-			return getDegeneratedString("null");
+			return this.getDegeneratedString("null");
 		}
 		if ("".equals(code)) {
-			return getDegeneratedString("empty");
+			return this.getDegeneratedString("empty");
 		}
 		return I18nHelper.getMessage(code);
 	}
@@ -169,5 +178,10 @@ public abstract class Field {
 	public String getDegeneratedString(String code) {
 
 		return "&&&&&" + code + "&&&&&";
+	}
+
+	public ELHelper getElHelper() {
+
+		return elHelper;
 	}
 }

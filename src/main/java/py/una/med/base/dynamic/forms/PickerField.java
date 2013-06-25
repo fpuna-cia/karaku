@@ -24,9 +24,9 @@ import py.una.med.base.util.SIGHListHelper;
  */
 public class PickerField<T> extends LabelField {
 
-	public static interface KeyListener {
+	public interface KeyListener {
 
-		public boolean onBlur(Field source, AjaxBehaviorEvent event,
+		boolean onBlur(Field source, AjaxBehaviorEvent event,
 				Object submittedValue);
 	}
 
@@ -48,8 +48,6 @@ public class PickerField<T> extends LabelField {
 	private T temp;
 	private boolean nullable;
 	private boolean selected;
-
-	// private HtmlInputText hidden;
 
 	/**
 	 * Crea un picker field, con ID autogenerado
@@ -86,17 +84,10 @@ public class PickerField<T> extends LabelField {
 		Object submitted = ((HtmlInputText) event.getSource())
 				.getSubmittedValue();
 		FacesContext fc = FacesContext.getCurrentInstance();
-		// try {
-		// getCodeExpression().setValue(fc.getELContext(), submitted);
-		// } catch (PropertyNotFoundException exception) {
-		// throw new PropertyNotFoundException(
-		// "Imposible setear el codigo, con expresion:"
-		// + getCodeExpression().getExpressionString());
-		// }
 		if (keyListener != null) {
 			boolean bool = keyListener.onBlur(this, event, submitted);
 			// Tratar cuadno se selecciona un valor nulo
-			if (bool == false) {
+			if (!bool) {
 				getValueExpression().setValue(fc.getELContext(), null);
 				createFacesMessage(FacesMessage.SEVERITY_WARN, "",
 						"No se encuentra la entidad seleccionada");
@@ -384,9 +375,6 @@ public class PickerField<T> extends LabelField {
 
 		temp = value;
 		selected = true;
-		// FacesContext fc = FacesContext.getCurrentInstance();
-		//
-		// getValueExpression().setValue(fc.getELContext(), value);
 	}
 
 	public void initialize() {
@@ -404,7 +392,6 @@ public class PickerField<T> extends LabelField {
 
 		// Si se selecciono un valor
 		if (selected) {
-			// selected = false;
 			return temp;
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -462,8 +449,7 @@ public class PickerField<T> extends LabelField {
 
 	public UIInput getHidden() {
 
-		HiddenText hidden = new HiddenText();
-		return hidden;
+		return new HiddenText();
 	}
 
 	public void setHidden(UIInput hidden) {
@@ -476,7 +462,7 @@ public class PickerField<T> extends LabelField {
 		public void validate(FacesContext context, UIComponent component,
 				Object value) throws ValidatorException {
 
-			if (!isNullable() && temp == null) {
+			if (!isNullable() && (temp == null)) {
 				FacesMessage msg = new FacesMessage(
 						FacesMessage.SEVERITY_ERROR,
 						getMessage("COMPONENT_PICKER_NOT_SELECTED"),

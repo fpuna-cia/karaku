@@ -87,8 +87,6 @@ public class MainInstanceHelper {
 		return sb.toString();
 	}
 
-	private int c = 0;
-
 	/**
 	 * Método principal que maneja la creación de instancias principales, se
 	 * encarga de ejecutar todas las consultas del dao, además crea Proxies
