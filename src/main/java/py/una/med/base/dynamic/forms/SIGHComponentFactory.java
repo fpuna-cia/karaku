@@ -25,6 +25,7 @@ import org.richfaces.component.UIPanelMenu;
 import org.richfaces.component.UIPanelMenuGroup;
 import org.richfaces.component.UIPanelMenuItem;
 import org.richfaces.component.behavior.ComponentControlBehavior;
+import org.richfaces.component.behavior.ToggleControl;
 
 /**
  * 
@@ -116,11 +117,6 @@ public final class SIGHComponentFactory {
 				HtmlInputText.COMPONENT_TYPE, "javax.faces.Text");
 	}
 
-	public static ComponentControlBehavior getComponentControl() {
-
-		return new ComponentControlBehavior();
-	}
-
 	public static UICommandButton getAjaxCommandButton() {
 
 		return (UICommandButton) getApplication().createComponent(getContext(),
@@ -133,12 +129,6 @@ public final class SIGHComponentFactory {
 		return (HtmlSelectOneRadio) getApplication().createComponent(
 				getContext(), HtmlSelectOneRadio.COMPONENT_TYPE,
 				"javax.faces.Menu");
-	}
-
-	public static AjaxBehavior getAjaxBehavior() {
-
-		return (AjaxBehavior) getApplication().createBehavior(
-				AjaxBehavior.BEHAVIOR_ID);
 	}
 
 	public static HtmlCommandButton getCommandButton() {
@@ -157,15 +147,14 @@ public final class SIGHComponentFactory {
 
 	public static UIColumn getRichColumn() {
 
-		return (UIColumn) getApplication().createComponent(getContext(),
-				UIColumn.COMPONENT_TYPE, null);
+		return (UIColumn) getApplication().createComponent(
+				UIColumn.COMPONENT_TYPE);
 	}
 
 	public static UIExtendedDataTable getDataTable() {
 
 		return (UIExtendedDataTable) getApplication().createComponent(
-				getContext(), UIExtendedDataTable.COMPONENT_TYPE,
-				"org.richfaces.ExtendedDataTableRenderer");
+				UIExtendedDataTable.COMPONENT_TYPE);
 	}
 
 	public static UIPanelMenuGroup getMenuGroup() {
@@ -193,5 +182,61 @@ public final class SIGHComponentFactory {
 		return (HtmlOutcomeTargetLink) getApplication().createComponent(
 				getContext(), HtmlOutcomeTargetLink.COMPONENT_TYPE,
 				"javax.faces.Link");
+	}
+
+	public static AjaxBehavior getAjaxBehavior() {
+
+		return (AjaxBehavior) getApplication().createBehavior(
+				AjaxBehavior.BEHAVIOR_ID);
+	}
+
+	/**
+	 * Retorna una acción AJAX del tipo {@link ToggleControl}, el cual sirve
+	 * para manipular paneles del tipo TogglePanelRenderer
+	 * 
+	 * @param id
+	 *            id del toggle panel
+	 * @param action
+	 *            '@next', '@prev', que son acciones para manipular el toggle
+	 *            panel
+	 * @return {@link AjaxBehavior} especializado para tratar con toggle
+	 *         controls
+	 */
+	public static ToggleControl getToogleControl(String id, String action) {
+
+		ToggleControl control = (ToggleControl) getApplication()
+				.createBehavior(ToggleControl.BEHAVIOR_ID);
+		control.setTargetPanel(id);
+		control.setTargetItem(action);
+		return control;
+	}
+
+	/**
+	 * Retorna una acción AJAX del tipo {@link ToggleControl}, el cual sirve
+	 * para manipular paneles del tipo TogglePanelRenderer
+	 * 
+	 * @param action
+	 *            '@next', '@prev', que son acciones para manipular el toggle
+	 *            panel
+	 * @return {@link AjaxBehavior} especializado para tratar con toggle
+	 *         controls
+	 */
+	public static ToggleControl getToogleControl(String action) {
+
+		ToggleControl control = (ToggleControl) getApplication()
+				.createBehavior(ToggleControl.BEHAVIOR_ID);
+		control.setTargetItem(action);
+
+		return control;
+	}
+
+	public static ComponentControlBehavior getComponentControl(String target,
+			String operation) {
+
+		ComponentControlBehavior behavior = (ComponentControlBehavior) getApplication()
+				.createBehavior(ComponentControlBehavior.BEHAVIOR_ID);
+		behavior.setOperation(operation);
+		behavior.setTarget(target);
+		return behavior;
 	}
 }
