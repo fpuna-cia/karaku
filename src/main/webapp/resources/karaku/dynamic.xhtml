@@ -1,0 +1,81 @@
+<!--
+Este componente (conjunto con postDynamic y preDynamic)
+definen el comportamiento de los formularios genéricos.
+Este componente define todo aquello que forma parte del 
+componente en si.
+
+Por convención, todos los componentes que se renderizan
+deben ser listados en este componente, y utilizar
+el nombre de la clase completo como identificador único.
+ -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	<cc:interface>
+		<cc:attribute name="field" required="true"
+			type="py.una.med.base.dynamic.forms.Field" />
+
+	</cc:interface>
+
+	<cc:implementation>
+		<c:choose>
+			<c:when
+				test="#{item.type eq 'py.una.med.base.dynamic.forms.PickerField'}">
+				<h:outputLabel value="#{item.label}" />
+				<sigh:pickerButton pickerField="#{item}" />
+				<rich:message ajaxRendered="true" for="#{item.id}" />
+			</c:when>
+			<c:when
+				test="#{item.type eq 'py.una.med.base.dynamic.forms.TextField'}">
+				<h:outputLabel value="#{item.label}" />
+				<h:inputText binding="#{item.bind}" id="#{item.bind.id}" />
+				<h:message for="#{item.bind.id}" />
+			</c:when>
+			<c:when
+				test="#{item.type eq 'py.una.med.base.dynamic.forms.ButtonField'}">
+
+				<h:outputLabel value="#{item.textField.label}" />
+				<h:panelGroup id="#{item.id}">
+					<h:inputText binding="#{item.textField.bind}"
+						id="#{item.textField.id}" />
+					<h:commandButton binding="#{item.bind}" />
+				</h:panelGroup>
+				<h:message for="#{item.bind.id}" />
+
+			</c:when>
+			<c:when
+				test="#{item.type eq 'py.una.med.base.dynamic.forms.ComboBoxField'}">
+				<h:outputLabel value="#{item.label}" />
+				<h:selectOneMenu binding="#{item.bind}" id="#{item.bind.id}" />
+				<h:message for="#{item.bind.id}" />
+			</c:when>
+			<c:when
+				test="#{item.type eq 'py.una.med.base.dynamic.forms.CalendarField'}">
+				<h:outputLabel value="#{item.label}" />
+				<rich:calendar binding="#{item.bind}" id="#{item.id}" />
+				<rich:message for="#{item.id}" />
+			</c:when>
+			<c:when
+				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.Button'}">
+				<a4j:commandButton id="#{cc.attrs.field.id}"
+					binding="#{cc.attrs.field.bind}" />
+			</c:when>
+			<c:when
+				test="#{item.type eq 'py.una.med.base.dynamic.forms.RadioButtonField'}">
+				<h:outputLabel value="#{item.label}" />
+				<h:selectOneRadio binding="#{item.bind}" id="#{item.bind.id}" />
+				<h:message for="#{item.bind.id}" />
+			</c:when>
+		</c:choose>
+
+		<cc:insertChildren></cc:insertChildren>
+
+
+	</cc:implementation>
+</ui:composition>
