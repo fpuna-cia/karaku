@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="avolpe@pol.una.py" id="base_audit_ws-end-point-aud_ct_001">
+		<createTable tableName="ws_end_point_aud" schemaName="${liquibase.audit.schema}">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="rev" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="revtype" type="SMALLINT" />
+			<column name="url" type="VARCHAR(255)" />
+			<column name="key" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+</databaseChangeLog>

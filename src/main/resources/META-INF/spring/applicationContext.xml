@@ -20,6 +20,7 @@
 	<!-- </property> -->
 	<!-- </bean> -->
 	<context:component-scan base-package="py.una.med.*" />
+	<context:annotation-config />
 
 	<import resource="classpath:/META-INF/spring/spring-*.xml" />
 	<import resource="classpath:/META-INF/spring/security-app-context.xml" />

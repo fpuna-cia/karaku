@@ -134,4 +134,16 @@ public final class ValidationConstants {
 	public static final String GN_WORDS_SPE_DIG = "[a-zA-Z0-9'ñÑ" + grave
 			+ nasal + special + " ]*";
 
+	/**
+	 * Expresión regular para validar cadenas que representan URL's, en su forma
+	 * más general. <br />
+	 * <b>Protocolos soportados</b>, todos son soportados tanto en mayúsculas
+	 * como en minúsculas.
+	 * <ol>
+	 * <li>http, https</li>
+	 * <li>ftp</li>
+	 * <li>file</li>
+	 * </ol>
+	 */
+	public static final String URL = "^(https?|ftp|file|HTTPS?|FTP|FILE)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 }
