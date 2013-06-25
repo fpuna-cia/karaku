@@ -150,12 +150,13 @@ public abstract class BaseController<T, K extends Serializable> implements
 			pagingHelper = new PagingHelper<T, K>(getRowsForPage());
 		}
 
-		pagingHelper.calculate(getBaseLogic(), null);
+		Long totalCount = getBaseLogic().getCount();
+		pagingHelper.udpateCount(totalCount);
 		ISearchParam sp = pagingHelper.getISearchparam();
 		if (getExample() != null) {
 			return getByExample(getExample(), sp);
 		}
-		if (filterValue != null && !filterValue.equals("")) {
+		if ((filterValue != null) && !filterValue.equals("")) {
 			return getBySimpleFilter(getFilterValue(), sp);
 		}
 		return getAllEntities(sp);

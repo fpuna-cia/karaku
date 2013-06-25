@@ -38,7 +38,7 @@ public class SIGHListHelper<T, K extends Serializable> {
 	private Where<T> baseWhere;
 	private List<SelectItem> filterOptions;
 	private Class<T> clazz;
-	private Logger log = LoggerFactory.getLogger(SIGHListHelper.class);
+	private final Logger log = LoggerFactory.getLogger(SIGHListHelper.class);
 
 	public SIGHListHelper(Class<T> clazz, ISIGHBaseLogic<T, K> logic) {
 
@@ -74,7 +74,8 @@ public class SIGHListHelper<T, K extends Serializable> {
 	public List<T> getEntities() {
 
 		Where<T> where = getFilters(clazz, example, simpleFilter);
-		helper.calculate(logic, where);
+		Long totalSize = logic.getCount(where);
+		helper.udpateCount(totalSize);
 		ISearchParam isp = helper.getISearchparam();
 		return logic.getAll(where, isp);
 	}

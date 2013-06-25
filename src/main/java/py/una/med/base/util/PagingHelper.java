@@ -56,7 +56,7 @@ public class PagingHelper<T, K extends Serializable> {
 	 */
 	public void next() {
 
-		if (page + 1 > getMaxPage(currentCount)) {
+		if ((page + 1) > getMaxPage(currentCount)) {
 			return;
 		}
 		this.page++;
@@ -117,10 +117,10 @@ public class PagingHelper<T, K extends Serializable> {
 	 */
 	public String getFormattedPage() {
 
-		Long firstRecord = Long.valueOf(page * rowsForPage + 1);
-		Long limit = Long.valueOf(page * rowsForPage + rowsForPage);
+		Long firstRecord = Long.valueOf((page * rowsForPage) + 1);
+		Long limit = Long.valueOf((page * rowsForPage) + rowsForPage);
 
-		if (page + 1 == getMaxPage(currentCount)) {
+		if ((page + 1) == getMaxPage(currentCount)) {
 			limit = currentCount;
 		}
 
@@ -145,7 +145,7 @@ public class PagingHelper<T, K extends Serializable> {
 		double rowForPage = rowsForPage;
 		int maxPage = (int) (count / rowsForPage);
 
-		if (total / rowForPage > maxPage) {
+		if ((total / rowForPage) > maxPage) {
 			maxPage++;
 		}
 
@@ -160,7 +160,7 @@ public class PagingHelper<T, K extends Serializable> {
 	 */
 	public boolean hasNext() {
 
-		if (page + 1 == getMaxPage(currentCount)) {
+		if ((page + 1) == getMaxPage(currentCount)) {
 			return false;
 		} else {
 			return true;
@@ -191,15 +191,15 @@ public class PagingHelper<T, K extends Serializable> {
 	 * Si la página actual es mayor a la máxima página con la configuración
 	 * actual, se vuelve a 0
 	 * 
-	 * @param logic
-	 *            lógica del caso de uso
+	 * @param dao
+	 *            dao del caso de uso
 	 * @param where
 	 *            where configurado con los parámetros de búsqueda
 	 */
-	public void calculate(ISIGHBaseLogic<T, K> logic, Where<T> where) {
+	public void udpateCount(Long count) {
 
-		assert logic != null;
-		currentCount = logic.getCount(where);
+		// assert dao != null;
+		currentCount = count;
 
 		if (page > getMaxPage(currentCount)) {
 			first();

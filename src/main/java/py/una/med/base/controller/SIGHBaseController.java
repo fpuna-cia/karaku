@@ -252,7 +252,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 			where.setExample(getExample());
 			return where;
 		}
-		if (getFilterValue() != null && !getFilterValue().equals("")) {
+		if ((getFilterValue() != null) && !getFilterValue().equals("")) {
 			return getFilters();
 		}
 		return null;
@@ -266,7 +266,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 					EntitySerializer.serialize(getExample()));
 			return paramsReport;
 		}
-		if (getFilterValue() != null && !getFilterValue().equals("")) {
+		if ((getFilterValue() != null) && !getFilterValue().equals("")) {
 			paramsReport.put("selectionFilters", getFilterOption() + ": "
 					+ getFilterValue());
 			return paramsReport;
@@ -341,7 +341,8 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 			pagingHelper = new PagingHelper<T, K>(getRowsForPage());
 		}
 
-		pagingHelper.calculate(getBaseLogic(), getWhereReport());
+		Long totalCount = getBaseLogic().getCount(getWhereReport());
+		pagingHelper.udpateCount(totalCount);
 
 		ISearchParam sp = pagingHelper.getISearchparam();
 		configureSearchParam(sp);
