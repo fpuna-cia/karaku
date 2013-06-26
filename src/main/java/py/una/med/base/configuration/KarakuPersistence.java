@@ -148,7 +148,7 @@ public class KarakuPersistence {
 			clazz.getMethod("setChangeLog", String.class).invoke(o,
 					properties.getProperty("liquibase.changelog-file"));
 			return o;
-		} catch (ReflectiveOperationException e) {
+		} catch (Exception e) {
 			throw new KarakuRuntimeException(
 					"Wrong version of liquibase, please, check your pom", e);
 		}
@@ -163,7 +163,8 @@ public class KarakuPersistence {
 			return null;
 		}
 		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
-		bean.setPackagesToScan(properties.getProperty("base-package-hibernate"));
+		bean.setPackagesToScan(properties.getProperty("base-package-hibernate")
+				.split("\\s+"));
 		bean.setDataSource(dataSource());
 		Properties props = new Properties();
 		try {

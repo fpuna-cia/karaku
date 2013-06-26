@@ -14,8 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.ws.client.core.WebServiceTemplate;
+import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
  * 
@@ -39,6 +40,7 @@ public class KarakuWSClientConfiguration {
 	 * 
 	 */
 	private static final String KARAKU_WS_CLIENT_PACKAGES_TO_SCAN = "karaku.ws.client.packages_to_scan";
+	private static final String KARAKU_WS_CLIENT_ENABLED = "karaku.ws.client.enabled";
 
 	@Autowired
 	private PropertiesUtil properties;
@@ -51,14 +53,38 @@ public class KarakuWSClientConfiguration {
 	}
 
 	@Bean
-	public WebServiceTemplate webServiceTemplate() {
+	@SuppressWarnings("unchecked")
+	public Object webServiceTemplate() {
 
-		WebServiceTemplate template = new WebServiceTemplate();
+		if (properties.get(KARAKU_WS_CLIENT_ENABLED).equals("false")) {
+			return null;
+		}
 
-		template.setMarshaller(marshaller());
-		Jaxb2Marshaller mar = (Jaxb2Marshaller) marshaller();
-		template.setUnmarshaller(mar);
-		return template;
+		@SuppressWarnings("rawtypes")
+		Class clazz = null;
+		try {
+			clazz = Class
+					.forName("org.springframework.ws.client.core.WebServiceTemplate.WebServiceTemplate");
+		} catch (ClassNotFoundException e) {
+			throw new KarakuRuntimeException(
+					"Can not find the WebServiceTemplate base class in the classpath, "
+							+ "please, check your pom and add the ws dependencies",
+					e);
+		}
+		Object o;
+		try {
+			o = clazz.newInstance();
+			clazz.getMethod("setMarshaller", Marshaller.class).invoke(o,
+					marshaller());
+			clazz.getMethod("setUnmarshaller", Unmarshaller.class).invoke(o,
+					marshaller());
+			return o;
+		} catch (Exception e) {
+			throw new KarakuRuntimeException(
+					"Wrong version of WS dependencies, please check your pom",
+					e);
+		}
+
 	}
 
 	/**
@@ -85,6 +111,9 @@ public class KarakuWSClientConfiguration {
 
 	private Jaxb2Marshaller getJaxb2Marshaller() {
 
+		if (!(properties.get(KARAKU_WS_CLIENT_ENABLED).equals("true"))) {
+			return null;
+		}
 		Pattern pattern = Pattern.compile(properties.get(
 				KARAKU_WS_CLIENT_PACKAGES_TO_SCAN,
 				DEFAULT_PACKAGES_TO_SCAN_EXPRESSION));

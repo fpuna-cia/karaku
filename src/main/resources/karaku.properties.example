@@ -15,9 +15,9 @@ hibernate.hbm2ddl.auto = validate
 hibernate.envers.schema = audit
 base-package-hibernate = py.una.med.*
 
-#Archivo donde se almacena informacion cambiante, las propiedades 
-#dentro de este archivo se mexclan con las principales, y pueden
-#ser utilizadas dentro de la definicion de cualquier bean
+#Archivo donde se almacena información cambiante, las propiedades 
+#dentro de este archivo se mezclan con las principales, y pueden
+#ser utilizadas dentro de la definición de cualquier bean
 karaku.changing.properties = /etc/SIGH.properties
 
 #lista separada por espacios de bundles
@@ -25,3 +25,15 @@ language_bundles = ../language.properties.base ../language.properties.configurac
 menu_location =  menu/configuracion.xml menu/identificacion.xml menu/farmacia.xml menu/base.xml
 
 liquibase.changelog-file = classpath:database/base/db-changelog.xml
+
+
+# Expresión regular que define aquellos paquetes que serán escaneados en
+# busca de Clases que puedan ser serializadas (marshal) o deserializadas 
+# (unmarshal) por JAXB  .
+# En este caso busca todos los paquetes que terminan con 'ws.schema'
+# No siempre es posible obtener todos los paquetes, es posible
+# que algunos no sean detectados en tiempo de inicio (esto se debe a que
+# algunos paquetes no son cargados hasta ser necesarios).
+# true para habilitar, cualquier otro para des-habilitar
+#karaku.ws.client.enabled = false
+#karaku.ws.client.packages_to_scan = [\\w\\.]*services\\.schemas
