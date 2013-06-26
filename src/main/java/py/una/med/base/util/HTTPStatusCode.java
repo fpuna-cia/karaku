@@ -9,7 +9,9 @@ package py.una.med.base.util;
  */
 public final class HTTPStatusCode {
 
-	// El servidor no ha encontrado nada que coincida con el Request-URI
+	/**
+	 * El servidor no ha encontrado nada que coincida con el Request-URI
+	 */
 	public static final String NOT_FOUND = "404";
 
 }
