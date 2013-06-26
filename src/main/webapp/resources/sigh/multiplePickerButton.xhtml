@@ -1,0 +1,33 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+	<cc:interface>
+		<cc:attribute name="buttonText"
+			default="#{msg['COMPONENT_PICKER_CHOOSE']}" />
+		<cc:attribute name="resultPanelID"
+			default="#{cc.attrs.pickerField.id}" />
+		<cc:attribute name="pickerField"
+			type="py.una.med.base.dynamic.forms.MultiplePickerField"
+			required="true" />
+		<cc:attribute name="resultValue" default="#{cc.attrs.pickerField.formatedSelectedOptions}"/>
+	</cc:interface>
+
+	<cc:implementation>
+
+		<a4j:commandButton value="#{cc.attrs.buttonText}"
+			render="#{cc.attrs.pickerField.dataTableID} globalMessages idPagingPanel"
+			oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.show(); return false;"
+			immediate="true"
+			disabled="#{cc.attrs.pickerField.buttonDisabled}" />
+
+		<h:panelGroup id="#{cc.attrs.resultPanelID}">
+			<h:outputLabel value="#{cc.attrs.resultValue}" />
+			<h:message for="#{cc.attrs.pickerField.id}" />
+		</h:panelGroup>
+	</cc:implementation>
+</ui:composition>

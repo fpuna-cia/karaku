@@ -1,0 +1,118 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+	<cc:interface componentType="multiplePickerButton">
+		<cc:attribute name="pickerField"
+			type="py.una.med.base.dynamic.forms.MultiplePickerField"
+			required="true" />
+		<cc:attribute name="popUpHeader" required="true" />
+		<cc:attribute name="width" default="680" />
+		<cc:attribute name="height" default="400" />
+		<cc:attribute name="basicFilterID"
+			default="multiplePickerBasicFilterID" />
+		<cc:attribute name="getItemKey" required="true"
+			method-signature="java.lang.Object f(java.lang.Object)" />
+		<cc:attribute name="setValues" required="true"
+			method-signature="void f(java.util.List)" />
+	</cc:interface>
+	<cc:implementation>
+		<sigh:popup title="#{cc.attrs.popUpHeader}"
+			popupId="#{cc.attrs.pickerField.popupID}" width="#{cc.attrs.width}"
+			height="#{cc.attrs.height}">
+			<rich:messages id="globalMessages" ajaxRendered="true" />
+
+
+
+			<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
+				switchType="client">
+				<h:form>
+					<sigh:basicFilter2 id="#{cc.attrs.basicFilterID}"
+						simpleFilter="#{cc.attrs.pickerField.listHelper.simpleFilter}"
+						searchRender="dataTblForm"
+						filterOptions="#{cc.attrs.pickerField.listHelper.filterOptions}">
+					</sigh:basicFilter2>
+				</h:form>
+			</rich:collapsiblePanel>
+
+			<h:form id="dataTblForm">
+				<h:panelGrid columns="1" style="width: 100% !important;">
+					<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
+						switchType="client">
+						<h:panelGroup>
+
+							<rich:extendedDataTable
+								value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
+								binding="#{cc.dataTable}" rows="15" selectionMode="none"
+								id="#{cc.attrs.pickerField.dataTableID}">
+
+								<ui:param name="itemKey"
+									value="#{cc.attrs.pickerField.getItemKey(item)}" />
+
+								<rich:column
+									rendered="#{not cc.attrs.pickerField.buttonDisabled}">
+									<f:facet name="header">
+
+										<h:outputText
+											value="#{msg['MULTIPLE_PICKER_SELECCIONAR_HEADER']}"
+											style="margin-right: 3px;" />
+										<h:selectBooleanCheckbox value="#{cc.selectAllChecked}">
+											<a4j:ajax listener="#{cc.onCheckboxHeaderClicked}"
+												render="#{cc.attrs.pickerField.dataTableID} pickerResult"
+												execute="@this" immediate="true" />
+										</h:selectBooleanCheckbox>
+
+									</f:facet>
+
+									<h:selectBooleanCheckbox value="#{cc.checkedItems[itemKey]}"
+										style="margin-left: 80px; margin-top: 5px;">
+										<a4j:ajax listener="#{cc.onItemCheckboxClicked}"
+											render="#{cc.attrs.pickerField.dataTableID} pickerResult"
+											execute="@this" immediate="true" />
+									</h:selectBooleanCheckbox>
+
+								</rich:column>
+
+								<ui:include src="#{cc.attrs.pickerField.urlColumns}" />
+							</rich:extendedDataTable>
+
+						</h:panelGroup>
+					</rich:collapsiblePanel>
+
+					<h:panelGrid columns="3" width="100%"
+						columnClasses="list_button_class,list_pagin_class">
+						<div style="float: right;">
+							<sigh:navigation style="float:right;"
+								helper="#{cc.attrs.pickerField.listHelper.helper}"
+								idPanel="idPagingPanel"
+								render="#{cc.attrs.pickerField.dataTableID}" />
+						</div>
+					</h:panelGrid>
+
+				</h:panelGrid>
+				<h:outputText
+					value="#{cc.attrs.pickerField.getFormatedSelectedOptions(cc.selectedItems)}"
+					id="pickerResult" />
+				<a4j:commandButton
+					actionListener="#{cc.attrs.pickerField.changeValueListener()}"
+					value="#{msg['BASE_LIST_ACCEPT']}" immediate="true"
+					style="margin-right: 5px !important;"
+					render="#{cc.attrs.pickerField.id}"
+					oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.hide(); return false;">
+				</a4j:commandButton>
+
+				<a4j:commandButton value="#{msg['BASE_FORM_CANCEL']}"
+					immediate="true" action="#{cc.clearSelectedItems()}"
+					oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.hide(); return false;">
+				</a4j:commandButton>
+
+			</h:form>
+		</sigh:popup>
+
+	</cc:implementation>
+</ui:composition>
