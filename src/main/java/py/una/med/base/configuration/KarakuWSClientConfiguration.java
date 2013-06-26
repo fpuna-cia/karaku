@@ -13,9 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.Unmarshaller;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
@@ -53,32 +50,31 @@ public class KarakuWSClientConfiguration {
 	}
 
 	@Bean
-	@SuppressWarnings("unchecked")
 	public Object webServiceTemplate() {
 
 		if (properties.get(KARAKU_WS_CLIENT_ENABLED).equals("false")) {
 			return null;
 		}
 
-		@SuppressWarnings("rawtypes")
-		Class clazz = null;
 		try {
-			clazz = Class
+			Class<?> clazz = Class
 					.forName("org.springframework.ws.client.core.WebServiceTemplate.WebServiceTemplate");
+			Class<?> clazzMarshaller = Class
+					.forName("org.springframework.oxm.Marshaller");
+			Class<?> clazzUnMarshaller = Class
+					.forName("org.springframework.oxm.Unmarshaller");
+
+			Object o = clazz.newInstance();
+			clazz.getMethod("setMarshaller", clazzMarshaller).invoke(o,
+					marshaller());
+			clazz.getMethod("setUnmarshaller", clazzUnMarshaller).invoke(o,
+					unmarshaller());
+			return o;
 		} catch (ClassNotFoundException e) {
 			throw new KarakuRuntimeException(
 					"Can not find the WebServiceTemplate base class in the classpath, "
 							+ "please, check your pom and add the ws dependencies",
 					e);
-		}
-		Object o;
-		try {
-			o = clazz.newInstance();
-			clazz.getMethod("setMarshaller", Marshaller.class).invoke(o,
-					marshaller());
-			clazz.getMethod("setUnmarshaller", Unmarshaller.class).invoke(o,
-					marshaller());
-			return o;
 		} catch (Exception e) {
 			throw new KarakuRuntimeException(
 					"Wrong version of WS dependencies, please check your pom",
@@ -104,12 +100,34 @@ public class KarakuWSClientConfiguration {
 	 * </pre>
 	 */
 	@Bean
-	public Marshaller marshaller() {
+	public Object marshaller() {
 
 		return getJaxb2Marshaller();
 	}
 
-	private Jaxb2Marshaller getJaxb2Marshaller() {
+	/**
+	 * Crea un bean para ser utilizado como unmarshaller (serializador). <br>
+	 * Utiliza
+	 * 
+	 * <pre>
+	 * {@literal 
+	 * 		<bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+	 * 			<property name="packagesToScan">
+	 * 				<list>
+	 * 					<value>py.una.med.identificacion.ws.schema</value>
+	 * 					<value>py.una.med.configuracion.ws.schema</value>
+	 * 				</list>
+	 * 			</property>
+	 * 		</bean>}
+	 * </pre>
+	 */
+	public Object unmarshaller() {
+
+		return getJaxb2Marshaller();
+	}
+
+	// @SuppressWarnings("unchecked")
+	private Object getJaxb2Marshaller() {
 
 		if (!(properties.get(KARAKU_WS_CLIENT_ENABLED).equals("true"))) {
 			return null;
@@ -129,9 +147,26 @@ public class KarakuWSClientConfiguration {
 			}
 		}
 
-		Jaxb2Marshaller m = new Jaxb2Marshaller();
-		m.setPackagesToScan(packagesFound.toArray(new String[packagesFound
-				.size()]));
-		return m;
+		try {
+
+			Class<?> clazz = Class
+					.forName("org.springframework.oxm.jaxb.Jaxb2Marshaller");
+			Object o = clazz.newInstance();
+			clazz.getMethod("setPackagesToScan", String[].class).invoke(
+					o,
+					(Object[]) packagesFound.toArray(new String[packagesFound
+							.size()]));
+			return o;
+		} catch (ClassNotFoundException e) {
+			throw new KarakuRuntimeException(
+					"Can not find the Jaxb2Marshaller base class in the classpath, "
+							+ "please, check your pom and add the ws (oxm) dependencies",
+					e);
+		} catch (Exception e) {
+			throw new KarakuRuntimeException(
+					"Wrong version of WS dependencies, please check your pom",
+					e);
+		}
+
 	}
 }
