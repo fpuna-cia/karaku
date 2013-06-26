@@ -120,7 +120,8 @@
 					<h:panelGrid columns="2">
 						<a4j:commandButton
 							actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
-							render="globalMessages, @form, #{cc.attrs.idListEntities}" />
+							render="globalMessages, @form, #{cc.attrs.idListEntities}"
+							immediate="true" />
 						<a4j:commandButton value="Volver" immediate="true"
 							oncomplete="#{rich:component('puSearch')}.hide()" />
 					</h:panelGrid>
