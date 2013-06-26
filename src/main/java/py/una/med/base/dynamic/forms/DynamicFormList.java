@@ -5,6 +5,7 @@
 package py.una.med.base.dynamic.forms;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -63,4 +64,20 @@ public class DynamicFormList {
 
 		this.fields = fields;
 	}
+
+	public boolean addAll(Collection<? extends Field> arg0) {
+
+		return fields.addAll(arg0);
+	}
+
+	public void clear() {
+
+		fields.clear();
+	}
+
+	public boolean isEmpty() {
+
+		return fields.isEmpty();
+	}
+
 }
