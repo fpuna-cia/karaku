@@ -15,6 +15,7 @@
 		type="py.una.med.base.controller.ISIGHAdvancedController"
 		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
 	<composite:attribute name="urlFormDatosBasicos" required="true" />
+	<composite:attribute name="abmHeader" default=""/>
 	<composite:facet name="detailHeader" />
 	<composite:attribute name="tab1Header" default="tab1Header" />
 </composite:interface>
@@ -25,11 +26,10 @@
 			id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
 	</rich:collapsiblePanel>
 	<composite:renderFacet name="detailHeader" />
-	<rich:collapsiblePanel header="Editar pais" switchType="client">
+	<rich:collapsiblePanel header="#{cc.attrs.abmHeader}" switchType="client">
 
 
 		<h:form>
-			<h:outputLabel value="#{personaFisicaControllerV2.tabDisabled}" />
 			<rich:tabPanel id="tabPanel"
 				itemChangeListener="#{cc.attrs.controller.tabChange}">
 				<rich:tab header="Datos básicos" name="firstTab">
