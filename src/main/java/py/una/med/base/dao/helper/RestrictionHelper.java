@@ -5,7 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.LikeExpression;
 import py.una.med.base.dao.restrictions.NumberLike;
 import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.where.Clause;
+import py.una.med.base.dao.where.IClause;
 import py.una.med.base.dao.where.Not;
 import py.una.med.base.dao.where.Or;
 
@@ -54,7 +54,7 @@ public class RestrictionHelper<T> {
 			return criteria;
 		}
 		if (where.getClauses() != null) {
-			for (Clause cr : where.getClauses()) {
+			for (IClause cr : where.getClauses()) {
 				if (cr.getCriterion().getClass().equals(LikeExpression.class)) {
 					LikeExpressionHelper.applyNestedCriteria(criteria,
 							(LikeExpression) cr.getCriterion(), aliaz);

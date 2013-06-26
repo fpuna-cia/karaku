@@ -7,8 +7,7 @@ import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.engine.spi.TypedValue;
-
-import py.una.med.base.dao.where.Clause;
+import py.una.med.base.dao.where.IClause;
 
 /**
  * Clase que representa una condicion de Where para hacer busqueda en similutd
@@ -20,7 +19,7 @@ import py.una.med.base.dao.where.Clause;
  * @since 1.0 08/02/2013
  * 
  */
-public class NumberLike implements Criterion, Clause {
+public class NumberLike implements Criterion, IClause {
 
 	private String propiedad;
 
@@ -53,6 +52,7 @@ public class NumberLike implements Criterion, Clause {
 
 	private static final long serialVersionUID = 46392094642533751L;
 
+	@Override
 	public String toSqlString(Criteria criteria, CriteriaQuery criteriaQuery)
 			throws HibernateException {
 
@@ -65,6 +65,7 @@ public class NumberLike implements Criterion, Clause {
 		return columns[0] + "::text ilike ?";
 	}
 
+	@Override
 	public TypedValue[] getTypedValues(Criteria criteria,
 			CriteriaQuery criteriaQuery) throws HibernateException {
 

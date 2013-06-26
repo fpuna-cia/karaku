@@ -14,17 +14,17 @@ import org.hibernate.criterion.Restrictions;
  * @version 1.0 12/03/2013
  * 
  */
-public class Or implements Clause {
+public class Or implements IClause {
 
-	private Clause[] clauses;
+	private IClause[] clauses;
 
-	public Or(Clause[] clauses) {
+	public Or(IClause[] clauses) {
 
 		super();
 		this.clauses = clauses.clone();
 	}
 
-	public Clause[] getClauses() {
+	public IClause[] getClauses() {
 
 		return clauses;
 	}

@@ -9,7 +9,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LikeExpression;
 import org.hibernate.criterion.Restrictions;
 import py.una.med.base.dao.restrictions.NumberLike;
-import py.una.med.base.dao.where.Clause;
+import py.una.med.base.dao.where.IClause;
 import py.una.med.base.dao.where.ILike;
 import py.una.med.base.dao.where.Or;
 
@@ -51,7 +51,7 @@ public final class OrExpressionHelper {
 		return aliases;
 	}
 
-	public static Criterion configureClause(Criteria criteria, Clause c,
+	public static Criterion configureClause(Criteria criteria, IClause c,
 			Map<String, String> alias) {
 
 		if (c instanceof ILike) {
