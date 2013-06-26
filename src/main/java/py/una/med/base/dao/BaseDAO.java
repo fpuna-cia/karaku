@@ -51,6 +51,9 @@ public interface BaseDAO<T, ID extends Serializable> {
 	 */
 	public T getByExample(T example) throws NonUniqueResultException;
 
+	public T getByExample(EntityExample<T> example)
+			throws NonUniqueResultException;
+
 	/**
 	 * Retorna una lista de entidades.
 	 * 

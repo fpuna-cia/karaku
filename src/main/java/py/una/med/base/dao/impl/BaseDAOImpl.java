@@ -23,7 +23,6 @@ import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -61,7 +60,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	private SessionFactory sessionFactory;
 
-//	@Autowired
+	// @Autowired
 	private EntityManager em;
 
 	@Autowired
@@ -151,7 +150,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 			EntityExample<T> example = where.getExample();
 			if ((example != null) && (example.getEntity() != null)) {
 				Example ejemplo = Example.create(example.getEntity());
-				ejemplo.enableLike(MatchMode.ANYWHERE);
+				ejemplo.enableLike(example.getMatchMode().getMatchMode());
 				if (example.isIgnoreCase()) {
 					ejemplo.ignoreCase();
 				}
@@ -222,8 +221,15 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@Override
 	public T getByExample(final T example) {
 
+		return getByExample(new EntityExample<T>(example));
+
+	}
+
+	@Override
+	public T getByExample(EntityExample<T> example) {
+
 		Where<T> where = new Where<T>();
-		where.setExample(new EntityExample<T>(example));
+		where.setExample(example);
 		ISearchParam isp = new SearchParam();
 		isp.setLimit(2);
 		isp.setOffset(0);
@@ -237,6 +243,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		}
 
 		throw new NonUniqueResultException(result.size());
+
 	}
 
 	@Override

@@ -3,16 +3,15 @@ package py.una.med.base.dao.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.hibernate.criterion.MatchMode;
+import py.una.med.base.dao.where.MatchMode;
 
 public class EntityExample<T> {
 
 	private T entity;
 	private List<String> excluded;
-	private MatchMode matchMode = MatchMode.ANYWHERE;
+	private MatchMode matchMode = MatchMode.CONTAIN;
 	private boolean ignoreCase = true;
 	private boolean excludeZeroes = true;
-
 
 	public EntityExample(T entity, String ... excluded) {
 
