@@ -77,6 +77,7 @@ public class SIGHListHelper<T, K extends Serializable> {
 		Long totalSize = logic.getCount(where);
 		helper.udpateCount(totalSize);
 		ISearchParam isp = helper.getISearchparam();
+		configureSearchParams(isp);
 		return logic.getAll(where, isp);
 	}
 
@@ -191,6 +192,16 @@ public class SIGHListHelper<T, K extends Serializable> {
 		return filterOptions;
 	}
 
+	public PagingHelper<T, K> getHelper() {
+
+		return helper;
+	}
+
+	public void setHelper(PagingHelper<T, K> helper) {
+
+		this.helper = helper;
+	}
+
 	/**
 	 * @param filterOptions
 	 *            filterOptions para setear
@@ -207,5 +218,13 @@ public class SIGHListHelper<T, K extends Serializable> {
 
 		this.getSimpleFilter().clear();
 		this.setExample(null);
+	}
+
+	/**
+	 * Permite extender los parametros de busquedas utilizados
+	 **/
+	public void configureSearchParams(ISearchParam isp) {
+
+		return;
 	}
 }
