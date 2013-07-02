@@ -18,34 +18,34 @@ public final class Clauses {
 		// No-op
 	}
 
-	public static IClause iLike(final String path, final Object object) {
+	public static Clause iLike(final String path, final Object object) {
 
 		return new ILike(path, object);
 	}
 
-	public static IClause iLike(final String path, final Object object,
+	public static Clause iLike(final String path, final Object object,
 			final MatchMode matchMode) {
 
 		return new ILike(path, object, matchMode);
 	}
 
-	public static IClause numberLike(final String path, final String number) {
+	public static Clause numberLike(final String path, final String number) {
 
 		return new NumberLike(path, number);
 	}
 
-	public static IClause numberLike(final String path, final String number,
+	public static Clause numberLike(final String path, final String number,
 			final MatchMode matchMode) {
 
 		return new NumberLike(path, number, matchMode.getMatchMode());
 	}
 
-	public static IClause or(final IClause ... clauses) {
+	public static Clause or(final Clause ... clauses) {
 
 		return new Or(clauses);
 	}
 
-	public static IClause not(final IClause clause) {
+	public static Clause not(final Clause clause) {
 
 		return new Not(clause);
 	}

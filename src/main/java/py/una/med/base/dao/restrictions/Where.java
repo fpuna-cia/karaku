@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.criterion.Criterion;
 import py.una.med.base.dao.util.EntityExample;
+import py.una.med.base.dao.where.Clause;
 import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.dao.where.IClause;
 
 /**
  * Clase que representa las restricciones para la busqueda, todo lo que
@@ -27,7 +27,7 @@ public class Where<T> {
 
 	private List<Criterion> criterions;
 
-	private List<IClause> clauses;
+	private List<Clause> clauses;
 
 	private EntityExample<T> example;
 
@@ -89,13 +89,13 @@ public class Where<T> {
 	 * @param clause
 	 * @return this
 	 */
-	public Where<T> addClause(IClause clause) {
+	public Where<T> addClause(Clause clause) {
 
 		if (criterions == null) {
 			criterions = new ArrayList<Criterion>(1);
 		}
 		if (clauses == null) {
-			clauses = new ArrayList<IClause>(1);
+			clauses = new ArrayList<Clause>(1);
 		}
 		criterions.add(clause.getCriterion());
 		clauses.add(clause);
@@ -121,7 +121,7 @@ public class Where<T> {
 	 * 
 	 * @return {@link Clause}'s utilizados
 	 */
-	public List<IClause> getClauses() {
+	public List<Clause> getClauses() {
 
 		return clauses;
 	}

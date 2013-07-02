@@ -7,7 +7,7 @@ import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.engine.spi.TypedValue;
-import py.una.med.base.dao.where.IClause;
+import py.una.med.base.dao.where.Clause;
 
 /**
  * Clase que representa una condicion de Where para hacer busqueda en similutd
@@ -19,7 +19,7 @@ import py.una.med.base.dao.where.IClause;
  * @since 1.0 08/02/2013
  * 
  */
-public class NumberLike implements Criterion, IClause {
+public class NumberLike implements Criterion, Clause {
 
 	private String propiedad;
 

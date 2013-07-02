@@ -3,7 +3,7 @@ package py.una.med.base.dao.where;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
-public class ILike implements IClause {
+public class ILike implements Clause {
 
 	private String path;
 	private Object value;

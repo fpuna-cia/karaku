@@ -3,17 +3,17 @@ package py.una.med.base.dao.where;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
-public class Not implements IClause {
+public class Not implements Clause {
 
-	private IClause clause;
+	private Clause clause;
 
-	public Not(IClause clause) {
+	public Not(Clause clause) {
 
 		super();
 		this.clause = clause;
 	}
 
-	public IClause getClause() {
+	public Clause getClause() {
 
 		return clause;
 	}
