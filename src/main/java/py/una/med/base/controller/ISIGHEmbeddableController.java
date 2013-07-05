@@ -18,6 +18,13 @@ public interface ISIGHEmbeddableController {
 	void setMainController(ISIGHMainController mainController);
 
 	/**
+	 * Retorna el controlador principal asociado a este controller anidado.
+	 * 
+	 * @return Controlador principal
+	 **/
+	ISIGHMainController getMainController();
+
+	/**
 	 * Retorna la URI donde se encuentra el header a ser expuesto
 	 * 
 	 * @return URI de la cabecera

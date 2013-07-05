@@ -41,6 +41,12 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 	}
 
 	@Override
+	public ISIGHMainController getMainController() {
+
+		return mainController;
+	}
+
+	@Override
 	public String getHeaderPath() {
 
 		return mainController.getHeaderPath();
