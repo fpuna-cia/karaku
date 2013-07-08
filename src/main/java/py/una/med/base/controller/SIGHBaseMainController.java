@@ -40,6 +40,7 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 	@Override
 	public void init() {
 
+		getUsarController();
 		for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
 			controller.setMainController(this);
 			controller.init();
@@ -89,7 +90,9 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 	@Override
 	public void cancel() {
 
-		Conversation.getCurrentInstance().invalidate();
+		if (Conversation.getCurrentInstance() != null) {
+			Conversation.getCurrentInstance().invalidate();
+		}
 		for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
 			controller.setMainController(null);
 		}

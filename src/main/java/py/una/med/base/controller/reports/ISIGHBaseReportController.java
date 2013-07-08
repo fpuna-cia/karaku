@@ -1,12 +1,13 @@
-/**
- * @ISIGHBaseReportController 1.0 12/03/13. Sistema Integral de Gestion
- *                            Hospitalaria
+/*
+ * @ISIGHBaseReportController.java 1.0 12/03/13 Sistema Integral de Gestion
+ * Hospitalaria
  */
 package py.una.med.base.controller.reports;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import py.una.med.base.util.SIGHConverterV2;
 
 /**
  * Interface del controlador utilizado para manejar los reportes complejos.
@@ -37,5 +38,10 @@ public interface ISIGHBaseReportController<T, ID extends Serializable> {
 	void generateReport();
 
 	String getDefaultPermission();
+
+	/**
+	 * @return
+	 */
+	SIGHConverterV2 getConverter();
 
 }

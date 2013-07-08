@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.LabelProvider;
+import py.una.med.base.util.SIGHConverterV2;
 import py.una.med.base.util.Serializer;
 
 /**
@@ -44,13 +45,24 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 	private String typeExport;
 
 	/**
-	 * Genera la lista de ordenamiento disponible
+	 * Genera la lista de ordenamiento disponible, solo es necesaria en algunos
+	 * casos de uso, en los cuales debe ser sobreescrito y retornar la lista de
+	 * ordenes disponibles.
 	 */
 	@Override
-	public abstract List<String> getBaseOrderOptions();
+	public List<String> getBaseOrderOptions() {
+
+		return null;
+	}
 
 	@Override
 	public abstract void generateReport();
+
+	@Override
+	public SIGHConverterV2 getConverter() {
+
+		return new SIGHConverterV2();
+	}
 
 	@Override
 	public Map<String, Object> getFilterReport(Map<String, Object> paramsReport) {

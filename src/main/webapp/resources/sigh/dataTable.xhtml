@@ -30,7 +30,7 @@
 		default="#{msg['BASE_LIST_DELETE']}"
 		shortDescription="Texto que aparecera en el link que invoque a los metodos preDelete, doDelete, postDelete" />
 
-	<composite:attribute name="height" default="350px" />
+	<composite:attribute name="height" />
 	<composite:attribute name="width" default="620px" />
 	<composite:attribute name="disableSelection" default="true" />
 	<composite:attribute name="renderOnClick" />
@@ -72,27 +72,26 @@
 				</o:separateConversationContext>
 			</rich:column>
 		</c:if>
-		<c:if test="#{cc.attrs.withExports}">
-			<rich:column width="50%" style="text-align:center" styleClass="data-table-exports">
-				<f:facet name="header">
-					<h:outputText value="#{msg['BASE_LIST_EXPORT']}" />
-				</f:facet>
-				<h:commandLink
-					action="#{cc.attrs.controller.generateReportDetail('xls')}">
-					<h:graphicImage value="/resources/images/csv-ico.png"
-						alt="Exportar a csv" style="width:20px;height:20px" />
-					<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
-						value="#{item}" />
-				</h:commandLink>
-				<h:commandLink
-					action="#{cc.attrs.controller.generateReportDetail('pdf')}">
-					<h:graphicImage value="/resources/images/pdf-ico.png"
-						alt="Exportar a pdf" style="width:20px;height:20px" />
-					<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
-						value="#{item}" />
-				</h:commandLink>
-			</rich:column>
-		</c:if>
+		<rich:column width="50%" style="text-align:center"
+			styleClass="data-table-exports" rendered="#{cc.attrs.withExports}">
+			<f:facet name="header">
+				<h:outputText value="#{msg['BASE_LIST_EXPORT']}" />
+			</f:facet>
+			<h:commandLink
+				action="#{cc.attrs.controller.generateReportDetail('xls')}">
+				<h:graphicImage value="/resources/images/csv-ico.png"
+					alt="Exportar a csv" style="width:20px;height:20px" />
+				<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
+					value="#{item}" />
+			</h:commandLink>
+			<h:commandLink
+				action="#{cc.attrs.controller.generateReportDetail('pdf')}">
+				<h:graphicImage value="/resources/images/pdf-ico.png"
+					alt="Exportar a pdf" style="width:20px;height:20px" />
+				<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
+					value="#{item}" />
+			</h:commandLink>
+		</rich:column>
 	</rich:extendedDataTable>
 </composite:implementation>
 </html>

@@ -200,4 +200,20 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 *            confirgurado
 	 */
 	void configureSearchParam(ISearchParam sp);
+
+	/**
+	 * Retorna la cadena a visualizar en el boton las cuales pueden ser CANCELAR
+	 * o VOLVER si se encuentra en modo ver.
+	 * 
+	 * @return
+	 */
+	String getCancelText();
+
+	/**
+	 * Retorna la cadena a ser visualizada en el panel del formulario segun la
+	 * accion a ejecutar.
+	 * 
+	 * @return
+	 */
+	String getHeaderText();
 }

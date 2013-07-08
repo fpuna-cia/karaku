@@ -7,6 +7,7 @@ import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
+import py.una.med.base.util.I18nHelper;
 
 /**
  * 
@@ -29,6 +30,18 @@ public class TextField extends LabelField {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see py.una.med.base.dynamic.forms.Field#setId(java.lang.String)
+	 */
+	@Override
+	public void setId(String id) {
+
+		getBind().setId(id);
+		super.setId(id);
+	}
+
 	/**
 	 * Retorna la longitud maxima que permite el textfield
 	 * 
@@ -38,6 +51,44 @@ public class TextField extends LabelField {
 	public int getMaxlength() {
 
 		return bind.getMaxlength();
+	}
+
+	/**
+	 * @return
+	 * @see javax.faces.component.UIInput#isRequired()
+	 */
+	public boolean isRequired() {
+
+		return bind.isRequired();
+	}
+
+	/**
+	 * 
+	 * @param message
+	 *            key del archivo de internacionalizacion
+	 * @see javax.faces.component.UIInput#setRequiredMessage(java.lang.String)
+	 */
+	public void setRequiredMessage(String key) {
+
+		bind.setRequiredMessage(I18nHelper.getMessage(key));
+	}
+
+	/**
+	 * @param required
+	 * @see javax.faces.component.UIInput#setRequired(boolean)
+	 */
+	public void setRequired(boolean required) {
+
+		bind.setRequired(required);
+	}
+
+	/**
+	 * @return
+	 * @see javax.faces.component.UIInput#getRequiredMessage()
+	 */
+	public String getRequiredMessage() {
+
+		return bind.getRequiredMessage();
 	}
 
 	/**

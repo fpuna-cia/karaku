@@ -21,14 +21,13 @@
 </composite:interface>
 <composite:implementation
 	xmlns:composite="http://java.sun.com/jsf/composite">
-	<rich:collapsiblePanel header="Mensajes" switchType="client">
-		<rich:messages ajaxRendered="true" showDetail="true"
-			id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
-	</rich:collapsiblePanel>
+	<rich:messages ajaxRendered="true" showDetail="true"
+		id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
 	<composite:renderFacet name="detailHeader" />
-	<rich:collapsiblePanel header="#{cc.attrs.abmHeader}" switchType="client">
-
-
+	<rich:panel>
+		<f:facet name="header">
+			<h:outputLabel value="#{cc.attrs.controller.headerText}" />
+		</f:facet>
 		<h:form>
 			<rich:tabPanel id="tabPanel"
 				itemChangeListener="#{cc.attrs.controller.tabChange}">
@@ -39,13 +38,13 @@
 					</h:panelGrid>
 					<rich:panel>
 						<h:commandButton action="#{cc.attrs.controller.doEdit()}"
-							value="Editar"
+							value="#{msg['BASE_FORM_EDIT']}"
 							rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}" />
 						<h:commandButton action="#{cc.attrs.controller.doCreate()}"
-							value="Crear"
+							value="#{msg['BASE_FORM_CREATE']}"
 							rendered="#{cc.attrs.controller.create  and authorityController.hasRole(cc.attrs.controller.createPermission)}" />
 						<h:commandButton action="#{cc.attrs.controller.doDelete()}"
-							value="Eliminar"
+							value="#{msg['BASE_FORM_DELETE']}"
 							rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />
 					</rich:panel>
 				</rich:tab>
@@ -57,10 +56,10 @@
 		<h:form>
 			<rich:panel>
 				<h:commandButton action="#{cc.attrs.controller.preList()}"
-					value="Volver" immediate="true" />
+					value="#{cc.attrs.controller.cancelText}" immediate="true" />
 			</rich:panel>
 		</h:form>
-	</rich:collapsiblePanel>
+	</rich:panel>
 
 </composite:implementation>
 </html>

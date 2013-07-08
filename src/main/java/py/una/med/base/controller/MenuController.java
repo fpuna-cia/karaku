@@ -4,6 +4,7 @@
 package py.una.med.base.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import javax.faces.application.ProjectStage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -12,11 +13,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
 import py.una.med.base.configuration.PropertiesUtil;
+import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.util.Util;
 
 /**
- * Controlador que provee funcionalidades transversales para la aplicacion, se
- * utiliza para proveer informacion al template principal, y tambien provee
+ * Controlador que provee funcionalidades transversales para la aplicación, se
+ * utiliza para proveer información al template principal, y también provee
  * ciertas funciones de utilidad para todas las vistas.
  * 
  * @author Arturo Volpe Torres
@@ -36,7 +38,7 @@ public class MenuController {
 	private PropertiesUtil properties;
 
 	/**
-	 * Retorna la URI para crear links de logout para la aplicacion
+	 * Retorna la URI para crear links de logout para la aplicación
 	 * 
 	 * @return URL
 	 */
@@ -46,9 +48,9 @@ public class MenuController {
 	}
 
 	/**
-	 * Retorna el titulo de la aplicacion, esto esta en el manifest
+	 * Retorna el titulo de la aplicación, esto esta en el manifest
 	 * 
-	 * @return Titulo de la aplicacion
+	 * @return Titulo de la aplicación
 	 */
 	public String getTitle() {
 
@@ -56,7 +58,27 @@ public class MenuController {
 	}
 
 	/**
-	 * Retorna la version actual de la aplicacion
+	 * Retorna el nombre base del sistema
+	 * 
+	 * @return Nombre base del sistema
+	 **/
+	public String getBaseName() {
+
+		return properties.get("application.baseName");
+	}
+
+	/**
+	 * Retorna el nombre especifico de la aplicacion
+	 * 
+	 * @return Nombre especifico de la aplicacion
+	 **/
+	public String getAppName() {
+
+		return properties.get("application.appName");
+	}
+
+	/**
+	 * Retorna la version actual de la aplicación
 	 * 
 	 * @return numero identificador de la version
 	 */
@@ -66,10 +88,10 @@ public class MenuController {
 	}
 
 	/**
-	 * Retorna la direccion desde donde esta accediento el usuario de la sesion
+	 * Retorna la dirección desde donde esta accediendo el usuario de la sesión
 	 * actual.
 	 * 
-	 * @return cadena en formato NNN.NNN.NNN.NNN que representa la direccion del
+	 * @return cadena en formato NNN.NNN.NNN.NNN que representa la dirección del
 	 *         cliente
 	 */
 	public String getIpAdress() {
@@ -78,7 +100,7 @@ public class MenuController {
 	}
 
 	/**
-	 * Retorna true si la aplicacion esta en estado de desarrollo y false si
+	 * Retorna true si la aplicación esta en estado de desarrollo y false si
 	 * esta en otro estado.
 	 * 
 	 * @see ProjectStage
@@ -90,10 +112,10 @@ public class MenuController {
 	}
 
 	/**
-	 * Retorna true si el entorno actual de ejecucion es de Debug
+	 * Retorna true si el entorno actual de ejecución es de Debug
 	 * 
-	 * @return true si se esta debugeando, false si se esta ejecutando
-	 *         normalmente
+	 * @return true si se esta ejecutando en modo de depuración, false si se
+	 *         esta ejecutando normalmente
 	 */
 	public boolean isDebug() {
 
@@ -101,7 +123,18 @@ public class MenuController {
 	}
 
 	/**
-	 * Metodo que redirige a la pagina principal.
+	 * Retorna la fecha actual del sistema.
+	 * 
+	 * @return {@link Date} representando el momento actual
+	 * @see py.una.med.base.util.Util#getCurrentTime()
+	 */
+	public Date getCurrentTime() {
+
+		return util.getCurrentTime();
+	}
+
+	/**
+	 * Método que redirige a la página principal.
 	 **/
 	public void toIndex() {
 
@@ -111,8 +144,7 @@ public class MenuController {
 		try {
 			ctx.getExternalContext().redirect(indexUrl);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new KarakuRuntimeException("Can not redirect", e);
 		}
 	}
 }

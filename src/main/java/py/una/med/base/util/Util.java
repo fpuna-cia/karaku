@@ -3,6 +3,8 @@
  */
 package py.una.med.base.util;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.jar.Manifest;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
@@ -12,11 +14,12 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * Componente que provee funcionalidades basicas del sistema
+ * Componente que provee funcionalidades básicas del sistema
  * 
  * @author Nathalia Ochoa
+ * @author Arturo Volpe
  * @since 1.0
- * @version 1.0 10/05/2013
+ * @version 1.2 27/06/2013
  * 
  */
 @Component
@@ -26,9 +29,9 @@ public class Util {
 	private Manifest manifest;
 
 	/**
-	 * Retorna el titulo de la aplicacion, esto esta en el manifest
+	 * Retorna el titulo de la aplicación, esto esta en el manifest
 	 * 
-	 * @return Titulo de la aplicacion
+	 * @return Titulo de la aplicación
 	 */
 	public String getTitle() {
 
@@ -36,7 +39,7 @@ public class Util {
 	}
 
 	/**
-	 * Retorna la version actual de la aplicacion
+	 * Retorna la version actual de la aplicación
 	 * 
 	 * @return numero identificador de la version
 	 */
@@ -46,7 +49,7 @@ public class Util {
 	}
 
 	/**
-	 * Retorna true si la aplicacion esta en estado de desarrollo y false si
+	 * Retorna true si la aplicación esta en estado de desarrollo y false si
 	 * esta en otro estado.
 	 * 
 	 * @see ProjectStage
@@ -59,10 +62,10 @@ public class Util {
 	}
 
 	/**
-	 * Retorna true si el entorno actual de ejecucion es de Debug
+	 * Retorna true si el entorno actual de ejecución es de Debug
 	 * 
-	 * @return true si se esta debugeando, false si se esta ejecutando
-	 *         normalmente
+	 * @return true si se esta ejecutando en modo de depuración, false si se
+	 *         esta ejecutando normalmente
 	 */
 	public boolean isDebug() {
 
@@ -71,7 +74,7 @@ public class Util {
 	}
 
 	/**
-	 * Retorna la URI para crear links de logout para la aplicacion
+	 * Retorna la URI para crear links de logout para la aplicación
 	 * 
 	 * @return URL
 	 */
@@ -83,10 +86,10 @@ public class Util {
 	}
 
 	/**
-	 * Retorna la direccion desde donde esta accediento el usuario de la sesion
+	 * Retorna la dirección desde donde esta accediendo el usuario de la sesión
 	 * actual.
 	 * 
-	 * @return cadena en formato NNN.NNN.NNN.NNN que representa la direccion del
+	 * @return cadena en formato NNN.NNN.NNN.NNN que representa la dirección del
 	 *         cliente
 	 */
 	public String getIpAdress() {
@@ -104,4 +107,26 @@ public class Util {
 
 		return getTitle().split("-")[1];
 	}
+
+	/**
+	 * Obtiene el nombre base del sistema.
+	 * 
+	 * @return
+	 */
+	public String getBaseName() {
+
+		return getTitle().split("-")[0].trim();
+	}
+
+	/**
+	 * Retorna el momento actual para el sistema.
+	 * 
+	 * @return {@link Date} del momento.
+	 */
+	public Date getCurrentTime() {
+
+		Calendar c = Calendar.getInstance();
+		return c.getTime();
+	}
+
 }

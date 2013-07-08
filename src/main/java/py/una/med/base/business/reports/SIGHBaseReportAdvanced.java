@@ -1,5 +1,6 @@
-/**
- * @SIGHBaseReportAvanced 1.1 05/03/13. Sistema Integral de Gestion Hospitalaria
+/*
+ * @SIGHBaseReportAvanced.java 1.1 05/03/13. Sistema Integral de Gestion
+ * Hospitalaria
  */
 
 package py.una.med.base.business.reports;

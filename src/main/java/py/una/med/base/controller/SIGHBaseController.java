@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import py.una.med.base.breadcrumb.BreadcrumbController;
+import py.una.med.base.breadcrumb.BreadcrumbItem;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.business.reports.SIGHBaseReportSimple;
 import py.una.med.base.dao.restrictions.Where;
@@ -683,4 +684,48 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		return getDefaultPermission();
 	}
 
+	@Override
+	public String getCancelText() {
+
+		if (getMode().equals(Mode.VIEW)) {
+			return getMessage("BASE_FORM_CANCEL_VIEW");
+		} else {
+			return getMessage("BASE_FORM_CANCEL");
+		}
+
+	}
+
+	@Autowired
+	private BreadcrumbController breadController;
+
+	@Override
+	public String getHeaderText() {
+
+		int size = breadController.getItems().size();
+		BreadcrumbItem actual = breadController.getItems().get(size - 2);
+		String header = "";
+		switch (getMode()) {
+			case EDIT: {
+				header = "BASE_FORM_EDIT_HEADER";
+				break;
+			}
+			case VIEW: {
+				header = "BASE_FORM_VIEW_HEADER";
+				break;
+			}
+			case DELETE: {
+				header = "BASE_FORM_DELETE_HEADER";
+				break;
+			}
+			case NEW: {
+				header = "BASE_FORM_NEW_HEADER";
+				break;
+			}
+			default: {
+				header = "BREADCRUM_UNKNOWN";
+			}
+		}
+		return I18nHelper.getMessage(header) + " " + actual.getName();
+
+	}
 }

@@ -237,7 +237,7 @@ public class ControllerHelper {
 	 */
 	public MethodExpression createMethodExpression(
 			final String valueExpression, final Class<?> expectedReturnType,
-			final Class<?>... expectedParamTypes) {
+			final Class<?> ... expectedParamTypes) {
 
 		MethodExpression methodExpression = null;
 		try {
@@ -359,6 +359,7 @@ public class ControllerHelper {
 	public void updateModel(String componentID) {
 
 		// Obtenemos el id
+
 		UIComponent formulario = findComponent(componentID);
 		FacesContext context = FacesContext.getCurrentInstance();
 		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
@@ -373,9 +374,10 @@ public class ControllerHelper {
 				ValueExpression value = com.getValueExpression("value");
 				// Si tiene un converter definido, entonces utilizamos ese
 				// converter para obtener el valor
-				if (!(com.getConverter() == null))
+				if (!(com.getConverter() == null)) {
 					newValue = com.getConverter().getAsObject(context, com,
 							newValue.toString());
+				}
 				value.setValue(elContext, newValue);
 				continue;
 			}

@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
-
 import py.una.med.base.security.SIGHUserGrantedAuthority;
 
 /**
@@ -43,9 +42,10 @@ public class AuthorityController {
 	 * @return true si tiene permiso, false en otro caso
 	 */
 	public boolean hasRole(String rol) {
+
 		return hasRoleStatic(rol);
 	}
-	
+
 	public static boolean hasRoleStatic(String rol) {
 
 		Object[] sighUserGrantedAuthorities = SecurityContextHolder
@@ -58,12 +58,13 @@ public class AuthorityController {
 
 		for (Object o : sighUserGrantedAuthorities) {
 			SIGHUserGrantedAuthority authority = (SIGHUserGrantedAuthority) o;
-			if (authority.getAuthority().equals(rol)){
+			if (authority.getAuthority().equals(rol)) {
 				return true;
 			}
 		}
-		
+
 		log.debug("Usuario sin permiso: {}", rol);
 		return false;
+
 	}
 }

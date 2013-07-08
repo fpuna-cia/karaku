@@ -25,6 +25,9 @@
 	<composite:attribute name="withRowExports" default="false"
 		type="java.lang.Boolean"
 		displayName="Muestra una columna con las opciones de exportacion" />
+	<composite:attribute name="withGridExports" default="false"
+		type="java.lang.Boolean"
+		displayName="Muestra abajo opciones de exportacion" />
 	<composite:attribute name="withRowActions" default="true"
 		type="java.lang.Boolean"
 		displayName="Muestra una columna con las acciones editar, borrar y ver" />
@@ -76,7 +79,7 @@
 
 		<h:commandButton value="Crear" immediate="true"
 			action="#{cc.attrs.controller.preCreate()}" render="panelGridCreate" />
-		<h:panelGrid columns="3">
+		<h:panelGrid columns="3" rendered="#{cc.attrs.withGridExports}">
 			<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
 			<h:commandLink action="#{cc.attrs.controller.generateReport('xls')}">
 				<h:graphicImage value="/resources/images/csv-ico.png"
@@ -89,6 +92,7 @@
 					style="width:24px;height:24px" />
 			</h:commandLink>
 		</h:panelGrid>
+		<h:panelGroup rendered="#{not cc.attrs.withGridExports}" />
 		<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
 			render="#{cc.attrs.idListEntities}" />
 

@@ -56,4 +56,9 @@ public final class Clauses {
 
 		return new Not(clause);
 	}
+
+	public static Clause eq(String path, Object value) {
+		
+		return new Equal(path, value);
+	}
 }

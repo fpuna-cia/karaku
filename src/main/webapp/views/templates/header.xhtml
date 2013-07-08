@@ -14,60 +14,91 @@
 	<h:outputStylesheet library="css" name="default.css" />
 	<h:outputStylesheet library="css" name="custom-bootstrap.css" />
 	<h:outputStylesheet library="css" name="theme.css" />
-	
+	<h:outputScript library="scripts" name="menu.js" />
 	<title>SIGH</title>
+
+	<style>
+</style>
+
 </h:head>
 
 <h:body>
+	<h:outputScript library="scripts" name="workaround.js" target="head" />
+	<!-- 	<input type="checkbox" id="expand" value="Expandir" checked="checked" -->
+	<!-- 		onclick="toogle();" /> -->
 	<div class="wrapper">
-	<div id="top" class="row">
-				<ui:insert name="top">
+		<div id="top" class="row">
+			<ui:insert name="top">
 				<rich:panel>
 					<div class="row-fluid">
-						<div class="span2">
-							<h:graphicImage value="/resources/images/logo.jpg" alt="Facultad de Medicina" />
+						<div class="span1">
+							<h:graphicImage value="/resources/images/logo.jpg"
+								alt="Facultad de Medicina" />
 						</div>
-						<div class="span8"><h1>#{menuController.title}</h1></div>
-						<div class="span2 user-login">
+						<div class="span10 app-title">
+							<h1>#{menuController.baseName}</h1>
+							<h1>#{menuController.appName}</h1>
+						</div>
+						<div class="span1 user-login">
 							<ul class="unstyled inline">
-								<li class="divider"><h:outputLabel value="#{msg['HEADER_USER']}: " /> <h:outputText value="#{request.userPrincipal.name}" /></li>
-								<li><a href="#{menuController.logoutUrl}"> <h:outputText value="#{msg['HEADER_LOGOUT']}" /></a></li>
+								<li class="divider"><h:outputLabel
+										value="#{msg['HEADER_USER']}: " /> <h:outputText
+										value="#{request.userPrincipal.name}" /></li>
+								<li><a href="#{menuController.logoutUrl}"> <h:outputText
+											value="#{msg['HEADER_LOGOUT']}" /></a></li>
 							</ul>
 						</div>
 					</div>
 				</rich:panel>
 			</ui:insert>
-	</div>
-	<div class="container-fluid main-content">
-		<div class="row-fluid">
-			<div class="span2">
-				<ui:insert name="left">
-					<sigh:menu />
-				</ui:insert>
-			</div>
-			<div class="span10">
-				<sigh:breadcrumb />
-				<ui:insert name="content">Content</ui:insert>
+		</div>
+		<div class="container-fluid main-content">
+			<div class="row-fluid">
+
+				<div class="span2 espan2" id="menuWrapper">
+					<rich:panel>
+						<f:facet name="header">
+							<h:outputLabel value="&#8291;" />
+							<input type="checkbox" id="expand" value="Expandir"
+								class="check_expand" style="float: right;" checked="checked"
+								onclick="toogle();" />
+						</f:facet>
+						<div id="menu">
+							<ui:insert name="left">
+								<sigh:menu />
+							</ui:insert>
+						</div>
+					</rich:panel>
+				</div>
+				<div class="span10 espan10" id="main" style="margin-left: 1%;">
+					<sigh:breadcrumb />
+					<ui:insert name="content">Content</ui:insert>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="push"></div>
+		<div class="push"></div>
 	</div>
 	<div class="footer">
-		<table>
-			<tr>
-				<td>#{msg['SYSTEM_VERSION_TITLE']}</td>
-				<td>:</td>
-				<td>#{menuController.version}</td>
-			</tr>
-			<tr>
-				<td>#{msg['MENU_IP_ADRESS']}</td>
-				<td>:</td>
-				<td>#{menuController.ipAdress}</td>
-			</tr>
-		</table>
+		<rich:panel>
+			<h:panelGrid columns="3"
+				columnClasses="footer_label,footer_info,footer_info">
+				<h:outputLabel value="#{msg['MENU_IP_ADRESS']}" />
+				<h:outputLabel value=":" />
+				<h:outputLabel value="#{menuController.ipAdress}" />
+				<h:outputLabel value="#{msg['SYSTEM_VERSION_TITLE']}" />
+				<h:outputLabel value=":" />
+				<h:outputLabel value="#{menuController.version}" />
+
+				<h:outputLabel value="#{msg['HEADER_CURRENT_TIME']}" />
+				<h:outputLabel value=":" />
+				<h:outputLabel value="#{menuController.currentTime}">
+					<f:convertDateTime pattern="dd 'de' MMMM 'del' yyyy 'a las' HH:mm" />
+				</h:outputLabel>
+
+			</h:panelGrid>
+		</rich:panel>
 	</div>
-	
+
 </h:body>
 
 </html>

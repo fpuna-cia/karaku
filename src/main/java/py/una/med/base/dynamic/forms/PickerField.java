@@ -11,6 +11,7 @@ import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.validator.ValidatorException;
+import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.LabelProvider.StringLabelProvider;
 import py.una.med.base.util.SIGHListHelper;
@@ -54,6 +55,10 @@ public class PickerField<T> extends LabelField {
 	private boolean nullable;
 	private boolean selected;
 	private ValueChangeListener<T> valueChangeListener;
+	private PickerValidator validator;
+	private String popupTitle;
+
+	// private HtmlInputText hidden;
 
 	/**
 	 * Crea un picker field, con ID autogenerado
@@ -96,7 +101,7 @@ public class PickerField<T> extends LabelField {
 			if (!bool) {
 				getValueExpression().setValue(fc.getELContext(), null);
 				createFacesMessage(FacesMessage.SEVERITY_WARN, "",
-						"MESSAGE_ENTITY_NOT_FOUND");
+						"COMPONENT_PICKER_INPUT_NOT_FOUND");
 			}
 		}
 
@@ -122,7 +127,7 @@ public class PickerField<T> extends LabelField {
 	public void setListHelper(final SIGHListHelper<T, Long> listHelper) {
 
 		if (listHelper == null) {
-			throw new IllegalArgumentException("keyListener can be null");
+			throw new IllegalArgumentException("listHelper can't be null");
 		}
 		this.listHelper = listHelper;
 	}
@@ -354,6 +359,10 @@ public class PickerField<T> extends LabelField {
 		return popupShow;
 	}
 
+	public void emptyMethod() {
+
+	}
+
 	/**
 	 * @param popupShow
 	 *            popupShow para setear
@@ -372,9 +381,17 @@ public class PickerField<T> extends LabelField {
 		this.codeInput = codeInput;
 	}
 
+	static UIComponent lastFound;
+
 	public String getPopUpClientID() {
 
-		return findComponent(getPopupID()).getClientId();
+		UIComponent find = findComponent(getPopupID());
+		if (find == null) {
+			throw new KarakuRuntimeException("Popup with id: " + getId()
+					+ " not found.");
+		} else {
+			return find.getClientId();
+		}
 	}
 
 	public void setValue(final T value) {
@@ -390,22 +407,23 @@ public class PickerField<T> extends LabelField {
 	}
 
 	/**
+	 * Retorna el valor actualmente seleccionado en el Picker, si se selecciono
+	 * un valor retorna el valor temporal (antes de persistir) y si ya se
+	 * selecciono y se acepto, retorna el valor asociado en
+	 * {@link #getValueExpression()}
 	 * 
-	 * @return
+	 * @return T objeto actualmente seleccionado.
 	 */
 	@SuppressWarnings("unchecked")
 	public T getValue() {
 
 		// Si se selecciono un valor
 		if (selected) {
-			selected = false;
 			return temp;
 		} else {
 			FacesContext fc = FacesContext.getCurrentInstance();
-			temp = (T) getValueExpression().getValue(fc.getELContext());
-			return temp;
+			return (T) getValueExpression().getValue(fc.getELContext());
 		}
-
 	}
 
 	@Override
@@ -421,6 +439,7 @@ public class PickerField<T> extends LabelField {
 
 		getCodeInput().setDisabled(true);
 		setButtonDisabled(true);
+
 		return true;
 	}
 
@@ -441,7 +460,11 @@ public class PickerField<T> extends LabelField {
 
 	public PickerValidator getValidator() {
 
-		return new PickerValidator();
+		if (validator == null) {
+			validator = new PickerValidator();
+			validator.setPickerField(this);
+		}
+		return validator;
 	}
 
 	public boolean isNullable() {
@@ -463,20 +486,39 @@ public class PickerField<T> extends LabelField {
 
 	}
 
-	public class PickerValidator implements javax.faces.validator.Validator {
+	public static class PickerValidator implements
+			javax.faces.validator.Validator {
+
+		PickerField<?> pickerField;
+
+		public PickerValidator() {
+
+		}
+
+		public void setPickerField(PickerField<?> pickerField) {
+
+			this.pickerField = pickerField;
+		}
 
 		@Override
 		public void validate(FacesContext context, UIComponent component,
 				Object value) throws ValidatorException {
 
-			if (!isNullable() && (temp == null)) {
+			if (pickerField == null)
+				return;
+			if (!pickerField.isNullable() && pickerField.temp == null) {
 				FacesMessage msg = new FacesMessage(
 						FacesMessage.SEVERITY_ERROR,
-						getMessage("COMPONENT_PICKER_NOT_SELECTED"),
-						getMessage("COMPONENT_PICKER_NOT_SELECTED"));
+						pickerField.getMessage("COMPONENT_PICKER_NOT_SELECTED"),
+						pickerField.getMessage("COMPONENT_PICKER_NOT_SELECTED"));
 				throw new ValidatorException(msg);
 			}
 
+		}
+
+		public PickerField<?> getPickerField() {
+
+			return pickerField;
 		}
 	}
 
@@ -488,6 +530,8 @@ public class PickerField<T> extends LabelField {
 			T objectToSave = PickerField.this.getValue();
 			PickerField.this.getValueExpression().setValue(
 					context.getELContext(), objectToSave);
+			PickerField.this.temp = null;
+			PickerField.this.selected = false;
 		}
 	}
 
@@ -512,4 +556,27 @@ public class PickerField<T> extends LabelField {
 
 		this.valueChangeListener = listener;
 	}
+
+	/**
+	 * Asigna un titulo al popup donde se selecciona la entidad, por defecto es
+	 * igual a {@link #getLabel()}
+	 * 
+	 * @param popupTitle
+	 *            key del archivo de internacionalizacion.
+	 */
+	public void setPopupTitle(String popupTitle) {
+
+		this.popupTitle = getMessage(popupTitle);
+	}
+
+	/**
+	 * Retorna el titulo del popUp, por defecto es igual a {@link #getLabel()}
+	 * 
+	 * @return Cadena ya internacionalizada
+	 */
+	public String getPopupTitle() {
+
+		return popupTitle == null ? getLabel() : popupTitle;
+	}
+
 }

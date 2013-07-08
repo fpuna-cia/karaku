@@ -4,14 +4,15 @@
 package py.una.med.base.dynamic.forms;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.context.FacesContext;
 import org.richfaces.component.UICommandButton;
 import py.una.med.base.util.ELHelper;
 import py.una.med.base.util.I18nHelper;
+import py.una.med.base.util.ListHelper;
 
 /**
  * Esta clase representa un boton ajax, el cual posee un textfield el cual puede
@@ -23,26 +24,35 @@ import py.una.med.base.util.I18nHelper;
  * @version 1.0 08/05/2013
  * 
  */
-public class ButtonField extends LabelField {
+public class ButtonField extends TextField {
 
 	private static final String TYPE = "py.una.med.base.dynamic.forms.ButtonField";
-	private TextField textField;
-	private UICommandButton bind;
+	private UICommandButton buttonBind;
 
 	private final AjaxBehavior ajaxBehavior;
 
 	private final List<String> toRender;
 
+	ValueExpression inputExpression;
+
 	public ButtonField() {
 
 		super();
-		bind = SIGHComponentFactory.getAjaxCommandButton();
-		bind.setImmediate(true);
-		toRender = new ArrayList<String>();
+		buttonBind = SIGHComponentFactory.getAjaxCommandButton();
+		buttonBind.setImmediate(true);
+		toRender = new ArrayList<String>(3);
+		toRender.add(getId("label"));
+		toRender.add(getId("input"));
+		toRender.add(getId("button"));
 		ajaxBehavior = SIGHComponentFactory.getAjaxBehavior();
 		setClientBehavior("click");
-		ajaxBehavior.setRender(Arrays.asList(getId()));
+		ajaxBehavior.setRender(toRender);
 
+	}
+
+	private String getId(String part) {
+
+		return this.getId() + "_" + part;
 	}
 
 	/**
@@ -53,9 +63,9 @@ public class ButtonField extends LabelField {
 	 *            componente
 	 * @return mismo componente con un titulo
 	 */
-	public ButtonField setText(final String key) {
+	public ButtonField setButtonText(final String key) {
 
-		getBind().setValue(I18nHelper.getMessage(key));
+		getButtonBind().setValue(I18nHelper.getMessage(key));
 
 		return this;
 	}
@@ -68,7 +78,7 @@ public class ButtonField extends LabelField {
 	 */
 	private ButtonField setClientBehavior(final String eventName) {
 
-		bind.addClientBehavior(eventName, ajaxBehavior);
+		getButtonBind().addClientBehavior(eventName, ajaxBehavior);
 		return this;
 	}
 
@@ -110,14 +120,14 @@ public class ButtonField extends LabelField {
 	 */
 	public MethodExpression getAction() {
 
-		return getBind().getActionExpression();
+		return getButtonBind().getActionExpression();
 	}
 
 	/**
-	 * Define los atributos del textfiel asociado al boton
+	 * Define los atributos del textfield asociado al boton
 	 * 
 	 * @param label
-	 *            key de internacionalizacion ejemplo "PACIENTE_CODIGO" que sera
+	 *            key de internacionalizacion ejemplo "PACIENTE_CODIGO" que será
 	 *            visualizado como label del textfield
 	 * @param expression
 	 *            expresion que indica donde se almacenara el valor seteado en
@@ -126,8 +136,10 @@ public class ButtonField extends LabelField {
 	 */
 	public ButtonField textField(String label, final ValueExpression expression) {
 
-		getTextField().setLabel(label);
-		getTextField().setValue(expression);
+		setLabel(label);
+		setValue(ELHelper.INSTANCE.makeValueExpression("#{item.object}",
+				Object.class));
+		inputExpression = expression;
 		return this;
 	}
 
@@ -144,6 +156,7 @@ public class ButtonField extends LabelField {
 		this.toRender.add(toRender);
 		if (ajaxBehavior != null) {
 			ajaxBehavior.setRender(this.toRender);
+			ajaxBehavior.setExecute(ListHelper.getAsList("@none"));
 		}
 		return this;
 	}
@@ -159,36 +172,43 @@ public class ButtonField extends LabelField {
 		return TYPE;
 	}
 
-	@Override
 	public boolean disable() {
 
-		getBind().setDisabled(true);
-		return true;
+		getButtonBind().setDisabled(true);
+		return super.disable();
 	}
 
-	@Override
 	public boolean enable() {
 
-		getBind().setDisabled(false);
-		return true;
+		getButtonBind().setDisabled(false);
+		return super.enable();
 	}
 
-	public TextField getTextField() {
+	public UICommandButton getButtonBind() {
 
-		if (textField == null) {
-			textField = new TextField();
-		}
-		return textField;
+		return buttonBind;
 	}
 
-	public void setBind(UICommandButton bind) {
+	/**
+	 * @param buttonBind
+	 *            buttonBind para setear
+	 */
+	public void setButtonBind(UICommandButton buttonBind) {
 
-		this.bind = bind;
+		this.buttonBind = buttonBind;
 	}
 
-	public UICommandButton getBind() {
+	public Object getObject() {
 
-		return bind;
+		FacesContext fc = FacesContext.getCurrentInstance();
+		return this.inputExpression.getValue(fc.getELContext());
+	}
+
+	public void setObject(Object ob) {
+
+		FacesContext fc = FacesContext.getCurrentInstance();
+		inputExpression.setValue(fc.getELContext(), ob);
+		return;
 	}
 
 }

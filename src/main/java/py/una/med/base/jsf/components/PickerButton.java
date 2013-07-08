@@ -67,7 +67,6 @@ public class PickerButton extends UINamingContainer {
 
 	public void selectionListener(AjaxBehaviorEvent event) {
 
-		System.out.println("Este es un test 1");
 		UIExtendedDataTable dataTable = (UIExtendedDataTable) event
 				.getComponent();
 
@@ -80,4 +79,9 @@ public class PickerButton extends UINamingContainer {
 		}
 	}
 
+	public void clear() {
+
+		setCurrentSelection(null);
+		setSelectedItem(null);
+	}
 }

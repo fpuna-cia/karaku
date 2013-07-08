@@ -18,70 +18,70 @@
 		<cc:attribute name="width" default="850" />
 		<cc:attribute name="idBasicFilter" default="idBasicFilter" />
 		<cc:attribute name="height" default="600" />
+		<cc:attribute name="closeJS"
+			default="#{rich:component(cc.attrs.pickerId)}.hide(); return false;" />
 		<cc:attribute name="pickerId"
 			default="#{cc.attrs.pickerField.popupID}" />
 		<cc:attribute name="reRenderRegionId" default="" />
+		<cc:attribute name="title"
+			default="#{cc.attrs.pickerField.popupTitle}"></cc:attribute>
 	</cc:interface>
 	<cc:implementation>
-		<rich:popupPanel id="#{cc.attrs.pickerId}" width="#{cc.attrs.width}"
-			height="#{cc.attrs.height}" modal="true" show="false">
 
-			<rich:panel header="Debug INFO" rendered="#{menuController.debug}">
-				<h:outputLabel value="Version 1" />
-			</rich:panel>
-			<h:form id="formulario">
-				<f:facet name="header">
-					<h:outputText value="#{cc.attrs.title}" />
-				</f:facet>
-				<f:facet name="controls">
+		<rich:popupPanel id="#{cc.attrs.pickerId}" show="false"
+			autosized="true" resizeable="false">
+			<f:facet name="header">
+				<h:outputText value="#{cc.attrs.title}" />
+			</f:facet>
+			<f:facet name="controls">
+				<h:form>
 					<a4j:commandButton value="x" immediate="true"
-						styleClass="btn-cancel" title="Salir"
-						render="#{cc.attrs.pickerId}" />
-				</f:facet>
+						onclick="#{cc.attrs.closeJS}" styleClass="btn-cancel"
+						title="Salir" />
+				</h:form>
+			</f:facet>
 
-				<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
-					switchType="client">
+			<h:form id="pickerPopupFormulario1">
+				<h:panelGroup id="pg">
 					<sigh:basicFilter2 id="#{cc.attrs.idBasicFilter}"
 						simpleFilter="#{cc.attrs.pickerField.listHelper.simpleFilter}"
-						searchRender="#{cc.attrs.idDataTable}"
+						searchRender="pickerPopupFormulario2:pg"
 						filterOptions="#{cc.attrs.pickerField.listHelper.filterOptions}">
 					</sigh:basicFilter2>
-				</rich:collapsiblePanel>
+				</h:panelGroup>
 			</h:form>
-			<h:form id="formulario2">
+			<h:form id="pickerPopupFormulario2">
 
-				<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
-					switchType="client">
-
+				<h:panelGroup id="pg">
 					<rich:extendedDataTable
 						value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
-						rows="15" selection="#{cc.currentSelection}"
-						selectionMode="single">
+						selection="#{cc.currentSelection}" selectionMode="single"
+						noDataLabel="No se encontraron registros" style="height:300px">
+
 						<a4j:ajax execute="@form" event="selectionchange"
-							listener="#{cc.selectionListener}" render="formulario2" />
+							listener="#{cc.selectionListener}" render="@form" />
 						<ui:include src="#{cc.attrs.urlColumns}" />
 					</rich:extendedDataTable>
-				</rich:collapsiblePanel>
 
-
-
-				<h:outputText
-					value="Valor Seleccionado: #{cc.attrs.pickerField.getFormmatedOption(cc.selectedItem)} "
-					id="pickerResult" />
-				<h:panelGrid id="picker_control" columns="2">
-					<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
-						action="#{cc.attrs.pickerField.changeValueListener()}"
-						render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"
-						id="buttonSelect"
-						oncomplete="#{rich:component(cc.attrs.pickerId)}.hide(); return false;">
-						<f:setPropertyActionListener
-							target="#{cc.attrs.pickerField.value}" value="#{cc.selectedItem}" />
-					</a4j:commandButton>
-					<a4j:commandButton value="#{msg['PICKER_CANCELAR']}"
-						oncomplete="#{rich:component(cc.attrs.pickerId)}.hide(); return false;"
-						immediate="true">
-					</a4j:commandButton>
-				</h:panelGrid>
+					<rich:panel>
+						<h:outputText
+							value="Valor Seleccionado: #{cc.attrs.pickerField.getFormmatedOption(cc.selectedItem)} "
+							id="pickerResult" />
+					</rich:panel>
+					<h:panelGrid id="picker_control" columns="2">
+						<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
+							render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"  id="buttonSelect"
+							action="#{cc.clear}"
+							oncomplete="#{empty facesContext.maximumSeverity ? cc.attrs.closeJS : ''}">
+							<f:setPropertyActionListener
+								target="#{cc.attrs.pickerField.value}"
+								value="#{cc.selectedItem}" />
+						</a4j:commandButton>
+						<a4j:commandButton value="#{msg['PICKER_CANCELAR']}"
+							oncomplete="#{cc.attrs.closeJS}" immediate="true">
+						</a4j:commandButton>
+					</h:panelGrid>
+				</h:panelGroup>
 			</h:form>
 		</rich:popupPanel>
 	</cc:implementation>

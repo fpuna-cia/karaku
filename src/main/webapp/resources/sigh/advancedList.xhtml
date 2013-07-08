@@ -30,6 +30,9 @@
 	<composite:attribute name="withRowActions" default="true"
 		type="java.lang.Boolean"
 		displayName="Muestra una columna con las acciones editar, borrar y ver" />
+	<composite:attribute name="withGridExports" default="false"
+		type="java.lang.Boolean"
+		displayName="Muestra abajo opciones de exportacion" />
 	<composite:attribute name="withAdvancedSearch" default="true"
 		type="java.lang.Boolean" />
 </composite:interface>
@@ -38,16 +41,13 @@
 	<tsigh:security
 		hasPermission="#{cc.attrs.controller.defaultPermission}">
 		<h:outputLabel value="#{cc.attrs.controller.usarController}" />
-
-		<rich:collapsiblePanel header="#{msg['LIST_MENSSAGES_HEADER']}"
-			switchType="client">
-			<rich:messages ajaxRendered="true" showDetail="true"
-				id="#{cc.attrs.controller.messageIdName}" globalOnly="true">
-			</rich:messages>
-		</rich:collapsiblePanel>
-
-		<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
-			switchType="client">
+		<rich:messages ajaxRendered="true" showDetail="true"
+			id="#{cc.attrs.controller.messageIdName}" globalOnly="true">
+		</rich:messages>
+		<rich:panel>
+			<f:facet name="header">
+				<h:outputLabel value="#{msg['LIST_SEARCH_HEADER']}" />
+			</f:facet>
 			<h:form>
 				<sigh:basic_filter controller="#{cc.attrs.controller}"
 					searchRender="#{cc.attrs.idListEntities}">
@@ -60,14 +60,16 @@
 						render="@form, #{cc.attrs.idListEntities}" execute="@this" />
 				</sigh:basic_filter>
 			</h:form>
-		</rich:collapsiblePanel>
+		</rich:panel>
 
 		<div class="space"></div>
 
 		<o:separateConversationContext>
 			<h:form>
-				<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
-					switchType="client">
+				<rich:panel>
+					<f:facet name="header">
+						<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
+					</f:facet>
 					<sigh:dataTable items="#{cc.attrs.controller.entities}"
 						idDataTable="#{cc.attrs.idListEntities}"
 						controller="#{cc.attrs.controller}"
@@ -76,7 +78,7 @@
 						withExports="#{cc.attrs.withRowExports}">
 						<ui:include src="#{cc.attrs.urlColumns}" />
 					</sigh:dataTable>
-				</rich:collapsiblePanel>
+				</rich:panel>
 			</h:form>
 		</o:separateConversationContext>
 		<h:form>
@@ -89,7 +91,7 @@
 						action="#{cc.attrs.controller.preCreate()}"
 						render="panelGridCreate" />
 				</tsigh:security>
-				<h:panelGrid columns="3">
+				<h:panelGrid columns="3" rendered="#{cc.attrs.withGridExports}">
 					<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
 					<h:commandLink
 						action="#{cc.attrs.controller.generateReport('xls')}">
@@ -104,6 +106,7 @@
 							style="width:24px;height:24px" />
 					</h:commandLink>
 				</h:panelGrid>
+				<h:panelGroup rendered="#{not cc.attrs.withGridExports}" />
 				<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
 					render="#{cc.attrs.idListEntities}" />
 			</h:panelGrid>
@@ -122,7 +125,7 @@
 							actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
 							render="globalMessages, @form, #{cc.attrs.idListEntities}"
 							immediate="true" />
-						<a4j:commandButton value="Volver" immediate="true"
+						<a4j:commandButton value="Cerrar" immediate="true"
 							oncomplete="#{rich:component('puSearch')}.hide()" />
 					</h:panelGrid>
 				</h:form>

@@ -121,4 +121,5 @@ public interface ISIGHBaseReportAdvanced<T> {
 	DynamicReport builReport(Map<String, Object> params,
 			Map<String, Object> listFilters, List<String> listOrder)
 			throws ReportException;
+
 }

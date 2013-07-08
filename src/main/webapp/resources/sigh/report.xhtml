@@ -3,6 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 	<cc:interface>
 		<cc:attribute name="controller" required="true"
@@ -17,14 +18,10 @@
 	</cc:interface>
 
 	<cc:implementation>
-
-		<h:form rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
-			<rich:collapsiblePanel header="#{msg['LIST_MENSSAGES_HEADER']}">
-				<rich:messages ajaxRendered="true" showDetail="true" id="cambiar"
-					globalOnly="true" />
-			</rich:collapsiblePanel>
-
-			<rich:collapsiblePanel header="#{msg['BASE_REPORT_HEADER']}">
+		<rich:messages ajaxRendered="true" showDetail="true" globalOnly="true" />
+		<h:form
+			rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+			<rich:panel header="#{msg['BASE_REPORT_HEADER']}">
 				<div align="center">
 					<h:outputText value="#{cc.attrs.nameReport}"
 						style="font-size: 11pt" />
@@ -40,23 +37,22 @@
 						<ui:include src="#{cc.attrs.urlFilter}" />
 					</h:panelGrid>
 				</fieldset>
+				<h:panelGroup rendered="#{cc.attrs.withOrder}">
+					<fieldset>
+						<legend>
+							<h:outputText value="#{msg['BASE_REPORT_ORDER']}" />
+						</legend>
+						<h:panelGrid columns="3" id="#{cc.attrs.idPanelGridOrder}"
+							columnClasses="form_label,form_input,form_error">
+							<rich:pickList value="#{cc.attrs.controller.orderSelected}"
+								sourceCaption="Disponibles" targetCaption="Seleccionados"
+								listWidth="165px" listHeight="100px" orderable="true">
+								<f:selectItems value="#{cc.attrs.controller.baseOrderOptions}" />
+							</rich:pickList>
 
-				<fieldset>
-					<legend>
-						<h:outputText value="#{msg['BASE_REPORT_ORDER']}"
-							rendered="#{cc.attrs.withOrder}" />
-					</legend>
-					<h:panelGrid columns="3" id="#{cc.attrs.idPanelGridOrder}"
-						columnClasses="form_label,form_input,form_error"
-						rendered="#{cc.attrs.withOrder}">
-						<rich:pickList value="#{cc.attrs.controller.orderSelected}"
-							sourceCaption="Disponibles" targetCaption="Seleccionados"
-							listWidth="165px" listHeight="100px" orderable="true">
-							<f:selectItems value="#{cc.attrs.controller.baseOrderOptions}" />
-						</rich:pickList>
-
-					</h:panelGrid>
-				</fieldset>
+						</h:panelGrid>
+					</fieldset>
+				</h:panelGroup>
 				<fieldset>
 					<legend>
 						<h:outputText value="#{msg['BASE_REPORT_FORMAT']}" />
@@ -71,11 +67,12 @@
 						</h:selectOneRadio>
 					</h:panelGrid>
 				</fieldset>
-				<rich:panel>
+
+				<fieldset>
 					<h:commandButton action="#{cc.attrs.controller.generateReport()}"
 						value="Generar" />
-				</rich:panel>
-			</rich:collapsiblePanel>
+				</fieldset>
+			</rich:panel>
 		</h:form>
 	</cc:implementation>
 </ui:composition>

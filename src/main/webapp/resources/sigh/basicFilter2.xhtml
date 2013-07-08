@@ -17,15 +17,7 @@
 	<composite:facet name="extraButtons" />
 </composite:interface>
 <composite:implementation>
-	<rich:panel header="Debug INFO" rendered="#{menuController.debug}">
-		<h:outputLabel value="Version 16" />
-		<br></br>
-		<h:outputLabel value="Valor: #{cc.attrs.simpleFilter.value}" />
-		<br></br>
-		<h:outputLabel value="Opcion: #{cc.attrs.simpleFilter.option}" />
-		<br></br>
-	</rich:panel>
-	<h:panelGrid columns="3">
+	<h:panelGrid columns="8">
 		<h:outputLabel value="Filtro: " />
 		<h:inputText id="filterValue" value="#{cc.attrs.simpleFilter.value}"
 			style="width:200px" />
@@ -33,18 +25,17 @@
 		<h:outputLabel value="Atributo:" />
 		<h:selectOneMenu id="filterOption"
 			value="#{cc.attrs.simpleFilter.option}" style="width:200px">
-			<f:selectItem itemLabel="Ingrese una opcion" />
+			<f:selectItem itemLabel="Ingrese una opción" />
 			<f:selectItems value="#{cc.attrs.filterOptions}" />
 		</h:selectOneMenu>
 		<h:message for="filterOption" />
 
+		<a4j:commandButton value="#{msg['BASE_SEARCH_SIMPLE_SEARCH']}"
+			execute="filterValue filterOption"
+			render="@form #{cc.attrs.searchRender}" />
+		<a4j:commandButton value="#{msg['LIST_CLEAR']}"
+			render="#{cc.attrs.searchRender} @form"
+			action="#{cc.attrs.simpleFilter.clear}" />
 	</h:panelGrid>
-	<a4j:commandButton value="#{msg['BASE_SEARCH_SIMPLE_SEARCH']}"
-		execute="filterValue filterOption"
-		render="@form #{cc.attrs.searchRender}" />
-	<composite:renderFacet name="extraButtons" />
-	<a4j:commandButton value="#{msg['LIST_CLEAR']}"
-		render="#{cc.attrs.searchRender} @form"
-		action="#{cc.attrs.simpleFilter.clear}" />
 </composite:implementation>
 </html>

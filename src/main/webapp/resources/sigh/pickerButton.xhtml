@@ -7,35 +7,40 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
 	<cc:interface>
-		<cc:attribute name="buttonAction" />
-		<cc:attribute name="buttonRender" />
 		<cc:attribute name="resultValue"
 			default="#{cc.attrs.pickerField.formmatedSelectedOption}" />
 		<cc:attribute name="panelId" default="#{cc.attrs.pickerField.id}" />
 		<cc:attribute name="reRenderRegionId" default="" />
 		<cc:attribute name="pickerField"
 			type="py.una.med.base.dynamic.forms.PickerField" />
+		<cc:attribute name="chooseButtonOnComplete"
+			default="RichFaces.$('#{cc.attrs.pickerField.popUpClientID}').show(); return false;" />
+		<cc:attribute name="chooseButtonAction"
+			default="#{cc.attrs.pickerField.emptyMethod()}"
+			method-signature="java.lang.String action()" />
+		<cc:attribute name="chooseButtonRender" />
 	</cc:interface>
 
 	<cc:implementation>
-		<h:inputHidden binding="#{cc.attrs.pickerField.hidden}"
-			id="hiddenInput">
-			<f:validator binding="#{cc.attrs.pickerField.validator}" />
-		</h:inputHidden>
-		<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
-			rendered="#{cc.attrs.pickerField.hasCodeInput}"
-			disabled="empty cc.attrs.pickerField.keyListener">
-			<a4j:ajax event="blur"
-				listener="#{cc.attrs.pickerField.keyUpListener}"
-				disabled="#{not cc.attrs.pickerField.hasCodeInput}"
-				render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage} #{cc.attrs.reRenderRegionId}"
-				execute="valueId" immediate="true" />
-		</h:inputText>
-		<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"
-			oncomplete="RichFaces.$('#{cc.attrs.pickerField.popUpClientID}').show(); return false;"
-			render="#{cc.attrs.buttonRender}"
-			value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
 		<h:panelGroup id="#{cc.attrs.panelId}">
+			<h:inputHidden binding="#{cc.attrs.pickerField.hidden}"
+				id="hiddenInput">
+				<f:validator binding="#{cc.attrs.pickerField.validator}" />
+			</h:inputHidden>
+			<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
+				rendered="#{cc.attrs.pickerField.hasCodeInput}"
+				disabled="empty cc.attrs.pickerField.keyListener">
+				<a4j:ajax event="blur"
+					listener="#{cc.attrs.pickerField.keyUpListener}"
+					disabled="#{not cc.attrs.pickerField.hasCodeInput}"
+					render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage} #{cc.attrs.reRenderRegionId}"
+					execute="valueId" immediate="true" />
+			</h:inputText>
+			<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"
+				action="#{cc.attrs.chooseButtonAction}"
+				oncomplete="#{cc.attrs.chooseButtonOnComplete}"
+				render="#{cc.attrs.chooseButtonRender}"
+				value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
 			<h:outputLabel value="#{cc.attrs.resultValue}" />
 			<rich:message for="hiddenInput" />
 		</h:panelGroup>

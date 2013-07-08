@@ -184,7 +184,7 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 		if (mainController == null) {
 			return super.getDefaultPermission();
 		} else {
-			return ((SIGHBaseController) mainController).getDefaultPermission();
+			return ((SIGHBaseController<?, ?>) mainController).getDefaultPermission();
 		}
 	}
 

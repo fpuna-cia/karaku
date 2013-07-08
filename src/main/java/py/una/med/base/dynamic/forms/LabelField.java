@@ -25,12 +25,25 @@ public abstract class LabelField extends Field {
 	}
 
 	/**
+	 * Busca en el archivo de internacionalización y luego asigna el valor a la
+	 * etiqueta de este {@link Field}
+	 * 
 	 * @param label
-	 *            label para setear
+	 *            key del archivo de internacionalización.
 	 */
 	public void setLabel(String label) {
 
 		this.label = (I18nHelper.getMessage(label));
 	}
 
+	/**
+	 * A diferencia de {@link #setLabel(String)} no busca en el archivo de
+	 * bundles, útil para cuando se buscan cadenas personalizadas.
+	 * 
+	 * @param label
+	 */
+	public void setLabelEscaped(String label) {
+
+		this.label = label;
+	}
 }
