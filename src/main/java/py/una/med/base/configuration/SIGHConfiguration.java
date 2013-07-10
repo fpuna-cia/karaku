@@ -85,7 +85,7 @@ public class SIGHConfiguration {
 		// XXX mejorar mexclar arboles
 		Menus toRet = new Menus();
 		String menus = propertiesUtil.getProperty("menu_location");
-		String[] menusPath = menus.split(" ");
+		String[] menusPath = menus.split("\\s+");
 		for (String menuPath : menusPath) {
 			Resource resource = new ClassPathResource(menuPath);
 			InputStream inputStream;

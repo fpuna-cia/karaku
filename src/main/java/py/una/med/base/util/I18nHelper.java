@@ -43,7 +43,7 @@ public class I18nHelper {
 		String value = propertiesUtil
 				.getProperty(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
 
-		return Arrays.asList(value.split(" "));
+		return Arrays.asList(value.split("\\s+"));
 	}
 
 	private static List<ResourceBundle> getBundles() {
