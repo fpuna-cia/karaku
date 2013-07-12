@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.ws.client.core.WebServiceTemplate;
 import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
@@ -50,7 +52,7 @@ public class KarakuWSClientConfiguration {
 	}
 
 	@Bean
-	public Object webServiceTemplate() {
+	public WebServiceTemplate webServiceTemplate() {
 
 		if (properties.get(KARAKU_WS_CLIENT_ENABLED).equals("false")) {
 			return null;
@@ -58,7 +60,7 @@ public class KarakuWSClientConfiguration {
 
 		try {
 			Class<?> clazz = Class
-					.forName("org.springframework.ws.client.core.WebServiceTemplate.WebServiceTemplate");
+					.forName("org.springframework.ws.client.core.WebServiceTemplate");
 			Class<?> clazzMarshaller = Class
 					.forName("org.springframework.oxm.Marshaller");
 			Class<?> clazzUnMarshaller = Class
@@ -69,7 +71,7 @@ public class KarakuWSClientConfiguration {
 					marshaller());
 			clazz.getMethod("setUnmarshaller", clazzUnMarshaller).invoke(o,
 					unmarshaller());
-			return o;
+			return (WebServiceTemplate) o;
 		} catch (ClassNotFoundException e) {
 			throw new KarakuRuntimeException(
 					"Can not find the WebServiceTemplate base class in the classpath, "
@@ -100,7 +102,7 @@ public class KarakuWSClientConfiguration {
 	 * </pre>
 	 */
 	@Bean
-	public Object marshaller() {
+	public org.springframework.oxm.Marshaller marshaller() {
 
 		return getJaxb2Marshaller();
 	}
@@ -121,13 +123,14 @@ public class KarakuWSClientConfiguration {
 	 * 		</bean>}
 	 * </pre>
 	 */
+	@Bean
 	public Object unmarshaller() {
 
 		return getJaxb2Marshaller();
 	}
 
 	// @SuppressWarnings("unchecked")
-	private Object getJaxb2Marshaller() {
+	private Jaxb2Marshaller getJaxb2Marshaller() {
 
 		if (!(properties.get(KARAKU_WS_CLIENT_ENABLED).equals("true"))) {
 			return null;
@@ -152,11 +155,10 @@ public class KarakuWSClientConfiguration {
 			Class<?> clazz = Class
 					.forName("org.springframework.oxm.jaxb.Jaxb2Marshaller");
 			Object o = clazz.newInstance();
-			clazz.getMethod("setPackagesToScan", String[].class).invoke(
-					o,
-					(Object[]) packagesFound.toArray(new String[packagesFound
-							.size()]));
-			return o;
+			String[] clases = packagesFound.toArray(new String[0]);
+			clazz.getMethod("setPackagesToScan", String[].class).invoke(o,
+					(Object) clases);
+			return (Jaxb2Marshaller) o;
 		} catch (ClassNotFoundException e) {
 			throw new KarakuRuntimeException(
 					"Can not find the Jaxb2Marshaller base class in the classpath, "
