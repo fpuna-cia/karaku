@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
+	xmlns:kk="http://java.sun.com/jsf/composite/karaku"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	<cc:interface>
+		<cc:attribute name="field"
+			type="py.una.med.base.dynamic.forms.Field" required="true" />
+
+	</cc:interface>
+
+	<cc:implementation>
+
+		<c:choose>
+			<c:when
+				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.PickerField'}">
+				<h:outputLabel value="#{cc.attrs.field.label}" />
+				<h:panelGroup id="#{cc.attrs.field.id}">
+					<sigh:pickerButton pickerField="#{item}"
+						chooseButtonRender="dynamic:form:pickerId:pickerPopUp"
+						chooseButtonAction="#{cc.attrs.fields.setPicker(cc.attrs.field.id)}"
+						chooseButtonOnComplete="#{rich:component('pickerPopUp')}.show()" />
+				</h:panelGroup>
+				<rich:message ajaxRendered="true" for="#{cc.attrs.field.id}" />
+			</c:when>
+			<c:when
+				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.TextField'}">
+				<h:outputLabel value="#{cc.attrs.field.label}" />
+				<h:inputText binding="#{cc.attrs.field.bind}" id="#{cc.attrs.field.bind.id}" />
+				<h:message for="#{cc.attrs.field.bind.id}" />
+			</c:when>
+			<c:when
+				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.ButtonField'}">
+
+				<h:outputLabel value="#{cc.attrs.field.label}" id="#{cc.attrs.field.id}_label" />
+				<h:inputText value="#{cc.attrs.field.object}" id="#{cc.attrs.field.id}_input"
+					disabled="#{cc.attrs.field.bind.disabled}" />
+				<h:commandButton binding="#{cc.attrs.field.buttonBind}" id="#{cc.attrs.field.id}_button" />
+			</c:when>
+			<c:when
+				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.ComboBoxField'}">
+				<h:outputLabel value="#{cc.attrs.field.label}" />
+				<h:selectOneMenu binding="#{cc.attrs.field.bind}" id="#{cc.attrs.field.bind.id}" />
+				<h:message for="#{cc.attrs.field.bind.id}" />
+			</c:when>
+			<c:when
+				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.CalendarField'}">
+				<h:outputLabel value="#{cc.attrs.field.label}" />
+				<rich:calendar binding="#{cc.attrs.field.bind}" id="#{cc.attrs.field.id}" />
+				<rich:message for="#{cc.attrs.field.id}" />
+			</c:when>
+			<c:when
+				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.Button'}">
+				<a4j:commandButton id="#{cc.attrs.field.id}"
+					binding="#{cc.attrs.field.bind}" />
+			</c:when>
+			<c:when
+				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.RadioButtonField'}">
+				<h:outputLabel value="#{cc.attrs.field.label}" />
+				<h:selectOneRadio binding="#{cc.attrs.field.bind}" id="#{cc.attrs.field.bind.id}" />
+				<h:message for="#{cc.attrs.field.bind.id}" />
+			</c:when>
+		</c:choose>
+		<cc:insertChildren />
+	</cc:implementation>
+</ui:composition>
