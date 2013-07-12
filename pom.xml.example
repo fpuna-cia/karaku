@@ -4,9 +4,9 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>py.una.med</groupId>
-	<artifactId>SIGHFarmacia</artifactId>
+	<artifactId>SIGHBase</artifactId>
 	<packaging>war</packaging>
-	<version>SYSTEM:VERSION.BASE:VERSION</version>
+	<version>2.1.0</version>
 
 	<name>Sistema Integral de Gestion Hospitalaria - SYSTEM_NAME</name>
 
