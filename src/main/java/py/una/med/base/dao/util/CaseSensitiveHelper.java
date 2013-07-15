@@ -5,9 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.controller.LanguageBean;
 import py.una.med.base.dao.annotations.CaseSensitive;
 
 /**
@@ -24,8 +22,6 @@ import py.una.med.base.dao.annotations.CaseSensitive;
 public class CaseSensitiveHelper {
 
 	private Logger log = LoggerFactory.getLogger(CaseSensitiveHelper.class);
-	@Autowired
-	private LanguageBean languageBean;
 
 	/**
 	 * Analiza una entidad pasada como parámetro y convierte todas las cadenas a
@@ -98,7 +94,7 @@ public class CaseSensitiveHelper {
 				f.setAccessible(true);
 				String value = (String) f.get(object);
 				if (value != null) {
-					value = value.toUpperCase(languageBean.getCurrentLocale());
+					value = value.toUpperCase();
 					f.set(object, value);
 				}
 				return true;

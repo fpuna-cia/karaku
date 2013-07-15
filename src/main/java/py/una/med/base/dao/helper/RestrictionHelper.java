@@ -55,6 +55,9 @@ public class RestrictionHelper<T> {
 		}
 		if (where.getClauses() != null) {
 			for (Clause cr : where.getClauses()) {
+				if (cr.getCriterion() == null) {
+					continue;
+				}
 				if (cr.getCriterion().getClass().equals(LikeExpression.class)) {
 					LikeExpressionHelper.applyNestedCriteria(criteria,
 							(LikeExpression) cr.getCriterion(), aliaz);
