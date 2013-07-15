@@ -17,3 +17,8 @@ cp ../soc/social/src/main/resources/menu/* social/src/main/resources/menu/
 echo Copiando archivos de stock
 cp ../sas/stock/src/main/resources/language/properties/stock* stock/src/main/resources/language/properties/
 cp ../sas/stock/src/main/resources/menu/* stock/src/main/resources/menu/
+
+echo Copiando archivos de SIGH
+cp ../sigh/sigh/src/main/resources/language/properties/sigh* sigh/src/main/resources/language/properties/
+cp ../sigh/sigh/src/main/resources/menu/* sigh/src/main/resources/menu/
+
