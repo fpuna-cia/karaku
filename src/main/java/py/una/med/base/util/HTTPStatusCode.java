@@ -14,4 +14,9 @@ public final class HTTPStatusCode {
 	 */
 	public static final String NOT_FOUND = "404";
 
+	/**
+	 * Respuesta estandar para peticiones correctas.
+	 */
+	public static final String OK = "200";
+
 }
