@@ -3,16 +3,13 @@
  */
 package py.una.med.base.dynamic.wizard;
 
-import javax.el.MethodExpression;
-import javax.faces.event.MethodExpressionActionListener;
-import org.richfaces.component.behavior.ComponentControlBehavior;
 import org.richfaces.component.behavior.ToggleControl;
 import py.una.med.base.dynamic.forms.Button;
+import py.una.med.base.dynamic.forms.Button.OnClickCallBack;
 import py.una.med.base.dynamic.forms.ButtonAction;
 import py.una.med.base.dynamic.forms.DynamicFormList;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
 import py.una.med.base.dynamic.tables.DataTable;
-import py.una.med.base.util.ELHelper;
 import py.una.med.base.util.I18nHelper;
 
 /**
@@ -39,7 +36,6 @@ public class StepBuilder {
 	 */
 	private static final String FLOAT = "float:right";
 	private final Step step;
-	private final ELHelper elHelper = ELHelper.INSTANCE;
 
 	private StepBuilder(Step stepToBuild) {
 
@@ -115,18 +111,12 @@ public class StepBuilder {
 	 *            es, no retorna ni recibe nada.
 	 * @return this
 	 */
-	public StepBuilder addFinish(String expression, SimpleWizard wizard) {
+	public StepBuilder addFinish(OnClickCallBack callBack, SimpleWizard wizard) {
 
 		Button last = new Button();
-		MethodExpression callback = elHelper.makeMethodExpression(expression,
-				void.class, void.class);
-		last.addActionListener(new MethodExpressionActionListener(callback));
 		last.setText("KARAKU_WIZARD_FINISH");
 		last.setStyle(FLOAT);
-
-		ComponentControlBehavior ccb = SIGHComponentFactory
-				.getComponentControl(wizard.getPopupId(), "hide");
-		last.addAjaxBehavior(ButtonAction.CLICK, ccb);
+		last.setClickCallBack(callBack);
 		step.getToolBar().addItem(last);
 		return this;
 	}
@@ -173,10 +163,11 @@ public class StepBuilder {
 	 * @see #addPrevious()
 	 * @return this
 	 */
-	public StepBuilder addLastButtons(String expression, SimpleWizard wizard) {
+	public StepBuilder addLastButtons(OnClickCallBack callback,
+			SimpleWizard wizard) {
 
+		addFinish(callback, wizard);
 		addPrevious();
-		addFinish(expression, wizard);
 		return this;
 	}
 
