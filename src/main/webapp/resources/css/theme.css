@@ -131,6 +131,9 @@ input.large {
 input[type="text"] {
 	text-transform: uppercase;
 }
+textarea {
+	text-transform: uppercase;
+}
 
 /* Este estilo sera aplicado a todas las primeras columnas (label del input) */
 .form_label {

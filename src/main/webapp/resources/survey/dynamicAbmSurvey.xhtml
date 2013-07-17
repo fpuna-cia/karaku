@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://myfaces.apache.org/orchestra"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
+	xmlns:survey="http://java.sun.com/jsf/composite/survey">
+
+<composite:interface
+	displayName="Componente que renderiza una lista simple donde los campos son editables">
+	<composite:attribute name="controller" required="true"
+		type="py.una.med.base.survey.controller.ISIGHDynamicSurveyBaseController"
+		displayName="Controllador que rige esta vista" />
+	<composite:attribute name="idSurvey" default="idSurvey" />
+
+</composite:interface>
+<composite:implementation
+	xmlns:survey="http://java.sun.com/jsf/composite/survey">
+	<rich:panel header="#{msg['ABM_SURVEY_HEADER']}" switchType="client">
+
+		<h:form>
+			<rich:panel header="#{msg['ABM_SURVEY_HEADER_BLOCK']}" id="pheader">
+				<h:outputText value="#{msg['ABM_SURVEY_HEADER_DATE']}" />
+				<rich:calendar value="#{cc.attrs.controller.bean.fechaRealizacion}"
+					datePattern="dd/MM/yyyy"
+					disabled="#{not cc.attrs.controller.isEditable()}" />
+			</rich:panel>
+
+			<h:panelGrid id="#{cc.attrs.idSurvey}">
+				<c:forEach items="#{cc.attrs.controller.blocks}" var="block">
+					<c:if
+						test="#{block.type eq 'py.una.med.base.survey.components.DynamicSurveyDataTable'}">
+						<survey:dynamicDataTable controller="#{cc.attrs.controller}"
+							block="#{block}" idBlock="#{block.id}" />
+					</c:if>
+					<c:if
+						test="#{block.type eq 'py.una.med.base.survey.components.DynamicSurveyFields'}">
+						<survey:dynamicFields block="#{block}" idBlock="#{block.id}"
+							controller="#{cc.attrs.controller}" />
+					</c:if>
+				</c:forEach>
+			</h:panelGrid>
+
+			<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"
+				action="#{cc.attrs.controller.doCreate()}"
+				rendered="#{not cc.attrs.controller.view and not cc.attrs.controller.delete}" />
+			<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_DELETE']}"
+				action="#{cc.attrs.controller.doDelete()}"
+				rendered="#{not cc.attrs.controller.new and not cc.attrs.controller.view}" />
+			<h:commandButton
+				value="#{cc.attrs.controller.getValueButtonCancel()}"
+				action="#{cc.attrs.controller.doCancel()}" />
+			<a4j:log mode="popup"></a4j:log>
+		</h:form>
+	</rich:panel>
+</composite:implementation>
+</html>

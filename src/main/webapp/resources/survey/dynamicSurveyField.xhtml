@@ -1,0 +1,27 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+	<cc:interface>
+		<cc:attribute name="block" required="true" />
+		<cc:attribute name="bean" required="true" />
+		<cc:attribute name="rowNumber" required="true" />
+		<cc:attribute name="cellNumber" required="true" />
+		<cc:attribute name="isEditable" default="true" />
+	</cc:interface>
+	<cc:implementation>
+		<rich:graphValidator value="#{cc.attrs.bean}" id="graph">
+			<h:inputText styleClass="input-survey" value="#{cc.attrs.bean.value}"
+				id="input" disabled="#{not cc.attrs.isEditable}">
+				<a4j:ajax event="blur"
+					listener="#{cc.attrs.block.completeChangeListener}" />
+				<a4j:param name="rowNumber" value="#{cc.attrs.rowNumber}" />
+				<a4j:param name="cellNumber" value="#{cc.attrs.cellNumber}" />
+			</h:inputText>
+		</rich:graphValidator>
+		<rich:messages for="input" />
+		<rich:messages for="graph" />
+	</cc:implementation>
+</ui:composition>

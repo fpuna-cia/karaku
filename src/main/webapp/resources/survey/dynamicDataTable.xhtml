@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:o="http://myfaces.apache.org/orchestra"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+<composite:interface>
+	<composite:attribute name="block" required="true"
+		type="py.una.med.base.survey.components.DynamicSurveyDataTable" />
+
+	<composite:attribute name="idBlock" required="true" />
+	<composite:attribute name="controller" required="true"
+		type="py.una.med.base.survey.controller.ISIGHDynamicSurveyBaseController" />
+	<composite:attribute name="withActions" default="true"
+		shortDescription="Show a column with edit and delete"
+		type="java.lang.Boolean" />
+	<composite:attribute name="height" default="100px" />
+	<composite:attribute name="width" default="100%" />
+</composite:interface>
+<composite:implementation
+	xmlns:survey="http://java.sun.com/jsf/composite/survey">
+	<style>
+.input-survey {
+	width: 120px !important;
+}
+
+.rf-edt-c-cnt,.rf-edt-hdr-c-cnt {
+	height: auto !important;
+	width: 130px !important;
+	white-space: pre-wrap !important;
+}
+</style>
+	<rich:panel header="#{cc.attrs.block.title}">
+
+		<rich:extendedDataTable value="#{cc.attrs.block.rows}" var="row"
+			style="width:#{cc.attrs.width}" rowKeyVar="rowNumber"
+			id="#{cc.attrs.idBlock}">
+
+			<c:set value="#{0}" var="cont" />
+			<c:forEach items="#{cc.attrs.block.labels}" var="column">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="#{column}" />
+					</f:facet>
+					<survey:dynamicSurveyField block="#{cc.attrs.block}"
+						bean="#{row.cells[cont]}" rowNumber="#{rowNumber}"
+						cellNumber="#{cont}"
+						isEditable="#{cc.attrs.controller.isEditable()}" />
+				</rich:column>
+				<c:set value="#{cont + 1}" var="cont" />
+			</c:forEach>
+
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="Acciones" />
+				</f:facet>
+				<a4j:commandButton value="Borrar"
+					render="#{cc.attrs.idBlock} globalMessage" execute="@this"
+					action="#{cc.attrs.block.deleteRow(rowNumber)}" immediate="true"
+					disabled="#{not cc.attrs.controller.isEditable()}" />
+			</rich:column>
+		</rich:extendedDataTable>
+
+		<a4j:commandButton value="Agregar" execute="#{cc.attrs.idBlock}"
+			render="#{cc.attrs.idBlock} globalMessage"
+			action="#{cc.attrs.block.addRow}"
+			disabled="#{not cc.attrs.controller.isEditable()}" />
+		<h:outputLabel value="#{cc.attrs.block.globalMessage}"
+			style="color:blue" id="globalMessage" />
+
+
+	</rich:panel>
+</composite:implementation>
+</html>
