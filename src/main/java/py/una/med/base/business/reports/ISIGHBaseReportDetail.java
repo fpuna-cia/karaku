@@ -90,4 +90,29 @@ public interface ISIGHBaseReportDetail<T> {
 	 */
 	void generateReport(String path, SIGHReportDetails report,
 			Map<String, Object> params, String type, T bean, Class<?> clazz);
+
+	/**
+	 * Metodo que genera un reporte estatico de un registro especifico de la
+	 * grilla.
+	 * 
+	 * @param path
+	 *            Ubicacion del template que se desea adicionar al reporte. Debe
+	 *            ser el nombre de la dependencia, luego del directorio, seguido
+	 *            del nombre del jrxml. <br>
+	 *            <b>Por ejemplo</b><br>
+	 *            <ol>
+	 *            <li><b>identificacion/persona/detallesPersona.jrxml</b>
+	 *            </ol>
+	 * @param params
+	 *            Parametros del reporte
+	 * @param type
+	 *            Tipo de exportacion puede ser PDF o XLS.
+	 * 
+	 * @param bean
+	 *            Registro cuyos detalles deben ser visualizados.
+	 * @param clazz
+	 *            Clase de la entidad sobre la cual se desea realizar el reporte
+	 */
+	void generateReport(String path, Map<String, Object> params, String type,
+			T bean, Class<?> clazz);
 }

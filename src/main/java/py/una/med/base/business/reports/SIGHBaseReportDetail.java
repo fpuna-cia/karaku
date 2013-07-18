@@ -76,4 +76,22 @@ public abstract class SIGHBaseReportDetail<T> implements
 
 	}
 
+	@Override
+	public void generateReport(String path, Map<String, Object> params,
+			String type, T bean, Class<?> clazz) {
+
+		try {
+			JRDataSource datasource = new JRBeanCollectionDataSource(
+					getDetails(bean));
+			exportReport.exportReportStatic(path, datasource, params, type);
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+		}
+
+	}
+
 }

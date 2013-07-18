@@ -379,24 +379,26 @@ public class ExportReport {
 	private Map<String, Object> getDetailsReport(Map<String, Object> params)
 			throws IOException {
 
-		ClassPathResource imagePath = new ClassPathResource(
-				FILE_LOCATION_TEMPLATE + "logo.jpg");
+		if (params != null) {
+			ClassPathResource imagePath = new ClassPathResource(
+					FILE_LOCATION_TEMPLATE + "logo.jpg");
 
-		params.put("logo", imagePath.getInputStream());
-		params.put("nombreInstitucion",
-				I18nHelper.getMessage("BASE_REPORT_NAME_INSTITUTION"));
-		params.put("nombreEstablecimiento",
-				I18nHelper.getMessage("BASE_REPORT_NAME_ESTABLISHMENT"));
-		params.put("date", I18nHelper.getMessage("BASE_REPORT_DATE"));
-		params.put("time", I18nHelper.getMessage("BASE_REPORT_TIME"));
-		params.put("selectionCriteria",
-				I18nHelper.getMessage("BASE_REPORT_SELECTION_CRITERIA"));
-		params.put("user", I18nHelper.getMessage("BASE_REPORT_USER"));
-		params.put("userName", SecurityContextHolder.getContext()
-				.getAuthentication().getName());
-		params.put("nameSystem", util.getNameSystem());
-		params.put("page", I18nHelper.getMessage("BASE_REPORT_PAGE"));
-		params.put("pageThe", I18nHelper.getMessage("BASE_REPORT_PAGE_THE"));
+			params.put("logo", imagePath.getInputStream());
+			params.put("nombreInstitucion",
+					I18nHelper.getMessage("BASE_REPORT_NAME_INSTITUTION"));
+			params.put("nombreEstablecimiento",
+					I18nHelper.getMessage("BASE_REPORT_NAME_ESTABLISHMENT"));
+			params.put("date", I18nHelper.getMessage("BASE_REPORT_DATE"));
+			params.put("time", I18nHelper.getMessage("BASE_REPORT_TIME"));
+			params.put("selectionCriteria",
+					I18nHelper.getMessage("BASE_REPORT_SELECTION_CRITERIA"));
+			params.put("user", I18nHelper.getMessage("BASE_REPORT_USER"));
+			params.put("userName", SecurityContextHolder.getContext()
+					.getAuthentication().getName());
+			params.put("nameSystem", util.getNameSystem());
+			params.put("page", I18nHelper.getMessage("BASE_REPORT_PAGE"));
+			params.put("pageThe", I18nHelper.getMessage("BASE_REPORT_PAGE_THE"));
+		}
 		return params;
 	};
 
