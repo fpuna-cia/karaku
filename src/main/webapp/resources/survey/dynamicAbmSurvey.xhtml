@@ -56,7 +56,7 @@
 				rendered="#{not cc.attrs.controller.new and not cc.attrs.controller.view}" />
 			<h:commandButton
 				value="#{cc.attrs.controller.getValueButtonCancel()}"
-				action="#{cc.attrs.controller.doCancel()}" />
+				action="#{cc.attrs.controller.doCancel()}" immediate="true"/>
 			<a4j:log mode="popup"></a4j:log>
 		</h:form>
 	</rich:panel>
