@@ -131,6 +131,7 @@ input.large {
 input[type="text"] {
 	text-transform: uppercase;
 }
+
 textarea {
 	text-transform: uppercase;
 }
@@ -194,7 +195,7 @@ textarea {
 	margin-top: 10px;
 }
 
-.main-content * {
+.main-content ** {
 	font-size: 13px !important;
 }
 
@@ -291,9 +292,9 @@ li.divider:after {
 	margin-top: -33px;
 }
 
-#top .app-title{
+#top .app-title {
 	text-align: center;
-	line-height: 3.5em;	
+	line-height: 3.5em;
 }
 
 #top h1 {
@@ -485,15 +486,14 @@ li.divider:after {
 /*.rf-edt-rsz {
 	width: 100px !important;
 }*/
-
 .rf-edt-c-cnt>input[class=commandButton] {
 	margin-left: 3px;
 	margin-top: 3px;
 	padding: 1.3px;
 }
 
-.rf-edt-c-cnt>input[class=commandButton]:first-child {
-	1margin-left: 40%;
+.rf-edt-c-cnt>input[class=commandButton]:first-child { 1
+	margin-left: 40%;
 }
 
 .actions .rf-edt-c-cnt {
@@ -658,9 +658,9 @@ td.form_input select {
 }
 
 @media ( min-width : 768px) and (max-width: 1024px) {
-	.rf-edt-c-cnt,.rf-edt-hdr-c-cnt {
+	/*	.rf-edt-c-cnt,.rf-edt-hdr-c-cnt {
 		width: 50px !important;
-	}
+	}*/
 	.rf-edt-hdr-c-cnt {
 		min-height: 30px !important;
 		padding-top: 5px !important;
