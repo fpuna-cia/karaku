@@ -15,7 +15,9 @@
 		type="py.una.med.base.controller.ISIGHBaseController"
 		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
 	<composite:attribute name="urlForm" required="true" />
+    <composite:attribute name="withCancelButton" default="true"></composite:attribute>
 	<composite:attribute name="headerTitle"></composite:attribute>
+    <composite:attribute name="acceptButtonText" default="#{msg['BASE_FORM_EDIT']}" />
 
 </composite:interface>
 <composite:implementation>
@@ -34,7 +36,7 @@
 
 			<rich:panel>
 				<h:commandButton action="#{cc.attrs.controller.doEdit()}"
-					value="#{msg['BASE_FORM_EDIT']}"
+					value="#{cc.attrs.acceptButtonText}"
 					rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}" />
 				<h:commandButton action="#{cc.attrs.controller.doCreate()}"
 					value="#{msg['BASE_FORM_CREATE']}"
@@ -43,7 +45,7 @@
 					value="#{msg['BASE_FORM_DELETE']}"
 					rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />
 				<composite:renderFacet name="moreButtons" />
-				<h:commandButton action="#{cc.attrs.controller.preList()}"
+				<h:commandButton action="#{cc.attrs.controller.preList()}" rendered="#{cc.attrs.withCancelButton}"
 					value="#{cc.attrs.controller.cancelText}" immediate="true" />
 			</rich:panel>
 		</rich:panel>
