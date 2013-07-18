@@ -139,7 +139,7 @@ public class MenuBean {
 
 		UIPanelMenuItem item = SIGHComponentFactory.getMenuItem();
 
-		item.setId(menu.getIdFather() + menu.getId());
+//		item.setId(menu.getIdFather() + menu.getId());
 		item.setLabel(helper.getString(menu.getName()));
 		UIComponent link;
 
