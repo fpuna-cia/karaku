@@ -6,10 +6,10 @@ package py.una.med.base.survey.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import py.una.med.base.business.SIGHBaseLogic;
 import py.una.med.base.repo.ISIGHBaseDao;
 import py.una.med.base.survey.domain.TipoObjeto;
-import py.una.med.social.business.SocialBaseLogic;
-import py.una.med.social.repo.ITipoObjetoDAO;
+import py.una.med.base.survey.repo.ITipoObjetoDAO;
 
 /**
  * 
@@ -21,7 +21,7 @@ import py.una.med.social.repo.ITipoObjetoDAO;
  */
 @Service
 @Transactional
-public class TipoObjetoLogic extends SocialBaseLogic<TipoObjeto> implements
+public class TipoObjetoLogic extends SIGHBaseLogic<TipoObjeto, Long> implements
 		ITipoObjetoLogic {
 
 	@Autowired

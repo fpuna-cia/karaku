@@ -7,13 +7,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import py.una.med.base.business.SIGHBaseLogic;
 import py.una.med.base.repo.ISIGHBaseDao;
 import py.una.med.base.survey.domain.Encuesta;
 import py.una.med.base.survey.domain.EncuestaDetalle;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
 import py.una.med.base.survey.domain.OpcionRespuesta;
-import py.una.med.social.business.SocialBaseLogic;
-import py.una.med.social.repo.IEncuestaDetalleDAO;
+import py.una.med.base.survey.repo.IEncuestaDetalleDAO;
 
 /**
  * 
@@ -25,8 +25,9 @@ import py.una.med.social.repo.IEncuestaDetalleDAO;
  */
 @Service
 @Transactional
-public class EncuestaDetalleLogic extends SocialBaseLogic<EncuestaDetalle>
-		implements IEncuestaDetalleLogic {
+public class EncuestaDetalleLogic extends
+		SIGHBaseLogic<EncuestaDetalle, Long> implements
+		IEncuestaDetalleLogic {
 
 	@Autowired
 	private IEncuestaDetalleDAO dao;

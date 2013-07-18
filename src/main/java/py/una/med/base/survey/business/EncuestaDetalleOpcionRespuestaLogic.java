@@ -7,10 +7,10 @@ package py.una.med.base.survey.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import py.una.med.base.business.SIGHBaseLogic;
 import py.una.med.base.repo.ISIGHBaseDao;
 import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
-import py.una.med.social.business.SocialBaseLogic;
-import py.una.med.social.repo.IEncuestaDetalleOpcionRespuestaDAO;
+import py.una.med.base.survey.repo.IEncuestaDetalleOpcionRespuestaDAO;
 
 /**
  * 
@@ -23,7 +23,7 @@ import py.una.med.social.repo.IEncuestaDetalleOpcionRespuestaDAO;
 @Service
 @Transactional
 public class EncuestaDetalleOpcionRespuestaLogic extends
-		SocialBaseLogic<EncuestaDetalleOpcionRespuesta> implements
+		SIGHBaseLogic<EncuestaDetalleOpcionRespuesta, Long> implements
 		IEncuestaDetalleOpcionRespuestaLogic {
 
 	@Autowired

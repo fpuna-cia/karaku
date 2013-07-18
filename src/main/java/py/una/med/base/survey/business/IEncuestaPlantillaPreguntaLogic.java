@@ -5,9 +5,9 @@
 package py.una.med.base.survey.business;
 
 import java.util.List;
+import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
 import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
-import py.una.med.social.business.ISocialBaseLogic;
 
 /**
  * 
@@ -18,7 +18,7 @@ import py.una.med.social.business.ISocialBaseLogic;
  * 
  */
 public interface IEncuestaPlantillaPreguntaLogic extends
-		ISocialBaseLogic<EncuestaPlantillaPregunta> {
+		ISIGHBaseLogic<EncuestaPlantillaPregunta, Long> {
 
 	List<EncuestaPlantillaPregunta> getQuestionsByBlock(
 			EncuestaPlantillaBloque block);

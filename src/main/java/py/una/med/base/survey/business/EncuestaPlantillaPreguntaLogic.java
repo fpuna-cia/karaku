@@ -8,11 +8,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import py.una.med.base.business.SIGHBaseLogic;
 import py.una.med.base.repo.ISIGHBaseDao;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
 import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
-import py.una.med.social.business.SocialBaseLogic;
-import py.una.med.social.repo.IEncuestaPlantillaPreguntaDAO;
+import py.una.med.base.survey.repo.IEncuestaPlantillaPreguntaDAO;
 
 /**
  * 
@@ -25,7 +25,7 @@ import py.una.med.social.repo.IEncuestaPlantillaPreguntaDAO;
 @Service
 @Transactional
 public class EncuestaPlantillaPreguntaLogic extends
-		SocialBaseLogic<EncuestaPlantillaPregunta> implements
+		SIGHBaseLogic<EncuestaPlantillaPregunta, Long> implements
 		IEncuestaPlantillaPreguntaLogic {
 
 	@Autowired

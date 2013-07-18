@@ -6,10 +6,10 @@ package py.una.med.base.survey.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import py.una.med.base.business.SIGHBaseLogic;
 import py.una.med.base.repo.ISIGHBaseDao;
 import py.una.med.base.survey.domain.TipoBloque;
-import py.una.med.social.business.SocialBaseLogic;
-import py.una.med.social.repo.ITipoBloqueDAO;
+import py.una.med.base.survey.repo.ITipoBloqueDAO;
 
 /**
  * 
@@ -21,7 +21,7 @@ import py.una.med.social.repo.ITipoBloqueDAO;
  */
 @Service
 @Transactional
-public class TipoBloqueLogic extends SocialBaseLogic<TipoBloque> implements
+public class TipoBloqueLogic extends SIGHBaseLogic<TipoBloque, Long> implements
 		ITipoBloqueLogic {
 
 	@Autowired

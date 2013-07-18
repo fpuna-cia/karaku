@@ -4,8 +4,8 @@
  */
 package py.una.med.base.survey.business;
 
+import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
-import py.una.med.social.business.ISocialBaseLogic;
 
 /**
  * 
@@ -16,6 +16,6 @@ import py.una.med.social.business.ISocialBaseLogic;
  * 
  */
 public interface IEncuestaDetalleOpcionRespuestaLogic extends
-		ISocialBaseLogic<EncuestaDetalleOpcionRespuesta> {
+		ISIGHBaseLogic<EncuestaDetalleOpcionRespuesta, Long> {
 
 }

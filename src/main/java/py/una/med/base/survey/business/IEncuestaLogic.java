@@ -3,8 +3,8 @@
  */
 package py.una.med.base.survey.business;
 
+import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.survey.domain.Encuesta;
-import py.una.med.social.business.ISocialBaseLogic;
 
 /**
  * 
@@ -14,6 +14,6 @@ import py.una.med.social.business.ISocialBaseLogic;
  * @version 1.0 29/05/2013
  * 
  */
-public interface IEncuestaLogic extends ISocialBaseLogic<Encuesta> {
+public interface IEncuestaLogic extends ISIGHBaseLogic<Encuesta, Long> {
 
 }
