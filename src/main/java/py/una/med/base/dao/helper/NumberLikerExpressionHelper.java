@@ -73,9 +73,11 @@ public final class NumberLikerExpressionHelper {
 		}
 
 		String[] partes = property.split("\\.");
-		if (partes.length > 2) {
-			throw new IllegalArgumentException("Pruebas con dos partes nomas!");
+
+		if (partes.length == 1) {
+			return partes[0];
 		}
+
 		if (aliass == null) {
 			aliass = new HashMap<String, String>();
 		}
@@ -86,7 +88,14 @@ public final class NumberLikerExpressionHelper {
 			aliass.put(partes[0], alias);
 			criteria.createAlias(partes[0], alias);
 		}
-		return alias + "." + partes[1];
+
+		for (int i = 1; i < partes.length - 1; i++) {
+			String temp = alias + "." + partes[i];
+			alias += partes[i] + "_";
+			criteria.createAlias(temp, alias);
+		}
+
+		return alias + "." + partes[partes.length - 1];
 	}
 
 }
