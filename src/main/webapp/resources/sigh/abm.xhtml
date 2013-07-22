@@ -18,6 +18,7 @@
     <composite:attribute name="withCancelButton" default="true"></composite:attribute>
 	<composite:attribute name="headerTitle"></composite:attribute>
     <composite:attribute name="acceptButtonText" default="#{msg['BASE_FORM_EDIT']}" />
+    <composite:attribute name="withConfirmPanel" default="true"></composite:attribute> 
 
 </composite:interface>
 <composite:implementation>
@@ -34,7 +35,7 @@
 				<ui:include src="#{cc.attrs.urlForm}" />
 			</h:panelGrid>
 
-			<rich:panel>
+			<rich:panel rendered="#{cc.attrs.withConfirmPanel}">
 				<h:commandButton action="#{cc.attrs.controller.doEdit()}"
 					value="#{cc.attrs.acceptButtonText}"
 					rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}" />
