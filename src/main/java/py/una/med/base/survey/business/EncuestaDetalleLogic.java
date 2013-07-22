@@ -11,6 +11,7 @@ import py.una.med.base.business.SIGHBaseLogic;
 import py.una.med.base.repo.ISIGHBaseDao;
 import py.una.med.base.survey.domain.Encuesta;
 import py.una.med.base.survey.domain.EncuestaDetalle;
+import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
 import py.una.med.base.survey.domain.OpcionRespuesta;
 import py.una.med.base.survey.repo.IEncuestaDetalleDAO;
@@ -25,9 +26,8 @@ import py.una.med.base.survey.repo.IEncuestaDetalleDAO;
  */
 @Service
 @Transactional
-public class EncuestaDetalleLogic extends
-		SIGHBaseLogic<EncuestaDetalle, Long> implements
-		IEncuestaDetalleLogic {
+public class EncuestaDetalleLogic extends SIGHBaseLogic<EncuestaDetalle, Long>
+		implements IEncuestaDetalleLogic {
 
 	@Autowired
 	private IEncuestaDetalleDAO dao;
@@ -53,6 +53,19 @@ public class EncuestaDetalleLogic extends
 	public List<OpcionRespuesta> getRespuestasSelected(long encuestaDetalle) {
 
 		return dao.getRespuestasSelected(encuestaDetalle);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see py.una.med.base.survey.business.IEncuestaDetalleLogic#
+	 * getDetailsRespuestasSelected(long)
+	 */
+	@Override
+	public List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
+			long encuestaDetalle) {
+
+		return dao.getDetailsRespuestasSelected(encuestaDetalle);
 	}
 
 }

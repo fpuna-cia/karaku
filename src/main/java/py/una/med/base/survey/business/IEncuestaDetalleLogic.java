@@ -7,6 +7,7 @@ import java.util.List;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.survey.domain.Encuesta;
 import py.una.med.base.survey.domain.EncuestaDetalle;
+import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
 import py.una.med.base.survey.domain.OpcionRespuesta;
 
@@ -35,5 +36,12 @@ public interface IEncuestaDetalleLogic extends
 	 * @return
 	 */
 	List<OpcionRespuesta> getRespuestasSelected(long encuestaDetalle);
+
+	/**
+	 * @param encuestaDetalle
+	 * @return
+	 */
+	List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
+			long encuestaDetalle);
 
 }

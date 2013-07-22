@@ -7,6 +7,7 @@ import java.util.List;
 import py.una.med.base.repo.ISIGHBaseDao;
 import py.una.med.base.survey.domain.Encuesta;
 import py.una.med.base.survey.domain.EncuestaDetalle;
+import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
 import py.una.med.base.survey.domain.OpcionRespuesta;
 
@@ -18,7 +19,8 @@ import py.una.med.base.survey.domain.OpcionRespuesta;
  * @version 1.0 29/05/2013
  * 
  */
-public interface IEncuestaDetalleDAO extends ISIGHBaseDao<EncuestaDetalle, Long> {
+public interface IEncuestaDetalleDAO extends
+		ISIGHBaseDao<EncuestaDetalle, Long> {
 
 	List<?> getRespuestas(Encuesta encuesta, EncuestaPlantillaBloque block);
 
@@ -27,4 +29,11 @@ public interface IEncuestaDetalleDAO extends ISIGHBaseDao<EncuestaDetalle, Long>
 	 * @return
 	 */
 	List<OpcionRespuesta> getRespuestasSelected(long encuestaDetalle);
+
+	/**
+	 * @param encuestaDetalle
+	 * @return
+	 */
+	List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
+			long encuestaDetalle);
 }

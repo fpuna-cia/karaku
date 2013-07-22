@@ -6,6 +6,8 @@ package py.una.med.base.survey.repo;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import py.una.med.base.dao.restrictions.Where;
@@ -25,9 +27,10 @@ import py.una.med.base.survey.domain.OpcionRespuesta;
  * 
  */
 @Repository
-public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long> implements
-		IEncuestaDetalleDAO {
+public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
+		implements IEncuestaDetalleDAO {
 
+	private final Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IEncuestaDetalleOpcionRespuestaDAO encuestaDetalleOpcionRespuestaDAO;
 
@@ -62,4 +65,26 @@ public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long> imple
 		return list;
 	}
 
+	@Override
+	public List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
+			long encuestaDetalle) {
+
+		EncuestaDetalleOpcionRespuesta example = new EncuestaDetalleOpcionRespuesta();
+		example.setEncuestaDetalle(getById(encuestaDetalle));
+		Where<EncuestaDetalleOpcionRespuesta> where = new Where<EncuestaDetalleOpcionRespuesta>();
+		where.setExample(example);
+
+		List<EncuestaDetalleOpcionRespuesta> result = new ArrayList<EncuestaDetalleOpcionRespuesta>();
+
+		for (EncuestaDetalleOpcionRespuesta detalle : encuestaDetalleOpcionRespuestaDAO
+				.getAll(where, null)) {
+			System.out.println("%%%"
+					+ detalle.getOpcionRespuesta().getDescripcion());
+			log.debug("Recuperando las opciones de respuesta.."
+					+ detalle.getOpcionRespuesta().toString());
+			detalle.setOpcionRespuesta(detalle.getOpcionRespuesta());
+			result.add(detalle);
+		}
+		return result;
+	}
 }

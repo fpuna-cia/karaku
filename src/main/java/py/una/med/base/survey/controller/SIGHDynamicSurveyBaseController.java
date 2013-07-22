@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
 import py.una.med.base.business.ISIGHBaseLogic;
+import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.survey.business.IEncuestaDetalleLogic;
 import py.una.med.base.survey.business.IEncuestaPlantillaBloqueLogic;
 import py.una.med.base.survey.business.IEncuestaPlantillaPreguntaLogic;
@@ -43,7 +43,7 @@ import py.una.med.base.util.I18nHelper;
  * 
  */
 @Controller
-@Scope(value = WebApplicationContext.SCOPE_SESSION)
+@Scope(value = SIGHConfiguration.SCOPE_CONVERSATION)
 public abstract class SIGHDynamicSurveyBaseController implements
 		ISIGHDynamicSurveyBaseController {
 
@@ -56,7 +56,7 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private Encuesta bean;
-	private Encuesta lastSurvey;
+	private Encuesta preloaded;
 
 	// Lista de bloques dentro de la encuesta
 	private List<DynamicSurveyBlock> blocks;
@@ -88,11 +88,11 @@ public abstract class SIGHDynamicSurveyBaseController implements
 		 * Poner el tema de las respuestas para cada bloque
 		 */
 		if (tipoBloque.getDescripcion().equals("GRILLA")) {
-			return buildResponseGrill(bloque, new DynamicSurveyDataTable(
-					questions, blocks.size()));
+			return buildResponseGrill(getResponseBlock(bloque),
+					new DynamicSurveyDataTable(questions, blocks.size()));
 		} else {
-			return buildResponseFields(bloque, new DynamicSurveyFields(
-					questions, blocks.size()));
+			return buildResponseFields(getResponseBlock(bloque),
+					new DynamicSurveyFields(questions, blocks.size()));
 
 		}
 
@@ -146,7 +146,8 @@ public abstract class SIGHDynamicSurveyBaseController implements
 					bloque.getTipoBloque(), bloque));
 		}
 		// Obtenemos los datos precargados del servicio de importar persona
-		if (blocks.get(0) instanceof DynamicSurveyFields) {
+		if (blocks.get(0) instanceof DynamicSurveyFields && isNew()) {
+			log.debug("Obtiene los datos actuales de la persona..");
 			getDetailsPerson((DynamicSurveyFields) blocks.get(0));
 
 		}
@@ -196,10 +197,10 @@ public abstract class SIGHDynamicSurveyBaseController implements
 		newSurvey.setFechaRealizacion(new Date());
 		if (survey == null) {
 			log.debug("Se crea una nueva encuesta para la solicitud");
-			setLastSurvey(getBaseLogic().getById(1L));
+			setPreloaded(getBaseLogic().getById(1L));
 		} else {
 			log.debug("Se utiliza una copia de la ultima encuesta");
-			setLastSurvey(survey);
+			setPreloaded(survey);
 		}
 		return newSurvey;
 	}
@@ -214,8 +215,8 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	 *            bloque que almacenara las respuestas y las representara en el
 	 *            dataTable
 	 */
-	public DynamicSurveyDataTable buildResponseGrill(
-			EncuestaPlantillaBloque encuestaBloque, DynamicSurveyDataTable block) {
+	public DynamicSurveyDataTable buildResponseGrill(List<?> responseBlock,
+			DynamicSurveyDataTable block) {
 
 		List<DynamicSurveyRow> registros = new ArrayList<DynamicSurveyRow>();
 
@@ -225,29 +226,31 @@ public abstract class SIGHDynamicSurveyBaseController implements
 				columnsNumber);
 
 		int ordenPregunta = 0;
-		for (Object respuesta : getResponseBlock(encuestaBloque)) {
+		if (responseBlock != null) {
+			for (Object respuesta : responseBlock) {
 
-			Object[] detalle = (Object[]) respuesta;
-			ordenPregunta = (Integer) detalle[0];
-			if (nroFila != (Integer) detalle[1]) {
-				registros.add(row);
-				nroFila = (Integer) detalle[1];
-				row = new DynamicSurveyRow(block.getId(), nroFila,
-						columnsNumber);
+				Object[] detalle = (Object[]) respuesta;
+				ordenPregunta = (Integer) detalle[0];
+				if (nroFila != (Integer) detalle[1]) {
+					registros.add(row);
+					nroFila = (Integer) detalle[1];
+					row = new DynamicSurveyRow(block.getId(), nroFila,
+							columnsNumber);
+
+				}
+
+				SurveyField cell = DynamicSurveyField.fieldFactory(block
+						.getQuestion(ordenPregunta));
+
+				cell.setIndex(ordenPregunta);
+				if (detalle[2] != null) {
+					cell.setValue(detalle[2].toString());
+				} else {
+					cell.setValue("");
+				}
+				row.addCell(cell);
 
 			}
-
-			SurveyField cell = DynamicSurveyField.fieldFactory(block
-					.getQuestion(ordenPregunta));
-
-			cell.setIndex(ordenPregunta);
-			if (detalle[2] != null) {
-				cell.setValue(detalle[2].toString());
-			} else {
-				cell.setValue("");
-			}
-			row.addCell(cell);
-
 		}
 		registros.add(row);
 
@@ -258,41 +261,46 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	 * Carga las respuestas asociadas a un bloque en particular del tipo
 	 * {@link DynamicSurveyFields}.
 	 * 
-	 * @param encuestaBloque
+	 * @param responseBlock
 	 * @param block
 	 * @return
 	 */
-	public DynamicSurveyFields buildResponseFields(
-			EncuestaPlantillaBloque encuestaBloque, DynamicSurveyFields block) {
+	public DynamicSurveyFields buildResponseFields(List<?> responseBlock,
+			DynamicSurveyFields block) {
 
 		int ordenPregunta = 0;
-		for (Object respuesta : getResponseBlock(encuestaBloque)) {
-			Object[] detalle = (Object[]) respuesta;
-			ordenPregunta = (Integer) detalle[0];
-			DynamicSurveyFieldOption field = new DynamicSurveyFieldOption(
-					block.getTypeField(ordenPregunta - 1));
-			SurveyField cell = DynamicSurveyField.fieldFactory(block
-					.getQuestion(ordenPregunta));
+		if (responseBlock != null) {
+			for (Object respuesta : responseBlock) {
+				Object[] detalle = (Object[]) respuesta;
+				ordenPregunta = (Integer) detalle[0];
+				DynamicSurveyFieldOption field = new DynamicSurveyFieldOption(
+						block.getTypeField(ordenPregunta - 1));
+				SurveyField cell = DynamicSurveyField.fieldFactory(block
+						.getQuestion(ordenPregunta));
 
-			cell.setIndex(ordenPregunta);
-			if (detalle[2] != null) {
-				cell.setValue(detalle[2].toString());
-			}
-			// Obtenemos las respuestas que estan asociadas a un/os detalle/s
-			List<OpcionRespuesta> listResponse = responseLogic
-					.getRespuestasSelected((Long) detalle[3]);
-
-			if (field.getType().equals("CHECK")) {
-				field.setManyOptions(listResponse);
-
-			} else {
-				if (field.getType().equals("RADIO")) {
-					field.setOneOption(listResponse.get(0));
+				cell.setIndex(ordenPregunta);
+				if (detalle[2] != null) {
+					cell.setValue(detalle[2].toString());
 				}
-			}
+				// Obtenemos las respuestas que estan asociadas a un/os
+				// detalle/s
+				// List<OpcionRespuesta> listResponse = responseLogic
+				// .getRespuestasSelected((Long) detalle[3]);
 
-			field.setField(cell);
-			block.addField(field);
+				List<OpcionRespuesta> listResponse = getResponseSelected(
+						(Long) detalle[3], ordenPregunta);
+				if (field.getType().equals("CHECK")) {
+					field.setManyOptions(listResponse);
+
+				} else {
+					if (field.getType().equals("RADIO")) {
+						field.setOneOption(listResponse.get(0));
+					}
+				}
+
+				field.setField(cell);
+				block.addField(field);
+			}
 		}
 
 		return block.buildFields();
@@ -309,8 +317,92 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	 */
 	public List<?> getResponseBlock(EncuestaPlantillaBloque encuestaBloque) {
 
-		return responseLogic.getRespuestas(getLastSurvey(), encuestaBloque);
+		if (getPreloaded() != null) {
+			if (getPreloaded().getId() != null) {
+				return responseLogic.getRespuestas(getPreloaded(),
+						encuestaBloque);
+			} else {
+				return getResponseBlockMemory(encuestaBloque);
+			}
+		} else {
+			return null;
+		}
 	}
+
+	private List<?> getResponseBlockMemory(
+			EncuestaPlantillaBloque encuestaBloque) {
+
+		System.out.println("Entro en memoryyy");
+		List<EncuestaDetalle> list = getPreloaded().getDetalles();
+		List<Object[]> result = new ArrayList<Object[]>();
+		for (EncuestaDetalle detalle : list) {
+			System.out.println("$$$$$$: " + detalle.getRespuesta());
+			System.out.println("BLoqueweee11111: "
+					+ detalle.getPregunta().getBloque().getId());
+			System.out.println("BLoqueweee22222: " + encuestaBloque.getId());
+			if (detalle.getPregunta().getBloque().getId()
+					.equals(encuestaBloque.getId())) {
+				System.out.println("###Deetalle: " + detalle.getRespuesta());
+				Object[] temp = new Object[4];
+				temp[0] = detalle.getPregunta().getOrden();
+				temp[1] = detalle.getNumeroFila();
+				temp[2] = detalle.getRespuesta();
+				temp[3] = null;
+				result.add(temp);
+			}
+		}
+		return result;
+	}
+
+	public List<OpcionRespuesta> getResponseSelected(Long idDetalle,
+			int ordenPregunta) {
+
+		if (idDetalle != null) {
+			return responseLogic.getRespuestasSelected(idDetalle);
+		} else {
+			List<EncuestaDetalle> list = getPreloaded().getDetalles();
+
+			for (EncuestaDetalle encuestaDetalle : list) {
+
+				if (encuestaDetalle.getPregunta().getOrden()
+						.equals(ordenPregunta)) {
+
+					List<EncuestaDetalleOpcionRespuesta> listResponse = responseLogic
+							.getDetailsRespuestasSelected(encuestaDetalle
+									.getId());
+
+					if (listResponse.size() > 0) {
+						encuestaDetalle.setOpcionRespuesta(listResponse);
+						List<OpcionRespuesta> result = new ArrayList<OpcionRespuesta>();
+
+						for (EncuestaDetalleOpcionRespuesta detalleOpcionRespuesta : encuestaDetalle
+								.getOpcionRespuesta()) {
+
+							result.add(detalleOpcionRespuesta
+									.getOpcionRespuesta());
+
+						}
+						return result;
+					}
+
+				}
+			}
+			return null;
+		}
+
+	}
+
+	// private List<OpcionRespuesta> getOptionResponse(
+	// List<EncuestaDetalleOpcionRespuesta> list) {
+	//
+	// List<OpcionRespuesta> result = new ArrayList<OpcionRespuesta>();
+	// for (EncuestaDetalleOpcionRespuesta detalle : list) {
+	//
+	// result.add(detalle.getOpcionRespuesta());
+	//
+	// }
+	// return result;
+	// }
 
 	/**
 	 * Carga los datos de la persona en la encuesta.
@@ -407,12 +499,20 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	public String postCreate() {
 
 		log.debug("postCreate llamado");
+		// clear();
 		return goUrlSolicitud();
 	}
 
 	@Override
 	public String doCancel() {
 
+		return postCancel();
+	}
+
+	public String postCancel() {
+
+		log.debug("postCancel llamado..");
+		clear();
 		return goUrlSolicitud();
 	}
 
@@ -441,7 +541,6 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	public String doDelete() {
 
 		log.debug("Eliminando la encuesta seleccionada..");
-		System.out.println("Eliminando el churro con id" + bean.getId());
 		if (bean.getId() != null) {
 			getBaseLogic().remove(bean);
 		}
@@ -451,7 +550,16 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	public String postDelete() {
 
 		log.debug("postDelete llamado..");
+		clear();
 		return goUrlSolicitud();
+	}
+
+	public void clear() {
+
+		System.out.println("limpiandooo centrall");
+		setPreloaded(null);
+		setBlocks(null);
+		setBean(null);
 	}
 
 	public abstract String goUrlSurvey();
@@ -481,14 +589,14 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	/**
 	 * @return
 	 */
-	public Encuesta getLastSurvey() {
+	public Encuesta getPreloaded() {
 
-		return lastSurvey;
+		return preloaded;
 	}
 
-	public void setLastSurvey(Encuesta lastSurvey) {
+	public void setPreloaded(Encuesta preloaded) {
 
-		this.lastSurvey = lastSurvey;
+		this.preloaded = preloaded;
 	}
 
 	public Mode getMode() {
