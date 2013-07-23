@@ -542,6 +542,7 @@ public abstract class SIGHDynamicSurveyBaseController implements
 
 		log.debug("Eliminando la encuesta seleccionada..");
 		if (bean.getId() != null) {
+			bean.setId(bean.getId());
 			getBaseLogic().remove(bean);
 		}
 		return postDelete();
