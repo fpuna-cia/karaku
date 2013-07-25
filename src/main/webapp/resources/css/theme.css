@@ -684,3 +684,20 @@ td.form_input select {
 	}
 }
 /** fin overrides de componentes de richfaces **/
+
+/*
+Css para los requeridos
+*/
+.required_label {
+	
+}
+
+.required_label:after {
+	color: blue;
+	content: "\00a0*";
+}
+
+.required_field {
+	/*	color: blue !important;*/
+	
+}

@@ -5,8 +5,6 @@
 package py.una.med.base.jsf.converters;
 
 import java.lang.reflect.Field;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -14,6 +12,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import py.una.med.base.dao.annotations.CaseSensitive;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.util.ELHelper;
 
 /**
  * Es un {@link Converter} que sanitiza las entidades, para que la sanitización
@@ -27,50 +26,12 @@ import py.una.med.base.exception.KarakuRuntimeException;
  * la anotación {@link CaseSensitive} no este presente</li>
  * 
  * @author Arturo Volpe
- * @since 1.0
+ * @since 1.3.2
  * @version 1.0 Jun 6, 2013
  * 
  */
 @FacesConverter(forClass = String.class)
 public class StringConverter implements Converter {
-
-	/**
-	 * Dada una expresión del tipo:<br />
-	 * 
-	 * <pre>
-	 * 		#{controller.bean.field}
-	 * </pre>
-	 * 
-	 * Determina tres grupos, de la siguiente forma
-	 * <table>
-	 * <tr>
-	 * <th>Expresión</th>
-	 * <th>Significado</th>
-	 * </tr>
-	 * <tr>
-	 * <td>'#{controller.bean':</td>
-	 * <td>Parte que determina el bean, completar con <code>}</code> para
-	 * obtener la expresión.</td>
-	 * </tr>
-	 * <tr>
-	 * <td>'nombre1':</td>
-	 * <td>Parte que determina el nombre del atributo.</td>
-	 * </tr>
-	 * <tr>
-	 * <td>'}':</td>
-	 * <td>Parte que completa la Expresión</td>
-	 * </tr>
-	 * </table>
-	 * <br />
-	 * <br />
-	 * Reemplazando por ejemplo con $1$3 obtenemos la expresion:
-	 * 
-	 * <pre>
-	 * #{controller.bean}
-	 * </pre>
-	 */
-	public final String EXTRACT_FIELD_FROM_EXPRESSION_REGEX = "(#\\{.*)\\.(.*)(\\})";
-	private Pattern pattern;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
@@ -85,42 +46,12 @@ public class StringConverter implements Converter {
 		ValueExpression val = component.getValueExpression("value");
 		String beanExpression = val.getExpressionString();
 		if (!(beanExpression == null || "".equals(beanExpression))) {
-
-			Matcher ma = getPattern().matcher(beanExpression);
-			if (ma.matches()) {
-				String withoutField = ma.replaceFirst("$1$3");
-				String field = ma.replaceFirst("$2");
-				Object bean = context
-						.getApplication()
-						.getExpressionFactory()
-						.createValueExpression(context.getELContext(),
-								withoutField, Object.class)
-						.getValue(context.getELContext());
-				if (bean != null) {
-					Field f;
-					try {
-						f = bean.getClass().getDeclaredField(field);
-					} catch (Exception e) {
-						throw new KarakuRuntimeException(
-								"Can not find the field of the expression: "
-										+ beanExpression);
-					}
-					if (f.getAnnotation(CaseSensitive.class) == null) {
-						toRet = toRet.toUpperCase();
-					}
-				}
-
+			Field f = ELHelper.getFieldByExpression(beanExpression);
+			if (f == null || f.getAnnotation(CaseSensitive.class) == null) {
+				toRet = toRet.toUpperCase();
 			}
 		}
 		return toRet;
-	}
-
-	private Pattern getPattern() {
-
-		if (pattern == null) {
-			pattern = Pattern.compile(EXTRACT_FIELD_FROM_EXPRESSION_REGEX);
-		}
-		return pattern;
 	}
 
 	@Override

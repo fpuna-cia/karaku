@@ -16,13 +16,13 @@
 	<h:outputStylesheet library="css" name="theme.css" />
 	<h:outputScript library="scripts" name="menu.js" />
 	<title>SIGH</title>
-
-	<style>
-</style>
-
 </h:head>
 
 <h:body>
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{requiredPhaseListener.preRenderView}" />
+	</f:metadata>
 	<h:outputScript library="scripts" name="workaround.js" target="head" />
 	<!-- 	<input type="checkbox" id="expand" value="Expandir" checked="checked" -->
 	<!-- 		onclick="toogle();" /> -->
