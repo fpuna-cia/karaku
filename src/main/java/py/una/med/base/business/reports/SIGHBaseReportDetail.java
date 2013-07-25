@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.reports.Align;
 import py.una.med.base.reports.ExportReport;
+import py.una.med.base.reports.SIGHReportBlock;
+import py.una.med.base.reports.SIGHReportBlockSign;
 import py.una.med.base.reports.SIGHReportDetails;
 import py.una.med.base.util.ControllerHelper;
 
@@ -94,4 +96,49 @@ public abstract class SIGHBaseReportDetail<T> implements
 
 	}
 
+	@Override
+	public void generateReport(List<SIGHReportBlock> blocks,
+			Map<String, Object> params, String type) {
+
+		try {
+			exportReport.exportReportFields(blocks,
+					setDataSources(blocks, params), type);
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+		}
+
+	}
+
+	@Override
+	public void generateReport(List<SIGHReportBlock> blocks,
+			List<SIGHReportBlockSign> signs, Map<String, Object> params,
+			String type) {
+
+		try {
+			exportReport.exportReportFields(blocks, signs,
+					setDataSources(blocks, params), type);
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+		}
+
+	}
+
+	private Map<String, Object> setDataSources(List<SIGHReportBlock> blocks,
+			Map<String, Object> params) {
+
+		for (SIGHReportBlock block : blocks) {
+			System.out.println("AGREGAAA PARAMETROSS: "
+					+ block.getNameDataSource() + "--" + block.getDataSource());
+			params.put(block.getNameDataSource(), block.getDataSource());
+		}
+		return params;
+	}
 }

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.reports.Align;
+import py.una.med.base.reports.SIGHReportBlock;
+import py.una.med.base.reports.SIGHReportBlockSign;
 import py.una.med.base.reports.SIGHReportDetails;
 
 /**
@@ -115,4 +117,23 @@ public interface ISIGHBaseReportDetail<T> {
 	 */
 	void generateReport(String path, Map<String, Object> params, String type,
 			T bean, Class<?> clazz);
+
+	/**
+	 * @param fields
+	 * @param params
+	 * @param type
+	 */
+	void generateReport(List<SIGHReportBlock> blocks,
+			Map<String, Object> params, String type);
+
+	/**
+	 * @param blocks
+	 * @param signs
+	 * @param params
+	 * @param type
+	 */
+	void generateReport(List<SIGHReportBlock> blocks,
+			List<SIGHReportBlockSign> signs, Map<String, Object> params,
+			String type);
+
 }

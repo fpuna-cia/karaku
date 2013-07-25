@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -264,6 +265,79 @@ public class ExportReport {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
 					dynamicUtils.buildReportSimple(columns, clazz),
 					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	/**
+	 * Genera un reporte dinamico formado por bloques del tipo
+	 * field(label,value), es decir un reporte que posee una lista de columnas
+	 * horizontales.
+	 * 
+	 * @param blocks
+	 *            bloques del reporte que son solo del tipo field
+	 * @param params
+	 *            especificos del reporte
+	 * @param type
+	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @return reporte generado
+	 * @throws ReportException
+	 */
+	public <T> void exportReportFields(List<SIGHReportBlock> blocks,
+			Map<String, Object> params, String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buidReportFields(blocks),
+					new ClassicLayoutManager(), new JREmptyDataSource(),
+					getDetailsReport(params));
+
+			generate(jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	/**
+	 * Genera un reporte dinamico formado por bloques del tipo field y del tipo
+	 * firma, es decir un reporte que posee una lista de columnas horizontales y
+	 * al final del reporte posee una serie de firmas (se aplica a los reportes
+	 * que necesitan ser firmados).
+	 * 
+	 * @param blocks
+	 *            bloques del reporte que son solo del tipo field, es decir que
+	 *            posee columnas horizontales(label,value)
+	 * @param signs
+	 *            bloques del reporte que son solo del tipo firma, es decir que
+	 *            posee uaa lista de firmas que deben ser agregadas al final del
+	 *            reporte
+	 * @param params
+	 *            especificos del reporte
+	 * @param type
+	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * @return reporte generado
+	 * @throws ReportException
+	 */
+	public <T> void exportReportFields(List<SIGHReportBlock> blocks,
+			List<SIGHReportBlockSign> signs, Map<String, Object> params,
+			String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buidReportFields(blocks, signs),
+					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
 			generate(jasperPrint, params, type);

@@ -10,6 +10,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import py.una.med.base.exception.ReportException;
+import py.una.med.base.reports.SIGHReportBlockSign.Sign;
 import py.una.med.base.reports.SIGHReportDetails.Detail;
 import py.una.med.base.util.I18nHelper;
 import ar.com.fdvs.dj.core.DJConstants;
@@ -17,10 +18,15 @@ import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.domain.DJCrosstab;
 import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.Style;
+import ar.com.fdvs.dj.domain.builders.ColumnBuilder;
 import ar.com.fdvs.dj.domain.builders.FastReportBuilder;
+import ar.com.fdvs.dj.domain.builders.SubReportBuilder;
+import ar.com.fdvs.dj.domain.constants.Border;
 import ar.com.fdvs.dj.domain.constants.Font;
 import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
 import ar.com.fdvs.dj.domain.constants.VerticalAlign;
+import ar.com.fdvs.dj.domain.entities.Subreport;
+import ar.com.fdvs.dj.domain.entities.columns.AbstractColumn;
 
 /**
  * Clase que provee las funcionalidades basicas para generar reportes dinamicos.
@@ -38,6 +44,8 @@ public final class DynamicUtils {
 	private static final String FILE_PORTRAIT_LOCATION = "report/base/PageBaseReportPortrait.jrxml";
 	private static final String FILE_LOCATION = "report/";
 	private static final String FILE_LANDSCAPE_LOCATION = "report/base/PageBaseReportLandscape.jrxml";
+
+	private static final int BIG = 12;
 
 	/**
 	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template
@@ -89,6 +97,62 @@ public final class DynamicUtils {
 		addColumn(structReport, columns);
 
 		structReport.setDefaultStyles(null, null, getStyleColumnHeader(), null);
+
+		structReport.setUseFullPageWidth(true);
+
+		return structReport.build();
+	}
+
+	/**
+	 * Construye un reporte dinamico(maestro), el cual posee una lista de
+	 * bloques, donde cada bloque es una lista de fields.
+	 * 
+	 * @param blocks
+	 *            bloques del reporte que son solo del tipo field, es decir que
+	 *            posee columnas horizontales(label,value)
+	 * @return reporte dinamico con bloques del tipo fields
+	 * @throws ReportException
+	 */
+	public <T> DynamicReport buidReportFields(List<SIGHReportBlock> blocks)
+			throws ReportException {
+
+		FastReportBuilder structReport = new FastReportBuilder();
+		setTemplatePortrait(structReport);
+		setWhenNotData(structReport);
+
+		addBlocks(structReport, blocks);
+
+		structReport.setUseFullPageWidth(true);
+
+		return structReport.build();
+	}
+
+	/**
+	 * 
+	 * Construye un reporte dinamico (maestro) formado por bloques del tipo
+	 * field y del tipo firma, es decir un reporte que posee una lista de
+	 * columnas horizontales y al final del reporte posee una serie de firmas
+	 * (se aplica a los reportes que necesitan ser firmados).
+	 * 
+	 * @param blocks
+	 *            bloques del reporte que son solo del tipo field, es decir que
+	 *            posee columnas horizontales(label,value)
+	 * @param signs
+	 *            bloques del reporte que son solo del tipo firma, es decir que
+	 *            posee uaa lista de firmas que deben ser agregadas al final del
+	 *            reporte
+	 * @return
+	 * @throws ReportException
+	 */
+	public <T> DynamicReport buidReportFields(List<SIGHReportBlock> blocks,
+			List<SIGHReportBlockSign> signs) throws ReportException {
+
+		FastReportBuilder structReport = new FastReportBuilder();
+		setTemplatePortrait(structReport);
+		setWhenNotData(structReport);
+
+		addBlocks(structReport, blocks);
+		addBlocksSign(structReport, signs);
 
 		structReport.setUseFullPageWidth(true);
 
@@ -315,6 +379,48 @@ public final class DynamicUtils {
 	}
 
 	/**
+	 * Agrega la lista de bloques del tipo field(label,value)al reporte maestro
+	 * 
+	 * @param structReport
+	 *            estructura del reporte dinamico
+	 * @param blocks
+	 *            bloques que son solo del tipo field, es decir que posee
+	 *            columnas horizontales(label,value)
+	 * @return reporte dinamico formado con los bloques recibidos como parametro
+	 * @throws ReportException
+	 */
+	public <T> FastReportBuilder addBlocks(FastReportBuilder structReport,
+			List<SIGHReportBlock> blocks) throws ReportException {
+
+		for (SIGHReportBlock block : blocks) {
+			buildBlock(structReport, block);
+		}
+
+		return structReport;
+	}
+
+	/**
+	 * Agrega la lista de bloques del tipo firma al reporte maestro
+	 * 
+	 * @param structReport
+	 *            estructura del reporte dinamico
+	 * @param blocks
+	 *            bloques que son solo del tipo firma, es decir que posee uaa
+	 *            lista de firmas que deben ser agregadas al final del reporte
+	 * @return reporte dinamico formado con los bloques recibidos como parametro
+	 * @throws ReportException
+	 */
+	public <T> FastReportBuilder addBlocksSign(FastReportBuilder structReport,
+			List<SIGHReportBlockSign> blocks) throws ReportException {
+
+		for (SIGHReportBlockSign block : blocks) {
+			buildBlockSign(structReport, block);
+		}
+
+		return structReport;
+	}
+
+	/**
 	 * Metodo que agrega las columnas al reporte, el tipo de las columnas
 	 * generadas es del tipo Object, se utiliza para el caso que el objeto
 	 * utilizado dentro del reporte no sea un objeto fisico existente, sino uno
@@ -341,6 +447,125 @@ public final class DynamicUtils {
 
 		}
 		return structReport;
+	}
+
+	/**
+	 * Construye un bloque del tipo field dinamico y lo agrega al reporte.
+	 * 
+	 * @param structReportHead
+	 *            estructura del reporte maestro(principal)
+	 * @param block
+	 *            bloque del tipo field, es decir que posee columnas
+	 *            horizontales(label,value)
+	 * @return reporte con el bloque construido
+	 * @throws ReportException
+	 */
+	public FastReportBuilder buildBlock(FastReportBuilder structReportHead,
+			SIGHReportBlock block) throws ReportException {
+
+		FastReportBuilder structBlockReport = new FastReportBuilder();
+		structBlockReport.setDefaultStyles(getStyleTitleTransparentUnderline(),
+				getStyleTitle(), getStyleColumnHeaderBlank(), null);
+
+		structBlockReport.setUseFullPageWidth(true);
+		setWhenNotData(structBlockReport);
+
+		try {
+
+			structBlockReport.setTitle(block.getTitle());
+			structBlockReport.setHeaderHeight(0);
+			structBlockReport.addColumn("", "label", String.class,
+					block.getWidthLabel());
+			structBlockReport.addColumn("", "value", String.class,
+					block.getWidthValue());
+
+			Subreport subReport = new SubReportBuilder()
+					.setDataSource(DJConstants.DATA_SOURCE_ORIGIN_PARAMETER,
+							DJConstants.DATA_SOURCE_TYPE_JRDATASOURCE,
+							block.getNameDataSource())
+					.setDynamicReport(structBlockReport.build(),
+							new ClassicLayoutManager()).build();
+
+			structReportHead.addConcatenatedReport(subReport);
+
+			return structReportHead;
+
+		} catch (ClassNotFoundException e) {
+			throw new ReportException(e);
+		}
+
+	}
+
+	/**
+	 * Construye un bloque del tipo firma dinamico y lo agrega al reporte.
+	 * 
+	 * @param structReportHead
+	 *            estructura del reporte maestro(principal)
+	 * @param block
+	 *            bloque del tipo firma, es decir que posee una lista de firmas
+	 *            que deben ser agregadas al final del reporte
+	 * @return reporte con el bloque construido
+	 * @throws ReportException
+	 */
+	public FastReportBuilder buildBlockSign(FastReportBuilder structReportHead,
+			SIGHReportBlockSign block) throws ReportException {
+
+		FastReportBuilder structBlockReport = new FastReportBuilder();
+		structBlockReport.setDefaultStyles(getStyleTitle(), getStyleTitle(),
+				getStyleColumnHeaderTransparentUnderlineTop(), null);
+
+		structBlockReport.setUseFullPageWidth(true);
+		setWhenNotDataEmpty(structBlockReport);
+
+		try {
+
+			for (Sign sign : block.getSigns()) {
+
+				structBlockReport.addColumn(sign.getValue(), "label",
+						String.class, sign.getWidth());
+				if (!sign.equals(block.getSigns().get(
+						block.getSigns().size() - 1))) {
+					structBlockReport.addColumn(buildColumnSeparator());
+				}
+
+			}
+
+			structReportHead.addConcatenatedReport(buildReportSeparator());
+
+			Subreport subReport = new SubReportBuilder()
+					.setDataSource("")
+					.setDynamicReport(structBlockReport.build(),
+							new ClassicLayoutManager()).build();
+			structReportHead.addConcatenatedReport(subReport);
+
+			return structReportHead;
+
+		} catch (ClassNotFoundException e) {
+			throw new ReportException(e);
+		}
+
+	}
+
+	private AbstractColumn buildColumnSeparator() {
+
+		return ColumnBuilder.getNew().setStyle(getStyleColumnHeader())
+				.setColumnProperty("label", String.class).setWidth(10).build();
+	}
+
+	private Subreport buildReportSeparator() {
+
+		FastReportBuilder structReport = new FastReportBuilder();
+		structReport.setDefaultStyles(getStyleTitle(), getStyleTitle(),
+				getStyleColumnHeaderTransparentUnderlineTop(), null);
+		structReport.addColumn(buildColumnSeparator());
+		structReport.setUseFullPageWidth(true);
+		setWhenNotDataEmpty(structReport);
+
+		Subreport subReport = new SubReportBuilder()
+				.setDataSource("")
+				.setDynamicReport(structReport.build(),
+						new ClassicLayoutManager()).build();
+		return subReport;
 	}
 
 	/**
@@ -405,6 +630,34 @@ public final class DynamicUtils {
 	}
 
 	/**
+	 * @return
+	 */
+	private Style getStyleColumnHeaderBlank() {
+
+		Style styleColumns = new Style();
+		styleColumns.setTransparent(true);
+		return styleColumns;
+	}
+
+	public Style getStyleTitleTransparentUnderline() {
+
+		Style styleColumns = new Style();
+		styleColumns.setFont(new Font(BIG, "Arial", false, false, true));
+		styleColumns.setHorizontalAlign(HorizontalAlign.LEFT);
+		styleColumns.setTransparent(true);
+		return styleColumns;
+	}
+
+	public Style getStyleColumnHeaderTransparentUnderlineTop() {
+
+		Style styleColumns = new Style();
+		styleColumns.setBorderTop(Border.PEN_1_POINT());
+		styleColumns.setHorizontalAlign(HorizontalAlign.CENTER);
+		styleColumns.setTransparent(true);
+		return styleColumns;
+	}
+
+	/**
 	 * Metodo que define el estilo para las columnas secundarias de los
 	 * reportes.
 	 * 
@@ -445,6 +698,12 @@ public final class DynamicUtils {
 
 		structReport.setWhenNoData(
 				I18nHelper.getMessage("BASE_REPORT_NOT_DATA"), null);
+		return structReport;
+	}
+
+	private FastReportBuilder setWhenNotDataEmpty(FastReportBuilder structReport) {
+
+		structReport.setWhenNoData(" ", null);
 		return structReport;
 	}
 
