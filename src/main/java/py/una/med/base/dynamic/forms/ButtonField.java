@@ -33,7 +33,31 @@ public class ButtonField extends TextField {
 
 	private final List<String> toRender;
 
+	private boolean required;
+
+	/**
+	 * @return required
+	 */
+	public boolean isRequired() {
+
+		System.out.println(required);
+		return required;
+	}
+
 	ValueExpression inputExpression;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see py.una.med.base.dynamic.forms.TextField#setRequired(boolean)
+	 */
+	@Override
+	public void setRequired(boolean required) {
+
+		super.setRequired(required);
+		this.required = required;
+		System.out.println(getBind().isRequired());
+	}
 
 	public ButtonField() {
 
@@ -47,6 +71,9 @@ public class ButtonField extends TextField {
 		ajaxBehavior = SIGHComponentFactory.getAjaxBehavior();
 		setClientBehavior("click");
 		ajaxBehavior.setRender(toRender);
+
+		setValue(ELHelper.INSTANCE.makeValueExpression("#{item.object}",
+				Object.class));
 
 	}
 

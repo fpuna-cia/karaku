@@ -53,7 +53,7 @@
 
 							<h:outputLabel value="#{item.label}" id="#{item.id}_label" />
 							<h:inputText value="#{item.object}" id="#{item.id}_input"
-								disabled="#{item.bind.disabled}" />
+								binding="#{item.bind}" disabled="#{item.bind.disabled}" />
 							<h:commandButton binding="#{item.buttonBind}"
 								id="#{item.id}_button" />
 						</c:when>

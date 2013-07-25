@@ -143,16 +143,20 @@ public class RequiredPhaseListener implements Serializable {
 			addClass = true;
 			input.setRequiredMessage(helper.getString(REQUIRED_MESSAGE));
 		} else {
-			String beanExpression = input.getValueExpression("value")
-					.getExpressionString();
-			if (!(beanExpression == null || "".equals(beanExpression))) {
-				Field f = ELHelper.getFieldByExpression(beanExpression);
-				if (f == null) {
-					return;
-				}
-				if (f.getAnnotation(NotNull.class) != null) {
-					if (lastOutput != null) {
-						addClass = true;
+			if (input.getValueExpression("value") == null) {
+				addClass = false;
+			} else {
+				String beanExpression = input.getValueExpression("value")
+						.getExpressionString();
+				if (!(beanExpression == null || "".equals(beanExpression))) {
+					Field f = ELHelper.getFieldByExpression(beanExpression);
+					if (f == null) {
+						return;
+					}
+					if (f.getAnnotation(NotNull.class) != null) {
+						if (lastOutput != null) {
+							addClass = true;
+						}
 					}
 				}
 			}
