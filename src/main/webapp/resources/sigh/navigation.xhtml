@@ -17,27 +17,33 @@
 		shortDescription="Componente que sera actualizado una vez aplicada la paginacion" />
 </composite:interface>
 <composite:implementation>
-	<h:panelGroup id="#{cc.attrs.idPanel}">
-		<h:outputText id="page" value="#{cc.attrs.helper.getFormattedPage()}" />
+	<div id="navigator">
+		<h:panelGroup id="#{cc.attrs.idPanel}">
+			<h:outputText id="page" value="#{cc.attrs.helper.getFormattedPage()}" />
 
-		<a4j:commandButton id="init" value="&lt;&lt;"
-			action="#{cc.attrs.helper.first()}"
-			disabled="#{not cc.attrs.helper.hasPrevious()}"
-			render="#{cc.attrs.render}, page, last, next, end, init" />
-
-		<a4j:commandButton id="last" value="&lt;"
-			action="#{cc.attrs.helper.previous()}"
-			disabled="#{not cc.attrs.helper.hasPrevious()}"
-			render="#{cc.attrs.render}, page, last, next, end, init" />
-		<a4j:commandButton id="next" value="&gt;"
-			action="#{cc.attrs.helper.next()}"
-			disabled="#{not cc.attrs.helper.hasNext()}"
-			render="#{cc.attrs.render}, page, last, next,  end, init" />
-
-		<a4j:commandButton id="end" value="&gt;&gt;"
-			action="#{cc.attrs.helper.last()}"
-			disabled="#{not cc.attrs.helper.hasNext()}"
-			render="#{cc.attrs.render}, page, last, next, end, init" />
-	</h:panelGroup>
+			<a4j:commandButton value="&lt;&lt;"
+				action="#{cc.attrs.helper.first()}"
+				disabled="#{not cc.attrs.helper.hasPrevious()}"
+				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
+			<a4j:commandButton value="&lt;"
+				action="#{cc.attrs.helper.previous()}"
+				disabled="#{not cc.attrs.helper.hasPrevious()}"
+				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
+			<rich:inputNumberSpinner minValue="#{cc.attrs.helper.minPage}"
+				maxValue="#{cc.attrs.helper.maxPage}"
+				value="#{cc.attrs.helper.readablePage}">
+				<a4j:ajax event="valueChange"
+					render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
+			</rich:inputNumberSpinner>
+			de #{cc.attrs.helper.maxPage}
+			<a4j:commandButton value="&gt;" action="#{cc.attrs.helper.next()}"
+				disabled="#{not cc.attrs.helper.hasNext()}"
+				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
+			<a4j:commandButton value="&gt;&gt;"
+				action="#{cc.attrs.helper.last()}"
+				disabled="#{not cc.attrs.helper.hasNext()}"
+				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
+		</h:panelGroup>
+	</div>
 </composite:implementation>
 </html>

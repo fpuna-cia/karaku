@@ -16,7 +16,7 @@ import py.una.med.base.dao.search.SearchParam;
  * @author Arturo Volpe
  * @author Uriel Gonzalez
  * @since 1.0
- * @version 1.0 03/05/2013
+ * @version 1.2 26/07/2013
  * 
  */
 public class PagingHelper<T, K extends Serializable> {
@@ -102,9 +102,11 @@ public class PagingHelper<T, K extends Serializable> {
 
 	public void setPage(int page) {
 
-		if (page > getMaxPage()) {
-			throw new IllegalArgumentException(
-					"La página no debe ser mayor al limite");
+		if (page >= getMaxPage()) {
+			page = getMaxPage() - 1;
+		}
+		if (page < 0) {
+			page = 0;
 		}
 		this.page = page;
 
@@ -132,7 +134,13 @@ public class PagingHelper<T, K extends Serializable> {
 		return String.format("%d - %d de %d", firstRecord, limit, currentCount);
 	}
 
-	private int getMaxPage() {
+	/**
+	 * Retorna la máxima página permitida actualmente.
+	 * 
+	 * @return {@link Integer} que representa la última página que puede ser
+	 *         visible
+	 */
+	public int getMaxPage() {
 
 		return getMaxPage(currentCount);
 	}
@@ -205,4 +213,42 @@ public class PagingHelper<T, K extends Serializable> {
 			first();
 		}
 	}
+
+	/**
+	 * Retorna el numero de la primera página a la que puede ir.
+	 * 
+	 * @return {@link Integer} que representa la primera página
+	 */
+	public int getMinPage() {
+
+		return 1;
+	}
+
+	/**
+	 * Retorna una versión legible para un humano del número de la página, se
+	 * diferencia de {@link #getPage()} en que esta va de 1 a
+	 * {@link #getMaxPage()}, y {@link #getPage()} va de 0 a
+	 * {@link #getMaxPage()} - 1
+	 * 
+	 * @return Integer que representa la página actual
+	 */
+	public Integer getReadablePage() {
+
+		return page + 1;
+	}
+
+	/**
+	 * Asigna un número legible para un humano (típicamente desde interfaz), al
+	 * llamar a este método con el parametro '1', se mueve a la primera pagina,
+	 * que para {@link #getPage()} es 0.
+	 * 
+	 * @see #getReadablePage()
+	 * @param page
+	 *            entero entre 1 y {@link #getMaxPage()}
+	 */
+	public void setReadablePage(Integer page) {
+
+		setPage(page - 1);
+	}
+
 }

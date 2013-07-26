@@ -683,6 +683,18 @@ td.form_input select {
 		margin-left: -3px;
 	}
 }
+
+#navigator .rf-insp {
+	width: 50px;
+}
+
+#navigator .rf-insp-inp {
+	width: 30px;
+}
+
+#navigator .rf-insp-btns,.rf-insp-dec,.rf-insp-inc {
+	width: 20px;
+}
 /** fin overrides de componentes de richfaces **/
 
 /*
