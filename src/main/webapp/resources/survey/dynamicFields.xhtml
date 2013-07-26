@@ -26,26 +26,32 @@
 </composite:interface>
 <composite:implementation>
 	<rich:panel header="#{cc.attrs.block.title}" id="#{cc.attrs.idBlock}">
-		<h:panelGrid columns="3"
-			columnClasses="form_label, form_input, form_error">
+		<h:panelGrid columns="4"
+			columnClasses="form_label,form_label, form_input, form_error">
 			<c:set value="#{0}" var="cont" />
 			<c:forEach items="#{cc.attrs.block.fields}" var="element">
 
 				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO'}">
 					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
+					<h:outputLabel
+						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
+						style="color:blue;" />
 					<h:inputText value="#{element.field.value}"
 						id="#{cc.attrs.block.id}_#{cont}"
-						disabled="#{not cc.attrs.controller.isEditable()}" />
+						disabled="#{not cc.attrs.controller.isEditable()}"
+						required="#{cc.attrs.block.isRequiredField(cont)}" />
 				</c:if>
 				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'RADIO'}">
 					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
+					<h:outputLabel
+						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
+						style="color:blue;" />
 					<h:panelGrid
 						columns="#{cc.attrs.block.getAnswerOptions(cont).size()*3}"
 						id="#{cc.attrs.block.id}_#{cont}_pgrid">
 						<h:selectOneRadio value="#{element.oneOption}"
 							converter="#{cc.attrs.block.converter}"
 							required="#{cc.attrs.block.isRequiredField(cont)}"
-							requiredMessage="#{msg['REQUIRED_VIEW']}"
 							style="text-transform:none !important;"
 							id="#{cc.attrs.block.id}_#{cont}"
 							disabled="#{not cc.attrs.controller.isEditable()}">
@@ -66,13 +72,15 @@
 				</c:if>
 				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'CHECK'}">
 					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
+					<h:outputLabel
+						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
+						style="color:blue;" />
 					<h:panelGrid
 						columns="#{cc.attrs.block.getAnswerOptions(cont).size()*3}"
 						id="#{cc.attrs.block.id}_#{cont}_pgrid">
 						<h:selectManyCheckbox value="#{element.manyOptions}"
 							converter="#{cc.attrs.block.converter}"
 							required="#{cc.attrs.block.isRequiredField(cont)}"
-							requiredMessage="#{msg['REQUIRED_VIEW']}"
 							style="text-transform:none !important;"
 							id="#{cc.attrs.block.id}_#{cont}"
 							disabled="#{not cc.attrs.controller.isEditable()}">
@@ -93,11 +101,13 @@
 				</c:if>
 				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'COMBO'}">
 					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
+					<h:outputLabel
+						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
+						style="color:blue;" />
 					<h:selectOneMenu value="#{element.oneOption}"
 						id="#{cc.attrs.block.id}_#{cont}"
 						converter="#{cc.attrs.block.converter}"
 						required="#{cc.attrs.block.isRequiredField(cont)}"
-						requiredMessage="#{msg['REQUIRED_VIEW']}"
 						disabled="#{not cc.attrs.controller.isEditable()}">
 						<f:selectItem itemLabel="#{msg['ABM_SURVEY_SELECT']}"
 							noSelectionOption="true" />
@@ -106,8 +116,10 @@
 				</c:if>
 				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO_FECHA'}">
 					<h:outputLabel value="#{cc.attrs.block.labels[cont]}"
-						required="#{cc.attrs.block.isRequiredField(cont)}"
-						requiredMessage="#{msg['REQUIRED_VIEW']}" />
+						required="#{cc.attrs.block.isRequiredField(cont)}" />
+					<h:outputLabel
+						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
+						style="color:blue;" />
 					<rich:calendar value="#{element.field.value}"
 						id="#{cc.attrs.block.id}_#{cont}"
 						converter="#{cc.attrs.block.converterString}"
@@ -117,10 +129,14 @@
 				</c:if>
 				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO_AREA'}">
 					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
+					<h:outputLabel
+						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
+						style="color:blue;" />
 					<h:inputTextarea value="#{element.field.value}"
 						id="#{cc.attrs.block.id}_#{cont}"
 						style="width:182px; height: 115px; text-transform: uppercase;"
-						disabled="#{not cc.attrs.controller.isEditable()}" />
+						disabled="#{not cc.attrs.controller.isEditable()}"
+						required="#{cc.attrs.block.isRequiredField(cont)}" />
 				</c:if>
 				<rich:messages ajaxRendered="true"
 					for="#{cc.attrs.block.id}_#{cont}" />
