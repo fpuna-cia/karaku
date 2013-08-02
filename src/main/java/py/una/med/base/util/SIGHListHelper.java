@@ -32,7 +32,7 @@ import py.una.med.base.model.DisplayName;
 public class SIGHListHelper<T, K extends Serializable> {
 
 	private SimpleFilter simpleFilter;
-	private PagingHelper<T, K> helper;
+	private PagingHelper helper;
 	private ISIGHBaseLogic<T, K> logic;
 	private EntityExample<T> example;
 	private Where<T> baseWhere;
@@ -51,7 +51,7 @@ public class SIGHListHelper<T, K extends Serializable> {
 		this.clazz = clazz;
 		this.simpleFilter = simpleFilter;
 		this.logic = logic;
-		helper = new PagingHelper<T, K>(15);
+		helper = new PagingHelper(10);
 	}
 
 	/**
@@ -192,12 +192,12 @@ public class SIGHListHelper<T, K extends Serializable> {
 		return filterOptions;
 	}
 
-	public PagingHelper<T, K> getHelper() {
+	public PagingHelper getHelper() {
 
 		return helper;
 	}
 
-	public void setHelper(PagingHelper<T, K> helper) {
+	public void setHelper(PagingHelper helper) {
 
 		this.helper = helper;
 	}

@@ -4,7 +4,6 @@
 
 package py.una.med.base.util;
 
-import java.io.Serializable;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
@@ -16,14 +15,44 @@ import py.una.med.base.dao.search.SearchParam;
  * @author Arturo Volpe
  * @author Uriel Gonzalez
  * @since 1.0
- * @version 1.2 26/07/2013
+ * @version 1.3 30/07/2013
  * 
  */
-public class PagingHelper<T, K extends Serializable> {
+public class PagingHelper {
+
+	/**
+	 * Interfaz que se utiliza para capturar los eventos de cambios que sufre
+	 * este paginador.
+	 * 
+	 * @author Arturo Volpe Torres
+	 * @since 1.0
+	 * @version 1.0 Jul 30, 2013
+	 * 
+	 */
+	public interface ChangeListener {
+
+		/**
+		 * Método invocado cada vez que se cambia de página (solo cuando hay un
+		 * cambio real de página, cuando se mueve a la misma página nunca es
+		 * llamado {@link PagingHelper#setPage(int)} pasando
+		 * {@link PagingHelper#getPage()} no invocara este evento. <br />
+		 * Notar que si se lanza una excepción, no se cambiara de página.
+		 * 
+		 * @param thizz
+		 *            paginador
+		 * @param previousPage
+		 *            página anterior
+		 * @param currentPage
+		 *            página a la que se muda.
+		 */
+		void onChange(PagingHelper thizz, int previousPage, int currentPage);
+	}
 
 	private int rowsForPage = 10;
 	private int page = 0;
 	private Long currentCount;
+
+	private ChangeListener changeListener;
 
 	/**
 	 * Inicializa un nueva instancia, el punto de entrada de esta clase es
@@ -59,6 +88,8 @@ public class PagingHelper<T, K extends Serializable> {
 		if ((page + 1) > getMaxPage(currentCount)) {
 			return;
 		}
+
+		launch(page, page + 1);
 		this.page++;
 	}
 
@@ -67,7 +98,12 @@ public class PagingHelper<T, K extends Serializable> {
 	 */
 	public void last() {
 
-		this.page = getMaxPage(currentCount) - 1;
+		if (page == getMaxPage() - 1) {
+			return;
+		}
+
+		launch(page, getMaxPage() - 1);
+		this.page = getMaxPage() - 1;
 
 	}
 
@@ -76,6 +112,11 @@ public class PagingHelper<T, K extends Serializable> {
 	 */
 	public void first() {
 
+		if (page == 0) {
+			return;
+		}
+
+		launch(page, 0);
 		this.page = 0;
 	}
 
@@ -85,6 +126,7 @@ public class PagingHelper<T, K extends Serializable> {
 	public void previous() {
 
 		if (page > 0) {
+			launch(page, page - 1);
 			this.page--;
 		}
 
@@ -108,6 +150,10 @@ public class PagingHelper<T, K extends Serializable> {
 		if (page < 0) {
 			page = 0;
 		}
+		if (page == this.page) {
+			return;
+		}
+		launch(this.page, page);
 		this.page = page;
 
 	}
@@ -249,6 +295,23 @@ public class PagingHelper<T, K extends Serializable> {
 	public void setReadablePage(Integer page) {
 
 		setPage(page - 1);
+	}
+
+	/**
+	 * @param changeListener
+	 *            changeListener para setear
+	 */
+	public void setChangeListener(ChangeListener changeListener) {
+
+		this.changeListener = changeListener;
+	}
+
+	private void launch(int previous, int current) {
+
+		if (changeListener == null) {
+			return;
+		}
+		changeListener.onChange(this, previous, current);
 	}
 
 }

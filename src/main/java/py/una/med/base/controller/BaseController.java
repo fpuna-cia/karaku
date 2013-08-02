@@ -51,7 +51,7 @@ public abstract class BaseController<T, K extends Serializable> implements
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private PagingHelper<T, K> pagingHelper;
+	private PagingHelper pagingHelper;
 
 	private String messageIdName;
 
@@ -147,7 +147,7 @@ public abstract class BaseController<T, K extends Serializable> implements
 		log.info("Get Entidades llamado");
 
 		if (pagingHelper == null) {
-			pagingHelper = new PagingHelper<T, K>(getRowsForPage());
+			pagingHelper = new PagingHelper(getRowsForPage());
 		}
 
 		Long totalCount = getBaseLogic().getCount();
@@ -162,7 +162,7 @@ public abstract class BaseController<T, K extends Serializable> implements
 		return getAllEntities(sp);
 	}
 
-	public PagingHelper<T, K> getPagingHelper() {
+	public PagingHelper getPagingHelper() {
 
 		return pagingHelper;
 	}
