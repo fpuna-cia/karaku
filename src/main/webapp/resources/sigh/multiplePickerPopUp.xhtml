@@ -12,7 +12,7 @@
 			type="py.una.med.base.dynamic.forms.MultiplePickerField"
 			required="true" />
 		<cc:attribute name="popUpHeader" required="true" />
-		<cc:attribute name="width" default="680" />
+		<cc:attribute name="width" default="700" />
 		<cc:attribute name="height" default="400" />
 		<cc:attribute name="basicFilterID"
 			default="multiplePickerBasicFilterID" />
@@ -20,30 +20,26 @@
 			method-signature="java.lang.Object f(java.lang.Object)" />
 		<cc:attribute name="setValues" required="true"
 			method-signature="void f(java.util.List)" />
+		<cc:attribute name="enableSelectColumn" default="false" />
+		<cc:attribute name="onlyPreviousSelected" default="false" />
 	</cc:interface>
 	<cc:implementation>
 		<sigh:popup title="#{cc.attrs.popUpHeader}"
 			popupId="#{cc.attrs.pickerField.popupID}" width="#{cc.attrs.width}"
 			height="#{cc.attrs.height}">
-			<rich:messages id="globalMessages" ajaxRendered="true" />
-
-
-
-			<rich:collapsiblePanel header="#{msg['LIST_SEARCH_HEADER']}"
-				switchType="client">
-				<h:form>
-					<sigh:basicFilter2 id="#{cc.attrs.basicFilterID}"
-						simpleFilter="#{cc.attrs.pickerField.listHelper.simpleFilter}"
-						searchRender="dataTblForm"
-						filterOptions="#{cc.attrs.pickerField.listHelper.filterOptions}">
-					</sigh:basicFilter2>
-				</h:form>
-			</rich:collapsiblePanel>
-
+			<rich:messages ajaxRendered="true" showDetail="true"
+				id="globalMessageIdName" globalOnly="true" />
 			<h:form id="dataTblForm">
 				<h:panelGrid columns="1" style="width: 100% !important;">
-					<rich:collapsiblePanel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
+					<rich:panel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
 						switchType="client">
+						<h:form>
+							<sigh:basicFilter2 id="#{cc.attrs.basicFilterID}"
+								simpleFilter="#{cc.attrs.pickerField.listHelper.simpleFilter}"
+								searchRender="dataTblForm"
+								filterOptions="#{cc.attrs.pickerField.listHelper.filterOptions}">
+							</sigh:basicFilter2>
+						</h:form>
 						<h:panelGroup>
 
 							<rich:extendedDataTable
@@ -61,7 +57,8 @@
 										<h:outputText
 											value="#{msg['MULTIPLE_PICKER_SELECCIONAR_HEADER']}"
 											style="margin-right: 3px;" />
-										<h:selectBooleanCheckbox value="#{cc.selectAllChecked}">
+										<h:selectBooleanCheckbox value="#{cc.selectAllChecked}"
+											disabled="#{cc.attrs.enableSelectColumn}">
 											<a4j:ajax listener="#{cc.onCheckboxHeaderClicked}"
 												render="#{cc.attrs.pickerField.dataTableID} pickerResult"
 												execute="@this" immediate="true" />
@@ -70,7 +67,8 @@
 									</f:facet>
 
 									<h:selectBooleanCheckbox value="#{cc.checkedItems[itemKey]}"
-										style="margin-left: 80px; margin-top: 5px;">
+										style="margin-left: 80px; margin-top: 5px;"
+										disabled="#{cc.attrs.enableSelectColumn}">
 										<a4j:ajax listener="#{cc.onItemCheckboxClicked}"
 											render="#{cc.attrs.pickerField.dataTableID} pickerResult"
 											execute="@this" immediate="true" />
@@ -82,7 +80,7 @@
 							</rich:extendedDataTable>
 
 						</h:panelGroup>
-					</rich:collapsiblePanel>
+					</rich:panel>
 
 					<h:panelGrid columns="3" width="100%"
 						columnClasses="list_button_class,list_pagin_class">
@@ -114,5 +112,6 @@
 			</h:form>
 		</sigh:popup>
 
+		<a4j:log mode="popup"></a4j:log>
 	</cc:implementation>
 </ui:composition>

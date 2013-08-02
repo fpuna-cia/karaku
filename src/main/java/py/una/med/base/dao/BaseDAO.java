@@ -42,8 +42,8 @@ public interface BaseDAO<T, ID extends Serializable> {
 	 * 
 	 * @param example
 	 *            Entidad que sera utilizada como ejemplo
-	 * @return Entidad con los mismos atributos que el ejemplo, null si no
-	 *         encuentra ninguna coincidencia
+	 * @return Entidad con los mismos atributos que el ejemplo,
+	 *         <code>null</code> si no encuentra ninguna coincidencia
 	 * @throws NonUniqueResultException
 	 *             si para la consulta se encuentran varias entidades que
 	 *             cumplen con el ejemplo, se lanza la excepcion

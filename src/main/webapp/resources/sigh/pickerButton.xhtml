@@ -24,13 +24,12 @@
 	<cc:implementation>
 		<h:panelGroup id="#{cc.attrs.panelId}">
 			<h:inputHidden binding="#{cc.attrs.pickerField.hidden}"
-				required="#{not cc.attrs.pickerField.nullable}" value="HIDDEN"
-				id="hiddenInput">
+				value="HIDDEN" id="hiddenInput">
 				<f:validator binding="#{cc.attrs.pickerField.validator}" />
 			</h:inputHidden>
 			<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
 				rendered="#{cc.attrs.pickerField.hasCodeInput}"
-				disabled="#{empty cc.attrs.pickerField.keyListener}">
+				disabled="#{cc.attrs.pickerField.buttonDisabled}">
 				<a4j:ajax event="blur"
 					listener="#{cc.attrs.pickerField.keyUpListener}"
 					disabled="#{not cc.attrs.pickerField.hasCodeInput}"

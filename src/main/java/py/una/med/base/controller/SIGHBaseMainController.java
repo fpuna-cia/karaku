@@ -73,10 +73,15 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
 			controller.save();
 		}
-		super.doCreate();
 
-		setMode(Mode.EDIT);
-		postCreate();
+		String result = super.doCreate();
+
+		// Todo bien
+		if (result != "") {
+			setMode(Mode.EDIT);
+			postCreate();
+		}
+
 		return "";
 	}
 

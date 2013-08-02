@@ -14,7 +14,8 @@
 		<cc:attribute name="pickerField"
 			type="py.una.med.base.dynamic.forms.MultiplePickerField"
 			required="true" />
-		<cc:attribute name="resultValue" default="#{cc.attrs.pickerField.formatedSelectedOptions}"/>
+		<cc:attribute name="resultValue"
+			default="#{cc.attrs.pickerField.formatedSelectedOptions}" />
 	</cc:interface>
 
 	<cc:implementation>
@@ -22,8 +23,7 @@
 		<a4j:commandButton value="#{cc.attrs.buttonText}"
 			render="#{cc.attrs.pickerField.dataTableID} globalMessages idPagingPanel"
 			oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.show(); return false;"
-			immediate="true"
-			disabled="#{cc.attrs.pickerField.buttonDisabled}" />
+			immediate="true" disabled="#{cc.attrs.pickerField.buttonDisabled}" />
 
 		<h:panelGroup id="#{cc.attrs.resultPanelID}">
 			<h:outputLabel value="#{cc.attrs.resultValue}" />

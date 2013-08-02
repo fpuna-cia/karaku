@@ -40,7 +40,8 @@
 						title="Salir" />
 				</h:form>
 			</f:facet>
-
+			<rich:messages ajaxRendered="true" showDetail="true" id="global"
+				globalOnly="true" />
 			<h:form id="pickerPopupFormulario1">
 				<h:panelGroup id="pg">
 					<sigh:basicFilter2 id="#{cc.attrs.idBasicFilter}"
@@ -70,12 +71,10 @@
 					</rich:panel>
 					<h:panelGrid id="picker_control" columns="2">
 						<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
-							render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"  id="buttonSelect"
-							action="#{cc.clear}"
+							render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"
+							id="buttonSelect" 
+							actionListener="#{cc.attrs.pickerField.changeValueListener(cc.selectedItem)}"
 							oncomplete="#{empty facesContext.maximumSeverity ? cc.attrs.closeJS : ''}">
-							<f:setPropertyActionListener
-								target="#{cc.attrs.pickerField.value}"
-								value="#{cc.selectedItem}" />
 						</a4j:commandButton>
 						<a4j:commandButton value="#{msg['PICKER_CANCELAR']}"
 							oncomplete="#{cc.attrs.closeJS}" immediate="true">

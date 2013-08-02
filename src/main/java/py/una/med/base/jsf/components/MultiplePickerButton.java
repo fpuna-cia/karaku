@@ -16,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
 import org.richfaces.component.UIExtendedDataTable;
+import py.una.med.base.dynamic.forms.MultiplePickerField;
 
 /**
  * 
@@ -36,8 +37,10 @@ public class MultiplePickerButton extends UINamingContainer {
 	private UIExtendedDataTable dataTable;
 	private Map<Object, Boolean> checkedItems;
 	private List<Object> selectedItems;
-	@SuppressWarnings("unused")
-	private boolean selectAllChecked;
+	@SuppressWarnings("rawtypes")
+	private MultiplePickerField pickerField;
+
+	private boolean initialize;
 
 	public MultiplePickerButton() {
 
@@ -45,6 +48,38 @@ public class MultiplePickerButton extends UINamingContainer {
 		setCheckedItems(new HashMap<Object, Boolean>());
 		setSelectedItems(new ArrayList<Object>());
 		setSelectAllChecked(false);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void init() {
+
+		if (initialize) {
+			return;
+		}
+		initialize = true;
+
+		@SuppressWarnings("rawtypes")
+		MultiplePickerField mpb = (MultiplePickerField) getAttributes().get(
+				"pickerField");
+		pickerField = mpb;
+
+		List<?> values = mpb.getValues();
+		if (values == null || values.size() == 0) {
+			return;
+		}
+		List<Object> newSelected = new ArrayList<Object>(values.size());
+		checkedItems = getCheckedItems();
+
+		for (int i = 0; i < values.size(); i++) {
+			newSelected.add(values.get(i));
+			checkedItems.put(mpb.getItemKey(values.get(i)), true);
+			selectedItems.add(values.get(i));
+
+		}
+
+		setCheckedItems(checkedItems);
+		updateCheckboxHeader(mpb.getListHelper().getEntities());
+
 	}
 
 	public Object get(String key) {
@@ -83,12 +118,14 @@ public class MultiplePickerButton extends UINamingContainer {
 			updateSelectedItems(item, checkedItems.get(key));
 		}
 
+		setSelectedItems(items);
 		setCheckedItems(checkedItems);
 	}
 
 	/**
 	 * 
 	 **/
+	@SuppressWarnings("unchecked")
 	public void onItemCheckboxClicked(final AjaxBehaviorEvent event) {
 
 		checkedItems = getCheckedItems();
@@ -98,13 +135,12 @@ public class MultiplePickerButton extends UINamingContainer {
 		checkedItems.put(key, checked == null ? true : !checked);
 		updateSelectedItems(selected, checkedItems.get(key));
 		setCheckedItems(checkedItems);
-		updateCheckboxHeader();
+		updateCheckboxHeader((List<Object>) dataTable.getValue());
 	}
 
-	@SuppressWarnings("unchecked")
-	public void updateCheckboxHeader() {
+	public void updateCheckboxHeader(List<Object> allValues) {
 
-		for (Object item : (List<Object>) dataTable.getValue()) {
+		for (Object item : allValues) {
 			Object key = getItemKey(item);
 			if (checkedItems.get(key) == null || !getCheckedItems().get(key)) {
 				setSelectAllChecked(false);
@@ -114,15 +150,20 @@ public class MultiplePickerButton extends UINamingContainer {
 		setSelectAllChecked(true);
 	}
 
+	@SuppressWarnings("unchecked")
 	private Object getItemKey(Object item) {
 
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		ELContext elCtx = ctx.getELContext();
-		MethodExpression me = (MethodExpression) getAttributes().get(
-				GET_ITEM_KEY_METHOD);
-		Object[] params = new Object[1];
-		params[0] = item;
-		return me.invoke(elCtx, params);
+		if (pickerField != null) {
+			return pickerField.getItemKey(item);
+		} else {
+			FacesContext ctx = FacesContext.getCurrentInstance();
+			ELContext elCtx = ctx.getELContext();
+			MethodExpression me = (MethodExpression) getAttributes().get(
+					GET_ITEM_KEY_METHOD);
+			Object[] params = new Object[1];
+			params[0] = item;
+			return me.invoke(elCtx, params);
+		}
 	}
 
 	/**
@@ -164,6 +205,7 @@ public class MultiplePickerButton extends UINamingContainer {
 	public void setDataTable(UIExtendedDataTable dataTable) {
 
 		this.dataTable = dataTable;
+		init();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -185,7 +227,6 @@ public class MultiplePickerButton extends UINamingContainer {
 
 	public void setSelectAllChecked(boolean selectAllChecked) {
 
-		this.selectAllChecked = selectAllChecked;
 		put(SELECT_ALL_CHECKED, selectAllChecked);
 	}
 

@@ -57,6 +57,7 @@ public class PickerField<T> extends LabelField {
 	private ValueChangeListener<T> valueChangeListener;
 	private PickerValidator validator;
 	private String popupTitle;
+	private HiddenText hidden;
 
 	// private HtmlInputText hidden;
 
@@ -475,11 +476,16 @@ public class PickerField<T> extends LabelField {
 	public void setNullable(boolean nullable) {
 
 		this.nullable = nullable;
+		getHidden().setRequired(!nullable);
 	}
 
 	public UIInput getHidden() {
 
-		return new HiddenText();
+		if (hidden == null) {
+			hidden = new HiddenText();
+			hidden.setRequired(!isNullable());
+		}
+		return hidden;
 	}
 
 	public void setHidden(UIInput hidden) {
@@ -504,9 +510,10 @@ public class PickerField<T> extends LabelField {
 		public void validate(FacesContext context, UIComponent component,
 				Object value) throws ValidatorException {
 
-			if (pickerField == null)
+			if (pickerField == null) {
 				return;
-			if (!pickerField.isNullable() && pickerField.temp == null) {
+			}
+			if (!pickerField.isNullable() && pickerField.getValue() == null) {
 				FacesMessage msg = new FacesMessage(
 						FacesMessage.SEVERITY_ERROR,
 						pickerField.getMessage("COMPONENT_PICKER_NOT_SELECTED"),
@@ -540,8 +547,9 @@ public class PickerField<T> extends LabelField {
 	 * {@link ValueChangeListener#onChange(Field, Object)} cuando existe un
 	 * cambio en el valor asociado al {@link PickerField}
 	 **/
-	public void changeValueListener() {
+	public void changeValueListener(T value) {
 
+		setValue(value);
 		if (valueChangeListener == null) {
 			return;
 		}
