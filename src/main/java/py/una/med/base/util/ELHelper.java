@@ -218,14 +218,35 @@ public class ELHelper {
 				try {
 					f = bean.getClass().getDeclaredField(field);
 				} catch (Exception e) {
-					log.info("Can not find the field of the expression: "
-							+ beanExpression);
-					return null;
+					try {
+						f = getFieldForce(field, bean.getClass());
+					} catch (Exception e2) {
+						log.info("Can not find the field of the expression: "
+								+ beanExpression);
+						return null;
+					}
 				}
 				return f;
 			}
 		}
 		return null;
+	}
+
+	private static Field getFieldForce(String name, Class<?> clazz)
+			throws NoSuchFieldException, SecurityException {
+
+		if (clazz.getName().toUpperCase().contains("CGLIB")) {
+			return getFieldFromCGEnhancedClass(name, clazz);
+		}
+		// TODO ver cuando se utiliza javassist
+		return null;
+	}
+
+	private static Field getFieldFromCGEnhancedClass(String name, Class<?> clazz)
+			throws NoSuchFieldException, SecurityException {
+
+		Class<?> real = clazz.getSuperclass();
+		return real.getDeclaredField(name);
 	}
 
 	private static Pattern getPattern() {
