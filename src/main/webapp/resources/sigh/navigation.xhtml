@@ -11,7 +11,8 @@
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
-	<composite:attribute name="helper" required="true" />
+	<composite:attribute name="helper" required="true"
+		type="py.una.med.base.util.PagingHelper" />
 	<composite:attribute name="idPanel" default="idPagingPanel" />
 	<composite:attribute name="render" required="true"
 		shortDescription="Componente que sera actualizado una vez aplicada la paginacion" />
@@ -19,8 +20,6 @@
 <composite:implementation>
 	<div id="navigator">
 		<h:panelGroup id="#{cc.attrs.idPanel}">
-			<h:outputText id="page" value="#{cc.attrs.helper.getFormattedPage()}" />
-
 			<a4j:commandButton value="&lt;&lt;"
 				action="#{cc.attrs.helper.first()}"
 				disabled="#{not cc.attrs.helper.hasPrevious()}"
@@ -30,10 +29,16 @@
 				disabled="#{not cc.attrs.helper.hasPrevious()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 			<rich:inputNumberSpinner minValue="#{cc.attrs.helper.minPage}"
-				maxValue="#{cc.attrs.helper.maxPage}"
-				value="#{cc.attrs.helper.readablePage}">
+				id="ins" maxValue="#{cc.attrs.helper.maxPage}"
+				disabled="#{cc.attrs.helper.minPage eq cc.attrs.helper.maxPage}"
+				value="#{cc.attrs.helper.readablePage}"
+				onkeypress="if ((event.which || event.keyCode) == 13) { submitInput(#{rich:element('ins')}.firstChild.value); return false; }">
 				<a4j:ajax event="valueChange"
 					render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
+				<a4j:jsFunction name="submitInput"
+					render="#{cc.attrs.render}, #{cc.attrs.idPanel}">
+					<a4j:param name="page" assignTo="#{cc.attrs.helper.readablePage}"></a4j:param>
+				</a4j:jsFunction>
 			</rich:inputNumberSpinner>
 			de #{cc.attrs.helper.maxPage}
 			<a4j:commandButton value="&gt;" action="#{cc.attrs.helper.next()}"
