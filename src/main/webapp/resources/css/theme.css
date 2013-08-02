@@ -39,7 +39,7 @@ button,input[type="reset"],input[type="submit"],input[type="button"] {
 	*background-color: #e6e6e6;
 	background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
 	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff),
-		to(#e6e6e6));
+		to(#e6e6e6) );
 	background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
 	background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
 	background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
@@ -53,8 +53,8 @@ button,input[type="reset"],input[type="submit"],input[type="button"] {
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',
-		endColorstr='#ffe6e6e6', GradientType=0);
-	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+		endColorstr='#ffe6e6e6', GradientType=0 );
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false );
 	*zoom: 1;
 	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
 		rgba(0, 0, 0, 0.05);
@@ -150,12 +150,12 @@ textarea {
 /* Este estilo sera aplicado a todos los errores de los inputs */
 .form_error {
 	text-align: left;
-	color: blue;
+	color: blue !important;
 }
 
 .faces-error {
 	text-align: left;
-	color: blue;
+	color: blue !important;
 }
 
 /* Estilo para los botones de la izquierda */
@@ -534,16 +534,23 @@ li.divider:after {
 
 /* Estilo para los mensajes de error generales
    @see http://docs.jboss.org/richfaces/latest_4_0_X/Component_Reference/en-US/html/chap-Component_Reference-Output_and_messages.html#sect-Component_Reference-Output_and_messages-richmessage */
-.rf-msg-err,.rf-msgs-err,.rf-msg-ftl,.rf-msgs-ftl,.rf-msg-inf,.rf-msgs-inf,.rf-msg-wrn,.rf-msgs-wrn,.rf-msg-ok,.rf-msgs-ok
+.rf-msg-ftl,.rf-msgs-ftl,.rf-msg-inf,.rf-msgs-inf,.rf-msg-wrn,.rf-msgs-wrn,.rf-msg-ok,.rf-msgs-ok
 	{
-	display: list-item;
-	margin-left: 20px;
-	padding-left: 0px;
-	color: blue;
+	display: block !important;
+	margin-left: 20px !important;
+	padding-left: 20px !important;
+	color: blue !important;
 }
 
 .rf-msg-err,.rf-msgs-err {
-	background-image: none;
+	background-image: none !important;
+	margin-left: 0px !important;
+	padding-left: 0px !important;
+	color: blue !important;
+}
+
+.rf-msg-det {
+	text-transform: none !important;
 }
 
 /* rich:popupPanel */
@@ -637,6 +644,10 @@ td.form_input select {
 	padding-top: 5px !important;
 }
 
+.rf-msgs-det {
+	
+}
+
 .form_input>.rf-insp+label {
 	margin-right: 5px !important;
 }
@@ -709,7 +720,6 @@ Css para los requeridos
 	content: "\00a0*";
 }
 
-.required_field {
-	/*	color: blue !important;*/
+.required_field { /*	color: blue !important;*/
 	
 }
