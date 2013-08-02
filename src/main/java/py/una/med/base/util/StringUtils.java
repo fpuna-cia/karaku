@@ -6,9 +6,11 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Provee funcionalidades basicas para todas las cadenas del sistema
+ * Provee funcionalidades básicas para todas las cadenas del sistema
  * 
- * @author Arturo Volpe, Nathalia Ochoa
+ * @author Arturo Volpe
+ * @author Nathalia Ochoa
+ * 
  * @since 1.0
  * @version 1.1 08/02/2013
  * 
@@ -20,22 +22,31 @@ public final class StringUtils {
 		// No-op
 	}
 
-	private static List<Character> Vocales = Arrays.asList('a', 'e', 'i', 'o',
-			'u', 'A', 'E', 'I', 'O', 'U');
-	private static List<Character> VocalesFuertesTonicas = Arrays.asList('á',
-			'é', 'ó');
-	private static List<Character> VocalesDebilesTonicas = Arrays.asList('í',
-			'ú');
-	private static List<Character> ConsonantesEspeciales = Arrays.asList('d',
-			'j', 'l', 'n', 'r', 'D', 'J', 'L', 'N', 'R');
-	private static List<Character> Consonantes = Arrays.asList('b', 'c', 'd',
-			'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't',
-			'v', 'w', 'x', 'y', 'z', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K',
-			'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z');
-	private static List<Character> Mayus = Arrays.asList('A', 'B', 'C', 'D',
-			'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
-			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+	private static List<String> Vocales = Arrays.asList("a", "e", "i", "o",
+			"u", "A", "E", "I", "O", "U");
+	private static List<String> VocalesFuertesTonicas = Arrays.asList("á", "é",
+			"ó");
+	private static List<String> VocalesDebilesTonicas = Arrays.asList("í", "ú");
+	private static List<String> ConsonantesEspeciales = Arrays.asList("d", "j",
+			"l", "n", "r", "D", "J", "L", "N", "R");
+	private static List<String> Consonantes = Arrays.asList("b", "c", "d", "f",
+			"g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v",
+			"w", "x", "y", "z", "B", "C", "D", "F", "G", "H", "J", "K", "L",
+			"M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z");
+	private static List<String> Mayus = Arrays.asList("A", "B", "C", "D", "E",
+			"F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+			"S", "T", "U", "V", "W", "X", "Y", "Z");
 
+	/**
+	 * Valida si una cadena es o no válida (tomando en cuenta cadenas recibidas
+	 * desde la interfaz), una cadena es váliada si no es <code>null</code> y si
+	 * tiene al menos un carácter distinto de un espacio
+	 * 
+	 * @param string
+	 *            a validar
+	 * @return <code>true</code> si es válida, y <code>false</code> en caso
+	 *         contrario
+	 */
 	public static boolean isValid(final String string) {
 
 		if (string == null) {
@@ -43,6 +54,32 @@ public final class StringUtils {
 		}
 		if ("".equals(string.trim())) {
 			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Invoca al método {@link #isValid(String)} por cada cadena del vector y
+	 * retorna <code>false</code> si alguna de las llamadas retorna
+	 * <code>false</code>
+	 * 
+	 * @see #isInvalid(String)
+	 * @param strings
+	 *            cadenas a validar
+	 * @return <code>true</code> si todas las cadenas son válidas y
+	 *         <code>false</code> si alguna no es válida o el vector es
+	 *         <code>null</code> o vacío
+	 */
+	public static boolean isValid(String ... strings) {
+
+		if (strings == null || strings.length == 0) {
+			return false;
+		}
+
+		for (String s : strings) {
+			if (!isValid(s)) {
+				return false;
+			}
 		}
 		return true;
 	}

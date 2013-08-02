@@ -6,6 +6,7 @@ package py.una.med.base.util;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,16 +29,19 @@ public final class ListHelper {
 	 * Retorna un ArrayList de items, es lo mismo que
 	 * {@link Arrays#asList(Object...)} solo que retorna un ArrayList, al cual
 	 * se le pueden agregar cosas, al contrario que asList que retorna un
-	 * AbstractList que no puede ser modificado
+	 * AbstractList que no puede ser modificado.
 	 * 
 	 * @param items
-	 * @return {@link List}
+	 *            a ser agregados a la lista, no puede ser nulo
+	 * @return {@link ArrayList} conteniendo los elementos no nulos pasados.
 	 */
 	public static <T> List<T> getAsList(T ... items) {
 
 		ArrayList<T> aRet = new ArrayList<T>(items.length);
 		for (T item : items) {
-			aRet.add(item);
+			if (item != null) {
+				aRet.add(item);
+			}
 		}
 		return aRet;
 	}
