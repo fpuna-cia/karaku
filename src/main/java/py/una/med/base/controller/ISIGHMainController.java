@@ -76,6 +76,22 @@ public interface ISIGHMainController {
 	void cancel();
 
 	/**
+	 * Persiste los cambios y se mantiene en la página para permitir la edición
+	 * de los {@link ISIGHEmbeddableController}.
+	 * 
+	 * @return String de navegación, con "" se queda en la misma página
+	 */
+	String doSaveAndContinue();
+
+	/**
+	 * Persiste los cambios y vuelve a la lista
+	 * 
+	 * @return String de navegacion, correspondiente a la vista de lista del
+	 *         caso de uso
+	 */
+	String doSave();
+
+	/**
 	 * Retorna la lista de controlles embedables
 	 * 
 	 * @return Retorna una lista de controlladores hijos
@@ -111,4 +127,36 @@ public interface ISIGHMainController {
 	 * @return retorna el id del objeto principal
 	 */
 	Object getHeaderBeanID();
+
+	/**
+	 * Verifica si se esta editando la cabecera.
+	 * 
+	 * @return <code>true</code> si la cabecera esta actualmente en edición,
+	 *         <code>false</code> en caso contrario.
+	 */
+	boolean isEditingHeader();
+
+	/**
+	 * Se encarga de eliminar todas las modificaciones realizadas por el usuario
+	 * al momento de editar
+	 */
+	void resetHeaderBean();
+
+	/**
+	 * Determina si el botón editar debe estar visible para el usuario. No debe
+	 * estar visible si no tiene los permisos y si no esta en modo edición.
+	 * 
+	 * @return <code>true</code> si se debe visualizar el botón,
+	 *         <code>false</code> en caso contrario.
+	 */
+	boolean embeddableListCanEdit();
+
+	/**
+	 * Determina si el botón borrar debe estar visible para el usuario en las
+	 * grillas de los detalles.
+	 * 
+	 * @return <code>true</code> si esta en modo edición o borrado,
+	 *         <code>false</code> en otro modo o si no tiene los permisos
+	 */
+	boolean embeddableListCanDelete();
 }

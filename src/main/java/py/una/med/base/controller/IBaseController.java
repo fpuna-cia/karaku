@@ -5,6 +5,7 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 import py.una.med.base.business.ISIGHBaseLogic;
 
+@Deprecated
 public interface IBaseController<T, ID extends Serializable> {
 
 	public String doCancel();

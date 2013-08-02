@@ -15,51 +15,73 @@
 		type="py.una.med.base.controller.ISIGHAdvancedController"
 		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
 	<composite:attribute name="urlFormDatosBasicos" required="true" />
-	<composite:attribute name="abmHeader" default=""/>
-	<composite:facet name="detailHeader" />
+	<composite:attribute name="abmHeader" default="" />
 	<composite:attribute name="tab1Header" default="tab1Header" />
 </composite:interface>
 <composite:implementation
 	xmlns:composite="http://java.sun.com/jsf/composite">
+
+	<h:form>
+		<h:commandButton action="#{cc.attrs.controller.preList()}"
+			value="#{msg['BASE_ADVANCED_ABM_GO_BACK']}" immediate="true" />
+	</h:form>
+
 	<rich:messages ajaxRendered="true" showDetail="true"
 		id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
-	<composite:renderFacet name="detailHeader" />
-	<rich:panel>
-		<f:facet name="header">
-			<h:outputLabel value="#{cc.attrs.controller.headerText}" />
-		</f:facet>
-		<h:form>
-			<rich:tabPanel id="tabPanel"
-				itemChangeListener="#{cc.attrs.controller.tabChange}">
-				<rich:tab header="Datos básicos" name="firstTab">
-					<h:panelGrid columns="6" style="width:100%"
-						columnClasses="form_label,form_input,form_error,form_label,form_input,form_error">
-						<ui:include src="#{cc.attrs.urlFormDatosBasicos}" />
-					</h:panelGrid>
-					<rich:panel>
-						<h:commandButton action="#{cc.attrs.controller.doEdit()}"
-							value="#{msg['BASE_FORM_EDIT']}"
-							rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}" />
-						<h:commandButton action="#{cc.attrs.controller.doCreate()}"
-							value="#{msg['BASE_FORM_CREATE']}"
-							rendered="#{cc.attrs.controller.create  and authorityController.hasRole(cc.attrs.controller.createPermission)}" />
-						<h:commandButton action="#{cc.attrs.controller.doDelete()}"
-							value="#{msg['BASE_FORM_DELETE']}"
-							rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />
-					</rich:panel>
-				</rich:tab>
 
-				<composite:insertChildren />
-			</rich:tabPanel>
-		</h:form>
-
-		<h:form>
-			<rich:panel>
-				<h:commandButton action="#{cc.attrs.controller.preList()}"
-					value="#{cc.attrs.controller.cancelText}" immediate="true" />
+	<!-- 	<rich:panel> -->
+	<!-- 		<f:facet name="header"> -->
+	<!-- 			<h:outputLabel value="#{cc.attrs.controller.headerText}" /> -->
+	<!-- 		</f:facet> -->
+	<h:form id="headerForm">
+		<input type="checkbox" id="toogleDetail" value="Expandir"
+			class="check_expand" style="float: right;" checked="checked"
+			onclick="$('#generales').toggle('slow');$('#detallados').toggle('slow');" />
+		<div id="generales" style="display: none">
+			<rich:panel header="Resumen">
+				<ui:include src="#{cc.attrs.controller.headerPath}" />
 			</rich:panel>
-		</h:form>
-	</rich:panel>
+		</div>
+		<div id="detallados">
+			<h:panelGrid columns="6" style="width:100%"
+				columnClasses="form_label,form_input,form_error,form_label,form_input,form_error">
+				<ui:include src="#{cc.attrs.urlFormDatosBasicos}" />
+			</h:panelGrid>
+		</div>
+		<h:commandButton action="#{cc.attrs.controller.beginEditHeader()}"
+			value="#{msg['BASE_ADVANCED_ABM_EDIT_HEADER']}"
+			rendered="#{cc.attrs.controller.editButtonVisible()}" />
+		<h:commandButton action="#{cc.attrs.controller.doSave}"
+			value="#{msg['BASE_ADVANCED_ABM_SAVE']}"
+			rendered="#{cc.attrs.controller.saveButtonVisible()}" />
+		<h:commandButton action="#{cc.attrs.controller.doSaveAndContinue}"
+			value="#{msg['BASE_ADVANCED_ABM_SAVE_AND_CONTINUE']}"
+			rendered="#{cc.attrs.controller.saveButtonVisible()}" />
+		<h:commandButton action="#{cc.attrs.controller.doDelete()}"
+			value="#{msg.BASE_ADVANCED_ABM_DELETE}"
+			rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />
+		<h:commandButton action="#{cc.attrs.controller.doCancel}"
+			onclick="#{rich:element('headerForm')}.reset();" immediate="true"
+			value="#{msg['BASE_ADVANCED_ABM_CANCEL']}"
+			rendered="#{cc.attrs.controller.cancelButtonVisible()}" />
+	</h:form>
+
+	<h:form rendered="#{not cc.attrs.controller.editingHeader}">
+		<rich:tabPanel id="tabPanel" switchType="ajax" immediate="true">
+			<composite:insertChildren />
+		</rich:tabPanel>
+	</h:form>
+
+
+	<!-- 	</rich:panel> -->
+	<h:form>
+		<h:commandButton action="#{cc.attrs.controller.preList()}"
+			value="#{msg['BASE_ADVANCED_ABM_GO_BACK']}" immediate="true" />
+		<rich:jQuery selector="$('#toogleDetail')"
+			query="css('display', '#{cc.attrs.controller.editingHeader? 'none':''}')" />
+	</h:form>
+
+
 
 </composite:implementation>
 </html>

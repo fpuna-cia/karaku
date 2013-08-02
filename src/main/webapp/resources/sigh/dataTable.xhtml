@@ -19,6 +19,10 @@
 	<composite:attribute name="controller" required="true" />
 	<composite:attribute name="deleteVisible" default="true"
 		shortDescription="Controla la visibilidad del link borrar" />
+	<composite:attribute name="editVisible" default="true"
+		shortDescription="Controla la visibilidad del link editar" />
+	<composite:attribute name="viewVisible" default="true"
+		shortDescription="Controla la visibilidad del link ver" />
 
 	<composite:attribute name="withActions" default="true"
 		shortDescription="Show a column with create, delete and view"
@@ -49,20 +53,20 @@
 					<h:outputText value="#{msg['BASE_LIST_ACTION_TITLE']}" />
 				</f:facet>
 				<o:separateConversationContext>
-					<h:commandButton value="#{msg['BASE_LIST_EDIT']} "
+					<h:commandButton value="#{msg.BASE_LIST_EDIT}" immediate="true"
 						action="#{cc.attrs.controller.preEdit()}"
-						rendered="#{authorityController.hasRole(cc.attrs.controller.editPermission)}"
+						rendered="#{cc.attrs.editVisible and authorityController.hasRole(cc.attrs.controller.editPermission)}"
 						styleClass="commandButton">
 						<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
 							value="#{item}" />
 					</h:commandButton>
-					<h:commandButton value="#{msg['BASE_LIST_VIEW']} "
+					<h:commandButton value="#{msg['BASE_LIST_VIEW']} " immediate="true"
 						action="#{cc.attrs.controller.preView()}"
-						styleClass="commandButton">
+						rendered="#{cc.attrs.viewVisible}" styleClass="commandButton">
 						<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
 							value="#{item}" />
 					</h:commandButton>
-					<h:commandButton value="#{cc.attrs.deleteText}"
+					<h:commandButton value="#{cc.attrs.deleteText}" immediate="true"
 						action="#{cc.attrs.controller.preDelete()}"
 						rendered="#{cc.attrs.deleteVisible and authorityController.hasRole(cc.attrs.controller.deletePermission)}"
 						styleClass="commandButton">

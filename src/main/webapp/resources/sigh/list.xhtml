@@ -27,7 +27,7 @@
 	<composite:attribute name="withRowExports" default="false"
 		type="java.lang.Boolean"
 		displayName="Muestra una columna con las opciones de exportacion" />
-	<composite:attribute name="withGridExports" default="false"
+	<composite:attribute name="withGridExports" default="true"
 		type="java.lang.Boolean"
 		displayName="Muestra abajo opciones de exportacion" />
 	<composite:attribute name="withRowActions" default="true"
@@ -93,7 +93,7 @@
 			<o:separateConversationContext>
 				<tsigh:security
 					hasPermission="#{cc.attrs.controller.createPermission}">
-					<h:commandButton value="Crear" immediate="true"
+					<h:commandButton value="#{msg['BASE_FORM_NEW']}" immediate="true"
 						rendered="#{cc.attrs.withCreateButton}"
 						action="#{cc.attrs.controller.preCreate()}"
 						render="panelGridCreate" />
@@ -112,8 +112,6 @@
 						style="width:24px;height:24px" />
 				</h:commandLink>
 			</h:panelGrid>
-			<h:panelGroup rendered="#{not cc.attrs.withGridExports}"/>
-
 			<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
 				idPanel="idPagingPanel" render="#{cc.attrs.idListEntities}" />
 		</h:panelGrid>

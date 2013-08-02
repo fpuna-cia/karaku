@@ -64,30 +64,28 @@
 
 		<div class="space"></div>
 
-		<o:separateConversationContext>
-			<h:form>
-				<rich:panel>
-					<f:facet name="header">
-						<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
-					</f:facet>
-					<sigh:dataTable items="#{cc.attrs.controller.entities}"
-						idDataTable="#{cc.attrs.idListEntities}"
-						controller="#{cc.attrs.controller}"
-						deleteText="#{cc.attrs.deleteButtonName}"
-						withActions="#{cc.attrs.withRowActions}" width="100%"
-						withExports="#{cc.attrs.withRowExports}">
-						<ui:include src="#{cc.attrs.urlColumns}" />
-					</sigh:dataTable>
-				</rich:panel>
-			</h:form>
-		</o:separateConversationContext>
+		<h:form>
+			<rich:panel>
+				<f:facet name="header">
+					<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
+				</f:facet>
+				<sigh:dataTable items="#{cc.attrs.controller.entities}"
+					idDataTable="#{cc.attrs.idListEntities}"
+					controller="#{cc.attrs.controller}"
+					deleteText="#{cc.attrs.deleteButtonName}"
+					withActions="#{cc.attrs.withRowActions}" width="100%"
+					withExports="#{cc.attrs.withRowExports}">
+					<ui:include src="#{cc.attrs.urlColumns}" />
+				</sigh:dataTable>
+			</rich:panel>
+		</h:form>
 		<h:form>
 			<h:panelGrid columns="3" width="100%"
 				columnClasses="list_button_class,list_export_class,list_pagin_class">
 
 				<tsigh:security
 					hasPermission="#{cc.attrs.controller.createPermission}">
-					<h:commandButton value="Crear" immediate="true"
+					<h:commandButton value="#{msg['BASE_FORM_NEW']}" immediate="true"
 						action="#{cc.attrs.controller.preCreate()}"
 						render="panelGridCreate" />
 				</tsigh:security>

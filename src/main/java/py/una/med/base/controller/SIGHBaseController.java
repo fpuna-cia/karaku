@@ -1,29 +1,25 @@
+/*
+ * SIGHBaseController.java
+ */
+
 package py.una.med.base.controller;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
-import javax.faces.bean.ManagedBean;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 import py.una.med.base.breadcrumb.BreadcrumbController;
 import py.una.med.base.breadcrumb.BreadcrumbItem;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.business.reports.SIGHBaseReportSimple;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 import py.una.med.base.security.HasRole;
@@ -32,25 +28,27 @@ import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.EntitySerializer;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.PagingHelper;
+import py.una.med.base.util.PagingHelper.ChangeListener;
 import py.una.med.base.util.SelectHelper;
 import py.una.med.base.util.StringUtils;
 
-@Controller
-@ManagedBean
-@Scope(value = "session")
+/**
+ * Controlador base para todos los controladores del sistema, implementa las
+ * funcionalidades definidas en {@link ISIGHBaseController}.
+ * 
+ * @author Arturo Volpe
+ * @since 1.0
+ * @version 1.5 Aug 1, 2013
+ * @see ISIGHBaseController
+ * 
+ */
 public abstract class SIGHBaseController<T, K extends Serializable> implements
 		ISIGHBaseController<T, K> {
-
-	public static enum Mode {
-		LIST, VIEW, EDIT, NEW, SEARCH, DELETE
-	}
 
 	@Autowired
 	private BreadcrumbController breadcrumController;
 
 	private static final int ROWS_FOR_PAGE = 10;
-
-	private Boolean sucess = false;
 
 	private Mode mode = Mode.VIEW;
 
@@ -64,12 +62,27 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private PagingHelper<T, K> pagingHelper;
+	private PagingHelper pagingHelper;
 
 	private String messageIdName;
 
 	@Autowired
 	private I18nHelper i18nHelper;
+
+	@Autowired
+	protected ControllerHelper controllerHelper;
+
+	@Autowired
+	private SIGHBaseReportSimple baseReportSimple;
+
+	/**
+	 * Lista de entidades mostradas actualmente, cualquier manipulación a ella
+	 * se vera reflejada cuando se refresque la grilla, si se la marca como nula
+	 * la siguiente vez que se pidan los datos será cargada. Utilizar el método
+	 * {@link #reloadEntities()} para marcar la lista como sucia y que deba ser
+	 * recargada.
+	 */
+	protected List<T> entities;
 
 	@Override
 	public void clearFilters() {
@@ -78,42 +91,25 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		setExample(null);
 		setFilterValue("");
 		setFilterOption("");
-	}
-
-	public void createFacesMessage(Severity severity, String code) {
-
-		createFacesMessage(severity, "", code, getMessageIdName());
+		reloadEntities();
 	}
 
 	public void createFacesMessage(Severity severity, String summary,
 			String code, String componentId) {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-
-		String mensaje = !"".equals(code) ? getMessage(code) : "";
-
-		FacesMessage msg = new FacesMessage(severity, summary, mensaje);
-		facesContext.addMessage(componentId, msg);
+		controllerHelper.createFacesMessage(severity, summary, code,
+				componentId);
 	}
 
 	public void createGlobalFacesMessage(Severity severity, String code) {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		String mensaje = getMessage(code);
-
-		FacesMessage msg = new FacesMessage(severity, "", mensaje);
-		facesContext.addMessage(null, msg);
+		controllerHelper.createGlobalFacesMessage(severity, code);
 	}
 
 	public void createGlobalFacesMessage(Severity severity, String summary,
 			String code) {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		String mensaje = getMessage(code);
-		String sum = !"".equals(summary) ? getMessage(summary) : "";
-
-		FacesMessage msg = new FacesMessage(severity, sum, mensaje);
-		facesContext.addMessage(null, msg);
+		controllerHelper.createGlobalFacesMessage(severity, summary, code);
 	}
 
 	@Override
@@ -130,14 +126,15 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		log.info("doCreate llamado");
 		try {
 			getBaseLogic().add(bean);
-
+			reloadEntities();
 			createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
 					"BASE_ABM_CREATE_SUCCESS");
 			postCreate();
 			return goList();
 		} catch (Exception e) {
-			createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-					"BASE_ABM_CREATE_FAILURE", e.getMessage());
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_WARN, "BASE_ABM_CREATE_FAILURE",
+					e.getMessage());
 			return "";
 		}
 
@@ -150,12 +147,13 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		try {
 			log.info("Do Delete llamado");
 			getBaseLogic().remove(getBean());
+			reloadEntities();
 			createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
 					"MESSAGE_DELETE_SUCCESS");
 			return goList();
 		} catch (Exception e) {
-			createGlobalFacesMessage(FacesMessage.SEVERITY_ERROR, "",
-					e.getMessage());
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_ERROR, "", e.getMessage());
 			return "";
 		}
 	}
@@ -165,15 +163,16 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	public String doEdit() {
 
 		try {
-			getBaseLogic().update(bean);
 			log.info("Do edit llamado");
+			getBaseLogic().update(bean);
+			reloadEntities();
 			createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
 					"BASE_ABM_EDIT_SUCCESS");
 			return goList();
 		} catch (Exception e) {
 			log.error("Error al editar", e);
-			createGlobalFacesMessage(FacesMessage.SEVERITY_ERROR, "",
-					"BASE_ABM_EDIT_FAILURE");
+			controllerHelper.createGlobalFacesMessage(
+					FacesMessage.SEVERITY_ERROR, "", "BASE_ABM_EDIT_FAILURE");
 			return "";
 		}
 	}
@@ -182,47 +181,43 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@HasRole(SIGHSecurity.DEFAULT)
 	public void doSearch() {
 
-		helper.updateModel("pgSearch");
+		controllerHelper.updateModel("pgSearch");
 
 		log.info("do search llamado");
 		setExample(getBean());
+		reloadEntities();
 	}
 
-	// Para que las columnas ocupen el ancho de la pagina
+	@Override
 	@HasRole(SIGHSecurity.DEFAULT)
 	public void doSimpleSearch() {
 
-		setExample(null);
 		log.info("doSimpleSearch llamado");
-	}
 
-	/**
-	 * Finds component with the given id
-	 */
-	private UIComponent findComponent(UIComponent c, String id) {
+		if (!StringUtils.isValid(getFilterOption())
+				|| !StringUtils.isValid(getFilterValue())) {
+			createGlobalFacesMessage(FacesMessage.SEVERITY_WARN, "",
+					"BASE_ABM_SEARCH_VALUE_OPTION_REQUIRED");
+			return;
+		} else {
+			setExample(null);
 
-		if (id.equals(c.getId())) {
-			return c;
+			reloadEntities();
 		}
-		Iterator<UIComponent> kids = c.getFacetsAndChildren();
-		while (kids.hasNext()) {
-			UIComponent found = findComponent(kids.next(), id);
-			if (found != null) {
-				return found;
-			}
-		}
-		return null;
-	}
 
-	public List<T> getAllEntities(ISearchParam searchParam) {
-
-		return getBaseLogic().getAll(searchParam);
 	}
 
 	@Override
 	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
 
-	@Override
+	/**
+	 * Retorna una lista de cadenas representando las opciones por las cuales el
+	 * caso de uso podra buscar, es un método de utilidad para
+	 * {@link #getSearchSelectItemsList()}
+	 * 
+	 * @return lista de strings
+	 * @see #getSearchSelectItemsList()
+	 */
 	public abstract List<String> getBaseSearchItems();
 
 	@Override
@@ -234,17 +229,6 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		return bean;
 	}
 
-	private List<T> getByExample(T example2, ISearchParam sp) {
-
-		return getBaseLogic().getAllByExample(new EntityExample<T>(example2),
-				sp);
-	}
-
-	public List<T> getBySimpleFilter(ISearchParam sp) {
-
-		return getBaseLogic().getAll(getFilters(), sp);
-	}
-
 	@Override
 	public Where<T> getWhereReport() {
 
@@ -254,9 +238,9 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 			return where;
 		}
 		if ((getFilterValue() != null) && !getFilterValue().equals("")) {
-			return getFilters();
+			return getSimpleFilters();
 		}
-		return null;
+		return new Where<T>();
 	}
 
 	@Override
@@ -276,9 +260,6 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	}
 
-	@Autowired
-	private SIGHBaseReportSimple baseReportSimple;
-
 	@Override
 	public void generateReport(String type) {
 
@@ -293,6 +274,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 			createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
 					"BASE_REPORT_CREATE_SUCCESS");
 		} catch (ReportException e) {
+			log.warn("Generate report failed", e);
 			createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
 					"BASE_REPORT_CREATE_FAILURE");
 		}
@@ -303,13 +285,10 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	}
 
-	@Autowired
-	private ControllerHelper helper;
-
 	@Override
 	public List<Column> getColumns() {
 
-		return helper.getColumns();
+		return controllerHelper.getColumns();
 	}
 
 	@Override
@@ -321,51 +300,39 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		return i18nHelper.getString("BASE_REPORT_NAME") + " " + nameList;
 	}
 
-	/**
-	 * Returns the clientId for a component with id
-	 */
-	public String getClientId(String id) {
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		UIViewRoot root = context.getViewRoot();
-
-		UIComponent c = findComponent(root, id);
-		return c.getClientId(context);
-	}
-
 	@Override
 	public List<T> getEntities() {
 
-		log.info("Get Entidades llamado");
-
-		if (pagingHelper == null) {
-			pagingHelper = new PagingHelper<T, K>(getRowsForPage());
+		if (entities == null) {
+			loadEntities();
 		}
-
-		Long totalCount = getBaseLogic().getCount(getWhereReport());
-		pagingHelper.udpateCount(totalCount);
-
-		ISearchParam sp = pagingHelper.getISearchparam();
-		configureSearchParam(sp);
-		if (getExample() != null) {
-			return getByExample(getExample(), sp);
-		}
-		if (StringUtils.isValid(getFilterOption())
-				|| StringUtils.isValid(getFilterValue())) {
-			if (!StringUtils.isValid(getFilterOption())
-					|| !StringUtils.isValid(getFilterValue())) {
-				createGlobalFacesMessage(FacesMessage.SEVERITY_WARN, "",
-						"BASE_ABM_SEARCH_VALUE_OPTION_REQUIRED");
-			} else {
-				return getBySimpleFilter(sp);
-			}
-		}
-		return getAllEntities(sp);
+		return entities;
 	}
 
-	/**
-	 * Metodo a ser implementado para el caso específico.
-	 */
+	public void loadEntities() {
+
+		log.debug("SIGHBaseController.loadEntities()");
+
+		Where<T> baseWhere = getBaseWhere();
+		getPagingHelper().udpateCount(getBaseLogic().getCount(baseWhere));
+
+		ISearchParam sp = getPagingHelper().getISearchparam();
+		configureSearchParam(sp);
+
+		entities = getBaseLogic().getAll(baseWhere, sp);
+	}
+
+	@Override
+	public Where<T> getBaseWhere() {
+
+		if (getExample() != null) {
+			Where<T> where = new Where<T>();
+			where.setExample(getExample());
+			return where;
+		}
+		return getSimpleFilters();
+	}
+
 	@Override
 	public void configureSearchParam(ISearchParam sp) {
 
@@ -382,7 +349,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	public abstract Where<T> getFilters();
+	public abstract Where<T> getSimpleFilters();
 
 	public String getFilterValue() {
 
@@ -391,7 +358,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	public String getMessage(String code) {
 
-		return i18nHelper.getString(code);
+		return controllerHelper.getMessage(code);
 	}
 
 	/**
@@ -420,9 +387,26 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		return mode;
 	}
 
+	/**
+	 * Se crea un nuevo {@link PagingHelper} y se le asigna un
+	 * {@link ChangeListener} que recarga la lista de entidades cada vez que hay
+	 * un cambio
+	 */
 	@Override
-	public PagingHelper<T, K> getPagingHelper() {
+	public PagingHelper getPagingHelper() {
 
+		if (pagingHelper == null) {
+			pagingHelper = new PagingHelper(getRowsForPage());
+			pagingHelper.setChangeListener(new ChangeListener() {
+
+				@Override
+				public void onChange(PagingHelper thizz, int previousPage,
+						int currentPage) {
+
+					reloadEntities();
+				}
+			});
+		}
 		return pagingHelper;
 	}
 
@@ -433,7 +417,10 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Esta lista del tipo SelectItem es necesaria para los combobox hechos con
-	 * este objeto.
+	 * este objeto (para la lista de filtros).
+	 * 
+	 * @return {@link List} de {@link SelectItem} que representan los criterios
+	 *         por los cuales se puede buscar en este controller.
 	 */
 	@Override
 	public List<SelectItem> getSearchSelectItemsList() {
@@ -442,17 +429,6 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	}
 
-	public Boolean getSucess() {
-
-		if (sucess) {
-			sucess = !sucess;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	@Override
 	public String getUsarController() {
 
 		// XXX Setea este controllador, como el controlador actual para el
@@ -606,6 +582,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@HasRole(SIGHSecurity.DEFAULT)
 	public String preList() {
 
+		setBean(null);
 		this.mode = Mode.LIST;
 		return goList();
 	}
@@ -634,6 +611,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		this.bean = bean;
 	}
 
+	@Override
 	public void setExample(T example) {
 
 		this.example = example;
@@ -653,11 +631,6 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	public void setMode(Mode mode) {
 
 		this.mode = mode;
-	}
-
-	public void setSucess(Boolean sucess) {
-
-		this.sucess = sucess;
 	}
 
 	@Override
@@ -684,7 +657,6 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		return getDefaultPermission();
 	}
 
-	@Override
 	public String getCancelText() {
 
 		if (getMode().equals(Mode.VIEW)) {
@@ -727,5 +699,17 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		}
 		return I18nHelper.getMessage(header) + " " + actual.getName();
 
+	}
+
+	@Override
+	public void reloadEntities() {
+
+		entities = null;
+	}
+
+	@Override
+	public boolean isList() {
+
+		return getMode().equals(Mode.LIST);
 	}
 }

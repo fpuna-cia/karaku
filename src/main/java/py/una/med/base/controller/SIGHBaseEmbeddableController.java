@@ -1,11 +1,10 @@
 package py.una.med.base.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
 import py.una.med.base.util.ControllerHelper;
@@ -26,6 +25,15 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 		extends SIGHAdvancedController<T, K> implements
 		ISIGHAdvancedController<T, K>, ISIGHEmbeddableController {
 
+	/**
+	 * Constante que determina el valor por defecto de la cantidad de registros
+	 * a ser mostrada por este controlador en modo vista cuando esta en modo
+	 * embebido.
+	 * 
+	 * @see #isEmbedded
+	 */
+	public static final int ROWS_PER_PAGE_IF_EMBEDDED = 5;
+
 	private ISIGHMainController mainController;
 
 	private boolean isEmbedded;
@@ -38,6 +46,15 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 
 		isEmbedded = mainController != null;
 		this.mainController = mainController;
+	}
+
+	@Override
+	public List<T> getEntities() {
+
+		if (isEmbedded && getMainController().isEditingHeader()) {
+			return Collections.emptyList();
+		}
+		return super.getEntities();
 	}
 
 	@Override
@@ -63,22 +80,6 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 
 	}
 
-	@Override
-	public List<T> getEntities() {
-
-		if (isEmbedded) {
-			Where<T> where = getWhere();
-			mainController.configureBaseWhere(where, getClazz());
-			if (mainController.getHeaderBeanID() != null) {
-				List<T> aRet = getBaseLogic().getAll(where, null);
-				return aRet;
-			}
-			return new ArrayList<T>();
-		} else {
-			return super.getEntities();
-		}
-	}
-
 	public Object getHeaderBean() {
 
 		return mainController.getHeaderBean();
@@ -87,25 +88,19 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 	@Override
 	public void init() {
 
+		reloadEntities();
 	}
 
-	/**
-	 * Retorna un where configurado para ser utilizado en las consultas, si hay
-	 * algun example, o algun filtro se configura con los filtros adecuados.
-	 * 
-	 * @return Where base para agregar mas restricciones
-	 */
-	public Where<T> getWhere() {
+	@Override
+	public Where<T> getBaseWhere() {
 
-		Where<T> where = getFilters();
-		if (where == null) {
-			where = new Where<T>();
-		}
+		Where<T> where = super.getBaseWhere();
 
-		EntityExample<T> example = where.getExample();
-		if (example == null) {
-			example = new EntityExample<T>(getBaseEntity());
-			where.setExample(example);
+		if (isEmbedded) {
+			if (where.getExample() == null) {
+				where.setExample(getBaseEntity());
+			}
+			mainController.configureBaseWhere(where, getClazz());
 		}
 		return where;
 	}
@@ -184,14 +179,82 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 		return goEdit();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String getDefaultPermission() {
 
 		if (mainController == null) {
 			return super.getDefaultPermission();
 		} else {
-			return ((SIGHBaseController<?, ?>) mainController).getDefaultPermission();
+			return ((ISIGHBaseController<T, K>) mainController)
+					.getDefaultPermission();
 		}
 	}
 
+	public boolean canEditDetail() {
+
+		if (!isEmbedded) {
+			return true;
+		} else {
+			return mainController.embeddableListCanEdit();
+		}
+	}
+
+	public boolean canDeleteDetail() {
+
+		if (!isEmbedded) {
+			return true;
+		} else {
+			return mainController.embeddableListCanDelete();
+		}
+	}
+
+	@Override
+	public int getRowsForPage() {
+
+		if (isEmbedded) {
+			return ROWS_PER_PAGE_IF_EMBEDDED;
+		} else {
+			return super.getRowsForPage();
+		}
+
+	}
+
+	@Override
+	public void preSearch() {
+
+		super.preSearch();
+	}
+
+	@Override
+	@HasRole(SIGHSecurity.DEFAULT)
+	public void doSearch() {
+
+		controllerHelper.updateModel(getMessageIdName() + "_pgSearch");
+
+		setExample(getBean());
+		reloadEntities();
+	}
+
+	public boolean isEditable(String campo) {
+
+		if (getMode() == null) {
+			setMode(Mode.VIEW);
+		}
+		switch (getMode()) {
+			case VIEW:
+				return true;
+			case EDIT:
+				return true;
+			case NEW:
+				return true;
+			case DELETE:
+				return false;
+			case SEARCH:
+				return true;
+			default:
+				break;
+		}
+		return true;
+	}
 }

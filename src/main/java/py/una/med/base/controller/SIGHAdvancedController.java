@@ -12,9 +12,6 @@ import javax.faces.application.FacesMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.util.EntityExample;
@@ -40,8 +37,6 @@ import py.una.med.base.util.StringUtils;
  * @since 1.1
  * @version 1.4 07/02/2013
  */
-@Controller
-@Scope(value = WebApplicationContext.SCOPE_SESSION)
 public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 		SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
 
@@ -49,8 +44,6 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	private ControllerHelper helper;
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
-
-	private T bean;
 
 	@Override
 	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
@@ -88,18 +81,10 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 		return null;
 	}
 
-	/**
-	 * Retorna un Where con todos los filtros aplicados, esto incluye tanto
-	 * busquedas avanzadas como busquedas simples
-	 */
 	@Override
-	public Where<T> getFilters() {
+	public Where<T> getSimpleFilters() {
 
 		Where<T> where = new Where<T>();
-		if (getExample() != null) {
-			where.setExample(new EntityExample<T>(getExample()));
-			return where;
-		}
 		if (!StringUtils.isValid(getFilterOption())) {
 			return where;
 		}
@@ -137,7 +122,7 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 					f.set(example, new SimpleDateFormat("dd/MM/yyyy")
 							.parse(getFilterValue()));
 				} catch (ParseException parseException) {
-					createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
+					helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
 							"La fecha debe tener el formato dd/MM/yyyy");
 					return null;
 				}
@@ -172,21 +157,6 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	}
 
 	@Override
-	public T getBean() {
-
-		if (bean == null) {
-			bean = getBaseLogic().getNewInstance();
-		}
-		return bean;
-	}
-
-	@Override
-	public void setBean(final T bean) {
-
-		this.bean = bean;
-	}
-
-	@Override
 	@HasRole(SIGHSecurity.DEFAULT_CREATE)
 	public String preCreate() {
 
@@ -201,10 +171,12 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 		try {
 			delete(getBean());
+			reloadEntities();
 			return postDelete();
 		} catch (Exception e) {
 			e = helper.convertException(e, getClazz());
 			if (!handleException(e)) {
+				log.warn("doCreate failed", e);
 				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
 						"BASE_ABM_DELETE_FAILURE");
 			}
@@ -226,11 +198,13 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 		try {
 			edit(getBean());
+			reloadEntities();
 			return postEdit();
 		} catch (Exception e) {
 			e = helper.convertException(e, getClazz());
 			if (!handleException(e)) {
-				createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
+				log.warn("doCreate failed", e);
+				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
 						"BASE_ABM_EDIT_FAILURE", e.getMessage());
 			}
 			return "";
@@ -265,11 +239,13 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 		try {
 			setBean(create(getBean()));
+			reloadEntities();
 			return postCreate();
 		} catch (Exception e) {
 			e = helper.convertException(e, getClazz());
 			if (!handleException(e)) {
-				createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
+				log.warn("doCreate failed", e);
+				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
 						"BASE_ABM_CREATE_FAILURE", e.getMessage());
 			}
 			return "";
@@ -287,7 +263,7 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 		log.info("Create llamado");
 		T entidad = entity;
 		entidad = getBaseLogic().add(entity);
-		createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
+		helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
 				"BASE_ABM_CREATE_SUCCESS");
 		return entidad;
 	}
