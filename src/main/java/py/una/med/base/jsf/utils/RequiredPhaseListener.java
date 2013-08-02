@@ -6,10 +6,11 @@ package py.una.med.base.jsf.utils;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIOutput;
-import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.component.html.HtmlOutputText;
@@ -17,6 +18,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.PhaseId;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import py.una.med.base.util.ELHelper;
@@ -40,6 +43,8 @@ public class RequiredPhaseListener implements Serializable {
 	@Autowired
 	I18nHelper helper;
 
+	private HashMap<String, Field> hashedFields;
+
 	/**
 	 * String que representa la clase de aquellas etiquetas de campos que son
 	 * requeridos.
@@ -59,7 +64,6 @@ public class RequiredPhaseListener implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5178965595775494541L;
-	UIViewRoot _root;
 	private UIOutput lastOutput;
 
 	/**
@@ -76,48 +80,28 @@ public class RequiredPhaseListener implements Serializable {
 	 */
 	public void preRenderView(ComponentSystemEvent componentSystemEvent) {
 
-		_root = FacesContext.getCurrentInstance().getViewRoot();
-		markLabels4Required(_root);
+		hashedFields = new HashMap<String, Field>(10);
+		lastOutput = null;
+		markLabels4Required(FacesContext.getCurrentInstance().getViewRoot());
+
 	}
 
 	private void markLabels4Required(UIComponent parent) {
 
 		// String marker = " *";
-		for (UIComponent child : parent.getChildren()) {
-			// if (child instanceof HtmlOutputLabel) {
-			// HtmlOutputLabel label = (HtmlOutputLabel) child;
-			// String targetId = label.getNamingContainer().getClientId()
-			// + ":" + label.getFor();
-			// UIComponent target = _root.findComponent(targetId);
-			// if (target instanceof UIInput) {
-			// UIInput input = (UIInput) target;
-			// String labelText = label.getValue().toString();
-			// if (input.isRequired() && !labelText.endsWith(marker)) {
-			// label.setValue(labelText + marker);
-			// }
-			// if (!input.isRequired() && labelText.endsWith(marker)) {
-			// label.setValue(labelText.substring(0,
-			// labelText.length() - marker.length()));
-			// }
-			// }
-			// }
+		Iterator<UIComponent> kids = parent.getFacetsAndChildren();
+		while (kids.hasNext()) {
+			UIComponent child = kids.next();
 			processUIComponent(child);
 			markLabels4Required(child);
 		}
 
-		if (parent.getFacet(UIComponent.COMPOSITE_FACET_NAME) != null) {
-			for (UIComponent child : parent.getFacet(
-					UIComponent.COMPOSITE_FACET_NAME).getChildren()) {
-				processUIComponent(child);
-				markLabels4Required(child);
-			}
-		}
 	}
 
 	private void processUIComponent(UIComponent uiComponent) {
 
 		if (uiComponent instanceof UIInput) {
-			processUIInput((UIInput) uiComponent);
+			processInput((UIInput) uiComponent);
 		}
 		if (uiComponent instanceof UIOutput) {
 			processUIOutput((UIOutput) uiComponent);
@@ -132,7 +116,17 @@ public class RequiredPhaseListener implements Serializable {
 		lastOutput = uiComponent;
 	}
 
-	private void processUIInput(UIInput input) {
+	private void processInput(UIInput input) {
+
+		if (input instanceof UIInput) {
+			processUIInput(input);
+		}
+		if (input instanceof HtmlInputText) {
+			processHtmlInput((HtmlInputText) input);
+		}
+	}
+
+	public void processUIInput(UIInput input) {
 
 		if (input == null)
 			return;
@@ -146,17 +140,13 @@ public class RequiredPhaseListener implements Serializable {
 			if (input.getValueExpression("value") == null) {
 				addClass = false;
 			} else {
-				String beanExpression = input.getValueExpression("value")
-						.getExpressionString();
-				if (!(beanExpression == null || "".equals(beanExpression))) {
-					Field f = ELHelper.getFieldByExpression(beanExpression);
-					if (f == null) {
-						return;
-					}
-					if (f.getAnnotation(NotNull.class) != null) {
-						if (lastOutput != null) {
-							addClass = true;
-						}
+				Field f = getField(input);
+				if (f == null) {
+					return;
+				}
+				if (f.getAnnotation(NotNull.class) != null) {
+					if (lastOutput != null) {
+						addClass = true;
 					}
 				}
 			}
@@ -165,6 +155,67 @@ public class RequiredPhaseListener implements Serializable {
 			markOutputRequired(lastOutput);
 			markInputRequired(input);
 		}
+	}
+
+	private void processHtmlInput(HtmlInputText htmlInputText) {
+
+		int max = htmlInputText.getMaxlength();
+		if (max <= 0) {
+			Field f = getField(htmlInputText);
+			if (f != null) {
+				Size s = f.getAnnotation(Size.class);
+				if (s != null) {
+					max = s.max();
+				}
+			}
+		}
+		htmlInputText.setMaxlength(max);
+
+		if (getField(htmlInputText) != null) {
+			// TODO ver cuando ya tiene
+			Field f = getField(htmlInputText);
+			Pattern p = f.getAnnotation(Pattern.class);
+			if (p != null && p.regexp() != null) {
+				htmlInputText.setOnkeypress(getFunction(p.regexp()));
+			}
+		}
+	}
+
+	/**
+	 * @param regexp
+	 * @return
+	 */
+	private String getFunction(String regexp) {
+
+		return "var theEvent = window.event; "
+				+ "var key = theEvent.keyCode || theEvent.which; "
+				+ "key = String.fromCharCode( key ); " + "var regex = /^"
+				+ regexp + "$/;" + "if( !regex.test(key) ) {"
+				+ "	theEvent.returnValue = false; "
+				+ "	if(theEvent.preventDefault) "
+				+ "		theEvent.preventDefault(); " + "}";
+	}
+
+	private Field getField(UIComponent component) {
+
+		if (hashedFields.containsKey(component.getId())) {
+			return hashedFields.get(component.getId());
+		}
+
+		Field toRet;
+		if (component.getValueExpression("value") == null) {
+			toRet = null;
+		} else {
+			String beanExpression = component.getValueExpression("value")
+					.getExpressionString();
+			if (!(beanExpression == null || "".equals(beanExpression))) {
+				toRet = ELHelper.getFieldByExpression(beanExpression);
+			} else {
+				toRet = null;
+			}
+		}
+		hashedFields.put(component.getId(), toRet);
+		return toRet;
 	}
 
 	/**
