@@ -8,7 +8,6 @@ package py.una.med.base.dao.impl;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +37,7 @@ import py.una.med.base.dao.search.SearchParam;
 import py.una.med.base.dao.util.CaseSensitiveHelper;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.util.MainInstanceHelper;
+import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
  * Clase que implementa la interfaz {@link BaseDAO} utilizando {@link Session},
@@ -138,7 +138,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 					getClassOfT(), alias);
 		} catch (Exception e) {
 			logger.error("Imposible obtener lista de elementos", e);
-			return new ArrayList<T>();
+			throw new KarakuRuntimeException(e);
 		}
 	}
 
@@ -328,7 +328,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	/**
-	 * Retorna el {@link Component} creador de Sessiones
+	 * Retorna el Componente creador de Sessiones
 	 * 
 	 * @return SessionFactory del thread actual
 	 */

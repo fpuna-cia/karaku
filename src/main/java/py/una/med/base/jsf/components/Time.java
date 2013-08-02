@@ -25,7 +25,8 @@ public class Time extends UINamingContainer {
 			Date d = (Date) getAttributes().get("date");
 			if (d == null) {
 				throw new IllegalArgumentException(
-						"Para usar el componente Time, deben enviarse fechas no nulas");
+						"Para usar el componente Time, deben enviarse fechas no nulas (id="
+								+ getAttributes().get("id") + ")");
 			}
 			date = d;
 		}

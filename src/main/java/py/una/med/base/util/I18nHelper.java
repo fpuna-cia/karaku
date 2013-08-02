@@ -77,12 +77,9 @@ public class I18nHelper {
 	private static String findInBundles(String key) throws KeyNotFoundException {
 
 		for (ResourceBundle bundle : getBundles()) {
-			try {
-				if (bundle.getString(key) != null) {
-					return bundle.getString(key);
-				}
-			} catch (Exception e) {
+			if (bundle.containsKey(key)) {
 
+				return bundle.getString(key);
 			}
 		}
 		throw new KeyNotFoundException(key);
@@ -92,7 +89,8 @@ public class I18nHelper {
 	 * Retorna la cadena internacionalizada de la llave pasada, busca en todos
 	 * los archivos de internacionalizacion definidos en el karaku.properties.
 	 * 
-	 * @param key llave del archivo de internacionalizacion
+	 * @param key
+	 *            llave del archivo de internacionalizacion
 	 * @return cadena internacionalizad de acuerdo al locale actual
 	 */
 	public String getString(String key) {
@@ -105,7 +103,7 @@ public class I18nHelper {
 		return findInBundles(key);
 	}
 
-	public static List<String> convertStrings(String... strings) {
+	public static List<String> convertStrings(String ... strings) {
 
 		ArrayList<String> convert = new ArrayList<String>(strings.length);
 		for (String s : strings) {
