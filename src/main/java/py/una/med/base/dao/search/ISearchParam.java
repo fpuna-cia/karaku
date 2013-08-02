@@ -3,10 +3,10 @@ package py.una.med.base.dao.search;
 import java.util.List;
 
 /**
- * Interfaz que define parametros de busqueda que afecten las clausulas ORDER
+ * Interfaz que define parámetros de búsqueda que afecten las clausulas ORDER
  * BY, LIMIT, etc. No interviene en el SELECT, WHERE ni el JOIN.
  * 
- * @see {@link SearchParam}
+ * @see SearchParam
  * @author Arturo Volpe
  * @version 1.0, 23/10/2012
  * @since 1.0

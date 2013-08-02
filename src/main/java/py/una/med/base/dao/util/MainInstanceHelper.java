@@ -115,9 +115,10 @@ public class MainInstanceHelper {
 
 		List<Field> fields = MainInstanceFieldHelper
 				.getMainInstanceFields(clase);
-		List<T> aRet = new ArrayList<T>();
+		List<T> aRet;
 
 		if (!((fields == null) || (fields.size() == 0))) {
+			aRet = new ArrayList<T>();
 			configureCriteria(criteria, fields, alias);
 			List list = criteria.list();
 			Iterator i = list.iterator();

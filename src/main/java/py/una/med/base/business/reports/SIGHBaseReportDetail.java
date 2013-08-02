@@ -135,8 +135,6 @@ public abstract class SIGHBaseReportDetail<T> implements
 			Map<String, Object> params) {
 
 		for (SIGHReportBlock block : blocks) {
-			System.out.println("AGREGAAA PARAMETROSS: "
-					+ block.getNameDataSource() + "--" + block.getDataSource());
 			params.put(block.getNameDataSource(), block.getDataSource());
 		}
 		return params;

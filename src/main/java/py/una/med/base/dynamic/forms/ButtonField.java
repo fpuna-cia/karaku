@@ -40,7 +40,6 @@ public class ButtonField extends TextField {
 	 */
 	public boolean isRequired() {
 
-		System.out.println(required);
 		return required;
 	}
 
@@ -56,7 +55,6 @@ public class ButtonField extends TextField {
 
 		super.setRequired(required);
 		this.required = required;
-		System.out.println(getBind().isRequired());
 	}
 
 	public ButtonField() {

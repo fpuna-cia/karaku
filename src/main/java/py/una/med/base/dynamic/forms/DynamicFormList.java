@@ -68,7 +68,7 @@ public class DynamicFormList {
 		}
 	}
 
-	public void add(Field ... field) {
+	public void add(Field... field) {
 
 		for (Field f : field) {
 			fields.add(f);
@@ -254,8 +254,6 @@ public class DynamicFormList {
 
 	public String getCurrentRender() {
 
-		System.out.println("dynamic:form:dynamic:"
-				+ getCurrentPickerField().getId());
 		return "dynamic:form:dynamic:" + getCurrentPickerField().getId();
 	}
 }

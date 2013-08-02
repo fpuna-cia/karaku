@@ -332,17 +332,11 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	private List<?> getResponseBlockMemory(
 			EncuestaPlantillaBloque encuestaBloque) {
 
-		System.out.println("Entro en memoryyy");
 		List<EncuestaDetalle> list = getPreloaded().getDetalles();
 		List<Object[]> result = new ArrayList<Object[]>();
 		for (EncuestaDetalle detalle : list) {
-			System.out.println("$$$$$$: " + detalle.getRespuesta());
-			System.out.println("BLoqueweee11111: "
-					+ detalle.getPregunta().getBloque().getId());
-			System.out.println("BLoqueweee22222: " + encuestaBloque.getId());
 			if (detalle.getPregunta().getBloque().getId()
 					.equals(encuestaBloque.getId())) {
-				System.out.println("###Deetalle: " + detalle.getRespuesta());
 				Object[] temp = new Object[4];
 				temp[0] = detalle.getPregunta().getOrden();
 				temp[1] = detalle.getNumeroFila();
@@ -557,7 +551,6 @@ public abstract class SIGHDynamicSurveyBaseController implements
 
 	public void clear() {
 
-		System.out.println("limpiandooo centrall");
 		setPreloaded(null);
 		setBlocks(null);
 		setBean(null);
@@ -630,18 +623,18 @@ public abstract class SIGHDynamicSurveyBaseController implements
 		}
 		String value = "";
 		switch (getMode()) {
-			case NEW:
-				value = "ABM_SURVEY_BUTTON_CANCEL";
-				break;
-			case VIEW:
-				value = "ABM_SURVEY_BUTTON_BACK";
-				break;
-			case DELETE:
-				value = "ABM_SURVEY_BUTTON_CANCEL";
-				break;
-			default:
-				value = "BREADCRUM_UNKNOWN";
-				break;
+		case NEW:
+			value = "ABM_SURVEY_BUTTON_CANCEL";
+			break;
+		case VIEW:
+			value = "ABM_SURVEY_BUTTON_BACK";
+			break;
+		case DELETE:
+			value = "ABM_SURVEY_BUTTON_CANCEL";
+			break;
+		default:
+			value = "BREADCRUM_UNKNOWN";
+			break;
 		}
 		return I18nHelper.getMessage(value);
 	}
@@ -653,14 +646,14 @@ public abstract class SIGHDynamicSurveyBaseController implements
 			mode = Mode.VIEW;
 		}
 		switch (mode) {
-			case NEW:
-				return true;
-			case VIEW:
-				return false;
-			case DELETE:
-				return false;
-			default:
-				break;
+		case NEW:
+			return true;
+		case VIEW:
+			return false;
+		case DELETE:
+			return false;
+		default:
+			break;
 		}
 		return true;
 	}

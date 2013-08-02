@@ -103,7 +103,6 @@ public class BreadcrumbController {
 	 */
 	public void initialize() {
 
-		// System.out.println("BreadcrumbController.initialize()");
 		FacesContext fc = FacesContext.getCurrentInstance();
 		String url = fc.getViewRoot().getViewId();
 		if ("true".equals(fc.getExternalContext().getRequestParameterMap()
@@ -199,10 +198,6 @@ public class BreadcrumbController {
 	public List<BreadcrumbItem> getItems() {
 
 		initialize();
-		// System.out.println("BreadcrumbController.getItems()");
-		// for (BreadcrumbItem item : items) {
-		// System.out.println(item.getName());
-		// }
 		return items;
 	}
 

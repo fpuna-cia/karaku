@@ -78,8 +78,6 @@ public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
 
 		for (EncuestaDetalleOpcionRespuesta detalle : encuestaDetalleOpcionRespuestaDAO
 				.getAll(where, null)) {
-			System.out.println("%%%"
-					+ detalle.getOpcionRespuesta().getDescripcion());
 			log.debug("Recuperando las opciones de respuesta.."
 					+ detalle.getOpcionRespuesta().toString());
 			detalle.setOpcionRespuesta(detalle.getOpcionRespuesta());
