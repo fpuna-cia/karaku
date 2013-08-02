@@ -5,16 +5,18 @@
 	xmlns:rich="http://richfaces.org/rich">
 	<cc:interface componentType="customTimeBean">
 		<cc:attribute name="date" type="java.util.Date" required="true" />
+		<cc:attribute name="disabled" type="java.lang.Boolean" default="false" />
 		<cc:attribute name="hasSeconds" default="true"></cc:attribute>
 	</cc:interface>
 	<cc:implementation>
 		<rich:inputNumberSpinner value="#{cc.hours}" minValue="0"
-			maxValue="23" />
+			maxValue="23" disabled="#{cc.attrs.disabled}" />
 		<h:outputLabel value=":" />
 		<rich:inputNumberSpinner value="#{cc.minutes}" minValue="0"
-			maxValue="59" />
+			maxValue="59" disabled="#{cc.attrs.disabled}" />
 		<h:outputLabel value=":" rendered="#{cc.attrs.hasSeconds}" />
 		<rich:inputNumberSpinner value="#{cc.seconds}" minValue="0"
-			maxValue="59" rendered="#{cc.attrs.hasSeconds}" />
+			maxValue="59" rendered="#{cc.attrs.hasSeconds}"
+			disabled="#{cc.attrs.disabled}" />
 	</cc:implementation>
 </ui:composition>
