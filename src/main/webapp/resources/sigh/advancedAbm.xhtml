@@ -20,22 +20,17 @@
 </composite:interface>
 <composite:implementation
 	xmlns:composite="http://java.sun.com/jsf/composite">
-
 	<h:form>
 		<h:commandButton action="#{cc.attrs.controller.preList()}"
 			value="#{msg['BASE_ADVANCED_ABM_GO_BACK']}" immediate="true" />
 	</h:form>
-
 	<rich:messages ajaxRendered="true" showDetail="true"
 		id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
 
-	<!-- 	<rich:panel> -->
-	<!-- 		<f:facet name="header"> -->
-	<!-- 			<h:outputLabel value="#{cc.attrs.controller.headerText}" /> -->
-	<!-- 		</f:facet> -->
 	<h:form id="headerForm">
-		<input type="checkbox" id="toogleDetail" value="Expandir"
-			class="check_expand" style="float: right;" checked="checked"
+		<h:selectBooleanCheckbox styleClass="check_expand" value="true"
+			style="float: right; " id="toogleDetail"
+			rendered="#{not cc.attrs.controller.editingHeader}"
 			onclick="$('#generales').toggle('slow');$('#detallados').toggle('slow');" />
 		<div id="generales" style="display: none">
 			<rich:panel header="Resumen">
@@ -73,12 +68,9 @@
 	</h:form>
 
 
-	<!-- 	</rich:panel> -->
 	<h:form>
 		<h:commandButton action="#{cc.attrs.controller.preList()}"
 			value="#{msg['BASE_ADVANCED_ABM_GO_BACK']}" immediate="true" />
-		<rich:jQuery selector="$('#toogleDetail')"
-			query="css('display', '#{cc.attrs.controller.editingHeader? 'none':''}')" />
 	</h:form>
 
 

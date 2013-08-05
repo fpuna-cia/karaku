@@ -75,10 +75,10 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 	public String doSave() {
 
 		if (getMode().equals(Mode.NEW)) {
-			super.doCreate();
+			doCreate();
 			return preList();
 		} else {
-			super.doEdit();
+			doEdit();
 			for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
 				controller.save();
 			}
@@ -92,9 +92,9 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 
 		try {
 			if (getMode().equals(Mode.NEW)) {
-				setBean(create(getBean()));
+				doCreate();
 			} else {
-				setBean(edit(getBean()));
+				doEdit();
 			}
 			for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
 				controller.save();
@@ -314,7 +314,7 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 
 	@Override
 	public String preList() {
-		
+
 		cancel();
 		return super.preList();
 	}
