@@ -4,15 +4,10 @@
  */
 package py.una.med.base.jsf.converters;
 
-import java.lang.reflect.Field;
-import javax.el.ValueExpression;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import py.una.med.base.dao.annotations.CaseSensitive;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.util.ELHelper;
 
 /**
  * Es un {@link FacesConverter} que no realiza ninguna acción, es utilizado

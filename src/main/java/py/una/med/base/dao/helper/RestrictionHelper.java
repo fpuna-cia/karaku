@@ -22,8 +22,6 @@ import py.una.med.base.dao.where.Or;
  */
 public class RestrictionHelper<T> {
 
-	private Map<String, String> alias;
-
 	/**
 	 * Agrega todas las restriciones a la criteria, si encuentra expresiones del
 	 * tipo {@link LikeExpression}, las modifica para aceptar paths anidados
