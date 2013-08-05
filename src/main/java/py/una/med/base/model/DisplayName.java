@@ -20,17 +20,33 @@ import java.lang.annotation.Target;
 public @interface DisplayName {
 
 	/**
-	 * Clave por la cual se buscara en el archivo de idiomas en el formato
-	 * {CADENA}
+	 * Clave por la cual se buscara en el archivo de idiomas en el formato<br/>
+	 * 
+	 * <pre>
+	 * &quot;{CADENA}&quot;
+	 * </pre>
+	 * 
+	 * Ejemplo
+	 * 
+	 * <pre>
+	 * {@literal @}DisplayName(key="NACIONALIDAD_DESCRIPCION")
+	 * Nacionalidad nacionalidad;
+	 * </pre>
 	 * 
 	 * @return Llave del archivo de idiomas
 	 */
 	String key();
 
 	/**
-	 * Expresion EL para ubicar el valor de la referencia, ejemplo: desde la
-	 * entidad PersonaFisica, si queremos agregar un enlace al nombre de la
-	 * nacionalidad ponemos: "nacionalidad.descripcion"
+	 * Expresión para ubicar el valor de la referencia.<br/>
+	 * Ejemplo: desde la entidad PersonaFisica, si queremos agregar un enlace a
+	 * la descripción de la nacionalidad ponemos en el atributo
+	 * <code>nacionalidad</code> la anotación de la siguiente forma:
+	 * 
+	 * <pre>
+	 * {@literal @}DisplayName(path="descripcion")
+	 * Nacionalidad nacionalidad;
+	 * </pre>
 	 * 
 	 * @return EL expression
 	 */
