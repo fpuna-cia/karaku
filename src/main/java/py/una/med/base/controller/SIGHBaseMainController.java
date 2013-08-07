@@ -76,13 +76,13 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 
 		if (getMode().equals(Mode.NEW)) {
 			doCreate();
-			return preList();
+			return goList();
 		} else {
 			doEdit();
 			for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
 				controller.save();
 			}
-			return preList();
+			return goList();
 		}
 	}
 
@@ -127,6 +127,18 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 			controller.setMainController(null);
 		}
 
+	}
+
+	@Override
+	public String postEdit() {
+
+		return "";
+	}
+
+	@Override
+	public String postCreate() {
+
+		return "";
 	}
 
 	@Override
