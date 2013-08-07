@@ -187,7 +187,7 @@ public class RequiredPhaseListener implements Serializable {
 	 */
 	private String getFunction(String regexp) {
 
-		return "var theEvent = window.event; "
+		return "var theEvent = window.event || event; "
 				+ "var key = theEvent.keyCode || theEvent.which; "
 				+ "key = String.fromCharCode( key ); " + "var regex = /^"
 				+ regexp + "$/;" + "if( !regex.test(key) ) {"
