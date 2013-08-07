@@ -24,7 +24,8 @@
 		<h:message for="filterValue" />
 		<h:outputLabel value="Atributo:" />
 		<h:selectOneMenu id="filterOption"
-			value="#{cc.attrs.simpleFilter.option}" style="width:200px">
+			value="#{cc.attrs.simpleFilter.option}" style="width:200px"
+			converter="oldStringConverter">
 			<f:selectItem itemLabel="Ingrese una opción" />
 			<f:selectItems value="#{cc.attrs.filterOptions}" />
 		</h:selectOneMenu>
@@ -34,8 +35,8 @@
 			execute="filterValue filterOption"
 			render="@form #{cc.attrs.searchRender}" />
 		<a4j:commandButton value="#{msg['LIST_CLEAR']}"
-			render="#{cc.attrs.searchRender} @form"
-			action="#{cc.attrs.simpleFilter.clear}" />
+			render="#{cc.attrs.searchRender} @form" immediate="true"
+			execute="@none" action="#{cc.attrs.simpleFilter.clear}" />
 	</h:panelGrid>
 </composite:implementation>
 </html>
