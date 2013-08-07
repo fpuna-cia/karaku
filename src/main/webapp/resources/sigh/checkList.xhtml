@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://myfaces.apache.org/orchestra"
+	xmlns:tsigh="http://www.pol.una.py/jsf/sigh">
+
+<composite:interface
+	displayName="Componente que renderiza una lista simple, incluye mensajes, busqueda simple, avanzada, lista de registros y botones de exportar y crear">
+	<composite:attribute name="controller" required="true"
+		type="py.una.med.base.controller.ISIGHBaseController"
+		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
+	<composite:attribute name="idListEntities" default="idListEntities"
+		displayName="id de la tabla de entidades (dataTable), el nombre de la variable de esta tabla es dataTable" />
+	<composite:attribute name="urlColumns" required="true" />
+	<composite:attribute name="urlSearchForm" required="true" />
+	<composite:facet name="extraButtons" />
+	<composite:attribute name="deleteButtonName" />
+	<composite:attribute name="withRowExports" default="false"
+		type="java.lang.Boolean"
+		displayName="Muestra una columna con las opciones de exportacion" />
+	<composite:attribute name="withGridExports" default="true"
+		type="java.lang.Boolean"
+		displayName="Muestra abajo opciones de exportacion" />
+	<composite:attribute name="withRowActions" default="true"
+		type="java.lang.Boolean"
+		displayName="Muestra una columna con las acciones editar, borrar y ver" />
+	<composite:attribute name="showMessages" default="true" />
+	<composite:attribute name="createButtonText" default="Crear" />
+    <composite:attribute name="withAdvancedSearch" default="true"
+		type="java.lang.Boolean" />
+	<composite:attribute name="withMessages" default="true"
+		type="java.lang.Boolean" />
+	<composite:attribute name="withCreateButton" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el boton crear sera visible" />
+	<composite:attribute name="withDeleteVisible" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el enlace borrar sera visible" />
+    <composite:attribute name="withEditVisible" type="java.lang.Boolean"
+        default="true"
+        shortDescription="Define si el enlace editar sera visible" />
+</composite:interface>
+<composite:implementation
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+	<h:outputLabel value="#{cc.attrs.controller.usarController}" />
+	<rich:messages ajaxRendered="true" showDetail="true"
+		id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
+	<rich:panel
+		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+		<f:facet name="header">
+			<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
+		</f:facet>
+		<h:form>
+			<sigh:basic_filter controller="#{cc.attrs.controller}"
+				searchRender="#{cc.attrs.idListEntities} #{cc.attrs.controller.messageIdName} idPagingPanel">
+				<a4j:commandButton value="#{msg['LIST_ADVANCED_SEARCH_BUTTON']}"
+					render="pgSearch"
+					actionListener="#{cc.attrs.controller.preSearch()}" execute="@this"
+					oncomplete="#{rich:component('puSearch')}.show()"
+					rendered="#{cc.attrs.withAdvancedSearch}" />
+				<a4j:commandButton value="#{msg['LIST_CLEAR']}"
+					action="#{cc.attrs.controller.clearFilters}"
+					render="@form,#{cc.attrs.idListEntities}, #{cc.attrs.controller.messageIdName} idPagingPanel"
+					execute="@this" />
+			</sigh:basic_filter>
+		</h:form>
+		<div class="space"></div>
+		<h:form
+			rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+			<sigh:dataTable items="#{cc.attrs.controller.entities}"
+				idDataTable="#{cc.attrs.idListEntities}"
+				controller="#{cc.attrs.controller}"
+				deleteText="#{cc.attrs.deleteButtonName}"
+				withActions="#{cc.attrs.withRowActions}" width="100%"
+				deleteVisible="#{cc.attrs.withDeleteVisible}"
+                editVisible="#{cc.attrs.withEditVisible}"
+				withExports="#{cc.attrs.withRowExports}">
+                <ui:param name="itemKey"
+                            value="#{cc.attrs.controller.getItemKeyProvider(item)}" />
+                        <rich:column
+                            rendered="#{not cc.attrs.controller.selectAllButtonVisible}">
+                            <f:facet name="header">
+                                <h:outputText
+                                    value="#{msg['MULTIPLE_PICKER_SELECCIONAR_HEADER']}"
+                                    style="margin-right: 3px;" />
+                                <h:selectBooleanCheckbox>
+                                    <a4j:ajax
+                                        listener="#{cc.attrs.controller.onCheckboxHeaderClicked}"
+                                        render="#{cc.attrs.idListEntities}"
+                                        execute="@this" />
+                                </h:selectBooleanCheckbox>
+                            </f:facet>
+                            <h:selectBooleanCheckbox
+                                value="#{cc.attrs.controller.selectedMap[item]}"
+                                style="margin-left: 80px; margin-top: 5px;">
+                                <a4j:ajax
+                                    render="#{cc.attrs.idListEntities}"
+                                    execute="@this" />
+                            </h:selectBooleanCheckbox>
+                        </rich:column>
+				<ui:include src="#{cc.attrs.urlColumns}" />
+			</sigh:dataTable>
+		</h:form>
+	</rich:panel>
+	<h:form
+		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+		<h:panelGrid columns="3" width="100%"
+			columnClasses="list_button_class,list_export_class,list_pagin_class">
+			<o:separateConversationContext>
+				<tsigh:security
+					hasPermission="#{cc.attrs.controller.createPermission}">
+					<h:commandButton value="#{cc.attrs.createButtonText}" immediate="true"
+						rendered="#{cc.attrs.withCreateButton}"
+						action="#{cc.attrs.controller.preCreate()}"
+						render="panelGridCreate" />
+				</tsigh:security>
+			</o:separateConversationContext>
+			<h:panelGrid columns="3" rendered="#{cc.attrs.withGridExports}">
+				<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
+				<h:commandLink action="#{cc.attrs.controller.generateReport('xls')}">
+					<h:graphicImage value="/resources/images/csv-ico.png"
+						alt="Exportar a CSV" title="Exportar a CSV"
+						style="width:24px;height:24px" />
+				</h:commandLink>
+				<h:commandLink action="#{cc.attrs.controller.generateReport('pdf')}">
+					<h:graphicImage value="/resources/images/pdf-ico.png"
+						alt="Exportar a PDF" title="Exportar a PDF"
+						style="width:24px;height:24px" />
+				</h:commandLink>
+			</h:panelGrid>
+			<h:panelGroup rendered="#{not cc.attrs.withGridExports}"/>
+
+			<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
+				idPanel="idPagingPanel" render="#{cc.attrs.idListEntities}" />
+		</h:panelGrid>
+	</h:form>
+	<c:if
+		test="#{cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+		<sigh:popup title="#{msg['BASE_FORM_SEARCH']}" popupId="puSearch">
+			<h:form>
+				<rich:messages id="globalMessages" globalOnly="true" />
+				<h:panelGrid columns="3"
+					columnClasses="form_label,form_input,form_error" id="pgSearch">
+					<ui:include src="#{cc.attrs.urlSearchForm}" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<a4j:commandButton
+						actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
+						oncomplete="#{rich:component('puSearch')}.hide(); return false;"
+						render="globalMessages, @form, #{cc.attrs.idListEntities} idPagingPanel"
+						immediate="true">
+
+					</a4j:commandButton>
+					<a4j:commandButton immediate="true"
+						value="#{msg['BASE_FORM_SEARCH_CANCEL']}"
+						oncomplete="#{rich:component('puSearch')}.hide()" />
+				</h:panelGrid>
+			</h:form>
+		</sigh:popup>
+	</c:if>
+</composite:implementation>
+</html>
