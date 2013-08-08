@@ -4,14 +4,6 @@
 
 package py.una.med.base.services.client;
 
-/**
- * Controlador para la vista de manejo de URL's.
- * 
- * @author Arturo Volpe Torres
- * @since 1.2
- * @version 1.0 25/06/2013
- * 
- */
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -20,6 +12,14 @@ import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.controller.ISIGHAdvancedController;
 import py.una.med.base.controller.SIGHAdvancedController;
 
+/**
+ * Controlador para la vista de manejo de URL's.
+ * 
+ * @author Arturo Volpe Torres
+ * @since 2.1
+ * @version 1.0 25/06/2013
+ * 
+ */
 @Scope(value = SIGHConfiguration.SCOPE_CONVERSATION)
 @Controller
 public class WSEndpointController extends

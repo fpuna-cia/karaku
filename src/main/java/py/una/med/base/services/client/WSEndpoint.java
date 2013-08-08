@@ -3,7 +3,7 @@
  */
 package py.una.med.base.services.client;
 
-import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
 import py.una.med.base.dao.annotations.CaseSensitive;
 import py.una.med.base.domain.BaseEntity;
@@ -36,19 +37,37 @@ public class WSEndpoint extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "WS_ENDPOINT_SEQ")
 	private Long id;
 
-	@Basic(optional = false)
-	@DisplayName(key = "{KARAKU_ENDPOINT_URL}")
 	@NotNull
 	@CaseSensitive
+	@DisplayName(key = "{KARAKU_ENDPOINT_URL}")
 	@Pattern(regexp = ValidationConstants.URL)
 	private String url;
 
-	@Basic(optional = false)
 	@NotNull
 	@CaseSensitive
 	@DisplayName(key = "{KARAKU_ENDPOINT_KEY}")
 	@Pattern(regexp = ValidationConstants.ALPHANUMERIC)
 	private String key;
+
+	@NotNull
+	@DisplayName(key = "{KARAKU_ENDPOINT_PASSWORD}")
+	@Pattern(regexp = ValidationConstants.ALPHANUMERIC)
+	@CaseSensitive
+	private String password;
+
+	@NotNull
+	@Column(name = "username")
+	@DisplayName(key = "{KARAKU_ENDPOINT_USERNAME}")
+	@Pattern(regexp = ValidationConstants.ALPHANUMERIC)
+	@CaseSensitive
+	private String user;
+
+	@NotNull
+	@Column(name = "internal_tag")
+	@Size(max = 100)
+	@DisplayName(key = "{KARAKU_ENDPOINT_USERNAME}")
+	@Pattern(regexp = ValidationConstants.ALPHANUMERIC_SPE)
+	private String internalTag;
 
 	/**
 	 * @return id
@@ -100,6 +119,36 @@ public class WSEndpoint extends BaseEntity {
 	public void setKey(String key) {
 
 		this.key = key;
+	}
+
+	public String getPassword() {
+
+		return password;
+	}
+
+	public void setPassword(String password) {
+
+		this.password = password;
+	}
+
+	public String getUser() {
+
+		return user;
+	}
+
+	public void setUser(String user) {
+
+		this.user = user;
+	}
+
+	public String getInternalTag() {
+
+		return internalTag;
+	}
+
+	public void setInternalTag(String internalTag) {
+
+		this.internalTag = internalTag;
 	}
 
 }

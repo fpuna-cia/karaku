@@ -20,4 +20,22 @@
 		style="text-transform:none;"
 		disabled="#{not WSEndpointController.isEditable('key')}" />
 	<rich:message for="key" ajaxRendered="true" />
+
+	<h:outputLabel value="#{msg['KARAKU_ENDPOINT_USERNAME']}" for="user" />
+	<h:inputText value="#{WSEndpointController.bean.user}" id="user"
+		style="text-transform:none;"
+		disabled="#{not WSEndpointController.isEditable('user')}" />
+	<rich:message for="user" ajaxRendered="true" />
+
+	<h:outputLabel value="#{msg['KARAKU_ENDPOINT_PASSWORD']}" for="pass" />
+	<h:inputSecret value="#{WSEndpointController.bean.password}" id="pass"
+		style="text-transform:none;"
+		disabled="#{not WSEndpointController.isEditable('pass')}" />
+	<rich:message for="pass" ajaxRendered="true" />
+
+	<h:outputLabel value="#{msg['KARAKU_ENDPOINT_INTERNAL_TAG']}" for="tag" />
+	<h:inputText value="#{WSEndpointController.bean.internalTag}" id="tag"
+		converter="oldStringConverter"
+		disabled="#{not WSEndpointController.isEditable('tag')}" />
+	<rich:message for="tag" ajaxRendered="true" />
 </ui:composition>

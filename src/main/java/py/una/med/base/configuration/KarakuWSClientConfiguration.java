@@ -13,9 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.services.client.WSSecurityInterceptor;
 
 /**
  * 
@@ -44,6 +47,9 @@ public class KarakuWSClientConfiguration {
 	@Autowired
 	private PropertiesUtil properties;
 
+	@Autowired
+	WSSecurityInterceptor securityInterceptor;
+
 	/**
 	 * 
 	 */
@@ -51,6 +57,12 @@ public class KarakuWSClientConfiguration {
 
 	}
 
+	/**
+	 * Instancia un nuevo bean del Tipo {@link WebServiceTemplate}, utilizado
+	 * para realizar llamadas del tipo SOAP.
+	 * 
+	 * @return {@link WebServiceTemplate} para realizar llamadas
+	 */
 	@Bean
 	public WebServiceTemplate webServiceTemplate() {
 
@@ -59,24 +71,10 @@ public class KarakuWSClientConfiguration {
 		}
 
 		try {
-			Class<?> clazz = Class
-					.forName("org.springframework.ws.client.core.WebServiceTemplate");
-			Class<?> clazzMarshaller = Class
-					.forName("org.springframework.oxm.Marshaller");
-			Class<?> clazzUnMarshaller = Class
-					.forName("org.springframework.oxm.Unmarshaller");
-
-			Object o = clazz.newInstance();
-			clazz.getMethod("setMarshaller", clazzMarshaller).invoke(o,
-					marshaller());
-			clazz.getMethod("setUnmarshaller", clazzUnMarshaller).invoke(o,
-					unmarshaller());
-			return (WebServiceTemplate) o;
-		} catch (ClassNotFoundException e) {
-			throw new KarakuRuntimeException(
-					"Can not find the WebServiceTemplate base class in the classpath, "
-							+ "please, check your pom and add the ws dependencies",
-					e);
+			WebServiceTemplate wst = new WebServiceTemplate();
+			wst.setMarshaller(getJaxb2Marshaller());
+			wst.setUnmarshaller(getJaxb2Marshaller());
+			return wst;
 		} catch (Exception e) {
 			throw new KarakuRuntimeException(
 					"Wrong version of WS dependencies, please check your pom",
@@ -91,18 +89,18 @@ public class KarakuWSClientConfiguration {
 	 * 
 	 * <pre>
 	 * {@literal 
-	 * 		<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-	 * 			<property name="packagesToScan">
-	 * 				<list>
-	 * 					<value>py.una.med.identificacion.ws.schema</value>
-	 * 					<value>py.una.med.configuracion.ws.schema</value>
-	 * 				</list>
-	 * 			</property>
-	 * 		</bean>}
+	 * 	<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+	 * 		<property name="packagesToScan">
+	 * 			<list>
+	 * 				<value>py.una.med.identificacion.ws.schema</value>
+	 * 				<value>py.una.med.configuracion.ws.schema</value>
+	 * 			</list>
+	 * 		</property>
+	 * 	</bean>}
 	 * </pre>
 	 */
 	@Bean
-	public org.springframework.oxm.Marshaller marshaller() {
+	public Marshaller marshaller() {
 
 		return getJaxb2Marshaller();
 	}
@@ -124,7 +122,7 @@ public class KarakuWSClientConfiguration {
 	 * </pre>
 	 */
 	@Bean
-	public Object unmarshaller() {
+	public Unmarshaller unmarshaller() {
 
 		return getJaxb2Marshaller();
 	}
@@ -152,18 +150,10 @@ public class KarakuWSClientConfiguration {
 
 		try {
 
-			Class<?> clazz = Class
-					.forName("org.springframework.oxm.jaxb.Jaxb2Marshaller");
-			Object o = clazz.newInstance();
+			Jaxb2Marshaller jaxb2 = new Jaxb2Marshaller();
 			String[] clases = packagesFound.toArray(new String[0]);
-			clazz.getMethod("setPackagesToScan", String[].class).invoke(o,
-					(Object) clases);
-			return (Jaxb2Marshaller) o;
-		} catch (ClassNotFoundException e) {
-			throw new KarakuRuntimeException(
-					"Can not find the Jaxb2Marshaller base class in the classpath, "
-							+ "please, check your pom and add the ws (oxm) dependencies",
-					e);
+			jaxb2.setPackagesToScan(clases);
+			return jaxb2;
 		} catch (Exception e) {
 			throw new KarakuRuntimeException(
 					"Wrong version of WS dependencies, please check your pom",

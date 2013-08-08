@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="avolpe@pol.una.py" id="base_public_ws-endpoint_ac_001">
+		<addColumn schemaName="audit" tableName="ws_end_point_aud">
+			<column name="username" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+		<addColumn schemaName="audit" tableName="ws_end_point_aud">
+			<column name="password" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+		<addColumn schemaName="audit" tableName="ws_end_point_aud">
+			<column name="internal_tag" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+	</changeSet>
+</databaseChangeLog>

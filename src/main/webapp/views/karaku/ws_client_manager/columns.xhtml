@@ -29,5 +29,17 @@
 		</f:facet>
 		<h:outputText value="#{item.key}" />
 	</rich:column>
+	<rich:column>
+		<f:facet name="header">
+			<h:outputText value="#{msg['KARAKU_ENDPOINT_USERNAME']}" />
+		</f:facet>
+		<h:outputText value="#{item.user}" />
+	</rich:column>
+	<rich:column>
+		<f:facet name="header">
+			<h:outputText value="#{msg['KARAKU_ENDPOINT_INTERNAL_TAG']}" />
+		</f:facet>
+		<h:outputText value="#{item.internalTag}" />
+	</rich:column>
 
 </ui:composition>
