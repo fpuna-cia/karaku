@@ -7,82 +7,36 @@ package py.una.med.base.security;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.List;
-import javax.naming.Context;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.BasicAttribute;
-import javax.naming.directory.BasicAttributes;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
-import javax.naming.directory.SearchResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Esta clase implementa UserDetails, proporciona información básica del
- * usuario.
+ * usuario.<br />
  * 
  * @author Uriel González
+ * @author Arturo Volpe
  * @version 1.0, 10/12/12
  * @since 1.0
  */
 public class SIGHUserDetails implements Serializable, UserDetails {
 
-	private static Logger logger = LoggerFactory
-			.getLogger(SIGHUserDetails.class);
-
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5902809292219265597L;
 
 	private String userName;
+
 	private List<GrantedAuthority> listaRoles;
 
-	public SIGHUserDetails(String user, String ldapServer, String ldapUser,
-			String ldapUserPassword) {
+	/**
+	 * Instancia una
+	 */
+	public SIGHUserDetails() {
 
-		logger.info("Recuperando detalles del usuario: " + user);
-
-		this.userName = user;
-
-		// Nos conectamos al ldap
-		Hashtable<Object, String> env = new Hashtable<Object, String>();
-		env.put(Context.INITIAL_CONTEXT_FACTORY,
-				"com.sun.jndi.ldap.LdapCtxFactory");
-		env.put(Context.PROVIDER_URL, ldapServer);
-
-		// env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5");
-		env.put(Context.SECURITY_PRINCIPAL, ldapUser);
-		env.put(Context.SECURITY_CREDENTIALS, ldapUserPassword);
-
-		this.listaRoles = new ArrayList<GrantedAuthority>();
-
-		try {
-			DirContext ctx = new InitialDirContext(env);
-			Attributes matchAttrs = new BasicAttributes(true);
-			matchAttrs.put(new BasicAttribute("member", "uid=" + user
-					+ ",ou=users,dc=med,dc=una,dc=py"));
-			NamingEnumeration<SearchResult> answer = ctx.search(
-					"ou=permissions", matchAttrs);
-
-			while (answer.hasMore()) {
-				SearchResult searchResult = answer.next();
-				Attributes attributes = searchResult.getAttributes();
-				Attribute attr = attributes.get("cn");
-				String rol = (String) attr.get();
-				SIGHUserGrantedAuthority grantedAuthority = new SIGHUserGrantedAuthority(
-						rol);
-				listaRoles.add(grantedAuthority);
-			}
-
-		} catch (NamingException e) {
-			logger.error("Error al recuperar detalles del usuario", e);
-		}
-
+		listaRoles = new ArrayList<GrantedAuthority>();
 	}
 
 	/**
@@ -94,6 +48,26 @@ public class SIGHUserDetails implements Serializable, UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
 		return this.listaRoles;
+	}
+
+	/**
+	 * Agrega una lista de permisos al usurio.
+	 * 
+	 * @param listaRoles
+	 *            lista que contiene los roles a añadir al usuario.
+	 */
+	public void addRoles(List<GrantedAuthority> listaRoles) {
+
+		this.listaRoles = listaRoles;
+	}
+
+	/**
+	 * @param userName
+	 *            userName para setear
+	 */
+	public void setUserName(String userName) {
+
+		this.userName = userName;
 	}
 
 	/**

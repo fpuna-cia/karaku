@@ -34,6 +34,9 @@ ldap.user = uid=Cas,ou=users,dc=med,dc=una,dc=py
 #Password del usuario definido anteriormente
 ldap.user.password = cas
 
+#Cadena para buscar usuarios en el LDAP, se reemplaza UUU cno el nombre del usuario
+ldap.user.pattern = uid=UUU,ou=users,dc=med,dc=una,dc=py
+
 #Cadena de conexion a la base de datos, puede cambiar entre
 #ejecuciones.
 database.url = jdbc:postgresql://localhost:5432/[BaseDatos]

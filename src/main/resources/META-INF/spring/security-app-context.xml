@@ -4,12 +4,22 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                          http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
+
+	<security:http entry-point-ref="basicAuthenticationEntryPoint"
+		pattern="/endpoints/.*" authentication-manager-ref="authenticationManager"
+		create-session="stateless" request-matcher="regex" use-expressions="true"
+		auto-config="false">
+		<security:intercept-url pattern="/endpoints/.*\.wsdl"
+			access="isAuthenticated()" />
+		<security:custom-filter ref="basicAuthenticationFilter"
+			position="BASIC_AUTH_FILTER" />
+	</security:http>
+
 	<security:http entry-point-ref="casEntryPoint"
-		use-expressions="true">
-		<security:intercept-url pattern="/endpoints/**"
-			access="true" />
+		use-expressions="true" auto-config="true" authentication-manager-ref="casAuthenticationManager">
 		<security:intercept-url pattern="/**"
 			access="isAuthenticated()" />
+
 		<security:custom-filter position="CAS_FILTER"
 			ref="casFilter" />
 		<security:logout logout-success-url="/${application.homePage}" />
@@ -19,16 +29,41 @@
 			before="CAS_FILTER" />
 	</security:http>
 
-	<security:authentication-manager alias="authenticationManager">
+	<security:authentication-manager alias="casAuthenticationManager">
 		<security:authentication-provider
 			ref="casAuthenticationProvider" />
 	</security:authentication-manager>
 
-	<bean id="casFilter"
-		class="org.springframework.security.cas.web.CasAuthenticationFilter">
-		<property name="authenticationManager" ref="authenticationManager" />
+	<!-- WEB Service Authentication -->
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			ref="karakuWsAuthenticationProvider" />
+		<security:authentication-provider
+			ref="casAuthenticationProvider" />
+
+	</security:authentication-manager>
+
+	<bean id="basicAuthenticationEntryPoint"
+		class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="SIGH" />
 	</bean>
 
+	<bean id="karakuWsAuthenticationProvider"
+		class="py.una.med.base.services.server.KarakuWSAuthenticationProvider" />
+
+	<bean id="basicAuthenticationFilter"
+		class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="authenticationEntryPoint" ref="basicAuthenticationEntryPoint" />
+	</bean>
+	<!-- END WEB SERVICE Authentication -->
+
+	<!-- Cas authenthication -->
+	<bean id="casFilter"
+		class="org.springframework.security.cas.web.CasAuthenticationFilter">
+		<property name="authenticationManager" ref="casAuthenticationManager" />
+	</bean>
 	<bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
 		<property name="service"
 			value="${application.host}/j_spring_cas_security_check" />
@@ -53,11 +88,7 @@
 		<property name="key" value="cas" />
 	</bean>
 
-	<bean id="allAuthenticatedUserService" class="py.una.med.base.security.SIGHUserService">
-		<property name="ldapServer" value="${ldap.server.host}/${ldap.DN}" />
-		<property name="ldapUser" value="${ldap.user}" />
-		<property name="ldapUserPassword" value="${ldap.user.password}" />
-	</bean>
+	<bean id="allAuthenticatedUserService" class="py.una.med.base.security.SIGHUserService" />
 
 	<bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter" />
 
