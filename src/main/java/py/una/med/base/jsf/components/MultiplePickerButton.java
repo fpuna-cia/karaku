@@ -109,7 +109,9 @@ public class MultiplePickerButton extends UINamingContainer {
 		setSelectAllChecked(!isSelectAllChecked());
 
 		checkedItems = getCheckedItems();
-
+		if (checkedItems == null) {
+			checkedItems = new HashMap<Object, Boolean>();
+		}
 		List<Object> items = (List<Object>) dataTable.getValue();
 
 		for (Object item : items) {
@@ -172,6 +174,9 @@ public class MultiplePickerButton extends UINamingContainer {
 	public void updateSelectedItems(Object item, boolean add) {
 
 		selectedItems = getSelectedItems();
+		if (selectedItems == null) {
+			selectedItems = new ArrayList<Object>();
+		}
 		if (add) {
 			selectedItems.add(item);
 		} else {
@@ -189,10 +194,14 @@ public class MultiplePickerButton extends UINamingContainer {
 	public void clearSelectedItems() {
 
 		checkedItems = getCheckedItems();
-		checkedItems.clear();
+		if (checkedItems != null) {
+			checkedItems.clear();
+		}
 		setCheckedItems(checkedItems);
 		selectedItems = getSelectedItems();
-		selectedItems.clear();
+		if (selectedItems != null) {
+			selectedItems.clear();
+		}
 		setSelectedItems(selectedItems);
 		setSelectAllChecked(false);
 	}
