@@ -29,7 +29,7 @@ import py.una.med.base.util.I18nHelper;
  * 
  * Componente que se encarga de capturar la fase {@link PhaseId#RENDER_RESPONSE}
  * , y busca todos aquellos {@link UIInput} que sean requeridos, para agregarles
- * una clase (css) a fin de que luego mediante css puedan mostrarse alertas
+ * una clase (css) a fin de que luego, mediante css puedan mostrarse alertas
  * visuales.
  * 
  * @see #preRenderView(ComponentSystemEvent)
@@ -57,7 +57,7 @@ public class RequiredPhaseListener implements Serializable {
 
 	/**
 	 * Cadena que representa el mensaje a ser mostrado cuando un {@link UIInput}
-	 * requerido no fue ingreasdo.
+	 * requerido no fue ingresado.
 	 */
 	public static final String REQUIRED_MESSAGE = "javax.faces.component.UIInput.REQUIRED";
 	/**
@@ -187,13 +187,7 @@ public class RequiredPhaseListener implements Serializable {
 	 */
 	private String getFunction(String regexp) {
 
-		return "var theEvent = window.event || event; "
-				+ "var key = theEvent.keyCode || theEvent.which; "
-				+ "key = String.fromCharCode( key ); " + "var regex = /^"
-				+ regexp + "$/;" + "if( !regex.test(key) ) {"
-				+ "	theEvent.returnValue = false; "
-				+ "	if(theEvent.preventDefault) "
-				+ "		theEvent.preventDefault(); " + "}";
+		return "return validateInput('" + regexp + "');";
 	}
 
 	private Field getField(UIComponent component) {
