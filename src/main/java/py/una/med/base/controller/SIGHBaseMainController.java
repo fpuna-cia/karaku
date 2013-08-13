@@ -5,10 +5,11 @@ package py.una.med.base.controller;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.application.FacesMessage;
+
 import org.apache.myfaces.orchestra.conversation.Conversation;
 import org.richfaces.event.ItemChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
 import py.una.med.base.util.ControllerHelper;
@@ -74,40 +75,40 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 	@HasRole(SIGHSecurity.DEFAULT_CREATE)
 	public String doSave() {
 
-		if (getMode().equals(Mode.NEW)) {
-			doCreate();
+		if (trySave()) {
 			return goList();
 		} else {
-			doEdit();
-			for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
-				controller.save();
-			}
-			return goList();
+			return "";
 		}
+	}
+
+	private boolean trySave() {
+		String toRet;
+
+		if (getMode().equals(Mode.NEW)) {
+			toRet = doCreate();
+		} else {
+			toRet = doEdit();
+		}
+
+		if (toRet.equals("")) {
+			return false;
+		}
+
+		for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
+			controller.save();
+		}
+		setEditingHeader(false);
+		this.setMode(Mode.EDIT);
+		return true;
 	}
 
 	@Override
 	@HasRole(SIGHSecurity.DEFAULT_CREATE)
 	public String doSaveAndContinue() {
-
-		try {
-			if (getMode().equals(Mode.NEW)) {
-				doCreate();
-			} else {
-				doEdit();
-			}
-			for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
-				controller.save();
-			}
-			setEditingHeader(false);
-			this.setMode(Mode.EDIT);
+		if (trySave()) {
 			return goEdit();
-		} catch (Exception e) {
-			e = helper.convertException(e, getClazz());
-			if (!handleException(e)) {
-				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						"BASE_ABM_EDIT_FAILURE", e.getMessage());
-			}
+		} else {
 			return "";
 		}
 	}
