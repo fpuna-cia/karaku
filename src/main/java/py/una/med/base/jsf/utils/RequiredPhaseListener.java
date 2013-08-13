@@ -17,6 +17,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.event.PhaseId;
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -166,6 +167,10 @@ public class RequiredPhaseListener implements Serializable {
 				Size s = f.getAnnotation(Size.class);
 				if (s != null) {
 					max = s.max();
+				}
+				Column c = f.getAnnotation(Column.class);
+				if (c != null && c.scale() > 0) {
+					max = c.scale();
 				}
 			}
 		}
