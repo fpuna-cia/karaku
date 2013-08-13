@@ -59,14 +59,14 @@ public class AsyncConfiguration implements AsyncConfigurer {
 	public Executor asyncExecutor() {
 
 		final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(getInt("ASYNC_CORE_POOL_SIZE",
+		executor.setCorePoolSize(getInt("karaku.async.pool.size",
 				DEFAULT_CORE_POOL_SIZE));
-		executor.setMaxPoolSize(getInt("ASYNC_CORE_POOL_MAX_SIZE",
+		executor.setMaxPoolSize(getInt("karaku.async.pool.max_size",
 				DEFAULT_CORE_POOL_MAX_SIZE));
-		executor.setQueueCapacity(getInt("ASYNC_QUEUE_SIZE",
+		executor.setQueueCapacity(getInt("karaku.async.queue.size",
 				DEFAULT_ASYNC_QUEUE_SIZE));
-		executor.setThreadNamePrefix(properties.get("ASYNC_THREAD_PREFIX",
-				DEFAULT_THREAD_PREFIX));
+		executor.setThreadNamePrefix(properties.get(
+				"karaku.async.thread.prefix", DEFAULT_THREAD_PREFIX));
 		executor.initialize();
 		return executor;
 	}

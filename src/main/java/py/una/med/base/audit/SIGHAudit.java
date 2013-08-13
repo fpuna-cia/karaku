@@ -24,10 +24,11 @@ import py.una.med.base.domain.AuditTrail;
 import py.una.med.base.domain.AuditTrailDetail;
 
 /**
- * Servicio que se encarga de capturar el joinpoint de auditoria y mediante la
- * funcion {@link SIGHAudit#doAudit(JoinPoint, Audit)} lo audita
+ * Servicio que se encarga de capturar el {@link JoinPoint} de auditoría y
+ * mediante la función {@link SIGHAudit#doAudit(JoinPoint, Audit)} lo audita.
  * 
- * @author Arturo Volpe, Romina Fernandez
+ * @author Arturo Volpe
+ * @author Romina Fernandez
  * @version 1.0
  * @since 1.0
  * 
@@ -41,12 +42,12 @@ public class SIGHAudit {
 	private IAuditLogic logic;
 
 	/**
-	 * Metodo que se encarga de extraer los parametros del metodo llamado, como
-	 * la signatura, el IP del usuario, el usuario, y con los parametros de
-	 * {@link Audit} construye expresionse EL para obtener los valores del
-	 * registro de auditoria. <br>
+	 * Método que se encarga de extraer los parámetros del método llamado, como
+	 * la signatura, el IP del usuario, el usuario, y con los parámetros de
+	 * {@link Audit} construye expresiones EL para obtener los valores del
+	 * registro de auditoría. <br>
 	 * Cada vez que genera un nuevo registro {@link AuditTrailDetail} (uno por
-	 * cada detalle de la anotacion) lo persiste como detalle del registro
+	 * cada detalle de la anotación) lo persiste como detalle del registro
 	 * {@link AuditTrail} persistido al inicio. <br>
 	 * Captura todas las excepciones y las vuelve a lanzar, pero como
 	 * {@link RuntimeException}, con los mensajes "Imposible Parsear", y
@@ -54,7 +55,9 @@ public class SIGHAudit {
 	 * 
 	 * 
 	 * @param joinPoint
+	 *            método interceptado
 	 * @param annotation
+	 *            anotación del método
 	 * @throws RuntimeException
 	 *             ("Imposible Parsear", y "Imposible serializar")
 	 */

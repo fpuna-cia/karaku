@@ -27,12 +27,12 @@ public class AuthorityController {
 			.getLogger(AuthorityController.class);
 
 	/**
-	 * Metodo que se utiliza como punto unico de acceso para la seguridad en
-	 * cuento a vistas, esto es, todas las vistas deberian preguntar a este
+	 * Método que se utiliza como punto único de acceso para la seguridad en
+	 * cuento a vistas, esto es, todas las vistas deberían preguntar a este
 	 * controller, si se tienen los permisos adecuados para visualizar un
 	 * elemento, esto se hace mediante el tag, &lt security &gt.<br>
-	 * Funciona buscando en la session el usuario actual de la aplicacion,
-	 * obtiene la autenticacion, y un vector de autoridades (
+	 * Funciona buscando en la session el usuario actual de la aplicación,
+	 * obtiene la autenticación, y un vector de autoridades (
 	 * {@link SIGHUserGrantedAuthority}), compara el permiso que da cada una de
 	 * esas autoridades con el permiso solicitado, si no tiene el permiso
 	 * retorna falso, y loguea un mensaje de error
@@ -46,6 +46,38 @@ public class AuthorityController {
 		return hasRoleStatic(rol);
 	}
 
+	/**
+	 * Retorna el usuario que actualmente esta autenticado en el sistema.
+	 * 
+	 * @return {@link String} representando el nombre del usuario.
+	 */
+	public String getUsername() {
+
+		return SecurityContextHolder.getContext().getAuthentication().getName();
+	}
+
+	/**
+	 * Retorna el usuario que actualmente esta autenticado en el sistema.
+	 * 
+	 * @return {@link String} representando el nombre del usuario.
+	 * @see #getUsername()
+	 */
+	public static String getUsernameStatic() {
+
+		return SecurityContextHolder.getContext().getAuthentication().getName();
+	}
+
+	/**
+	 * Igual que {@link #hasRole(String)}, solamente que es un método estático,
+	 * lo que permite a clases que no están en el mismo alcance (
+	 * {@link WebApplicationContext#SCOPE_SESSION}) puedan realizar controles de
+	 * permisos.
+	 * 
+	 * @param rol
+	 *            nombre del permiso.
+	 * @return <code>true</code> si se encuentra el permiso, <code>false</code>
+	 *         en caso contrario.
+	 */
 	public static boolean hasRoleStatic(String rol) {
 
 		Object[] sighUserGrantedAuthorities = SecurityContextHolder

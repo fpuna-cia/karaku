@@ -72,7 +72,7 @@ public interface WSInformationProvider {
 		 * @param password
 		 * @param user
 		 */
-		public Info(String url, String key, String password, String user,
+		protected Info(String url, String key, String password, String user,
 				String internalTag) {
 
 			super();
@@ -83,11 +83,21 @@ public interface WSInformationProvider {
 			this.internalTag = internalTag;
 		}
 
+		/**
+		 * Retorna la URL del servicio.
+		 * 
+		 * @return {@link String} con el formato de la URL.
+		 */
 		public String getUrl() {
 
 			return url;
 		}
 
+		/**
+		 * Retorna la clave del servicio.
+		 * 
+		 * @return {@link String} que reprenta de manera única al servicio.
+		 */
 		public String getKey() {
 
 			return key;
