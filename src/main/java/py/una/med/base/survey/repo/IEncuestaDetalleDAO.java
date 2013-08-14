@@ -9,6 +9,7 @@ import py.una.med.base.survey.domain.Encuesta;
 import py.una.med.base.survey.domain.EncuestaDetalle;
 import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
+import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
 import py.una.med.base.survey.domain.OpcionRespuesta;
 
 /**
@@ -36,4 +37,7 @@ public interface IEncuestaDetalleDAO extends
 	 */
 	List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
 			long encuestaDetalle);
+
+	public EncuestaDetalle getEncuestaDetalleByPreguntaEncuesta(
+			Encuesta encuesta, EncuestaPlantillaPregunta pregunta);
 }

@@ -13,6 +13,7 @@ import py.una.med.base.survey.domain.Encuesta;
 import py.una.med.base.survey.domain.EncuestaDetalle;
 import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
+import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
 import py.una.med.base.survey.domain.OpcionRespuesta;
 import py.una.med.base.survey.repo.IEncuestaDetalleDAO;
 
@@ -68,4 +69,10 @@ public class EncuestaDetalleLogic extends SIGHBaseLogic<EncuestaDetalle, Long>
 		return dao.getDetailsRespuestasSelected(encuestaDetalle);
 	}
 
+	@Override
+	public EncuestaDetalle getEncuestaDetalleByPreguntaEncuesta(
+			Encuesta encuesta, EncuestaPlantillaPregunta pregunta) {
+
+		return dao.getEncuestaDetalleByPreguntaEncuesta(encuesta, pregunta);
+	}
 }

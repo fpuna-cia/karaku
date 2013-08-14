@@ -43,5 +43,4 @@ public class EncuestaPlantillaBloqueLogic extends
 
 		return dao.getBlocksByTemplate(template);
 	}
-
 }

@@ -16,6 +16,7 @@ import py.una.med.base.survey.domain.Encuesta;
 import py.una.med.base.survey.domain.EncuestaDetalle;
 import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
 import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
+import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
 import py.una.med.base.survey.domain.OpcionRespuesta;
 
 /**
@@ -48,6 +49,17 @@ public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
 		query.setParameter("encuesta", encuesta);
 		query.setParameter("bloque", block);
 		return query.list();
+	}
+
+	@Override
+	public EncuestaDetalle getEncuestaDetalleByPreguntaEncuesta(
+			Encuesta encuesta, EncuestaPlantillaPregunta pregunta) {
+
+		EncuestaDetalle example = new EncuestaDetalle();
+		example.setEncuesta(encuesta);
+		example.setPregunta(pregunta);
+		EncuestaDetalle detalle = getByExample(example);
+		return detalle;
 	}
 
 	@Override
