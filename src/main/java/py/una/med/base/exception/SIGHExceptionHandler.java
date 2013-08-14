@@ -4,6 +4,7 @@
 
 package py.una.med.base.exception;
 
+import java.io.IOException;
 import java.util.Iterator;
 import javax.faces.FacesException;
 import javax.faces.context.ExceptionHandler;
@@ -13,16 +14,24 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import py.una.med.base.configuration.PropertiesUtil;
+import py.una.med.base.util.Util;
 
 /**
  * Esta clase provee comportamiento especializado a una instancia
  * ExceptionHandler existente.
  * 
+ * @author Arturo Volpe
  * @author Uriel González
- * @version 1.0, 07/01/13
+ * @version 1.1, 13/08/13
  * @since 1.0
  */
 public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
+
+	private static final String ACCESS_DENIED_KEY = "karaku.exception.access_denied.page";
+	private static final String ACCESS_DENIED_DEFAULT = "/faces/views/errors/accessDenied.xhtml";
+	private static final String EXCEPTION_KEY = "karaku.exception.error.page";
+	private static final String EXCEPTION_DEFAULT = "/faces/views/errors/error.xhtml";
 
 	static final Logger logger = LoggerFactory
 			.getLogger(SIGHExceptionHandler.class);
@@ -43,6 +52,10 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 	@Override
 	public void handle() throws FacesException {
 
+		if (isDevelop()) {
+			wrapped.handle();
+			return;
+		}
 		// itera sobre todas las excepciones no controladas
 		Iterator<ExceptionQueuedEvent> iterator = getUnhandledExceptionQueuedEvents()
 				.iterator();
@@ -55,35 +68,23 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 			Throwable t = context.getException();
 
 			try {
-				String path = FacesContext.getCurrentInstance()
-						.getExternalContext().getRequestContextPath();
-				boolean error = true;
+
 				// iteramos para encontrar todas las causas del error
 				while (t != null) {
 					// manegamos la excepcion
 
 					if (t instanceof org.springframework.security.access.AccessDeniedException) {
 						// redirigimos al error view etc....
-						printLog(t);
-						FacesContext
-								.getCurrentInstance()
-								.getExternalContext()
-								.redirect(
-										path
-												+ "/faces/views/errors/accessDenied.xhtml");
-						error = false;
+						accessDenied(t);
+						return;
 					}
 					t = t.getCause();
 				}
-				if (error) {
-					// no se ha tratado aun ningun error
-					printLog(context.getException());
-					FacesContext.getCurrentInstance().getExternalContext()
-							.redirect(path + "/faces/views/errors/error.xhtml");
-				}
+				// no se ha tratado aun ningun error
+				error(context.getException());
 
 			} catch (Exception e) {
-				logger.error("Se ha producido un error al manejar el error");
+				logger.error("Se ha producido un error al manejar el error", e);
 			} finally {
 				// despues que la excepcion es controlada, la removemos de la
 				// cola
@@ -96,6 +97,28 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 
 	}
 
+	private void accessDenied(Throwable t) throws IOException {
+
+		printLog(t);
+		redirectTo(PropertiesUtil.getCurrentFromJSF().get(ACCESS_DENIED_KEY,
+				ACCESS_DENIED_DEFAULT));
+	}
+
+	private void error(Throwable t) throws IOException {
+
+		printLog(t);
+		redirectTo(PropertiesUtil.getCurrentFromJSF().get(EXCEPTION_KEY,
+				EXCEPTION_DEFAULT));
+	}
+
+	private void redirectTo(String url) throws IOException {
+
+		String path = FacesContext.getCurrentInstance().getExternalContext()
+				.getRequestContextPath();
+		FacesContext.getCurrentInstance().getExternalContext()
+				.redirect(path + url);
+	}
+
 	/**
 	 * Imprime en el log de la aplicación el mensaje de error y el stack trace
 	 * del mismo.
@@ -105,19 +128,12 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 	 */
 	private void printLog(Throwable t) {
 
-		// obtiene el stackTrace
-		StackTraceElement stackTrace[] = t.getStackTrace();
+		logger.error(t.getMessage(), t);
+	}
 
-		StringBuilder buf = new StringBuilder();
-		buf.append(t.getMessage());
-		buf.append(". Stack Trace: \n\t\t\t\t");
-		for (StackTraceElement stackTraceElement : stackTrace) {
-			buf.append(stackTraceElement.toString());
-			buf.append("\n\t\t\t\t");
-		}
+	private boolean isDevelop() {
 
-		String temp = buf.toString();
-
-		logger.error(temp);
+		FacesContext context = FacesContext.getCurrentInstance();
+		return Util.getSpringBeanByJSFContext(context, Util.class).isDevelop();
 	}
 }

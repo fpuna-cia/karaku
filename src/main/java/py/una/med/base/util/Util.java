@@ -8,10 +8,14 @@ import java.util.Date;
 import java.util.jar.Manifest;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
  * Componente que provee funcionalidades básicas del sistema
@@ -129,4 +133,43 @@ public class Util {
 		return c.getTime();
 	}
 
+	/**
+	 * Utiliza el servlet del contexto actual de Faces para obtener una
+	 * instancia del {@link WebApplicationContext} y así obtener los beans que
+	 * cargo el mismo.
+	 *
+	 * <p>
+	 * <b>Uso:</b>
+	 *
+	 * <pre>
+	 *
+	 * FacesContext fc = getContext(); // o FacesContext.getCurrentInstance();
+	 * PropertiesUtil pu = Util.getSpringBeanBYJSFContext(fc, PropertiesUtil.class);
+	 * </pre>
+	 *
+	 * En este punto <code>pu</code> es una variable ya instanciada por Spring,
+	 * es decir ya tiene inyectadas todas las dependencias.
+	 * </p>
+	 *
+	 * @param context
+	 *            contexto actual, puede ser nulo
+	 * @param beanType
+	 *            tipo del bean que se desea, tiene que estar anotado con alguna
+	 *            herencia de {@link Component}, o estar definido en los
+	 *            archivos de configuración.
+	 * @return bean del tipo especificado
+	 * @see WebApplicationContext#getBean(Class)
+	 */
+	public static <T> T getSpringBeanByJSFContext(FacesContext context,
+			@NotNull Class<T> beanType) {
+
+		FacesContext contexto = context == null ? FacesContext
+				.getCurrentInstance() : context;
+		ServletContext sv = (ServletContext) contexto.getExternalContext()
+				.getContext();
+
+		WebApplicationContext wac = WebApplicationContextUtils
+				.getWebApplicationContext(sv);
+		return wac.getBean(beanType);
+	}
 }

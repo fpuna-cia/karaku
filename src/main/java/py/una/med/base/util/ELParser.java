@@ -8,15 +8,26 @@ package py.una.med.base.util;
  * Clase que implementa funciones de parseo para las expresiones EL manejadas
  * por el sistema, las cuales pueden ser de dos tipos <br>
  * <ol>
- * <li><b>Parametros del metodo:</b> cuando se desea que la expression
- * corresponda a un parametro del metodo, para obtener el numero de parametro
- * utilizar {@link ELParser#getParamNumber(String)} y para obtener la expresion
- * {@link ELParser#removeParamNumber(String)}
- * <li><b>Atributos de la clase:</b> cuando se desea que la expresion
- * corresponda al objeto donde se encuentra la anotacion
+ * <li><b>Parámetros del método:</b> cuando se desea que la expression
+ * corresponda a un parámetro del método, para obtener el numero de parámetro
+ * utilizar {@link ELParser#getParamNumber(String)} y para obtener la expresión
+ * {@link ELParser#removeParamNumber(String)}.
+ *
+ * <b>Ejemplo</b>:
+ *
+ * <pre>
+ * 	{1}.id
+ * </pre>
+ *
+ * <p>
+ * Los parámetros empiezan con 1
+ * </p>
+ * <li><b>Atributos de la clase:</b> cuando se desea que la expresión
+ * corresponda al objeto donde se encuentra la anotación
  * </ol>
  * 
- * @author Arturo Volpe, Nathalia Ochoa
+ * @author Arturo Volpe
+ * @author Nathalia Ochoa
  * @since 1
  * @version 2.0 19/02/2013
  * 
@@ -81,12 +92,13 @@ public final class ELParser {
 	}
 
 	/**
-	 * Verifica si una expresion pasada cumple con el formato del sistema para
-	 * expresiones de parametros de metodos, las cuales son del tipo {0}.id
+	 * Verifica si una expresión pasada cumple con el formato del sistema para
+	 * expresiones de parámetros de métodos, las cuales son del tipo {0}.id
 	 * 
 	 * @param string
-	 *            expresin original
-	 * @return true si es una expresin de metodo y false en otro caso
+	 *            expresión original
+	 * @return <code>true</code> si es una expresión de método y
+	 *         <code>false</code> en otro caso
 	 */
 	public static boolean isMethodParamExpression(String string) {
 
@@ -94,10 +106,10 @@ public final class ELParser {
 	}
 
 	/**
-	 * Dada una expresion, retorna el field correspondiente a dicha columna<br>
+	 * Dada una expresión, retorna el field correspondiente a dicha columna<br>
 	 * <b>Por ejemplo</b><br>
 	 * <ol>
-	 * <li><b>#{item.descripcion}</b>, retorna descripcion
+	 * <li><b>#{item.descripcion}</b>, retorna description
 	 * <li><b>#{item.pais.descripcion}</b>, retorna pais.descripcion
 	 * </ol>
 	 * 
@@ -118,7 +130,7 @@ public final class ELParser {
 	}
 
 	/**
-	 * Dada una expresion, retorna el header correspondiente a dicha columna<br>
+	 * Dada una expresión, retorna el header correspondiente a dicha columna<br>
 	 * <b>Por ejemplo</b><br>
 	 * <ol>
 	 * <li><b>#{msg['PAIS_DESCRIPCION']}</b>, retorna la internacionalizacion de

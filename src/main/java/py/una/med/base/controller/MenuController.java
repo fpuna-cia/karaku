@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.security.HasRole;
 import py.una.med.base.util.Util;
 
 /**
@@ -146,5 +147,16 @@ public class MenuController {
 		} catch (IOException e) {
 			throw new KarakuRuntimeException("Can not redirect", e);
 		}
+	}
+
+	public String throwRuntimeException() {
+
+		throw new RuntimeException("Excepcion");
+	}
+
+	@HasRole("PERMISO NO EXISTENTE")
+	public String throwAccessDeniedException() {
+
+		return "";
 	}
 }

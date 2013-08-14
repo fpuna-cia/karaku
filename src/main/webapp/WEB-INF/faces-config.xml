@@ -17,9 +17,10 @@
 	<!-- <phase-listener>py.una.med.base.breadcrumb.BCPhaseListener</phase-listener> -->
 	<!-- </lifecycle> -->
 
-	<!-- <factory> -->
-	<!-- <exception-handler-factory> -->
-	<!-- py.una.med.base.exception.SIGHExceptionHandlerFactory</exception-handler-factory> -->
-	<!-- </factory> -->
+	<factory>
+		<exception-handler-factory>
+			py.una.med.base.exception.SIGHExceptionHandlerFactory
+		</exception-handler-factory>
+	</factory>
 
 </faces-config>

@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-
+import javax.faces.context.FacesContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
-
 import py.una.med.base.exception.KarakuPropertyNotFoundException;
 import py.una.med.base.exception.KarakuWrongConfigurationFileException;
+import py.una.med.base.util.Util;
 
 /**
  * PlaceHolder para el acceso programatico a las opciones de configuración del
@@ -95,6 +95,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	 * @return valor almacenado
 	 */
 	public String get(final String key, final String def) {
+
 		if (propertiesMap.containsKey(key)) {
 			return propertiesMap.get(key);
 		}
@@ -109,6 +110,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	 * @return valor almacenado
 	 */
 	public String get(final String key) {
+
 		if (propertiesMap.containsKey(key))
 			return propertiesMap.get(key);
 		else
@@ -118,5 +120,17 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	public String getProperty(final String name) {
 
 		return propertiesMap.get(name);
+	}
+
+	/**
+	 * Retorna una instancia de esta clase, este método solo puede ser invocado
+	 * dentro de un contexto de JSF.
+	 *
+	 * @return {@link PropertiesUtil} para el contexto actual.
+	 */
+	public static PropertiesUtil getCurrentFromJSF() {
+
+		return Util.getSpringBeanByJSFContext(
+				FacesContext.getCurrentInstance(), PropertiesUtil.class);
 	}
 }
