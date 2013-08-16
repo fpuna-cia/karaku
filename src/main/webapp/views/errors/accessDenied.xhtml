@@ -1,18 +1,27 @@
-<ui:composition
-	xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html">
-	<div style="font-family: Arial, sans-serif; font-size: 13px; margin: 0; padding: 0; ">
+	<div
+		style="font-family: Arial, sans-serif; font-size: 13px; margin: 0; padding: 0;">
 		<div style="margin: auto; max-width: 750px;">
-			<div style="margin: 80px 40px 20px 108px; position: relative; ">
+			<div style="margin: 80px 40px 20px 108px; position: relative;">
 				<table>
 					<tr>
-						<td><h:outputLabel value="#{msg['MESSAGE_ACCESS_DENIED_TITLE']}" style="font-size: 12pt; font-weight:bold;"/></td>
+						<td><h:outputLabel
+								value="#{msg['MESSAGE_ACCESS_DENIED_TITLE']}"
+								style="font-size: 12pt; font-weight:bold;" /></td>
 					</tr>
 					<tr>
-						<td><h:outputLabel value="#{msg['MESSAGE_ACCESS_DENIED_DESCRIPTION']}"/></td>
+						<td><h:outputLabel
+								value="#{msg['MESSAGE_ACCESS_DENIED_DESCRIPTION']}" /></td>
+					</tr>
+					<tr>
+						<td><a href="#{menuController.logoutUrl}"> <h:outputText
+									value="#{msg['HEADER_LOGOUT']}" />
+						</a></td>
 					</tr>
 				</table>
+
 			</div>
 		</div>
 	</div>

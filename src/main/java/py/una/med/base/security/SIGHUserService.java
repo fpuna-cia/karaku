@@ -17,6 +17,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -80,6 +81,14 @@ public class SIGHUserService implements UserDetailsService {
 	private static final String USER_PATTERN_TO_REPLACE = "UUU";
 
 	/**
+	 * Llave del archivo de propiedades que define el permiso básico que debe
+	 * tener un usuario para poder ingresar al sistema.
+	 */
+	public static final String BASIC_PERMISSION_KEY = "karaku.security.basic";
+
+	private static final String BASIC_PERMISSION_KEY_DEFAULT = "SIGH";
+
+	/**
 	 * Localiza al usuario basándose en el nombre del usuario.
 	 * 
 	 * @param username
@@ -94,6 +103,20 @@ public class SIGHUserService implements UserDetailsService {
 		SIGHUserDetails user = new SIGHUserDetails();
 		user.setUserName(uid);
 		user.addRoles(loadAuthoritiesByDn(uid));
+
+		String permiso = propertiesUtil.get(BASIC_PERMISSION_KEY,
+				BASIC_PERMISSION_KEY_DEFAULT);
+
+		boolean allow = false;
+		for (GrantedAuthority o : user.getAuthorities()) {
+			if (o.getAuthority().equals(permiso)) {
+				allow = true;
+			}
+		}
+		if (!allow) {
+			throw new InsufficientAuthenticationException(
+					"No posee privilegios para este sistema");
+		}
 		return user;
 	}
 

@@ -27,6 +27,9 @@
 			before="LOGOUT_FILTER" />
 		<security:custom-filter ref="singleLogoutFilter"
 			before="CAS_FILTER" />
+
+		<security:access-denied-handler
+			error-page="/faces/views/errors/accessDenied.xhtml" />
 	</security:http>
 
 	<security:authentication-manager alias="casAuthenticationManager">
@@ -102,7 +105,6 @@
 		</constructor-arg>
 		<property name="filterProcessesUrl" value="/j_spring_cas_security_logout" />
 	</bean>
-
 
 	<security:global-method-security
 		pre-post-annotations="enabled" proxy-target-class="true" />
