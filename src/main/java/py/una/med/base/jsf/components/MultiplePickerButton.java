@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.el.ELContext;
 import javax.el.MethodExpression;
 import javax.faces.component.FacesComponent;
@@ -15,12 +16,14 @@ import javax.faces.component.UINamingContainer;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
+
 import org.richfaces.component.UIExtendedDataTable;
+
 import py.una.med.base.dynamic.forms.MultiplePickerField;
 
 /**
  * 
- * @author Jorge Ramírez
+ * @author Jorge Ramírez, Nathalia Ochoa
  * @since 1.0
  * @version 1.0 Jun 25, 2013
  * 
@@ -30,33 +33,30 @@ public class MultiplePickerButton extends UINamingContainer {
 
 	private static final String GET_ITEM_KEY_METHOD = "getItemKey";
 	private static final String CHECKED_ITEMS = "checkedItems";
+	private static final String SELECTED_ITEMS_TEMP = "selectedItemsTemp";
 	private static final String SELECTED_ITEMS = "selectedItems";
 	private static final String SELECT_ALL_CHECKED = "selectAllChecked";
 	private static final String SET_VALUES_METHOD = "setValues";
 
 	private UIExtendedDataTable dataTable;
 	private Map<Object, Boolean> checkedItems;
+	private List<Object> selectedItemsTemp;
 	private List<Object> selectedItems;
+
 	@SuppressWarnings("rawtypes")
 	private MultiplePickerField pickerField;
-
-	private boolean initialize;
 
 	public MultiplePickerButton() {
 
 		super();
 		setCheckedItems(new HashMap<Object, Boolean>());
+		setSelectedItemsTemp(new ArrayList<Object>());
 		setSelectedItems(new ArrayList<Object>());
 		setSelectAllChecked(false);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void init() {
-
-		if (initialize) {
-			return;
-		}
-		initialize = true;
+	public String init() {
 
 		@SuppressWarnings("rawtypes")
 		MultiplePickerField mpb = (MultiplePickerField) getAttributes().get(
@@ -64,8 +64,9 @@ public class MultiplePickerButton extends UINamingContainer {
 		pickerField = mpb;
 
 		List<?> values = mpb.getValues();
+		setSelectedItems((List<Object>) values);
 		if (values == null || values.size() == 0) {
-			return;
+			return "";
 		}
 		List<Object> newSelected = new ArrayList<Object>(values.size());
 		checkedItems = getCheckedItems();
@@ -73,13 +74,13 @@ public class MultiplePickerButton extends UINamingContainer {
 		for (int i = 0; i < values.size(); i++) {
 			newSelected.add(values.get(i));
 			checkedItems.put(mpb.getItemKey(values.get(i)), true);
-			selectedItems.add(values.get(i));
+			selectedItemsTemp.add(values.get(i));
 
 		}
 
 		setCheckedItems(checkedItems);
 		updateCheckboxHeader(mpb.getListHelper().getEntities());
-
+		return "";
 	}
 
 	public Object get(String key) {
@@ -101,7 +102,8 @@ public class MultiplePickerButton extends UINamingContainer {
 
 	/**
 	 * Handler llamado cuando se hace click en el checkbox ubicado en el header,
-	 * ocasionando que todos los elementos se seleccionen.
+	 * ocasionando que todos los elementos se seleccionen o ninguno se
+	 * seleccione.
 	 **/
 	@SuppressWarnings("unchecked")
 	public void onCheckboxHeaderClicked(final AjaxBehaviorEvent event) {
@@ -119,8 +121,17 @@ public class MultiplePickerButton extends UINamingContainer {
 			checkedItems.put(key, isSelectAllChecked());
 			updateSelectedItems(item, checkedItems.get(key));
 		}
+		if (!isSelectAllChecked()) {
+			setSelectedItemsTemp(new ArrayList<Object>());
+		} else {
+			setSelectedItemsTemp(items);
+			@SuppressWarnings("rawtypes")
+			MultiplePickerField mpb = (MultiplePickerField) getAttributes()
+					.get("pickerField");
+			pickerField = mpb;
+			mpb.setValues(items);
+		}
 
-		setSelectedItems(items);
 		setCheckedItems(checkedItems);
 	}
 
@@ -129,12 +140,15 @@ public class MultiplePickerButton extends UINamingContainer {
 	 **/
 	@SuppressWarnings("unchecked")
 	public void onItemCheckboxClicked(final AjaxBehaviorEvent event) {
-
-		checkedItems = getCheckedItems();
+		if (getCheckedItems() != null) {
+			checkedItems = getCheckedItems();
+		}
 		Object selected = dataTable.getRowData();
 		Object key = getItemKey(selected);
+
 		Boolean checked = checkedItems.get(key);
 		checkedItems.put(key, checked == null ? true : !checked);
+
 		updateSelectedItems(selected, checkedItems.get(key));
 		setCheckedItems(checkedItems);
 		updateCheckboxHeader((List<Object>) dataTable.getValue());
@@ -173,37 +187,50 @@ public class MultiplePickerButton extends UINamingContainer {
 	 **/
 	public void updateSelectedItems(Object item, boolean add) {
 
-		selectedItems = getSelectedItems();
-		if (selectedItems == null) {
-			selectedItems = new ArrayList<Object>();
+		selectedItemsTemp = getSelectedItemsTemp();
+		if (selectedItemsTemp == null) {
+			selectedItemsTemp = new ArrayList<Object>();
 		}
 		if (add) {
-			selectedItems.add(item);
+			selectedItemsTemp.add(item);
 		} else {
-			selectedItems.remove(item);
+			selectedItemsTemp.remove(item);
 		}
 
-		setSelectedItems(selectedItems);
-		updatePickerValues(selectedItems);
+		setSelectedItemsTemp(selectedItemsTemp);
+		updatePickerValues(selectedItemsTemp);
 
 	}
 
 	/**
-	 * Reinicializa la lista de elementos seleccionados.
+	 * Representa a la accion cancelar, cancela todos los elementos
+	 * seleccionados y en el caso de que ya se encuentren elementos previamente
+	 * seleccionados los vuelve a setear para que la accion de seleccion
+	 * cancelada no tenga efecto .
 	 **/
-	public void clearSelectedItems() {
+	@SuppressWarnings("unchecked")
+	public String clear() {
 
-		checkedItems = getCheckedItems();
-		if (checkedItems != null) {
-			checkedItems.clear();
+		@SuppressWarnings("rawtypes")
+		MultiplePickerField mpb = (MultiplePickerField) getAttributes().get(
+				"pickerField");
+		pickerField = mpb;
+
+		checkedItems.clear();
+		selectedItemsTemp.clear();
+
+		for (int i = 0; i < selectedItems.size(); i++) {
+			checkedItems.put(mpb.getItemKey(selectedItems.get(i)), true);
+			selectedItemsTemp.add(selectedItems.get(i));
+
 		}
+
 		setCheckedItems(checkedItems);
-		selectedItems = getSelectedItems();
-		if (selectedItems != null) {
-			selectedItems.clear();
-		}
-		setSelectedItems(selectedItems);
-		setSelectAllChecked(false);
+		updateCheckboxHeader(mpb.getListHelper().getEntities());
+		mpb.setValues(selectedItems);
+		setSelectedItemsTemp(selectedItems);
+		return "";
+
 	}
 
 	public UIExtendedDataTable getDataTable() {
@@ -214,7 +241,6 @@ public class MultiplePickerButton extends UINamingContainer {
 	public void setDataTable(UIExtendedDataTable dataTable) {
 
 		this.dataTable = dataTable;
-		init();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -224,9 +250,9 @@ public class MultiplePickerButton extends UINamingContainer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object> getSelectedItems() {
+	public List<Object> getSelectedItemsTemp() {
 
-		return (List<Object>) get(SELECTED_ITEMS);
+		return (List<Object>) get(SELECTED_ITEMS_TEMP);
 	}
 
 	public boolean isSelectAllChecked() {
@@ -245,8 +271,19 @@ public class MultiplePickerButton extends UINamingContainer {
 		put(CHECKED_ITEMS, checkedItems);
 	}
 
-	public void setSelectedItems(List<Object> selectedItems) {
+	public void setSelectedItemsTemp(List<Object> selectedItemsTemp) {
 
+		this.selectedItemsTemp = selectedItemsTemp;
+		put(SELECTED_ITEMS_TEMP, selectedItemsTemp);
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Object> getSelectedItems() {
+
+		return (List<Object>) get(SELECTED_ITEMS);
+	}
+
+	public void setSelectedItems(List<Object> selectedItems) {
 		this.selectedItems = selectedItems;
 		put(SELECTED_ITEMS, selectedItems);
 	}

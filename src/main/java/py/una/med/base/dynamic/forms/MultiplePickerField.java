@@ -4,7 +4,9 @@
  */
 package py.una.med.base.dynamic.forms;
 
+import java.util.Collections;
 import java.util.List;
+
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.SIGHListHelper;
 
@@ -247,6 +249,11 @@ public class MultiplePickerField<T> extends LabelField {
 			throw new IllegalArgumentException("validator no puede ser null");
 		}
 		pickerValidator = validator;
+	}
+
+	public void clear() {
+		values = Collections.<T> emptyList();
+		
 	}
 
 }

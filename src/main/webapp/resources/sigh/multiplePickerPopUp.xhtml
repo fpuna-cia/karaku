@@ -25,9 +25,12 @@
 		<cc:attribute name="reRenderRegionId" default="" />
 	</cc:interface>
 	<cc:implementation>
+
 		<sigh:popup title="#{cc.attrs.popUpHeader}"
 			popupId="#{cc.attrs.pickerField.popupID}" width="#{cc.attrs.width}"
 			height="#{cc.attrs.height}">
+			<h:outputLabel value="#{cc.init()}" id="initPicker"/>
+			<h:outputLabel value="#{cc.clear()}" id="clearPicker"/>
 			<rich:messages ajaxRendered="true" showDetail="true"
 				id="globalMessageIdName" globalOnly="true" />
 			<h:form id="dataTblForm">
@@ -95,7 +98,7 @@
 
 				</h:panelGrid>
 				<h:outputText
-					value="#{cc.attrs.pickerField.getFormatedSelectedOptions(cc.selectedItems)}"
+					value="#{cc.attrs.pickerField.getFormatedSelectedOptions(cc.selectedItemsTemp)}"
 					id="pickerResult" />
 				<a4j:commandButton
 					actionListener="#{cc.attrs.pickerField.changeValueListener()}"
@@ -106,8 +109,9 @@
 				</a4j:commandButton>
 
 				<a4j:commandButton value="#{msg['BASE_FORM_CANCEL']}"
-					immediate="true" action="#{cc.clearSelectedItems()}"
-					oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.hide(); return false;">
+					immediate="true" action="#{cc.clear()}"
+					oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.hide(); return false;"
+					render="pickerResult #{cc.attrs.pickerField.id}">
 				</a4j:commandButton>
 
 			</h:form>

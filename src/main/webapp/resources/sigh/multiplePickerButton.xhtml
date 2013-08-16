@@ -21,7 +21,7 @@
 	<cc:implementation>
 
 		<a4j:commandButton value="#{cc.attrs.buttonText}"
-			render="#{cc.attrs.pickerField.dataTableID} globalMessages idPagingPanel"
+			render="#{cc.attrs.pickerField.dataTableID} globalMessages idPagingPanel clearPicker initPicker"
 			oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.show(); return false;"
 			immediate="true" disabled="#{cc.attrs.pickerField.buttonDisabled}" />
 
