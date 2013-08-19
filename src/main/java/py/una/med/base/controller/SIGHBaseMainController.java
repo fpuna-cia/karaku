@@ -6,8 +6,12 @@ package py.una.med.base.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+
 import org.apache.myfaces.orchestra.conversation.Conversation;
 import org.richfaces.event.ItemChangeEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import py.una.med.base.security.HasRole;
@@ -31,6 +35,12 @@ import py.una.med.base.util.ControllerHelper;
 public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		SIGHAdvancedController<T, K> implements ISIGHAdvancedController<T, K>,
 		ISIGHMainController {
+
+	private static final String FAILURE = "fail";
+
+	private static final String SUCCESS = "success";
+
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	boolean editingHeader;
 
@@ -76,7 +86,19 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 	public String doSave() {
 
 		if (trySave()) {
+			setMode(Mode.LIST);
 			return goList();
+		} else {
+			return "";
+		}
+	}
+
+	@Override
+	@HasRole(SIGHSecurity.DEFAULT_CREATE)
+	public String doSaveAndContinue() {
+		if (trySave()) {
+			this.setMode(Mode.EDIT);
+			return goEdit();
 		} else {
 			return "";
 		}
@@ -87,29 +109,58 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 
 		if (getMode().equals(Mode.NEW)) {
 			toRet = doCreate();
+			postCreate();
 		} else {
 			toRet = doEdit();
+			postEdit();
 		}
 
-		if (toRet.equals("")) {
+		if (toRet.equals(FAILURE)) {
 			return false;
+		} else {
+			for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
+				controller.save();
+			}
+			setEditingHeader(false);
+			return true;
 		}
-
-		for (ISIGHEmbeddableController controller : getEmbeddableControllers()) {
-			controller.save();
-		}
-		setEditingHeader(false);
-		this.setMode(Mode.EDIT);
-		return true;
 	}
 
 	@Override
 	@HasRole(SIGHSecurity.DEFAULT_CREATE)
-	public String doSaveAndContinue() {
-		if (trySave()) {
-			return goEdit();
-		} else {
-			return "";
+	public String doCreate() {
+
+		try {
+			setBean(create(getBean()));
+			reloadEntities();
+			return SUCCESS;
+		} catch (Exception e) {
+			e = helper.convertException(e, getClazz());
+			if (!handleException(e)) {
+				log.warn("doCreate failed", e);
+				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
+						"BASE_ABM_CREATE_FAILURE", e.getMessage());
+			}
+			return FAILURE;
+		}
+	}
+
+	@Override
+	@HasRole(SIGHSecurity.DEFAULT_EDIT)
+	public String doEdit() {
+
+		try {
+			edit(getBean());
+			reloadEntities();
+			return SUCCESS;
+		} catch (Exception e) {
+			e = helper.convertException(e, getClazz());
+			if (!handleException(e)) {
+				log.warn("doCreate failed", e);
+				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
+						"BASE_ABM_EDIT_FAILURE", e.getMessage());
+			}
+			return FAILURE;
 		}
 	}
 

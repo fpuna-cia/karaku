@@ -214,7 +214,8 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	/**
 	 * Crea el {@link #getBean()}, lo persiste y vuelve al paso anterior.
 	 * 
-	 * @return cadena de navegación para la página siguiente a la creación
+	 * @return cadena de navegación para la página siguiente a la creación,
+	 *         retorna <code>""</code> o <code>null</code> si no pudo guardar.
 	 * @see #postCreate()
 	 * 
 	 */
