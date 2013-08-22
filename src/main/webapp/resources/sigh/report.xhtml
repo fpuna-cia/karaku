@@ -59,20 +59,23 @@
 					</legend>
 					<h:panelGrid columns="4" id="#{cc.attrs.idPanelGridFormat}"
 						columnClasses="form_labeElal,form_input">
-						<h:selectOneRadio value="#{cc.attrs.controller.typeExport}">
+						<h:selectOneRadio value="#{cc.attrs.controller.typeExport}"
+							id="typeExport" converter="oldStringConverter">
 							<f:selectItem itemLabel="#{msg['BASE_REPORT_EXPORT_PDF']}"
 								itemValue="pdf" />
 							<f:selectItem itemLabel="#{msg['BASE_REPORT_EXPORT_EXCEL']}"
 								itemValue="xls" />
 						</h:selectOneRadio>
+						<rich:message for="typeExport" />
 					</h:panelGrid>
 				</fieldset>
 
 				<fieldset>
 					<h:commandButton action="#{cc.attrs.controller.generateReport()}"
-						value="Generar" />
+						value="#{msg['BASE_REPORT_GENERAR']}" />
 				</fieldset>
 			</rich:panel>
+
 		</h:form>
 	</cc:implementation>
 </ui:composition>
