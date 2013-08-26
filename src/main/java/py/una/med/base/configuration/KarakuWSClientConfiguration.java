@@ -42,6 +42,7 @@ public class KarakuWSClientConfiguration {
 	 * 
 	 */
 	private static final String KARAKU_WS_CLIENT_PACKAGES_TO_SCAN = "karaku.ws.client.packages_to_scan";
+	private static final String KARAKU_WS_CLIENT_PACKAGES_TO_SCAN_SPACES = "karaku.ws.client.packages_to_scan.with_spaces";
 	private static final String KARAKU_WS_CLIENT_ENABLED = "karaku.ws.client.enabled";
 
 	@Autowired
@@ -148,12 +149,28 @@ public class KarakuWSClientConfiguration {
 			}
 		}
 
+		String paquetes = properties.get(
+				KARAKU_WS_CLIENT_PACKAGES_TO_SCAN_SPACES, "").trim();
+		if (!paquetes.equals("")) {
+			for (String pa : paquetes.split("\\s+")) {
+				packagesFound.add(pa);
+			}
+		}
+
 		try {
 
-			Jaxb2Marshaller jaxb2 = new Jaxb2Marshaller();
+			Class<?> clazz = Class
+					.forName("org.springframework.oxm.jaxb.Jaxb2Marshaller");
+			Object o = clazz.newInstance();
 			String[] clases = packagesFound.toArray(new String[0]);
-			jaxb2.setPackagesToScan(clases);
-			return jaxb2;
+			clazz.getMethod("setPackagesToScan", String[].class).invoke(o,
+					(Object) clases);
+			return (Jaxb2Marshaller) o;
+		} catch (ClassNotFoundException e) {
+			throw new KarakuRuntimeException(
+					"Can not find the Jaxb2Marshaller base class in the classpath, "
+							+ "please, check your pom and add the ws (oxm) dependencies",
+					e);
 		} catch (Exception e) {
 			throw new KarakuRuntimeException(
 					"Wrong version of WS dependencies, please check your pom",
