@@ -11,7 +11,6 @@
 			default="#{cc.attrs.pickerField.urlColumns}" />
 		<cc:attribute name="popupTitle" default="Seleccione una entidad" />
 		<cc:attribute name="render" default="#{cc.attrs.pickerField.id}" />
-		<cc:attribute name="idDataTable" default="pickerDataTable" />
 		<cc:attribute name="options" />
 		<cc:attribute name="pickerField"
 			type="py.una.med.base.dynamic.forms.PickerField" />
@@ -57,7 +56,8 @@
 					<rich:extendedDataTable
 						value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
 						selection="#{cc.currentSelection}" selectionMode="single"
-						noDataLabel="No se encontraron registros" style="height:300px">
+						noDataLabel="No se encontraron registros" style="height:300px"
+						id="#{cc.attrs.pickerField.dataTableID}">
 
 						<a4j:ajax execute="@form" event="selectionchange"
 							listener="#{cc.selectionListener}" render="@form" />
@@ -72,7 +72,7 @@
 					<h:panelGrid id="picker_control" columns="2">
 						<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
 							render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"
-							id="buttonSelect" 
+							id="buttonSelect"
 							actionListener="#{cc.attrs.pickerField.changeValueListener(cc.selectedItem)}"
 							oncomplete="#{empty facesContext.maximumSeverity ? cc.attrs.closeJS : ''}">
 						</a4j:commandButton>

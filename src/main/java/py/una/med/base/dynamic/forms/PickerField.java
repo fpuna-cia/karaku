@@ -58,6 +58,7 @@ public class PickerField<T> extends LabelField {
 	private PickerValidator validator;
 	private String popupTitle;
 	private HiddenText hidden;
+	private String dataTableID;
 
 	// private HtmlInputText hidden;
 
@@ -69,6 +70,7 @@ public class PickerField<T> extends LabelField {
 		super();
 		this.codeInput = SIGHComponentFactory.getHtmlInputText();
 		this.popupID = getId() + "popup";
+		dataTableID = popupID + "datatable";
 
 	}
 
@@ -585,6 +587,16 @@ public class PickerField<T> extends LabelField {
 	public String getPopupTitle() {
 
 		return popupTitle == null ? getLabel() : popupTitle;
+	}
+
+	public String getDataTableID() {
+
+		return dataTableID;
+	}
+
+	public void setDataTableID(String id) {
+
+		dataTableID = id;
 	}
 
 }

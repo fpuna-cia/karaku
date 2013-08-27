@@ -33,7 +33,7 @@
 				<a4j:ajax event="blur"
 					listener="#{cc.attrs.pickerField.keyUpListener}"
 					disabled="#{not cc.attrs.pickerField.hasCodeInput}"
-					render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage} #{cc.attrs.reRenderRegionId}"
+					render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage} #{cc.attrs.reRenderRegionId} #{cc.attrs.pickerField.dataTableID}"
 					execute="valueId" immediate="true" />
 			</h:inputText>
 			<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"
