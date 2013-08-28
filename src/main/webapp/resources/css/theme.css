@@ -455,7 +455,7 @@ li.divider:after {
 .rf-edt-c-cnt,.rf-edt-hdr-c-cnt {
 	color: black !important;
 	white-space: normal !important;
-	width: 110px !important;
+	width: 110px;
 	height: 40px !important;
 }
 
