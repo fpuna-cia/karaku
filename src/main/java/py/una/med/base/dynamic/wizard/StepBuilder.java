@@ -3,6 +3,14 @@
  */
 package py.una.med.base.dynamic.wizard;
 
+import javax.faces.component.UIComponent;
+import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.AjaxBehaviorListener;
+import org.richfaces.component.UIPopupPanel;
+import org.richfaces.component.UITogglePanel;
 import org.richfaces.component.behavior.ToggleControl;
 import py.una.med.base.dynamic.forms.Button;
 import py.una.med.base.dynamic.forms.Button.OnClickCallBack;
@@ -10,12 +18,15 @@ import py.una.med.base.dynamic.forms.ButtonAction;
 import py.una.med.base.dynamic.forms.DynamicFormList;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
 import py.una.med.base.dynamic.tables.DataTable;
+import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.I18nHelper;
+import py.una.med.base.util.ListHelper;
+import py.una.med.base.util.Util;
 
 /**
  * Fabrica de objetos del tipo {@link Step}, esta es una clase de conveniencia
  * para ocultar detalles verbosos como la creación de toolbars
- * 
+ *
  * <br />
  * Tipos Soportados
  * <ol>
@@ -23,18 +34,19 @@ import py.una.med.base.util.I18nHelper;
  * <b>'form'</b>: {@link DynamicFormStep}</li>
  * <li><b>'table'</b>: {@link DataTableStep}</li>
  * </ol>
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Jun 5, 2013
- * 
+ *
  */
 public class StepBuilder {
 
 	/**
-	 * 
+	 *
 	 */
-	private static final String FLOAT = "float:right";
+	private static final String FLOAT_RIGTH = "float:right";
+	private static final String FLOAT_LEFT = "float:left";
 	private final Step step;
 
 	private StepBuilder(Step stepToBuild) {
@@ -67,13 +79,13 @@ public class StepBuilder {
 	/**
 	 * Agrega un botón que tiene el funcionamiento de volver atrás, este botón
 	 * retrocede inmediatamente.
-	 * 
+	 *
 	 * @return this
 	 */
 	public StepBuilder addPrevious() {
 
 		Button previous = new Button();
-		previous.setStyle(FLOAT);
+		previous.setStyle(FLOAT_LEFT);
 		previous.setImmediate(true);
 		previous.addAjaxBehavior(ButtonAction.CLICK,
 				SIGHComponentFactory.getToogleControl("@prev"));
@@ -86,13 +98,13 @@ public class StepBuilder {
 	 * Agrega un botón al toolbar, este botón tiene el funcionamiento de
 	 * siguiente, esto es al presionar avanza un paso en el {@link Wizard}, como
 	 * es un botón ajax esta sujeto a las validaciones.
-	 * 
+	 *
 	 * @return this
 	 */
 	public StepBuilder addNext() {
 
 		Button next = new Button();
-		next.setStyle(FLOAT);
+		next.setStyle(FLOAT_RIGTH);
 
 		ToggleControl control = SIGHComponentFactory.getToogleControl("@next");
 
@@ -105,38 +117,80 @@ public class StepBuilder {
 
 	/**
 	 * Agrega un boton de finalización, que invoca a un método.
-	 * 
+	 *
 	 * @param expression
 	 *            método que retorna {@link Void} y recibe {@link Void}, esto
 	 *            es, no retorna ni recibe nada.
 	 * @return this
 	 */
-	public StepBuilder addFinish(OnClickCallBack callBack, SimpleWizard wizard) {
+	public StepBuilder addFinish(final OnClickCallBack callBack,
+			final SimpleWizard wizard) {
 
 		Button last = new Button();
 		last.setText("KARAKU_WIZARD_FINISH");
-		last.setStyle(FLOAT);
-		last.setClickCallBack(callBack);
+		last.setStyle(FLOAT_RIGTH);
+		last.setClickCallBack(new OnClickCallBack() {
+
+			@Override
+			public void onClick() {
+
+				UITogglePanel utp = findComponentByID(wizard.getTogglePanelId());
+				utp.setActiveItem(utp.getFirstItem().getName());
+				callBack.onClick();
+			}
+		});
+
 		step.getToolBar().addItem(last);
 		return this;
 	}
 
 	/**
 	 * Agrega los botones que son necesarios para un paso inicial (next)
-	 * 
+	 *
 	 * @see #addNext()
 	 * @return this
 	 */
-	public StepBuilder addFirstButtons() {
+	public StepBuilder addFirstButtons(SimpleWizard wizard) {
 
 		addNext();
+		addCancelButton(wizard);
+		return this;
+	}
+
+	/**
+	 * Agrega un botón que hace desaparecer al wizard
+	 *
+	 * @param wizard
+	 * @return this
+	 */
+	public StepBuilder addCancelButton(final SimpleWizard wizard) {
+
+		Button cancel = new Button();
+		cancel.setText("KARAKU_WIZARD_CANCEL");
+		cancel.setStyle(FLOAT_RIGTH);
+		cancel.setClickCallBack(new OnClickCallBack() {
+
+			@Override
+			public void onClick() {
+
+				UITogglePanel utp = findComponentByID(wizard.getTogglePanelId());
+				utp.setActiveItem(utp.getFirstItem().getName());
+				UIPopupPanel upp = findComponentByID(wizard.getPopupId());
+				upp.setShow(false);
+
+			}
+		});
+		// ComponentControlBehavior control = SIGHComponentFactory
+		// .getComponentControl(wizard.getPopupId(), "hide");
+		// cancel.addAjaxBehavior(ButtonAction.CLICK, control);
+		step.getToolBar().addItem(cancel);
 		return this;
 	}
 
 	/**
 	 * Agregar los botones que son necesarios para un paso intermedio (previous,
 	 * next)
-	 * 
+	 *
 	 * @return this
 	 * @see #addPrevious()
 	 * @see #addNext()
@@ -157,7 +211,7 @@ public class StepBuilder {
 	/**
 	 * Dada una expresión genera los botones que son comunes a los últimos pasos
 	 * de un wizard (previous, finish)
-	 * 
+	 *
 	 * @param expression
 	 * @see #addFinish(String)
 	 * @see #addPrevious()
@@ -168,6 +222,7 @@ public class StepBuilder {
 
 		addFinish(callback, wizard);
 		addPrevious();
+		addCancelButton(wizard);
 		return this;
 	}
 
@@ -181,7 +236,7 @@ public class StepBuilder {
 
 	/**
 	 * Retorna el paso que se esta construyendo actualmente
-	 * 
+	 *
 	 * @return {@link Step} construido
 	 */
 	public Step build() {
@@ -201,5 +256,68 @@ public class StepBuilder {
 			((FaceletsStep) getStep()).setAlias(varName, expression);
 			return this;
 		}
+	}
+
+	/**
+	 * Agrega un botón al estado actual
+	 *
+	 * @param boton
+	 * @return this
+	 */
+	public StepBuilder addButon(Button boton) {
+
+		boton.setStyle(FLOAT_RIGTH);
+		step.getToolBar().addItem(boton);
+		return this;
+	}
+
+	/**
+	 * Agrega un botón ajax, que se ejecuta cuando se presiona click.
+	 *
+	 * @return this
+	 */
+	public StepBuilder addAjaxButton(String i18nKey,
+			OnClickCallBack clickCallBack, boolean immediate) {
+
+		return addAjaxButton(i18nKey, clickCallBack, immediate, true);
+	}
+
+	/**
+	 * Agrega un botón ajax, que se ejecuta cuando se presiona click.
+	 *
+	 * @return this
+	 */
+	public StepBuilder addAjaxButton(String i18nKey,
+			final OnClickCallBack clickCallBack, boolean immediate,
+			boolean inLeft) {
+
+		Button b = new Button();
+		b.setText(i18nKey);
+		b.setImmediate(immediate);
+		b.setStyle(inLeft ? FLOAT_LEFT : FLOAT_RIGTH);
+
+		AjaxBehavior ab = SIGHComponentFactory.getAjaxBehavior();
+		ab.addAjaxBehaviorListener(new AjaxBehaviorListener() {
+
+			@Override
+			public void processAjaxBehavior(AjaxBehaviorEvent event)
+					throws AbortProcessingException {
+
+				clickCallBack.onClick();
+
+			}
+		});
+		ab.setRender(ListHelper.getAsList("@form"));
+		b.addAjaxBehavior(ButtonAction.ACTION, ab);
+		step.getToolBar().addItem(b);
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T extends UIComponent> T findComponentByID(String id) {
+
+		ControllerHelper ch = Util.getSpringBeanByJSFContext(
+				FacesContext.getCurrentInstance(), ControllerHelper.class);
+		return (T) ch.findComponent(id);
 	}
 }

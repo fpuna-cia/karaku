@@ -22,32 +22,32 @@ Componente que define el funcionamiento del wizard, convenciones:
 	<cc:implementation>
 
 
-		<rich:popupPanel id="#{cc.attrs.bind.popupId}" modal="true" moveable="false"
-			resizeable="false" width="600" height="600">
+		<rich:popupPanel id="#{cc.attrs.bind.popupId}" modal="true"
+			moveable="false" resizeable="false" width="600" height="450">
 			<f:facet name="header">
 				<h:outputText value="#{cc.attrs.bind.title}" />
 			</f:facet>
-			<f:facet name="controls">
-				<h:form>
-					<a4j:commandButton value="x" immediate="true"
-						styleClass="btn-cancel" title="Salir"
-						oncomplete="#{rich:component(cc.attrs.bind.popupId)}.hide(); return false;">
-					</a4j:commandButton>
-				</h:form>
-			</f:facet>
 			<h:form>
-				<h:panelGrid width="100%" columns="2" columnClasses="col1,col2">
-					<rich:panel styleClass="wizard">
-						<rich:togglePanel switchType="ajax"
-							id="#{cc.attrs.bind.togglePanelId}">
-							<c:forEach items="#{cc.attrs.bind.steps}" var="item">
-								<rich:togglePanelItem>
-									<kk:step step="#{item}"></kk:step>
-								</rich:togglePanelItem>
-							</c:forEach>
-						</rich:togglePanel>
-					</rich:panel>
-				</h:panelGrid>
+				<rich:panel styleClass="wizard">
+					<rich:togglePanel switchType="ajax" activeItem="first"
+						id="#{cc.attrs.bind.togglePanelId}">
+						<c:forEach items="#{cc.attrs.bind.steps}" var="item"
+							varStatus="pageCounter">
+							<c:choose>
+								<c:when test="${pageCounter.count eq 1}">
+									<rich:togglePanelItem name="first">
+										<kk:step step="#{item}" />
+									</rich:togglePanelItem>
+								</c:when>
+								<c:otherwise>
+									<rich:togglePanelItem>
+										<kk:step step="#{item}" />
+									</rich:togglePanelItem>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</rich:togglePanel>
+				</rich:panel>
 			</h:form>
 		</rich:popupPanel>
 	</cc:implementation>

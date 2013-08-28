@@ -21,6 +21,7 @@ Componente que define el funcionamiento del wizard, convenciones:
 	</cc:interface>
 	<cc:implementation>
 		<a4j:commandButton value="#{cc.attrs.bind.title}"
+			render="#{cc.attrs.bind.togglePanelId}"
 			oncomplete="#{rich:component(cc.attrs.bind.popupId)}.show(); return false;" />
 	</cc:implementation>
 </ui:composition>

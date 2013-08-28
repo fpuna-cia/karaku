@@ -65,8 +65,10 @@
 					</rich:extendedDataTable>
 
 					<rich:panel>
+						<h:outputLabel value="Valor Seleccionado: " />
 						<h:outputText
-							value="Valor Seleccionado: #{cc.attrs.pickerField.getFormmatedOption(cc.selectedItem)} "
+							value="#{cc.attrs.pickerField.getFormmatedOption(cc.selectedItem)} "
+							style="font-weight: bold;"
 							id="pickerResult" />
 					</rich:panel>
 					<h:panelGrid id="picker_control" columns="2">

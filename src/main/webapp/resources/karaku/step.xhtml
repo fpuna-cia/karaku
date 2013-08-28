@@ -38,15 +38,12 @@ Los componentes soportados son:
 			<c:when
 				test="#{cc.attrs.step.type eq 'py.una.med.base.dynamic.wizard.FaceletsStep'}">
 				<h:outputLabel value="#{cc.attrs.step.description}" />
-				<h:panelGrid columns="6"
-					columnClasses="form_label,form_input,form_error,form_label,form_input,form_error">
-					<c:if test="#{cc.attrs.step.aliased}">
-						<c:set var="#{cc.attrs.step.alias}"
-							value="#{wizardTestController.helper}" />
-					</c:if>
-					<!-- 					<h:outputLabel value="#{helper}" /> -->
-					<ui:include src="#{cc.attrs.step.path}" />
-				</h:panelGrid>
+
+				<c:if test="#{cc.attrs.step.aliased}">
+					<c:set var="#{cc.attrs.step.alias}"
+						value="#{wizardTestController.helper}" />
+				</c:if>
+				<ui:include src="#{cc.attrs.step.path}" />
 			</c:when>
 
 			<c:when
@@ -54,13 +51,14 @@ Los componentes soportados son:
 				<h:outputLabel value="#{cc.attrs.step.description}" />
 				<c:set var="table" value="#{cc.attrs.step.bind}" />
 				#{table.dataSource.refresh()}
-<!-- 				<h:outputLabel value="#{table.dataSource.items}" /> -->
-				<rich:extendedDataTable binding="#{table.bind}" id="#{cc.attrs.step.bind.id}"/>
+				<rich:extendedDataTable binding="#{table.bind}"
+					id="#{cc.attrs.step.bind.id}" />
 			</c:when>
 		</c:choose>
 
 		<cc:insertChildren></cc:insertChildren>
-		<kk:toolBar bind="#{cc.attrs.step.toolBar}"></kk:toolBar>
+		<kk:toolBar bind="#{cc.attrs.step.toolBar}" />
 
+		<br />
 	</cc:implementation>
 </ui:composition>
