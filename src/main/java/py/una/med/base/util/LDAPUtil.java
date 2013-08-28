@@ -67,9 +67,9 @@ public class LDAPUtil {
 	 * 
 	 * @return Una lista con los usuarios de LDAP
 	 */
-	public List<String> getUsers() {
+	public List<User> getUsers() {
 
-		List<String> users = new ArrayList<String>();
+		List<User> users = new ArrayList<User>();
 
 		try {
 			DirContext ctx = createInitialDirContext();
@@ -85,7 +85,12 @@ public class LDAPUtil {
 				String uid = sr.getName().substring(4);
 				// No ser retornan los usuarios especialess
 				if (!uid.startsWith(LDAP_SPECIAL_USER_PREFIX)) {
-					users.add(uid);
+					User user = new User();
+					user.setUid(uid);
+					Attributes atributos = sr.getAttributes();
+					String cn = atributos.get("cn").toString().substring(4);
+					user.setCn(cn);
+					users.add(user);
 				}
 			}
 
@@ -94,6 +99,34 @@ public class LDAPUtil {
 		}
 
 		return users;
+
+	}
+
+	public static class User {
+
+		private String uid;
+
+		private String cn;
+
+		public void setUid(String uid) {
+
+			this.uid = uid;
+		}
+
+		public String getUid() {
+
+			return this.uid;
+		}
+
+		public void setCn(String cn) {
+
+			this.cn = cn;
+		}
+
+		public String getCn() {
+
+			return this.cn;
+		}
 
 	}
 }
