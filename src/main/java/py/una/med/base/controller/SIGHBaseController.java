@@ -50,7 +50,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Vector que contiene las columnas por las que se intentará ordenar.
 	 */
-	private static String[] DEFAULT_SORT_COLUMNS = { "descripcion2", "id2" };
+	private static String[] DEFAULT_SORT_COLUMNS = { "descripcion", "id" };
 	@Autowired
 	private BreadcrumbController breadcrumController;
 
