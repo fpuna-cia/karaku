@@ -5,6 +5,7 @@
 package py.una.med.base.controller;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.business.reports.SIGHBaseReportSimple;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
+import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 import py.una.med.base.security.HasRole;
@@ -35,16 +37,20 @@ import py.una.med.base.util.StringUtils;
 /**
  * Controlador base para todos los controladores del sistema, implementa las
  * funcionalidades definidas en {@link ISIGHBaseController}.
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.5 Aug 1, 2013
  * @see ISIGHBaseController
- * 
+ *
  */
 public abstract class SIGHBaseController<T, K extends Serializable> implements
 		ISIGHBaseController<T, K> {
 
+	/**
+	 * Vector que contiene las columnas por las que se intentará ordenar.
+	 */
+	private static String[] DEFAULT_SORT_COLUMNS = { "descripcion2", "id2" };
 	@Autowired
 	private BreadcrumbController breadcrumController;
 
@@ -214,7 +220,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * Retorna una lista de cadenas representando las opciones por las cuales el
 	 * caso de uso podra buscar, es un método de utilidad para
 	 * {@link #getSearchSelectItemsList()}
-	 * 
+	 *
 	 * @return lista de strings
 	 * @see #getSearchSelectItemsList()
 	 */
@@ -237,7 +243,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 			where.setExample(getExample());
 			return where;
 		}
-		if ((getFilterValue() != null) && !getFilterValue().equals("")) {
+		if (getFilterValue() != null && !getFilterValue().equals("")) {
 			return getSimpleFilters();
 		}
 		return new Where<T>();
@@ -251,7 +257,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 					EntitySerializer.serialize(getExample()));
 			return paramsReport;
 		}
-		if ((getFilterValue() != null) && !getFilterValue().equals("")) {
+		if (getFilterValue() != null && !getFilterValue().equals("")) {
 			paramsReport.put("selectionFilters", getFilterOption() + ": "
 					+ getFilterValue());
 			return paramsReport;
@@ -333,11 +339,46 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		return getSimpleFilters();
 	}
 
+	/**
+	 * Método que debe ser implementado en la clase que desea definir alguna
+	 * configuración especial en la obtención de valores desde la base de datos
+	 *
+	 * <p>
+	 * La implementación por defecto, intenta ordenar por (si no puede ordenar
+	 * por un atributo, pasa al siguiente):
+	 * <ol>
+	 * <li>descripcion</li>
+	 * <li>id</li>
+	 * </ol>
+	 * </p>
+	 *
+	 * @see #DEFAULT_SORT_COLUMNS
+	 * @param sp
+	 *            parámetro de búsqueda definido en el paginHelper y a ser
+	 *            configurado
+	 */
 	@Override
 	public void configureSearchParam(ISearchParam sp) {
 
+		for (String s : DEFAULT_SORT_COLUMNS) {
+			try {
+				getBaseLogic().getDao().getClassOfT().getDeclaredField(s);
+				sp.addOrder(s, true);
+				return;
+			} catch (Exception e) {
+			}
+		}
+		throw new KarakuRuntimeException(
+				"Tabla '"
+						+ getBaseLogic().getDao().getTableName()
+						+ "' no posee las columnas por defecto para ordenar "
+						+ Arrays.toString(DEFAULT_SORT_COLUMNS)
+						+ " por favor, reescriba el método configureSearchparam en el controlador: "
+						+ getClass().getSimpleName());
+
 	}
 
+	@Override
 	public T getExample() {
 
 		return example;
@@ -418,7 +459,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Esta lista del tipo SelectItem es necesaria para los combobox hechos con
 	 * este objeto (para la lista de filtros).
-	 * 
+	 *
 	 * @return {@link List} de {@link SelectItem} que representan los criterios
 	 *         por los cuales se puede buscar en este controller.
 	 */
@@ -617,6 +658,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		this.example = example;
 	}
 
+	@Override
 	public void setFilterOption(String filterOption) {
 
 		this.filterOption = filterOption;

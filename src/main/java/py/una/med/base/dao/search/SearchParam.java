@@ -5,6 +5,7 @@ package py.una.med.base.dao.search;
 
 import java.util.ArrayList;
 import java.util.List;
+import py.una.med.base.util.ListHelper;
 
 public class SearchParam implements ISearchParam {
 
@@ -12,14 +13,15 @@ public class SearchParam implements ISearchParam {
 	private Integer offset;
 	private Integer limit;
 
-	public OrderParam addOrder(String columnName, boolean asc) {
+	@Override
+	public ISearchParam addOrder(String columnName, boolean asc) {
 
 		if (orders == null) {
 			orders = new ArrayList<OrderParam>();
 		}
 		OrderParam newOrder = new OrderParam(asc, columnName);
 		orders.add(newOrder);
-		return newOrder;
+		return this;
 	}
 
 	@Override
@@ -41,9 +43,10 @@ public class SearchParam implements ISearchParam {
 	}
 
 	@Override
-	public void setOffset(Integer offset) {
+	public ISearchParam setOffset(Integer offset) {
 
 		this.offset = offset;
+		return this;
 	}
 
 	@Override
@@ -53,13 +56,27 @@ public class SearchParam implements ISearchParam {
 	}
 
 	@Override
-	public void setLimit(Integer limit) {
+	public ISearchParam setLimit(Integer limit) {
 
 		this.limit = limit;
+		return this;
 	}
 
-	public void addExcludedColumn(String string) {
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * py.una.med.base.dao.search.ISearchParam#addOrder(py.una.med.base.dao.
+	 * search.OrderParam)
+	 */
+	@Override
+	public ISearchParam addOrder(OrderParam orderParam) {
 
+		if (getOrders() == null) {
+			setOrders(ListHelper.getAsList(orderParam));
+		} else {
+			getOrders().add(orderParam);
+		}
+		return this;
 	}
-
 }
