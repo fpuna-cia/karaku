@@ -6,6 +6,7 @@ import org.hibernate.criterion.LikeExpression;
 import py.una.med.base.dao.restrictions.NumberLike;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.where.Clause;
+import py.una.med.base.dao.where.Ge;
 import py.una.med.base.dao.where.Not;
 import py.una.med.base.dao.where.Or;
 
@@ -69,6 +70,9 @@ public class RestrictionHelper<T> {
 				} else if (cr.getClass().equals(Not.class)) {
 					aliaz = NotExpressionHelper.applyNestedCriteria(criteria,
 							(Not) cr, aliaz);
+				} else if (cr.getClass().equals(Ge.class)) {
+					GeExpressionHelper.applyNestedCriteria(criteria, (Ge) cr,
+							aliaz);
 				} else {
 					criteria.add(cr.getCriterion());
 				}

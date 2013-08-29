@@ -1,7 +1,6 @@
 package py.una.med.base.dao.where;
 
 import java.util.List;
-
 import py.una.med.base.dao.restrictions.NumberLike;
 
 /**
@@ -42,7 +41,7 @@ public final class Clauses {
 		return new NumberLike(path, number, matchMode.getMatchMode());
 	}
 
-	public static Clause or(final Clause... clauses) {
+	public static Clause or(final Clause ... clauses) {
 
 		return new Or(clauses);
 	}
@@ -58,7 +57,12 @@ public final class Clauses {
 	}
 
 	public static Clause eq(String path, Object value) {
-		
+
 		return new Equal(path, value);
+	}
+
+	public static Clause le(String path, Object value) {
+
+		return new Ge(path, value);
 	}
 }
