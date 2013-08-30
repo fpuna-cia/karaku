@@ -309,6 +309,25 @@ public class ExportReport {
 		}
 	}
 
+	public <T> void exportReportGrid(List<SIGHReportBlockGrid> blocks,
+			Map<String, Object> params, String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buidReportBlockGrid(blocks),
+					new ClassicLayoutManager(), new JREmptyDataSource(),
+					getDetailsReport(params));
+
+			generate(jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
 	/**
 	 * Genera un reporte dinamico formado por bloques del tipo field y del tipo
 	 * firma, es decir un reporte que posee una lista de columnas horizontales y

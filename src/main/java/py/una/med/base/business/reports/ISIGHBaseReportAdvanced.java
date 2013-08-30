@@ -11,6 +11,7 @@ import net.sf.dynamicreports.report.datasource.DRDataSource;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
+import py.una.med.base.reports.SIGHReportBlockGrid;
 import ar.com.fdvs.dj.domain.DynamicReport;
 
 /**
@@ -88,24 +89,6 @@ public interface ISIGHBaseReportAdvanced<T> {
 	List<?> getList(Map<String, Object> listFilters, List<String> listOrder);
 
 	/**
-	 * Metodo que genera el reporte fisicamente.
-	 * 
-	 * @param params
-	 *            Parametros generales y especificos del reporte
-	 * @param type
-	 *            Tipo de exportacion, puede ser XLS o PDF
-	 * 
-	 * @param listFilters
-	 *            Filtros ingresados para realizar la consulta
-	 * @param listOrder
-	 *            Lista de ordenes en el cual se desea visualizar el reporte
-	 * @throws ReportException
-	 */
-	void generateReport(Map<String, Object> params, String type,
-			Map<String, Object> listFilters, List<String> listOrder)
-			throws ReportException;
-
-	/**
 	 * Define el reporte complejo especifico para cada caso.
 	 * 
 	 * @param params
@@ -121,5 +104,30 @@ public interface ISIGHBaseReportAdvanced<T> {
 	DynamicReport builReport(Map<String, Object> params,
 			Map<String, Object> listFilters, List<String> listOrder)
 			throws ReportException;
+
+	/**
+	 * Metodo que genera un reporte dinamico con un unico dataSource.
+	 * 
+	 * @param dataSources
+	 *            Es true si el reporte utiliza un dataSource y false caso
+	 *            contrario, es decir la lista de elementos del reporte se
+	 *            encuentra en los parametros del mismo
+	 * @param params
+	 *            Parametros generales y especificos del reporte
+	 * @param type
+	 *            Tipo de exportacion, puede ser XLS o PDF
+	 * 
+	 * @param listFilters
+	 *            Filtros ingresados para realizar la consulta
+	 * @param listOrder
+	 *            Lista de ordenes en el cual se desea visualizar el reporte
+	 * @throws ReportException
+	 */
+	void generateReport(boolean dataSource, Map<String, Object> params,
+			String type, Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException;
+
+	Map<String, Object> setDataSources(List<SIGHReportBlockGrid> blocks,
+			Map<String, Object> params);
 
 }

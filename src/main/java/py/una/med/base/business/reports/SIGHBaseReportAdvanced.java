@@ -9,11 +9,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
 import py.una.med.base.reports.ExportReport;
+import py.una.med.base.reports.SIGHReportBlockGrid;
 import py.una.med.base.util.ListHelper;
 import ar.com.fdvs.dj.domain.DynamicReport;
 
@@ -72,14 +74,38 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 			List<String> listOrder);
 
 	@Override
-	public void generateReport(Map<String, Object> params, String type,
-			Map<String, Object> listFilters, List<String> listOrder)
+	public void generateReport(boolean dataSource, Map<String, Object> params,
+			String type, Map<String, Object> listFilters, List<String> listOrder)
 			throws ReportException {
 
-		exportReport.exportAvancedReport(
-				builReport(params, listFilters, listOrder),
-				getDataSource(listFilters, listOrder), params, type);
+		if (!dataSource) {
+			exportReport.exportAvancedReport(
+					builReport(params, listFilters, listOrder),
+					new JREmptyDataSource(), params, type);
+		} else {
+			exportReport.exportAvancedReport(
+					builReport(params, listFilters, listOrder),
+					getDataSource(listFilters, listOrder), params, type);
+		}
 
+	}
+
+	/**
+	 * Se utiliza para setear como parametro una lista de datasources, esto se
+	 * aplica para subreportes concatenados
+	 * 
+	 * @param blocks
+	 * @param params
+	 * @return
+	 */
+	@Override
+	public Map<String, Object> setDataSources(List<SIGHReportBlockGrid> blocks,
+			Map<String, Object> params) {
+
+		for (SIGHReportBlockGrid block : blocks) {
+			params.put(block.getNameDataSource(), block.getDataSource());
+		}
+		return params;
 	}
 
 	@Override

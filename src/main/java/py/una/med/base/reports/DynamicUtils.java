@@ -1,4 +1,6 @@
 /**
+ * /**
+ * 
  * @DynamicUtils 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
@@ -121,6 +123,20 @@ public final class DynamicUtils {
 		setWhenNotData(structReport);
 
 		addBlocks(structReport, blocks);
+
+		structReport.setUseFullPageWidth(true);
+
+		return structReport.build();
+	}
+
+	public <T> DynamicReport buidReportBlockGrid(
+			List<SIGHReportBlockGrid> blocks) throws ReportException {
+
+		FastReportBuilder structReport = new FastReportBuilder();
+		setTemplatePortrait(structReport);
+		setWhenNotData(structReport);
+
+		addBlocksGrid(structReport, blocks);
 
 		structReport.setUseFullPageWidth(true);
 
@@ -399,6 +415,16 @@ public final class DynamicUtils {
 		return structReport;
 	}
 
+	public <T> FastReportBuilder addBlocksGrid(FastReportBuilder structReport,
+			List<SIGHReportBlockGrid> blocks) throws ReportException {
+
+		for (SIGHReportBlockGrid block : blocks) {
+			buildBlockGrid(structReport, block);
+		}
+
+		return structReport;
+	}
+
 	/**
 	 * Agrega la lista de bloques del tipo firma al reporte maestro
 	 * 
@@ -493,6 +519,32 @@ public final class DynamicUtils {
 		} catch (ClassNotFoundException e) {
 			throw new ReportException(e);
 		}
+
+	}
+
+	public FastReportBuilder buildBlockGrid(FastReportBuilder structReportHead,
+			SIGHReportBlockGrid block) throws ReportException {
+
+		FastReportBuilder structBlockReport = new FastReportBuilder();
+		structBlockReport.setDefaultStyles(getStyleTitle(), null,
+				getStyleColumnHeader(), null);
+
+		structBlockReport.setUseFullPageWidth(true);
+		setWhenNotData(structBlockReport);
+
+		structBlockReport.setTitle(block.getTitle());
+		addColumn(structBlockReport, block.getColumns());
+
+		Subreport subReport = new SubReportBuilder()
+				.setDataSource(DJConstants.DATA_SOURCE_ORIGIN_PARAMETER,
+						DJConstants.DATA_SOURCE_TYPE_JRDATASOURCE,
+						block.getNameDataSource())
+				.setDynamicReport(structBlockReport.build(),
+						new ClassicLayoutManager()).build();
+
+		structReportHead.addConcatenatedReport(subReport);
+
+		return structReportHead;
 
 	}
 
@@ -721,7 +773,7 @@ public final class DynamicUtils {
 	}
 
 	/**
-	 * Adiciona al reporte el template base con horientación horizontal.
+	 * Adiciona al reporte el template base con orientación horizontal.
 	 * 
 	 * @param report
 	 * @return
@@ -733,7 +785,7 @@ public final class DynamicUtils {
 	}
 
 	/**
-	 * Adiciona al reporte el template base con horientación vertical.
+	 * Adiciona al reporte el template base con orientación vertical.
 	 * 
 	 * @param report
 	 * @return
