@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.el.ELContext;
 import javax.el.MethodExpression;
 import javax.faces.component.FacesComponent;
@@ -16,17 +15,15 @@ import javax.faces.component.UINamingContainer;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
-
 import org.richfaces.component.UIExtendedDataTable;
-
 import py.una.med.base.dynamic.forms.MultiplePickerField;
 
 /**
- * 
+ *
  * @author Jorge Ramírez, Nathalia Ochoa
  * @since 1.0
  * @version 1.0 Jun 25, 2013
- * 
+ *
  */
 @FacesComponent(value = "multiplePickerButton")
 public class MultiplePickerButton extends UINamingContainer {
@@ -94,7 +91,7 @@ public class MultiplePickerButton extends UINamingContainer {
 	}
 
 	/**
-	 * 
+	 *
 	 **/
 	public void preRenderDataTable(ComponentSystemEvent event) {
 
@@ -136,10 +133,11 @@ public class MultiplePickerButton extends UINamingContainer {
 	}
 
 	/**
-	 * 
+	 *
 	 **/
 	@SuppressWarnings("unchecked")
 	public void onItemCheckboxClicked(final AjaxBehaviorEvent event) {
+
 		if (getCheckedItems() != null) {
 			checkedItems = getCheckedItems();
 		}
@@ -219,10 +217,11 @@ public class MultiplePickerButton extends UINamingContainer {
 		checkedItems.clear();
 		selectedItemsTemp.clear();
 
-		for (int i = 0; i < selectedItems.size(); i++) {
-			checkedItems.put(mpb.getItemKey(selectedItems.get(i)), true);
-			selectedItemsTemp.add(selectedItems.get(i));
-
+		if (selectedItems != null) {
+			for (int i = 0; i < selectedItems.size(); i++) {
+				checkedItems.put(mpb.getItemKey(selectedItems.get(i)), true);
+				selectedItemsTemp.add(selectedItems.get(i));
+			}
 		}
 
 		setCheckedItems(checkedItems);
@@ -284,6 +283,7 @@ public class MultiplePickerButton extends UINamingContainer {
 	}
 
 	public void setSelectedItems(List<Object> selectedItems) {
+
 		this.selectedItems = selectedItems;
 		put(SELECTED_ITEMS, selectedItems);
 	}
