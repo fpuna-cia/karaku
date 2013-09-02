@@ -42,6 +42,7 @@ public class MenuHelper {
 		List<Menu> fatherless = new ArrayList<Menu>();
 		salida.menus = new ArrayList<Menu>();
 		for (Menu m : input.menus) {
+			clean(m);
 			addMenu(salida, m, fatherless);
 		}
 		salida.menus.addAll(fatherless);
@@ -71,6 +72,24 @@ public class MenuHelper {
 		}
 
 		this.menus = salida;
+	}
+
+	/**
+	 * Elimina todos los problemas relacionados con el formato en el menú, como
+	 * URL's con espacios al inicio y al fin.
+	 *
+	 * @param m
+	 *            {@link Menu} a limpiar
+	 */
+	private void clean(Menu m) {
+
+		if (m == null) {
+			return;
+		}
+		if (m.getUrl() != null) {
+			String url = m.getUrl().trim();
+			m.setUrl(url);
+		}
 	}
 
 	/**

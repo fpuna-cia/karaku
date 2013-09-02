@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import py.una.med.base.domain.Menu;
 import py.una.med.base.domain.Menu.Menus;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.MenuHelper;
@@ -37,9 +38,6 @@ public class SIGHConfiguration {
 
 	@Autowired
 	private ApplicationContext applicationContext;
-
-	@Autowired
-	private MenuHelper menuHelper;
 
 	// @Autowired
 	private static PropertiesUtil propertiesUtil;
@@ -98,11 +96,30 @@ public class SIGHConfiguration {
 			jaxbContext = JAXBContext.newInstance(Menus.class);
 			Unmarshaller um = jaxbContext.createUnmarshaller();
 			Menus toConcat = (Menus) um.unmarshal(reader);
-			toRet.menus.addAll(toConcat.menus);
+
+			cleanMenuID(resource.getFilename(), toConcat);
+			toRet.getMenus().addAll(toConcat.getMenus());
 		}
 
 		MenuHelper mh = new MenuHelper(toRet);
 		return mh;
+	}
+
+	private void cleanMenuID(String file, Menus loaded) {
+
+		int location = file.indexOf(".");
+		String pre;
+		if (location <= 0) {
+			pre = file;
+		} else {
+			pre = file.substring(0, location);
+		}
+		for (Menu m : loaded.getMenus()) {
+			m.setId(pre + m.getId());
+			if (m.getIdFather() != null && !"".equals(m.getIdFather())) {
+				m.setIdFather(pre + m.getIdFather());
+			}
+		}
 	}
 
 	/**
