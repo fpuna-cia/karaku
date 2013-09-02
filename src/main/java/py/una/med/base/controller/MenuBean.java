@@ -1,10 +1,7 @@
 package py.una.med.base.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlOutcomeTargetLink;
 import javax.faces.component.html.HtmlOutputLink;
@@ -14,40 +11,33 @@ import org.richfaces.component.UIPanelMenuGroup;
 import org.richfaces.component.UIPanelMenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.breadcrumb.BreadcrumbController;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.domain.Menu;
-import py.una.med.base.domain.Menu.Menus;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
+import py.una.med.base.jsf.utils.CurrentPageHelper;
 import py.una.med.base.util.HostResolver;
 import py.una.med.base.util.I18nHelper;
+import py.una.med.base.util.MenuHelper;
 
 /**
  * Clase que implementa la creacion del menu de la aplicacion.
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 20, 2013
- * 
+ *
  */
-@SessionScoped
-@Controller
-@ManagedBean
-@Scope(value = WebApplicationContext.SCOPE_SESSION)
+@Component
+@Scope(value = WebApplicationContext.SCOPE_REQUEST)
 public class MenuBean {
 
 	private UIPanelMenu menupanel;
 	// private final Logger logger = LoggerFactory.getLogger(MenuBean.class);
 
 	@Autowired
-	private Menus menus;
-
-	@Autowired
 	private I18nHelper helper;
-
-	private HashMap<String, Boolean> expanded;
 
 	@Autowired
 	private PropertiesUtil properties;
@@ -55,14 +45,20 @@ public class MenuBean {
 	@Autowired
 	private HostResolver hostResolver;
 
+	@Autowired
+	private CurrentPageHelper currentPageHelper;
+
+	@Autowired
+	MenuHelper menuHelper;
+
 	/**
 	 * Configura y retorna un menu
-	 * 
-	 * @return Menu entero de la aplicacion
+	 *
+	 * @return Menu entero de la aplicación
 	 */
 	public UIPanelMenu getMenu() {
 
-		// XXX Ver como generar el menupanel UNA sola vez.
+		// XXX Ver como generar el menú panel UNA sola vez.
 
 		menupanel = SIGHComponentFactory.getMenu();
 		menupanel.setGroupExpandedLeftIcon("triangleUp");
@@ -73,13 +69,17 @@ public class MenuBean {
 		menupanel.setStyleClass("menu");
 		menupanel.getChildren().clear();
 		menupanel.getChildren().addAll(buildMenu());
+
+		if (getCurrentMenuSelected() != null) {
+			menupanel.setActiveItem(getCurrentMenuSelected().getId());
+		}
 		return menupanel;
 	}
 
 	/**
 	 * Si se llama a esta funcion algo esta mal, se utiliza solamente para que
 	 * "menu" sea una atributo de menuBean
-	 * 
+	 *
 	 * @param obj
 	 */
 	public void setMenu(UIPanelMenu menupanel) {
@@ -89,10 +89,10 @@ public class MenuBean {
 
 	private List<UIComponent> buildMenu() {
 
-		List<UIComponent> menuGroups = new ArrayList<UIComponent>(
-				menus.menus.size());
+		List<UIComponent> menuGroups = new ArrayList<UIComponent>(menuHelper
+				.getMenus().getMenus().size());
 
-		for (Menu menu : menus.menus) {
+		for (Menu menu : menuHelper.getMenus().getMenus()) {
 			UIComponent component = getComponent(menu);
 			if (component != null) {
 				menuGroups.add(component);
@@ -108,7 +108,7 @@ public class MenuBean {
 			return null;
 		}
 
-		if ((menu.getChildrens() == null) || (menu.getChildrens().size() == 0)) {
+		if (menu.getChildrens() == null || menu.getChildrens().size() == 0) {
 			return getSingleMenu(menu);
 		} else {
 			return getMultipleMenu(menu);
@@ -118,13 +118,24 @@ public class MenuBean {
 	private UIComponent getMultipleMenu(Menu menu) {
 
 		UIPanelMenuGroup menuGroup = SIGHComponentFactory.getMenuGroup();
-		menuGroup.setId(menu.getIdFather() + menu.getId());
+		menuGroup.setId(menu.getId());
+		menuGroup.setName(menu.getId());
 		menuGroup.setLabel(helper.getString(menu.getName()));
-		menuGroup.setExpanded(false);
+
 		for (Menu children : menu.getChildrens()) {
 			UIComponent component = getComponent(children);
 			if (component != null) {
 				menuGroup.getChildren().add(component);
+				if (getCurrentMenuSelected() != null
+						&& children.equals(getCurrentMenuSelected())) {
+					menuGroup.setExpanded(true);
+				}
+				if (component instanceof UIPanelMenuGroup) {
+					UIPanelMenuGroup child = (UIPanelMenuGroup) component;
+					if (child.isExpanded() != null) {
+						menuGroup.setExpanded(child.isExpanded());
+					}
+				}
 			}
 		}
 
@@ -138,8 +149,9 @@ public class MenuBean {
 	private UIComponent getSingleMenu(Menu menu) {
 
 		UIPanelMenuItem item = SIGHComponentFactory.getMenuItem();
+		item.setId(menu.getId());
+		item.setName(menu.getId());
 
-//		item.setId(menu.getIdFather() + menu.getId());
 		item.setLabel(helper.getString(menu.getName()));
 		UIComponent link;
 
@@ -153,9 +165,8 @@ public class MenuBean {
 				// link correspondiente a este sistema
 				menuUrl = menuUrl.replace(appPlaceHolder, "");
 				link = SIGHComponentFactory.getLink();
-				((HtmlOutcomeTargetLink) link).setOutcome(menuUrl
-						+ BreadcrumbController.BREADCRUM_URL);
-				menu.setUrl(menuUrl);
+				((HtmlOutcomeTargetLink) link).setOutcome(menuUrl);
+				// menu.setUrl(menuUrl);
 			} else {
 				// link a otro sistema
 				String urlPlaceHolder = menuUrl.substring(0,
@@ -169,9 +180,8 @@ public class MenuBean {
 						.createComponent(FacesContext.getCurrentInstance(),
 								HtmlOutputLink.COMPONENT_TYPE,
 								"javax.faces.Link");
-				((HtmlOutputLink) link).setValue(menuUrl
-						+ BreadcrumbController.BREADCRUM_URL);
-				menu.setUrl(menuUrl);
+				((HtmlOutputLink) link).setValue(menuUrl);
+				// menu.setUrl(menuUrl);
 			}
 		} else {
 			link = SIGHComponentFactory.getLink();
@@ -200,22 +210,9 @@ public class MenuBean {
 		return false;
 	}
 
-	/**
-	 * Retorna si un menu dado debe estar expandido
-	 * 
-	 * @return lista de menus, con su corresopndiente debe estar o no expandido
-	 */
-	public HashMap<String, Boolean> getExpanded() {
+	private Menu getCurrentMenuSelected() {
 
-		return expanded;
+		return currentPageHelper.getCurrentMenu();
 	}
 
-	/**
-	 * 
-	 * @param expanded
-	 */
-	public void setExpanded(HashMap<String, Boolean> expanded) {
-
-		this.expanded = expanded;
-	}
 }

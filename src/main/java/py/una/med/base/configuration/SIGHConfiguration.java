@@ -9,31 +9,28 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-
 import py.una.med.base.domain.Menu.Menus;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.MenuHelper;
 
 /**
  * Clase de configuración de la aplicación.
- * 
+ *
  * @author Arturo Volpe
  * @since 1.1
  * @version 1.0
- * 
+ *
  */
 @Configuration
 public class SIGHConfiguration {
@@ -41,7 +38,10 @@ public class SIGHConfiguration {
 	@Autowired
 	private ApplicationContext applicationContext;
 
-//	@Autowired
+	@Autowired
+	private MenuHelper menuHelper;
+
+	// @Autowired
 	private static PropertiesUtil propertiesUtil;
 
 	@Autowired
@@ -65,14 +65,16 @@ public class SIGHConfiguration {
 	public static final String CONFIG_LOCATION = "karaku.properties";
 
 	@Bean
-	public static PropertiesUtil propertyPlaceholder (){
+	public static PropertiesUtil propertyPlaceholder() {
+
 		propertiesUtil = new PropertiesUtil();
 		propertiesUtil.setLocation(new ClassPathResource(CONFIG_LOCATION));
 		return propertiesUtil;
 	}
+
 	/**
 	 * Construye una instancia de {@link Menus}.
-	 * 
+	 *
 	 * @return nueva instancia de Menus
 	 * @throws IOException
 	 * @throws JAXBException
@@ -80,7 +82,7 @@ public class SIGHConfiguration {
 	 *             imposible leer archivo
 	 */
 	@Bean
-	public Menus getMenu() throws IOException, JAXBException {
+	public MenuHelper menuHelper() throws IOException, JAXBException {
 
 		// XXX mejorar mexclar arboles
 		Menus toRet = new Menus();
@@ -95,22 +97,23 @@ public class SIGHConfiguration {
 					inputStream));
 			jaxbContext = JAXBContext.newInstance(Menus.class);
 			Unmarshaller um = jaxbContext.createUnmarshaller();
-			Menus toConcat = MenuHelper.createHierarchy(((Menus) um
-					.unmarshal(reader)));
+			Menus toConcat = (Menus) um.unmarshal(reader);
 			toRet.menus.addAll(toConcat.menus);
 		}
-		return toRet;
+
+		MenuHelper mh = new MenuHelper(toRet);
+		return mh;
 	}
 
 	/**
 	 * <resource-bundle> <base-name>../language.properties.base</base-name>
 	 * <var>_b</var> </resource-bundle>
-	 * 
+	 *
 	 * <resource-bundle>
-	 * 
+	 *
 	 * <base-name>../language.properties.farmacia</base-name> <var>msg</var>
 	 * </resource-bundle>
-	 * 
+	 *
 	 * @return
 	 */
 	@Bean(name = "msg")
@@ -132,7 +135,7 @@ public class SIGHConfiguration {
 	/**
 	 * Retorna true si la aplicacion esta en estado de desarrollo y false si
 	 * esta en otro estado.
-	 * 
+	 *
 	 * @see ProjectStage
 	 * @return true si es develop, false en otro caso
 	 */
@@ -144,7 +147,7 @@ public class SIGHConfiguration {
 
 	/**
 	 * Retorna true si el entorno actual de ejecucion es de Debug
-	 * 
+	 *
 	 * @return true si se esta debugeando, false si se esta ejecutando
 	 *         normalmente
 	 */

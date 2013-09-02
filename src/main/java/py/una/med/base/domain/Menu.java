@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Clase que representa un item del menu,
- * 
+ *
  * @see Menus
  * @author Arturo Volpe
  * @since 1.1
@@ -27,6 +27,30 @@ public class Menu {
 	private String idFather;
 
 	private List<Menu> childrens;
+
+	private Menu father;
+
+	int depth;
+
+	/**
+	 * Retorna la profundidad de este menú, la profundidad se define como la
+	 * cantidad de padres que tiene en la jerarquía.
+	 *
+	 * @return depth
+	 */
+	public int getDepth() {
+
+		return depth;
+	}
+
+	/**
+	 * @param depth
+	 *            depth para setear
+	 */
+	public void setDepth(int depth) {
+
+		this.depth = depth;
+	}
 
 	public String getId() {
 
@@ -99,22 +123,39 @@ public class Menu {
 		this.childrens = childrens;
 	}
 
+	/**
+	 * @param father
+	 *            father para setear
+	 */
+	public void setFather(Menu father) {
+
+		this.father = father;
+	}
+
+	/**
+	 * @return father
+	 */
+	public Menu getFather() {
+
+		return father;
+	}
+
 	@Override
 	public String toString() {
 
-		return getIdFather() + " -> " + getId();
+		return getId();
 	}
 
 	@XmlRootElement(name = "menus")
 	public static class Menus {
 
+		@XmlElement(name = "menu")
+		public List<Menu> menus;
+
 		public Menus() {
 
 			menus = new ArrayList<Menu>();
 		}
-
-		@XmlElement(name = "menu")
-		public List<Menu> menus;
 
 		public void addMenu(Menu menu) {
 
@@ -145,7 +186,7 @@ public class Menu {
 			if (root == null) {
 				return null;
 			}
-			if (url.equals(root.getUrl())) {
+			if (url.endsWith(root.getUrl())) {
 				return root;
 			}
 			Menu aRet = null;
@@ -158,41 +199,23 @@ public class Menu {
 			return null;
 		}
 
-		private Menu findMenuById(Menu root, String id) {
+		/**
+		 * Retorna la lista de {@link Menu}.
+		 *
+		 * @return menus
+		 */
+		public List<Menu> getMenus() {
 
-			if (root == null) {
-				return null;
-			}
-			if (id.equals(root.getId())) {
-				return root;
-			}
-			Menu aRet = null;
-			for (Menu menu : root.getChildrens()) {
-				aRet = findMenuById(menu, id);
-				if (aRet != null) {
-					return aRet;
-				}
-			}
-			return null;
-		}
-
-		public Menu getPadre(Menu hijo) {
-
-			if (hijo.getIdFather() == null || "".equals(hijo.getIdFather())) {
-				return null;
-			}
-			Menu aRet;
-			for (Menu menu : menus) {
-				aRet = findMenuById(menu, hijo.getIdFather());
-				if (aRet != null) {
-					return aRet;
-				}
-			}
-			return null;
+			return menus;
 		}
 	}
 
-	public String getArbol() {
+	/**
+	 * Retorna una cadena que tiene la forma del árbol.
+	 *
+	 * @return cadena con forma de árbol
+	 */
+	public String toVerboseString() {
 
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(getName());
@@ -222,7 +245,7 @@ public class Menu {
 
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (id == null ? 0 : id.hashCode());
 		return result;
 	}
 

@@ -564,14 +564,14 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@Override
 	public String postCreate() {
 
-		log.info("postCreate llamado");
+		mode = Mode.LIST;
 		return goList();
 	}
 
 	@Override
 	public String postDelete() {
 
-		log.info("Post Delete llamado");
+		mode = Mode.LIST;
 		return goList();
 	}
 
@@ -579,7 +579,6 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	public String postEdit() {
 
 		mode = Mode.LIST;
-		log.info("post edit llamado");
 		return goList();
 	}
 

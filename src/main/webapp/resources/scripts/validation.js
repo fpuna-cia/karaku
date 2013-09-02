@@ -13,7 +13,6 @@ function validateInput(regexString) {
 	if (key >= 46) {
 		key = String.fromCharCode(key);
 		var regex = new RegExp("^" + regexString + "$");
-		console.log(regex);
 		if (!regex.test(key)) {
 			theEvent.returnValue = false;
 			if (theEvent.preventDefault) {

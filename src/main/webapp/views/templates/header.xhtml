@@ -24,6 +24,10 @@
 		<f:event type="preRenderView"
 			listener="#{requiredPhaseListener.preRenderView}" />
 	</f:metadata>
+
+	<ui:insert name="topContent" />
+
+	<h:outputText binding="#{currentPageHelper.bind}" />
 	<h:outputScript library="scripts" name="workaround.js" target="head" />
 	<h:outputScript library="scripts" name="column-fix.js" target="head" />
 	<!-- 	<input type="checkbox" id="expand" value="Expandir" checked="checked" -->
