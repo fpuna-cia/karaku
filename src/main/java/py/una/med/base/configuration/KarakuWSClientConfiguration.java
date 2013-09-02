@@ -151,7 +151,7 @@ public class KarakuWSClientConfiguration {
 
 		String paquetes = properties.get(
 				KARAKU_WS_CLIENT_PACKAGES_TO_SCAN_SPACES, "").trim();
-		if (!paquetes.equals("")) {
+		if (!"".equals(paquetes)) {
 			for (String pa : paquetes.split("\\s+")) {
 				packagesFound.add(pa);
 			}

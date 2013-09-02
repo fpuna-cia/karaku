@@ -29,7 +29,8 @@ import py.una.med.base.model.DisplayName;
  * @version 1.0 Feb 25, 2013
  * 
  */
-public class SIGHListHelper<T, K extends Serializable> {
+public class SIGHListHelper<T, K extends Serializable> implements
+		KarakuListHelperProvider<T> {
 
 	private SimpleFilter simpleFilter;
 	private PagingHelper helper;
@@ -71,6 +72,12 @@ public class SIGHListHelper<T, K extends Serializable> {
 		this.baseWhere = baseWhere;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see py.una.med.base.util.KarakuListHelperProvider#getEntities()
+	 */
+	@Override
 	public List<T> getEntities() {
 
 		Where<T> where = getFilters(clazz, example, simpleFilter);
@@ -165,17 +172,23 @@ public class SIGHListHelper<T, K extends Serializable> {
 		return null;
 	}
 
-	/**
-	 * @return simpleFilter
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see py.una.med.base.util.KarakuListHelperProvider#getSimpleFilter()
 	 */
+	@Override
 	public SimpleFilter getSimpleFilter() {
 
 		return simpleFilter;
 	}
 
-	/**
-	 * @return filterOptions
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see py.una.med.base.util.KarakuListHelperProvider#getFilterOptions()
 	 */
+	@Override
 	public List<SelectItem> getFilterOptions() {
 
 		if (filterOptions == null) {

@@ -24,6 +24,7 @@
 	<composite:attribute name="urlSearchForm" required="true" />
 	<composite:facet name="extraButtons" />
 	<composite:attribute name="deleteButtonName" />
+	<composite:attribute name="editButtonName" />
 	<composite:attribute name="withRowExports" default="false"
 		type="java.lang.Boolean"
 		displayName="Muestra una columna con las opciones de exportacion" />
@@ -79,6 +80,7 @@
 				idDataTable="#{cc.attrs.idListEntities}"
 				controller="#{cc.attrs.controller}"
 				deleteText="#{cc.attrs.deleteButtonName}"
+				editText="#{cc.attrs.editButtonName}"
 				withActions="#{cc.attrs.withRowActions}" width="100%"
 				deleteVisible="#{cc.attrs.withDeleteVisible}"
 				withExports="#{cc.attrs.withRowExports}">

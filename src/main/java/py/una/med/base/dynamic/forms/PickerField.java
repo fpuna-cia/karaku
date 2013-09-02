@@ -6,15 +6,13 @@ package py.una.med.base.dynamic.forms;
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.validator.ValidatorException;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.util.KarakuListHelperProvider;
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.LabelProvider.StringLabelProvider;
-import py.una.med.base.util.SIGHListHelper;
 
 /**
  * 
@@ -46,7 +44,7 @@ public class PickerField<T> extends LabelField {
 	private ValueExpression valueExpression;
 	private ValueExpression codeExpression;
 	private String urlColumns;
-	private SIGHListHelper<T, Long> listHelper;
+	private KarakuListHelperProvider<T> listHelper;
 	private LabelProvider<T> valueLabelProvider;
 	private HtmlInputText codeInput;
 	private boolean buttonDisabled;
@@ -55,9 +53,7 @@ public class PickerField<T> extends LabelField {
 	private boolean nullable;
 	private boolean selected;
 	private ValueChangeListener<T> valueChangeListener;
-	private PickerValidator validator;
 	private String popupTitle;
-	private HiddenText hidden;
 	private String dataTableID;
 
 	// private HtmlInputText hidden;
@@ -116,7 +112,7 @@ public class PickerField<T> extends LabelField {
 	 * 
 	 * @return ListHelper
 	 */
-	public SIGHListHelper<T, Long> getListHelper() {
+	public KarakuListHelperProvider<T> getListHelper() {
 
 		return listHelper;
 	}
@@ -127,7 +123,7 @@ public class PickerField<T> extends LabelField {
 	 * @param listHelper
 	 *            listHelper para setear
 	 */
-	public void setListHelper(final SIGHListHelper<T, Long> listHelper) {
+	public void setListHelper(final KarakuListHelperProvider<T> listHelper) {
 
 		if (listHelper == null) {
 			throw new IllegalArgumentException("listHelper can't be null");
@@ -461,15 +457,6 @@ public class PickerField<T> extends LabelField {
 		return getId() + "messages";
 	}
 
-	public PickerValidator getValidator() {
-
-		if (validator == null) {
-			validator = new PickerValidator();
-			validator.setPickerField(this);
-		}
-		return validator;
-	}
-
 	public boolean isNullable() {
 
 		return nullable;
@@ -478,70 +465,19 @@ public class PickerField<T> extends LabelField {
 	public void setNullable(boolean nullable) {
 
 		this.nullable = nullable;
-		getHidden().setRequired(!nullable);
 	}
 
-	public UIInput getHidden() {
+	/**
+	 * Método invocado una vez que se realiza el proceso de update para que el
+	 * valor temporal se vuelva final.
+	 */
+	void postUpdate() {
 
-		if (hidden == null) {
-			hidden = new HiddenText();
-			hidden.setRequired(!isNullable());
-		}
-		return hidden;
-	}
-
-	public void setHidden(UIInput hidden) {
-
-	}
-
-	public static class PickerValidator implements
-			javax.faces.validator.Validator {
-
-		PickerField<?> pickerField;
-
-		public PickerValidator() {
-
-		}
-
-		public void setPickerField(PickerField<?> pickerField) {
-
-			this.pickerField = pickerField;
-		}
-
-		@Override
-		public void validate(FacesContext context, UIComponent component,
-				Object value) throws ValidatorException {
-
-			if (pickerField == null) {
-				return;
-			}
-			if (!pickerField.isNullable() && pickerField.getValue() == null) {
-				FacesMessage msg = new FacesMessage(
-						FacesMessage.SEVERITY_ERROR,
-						pickerField.getMessage("COMPONENT_PICKER_NOT_SELECTED"),
-						pickerField.getMessage("COMPONENT_PICKER_NOT_SELECTED"));
-				throw new ValidatorException(msg);
-			}
-
-		}
-
-		public PickerField<?> getPickerField() {
-
-			return pickerField;
-		}
-	}
-
-	private class HiddenText extends HtmlInputText {
-
-		@Override
-		public void updateModel(FacesContext context) {
-
-			T objectToSave = PickerField.this.getValue();
-			PickerField.this.getValueExpression().setValue(
-					context.getELContext(), objectToSave);
-			PickerField.this.temp = null;
-			PickerField.this.selected = false;
-		}
+		T objectToSave = getValue();
+		getValueExpression().setValue(
+				FacesContext.getCurrentInstance().getELContext(), objectToSave);
+		temp = null;
+		selected = false;
 	}
 
 	/**

@@ -19,14 +19,13 @@
 			default="#{cc.attrs.pickerField.emptyMethod()}"
 			method-signature="java.lang.String action()" />
 		<cc:attribute name="chooseButtonRender" />
+		<cc:attribute name="valueButtonChoose"
+			default="#{msg['COMPONENT_PICKER_CHOOSE']}"></cc:attribute>
 	</cc:interface>
 
 	<cc:implementation>
 		<h:panelGroup id="#{cc.attrs.panelId}">
-			<h:inputHidden binding="#{cc.attrs.pickerField.hidden}"
-				value="HIDDEN" id="hiddenInput">
-				<f:validator binding="#{cc.attrs.pickerField.validator}" />
-			</h:inputHidden>
+			<sigh:pickerUpdater pickerField="#{cc.attrs.pickerField}" />
 			<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
 				rendered="#{cc.attrs.pickerField.hasCodeInput}"
 				disabled="#{cc.attrs.pickerField.buttonDisabled}">
@@ -40,7 +39,7 @@
 				action="#{cc.attrs.chooseButtonAction}"
 				oncomplete="#{cc.attrs.chooseButtonOnComplete}"
 				render="#{cc.attrs.chooseButtonRender}"
-				value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
+				value="#{cc.attrs.valueButtonChoose}" immediate="true" />
 			<h:outputLabel value="#{cc.attrs.resultValue}" />
 			<rich:message for="hiddenInput" />
 		</h:panelGroup>

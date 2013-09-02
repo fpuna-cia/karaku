@@ -97,14 +97,15 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 			if (displayName == null) {
 				throw new NotDisplayNameException();
 			}
-			T example = getBaseEntity();
-			f.setAccessible(true);
+
 			if (!"".equals(displayName.path())) {
 
 				String consulta = f.getName() + "." + displayName.path();
 				where.addClause(Clauses.iLike(consulta, getFilterValue()));
 				return where;
 			}
+			T example = getBaseEntity();
+			f.setAccessible(true);
 			if (f.getType().equals(String.class)) {
 				f.set(example, getFilterValue());
 				where.setExample(new EntityExample<T>(example));

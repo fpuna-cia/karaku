@@ -27,7 +27,7 @@
 	</cc:interface>
 	<cc:implementation>
 
-		<rich:popupPanel id="#{cc.attrs.pickerId}" show="false"
+		<rich:popupPanel id="#{cc.attrs.pickerId}" show="false" modal="true"
 			autosized="true" resizeable="false">
 			<f:facet name="header">
 				<h:outputText value="#{cc.attrs.title}" />
@@ -74,7 +74,7 @@
 					<h:panelGrid id="picker_control" columns="2">
 						<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
 							render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"
-							id="buttonSelect"
+							id="buttonSelect" action="#{cc.clear()}"
 							actionListener="#{cc.attrs.pickerField.changeValueListener(cc.selectedItem)}"
 							oncomplete="#{empty facesContext.maximumSeverity ? cc.attrs.closeJS : ''}">
 						</a4j:commandButton>

@@ -33,7 +33,7 @@
 	<composite:attribute name="deleteText"
 		default="#{msg['BASE_LIST_DELETE']}"
 		shortDescription="Texto que aparecera en el link que invoque a los metodos preDelete, doDelete, postDelete" />
-
+	<composite:attribute name="editText" default="#{msg.BASE_LIST_EDIT}" />
 	<composite:attribute name="height" />
 	<composite:attribute name="width" default="620px" />
 	<composite:attribute name="disableSelection" default="true" />
@@ -53,7 +53,7 @@
 					<h:outputText value="#{msg['BASE_LIST_ACTION_TITLE']}" />
 				</f:facet>
 				<o:separateConversationContext>
-					<h:commandButton value="#{msg.BASE_LIST_EDIT}" immediate="true"
+					<h:commandButton value="#{cc.attrs.editText}" immediate="true"
 						action="#{cc.attrs.controller.preEdit()}"
 						rendered="#{cc.attrs.editVisible and authorityController.hasRole(cc.attrs.controller.editPermission)}"
 						styleClass="commandButton">

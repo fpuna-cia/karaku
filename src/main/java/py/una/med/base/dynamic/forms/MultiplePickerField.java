@@ -6,9 +6,8 @@ package py.una.med.base.dynamic.forms;
 
 import java.util.Collections;
 import java.util.List;
-
+import py.una.med.base.util.KarakuListHelperProvider;
 import py.una.med.base.util.LabelProvider;
-import py.una.med.base.util.SIGHListHelper;
 
 /**
  * 
@@ -41,7 +40,7 @@ public class MultiplePickerField<T> extends LabelField {
 	private boolean buttonDisabled;
 	private List<T> values;
 	private LabelProvider<List<T>> valuesLabelProvider;
-	private SIGHListHelper<T, Long> listHelper;
+	private KarakuListHelperProvider<T> listHelper;
 	private String urlColumns;
 	private ItemKeyProvider<T> itemKeyProvider;
 	private ValuesChangeListener<T> valuesChangeListener;
@@ -174,7 +173,7 @@ public class MultiplePickerField<T> extends LabelField {
 	 * 
 	 * @return ListHelper
 	 */
-	public SIGHListHelper<T, Long> getListHelper() {
+	public KarakuListHelperProvider<T> getListHelper() {
 
 		return listHelper;
 	}
@@ -185,7 +184,7 @@ public class MultiplePickerField<T> extends LabelField {
 	 * @param listHelper
 	 *            listHelper para setear
 	 */
-	public void setListHelper(final SIGHListHelper<T, Long> listHelper) {
+	public void setListHelper(final KarakuListHelperProvider<T> listHelper) {
 
 		if (listHelper == null) {
 			throw new IllegalArgumentException("listHelper no puede ser null");
@@ -252,8 +251,9 @@ public class MultiplePickerField<T> extends LabelField {
 	}
 
 	public void clear() {
+
 		values = Collections.<T> emptyList();
-		
+
 	}
 
 }
