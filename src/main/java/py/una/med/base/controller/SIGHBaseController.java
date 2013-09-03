@@ -16,13 +16,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.breadcrumb.BreadcrumbController;
-import py.una.med.base.breadcrumb.BreadcrumbItem;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.business.reports.SIGHBaseReportSimple;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
+import py.una.med.base.domain.Menu;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.exception.ReportException;
+import py.una.med.base.jsf.utils.CurrentPageHelper;
 import py.una.med.base.reports.Column;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
@@ -53,6 +54,9 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	private static String[] DEFAULT_SORT_COLUMNS = { "descripcion", "id" };
 	@Autowired
 	private BreadcrumbController breadcrumController;
+
+	@Autowired
+	private CurrentPageHelper currentPageHelper;
 
 	private static final int ROWS_FOR_PAGE = 10;
 
@@ -714,9 +718,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@Override
 	public String getHeaderText() {
 
-		int size = breadController.getItems().size();
-		BreadcrumbItem actual = breadController.getItems().get(size - 2);
-		String header = "";
+		String header;
 		switch (getMode()) {
 			case EDIT: {
 				header = "BASE_FORM_EDIT_HEADER";
@@ -738,7 +740,13 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 				header = "BREADCRUM_UNKNOWN";
 			}
 		}
-		return I18nHelper.getMessage(header) + " " + actual.getName();
+
+		Menu actual = currentPageHelper.getCurrentMenu();
+		if (actual == null) {
+			return I18nHelper.getMessage(header);
+		} else {
+			return I18nHelper.getMessage(header) + " " + actual.getName();
+		}
 
 	}
 
