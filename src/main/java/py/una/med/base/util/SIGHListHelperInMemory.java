@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.model.SelectItem;
 
+import py.una.med.base.dao.restrictions.Where;
+
 /**
  * 
  * 
@@ -52,6 +54,12 @@ public class SIGHListHelperInMemory<T> implements KarakuListHelperProvider<T> {
 	public void setListMemory(List<T> listMemory) {
 
 		this.listMemory = listMemory;
+	}
+
+	@Override
+	public void setBaseWhere(Where<T> where) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
