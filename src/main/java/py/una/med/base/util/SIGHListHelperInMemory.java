@@ -2,6 +2,7 @@ package py.una.med.base.util;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.model.SelectItem;
 
 import py.una.med.base.dao.restrictions.Where;
@@ -60,6 +61,11 @@ public class SIGHListHelperInMemory<T> implements KarakuListHelperProvider<T> {
 	public void setBaseWhere(Where<T> where) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public PagingHelper getHelper() {
+
+		return null;
 	}
 
 }

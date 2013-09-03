@@ -21,5 +21,7 @@ public interface KarakuListHelperProvider<T> {
 	public abstract List<SelectItem> getFilterOptions();
 
 	public abstract void setBaseWhere(Where<T> where);
+	
+	public PagingHelper getHelper();
 
 }
