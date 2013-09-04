@@ -13,11 +13,11 @@ import py.una.med.base.util.ELHelper;
 import py.una.med.base.util.I18nHelper;
 
 /**
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 21, 2013
- * 
+ *
  */
 public abstract class Field {
 
@@ -44,7 +44,7 @@ public abstract class Field {
 	 * Retorna el tipo de este componente, se utiliza como URI para poder
 	 * individualizar un tipo de componente. Por defecto se utiliza el nombre
 	 * completo de la clase.
-	 * 
+	 *
 	 * @return Cadena que representa de manera única un componente
 	 */
 	public String getType() {
@@ -55,7 +55,7 @@ public abstract class Field {
 	/**
 	 * Retorna un identificador único de esta instancia, este identificador se
 	 * genera incrementalmente por el numero de elementos dinámicos generados.
-	 * 
+	 *
 	 * @return cadena que representa de manera única esta instancia de este
 	 *         componente.
 	 */
@@ -75,7 +75,7 @@ public abstract class Field {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -96,7 +96,7 @@ public abstract class Field {
 	/**
 	 * Dado un ID del lado del cliente (asignado en el XHTML o por código)
 	 * retorna el componente al que pertenece.
-	 * 
+	 *
 	 * @param id
 	 *            id del cliente para obtener el componente
 	 * @return Componente de vista
@@ -110,14 +110,22 @@ public abstract class Field {
 	}
 
 	/**
-	 * Finds component with the given id
+	 * Recorre el árbol de componentes buscando un componente con el mismo
+	 * id que el pasado como parámetro.
+	 *
+	 * @param root
+	 *            desde que elemento buscar
+	 * @param id
+	 *            identificador (lado server) del componente
+	 * @return <code>null</code> si no se encuentra, o {@link UIComponent}
+	 *         encontrado
 	 */
-	private UIComponent findComponent(UIComponent c, String id) {
+	public UIComponent findComponent(UIComponent root, String id) {
 
-		if (id.equals(c.getId())) {
-			return c;
+		if (id.equals(root.getId())) {
+			return root;
 		}
-		Iterator<UIComponent> kids = c.getFacetsAndChildren();
+		Iterator<UIComponent> kids = root.getFacetsAndChildren();
 		while (kids.hasNext()) {
 			UIComponent found = this.findComponent(kids.next(), id);
 			if (found != null) {
@@ -129,7 +137,7 @@ public abstract class Field {
 
 	/**
 	 * Crea un mensaje para un componente determinado
-	 * 
+	 *
 	 * @param severity
 	 *            Severidad {@link FacesMessage}
 	 * @param summary
@@ -153,7 +161,7 @@ public abstract class Field {
 	/**
 	 * Retorna el mensaje internacionalizado del codigo dado, para claves no
 	 * encontradas retorna &&&&&code&&&&&
-	 * 
+	 *
 	 * @param code
 	 *            llave del mensaje
 	 * @return cadena internacionalizada
@@ -171,7 +179,7 @@ public abstract class Field {
 
 	/**
 	 * Dada una cadena la retorna degenerada.
-	 * 
+	 *
 	 * @param code
 	 * @return Cadena degenerada, con el formato &&&&&code&&&&&
 	 */

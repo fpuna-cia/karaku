@@ -23,16 +23,17 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import py.una.med.base.dynamic.forms.PickerUpdater;
 import py.una.med.base.util.ELHelper;
 import py.una.med.base.util.I18nHelper;
 
 /**
- * 
+ *
  * Componente que se encarga de capturar la fase {@link PhaseId#RENDER_RESPONSE}
  * , y busca todos aquellos {@link UIInput} que sean requeridos, para agregarles
  * una clase (css) a fin de que luego, mediante css puedan mostrarse alertas
  * visuales.
- * 
+ *
  * @see #preRenderView(ComponentSystemEvent)
  * @author Arturo Volpe Torres
  * @since 1.3.2
@@ -62,7 +63,7 @@ public class RequiredPhaseListener implements Serializable {
 	 */
 	public static final String REQUIRED_MESSAGE = "javax.faces.component.UIInput.REQUIRED";
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5178965595775494541L;
 	private UIOutput lastOutput;
@@ -75,7 +76,7 @@ public class RequiredPhaseListener implements Serializable {
 	 * {@link UIOutput} precedente con las clases css
 	 * {@link #REQUIRED_CLASS_FIELD} y {@link #REQUIRED_CLASS_LABEL}
 	 * respectivamente.
-	 * 
+	 *
 	 * @param componentSystemEvent
 	 *            evento capturado
 	 */
@@ -101,11 +102,20 @@ public class RequiredPhaseListener implements Serializable {
 
 	private void processUIComponent(UIComponent uiComponent) {
 
+		if (uiComponent instanceof PickerUpdater) {
+			PickerUpdater pu = (PickerUpdater) uiComponent;
+			if (pu.isRequired()) {
+				markOutputRequired(lastOutput);
+			}
+			return;
+		}
 		if (uiComponent instanceof UIInput) {
 			processInput((UIInput) uiComponent);
+			return;
 		}
 		if (uiComponent instanceof UIOutput) {
 			processUIOutput((UIOutput) uiComponent);
+			return;
 		}
 	}
 
@@ -129,8 +139,9 @@ public class RequiredPhaseListener implements Serializable {
 
 	public void processUIInput(UIInput input) {
 
-		if (input == null)
+		if (input == null) {
 			return;
+		}
 
 		boolean addClass = false;
 
@@ -223,7 +234,7 @@ public class RequiredPhaseListener implements Serializable {
 	private void markInputRequired(UIInput input) {
 
 		if (input instanceof HtmlInputText) {
-			HtmlInputText hit = ((HtmlInputText) input);
+			HtmlInputText hit = (HtmlInputText) input;
 			String style = hit.getStyleClass();
 			hit.setStyleClass(appendRequiredClass(style, REQUIRED_CLASS_FIELD));
 		}
@@ -233,7 +244,7 @@ public class RequiredPhaseListener implements Serializable {
 	private void markOutputRequired(UIOutput comp) {
 
 		if (comp instanceof HtmlOutputText) {
-			HtmlOutputText hot = ((HtmlOutputText) comp);
+			HtmlOutputText hot = (HtmlOutputText) comp;
 			String style = hot.getStyleClass();
 			hot.setStyleClass(appendRequiredClass(style, REQUIRED_CLASS_LABEL));
 		}

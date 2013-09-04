@@ -27,9 +27,9 @@ import py.una.med.base.util.StringUtils;
 
 /**
  * Controler que sirve de soporte para vistas avanzadas o mas genericas.
- * 
+ *
  * @author Arturo Volpe
- * 
+ *
  * @param <T>
  *            entidad
  * @param <ID>
@@ -139,7 +139,7 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 	/**
 	 * Retorna un converter general para ser utilizado por cualquier combo
-	 * 
+	 *
 	 * @return Converter universal
 	 */
 	public SIGHConverterV2 getConverter() {
@@ -149,7 +149,7 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 	/**
 	 * Retorna una entidad base a ser usada como ejemplo base
-	 * 
+	 *
 	 * @return Entidad recien creada
 	 */
 	public T getBaseEntity() {
@@ -200,6 +200,8 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 		try {
 			edit(getBean());
 			reloadEntities();
+			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
+					"BASE_ABM_EDIT_SUCCESS");
 			return postEdit();
 		} catch (Exception e) {
 			e = helper.convertException(e, getClazz());
@@ -212,27 +214,47 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 		}
 	}
 
+	/**
+	 * Método que se encarga de invocar a la lógica y de actualizar el bean
+	 * actual.
+	 * <p>
+	 * Es un método de conveniencia para reescribir solamente las partes
+	 * relevantes a la actualización de la entidad y omitir detalles como la
+	 * generación de mensajes y manejo de excepciones.
+	 * </p>
+	 * <p>
+	 * Cualquier excepción lanzada aquí será manejada en
+	 * {@link #handleException(Exception)}.
+	 * </p>
+	 * <p>
+	 * Si el caso de uso dicta que se deben modificar mas de una entidad, se
+	 * recomienda que en este método se llame a la lógica y que sea ella la
+	 * encargada de realizar la operación, retornando el elemento relevante para
+	 * mostrar al usuario. Se recomienda el uso de la lógica pues aquí no se
+	 * pueden realizar transacciones.
+	 * </p>
+	 *
+	 * @param entity
+	 *            entidad a actualizar
+	 * @return T entidad actualizada.
+	 */
 	protected T edit(final T entity) {
 
-		return edit(entity, true);
-	}
-
-	protected T edit(T entity, final boolean withMessage) {
-
-		log.info("Do edit llamado");
-		T entidad = entity;
-		entidad = getBaseLogic().update(entity);
-		if (withMessage) {
-			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
-					"BASE_ABM_EDIT_SUCCESS");
-		}
-		return entidad;
+		log.info("Edit llamado");
+		return getBaseLogic().update(entity);
 	}
 
 	/**
-	 * Crea el actual bean, este metodo no lanza ninguna excepcion, si desea
-	 * capturar la excepcion que lanza la creacion utilize la fucnion crear
-	 * asegurandose de retornar lo que retorna el metodo {@link #postCreate()}.
+	 * {@inheritDoc}
+	 * <p>
+	 * Crea el actual bean, este método no lanza ninguna excepción, si desea
+	 * capturar la excepción que lanza la creación utilize la función
+	 * {@link #handleException(Exception)}, si desea modificar el comportamiento
+	 * al crear un objeto, utilice la función {@link #create(Object)}.
+	 * </p>
+	 *
+	 * @see #create(Object)
+	 * @see #handleException(Exception)
 	 */
 	@Override
 	@HasRole(SIGHSecurity.DEFAULT_CREATE)
@@ -241,6 +263,8 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 		try {
 			setBean(create(getBean()));
 			reloadEntities();
+			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
+					"BASE_ABM_CREATE_SUCCESS");
 			return postCreate();
 		} catch (Exception e) {
 			e = helper.convertException(e, getClazz());
@@ -253,20 +277,47 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Implementación por defecto siempre retorna <code>false</code>, para que
+	 * {@link #doCreate()} lance un mensaje genérico.
+	 * </p>
+	 */
 	@Override
 	public boolean handleException(final Exception e) {
 
 		return false;
 	}
 
+	/**
+	 * Método que se encarga de invocar a la lógica y de persistir el bean
+	 * actual.
+	 * <p>
+	 * Es un método de conveniencia para reescribir solamente las partes
+	 * relevantes a la creación de la entidad y omitir detalles como la
+	 * generación de mensajes y manejo de excepciones.
+	 * </p>
+	 * <p>
+	 * Cualquier excepción lanzada aquí será manejada en
+	 * {@link #handleException(Exception)}.
+	 * </p>
+	 * <p>
+	 * Si el caso de uso dicta que se deben crear mas de una entidad, se
+	 * recomienda que en este método se llame a la lógica y que sea ella la
+	 * encargada de guardar la lista, retornando el elemento relevante para
+	 * mostrar al usuario. Se recomienda el uso de la lógica pues aquí no se
+	 * pueden realizar transacciones.
+	 * </p>
+	 *
+	 * @param entity
+	 *            entidad a crear
+	 * @return T entidad creada.
+	 */
 	protected T create(T entity) {
 
 		log.info("Create llamado");
-		T entidad = entity;
-		entidad = getBaseLogic().add(entity);
-		helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
-				"BASE_ABM_CREATE_SUCCESS");
-		return entidad;
+		return getBaseLogic().add(entity);
 	}
 
 }
