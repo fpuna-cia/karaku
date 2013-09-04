@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.el.ELContext;
+import javax.el.ELException;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
@@ -207,12 +208,24 @@ public class ELHelper {
 		if (ma.matches()) {
 			String withoutField = ma.replaceFirst("$1$3");
 			String field = ma.replaceFirst("$2");
-			Object bean = context
-					.getApplication()
-					.getExpressionFactory()
-					.createValueExpression(context.getELContext(),
-							withoutField, Object.class)
-					.getValue(context.getELContext());
+			Object bean;
+			try {
+				bean = context
+						.getApplication()
+						.getExpressionFactory()
+						.createValueExpression(context.getELContext(),
+								withoutField, Object.class)
+						.getValue(context.getELContext());
+			} catch (ELException el) {
+				// TODO mejorar para tener en cuenta cuando la expresión se
+				// refiere a un Vector.
+				// Utilizar la expresión regular
+				// (#\{.*)\.([a-zA-Z]*|[a-zA-Z]*\[[a-zA-Z\.]*\])(\})
+				// See http://www.regexplanet.com/advanced/java/index.html
+				log.info("Can not find the field of the expression: "
+						+ beanExpression);
+				return null;
+			}
 			if (bean != null) {
 				Field f;
 				try {
