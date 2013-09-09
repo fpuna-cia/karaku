@@ -5,24 +5,21 @@ package py.una.med.base.controller;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
-
 import org.apache.myfaces.orchestra.conversation.Conversation;
 import org.richfaces.event.ItemChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
 import py.una.med.base.util.ControllerHelper;
 
 /**
- * 
+ *
  * Clase que implementa las funcionalidades basicas de un controller que tiene
  * varios controlles embebidos.
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.1 Feb 18, 2013
@@ -30,7 +27,7 @@ import py.una.med.base.util.ControllerHelper;
  *            entidad
  * @param <ID>
  *            clase de la clave primaria de la entidad
- * 
+ *
  */
 public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		SIGHAdvancedController<T, K> implements ISIGHAdvancedController<T, K>,
@@ -239,7 +236,7 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 
 	/**
 	 * Define si las tabs deben estar habilitadas o no
-	 * 
+	 *
 	 * @return true si estan deshabilitadas y false si deben estar habilitadas
 	 */
 	public boolean getTabDisabled() {
@@ -251,9 +248,10 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		}
 	}
 
+	@Override
 	public boolean isEditable(String campo) {
 
-		if (!isEditingHeader()) {
+		if (!isEditingHeader() && !isSearch()) {
 			return false;
 		}
 		return super.isEditable(campo);
@@ -304,6 +302,7 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		return false;
 	}
 
+	@Override
 	public String doCancel() {
 
 		if (getMode() == Mode.NEW) {
