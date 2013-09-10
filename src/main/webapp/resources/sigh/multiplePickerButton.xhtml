@@ -26,7 +26,8 @@
 			immediate="true" disabled="#{cc.attrs.pickerField.buttonDisabled}" />
 
 		<h:panelGroup id="#{cc.attrs.resultPanelID}">
-			<h:outputLabel value="#{cc.attrs.resultValue}" />
+			<h:outputLabel value="#{cc.attrs.resultValue}"
+				style="text-transform:none" />
 			<h:message for="#{cc.attrs.pickerField.id}" />
 		</h:panelGroup>
 	</cc:implementation>
