@@ -34,11 +34,11 @@ import py.una.med.base.reports.Column;
  * Clase que implementa funcionalidades generales para la manipulacion de
  * vistas, proveen funcionalidades que ya integran todas las partes del sistema.
  * Es un singleton compartido por todas las sesiones
- *
+ * 
  * @author Arturo Volpe, Nathalia Ochoa
  * @since 1.1 08/02/2013
  * @version 1.0
- *
+ * 
  * @version 2.0 19/02/2013
  */
 @Component
@@ -67,7 +67,7 @@ public class ControllerHelper {
 	 * /&gt <br>
 	 * El parametro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostraran todos los mensajes
-	 *
+	 * 
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
@@ -90,7 +90,7 @@ public class ControllerHelper {
 	 * /&gt <br>
 	 * El parametro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostraran todos los mensajes
-	 *
+	 * 
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
@@ -106,10 +106,20 @@ public class ControllerHelper {
 		facesContext.addMessage(null, msg);
 	}
 
+	public void createGlobalFacesMessageSimple(final Severity severity,
+			final String summary) {
+
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		String sum = !"".equals(summary) ? summary : "";
+
+		FacesMessage msg = new FacesMessage(severity, sum, "");
+		facesContext.addMessage(null, msg);
+	}
+
 	/**
 	 * Retorna el mensaje internacionalizado del codigo dado, para claves no
 	 * encontradas retorna &&&&&code&&&&&&
-	 *
+	 * 
 	 * @param code
 	 *            llave del mensaje
 	 * @return cadena internacionalizada
@@ -129,7 +139,7 @@ public class ControllerHelper {
 
 	/**
 	 * Dada una cadena la retorna degenerada.
-	 *
+	 * 
 	 * @param code
 	 * @return Cadena degenerada, con el formato &&&&&code&&&&&
 	 */
@@ -141,7 +151,7 @@ public class ControllerHelper {
 
 	/**
 	 * Crea un mensaje para un componente determinado
-	 *
+	 * 
 	 * @param severity
 	 *            Severidad {@link FacesMessage}
 	 * @param summary
@@ -170,7 +180,7 @@ public class ControllerHelper {
 	 * generara identificadorse parecidos a: formID para el form, y
 	 * formID:labelID para el label, esta funcion recibe como parametro
 	 * "labelID" y retorna "formID:labelID".
-	 *
+	 * 
 	 * @param id
 	 *            de la vista del elemento a buscar
 	 * @return id del componente del lado del cliente
@@ -191,7 +201,7 @@ public class ControllerHelper {
 	/**
 	 * Dado un ID (vease {@link ControllerHelper#getClientId(String)}) retorna
 	 * el componente al que pertenece
-	 *
+	 * 
 	 * @param id
 	 *            id del cliente para obtener el componente
 	 * @return Componente de vista
@@ -225,14 +235,14 @@ public class ControllerHelper {
 
 	/**
 	 * Retorna una EL expression correspondiente a un metodo.
-	 *
+	 * 
 	 * @param valueExpression
 	 *            cadena que representa la expresion.
 	 * @param expectedReturnType
 	 *            clase del tipo que se espera que retorna la expresion
 	 * @param expectedParamTypes
 	 *            clase de los parametros esperados que reciba el metodo
-	 *
+	 * 
 	 * @return {@link MethodExpression} correspondiente
 	 */
 	public MethodExpression createMethodExpression(
@@ -257,7 +267,7 @@ public class ControllerHelper {
 
 	/**
 	 * Muestra una excepcion con severidad de error
-	 *
+	 * 
 	 * @param e
 	 */
 	public void showException(final Exception e) {
@@ -269,7 +279,7 @@ public class ControllerHelper {
 	/**
 	 * Escanea el archivo columns.xhtml donde se definen las columnas
 	 * visualizadas en la grilla, y retorna las mismas.
-	 *
+	 * 
 	 * @return Lista de columnas -> [header, field]
 	 */
 	public LinkedList<Column> getColumns() {
@@ -311,7 +321,7 @@ public class ControllerHelper {
 	 * <li>{@link ConstraintViolationException}: delega su manejo a
 	 * {@link UniqueHelper#createUniqueException(Exception, Class)}</li>
 	 * </ol>
-	 *
+	 * 
 	 * @param e
 	 *            excepcion que se desea manejar
 	 * @param clazz
@@ -348,11 +358,11 @@ public class ControllerHelper {
 	 * <li>Para otro caso, se obtiene su valor y se lo actualiza sin realizar
 	 * validaciones</li>
 	 * </ol>
-	 *
+	 * 
 	 * </ol> <b>Observaciones:</b> no se verifica si algun valor no es
 	 * compatible con su destino, esto es si se ingresa una cadena en el lugar
 	 * de un numero, se lanzara una excepcion del tipo
-	 *
+	 * 
 	 * @param componentID
 	 *            es el id del lado servidor del objeto que sera actualizado.
 	 */
