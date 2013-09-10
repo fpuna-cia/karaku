@@ -51,9 +51,10 @@
 						<c:when
 							test="#{item.type eq 'py.una.med.base.dynamic.forms.ButtonField'}">
 
-							<h:outputLabel value="#{item.label}" id="#{item.id}_label" />
+							<h:outputLabel value="#{item.label}" id="#{item.id}_label"
+								styleClass="#{item.required?'required_label' : ''}" />
 							<h:inputText value="#{item.object}" id="#{item.id}_input"
-								binding="#{item.bind}" disabled="#{item.bind.disabled}" />
+								disabled="#{item.bind.disabled || not item.inputEditable}" />
 							<h:commandButton binding="#{item.buttonBind}"
 								id="#{item.id}_button" />
 						</c:when>

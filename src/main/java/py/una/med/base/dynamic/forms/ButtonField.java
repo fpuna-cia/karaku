@@ -18,11 +18,11 @@ import py.una.med.base.util.ListHelper;
  * Esta clase representa un boton ajax, el cual posee un textfield el cual puede
  * utilizarse para visualizar un determinado valor relacionado a la operacion
  * del boton.
- * 
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 08/05/2013
- * 
+ *
  */
 public class ButtonField extends TextField {
 
@@ -38,16 +38,18 @@ public class ButtonField extends TextField {
 	/**
 	 * @return required
 	 */
+	@Override
 	public boolean isRequired() {
 
 		return required;
 	}
 
 	ValueExpression inputExpression;
+	private boolean inputEditable = true;
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see py.una.med.base.dynamic.forms.TextField#setRequired(boolean)
 	 */
 	@Override
@@ -82,7 +84,7 @@ public class ButtonField extends TextField {
 
 	/**
 	 * Define el nombre del boton
-	 * 
+	 *
 	 * @param key
 	 *            key de internacionalizacion que sera visualizado en el
 	 *            componente
@@ -97,7 +99,7 @@ public class ButtonField extends TextField {
 
 	/**
 	 * Agrega una accion ajax al boton
-	 * 
+	 *
 	 * @param eventName
 	 * @return el mismo componente con una accion ajax
 	 */
@@ -109,7 +111,7 @@ public class ButtonField extends TextField {
 
 	/**
 	 * Habilita el boton ajax cuando se presiona doble click en el mismo
-	 * 
+	 *
 	 * @param click
 	 *            debe ser true para que la accion ajax se aplique
 	 * @return el mismo componente con una accion ajax al presionar doble click
@@ -124,7 +126,7 @@ public class ButtonField extends TextField {
 
 	/**
 	 * Define el metodo que sera invocado por el boton ajax.
-	 * 
+	 *
 	 * @param controller
 	 *            controlador donde se define la accion que se desea invocar
 	 * @param action
@@ -140,7 +142,7 @@ public class ButtonField extends TextField {
 
 	/**
 	 * Retorna la accion que ejecutara el boton
-	 * 
+	 *
 	 * @return
 	 */
 	public MethodExpression getAction() {
@@ -150,7 +152,7 @@ public class ButtonField extends TextField {
 
 	/**
 	 * Define los atributos del textfield asociado al boton
-	 * 
+	 *
 	 * @param label
 	 *            key de internacionalizacion ejemplo "PACIENTE_CODIGO" que será
 	 *            visualizado como label del textfield
@@ -171,7 +173,7 @@ public class ButtonField extends TextField {
 	/**
 	 * Define los elementos que seran renderizados por el boton, por defecto el
 	 * textfield asociado es renderizado
-	 * 
+	 *
 	 * @param toRender
 	 *            lista de id cuyos componentes se desean renderizar
 	 * @return
@@ -197,12 +199,14 @@ public class ButtonField extends TextField {
 		return TYPE;
 	}
 
+	@Override
 	public boolean disable() {
 
 		getButtonBind().setDisabled(true);
 		return super.disable();
 	}
 
+	@Override
 	public boolean enable() {
 
 		getButtonBind().setDisabled(false);
@@ -236,4 +240,20 @@ public class ButtonField extends TextField {
 		return;
 	}
 
+	/**
+	 * @param b
+	 */
+	public void setInputEditable(boolean b) {
+
+		inputEditable = b;
+
+	}
+
+	/**
+	 * @return inputEditable
+	 */
+	public boolean isInputEditable() {
+
+		return inputEditable;
+	}
 }

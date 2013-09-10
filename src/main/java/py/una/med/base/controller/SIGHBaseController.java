@@ -745,7 +745,8 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		if (actual == null) {
 			return I18nHelper.getMessage(header);
 		} else {
-			return I18nHelper.getMessage(header) + " " + actual.getName();
+			return I18nHelper.getMessage(header) + " "
+					+ I18nHelper.getMessage(actual.getName());
 		}
 
 	}
