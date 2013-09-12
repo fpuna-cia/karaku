@@ -28,12 +28,12 @@ import py.una.med.base.util.ELHelper;
 import py.una.med.base.util.I18nHelper;
 
 /**
- *
+ * 
  * Componente que se encarga de capturar la fase {@link PhaseId#RENDER_RESPONSE}
  * , y busca todos aquellos {@link UIInput} que sean requeridos, para agregarles
  * una clase (css) a fin de que luego, mediante css puedan mostrarse alertas
  * visuales.
- *
+ * 
  * @see #preRenderView(ComponentSystemEvent)
  * @author Arturo Volpe Torres
  * @since 1.3.2
@@ -76,7 +76,7 @@ public class RequiredPhaseListener implements Serializable {
 	 * {@link UIOutput} precedente con las clases css
 	 * {@link #REQUIRED_CLASS_FIELD} y {@link #REQUIRED_CLASS_LABEL}
 	 * respectivamente.
-	 *
+	 * 
 	 * @param componentSystemEvent
 	 *            evento capturado
 	 */
@@ -94,6 +94,9 @@ public class RequiredPhaseListener implements Serializable {
 		Iterator<UIComponent> kids = parent.getFacetsAndChildren();
 		while (kids.hasNext()) {
 			UIComponent child = kids.next();
+			if (child instanceof SkipRequired) {
+				continue;
+			}
 			processUIComponent(child);
 			markLabels4Required(child);
 		}
