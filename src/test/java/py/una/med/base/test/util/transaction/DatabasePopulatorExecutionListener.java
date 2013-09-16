@@ -1,0 +1,239 @@
+/*
+ * @DatabasePopulatorExecutionListener.java 1.0 Sep 11, 2013 Sistema Integral de
+ * Gestion Hospitalaria
+ */
+package py.una.med.base.test.util.transaction;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.validation.constraints.NotNull;
+import org.hibernate.SQLQuery;
+import org.hibernate.tool.hbm2ddl.SingleLineSqlCommandExtractor;
+import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.test.context.TestContext;
+import org.springframework.test.context.support.AbstractTestExecutionListener;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
+import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.util.StringUtils;
+
+/**
+ * {@link AbstractTestExecutionListener} que se encarga de crear datos de prueba
+ * al inicio de la ejecución de cualquier método.
+ * 
+ * @author Arturo Volpe
+ * @since 2.2
+ * @version 1.0 Sep 11, 2013
+ * 
+ */
+public class DatabasePopulatorExecutionListener extends
+		AbstractTestExecutionListener {
+
+	/**
+	 * Este método carga los archivos SQL tanto de la clase como del método.
+	 * <p>
+	 * TODO ver la posibilidad de mover los archivos de clase a
+	 * {@link #beforeTestClass(TestContext)} y eliminarlos después en
+	 * {@link #afterTestClass(TestContext)}
+	 * </p>
+	 * {@inheritDoc}
+	 * 
+	 * @param testContext
+	 *            contexto del test.
+	 * @throws Exception
+	 *             si no se encuentra el archivo se lanza una
+	 *             {@link IOException}
+	 */
+	@Override
+	public void beforeTestMethod(TestContext testContext) throws Exception {
+
+		super.beforeTestMethod(testContext);
+
+		SQLFiles sqlClassFiles = AnnotationUtils.findAnnotation(
+				testContext.getTestClass(), SQLFiles.class);
+		executeSQLFiles(testContext, sqlClassFiles);
+
+		SQLFiles sqlFiles = AnnotationUtils.findAnnotation(
+				testContext.getTestMethod(), SQLFiles.class);
+		executeSQLFiles(testContext, sqlFiles);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @param testContext
+	 *            contexto del test.
+	 * @throws Exception
+	 *             si no se encuentra el archivo se lanza una
+	 *             {@link IOException}
+	 */
+	@Override
+	public void afterTestClass(TestContext testContext) throws Exception {
+
+		super.afterTestClass(testContext);
+	}
+
+	/**
+	 * @param testContext
+	 * @param sqlFiles
+	 */
+	private void executeSQLFiles(TestContext testContext, SQLFiles sqlFiles) {
+
+		if (sqlFiles == null) {
+			return;
+		}
+		List<String> files = getFiles(testContext, sqlFiles);
+		SingleLineSqlCommandExtractor slsce = new SingleLineSqlCommandExtractor();
+
+		for (String file : files) {
+			executeSQL(testContext, file, slsce);
+		}
+	}
+
+	/**
+	 * @param testContext
+	 * @param file
+	 * @param slsce
+	 */
+	private void executeSQL(TestContext testContext, String file,
+			SingleLineSqlCommandExtractor slsce) {
+
+		BufferedReader br;
+		ClassPathResource cpr = getClassPathResource(file, testContext);
+		br = _getBr(cpr);
+		// File f = new File(scriptPath);
+		// FileReader fr = new FileReader(file);
+
+		final String[] commands = slsce.extractCommands(br);
+		if (commands == null) {
+			return;
+		}
+		final HibernateTransactionManager tm = getTransactionManager(testContext);
+		final TransactionTemplate tt = new TransactionTemplate(tm);
+		tt.execute(new TransactionCallbackWithoutResult() {
+
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus status) {
+
+				for (String s : commands) {
+					if (StringUtils.isInvalid(s)) {
+						continue;
+					}
+
+					SQLQuery sql = tm.getSessionFactory().getCurrentSession()
+							.createSQLQuery(s.trim());
+					sql.executeUpdate();
+				}
+
+			}
+		});
+
+	}
+
+	/**
+	 * @param file
+	 * @return
+	 */
+	private ClassPathResource getClassPathResource(String file,
+			TestContext context) {
+
+		ClassPathResource cpr = new ClassPathResource(file);
+		if (cpr.exists()) {
+			return cpr;
+		}
+
+		String scriptPath = context.getTestClass().getPackage().getName()
+				.replaceAll("\\.", "/");
+		scriptPath += "/" + file;
+		cpr = new ClassPathResource(scriptPath);
+		if (!cpr.exists()) {
+			throw new KarakuRuntimeException("File with name " + file
+					+ " can not be found. Paths tried: Absolute:" + file
+					+ "; Relative: " + scriptPath);
+		}
+		return cpr;
+	}
+
+	/**
+	 * @param cpr
+	 * @param br
+	 * @return
+	 */
+	private BufferedReader _getBr(ClassPathResource cpr) {
+
+		try {
+			return new BufferedReader(new InputStreamReader(
+					cpr.getInputStream(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new KarakuRuntimeException(e);
+		} catch (IOException e) {
+			throw new KarakuRuntimeException("Can not load the file "
+					+ cpr.getFilename(), e);
+		}
+	}
+
+	/**
+	 * @param testContext
+	 * @param sqlFiles
+	 * @return
+	 */
+	private List<String> getFiles(TestContext testContext, SQLFiles sqlFiles) {
+
+		List<String> files = new ArrayList<String>(
+				sqlFiles.filesToLoad().length);
+		for (String file : sqlFiles.filesToLoad()) {
+			String path = file.trim();
+			if (path.equals(SQLFiles.DEFAULT) || path.equals("")) {
+				path = getSQLFile(testContext.getTestClass().getName());
+			}
+			if (files.contains(file)) {
+				throw new IllegalArgumentException(
+						"The file "
+								+ path
+								+ ", is already defined in the anotation, in the form of:"
+								+ file);
+			}
+			if (!path.endsWith(".sql")) {
+				path += ".sql";
+			}
+			files.add(path);
+		}
+
+		return files;
+	}
+
+	private HibernateTransactionManager getTransactionManager(
+			TestContext context) {
+
+		return context.getApplicationContext().getBean(
+				HibernateTransactionManager.class);
+	}
+
+	/**
+	 * Retorna el nombre del archivo SQL base que se ejecuta antes de cualquier
+	 * test que herede de esta clase.
+	 * <p>
+	 * Implementación por defecto retorna un archivo que esta en el mismo lugar
+	 * que el archivo .java.
+	 * </p>
+	 * 
+	 * @param path
+	 *            path del archivo. Es una cadena separada por puntos ( en vez
+	 *            de /) que no tiene una extensión.
+	 * @return Archivo válido del classpath
+	 */
+	public String getSQLFile(@NotNull String path) {
+
+		String scriptPath = path.replaceAll("\\.", "/");
+		scriptPath = scriptPath.replaceAll("\\$.*", "");
+		scriptPath += ".sql";
+		return scriptPath;
+	}
+}
