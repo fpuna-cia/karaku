@@ -9,12 +9,13 @@ import org.hibernate.criterion.Criterion;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.where.Clause;
 import py.una.med.base.dao.where.Clauses;
+import py.una.med.base.dao.where.Or;
 
 /**
  * Clase que representa las restricciones para la busqueda, todo lo que
- * corresponde al parametro Where <br>
+ * corresponde al parámetro Where <br />
  * <i>Notese que se puede utilizar un ejemplo y Clauses para filtrar la
- * consutla</i>
+ * Consulta</i>
  * 
  * @author Arturo Volpe
  * 
@@ -25,11 +26,25 @@ import py.una.med.base.dao.where.Clauses;
  */
 public class Where<T> {
 
+	/**
+	 * Construye un nuevo {@link Where} y lo retorna, la intención de este
+	 * método, es facilitar la craeción de consultas en una sintaxis
+	 * Fluent-like
+	 * 
+	 * @return {@link Where}, nunca <code>null</code>
+	 */
+	public static <T> Where<T> get() {
+
+		return new Where<T>();
+	}
+
 	private List<Criterion> criterions;
 
 	private List<Clause> clauses;
 
 	private EntityExample<T> example;
+
+	private boolean distinct;
 
 	/**
 	 * Setea una entidad para ser utilizada como ejemplo, al hacer esto todas
@@ -72,6 +87,8 @@ public class Where<T> {
 	 * restricciones
 	 * 
 	 * @param crit
+	 *            para agregar.
+	 * @deprecated utilizar {@link #addClause(Clause...)}
 	 */
 	@Deprecated
 	public void addRestriction(Criterion crit) {
@@ -83,27 +100,36 @@ public class Where<T> {
 	}
 
 	/**
-	 * Agrega una restriccion a la consulta, estos se construyen con la clase
-	 * {@link Clauses} y se pueden agregar tantos como se desean
+	 * Agrega una restricción a la consulta, estos se construyen con la clase
+	 * {@link Clauses} y se pueden agregar tantos como se desean. Todas las
+	 * clausulas que se agregan por este método se añaden como una condición
+	 * <code>and</code>.
+	 * <p>
+	 * Si se desea que se agregen como <code>or</code>, ver {@link Or}
+	 * </p>
 	 * 
-	 * @param clause
+	 * @param clauses
+	 *            {@link Clause} a ser añadidas, ning�n elemento puede ser
+	 *            <code>null</code>
 	 * @return this
 	 */
-	public Where<T> addClause(Clause clause) {
+	public Where<T> addClause(Clause ... clauses) {
 
 		if (criterions == null) {
 			criterions = new ArrayList<Criterion>(1);
 		}
-		if (clauses == null) {
-			clauses = new ArrayList<Clause>(1);
+		if (this.clauses == null) {
+			this.clauses = new ArrayList<Clause>(1);
 		}
-		criterions.add(clause.getCriterion());
-		clauses.add(clause);
+		for (Clause clause : clauses) {
+			this.criterions.add(clause.getCriterion());
+			this.clauses.add(clause);
+		}
 		return this;
 	}
 
 	/**
-	 * Retorna la lista de criterios que se utilizan actualemnte en la consulta
+	 * Retorna la lista de criterios que se utilizan actualmente en la consulta
 	 * 
 	 * @return Criterias utilizadas
 	 * @deprecated Use {@link Where#getClauses()} para mantener la independencia
@@ -124,5 +150,68 @@ public class Where<T> {
 	public List<Clause> getClauses() {
 
 		return clauses;
+	}
+
+	/**
+	 * Si retorna <code>true</code>, todos los resultados ser�n diferentes unos
+	 * de otros.
+	 * <p>
+	 * Esto ocurre cuando se hacen joins del tipo:
+	 * 
+	 * <pre>
+	 * select * from Pais p 
+	 * 	join p.departamento d 
+	 * 	join d.ciudad c
+	 * 
+	 * where c.descripcion like 'San%'
+	 * 
+	 * </pre>
+	 * 
+	 * Si existe un país con varias ciudades cuyo nombre empiece con
+	 * <code>San</code>, entonces ese país será retornado varias veces.
+	 * </p>
+	 * 
+	 * <p>
+	 * Este valor es por defecto <code>false</code> (para mantener
+	 * compatibilidad), si se desea que los resultados sean �nicos, utiliar
+	 * {@link #makeDistinct()}
+	 * </p>
+	 * 
+	 * @return distinct <code>true</code> si no puede repetir,
+	 *         <code>false</code> si los resultados son distintos.
+	 */
+	public boolean isDistinct() {
+
+		return distinct;
+	}
+
+	/**
+	 * Modifica la consulta Select, para que retorne solo los valores no
+	 * repetidos.
+	 * <p>
+	 * Convierte la consulta:
+	 * 
+	 * <pre>
+	 * select * from Pais p join p.departamento d 
+	 * 	join d.ciudad c  where c.descripcion like 'San%'
+	 * </pre>
+	 * 
+	 * en:
+	 * 
+	 * <pre>
+	 * select distinct(*) from Pais p join p.departamento d 
+	 * 	join d.ciudad c  where c.descripcion like 'San%'
+	 * </pre>
+	 * 
+	 * 
+	 * </p>
+	 * 
+	 * @see #isDistinct()
+	 * @return this
+	 */
+	public Where<T> makeDistinct() {
+
+		this.distinct = true;
+		return this;
 	}
 }

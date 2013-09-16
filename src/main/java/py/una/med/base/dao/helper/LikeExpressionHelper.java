@@ -1,116 +1,47 @@
+/*
+ * @LikeExpressionHelper.java 1.0 Sep 10, 2013 Sistema Integral de Gestion
+ * Hospitalaria
+ */
 package py.una.med.base.dao.helper;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LikeExpression;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Component;
+import py.una.med.base.dao.where.ILike;
 
-public class LikeExpressionHelper {
+/**
+ * {@link BaseClauseHelper} que se encarga de configurar las consultas del tipo
+ * {@link ILike}, no tiene limite de anidaciones.
+ *
+ * @author Arturo Volpe
+ * @since 2.2
+ * @version 1.0 Sep 10, 2013
+ *
+ */
+@Component
+public class LikeExpressionHelper extends BaseClauseHelper<ILike> {
 
-	private LikeExpressionHelper() {
-		// No-op
-	}
-	
-	public static Map<String, String> applyNestedCriteria(Criteria criteria,
-			LikeExpression likeExpression, Map<String, String> aliases) {
-
-		criteria.add(getCriterion(criteria, likeExpression, aliases));
-		return aliases;
-	}
-
-	/**
-	 * Retorna la restriccion de esta Clausula, si hace falta agrega los alias
-	 * en el mapa de alias y en la consulta, no agrega efectivamente la
-	 * restriccion a la consulta
-	 * 
-	 * @param criteria
-	 * @param likeExpression
-	 * @param aliases
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see
+	 * py.una.med.base.dao.helper.BaseClauseHelper#getCriterion(org.hibernate
+	 * .Criteria, py.una.med.base.dao.where.Clause, java.util.Map)
 	 */
-	public static Criterion getCriterion(Criteria criteria,
-			LikeExpression likeExpression, Map<String, String> aliases) {
+	@Override
+	public Criterion getCriterion(Criteria criteria, ILike clause,
+			Map<String, String> aliases) {
 
-		String aliasWithProperty = configureAlias(criteria, likeExpression,
+		LikeExpression likeExpression = (LikeExpression) clause.getCriterion();
+		String aliasWithProperty = configureAlias(criteria, clause.getPath(),
 				aliases);
 		if (aliasWithProperty == null) {
 			return likeExpression;
 		}
-		return Restrictions.ilike(aliasWithProperty, getValue(likeExpression)
-				.toString(), MatchMode.ANYWHERE);
-
-	}
-
-	/**
-	 * Crea un nuevo alias para la exprseion pasada como parametro, si se genera
-	 * un nuevo alias retorna con el parametro agregado, retornando una
-	 * expresion valida para agregar a un where
-	 * 
-	 * @param criteria
-	 * @param likeExpression
-	 * @param aliases
-	 * @return
-	 */
-	public static String configureAlias(Criteria criteria,
-			LikeExpression likeExpression, final Map<String, String> aliases) {
-
-		Map<String, String> aliass = aliases;
-		String property = getPropety(likeExpression);
-		if (!property.contains(".")) {
-
-			return null;
-		}
-
-		String[] partes = property.split("\\.");
-		if (partes.length > 2) {
-			throw new IllegalArgumentException("Pruebas con dos partes nomas!");
-		}
-
-		if (aliass == null) {
-			aliass = new HashMap<String, String>();
-		}
-
-		String alias = aliass.get(partes[0]);
-		if (alias == null) {
-			alias = partes[0] + "_";
-			aliass.put(partes[0], alias);
-			criteria.createAlias(partes[0], alias);
-		}
-		return alias + "." + partes[1];
-	}
-
-	public static Object getValue(LikeExpression likeExpression) {
-
-		try {
-			return getField("value").get(likeExpression);
-		} catch (Exception e) {
-			throw new IllegalArgumentException(
-					"Imposible obtener field 'value'");
-		}
-	}
-
-	public static String getPropety(LikeExpression likeExpression) {
-
-		try {
-			return (String) getField("propertyName").get(likeExpression);
-		} catch (Exception e) {
-			throw new IllegalArgumentException(
-					"Imposible obtener field 'propertyName'");
-		}
-	}
-
-	private static Field getField(String nombre) {
-
-		try {
-			Field f = LikeExpression.class.getDeclaredField(nombre);
-			f.setAccessible(true);
-			return f;
-		} catch (Exception e) {
-			throw new IllegalArgumentException("Imposible obtener field");
-		}
+		return Restrictions.ilike(aliasWithProperty, clause.getValue()
+				.toString(), clause.getMode().getMatchMode());
 	}
 }

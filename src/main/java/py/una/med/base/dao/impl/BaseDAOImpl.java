@@ -7,6 +7,7 @@ package py.una.med.base.dao.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.persistence.Table;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
@@ -26,7 +28,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.BaseDAO;
 import py.una.med.base.dao.helper.RestrictionHelper;
@@ -38,6 +39,7 @@ import py.una.med.base.dao.util.CaseSensitiveHelper;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.log.Log;
 
 /**
  * Clase que implementa la interfaz {@link BaseDAO} utilizando {@link Session},
@@ -66,11 +68,13 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@Autowired
 	private CaseSensitiveHelper sensitiveHelper;
 
-	private Logger logger = LoggerFactory.getLogger(BaseDAOImpl.class);
+	@Autowired
+	private RestrictionHelper helper;
+
+	@Log
+	private Logger log;
 
 	private Class<T> clazz;
-
-	private RestrictionHelper<T> helper;
 
 	@Override
 	public EntityManager getEntityManager() {
@@ -86,6 +90,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		sensitiveHelper.analize(entidad);
 		entidad = (T) getSession().merge(entidad);
 		getSession().flush();
+		copyID(entidad, entity);
 		return entidad;
 	}
 
@@ -103,8 +108,8 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		}
 		try {
 			for (final Field f : example.getClass().getDeclaredFields()) {
-				if ((f.getAnnotation(OneToOne.class) == null)
-						&& (f.getAnnotation(ManyToOne.class) == null)) {
+				if (f.getAnnotation(OneToOne.class) == null
+						&& f.getAnnotation(ManyToOne.class) == null) {
 					continue;
 				}
 				f.setAccessible(true);
@@ -114,7 +119,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 				criteria.add(Restrictions.eq(f.getName(), f.get(example)));
 			}
 		} catch (final Exception e) {
-			logger.error("Error al agregar la relación", e);
+			log.error("Error al agregar la relación", e);
 		}
 		return criteria;
 	}
@@ -135,9 +140,9 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 		try {
 			return helper2.configureAndReturnList(getSession(), criteria,
-					getClassOfT(), alias);
+					getClassOfT(), alias, where);
 		} catch (Exception e) {
-			logger.error("Imposible obtener lista de elementos", e);
+			log.error("Imposible obtener lista de elementos", e);
 			throw new KarakuRuntimeException(e);
 		}
 	}
@@ -148,7 +153,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		Criteria criteria = getCriteria();
 		if (where != null) {
 			EntityExample<T> example = where.getExample();
-			if ((example != null) && (example.getEntity() != null)) {
+			if (example != null && example.getEntity() != null) {
 				Example ejemplo = Example.create(example.getEntity());
 				ejemplo.enableLike(example.getMatchMode().getMatchMode());
 				if (example.isIgnoreCase()) {
@@ -168,7 +173,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		}
 		configureParams(params, criteria);
 
-		getRestrictionHelper().applyRestrictions(criteria, where, alias);
+		helper.applyRestrictions(criteria, where, alias);
 		return criteria;
 	}
 
@@ -192,14 +197,6 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 				criteria.setFirstResult(params.getOffset().intValue());
 			}
 		}
-	}
-
-	private RestrictionHelper<T> getRestrictionHelper() {
-
-		if (helper == null) {
-			helper = new RestrictionHelper<T>();
-		}
-		return helper;
 	}
 
 	@Override
@@ -235,7 +232,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		isp.setOffset(0);
 
 		List<T> result = getAll(where, isp);
-		if ((result == null) || (result.size() == 0)) {
+		if (result == null || result.size() == 0) {
 			return null;
 		}
 		if (result.size() == 1) {
@@ -250,7 +247,11 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@SuppressWarnings("unchecked")
 	public T getById(final K id) {
 
-		return (T) getSession().get(getClassOfT(), id);
+		try {
+			return (T) getSession().get(getClassOfT(), id);
+		} catch (ObjectNotFoundException onfe) {
+			return null;
+		}
 	}
 
 	@Override
@@ -270,8 +271,17 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 		HashMap<String, String> alias = new HashMap<String, String>();
 		Criteria criteria = generateWhere(where, null, alias);
-		criteria.setProjection(Projections.rowCount());
-		return (Long) criteria.uniqueResult();
+		if (where != null && where.isDistinct()) {
+			criteria.setProjection(Projections.countDistinct("id"));
+		} else {
+			criteria.setProjection(Projections.rowCount());
+		}
+		Object result = criteria.uniqueResult();
+		if (result == null) {
+			throw new KarakuRuntimeException("The class "
+					+ getClassOfT().getSimpleName() + " is not mapped");
+		}
+		return (Long) result;
 	}
 
 	@Override
@@ -376,13 +386,19 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		this.sessionFactory = sessionFactory;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * Aquí no se debe copiar el ID como en {@link #add(Object)}, pues el
+	 * {@link Id} no debe ser mutable.
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public T update(final T entity) {
 
 		T entidad = entity;
 		sensitiveHelper.analize(entidad);
-		entidad = ((T) getSession().merge(entidad));
+		entidad = (T) getSession().merge(entidad);
 		getSession().flush();
 		return entidad;
 	}
@@ -390,6 +406,13 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@SuppressWarnings("unchecked")
 	private K getIdValue(final T obj) {
 
+		try {
+			if (getClassOfT().getMethod("getId") != null) {
+				return ((K) obj.getClass().getMethod("getId")
+						.invoke(obj, (Object[]) null));
+			}
+		} catch (Exception nsme) {
+		}
 		try {
 			for (Field field : obj.getClass().getDeclaredFields()) {
 				if (field.isAnnotationPresent(Id.class)) {
@@ -401,9 +424,36 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 			}
 			return null;
 		} catch (Exception ex) {
-			logger.error("Error al obtener el Id", ex);
+			log.error("Error al obtener el Id", ex);
 			return null;
 		}
+	};
+
+	private void copyID(final T src, final T dst) {
+
+		try {
+			Method get = getClassOfT().getMethod("getId");
+			Method set = getClassOfT().getMethod("setId", Long.class);
+			if (get != null && set != null) {
+				set.invoke(dst, get.invoke(src, (Object[]) null));
+				return;
+			}
+		} catch (Exception nsme) {
+		}
+		try {
+			for (Field field : getClassOfT().getDeclaredFields()) {
+				if (field.isAnnotationPresent(Id.class)) {
+					field.setAccessible(true);
+					field.set(dst, field.get(src));
+					field.setAccessible(false);
+					return;
+				}
+			}
+		} catch (Exception ex) {
+			log.error("Error al copiar el Id", ex);
+			return;
+		}
+		log.error("Error al copiar el Id (not found)");
 	};
 
 }

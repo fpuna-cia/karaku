@@ -8,7 +8,9 @@ package py.una.med.base.dao.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import javassist.util.proxy.MethodHandler;
@@ -22,6 +24,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 import org.jfree.util.Log;
 import py.una.med.base.dao.annotations.MainInstance;
+import py.una.med.base.dao.restrictions.Where;
 
 /**
  * 
@@ -94,6 +97,12 @@ public class MainInstanceHelper {
 	 * tenga como {@link FetchType}, {@link FetchType#LAZY} para que se carge
 	 * dinámicamente mas tarde, el proxy funciona mientras la session este
 	 * Abierta.
+	 * <p>
+	 * Cuando el {@link Where} tiene la propiedad {@link Where#isDistinct()},
+	 * depende exclusivamente de la capidad del método {@link T#hashCode()} para
+	 * realizar su proposito de retornar elementos no duplicados.
+	 * </p>
+	 * 
 	 * 
 	 * @param session
 	 *            Session, a la cual se ata el proxy, mientras este viva el
@@ -107,33 +116,22 @@ public class MainInstanceHelper {
 	 * @throws IllegalAccessException
 	 * @throws Exception
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("unchecked")
 	public <T> List<T> configureAndReturnList(final Session session,
 			final Criteria criteria, final Class<T> clase,
-			final Map<String, String> alias) throws IllegalArgumentException,
-			IllegalAccessException {
+			final Map<String, String> alias, final Where<T> where)
+			throws IllegalArgumentException, IllegalAccessException {
 
 		List<Field> fields = MainInstanceFieldHelper
 				.getMainInstanceFields(clase);
 		List<T> aRet;
 
-		if (!((fields == null) || (fields.size() == 0))) {
-			aRet = new ArrayList<T>();
-			configureCriteria(criteria, fields, alias);
-			List list = criteria.list();
-			Iterator i = list.iterator();
-			while (i.hasNext()) {
-				Map m = (Map) i.next();
-				T entity = (T) m.get(Criteria.ROOT_ALIAS);
-				aRet.add(entity);
-				for (Field f : fields) {
-					MainInstance mi = f.getAnnotation(MainInstance.class);
+		if (where.isDistinct()) {
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		}
 
-					Object o = m.get(generateAlias(mi));
-					f.setAccessible(true);
-					f.set(entity, o);
-				}
-			}
+		if (!((fields == null) || (fields.size() == 0))) {
+			aRet = applyMainInstance(criteria, alias, where, fields);
 		} else {
 			aRet = criteria.list();
 		}
@@ -143,6 +141,46 @@ public class MainInstanceHelper {
 		} catch (Exception e) {
 			Log.error("Imposible crear proxies para principales", e);
 		}
+		return aRet;
+	}
+
+	/**
+	 * @param criteria
+	 * @param alias
+	 * @param where
+	 * @param fields
+	 * @return
+	 * @throws IllegalAccessException
+	 */
+	@SuppressWarnings("rawtypes")
+	private <T> List<T> applyMainInstance(final Criteria criteria,
+			final Map<String, String> alias, final Where<T> where,
+			List<Field> fields) throws IllegalAccessException {
+
+		List<T> aRet;
+		Collection<T> toBuild;
+		if (where.isDistinct()) {
+			toBuild = new LinkedHashSet<T>();
+		} else {
+			toBuild = new ArrayList<T>();
+		}
+
+		configureCriteria(criteria, fields, alias);
+		@SuppressWarnings("rawtypes")
+		List list = criteria.list();
+		Iterator i = list.iterator();
+		while (i.hasNext()) {
+			Map m = (Map) i.next();
+			T entity = (T) m.get(Criteria.ROOT_ALIAS);
+			toBuild.add(entity);
+			for (Field f : fields) {
+				MainInstance mi = f.getAnnotation(MainInstance.class);
+				Object o = m.get(generateAlias(mi));
+				f.setAccessible(true);
+				f.set(entity, o);
+			}
+		}
+		aRet = new ArrayList<T>(toBuild);
 		return aRet;
 	}
 

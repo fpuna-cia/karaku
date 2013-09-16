@@ -1,17 +1,25 @@
 package py.una.med.base.dao.helper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LikeExpression;
-import py.una.med.base.dao.restrictions.NumberLike;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.where.Clause;
-import py.una.med.base.dao.where.Ge;
-import py.una.med.base.dao.where.Not;
-import py.una.med.base.dao.where.Or;
 
 /**
- * Clase qeu sirve para interceptar restricciones que se agregan a un query, por
+ * Clase que sirve para interceptar restricciones que se agregan a un query, por
  * ejemplo para agregar alias para joins entre columnas, caracteristica no
  * soportada por Hibernate Criteria
  * 
@@ -21,69 +29,148 @@ import py.una.med.base.dao.where.Or;
  * 
  * @param <T>
  */
-public class RestrictionHelper<T> {
+@Component
+public class RestrictionHelper implements ApplicationContextAware {
+
+	private static Map<Class<?>, BaseClauseHelper<?>> helpers;
+
+	private static void register(BaseClauseHelper<?> newHelper) {
+
+		getHelpers().put(newHelper.getClassOfClause(), newHelper);
+	}
+
+	/**
+	 * @return helpers
+	 */
+	private static Map<Class<?>, BaseClauseHelper<?>> getHelpers() {
+
+		if (helpers == null) {
+			helpers = new HashMap<Class<?>, BaseClauseHelper<?>>();
+		}
+
+		return helpers;
+	}
+
+	private ApplicationContext applicationContext;
+
+	@SuppressWarnings("rawtypes")
+	@PostConstruct
+	void postConstruct() {
+
+		Map<String, BaseClauseHelper> help = applicationContext
+				.getBeansOfType(BaseClauseHelper.class);
+		for (Entry<String, BaseClauseHelper> entry : help.entrySet()) {
+			register(entry.getValue());
+		}
+	}
 
 	/**
 	 * Agrega todas las restriciones a la criteria, si encuentra expresiones del
 	 * tipo {@link LikeExpression}, las modifica para aceptar paths anidados
 	 * como "pais.descripcion", los cuales no son soportados nativamente por
-	 * hibernate. <br>
-	 * <ol>
-	 * <li>{@link LikeExpression}</li>
-	 * <li>{@link NumberLike}</li>
-	 * </ol>
+	 * 
+	 * <p>
+	 * Para agregar soporte a mas restricciones, véase
+	 * {@link #register(BaseClauseHelper)}
+	 * </p>
 	 * 
 	 * @param where
-	 *            filtros que se desea apilcar
+	 *            filtros que se desea aplicar
 	 * @param criteria
 	 *            consulta actual
+	 * @param alias
+	 *            lista acutal de todos los alias que ya fueron agregados.
 	 * @return Criteria con los filtro aplicados
 	 */
 	@SuppressWarnings("deprecation")
 	public Criteria applyRestrictions(final Criteria criteria,
-			final Where<T> where, final Map<String, String> alias) {
+			final Where<?> where, final Map<String, String> alias) {
 
 		Map<String, String> aliaz = alias;
 
 		if (aliaz == null) {
 			throw new IllegalArgumentException("Alias can't be null");
 		}
-		if ((where == null)
-				|| (where.getCriterions() == null && where.getClauses() == null)) {
+		if (where == null || where.getCriterions() == null
+				&& where.getClauses() == null) {
 			return criteria;
 		}
 		if (where.getClauses() != null) {
-			for (Clause cr : where.getClauses()) {
-				if (cr.getCriterion() == null) {
-					continue;
-				}
-				if (cr.getCriterion().getClass().equals(LikeExpression.class)) {
-					LikeExpressionHelper.applyNestedCriteria(criteria,
-							(LikeExpression) cr.getCriterion(), aliaz);
-				} else if (cr.getCriterion().getClass()
-						.equals(NumberLike.class)) {
-					NumberLikerExpressionHelper.applyNestedCriteria(criteria,
-							(NumberLike) cr.getCriterion(), aliaz);
-				} else if (cr.getClass().equals(Or.class)) {
-					aliaz = OrExpressionHelper.applyNestedCriteria(criteria,
-							(Or) cr, aliaz);
-				} else if (cr.getClass().equals(Not.class)) {
-					aliaz = NotExpressionHelper.applyNestedCriteria(criteria,
-							(Not) cr, aliaz);
-				} else if (cr.getClass().equals(Ge.class)) {
-					GeExpressionHelper.applyNestedCriteria(criteria, (Ge) cr,
-							aliaz);
-				} else {
-					criteria.add(cr.getCriterion());
-				}
+			List<Criterion> criterions = getCriterions(where.getClauses(),
+					criteria, aliaz);
+			for (Criterion c : criterions) {
+				criteria.add(c);
 			}
 		}
-		// if (where.getCriterions() != null) {
-		// for (Criterion c : where.getCriterions()) {
-		// criteria.add(c);
-		// }
-		// }
 		return criteria;
 	}
 
+	/**
+	 * Retorna la lista de {@link Criterion}, sin realmente modificar la
+	 * consulta (solamente los alias listados se agregan a la consulta).
+	 * 
+	 * @param clauses
+	 *            lista de {@link Clause}, not null.
+	 * @param criteria
+	 *            criteria para agregar alias
+	 * @param alias
+	 *            mapa de alias actuales
+	 * @return {@link List} de criteriones, nunca null.
+	 */
+	public List<Criterion> getCriterions(
+			@NotNull @Size(min = 1) List<Clause> clauses,
+			@NotNull Criteria criteria, @NotNull Map<String, String> alias) {
+
+		ArrayList<Criterion> criterions = new ArrayList<Criterion>(
+				clauses.size());
+		for (Clause cr : clauses) {
+
+			BaseClauseHelper<?> helper = getHelpers().get(cr.getClass());
+
+			if (helper == null) {
+				criterions.add(cr.getCriterion());
+			} else {
+				criterions.add(helper.getCriterion(criteria, cr, alias, true));
+			}
+		}
+		return criterions;
+	}
+
+	/**
+	 * Retorna el {@link Criterion}, sin realmente modificar la consulta
+	 * (solamente los alias listados se agregan a la consulta).
+	 * 
+	 * @param clause
+	 *            {@link Clause}, not null.
+	 * @param criteria
+	 *            criteria para agregar alias
+	 * @param alias
+	 *            mapa de alias actuales
+	 * @return {@link List} de criteriones, nunca null.
+	 */
+	public Criterion getCriterion(@NotNull Clause clause,
+			@NotNull Criteria criteria, @NotNull Map<String, String> alias) {
+
+		BaseClauseHelper<?> helper = getHelpers().get(clause.getClass());
+
+		if (helper == null) {
+			return clause.getCriterion();
+		} else {
+			return getHelpers().get(clause.getClass()).getCriterion(criteria,
+					clause, alias, true);
+		}
+	}
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext
+	 *      (org.springframework.context.ApplicationContext)
+	 */
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+
+		this.applicationContext = applicationContext;
+	}
 }
