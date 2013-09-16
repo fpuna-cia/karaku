@@ -9,29 +9,35 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import org.apache.myfaces.orchestra.conversation.Conversation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.domain.Menu.Menus;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.MenuHelper;
+import py.una.med.base.util.Util;
 
 /**
  * Clase de configuración de la aplicación.
- *
+ * 
  * @author Arturo Volpe
  * @since 1.1
  * @version 1.0
- *
+ * 
  */
 @Configuration
 public class SIGHConfiguration {
@@ -39,29 +45,83 @@ public class SIGHConfiguration {
 	@Autowired
 	private ApplicationContext applicationContext;
 
+	private Logger log = LoggerFactory.getLogger(SIGHConfiguration.class);
+
 	// @Autowired
 	private static PropertiesUtil propertiesUtil;
 
 	@Autowired
 	private I18nHelper i18nHelper;
+
+	@Autowired
+	private Util util;
+
 	/**
-	 * Define un scope de conversacion de acceso para el uso de apache
-	 * orchestra, esta cadena se configura, ademas, en el archvo
-	 * applicationContext-orchestra.xml
+	 * Imprime un mensaje de bienvenida
+	 */
+	@PostConstruct
+	public void postConstruct() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n");
+		sb.append(" _   __                _          ").append("\n");
+		sb.append("| | / /               | |         ").append("\n");
+		sb.append("| |/ /  __ _ _ __ __ _| | ___   _ ").append("\n");
+		sb.append("|    \\ / _` | '__/ _` | |/ / | | |").append("\n");
+		sb.append("| |\\  \\ (_| | | | (_| |   <| |_| |").append("\n");
+		sb.append("\\_| \\_/\\__,_|_|  \\__,_|_|\\_\\\\__,_|").append("\n");
+		sb.append("\n");
+		sb.append("Sistema: ").append(util.getNameSystem().trim()).append("\n");
+		sb.append("Version: ").append(util.getVersion().trim()).append("\n");
+		log.info(sb.toString());
+
+	}
+
+	/**
+	 * Define un scope de conversación de acceso para el uso de apache
+	 * orchestra, esta cadena se configura, además, en el archivo
+	 * applicationContext-orchestra.xml.
+	 * <p>
+	 * Para que un {@link Component} que forme parte de este contexto continue
+	 * con vida, es suficiente con que haya una referencia al mismo en la página
+	 * xhtml.
+	 * </p>
 	 */
 	public static final String SCOPE_CONVERSATION = "conversation.access";
+
+	/**
+	 * Define un scope de conversación de acceso para el uso de apache
+	 * orchestra, esta cadena se configura, además, en el archivo
+	 * applicationContext-orchestra.xml
+	 * 
+	 * <p>
+	 * Para que un {@link Component} que forme parte de este contexto continue
+	 * con vida, es suficiente con que exista, para eliminarlo, se debe invocar
+	 * a {@link Conversation#invalidate()}.
+	 * </p>
+	 */
 	public static final String SCOPE_CONVERSATION_MANUAL = "conversation.manual";
 	/**
-	 * Clave del archivo de propiedades de la ubicacion de los archivos de
-	 * internacionalizacion
+	 * Clave del archivo de propiedades de la ubicación de los archivos de
+	 * internacionalización
 	 */
 	public static final String LANGUAGE_BUNDLES_KEY = "language_bundles";
 
 	/**
-	 * Ubicacion del archivo de configuraciones
+	 * Ubicación del archivo de configuraciones
 	 */
 	public static final String CONFIG_LOCATION = "karaku.properties";
 
+	/**
+	 * {@link Component} que provee las propiedades con las que se inicia la
+	 * aplicación.
+	 * <p>
+	 * Las mismas se definen en {@link #CONFIG_LOCATION}.
+	 * </p>
+	 * 
+	 * @return {@link PropertiesUtil} base de karaku.
+	 * @see PropertiesUtil
+	 */
 	@Bean
 	public static PropertiesUtil propertyPlaceholder() {
 
@@ -72,12 +132,12 @@ public class SIGHConfiguration {
 
 	/**
 	 * Construye una instancia de {@link Menus}.
-	 *
+	 * 
 	 * @return nueva instancia de Menus
 	 * @throws IOException
+	 *             si el archivo no existe
 	 * @throws JAXBException
-	 * @throws Exception
-	 *             imposible leer archivo
+	 *             si no se puede parsear el archivo
 	 */
 	@Bean
 	public MenuHelper menuHelper() throws IOException, JAXBException {
@@ -123,15 +183,10 @@ public class SIGHConfiguration {
 	}
 
 	/**
-	 * <resource-bundle> <base-name>../language.properties.base</base-name>
-	 * <var>_b</var> </resource-bundle>
-	 *
-	 * <resource-bundle>
-	 *
-	 * <base-name>../language.properties.farmacia</base-name> <var>msg</var>
-	 * </resource-bundle>
-	 *
-	 * @return
+	 * Crea un {@link Map} que contiene las cadenas de internacionalización
+	 * actuales.
+	 * 
+	 * @return Bean para internacionalización.
 	 */
 	@Bean(name = "msg")
 	public Map<String, String> getLanguagesMap() {
@@ -152,7 +207,7 @@ public class SIGHConfiguration {
 	/**
 	 * Retorna true si la aplicacion esta en estado de desarrollo y false si
 	 * esta en otro estado.
-	 *
+	 * 
 	 * @see ProjectStage
 	 * @return true si es develop, false en otro caso
 	 */
@@ -164,7 +219,7 @@ public class SIGHConfiguration {
 
 	/**
 	 * Retorna true si el entorno actual de ejecucion es de Debug
-	 *
+	 * 
 	 * @return true si se esta debugeando, false si se esta ejecutando
 	 *         normalmente
 	 */

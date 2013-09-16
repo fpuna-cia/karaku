@@ -7,7 +7,9 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.FacesListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import py.una.med.base.controller.MenuBean;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
@@ -22,8 +24,8 @@ import py.una.med.base.util.MenuHelper;
  * @version 1.0 Aug 23, 2013
  *
  */
-
 @Component
+@Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class CurrentPageHelper {
 
 	@Autowired

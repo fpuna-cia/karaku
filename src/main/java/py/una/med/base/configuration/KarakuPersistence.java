@@ -25,7 +25,6 @@ import py.una.med.base.exception.KarakuRuntimeException;
  * @since 1.1
  * @version 1.0
  * 
- @HasRole("test") public String getTemp() { return helper.
  */
 @Configuration
 @EnableTransactionManagement()
@@ -102,7 +101,7 @@ public class KarakuPersistence {
 		}
 		if (properties.get("karaku.liquibase.enabled", STRING_TRUE).trim()
 				.equals(STRING_FALSE)) {
-			log.info("Karaku JPA support is disabled");
+			log.info("Karaku Liquibase support is disabled");
 			liquibase = false;
 		} else {
 			liquibase = true;
@@ -169,6 +168,7 @@ public class KarakuPersistence {
 		Properties props = new Properties();
 		try {
 			props.put("hibernate.dialect", properties.get("hibernate.dialect"));
+			props.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
 			props.put("hibernate.hbm2ddl.auto",
 					properties.get("hibernate.hbm2ddl.auto", "validate"));
 			props.put("hibernate.show_sql",

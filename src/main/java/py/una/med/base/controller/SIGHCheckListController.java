@@ -17,11 +17,11 @@ import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dynamic.forms.MultiplePickerField.ItemKeyProvider;
 
 /**
- * 
+ *
  * @author Osmar Vianconi
  * @since 1.0
  * @version 1.0 24/07/2013
- * 
+ *
  */
 public abstract class SIGHCheckListController<T, K extends Serializable>
 		extends SIGHAdvancedController<T, K> implements
@@ -125,8 +125,6 @@ public abstract class SIGHCheckListController<T, K extends Serializable>
 		List<T> items = (List<T>) dataTable.getValue();
 
 		for (T item : items) {
-			System.out.println("####INSERTAAA: " + item.toString() + "&&&&"
-					+ selected);
 			getSelectedMap().put(item, selected);
 		}
 	}

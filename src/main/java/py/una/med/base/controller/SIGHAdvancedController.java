@@ -17,6 +17,7 @@ import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.where.Clauses;
 import py.una.med.base.exception.NotDisplayNameException;
+import py.una.med.base.log.Log;
 import py.una.med.base.model.DisplayName;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
@@ -27,9 +28,9 @@ import py.una.med.base.util.StringUtils;
 
 /**
  * Controler que sirve de soporte para vistas avanzadas o mas genericas.
- *
+ * 
  * @author Arturo Volpe
- *
+ * 
  * @param <T>
  *            entidad
  * @param <ID>
@@ -43,7 +44,8 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	@Autowired
 	private ControllerHelper helper;
 
-	private final Logger log = LoggerFactory.getLogger(getClass());
+	@Log
+	private Logger log;
 
 	@Override
 	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
@@ -120,11 +122,12 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 			}
 			if (f.getType().equals(Date.class)) {
 				try {
-					f.set(example, new SimpleDateFormat("dd/MM/yyyy")
+
+					f.set(example, new SimpleDateFormat("dd-MM-yyyy")
 							.parse(getFilterValue()));
 				} catch (ParseException parseException) {
 					helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-							"La fecha debe tener el formato dd/MM/yyyy");
+							"La fecha debe tener el formato dd-MM-yyyy");
 					return null;
 				}
 				where.setExample(new EntityExample<T>(example));
@@ -139,7 +142,7 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 	/**
 	 * Retorna un converter general para ser utilizado por cualquier combo
-	 *
+	 * 
 	 * @return Converter universal
 	 */
 	public SIGHConverterV2 getConverter() {
@@ -149,7 +152,7 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 	/**
 	 * Retorna una entidad base a ser usada como ejemplo base
-	 *
+	 * 
 	 * @return Entidad recien creada
 	 */
 	public T getBaseEntity() {
@@ -229,11 +232,11 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	 * <p>
 	 * Si el caso de uso dicta que se deben modificar mas de una entidad, se
 	 * recomienda que en este método se llame a la lógica y que sea ella la
-	 * encargada de realizar la operación, retornando el elemento relevante para
-	 * mostrar al usuario. Se recomienda el uso de la lógica pues aquí no se
-	 * pueden realizar transacciones.
+	 * encargada de realizar la operación, retornando el elemento relevante
+	 * para mostrar al usuario. Se recomienda el uso de la lógica pues aquí no
+	 * se pueden realizar transacciones.
 	 * </p>
-	 *
+	 * 
 	 * @param entity
 	 *            entidad a actualizar
 	 * @return T entidad actualizada.
@@ -252,7 +255,7 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	 * {@link #handleException(Exception)}, si desea modificar el comportamiento
 	 * al crear un objeto, utilice la función {@link #create(Object)}.
 	 * </p>
-	 *
+	 * 
 	 * @see #create(Object)
 	 * @see #handleException(Exception)
 	 */
@@ -309,7 +312,7 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	 * mostrar al usuario. Se recomienda el uso de la lógica pues aquí no se
 	 * pueden realizar transacciones.
 	 * </p>
-	 *
+	 * 
 	 * @param entity
 	 *            entidad a crear
 	 * @return T entidad creada.
