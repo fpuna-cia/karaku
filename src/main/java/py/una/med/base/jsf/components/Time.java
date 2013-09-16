@@ -6,11 +6,11 @@ import javax.faces.component.UINamingContainer;
 
 /**
  * FacesComponent que funciona de back end bean para el tag &lt time &gt
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 21, 2013
- * 
+ *
  */
 @FacesComponent(value = "customTimeBean")
 @SuppressWarnings("deprecation")
@@ -24,9 +24,7 @@ public class Time extends UINamingContainer {
 
 			Date d = (Date) getAttributes().get("date");
 			if (d == null) {
-				throw new IllegalArgumentException(
-						"Para usar el componente Time, deben enviarse fechas no nulas (id="
-								+ getAttributes().get("id") + ")");
+				d = new Date();
 			}
 			date = d;
 		}
@@ -35,7 +33,7 @@ public class Time extends UINamingContainer {
 
 	/**
 	 * Cambia la cantidad de minutos del bean
-	 * 
+	 *
 	 * @param value
 	 */
 
@@ -46,7 +44,7 @@ public class Time extends UINamingContainer {
 
 	/**
 	 * cambia la cantidad de horas del bean
-	 * 
+	 *
 	 * @param value
 	 */
 	public void setHours(final int value) {
@@ -56,7 +54,7 @@ public class Time extends UINamingContainer {
 
 	/**
 	 * Retorna la cantidad de minutos del componente
-	 * 
+	 *
 	 * @return minutos actuales del componente
 	 */
 	public int getMinutes() {
@@ -66,7 +64,7 @@ public class Time extends UINamingContainer {
 
 	/**
 	 * Retorna la cantidad de horas del componente
-	 * 
+	 *
 	 * @return horas actuales del componente
 	 */
 	public int getHours() {
@@ -76,7 +74,7 @@ public class Time extends UINamingContainer {
 
 	/**
 	 * Configura la cantidad de segundos manejados por el componente
-	 * 
+	 *
 	 * @param value
 	 */
 	public void setSeconds(final int value) {
@@ -86,7 +84,7 @@ public class Time extends UINamingContainer {
 
 	/**
 	 * Retorna la cantidad de segundos
-	 * 
+	 *
 	 * @return seconds
 	 */
 	public int getSeconds() {
