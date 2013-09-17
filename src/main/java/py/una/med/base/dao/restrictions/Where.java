@@ -28,8 +28,7 @@ public class Where<T> {
 
 	/**
 	 * Construye un nuevo {@link Where} y lo retorna, la intención de este
-	 * método, es facilitar la craeción de consultas en una sintaxis
-	 * Fluent-like
+	 * método, es facilitar la craeción de consultas en una sintaxis Fluent-like
 	 * 
 	 * @return {@link Where}, nunca <code>null</code>
 	 */
@@ -109,7 +108,7 @@ public class Where<T> {
 	 * </p>
 	 * 
 	 * @param clauses
-	 *            {@link Clause} a ser añadidas, ning�n elemento puede ser
+	 *            {@link Clause} a ser añadidas, ningún elemento puede ser
 	 *            <code>null</code>
 	 * @return this
 	 */
@@ -153,7 +152,7 @@ public class Where<T> {
 	}
 
 	/**
-	 * Si retorna <code>true</code>, todos los resultados ser�n diferentes unos
+	 * Si retorna <code>true</code>, todos los resultados serán diferentes unos
 	 * de otros.
 	 * <p>
 	 * Esto ocurre cuando se hacen joins del tipo:
@@ -173,7 +172,7 @@ public class Where<T> {
 	 * 
 	 * <p>
 	 * Este valor es por defecto <code>false</code> (para mantener
-	 * compatibilidad), si se desea que los resultados sean �nicos, utiliar
+	 * compatibilidad), si se desea que los resultados sean únicos, utilizar
 	 * {@link #makeDistinct()}
 	 * </p>
 	 * 

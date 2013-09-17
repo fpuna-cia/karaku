@@ -148,11 +148,8 @@ public class NumberLike implements Criterion, Clause {
 	public TypedValue[] getTypedValues(Criteria criteria,
 			CriteriaQuery criteriaQuery) throws HibernateException {
 
-		System.out.println(matchMode.toString(valor));
 		TypedValue tv = new TypedValue(new org.hibernate.type.StringType(),
 				matchMode.toString(valor), EntityMode.POJO);
-		System.out.println(tv.toString());
-		System.out.println(tv.getValue());
 		return new TypedValue[] { tv };
 	}
 

@@ -26,7 +26,7 @@ import py.una.med.base.test.util.Util;
 import py.una.med.base.test.util.transaction.SQLFiles;
 
 /**
- * Clase que se utiliza para facilitar la realizaci髇 de test de los diferentes
+ * Clase que se utiliza para facilitar la realizaci贸n de test de los diferentes
  * tipos de {@link Clause}
  * 
  * @author Arturo Volpe
@@ -85,7 +85,7 @@ public class BaseClauseTest extends BaseTestWithDatabase {
 	}
 
 	/**
-	 * Prueban si los m閠odos por defecto se ejecutan en una transacci髇
+	 * Prueban si los m茅todos por defecto se ejecutan en una transacci贸n
 	 */
 	@Test
 	public void testTransaction() {
@@ -94,7 +94,7 @@ public class BaseClauseTest extends BaseTestWithDatabase {
 	}
 
 	/**
-	 * Retorna un {@link Where} que busca por la descripci髇 de
+	 * Retorna un {@link Where} que busca por la descripci贸n de
 	 * {@link TestGrandChild}
 	 * 
 	 * @return {@link Where}
@@ -105,7 +105,7 @@ public class BaseClauseTest extends BaseTestWithDatabase {
 	}
 
 	/**
-	 * Retorna un {@link Where} que busca por la descripci髇 de
+	 * Retorna un {@link Where} que busca por la descripci贸n de
 	 * {@link TestChild}
 	 * 
 	 * @return {@link Where}

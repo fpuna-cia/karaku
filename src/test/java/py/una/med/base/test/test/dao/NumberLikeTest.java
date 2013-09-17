@@ -5,8 +5,6 @@ package py.una.med.base.test.test.dao;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import java.util.List;
-import org.hibernate.Query;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.restrictions.NumberLike;

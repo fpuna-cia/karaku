@@ -152,7 +152,7 @@ public class MainInstanceHelper {
 	 * @return
 	 * @throws IllegalAccessException
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private <T> List<T> applyMainInstance(final Criteria criteria,
 			final Map<String, String> alias, final Where<T> where,
 			List<Field> fields) throws IllegalAccessException {
@@ -166,7 +166,6 @@ public class MainInstanceHelper {
 		}
 
 		configureCriteria(criteria, fields, alias);
-		@SuppressWarnings("rawtypes")
 		List list = criteria.list();
 		Iterator i = list.iterator();
 		while (i.hasNext()) {

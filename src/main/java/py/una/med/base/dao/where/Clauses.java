@@ -9,7 +9,7 @@ import py.una.med.base.dao.restrictions.NumberLike;
 import py.una.med.base.dao.restrictions.Where;
 
 /**
- * Clase que sirve de punto de acceso comÌn para todas las clauses que son
+ * Clase que sirve de punto de acceso com√∫n para todas las clauses que son
  * aceptadas por el sistema
  * 
  * @author Arturo Volpe
@@ -28,7 +28,7 @@ public final class Clauses {
 	 * Retorna una {@link Clause} que se encarga de comparar fechas como si
 	 * fueran cadenas.
 	 * <p>
-	 * El SQL que genera esta cl·usula es similar a:
+	 * El SQL que genera esta cl√°usula es similar a:
 	 * 
 	 * <pre>
 	 * where <b>path</b> like "%<b>object.toString()</b>%"
@@ -37,9 +37,9 @@ public final class Clauses {
 	 * </p>
 	 * 
 	 * @param path
-	 *            ubicaciÛn del atributo por el cual se desea comparar.
+	 *            ubicaci√≥n del atributo por el cual se desea comparar.
 	 * @param object
-	 *            objeto con el cual se comparar·.
+	 *            objeto con el cual se comparar√°.
 	 * @return {@link ILike}
 	 * @see #numberLike(String, Number, MatchMode)
 	 */
@@ -52,7 +52,7 @@ public final class Clauses {
 	 * Retorna una {@link Clause} que se encarga de comparar fechas como si
 	 * fueran cadenas.
 	 * <p>
-	 * El SQL que genera esta cl·usula es similar a:
+	 * El SQL que genera esta cl√°usula es similar a:
 	 * 
 	 * <pre>
 	 * where <b>path</b> like "%<b>object.toString()</b>%"
@@ -61,9 +61,9 @@ public final class Clauses {
 	 * </p>
 	 * 
 	 * @param path
-	 *            ubicaciÛn del atributo por el cual se desea comparar.
+	 *            ubicaci√≥n del atributo por el cual se desea comparar.
 	 * @param object
-	 *            objeto con el cual se comparar·.
+	 *            objeto con el cual se comparar√°.
 	 * @param matchMode
 	 *            {@link MatchMode} para indicar banderas.
 	 * @return {@link ILike}
@@ -79,7 +79,7 @@ public final class Clauses {
 	 * Retorna una {@link Clause} que se encarga de comparar numeros como si
 	 * fueran cadenas.
 	 * <p>
-	 * El SQL que genera esta cl·usula es similar a:
+	 * El SQL que genera esta cl√°usula es similar a:
 	 * 
 	 * <pre>
 	 * where <b>path</b> like "%<b>number</b>%"
@@ -88,9 +88,9 @@ public final class Clauses {
 	 * </p>
 	 * 
 	 * @param path
-	 *            ubicaciÛn del atributo por el cual se desea comparar.
+	 *            ubicaci√≥n del atributo por el cual se desea comparar.
 	 * @param number
-	 *            n˙mero por el cual se verificara.
+	 *            n√∫mero por el cual se verificara.
 	 * @return {@link NumberLike}
 	 * @see #numberLike(String, Number, MatchMode)
 	 */
@@ -103,7 +103,7 @@ public final class Clauses {
 	 * Retorna una {@link Clause} que se encarga de comparar numeros como si
 	 * fueran cadenas.
 	 * <p>
-	 * El SQL que genera esta cl·usula es similar a:
+	 * El SQL que genera esta cl√°usula es similar a:
 	 * 
 	 * <pre>
 	 * where <b>path</b> like "%<b>number</b>%"
@@ -112,9 +112,9 @@ public final class Clauses {
 	 * </p>
 	 * 
 	 * @param path
-	 *            ubicaciÛn del atributo por el cual se desea comparar.
+	 *            ubicaci√≥n del atributo por el cual se desea comparar.
 	 * @param number
-	 *            n˙mero por el cual se verificara.
+	 *            n√∫mero por el cual se verificara.
 	 * @return {@link NumberLike}
 	 * @see #numberLike(String, Number, MatchMode)
 	 */
@@ -127,7 +127,7 @@ public final class Clauses {
 	 * Retorna una {@link Clause} que se encarga de comparar numeros como si
 	 * fueran cadenas.
 	 * <p>
-	 * El SQL que genera esta cl·usula es similar a:
+	 * El SQL que genera esta cl√°usula es similar a:
 	 * 
 	 * <pre>
 	 * where <b>path</b> like "%<b>number</b>%"
@@ -137,9 +137,9 @@ public final class Clauses {
 	 * </p>
 	 * 
 	 * @param path
-	 *            ubicaciÛn del atributo por el cual se desea comparar.
+	 *            ubicaci√≥n del atributo por el cual se desea comparar.
 	 * @param number
-	 *            n˙mero por el cual se verificara.
+	 *            n√∫mero por el cual se verificara.
 	 * @param matchMode
 	 *            {@link MatchMode} por el cual se verificara.
 	 * @return {@link NumberLike}
@@ -152,10 +152,10 @@ public final class Clauses {
 	}
 
 	/**
-	 * Retorna una {@link Clause} que se encarga de comparar n˙meros como si
+	 * Retorna una {@link Clause} que se encarga de comparar n√∫meros como si
 	 * fueran cadenas.
 	 * <p>
-	 * El SQL que genera esta cl·usula es similar a:
+	 * El SQL que genera esta cl√°usula es similar a:
 	 * 
 	 * <pre>
 	 * where <b>path</b> like "%<b>number</b>%"
@@ -165,9 +165,9 @@ public final class Clauses {
 	 * </p>
 	 * 
 	 * @param path
-	 *            ubicaciÛn del atributo por el cual se desea comparar.
+	 *            ubicaci√≥n del atributo por el cual se desea comparar.
 	 * @param number
-	 *            n˙mero por el cual se verificara.
+	 *            n√∫mero por el cual se verificara.
 	 * @param matchMode
 	 *            {@link MatchMode} por el cual se verificara.
 	 * @return {@link NumberLike}
@@ -183,16 +183,16 @@ public final class Clauses {
 	}
 
 	/**
-	 * Retorna un {@link Clause} que compara las cl·usulas pasadas como una
-	 * disjunciÛn (o). Significa que los objetos retornados deber·n cumplir
+	 * Retorna un {@link Clause} que compara las cl√°usulas pasadas como una
+	 * disjunci√≥n (o). Significa que los objetos retornados deber√°n cumplir
 	 * <b>con al menos</b> una de las {@link Clause} pasadas.
 	 * <p>
-	 * Si se desea que cumplan con todas las cl·usulas, se debe formar una lista
-	 * con ellas y pasarlas al {@link Where}. Es decir, la conjunciÛn es la
+	 * Si se desea que cumplan con todas las cl√°usulas, se debe formar una lista
+	 * con ellas y pasarlas al {@link Where}. Es decir, la conjunci√≥n es la
 	 * forma de unir expresiones por defecto.
 	 * </p>
 	 * <p>
-	 * La cl·usula retornada ({@link Or}) genera un SQL similar a :
+	 * La cl√°usula retornada ({@link Or}) genera un SQL similar a :
 	 * 
 	 * <pre>
 	 * 	where <i>clause1</i> <b>or</b> <i>clause2</i> <b>or</b> <i>clause3</i> ...
@@ -203,7 +203,7 @@ public final class Clauses {
 	 * @see OrExpressionHelper
 	 * @param clauses
 	 *            una o mas {@link Clause}.
-	 * @return {@link Or} para comparar una disjunciÛn, nunca <code>null</code>
+	 * @return {@link Or} para comparar una disjunci√≥n, nunca <code>null</code>
 	 *         .
 	 */
 	public static Clause or(final Clause ... clauses) {
@@ -216,16 +216,16 @@ public final class Clauses {
 	}
 
 	/**
-	 * Retorna un {@link Clause} que compara las cl·usulas pasadas como una
-	 * disjunciÛn (o). Significa que los objetos retornados deber·n cumplir
+	 * Retorna un {@link Clause} que compara las cl√°usulas pasadas como una
+	 * disjunci√≥n (o). Significa que los objetos retornados deber√°n cumplir
 	 * <b>con al menos</b> una de las {@link Clause} pasadas.
 	 * <p>
-	 * Si se desea que cumplan con todas las cl·usulas, se debe formar una lista
-	 * con ellas y pasarlas al {@link Where}. Es decir, la conjunciÛn es la
+	 * Si se desea que cumplan con todas las cl√°usulas, se debe formar una lista
+	 * con ellas y pasarlas al {@link Where}. Es decir, la conjunci√≥n es la
 	 * forma de unir expresiones por defecto.
 	 * </p>
 	 * <p>
-	 * La cl·usula retornada ({@link Or}) genera un SQL similar a :
+	 * La cl√°usula retornada ({@link Or}) genera un SQL similar a :
 	 * 
 	 * <pre>
 	 * 	where <i>clause1</i> <b>or</b> <i>clause2</i> <b>or</b> <i>clause3</i> ...
@@ -236,7 +236,7 @@ public final class Clauses {
 	 * @see OrExpressionHelper
 	 * @param clauses
 	 *            una o mas {@link Clause}.
-	 * @return {@link Or} para comparar una disjunciÛn, nunca <code>null</code>
+	 * @return {@link Or} para comparar una disjunci√≥n, nunca <code>null</code>
 	 *         .
 	 */
 	public static Clause or(List<Clause> clauses) {
@@ -248,15 +248,15 @@ public final class Clauses {
 	}
 
 	/**
-	 * Retorna unas {@link Clause} que es la negaciÛn de la pasada como
-	 * par·metro.
+	 * Retorna unas {@link Clause} que es la negaci√≥n de la pasada como
+	 * par√°metro.
 	 * <p>
 	 * Si la {@link Clause} X retorna n de los N elementos de un conjunto ,
-	 * entonces la {@link Clause} {@link Not} retornada por este m√©todo,
-	 * retornar· los N - n elementos no retornados por la consulta sin negar.
+	 * entonces la {@link Clause} {@link Not} retornada por este m√É¬©todo,
+	 * retornar√° los N - n elementos no retornados por la consulta sin negar.
 	 * </p>
 	 * <p>
-	 * Este m√©todo es idempotente, es decir, se lo puede invocar N veces,
+	 * Este m√É¬©todo es idempotente, es decir, se lo puede invocar N veces,
 	 * teniendo siempre el mismo resultado.
 	 * </p>
 	 * 
@@ -278,11 +278,11 @@ public final class Clauses {
 
 	/**
 	 * {@link Clause} que se utiliza para igualar referencias, si se desea
-	 * comparar n˙meros o cadenas ver {@link #iLike(String, Object)} y
+	 * comparar n√∫meros o cadenas ver {@link #iLike(String, Object)} y
 	 * {@link #numberLike(String, Number)} respectivamente.
 	 * 
 	 * <p>
-	 * Esta cl·usula genera un sql similar a :
+	 * Esta cl√°usula genera un sql similar a :
 	 * 
 	 * <pre>
 	 * 	where <i>path</i>.id <b>=</b> <i>value</i>.id
@@ -291,7 +291,7 @@ public final class Clauses {
 	 * </p>
 	 * 
 	 * @param path
-	 *            ubicaciÛn del atributo en formato HQL.
+	 *            ubicaci√≥n del atributo en formato HQL.
 	 * @param value
 	 *            referencia con la cual se desea comparar.
 	 * @return {@link Equal}.

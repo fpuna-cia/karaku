@@ -532,7 +532,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	public boolean isEditable(String campo) {
 
-		log.info("Verificando visibilidad de: " + campo);
+		log.trace("Verificando visibilidad de: " + campo);
 		if (mode == null) {
 			mode = Mode.VIEW;
 		}

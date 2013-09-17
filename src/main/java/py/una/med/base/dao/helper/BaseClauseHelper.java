@@ -36,7 +36,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	private static final String PROPERTY_SEPARATOR = ".";
 
 	/**
-	 * Expresi�n regular que se utiliza para partir la propiedad
+	 * Expresión regular que se utiliza para partir la propiedad
 	 * 
 	 * @see #PROPERTY_SEPARATOR
 	 */
@@ -45,9 +45,9 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	private Class<T> clazz;
 
 	/**
-	 * Retorna la restricci�n de esta Cl�usula, si hace falta agrega los alias
+	 * Retorna la restricción de esta Cláusula, si hace falta agrega los alias
 	 * en el mapa de alias y en la consulta, no agrega efectivamente la
-	 * restricci�n a la consulta
+	 * restricción a la consulta
 	 * 
 	 * @param criteria
 	 *            solamente para agregar alias, no se modifica el Where de esta
@@ -62,15 +62,15 @@ public abstract class BaseClauseHelper<T extends Clause> {
 			Map<String, String> aliases);
 
 	/**
-	 * Retorna la restricci�n de esta Cl�usula, si hace falta agrega los alias
+	 * Retorna la restricción de esta Cláusula, si hace falta agrega los alias
 	 * en el mapa de alias y en la consulta, no agrega efectivamente la
-	 * restricci�n a la consulta
+	 * restricción a la consulta
 	 * 
 	 * @param criteria
 	 *            solamente para agregar alias, no se modifica el Where de esta
 	 *            criteria.
 	 * @param likeExpression
-	 *            expresi�n a ser ayudada.
+	 *            expresión a ser ayudada.
 	 * @param aliases
 	 *            lista de alias
 	 * @param typeSafe
@@ -85,11 +85,11 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	}
 
 	/**
-	 * Crea un nuevo alias para la expresi�n pasada como par�metro, si se genera
-	 * un nuevo alias retorna con el par�metro agregado, retornando una
-	 * expresi�n valida para agregar a un <code>where</code>.
+	 * Crea un nuevo alias para la expresión pasada como parámetro, si se genera
+	 * un nuevo alias retorna con el parámetro agregado, retornando una
+	 * expresión valida para agregar a un <code>where</code>.
 	 * <p>
-	 * Si criteria no es <code>null</code>, agrega autom�ticamente los alias al
+	 * Si criteria no es <code>null</code>, agrega automáticamente los alias al
 	 * criteria.
 	 * </p>
 	 * 
@@ -97,7 +97,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	 *            {@link Criteria} que se esta construyendo. Puede ser
 	 *            <code>null</code>, en tal caso no se agregan los alias.
 	 * @param property
-	 *            nombre de la propiedad, debe ser un camino v�lido en HQL
+	 *            nombre de la propiedad, debe ser un camino válido en HQL
 	 * @param aliases
 	 *            lista alias que ya fueron agregados.
 	 * @return alias configurado (y agregado si {@link Criteria} no es
@@ -140,8 +140,8 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	}
 
 	/**
-	 * Método de conveniencia que retorna el field determinado por el nombre
-	 * del {@link Clause}.
+	 * Método de conveniencia que retorna el field determinado por el nombre del
+	 * {@link Clause}.
 	 * 
 	 * @param nombre
 	 * @return {@link Field} ya accesible, nunca <code>null</code>
@@ -158,7 +158,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	}
 
 	/**
-	 * Busca en la jerarqu�a de esta clase la heredera directa de
+	 * Busca en la jerarquía de esta clase la heredera directa de
 	 * {@link BaseClauseHelper} y retorna la clase parametrizada.
 	 * 
 	 * @return clase que hereda {@link Clause} al cual este helper auxilia.
