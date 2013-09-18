@@ -128,10 +128,6 @@ public class NumberLike implements Criterion, Clause {
 		}
 		SessionFactoryImplementor factory = criteriaQuery.getFactory();
 
-		int digits = valor.indexOf(".");
-		if (digits == -1) {
-			digits = valor.length();
-		}
 		if (factory.getDialect() instanceof H2Dialect) {
 			return "cast(cast(" + columns[0] + " as int) as VARCHAR) "
 					+ "like ?";

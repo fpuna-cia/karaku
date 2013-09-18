@@ -125,7 +125,7 @@ public final class StringUtils {
 	 * <li><b>HolaMundo</b>, retorna [Hola,Mundo]
 	 * </ol>
 	 * 
-	 * @param string
+	 * @param string cadena a partir
 	 * @return list de elementos
 	 */
 	public static List<String> split(final String strings) {
@@ -133,7 +133,7 @@ public final class StringUtils {
 		List<String> list = new ArrayList<String>();
 		int j = 0;
 		for (int i = 1; i < strings.length(); i++) {
-			if (Mayus.contains(strings.charAt(i))) {
+			if (Mayus.indexOf(strings.charAt(i)) != -1) {
 				list.add(strings.substring(j, i));
 				j = i;
 			}
@@ -150,8 +150,8 @@ public final class StringUtils {
 	 * <li><b>Pais</b>, retorna Paises
 	 * </ol>
 	 * 
-	 * @param singular
-	 * @return plural
+	 * @param singular cadena en singular
+	 * @return plural cadena pluralizada
 	 */
 	public static String pluralize(final String singular) {
 

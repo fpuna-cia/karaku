@@ -9,14 +9,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.where.Clauses;
 import py.una.med.base.exception.NotDisplayNameException;
-import py.una.med.base.log.Log;
 import py.una.med.base.model.DisplayName;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
@@ -43,8 +41,6 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	@Autowired
 	private ControllerHelper helper;
 
-	@Log
-	private Logger log;
 
 	@Override
 	public abstract ISIGHBaseLogic<T, K> getBaseLogic();

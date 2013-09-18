@@ -13,7 +13,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.breadcrumb.BreadcrumbController;
 import py.una.med.base.business.ISIGHBaseLogic;
@@ -24,6 +23,7 @@ import py.una.med.base.domain.Menu;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.exception.ReportException;
 import py.una.med.base.jsf.utils.CurrentPageHelper;
+import py.una.med.base.log.Log;
 import py.una.med.base.reports.Column;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
@@ -38,12 +38,12 @@ import py.una.med.base.util.StringUtils;
 /**
  * Controlador base para todos los controladores del sistema, implementa las
  * funcionalidades definidas en {@link ISIGHBaseController}.
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.5 Aug 1, 2013
  * @see ISIGHBaseController
- *
+ * 
  */
 public abstract class SIGHBaseController<T, K extends Serializable> implements
 		ISIGHBaseController<T, K> {
@@ -70,7 +70,8 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	private T example;
 
-	private final Logger log = LoggerFactory.getLogger(getClass());
+	@Log
+	protected Logger log;
 
 	private PagingHelper pagingHelper;
 
@@ -224,7 +225,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * Retorna una lista de cadenas representando las opciones por las cuales el
 	 * caso de uso podra buscar, es un método de utilidad para
 	 * {@link #getSearchSelectItemsList()}
-	 *
+	 * 
 	 * @return lista de strings
 	 * @see #getSearchSelectItemsList()
 	 */
@@ -346,7 +347,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Método que debe ser implementado en la clase que desea definir alguna
 	 * configuración especial en la obtención de valores desde la base de datos
-	 *
+	 * 
 	 * <p>
 	 * La implementación por defecto, intenta ordenar por (si no puede ordenar
 	 * por un atributo, pasa al siguiente):
@@ -355,7 +356,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * <li>id</li>
 	 * </ol>
 	 * </p>
-	 *
+	 * 
 	 * @see #DEFAULT_SORT_COLUMNS
 	 * @param sp
 	 *            parámetro de búsqueda definido en el paginHelper y a ser
@@ -463,7 +464,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Esta lista del tipo SelectItem es necesaria para los combobox hechos con
 	 * este objeto (para la lista de filtros).
-	 *
+	 * 
 	 * @return {@link List} de {@link SelectItem} que representan los criterios
 	 *         por los cuales se puede buscar en este controller.
 	 */
@@ -762,4 +763,5 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 		return getMode().equals(Mode.LIST);
 	}
+
 }

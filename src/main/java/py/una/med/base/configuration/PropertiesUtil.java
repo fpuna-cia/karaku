@@ -65,7 +65,9 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 		Properties properties = new Properties();
 		try {
 			if (filePath.startsWith("/")) {
-				properties.load(new FileInputStream(filePath));
+				FileInputStream fis = new FileInputStream(filePath);
+				properties.load(fis);
+				fis.close();
 			} else {
 				properties.load(new ClassPathResource(filePath)
 						.getInputStream());
@@ -125,7 +127,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	/**
 	 * Retorna una instancia de esta clase, este método solo puede ser invocado
 	 * dentro de un contexto de JSF.
-	 *
+	 * 
 	 * @return {@link PropertiesUtil} para el contexto actual.
 	 */
 	public static PropertiesUtil getCurrentFromJSF() {

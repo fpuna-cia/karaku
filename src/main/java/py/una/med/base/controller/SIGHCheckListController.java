@@ -17,11 +17,11 @@ import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dynamic.forms.MultiplePickerField.ItemKeyProvider;
 
 /**
- *
+ * 
  * @author Osmar Vianconi
  * @since 1.0
  * @version 1.0 24/07/2013
- *
+ * 
  */
 public abstract class SIGHCheckListController<T, K extends Serializable>
 		extends SIGHAdvancedController<T, K> implements
@@ -121,11 +121,13 @@ public abstract class SIGHCheckListController<T, K extends Serializable>
 		dataTable = (UIExtendedDataTable) test;
 		Boolean selected = (Boolean) checkBox.getValue();
 		// XXX por que va a realizar otra llamada a la base de datos
-		@SuppressWarnings("unchecked")
-		List<T> items = (List<T>) dataTable.getValue();
+		if (dataTable != null) {
+			@SuppressWarnings("unchecked")
+			List<T> items = (List<T>) dataTable.getValue();
 
-		for (T item : items) {
-			getSelectedMap().put(item, selected);
+			for (T item : items) {
+				getSelectedMap().put(item, selected);
+			}
 		}
 	}
 

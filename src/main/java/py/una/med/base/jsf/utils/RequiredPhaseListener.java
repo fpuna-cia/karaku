@@ -132,9 +132,7 @@ public class RequiredPhaseListener implements Serializable {
 
 	private void processInput(UIInput input) {
 
-		if (input instanceof UIInput) {
-			processUIInput(input);
-		}
+		processUIInput(input);
 		if (input instanceof HtmlInputText) {
 			processHtmlInput((HtmlInputText) input);
 		}
