@@ -126,7 +126,7 @@ public class MainInstanceHelper {
 				.getMainInstanceFields(clase);
 		List<T> aRet;
 
-		if (where.isDistinct()) {
+		if (where != null && where.isDistinct()) {
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		}
 
@@ -159,7 +159,7 @@ public class MainInstanceHelper {
 
 		List<T> aRet;
 		Collection<T> toBuild;
-		if (where.isDistinct()) {
+		if (where != null && where.isDistinct()) {
 			toBuild = new LinkedHashSet<T>();
 		} else {
 			toBuild = new ArrayList<T>();
