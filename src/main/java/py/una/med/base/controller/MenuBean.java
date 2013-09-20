@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import org.richfaces.component.UIPanelMenu;
 import org.richfaces.component.UIPanelMenuGroup;
 import org.richfaces.component.UIPanelMenuItem;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -17,24 +18,27 @@ import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
 import py.una.med.base.jsf.utils.CurrentPageHelper;
+import py.una.med.base.log.Log;
 import py.una.med.base.util.HostResolver;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.MenuHelper;
 
 /**
  * Clase que implementa la creacion del menu de la aplicacion.
- *
+ * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 20, 2013
- *
+ * 
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 public class MenuBean {
 
 	private UIPanelMenu menupanel;
-	// private final Logger logger = LoggerFactory.getLogger(MenuBean.class);
+
+	@Log
+	private Logger log;
 
 	@Autowired
 	private I18nHelper helper;
@@ -49,16 +53,14 @@ public class MenuBean {
 	private CurrentPageHelper currentPageHelper;
 
 	@Autowired
-	MenuHelper menuHelper;
+	private MenuHelper menuHelper;
 
 	/**
 	 * Configura y retorna un menu
-	 *
+	 * 
 	 * @return Menu entero de la aplicación
 	 */
 	public UIPanelMenu getMenu() {
-
-		// XXX Ver como generar el menú panel UNA sola vez.
 
 		menupanel = SIGHComponentFactory.getMenu();
 		menupanel.setGroupExpandedLeftIcon("triangleUp");
@@ -79,7 +81,7 @@ public class MenuBean {
 	/**
 	 * Si se llama a esta funcion algo esta mal, se utiliza solamente para que
 	 * "menu" sea una atributo de menuBean
-	 *
+	 * 
 	 * @param obj
 	 */
 	public void setMenu(UIPanelMenu menupanel) {
@@ -166,7 +168,6 @@ public class MenuBean {
 				menuUrl = menuUrl.replace(appPlaceHolder, "");
 				link = SIGHComponentFactory.getLink();
 				((HtmlOutcomeTargetLink) link).setOutcome(menuUrl);
-				// menu.setUrl(menuUrl);
 			} else {
 				// link a otro sistema
 				String urlPlaceHolder = menuUrl.substring(0,
@@ -181,7 +182,6 @@ public class MenuBean {
 								HtmlOutputLink.COMPONENT_TYPE,
 								"javax.faces.Link");
 				((HtmlOutputLink) link).setValue(menuUrl);
-				// menu.setUrl(menuUrl);
 			}
 		} else {
 			link = SIGHComponentFactory.getLink();

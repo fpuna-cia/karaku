@@ -49,7 +49,7 @@ public class KarakuWSClientConfiguration {
 	private PropertiesUtil properties;
 
 	@Autowired
-	WSSecurityInterceptor securityInterceptor;
+	private WSSecurityInterceptor securityInterceptor;
 
 	/**
 	 * 

@@ -5,7 +5,7 @@ package py.una.med.base.controller;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Map;
 import javax.faces.event.AjaxBehaviorEvent;
 import py.una.med.base.dynamic.forms.MultiplePickerField.ItemKeyProvider;
 import py.una.med.base.util.SIGHConverterV2;
@@ -26,9 +26,9 @@ public interface ISIGHCheckListController<T, ID extends Serializable> extends
 
 	void setItemKeyProvider(ItemKeyProvider<T> itemKeyProvider);
 
-	HashMap<T, Boolean> getSelectedMap();
+	Map<T, Boolean> getSelectedMap();
 
-	void setSelectedMap(HashMap<T, Boolean> selectedMap);
+	void setSelectedMap(Map<T, Boolean> selectedMap);
 
 	boolean isSelectAllButtonVisible();
 

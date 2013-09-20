@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
@@ -29,7 +30,7 @@ public abstract class SIGHCheckListController<T, K extends Serializable>
 
 	private ItemKeyProvider<T> itemKeyProvider;
 	private boolean allButtonVisible;
-	private HashMap<T, Boolean> selectedMap;
+	private Map<T, Boolean> selectedMap;
 	private Collection<T> elementsList;
 
 	@Override
@@ -54,7 +55,7 @@ public abstract class SIGHCheckListController<T, K extends Serializable>
 	 * @return selectedMap
 	 */
 	@Override
-	public HashMap<T, Boolean> getSelectedMap() {
+	public Map<T, Boolean> getSelectedMap() {
 
 		if (selectedMap == null) {
 			selectedMap = new HashMap<T, Boolean>();
@@ -63,7 +64,7 @@ public abstract class SIGHCheckListController<T, K extends Serializable>
 	}
 
 	@Override
-	public void setSelectedMap(HashMap<T, Boolean> selectedMap) {
+	public void setSelectedMap(Map<T, Boolean> selectedMap) {
 
 		this.selectedMap = selectedMap;
 	}

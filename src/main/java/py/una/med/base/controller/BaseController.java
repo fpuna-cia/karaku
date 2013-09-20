@@ -132,7 +132,6 @@ public abstract class BaseController<T, K extends Serializable> implements
 
 		log.info("post search llamado");
 		this.mode = Mode.VIEW;
-		// setExample(null);
 
 	}
 

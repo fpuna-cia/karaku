@@ -26,7 +26,7 @@ import py.una.med.base.dao.where.Or;
 public final class OrExpressionHelper extends BaseClauseHelper<Or> {
 
 	@Autowired
-	RestrictionHelper helper;
+	private RestrictionHelper helper;
 
 	/*
 	 * (non-Javadoc)

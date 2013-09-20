@@ -30,7 +30,7 @@ public class DynamicSurveyRow {
 	public DynamicSurveyRow(SurveyField[] cells) {
 
 		super();
-		this.cells = cells;
+		this.cells = cells.clone();
 	}
 
 	public SurveyField[] getCells() {
@@ -40,7 +40,7 @@ public class DynamicSurveyRow {
 
 	public void setCells(SurveyField[] cells) {
 
-		this.cells = cells;
+		this.cells = cells.clone();
 	}
 
 	public void addCell(SurveyField element) {

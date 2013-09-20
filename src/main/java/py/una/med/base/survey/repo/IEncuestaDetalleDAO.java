@@ -38,6 +38,6 @@ public interface IEncuestaDetalleDAO extends
 	List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
 			long encuestaDetalle);
 
-	public EncuestaDetalle getEncuestaDetalleByPreguntaEncuesta(
-			Encuesta encuesta, EncuestaPlantillaPregunta pregunta);
+	EncuestaDetalle getEncuestaDetalleByPreguntaEncuesta(Encuesta encuesta,
+			EncuestaPlantillaPregunta pregunta);
 }

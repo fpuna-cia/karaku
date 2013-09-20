@@ -29,9 +29,9 @@ public class PickerField<T> extends LabelField {
 				Object submittedValue);
 	}
 
-	public static interface ValueChangeListener<T> {
+	public interface ValueChangeListener<T> {
 
-		public boolean onChange(Field source, T value);
+		boolean onChange(Field source, T value);
 	}
 
 	/**
@@ -55,8 +55,6 @@ public class PickerField<T> extends LabelField {
 	private ValueChangeListener<T> valueChangeListener;
 	private String popupTitle;
 	private String dataTableID;
-
-	// private HtmlInputText hidden;
 
 	/**
 	 * Crea un picker field, con ID autogenerado
@@ -379,8 +377,6 @@ public class PickerField<T> extends LabelField {
 
 		this.codeInput = codeInput;
 	}
-
-	static UIComponent lastFound;
 
 	public String getPopUpClientID() {
 

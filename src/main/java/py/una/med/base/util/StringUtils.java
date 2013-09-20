@@ -282,15 +282,16 @@ public final class StringUtils {
 		return null;
 	}
 
-	private static boolean is(Character first, Character ... c) {
+	private static boolean is(char first, char ... c) {
 
-		if (first == null && (c == null || c.length < 1)) {
+		if (c == null || c.length < 1) {
 			return true;
 		}
-		if (first != null && c.length < 1) {
+		if (c.length < 1) {
 			return false;
 		}
 		for (int i = 0; i < c.length; i++) {
+
 			if (first == c[i]) {
 				return true;
 			}

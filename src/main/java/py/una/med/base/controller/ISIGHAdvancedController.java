@@ -9,7 +9,7 @@ import py.una.med.base.model.Unique;
 
 /**
  * Interfaz que define las funcionalidades de un controllador avanzado
- *
+ * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 18, 2013
@@ -17,7 +17,7 @@ import py.una.med.base.model.Unique;
  *            entidad
  * @param <ID>
  *            clase del id de la entidad
- *
+ * 
  */
 public interface ISIGHAdvancedController<T, ID extends Serializable> extends
 		ISIGHBaseController<T, ID> {
@@ -25,7 +25,7 @@ public interface ISIGHAdvancedController<T, ID extends Serializable> extends
 	/**
 	 * Método que se utiliza para capturar excepciones, manejarlas y mostrar
 	 * mensajes de error personalizados
-	 *
+	 * 
 	 * <p>
 	 * <b>Excepciones que puede recibir</b>
 	 * </p>
@@ -36,12 +36,12 @@ public interface ISIGHAdvancedController<T, ID extends Serializable> extends
 	 * </ol>
 	 * <p>
 	 * </p>
-	 *
+	 * 
 	 * @param exception
 	 *            es la excepción capturada
 	 * @return <code>true</code> si se maneja la excepción y <code>false</code>
 	 *         si no se maneja, se retorna <code>false</code> cuando se desea
 	 *         que sea capturada y manejada mas arriba en la jerarquía
 	 */
-	public boolean handleException(Exception exception);
+	boolean handleException(Exception exception);
 }

@@ -7,12 +7,15 @@ package py.una.med.base.exception;
  * @version 1.0 May 07, 2013
  * 
  */
-public class NotDisplayNameException extends RuntimeException {
+public class NotDisplayNameException extends KarakuRuntimeException {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -589396111044225598L;
 
 	public NotDisplayNameException() {
 
-		super();
+		super("The field dont hava a DisplayName");
 	}
 }

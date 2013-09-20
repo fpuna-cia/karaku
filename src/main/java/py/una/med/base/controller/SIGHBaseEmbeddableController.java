@@ -140,7 +140,6 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 	@Override
 	public void save() {
 
-		// setMainController(null);
 	}
 
 	@Override

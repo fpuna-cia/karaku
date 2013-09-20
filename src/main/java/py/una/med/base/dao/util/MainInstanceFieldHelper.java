@@ -30,8 +30,12 @@ public final class MainInstanceFieldHelper {
 
 	private static Map<Class<?>, List<Field>> fields;
 
-	private static <T> List<Field> generateAndCreateFields(final Class<T> clazz) {
+	private synchronized static <T> List<Field> generateAndCreateFields(
+			final Class<T> clazz) {
 
+		if (fields.containsKey(clazz)) {
+			return fields.get(clazz);
+		}
 		List<Field> aRet = new ArrayList<Field>();
 		Field[] fieldz = clazz.getDeclaredFields();
 		for (Field f : fieldz) {
@@ -46,13 +50,20 @@ public final class MainInstanceFieldHelper {
 
 	public static <T> List<Field> getMainInstanceFields(final Class<T> clazz) {
 
+		init();
+		if (fields.containsKey(clazz)) {
+			return fields.get(clazz);
+		}
+		return generateAndCreateFields(clazz);
+	}
+
+	/**
+	 * 
+	 */
+	private synchronized static void init() {
+
 		if (fields == null) {
 			fields = new HashMap<Class<?>, List<Field>>(1);
 		}
-		List<Field> aRet = fields.get(clazz);
-		if (aRet != null) {
-			return aRet;
-		}
-		return generateAndCreateFields(clazz);
 	}
 }

@@ -196,7 +196,6 @@ public class SIGHUserService implements UserDetailsService {
 				"com.sun.jndi.ldap.LdapCtxFactory");
 		env.put(Context.PROVIDER_URL, getServerLocation());
 
-		// env.put(Context.SECURITY_AUTHENTICATION, "DIGEST-MD5");
 		env.put(Context.SECURITY_PRINCIPAL, user);
 		env.put(Context.SECURITY_CREDENTIALS, pass);
 		return new InitialDirContext(env);

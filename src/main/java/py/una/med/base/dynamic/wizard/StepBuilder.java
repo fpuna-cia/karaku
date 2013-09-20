@@ -180,9 +180,6 @@ public class StepBuilder {
 
 			}
 		});
-		// ComponentControlBehavior control = SIGHComponentFactory
-		// .getComponentControl(wizard.getPopupId(), "hide");
-		// cancel.addAjaxBehavior(ButtonAction.CLICK, control);
 		step.getToolBar().addItem(cancel);
 		return this;
 	}

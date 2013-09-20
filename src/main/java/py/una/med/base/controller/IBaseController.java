@@ -8,62 +8,62 @@ import py.una.med.base.business.ISIGHBaseLogic;
 @Deprecated
 public interface IBaseController<T, ID extends Serializable> {
 
-	public String doCancel();
+	String doCancel();
 
-	public void doCreate();
+	void doCreate();
 
-	public void doDelete();
+	void doDelete();
 
-	public void doEdit();
+	void doEdit();
 
-	public void doSearch();
+	void doSearch();
 
-	public ISIGHBaseLogic<T, ID> getBaseLogic();
+	ISIGHBaseLogic<T, ID> getBaseLogic();
 
-	public abstract List<String> getBaseSearchItems();
+	abstract List<String> getBaseSearchItems();
 
-	public T getBean();
+	T getBean();
 
-	public List<T> getEntities();
+	List<T> getEntities();
 
-	public String getFilterValue();
+	String getFilterValue();
 
-	public String getMessageIdName();
+	String getMessageIdName();
 
 	/**
 	 * Esta lista del tipo SelectItem es necesaria para los combobox hechos con
 	 * este objeto.
 	 */
-	public List<SelectItem> getSearchSelectItemsList();
+	List<SelectItem> getSearchSelectItemsList();
 
-	public boolean isCreate();
+	boolean isCreate();
 
-	public boolean isEdit();
+	boolean isEdit();
 
-	public boolean isSearch();
+	boolean isSearch();
 
-	public boolean isView();
+	boolean isView();
 
-	public void postCreate();
+	void postCreate();
 
-	public void postDelete();
+	void postDelete();
 
-	public void postEdit();
+	void postEdit();
 
-	public void postSearch();
+	void postSearch();
 
-	public void preCreate();
+	void preCreate();
 
-	public void preDelete();
+	void preDelete();
 
-	public void preEdit();
+	void preEdit();
 
-	public void preSearch();
+	void preSearch();
 
-	public void preView();
+	void preView();
 
-	public void setBean(T bean);
+	void setBean(T bean);
 
-	public void setFilterValue(String filterValue);
+	void setFilterValue(String filterValue);
 
 }

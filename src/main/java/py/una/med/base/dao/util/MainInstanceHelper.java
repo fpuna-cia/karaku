@@ -22,23 +22,30 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
-import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
 import py.una.med.base.dao.annotations.MainInstance;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.log.Log;
 
 /**
  * 
  * Clase que se encarga de crear los proxies para manejar las anotaciones
  * MainInstance, además en caso de que el {@link FetchType} sea
  * {@link FetchType#EAGER} modifica la consulta para que los resultados sena
- * Traídos y luego los parsea para agregar al objeto.s
+ * Traídos y luego los parsea para agregar al objeto.
  * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 13, 2013
  * 
  */
+@Component
 public class MainInstanceHelper {
+
+	@Log
+	private Logger log;
 
 	@SuppressWarnings("unchecked")
 	static Object fetchAttribute(final Session session, final String hql,
@@ -99,8 +106,8 @@ public class MainInstanceHelper {
 	 * Abierta.
 	 * <p>
 	 * Cuando el {@link Where} tiene la propiedad {@link Where#isDistinct()},
-	 * depende exclusivamente de la capidad del método {@link T#hashCode()} para
-	 * realizar su proposito de retornar elementos no duplicados.
+	 * depende exclusivamente de la capacidad del método {@link T#hashCode()}
+	 * para realizar su propósito de retornar elementos no duplicados.
 	 * </p>
 	 * 
 	 * 
@@ -130,7 +137,7 @@ public class MainInstanceHelper {
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		}
 
-		if (!((fields == null) || (fields.size() == 0))) {
+		if (fields != null && fields.size() != 0) {
 			aRet = applyMainInstance(criteria, alias, where, fields);
 		} else {
 			aRet = criteria.list();
@@ -139,7 +146,7 @@ public class MainInstanceHelper {
 		try {
 			helpList(aRet, session);
 		} catch (Exception e) {
-			Log.error("Imposible crear proxies para principales", e);
+			log.error("Imposible crear proxies para principales", e);
 		}
 		return aRet;
 	}
@@ -233,6 +240,7 @@ public class MainInstanceHelper {
 	 * session
 	 * 
 	 * @param entity
+	 *            entidad a aplicar los proxies
 	 * @param session
 	 *            Session hibernate durante la cual tendrá sentido el proxy
 	 * @throws IllegalArgumentException
@@ -240,7 +248,6 @@ public class MainInstanceHelper {
 	 * @throws InvocationTargetException
 	 * @throws InstantiationException
 	 * @throws NoSuchMethodException
-	 * @throws Exception
 	 */
 	public void help(final Object entity, final Session session)
 			throws IllegalArgumentException, IllegalAccessException,
@@ -255,7 +262,8 @@ public class MainInstanceHelper {
 				.getClass())) {
 			MainInstance principal = f.getAnnotation(MainInstance.class);
 			f.setAccessible(true);
-			f.set(entity, newInstance(entity, session, principal, f.getType()));
+			ReflectionUtils.setField(f, entity,
+					newInstance(entity, session, principal, f.getType()));
 		}
 	}
 

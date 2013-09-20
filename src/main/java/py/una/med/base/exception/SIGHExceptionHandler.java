@@ -92,8 +92,8 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 			}
 		}
 		// no dejamos al parent handler manejar el resto debido a que no
-		// visualizaría la pagina de error
-		// getWrapped().handle();
+		// visualizaría la página de error para hacer esto invocar
+		// getWrapped()#handle
 
 	}
 

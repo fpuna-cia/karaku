@@ -25,7 +25,7 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 	private List<DynamicSurveyRow> rows;
 	private int rowsNumber = 0;
 	private int columnsNumber = 0;
-	public int ROWS_FOR_TABLE = 8;
+	public static final int ROWS_FOR_TABLE = 8;
 	public static final String TYPE = "py.una.med.base.survey.components.DynamicSurveyDataTable";
 	private String globalMessage = "";
 
@@ -121,7 +121,7 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 
 		DynamicSurveyRow row = new DynamicSurveyRow(getId(), rowsNumber + 1,
 				columnsNumber);
-		for (EncuestaPlantillaPregunta column : questions) {
+		for (EncuestaPlantillaPregunta column : getQuestions()) {
 			row.addCell(DynamicSurveyField.fieldFactory(column));
 		}
 		return row;
@@ -151,7 +151,7 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 			for (SurveyField cell : row.getCells()) {
 
 				if (cell == null) {
-					row.addCell(DynamicSurveyField.fieldFactory(questions
+					row.addCell(DynamicSurveyField.fieldFactory(getQuestions()
 							.get(index)));
 				}
 				index++;

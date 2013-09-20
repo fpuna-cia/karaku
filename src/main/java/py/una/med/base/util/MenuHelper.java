@@ -3,6 +3,7 @@ package py.una.med.base.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,7 @@ import py.una.med.base.domain.Menu.Menus;
 public class MenuHelper {
 
 	private Menus menus;
-	int maxDepth;
+	private int maxDepth;
 	/**
 	 *
 	 */
@@ -26,13 +27,13 @@ public class MenuHelper {
 	private static Pattern pattern;
 	private final static String SPLIT_REGEX = "[a-z]*/(.*/)*(.*)";
 	private final static Logger log = LoggerFactory.getLogger(MenuHelper.class);
-	private HashMap<String, Menu> menusIndexByURL;
+	private Map<String, Menu> menusIndexByURL;
 
 	/**
-	 *
+	 * 
 	 * Dada una lista plana de menús, crea la jerarquía completa del mismo, en
 	 * forma de un árbol con N raices.
-	 *
+	 * 
 	 * @param input
 	 *            lista plana de menús
 	 */
@@ -40,12 +41,12 @@ public class MenuHelper {
 
 		Menus salida = new Menus();
 		List<Menu> fatherless = new ArrayList<Menu>();
-		salida.menus = new ArrayList<Menu>();
-		for (Menu m : input.menus) {
+		salida.setMenus(new ArrayList<Menu>());
+		for (Menu m : input.getMenus()) {
 			clean(m);
 			addMenu(salida, m, fatherless);
 		}
-		salida.menus.addAll(fatherless);
+		salida.getMenus().addAll(fatherless);
 
 		List<Menu> current = salida.getMenus();
 		List<Menu> nextGen;
@@ -77,7 +78,7 @@ public class MenuHelper {
 	/**
 	 * Elimina todos los problemas relacionados con el formato en el menú, como
 	 * URL's con espacios al inicio y al fin.
-	 *
+	 * 
 	 * @param m
 	 *            {@link Menu} a limpiar
 	 */
@@ -97,7 +98,7 @@ public class MenuHelper {
 	 * <p>
 	 * Los menús retornados por este método están completamente configurados.
 	 * </p>
-	 *
+	 * 
 	 * @return menus
 	 */
 	public Menus getMenus() {
@@ -107,7 +108,7 @@ public class MenuHelper {
 
 	/**
 	 * Retorna la mayor profundidad que alcanza el menú.
-	 *
+	 * 
 	 * @return maxDepth
 	 */
 	public int getMaxDepth() {
@@ -136,24 +137,24 @@ public class MenuHelper {
 
 	/**
 	 * Retorna un menú dado el inicio de la cadena que representa su URI
-	 *
+	 * 
 	 * <p>
-	 *
+	 * 
 	 * <pre>
 	 * /faces/views/sistema/caso_de_uso/abm.xhml
 	 * </pre>
-	 *
+	 * 
 	 * Y existe en el archivo de menús, una entrada con la url:
-	 *
+	 * 
 	 * <pre>
 	 * /faces/views/sistema/caso_de_uso/list.xhtml
 	 * </pre>
-	 *
+	 * 
 	 * Se retorna la entrada de ese menú, es decir no hay una coincidencia
 	 * exacta, pero se hace el mejor esfuerzo según el caso de uso.
 	 * </p>
-	 *
-	 *
+	 * 
+	 * 
 	 * @param uri
 	 *            cadena con el formato <code>(/?.*\/)*(.*)</code>
 	 * @return {@link Menu} correspondiente a al URL, o <code>null</code> si no
@@ -171,7 +172,7 @@ public class MenuHelper {
 	/**
 	 * @return menusIndexByURL
 	 */
-	private HashMap<String, Menu> getMenusIndexByURL() {
+	private Map<String, Menu> getMenusIndexByURL() {
 
 		if (menusIndexByURL == null) {
 			menusIndexByURL = new HashMap<String, Menu>();
@@ -192,14 +193,14 @@ public class MenuHelper {
 			fatherless.remove(menu);
 		}
 
-		for (Menu root : input.menus) {
+		for (Menu root : input.getMenus()) {
 			if (addMenu(root, newMenu)) {
 				return true;
 			}
 		}
 
 		if (newMenu.getIdFather() == null || newMenu.getIdFather().equals("")) {
-			input.menus.add(newMenu);
+			input.getMenus().add(newMenu);
 			return true;
 		}
 		fatherless.add(newMenu);
@@ -245,24 +246,24 @@ public class MenuHelper {
 
 	/**
 	 * Retorna un menú dada la cadena que representa su URI
-	 *
+	 * 
 	 * <p>
-	 *
+	 * 
 	 * <pre>
 	 * /faces/views/sistema/caso_de_uso/abm.xhml
 	 * </pre>
-	 *
+	 * 
 	 * Y existe en el archivo de menús, una entrada con la url:
-	 *
+	 * 
 	 * <pre>
 	 * SAF / faces / views / sistema / caso_de_uso / list.xhtml
 	 * </pre>
-	 *
+	 * 
 	 * Se retorna la entrada de ese menú, es decir no hay una coincidencia
 	 * exacta, pero se hace el mejor esfuerzo según el caso de uso.
 	 * </p>
-	 *
-	 *
+	 * 
+	 * 
 	 * @param uri
 	 *            cadena con el formato
 	 *            <code>[a-z]{@literal *}/(.{@literal *}/)*(.*)</code>

@@ -8,9 +8,13 @@ import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 public class SIGHCustomJasperDataSource extends JRAbstractBeanDataSource {
 
 	private List<?> objects;
-	// Representa a la fila actual
+	/**
+	 * Representa a la fila actual
+	 */
 	private int row = -1;
-	// Representa a la columna actual;
+	/**
+	 * Representa a la columna actual;
+	 */
 	private int column;
 
 	public SIGHCustomJasperDataSource(List<?> objects) {

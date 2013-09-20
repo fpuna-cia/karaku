@@ -21,37 +21,41 @@ public class DynamicSurveyField {
 
 	public static interface SurveyField {
 
-		public String getId();
+		String getId();
 
-		public void setId(String id);
+		void setId(String id);
 
-		public String getValue();
+		String getValue();
 
-		public void setValue(String value);
+		void setValue(String value);
 
-		public int getIndex();
+		int getIndex();
 
-		public void setIndex(int index);
+		void setIndex(int index);
 
-		public int getMax();
+		int getMax();
 	}
 
 	public static class NotRequired implements SurveyField {
 
-		String value = "";
-		int index;
-		String id;
+		private String value = "";
+		private int index;
+		private String id;
 
 		private final int max;
-		boolean validate;
+		private boolean validate;
 
+		/**
+		 * Esto se hace para que se pueda validar, no necesariamente la
+		 * propiedad {@link #validate} es un campo real.
+		 * 
+		 * @return
+		 */
 		@AssertTrue(message = "Se ha exedido la longitud maxima")
 		public boolean isValidate() {
 
-			if (value.length() > max) {
-				return false;
-			}
-			return true;
+			validate = value.length() <= max;
+			return validate;
 		}
 
 		public NotRequired(int index, int max) {
@@ -116,21 +120,18 @@ public class DynamicSurveyField {
 	public static class Required implements SurveyField {
 
 		@NotNull
-		String value = "";
-		int index;
-		String id;
+		private String value = "";
+		private int index;
+		private String id;
 
 		private final int max;
-		boolean validate;
+		private boolean validate;
 
 		@AssertTrue(message = "Se ha exedido la longitud maxima")
 		public boolean isValidate() {
 
-			if (value.length() > max) {
-
-				return false;
-			}
-			return true;
+			validate = value.length() <= max;
+			return validate;
 		}
 
 		public Required(int index, int max) {

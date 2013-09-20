@@ -284,8 +284,6 @@ public abstract class SIGHDynamicSurveyBaseController implements
 				}
 				// Obtenemos las respuestas que estan asociadas a un/os
 				// detalle/s
-				// List<OpcionRespuesta> listResponse = responseLogic
-				// .getRespuestasSelected((Long) detalle[3]);
 
 				List<OpcionRespuesta> listResponse = getResponseSelected(
 						(Long) detalle[3], ordenPregunta);
@@ -386,18 +384,6 @@ public abstract class SIGHDynamicSurveyBaseController implements
 
 	}
 
-	// private List<OpcionRespuesta> getOptionResponse(
-	// List<EncuestaDetalleOpcionRespuesta> list) {
-	//
-	// List<OpcionRespuesta> result = new ArrayList<OpcionRespuesta>();
-	// for (EncuestaDetalleOpcionRespuesta detalle : list) {
-	//
-	// result.add(detalle.getOpcionRespuesta());
-	//
-	// }
-	// return result;
-	// }
-
 	/**
 	 * Carga los datos de la persona en la encuesta.
 	 * 
@@ -493,7 +479,6 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	public String postCreate() {
 
 		log.debug("postCreate llamado");
-		// clear();
 		return goUrlSolicitud();
 	}
 
@@ -623,18 +608,18 @@ public abstract class SIGHDynamicSurveyBaseController implements
 		}
 		String value = "";
 		switch (getMode()) {
-		case NEW:
-			value = "ABM_SURVEY_BUTTON_CANCEL";
-			break;
-		case VIEW:
-			value = "ABM_SURVEY_BUTTON_BACK";
-			break;
-		case DELETE:
-			value = "ABM_SURVEY_BUTTON_CANCEL";
-			break;
-		default:
-			value = "BREADCRUM_UNKNOWN";
-			break;
+			case NEW:
+				value = "ABM_SURVEY_BUTTON_CANCEL";
+				break;
+			case VIEW:
+				value = "ABM_SURVEY_BUTTON_BACK";
+				break;
+			case DELETE:
+				value = "ABM_SURVEY_BUTTON_CANCEL";
+				break;
+			default:
+				value = "BREADCRUM_UNKNOWN";
+				break;
 		}
 		return I18nHelper.getMessage(value);
 	}
@@ -646,14 +631,14 @@ public abstract class SIGHDynamicSurveyBaseController implements
 			mode = Mode.VIEW;
 		}
 		switch (mode) {
-		case NEW:
-			return true;
-		case VIEW:
-			return false;
-		case DELETE:
-			return false;
-		default:
-			break;
+			case NEW:
+				return true;
+			case VIEW:
+				return false;
+			case DELETE:
+				return false;
+			default:
+				break;
 		}
 		return true;
 	}

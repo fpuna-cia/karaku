@@ -18,17 +18,17 @@ import py.una.med.base.util.LabelProvider;
  */
 public class MultiplePickerField<T> extends LabelField {
 
-	public static interface ItemKeyProvider<T> {
+	public interface ItemKeyProvider<T> {
 
 		Object getKeyValue(T item);
 	}
 
-	public static interface ValuesChangeListener<T> {
+	public interface ValuesChangeListener<T> {
 
 		boolean onChange(Field source, List<T> values);
 	}
 
-	public static interface PickerValidator<T> {
+	public interface PickerValidator<T> {
 
 		boolean validate(Field source, List<T> values);
 	}

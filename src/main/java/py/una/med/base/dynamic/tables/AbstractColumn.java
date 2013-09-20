@@ -34,7 +34,6 @@ public abstract class AbstractColumn {
 	public static final String DEFAULT_VALUE_EXPRESSION = "#{item.ATTRIBUTE}";
 	public static final String DEFAULT_I18N_EXPRESSION = "#{msg['KEY']}";
 	private final UIColumn bind;
-	// private UIComponent header;
 	private final ELHelper elHelper;
 	private boolean builded;
 
@@ -96,7 +95,6 @@ public abstract class AbstractColumn {
 		builded = true;
 		bind.getFacets().put("header", getHeader());
 		if (hasBoddy()) {
-			// bind.getChildren().clear();
 			bind.getChildren().add(getBody());
 		}
 	}

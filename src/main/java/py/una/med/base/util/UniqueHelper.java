@@ -53,8 +53,7 @@ public class UniqueHelper {
 		return exception;
 	}
 
-	private HashMap<String, UniqueRestrintion> getConstrains(
-			final Class<?> clazz) {
+	private Map<String, UniqueRestrintion> getConstrains(final Class<?> clazz) {
 
 		// TODO esto se crea cada vez que surge una excepción, considerar la
 		// posibilidad de guardarlo y utilizarlo mas tarde.

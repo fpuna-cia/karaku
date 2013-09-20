@@ -49,9 +49,6 @@ public class SearchParamJPAHelper<T> {
 	public CriteriaQuery<T> aplly(CriteriaBuilder criteriaBuilder,
 			CriteriaQuery<T> criteriaQuery, Root<T> root, T ejemplo) {
 
-		// ParameterExpression<Integer> p = criteriaBuilder
-		// .parameter(Integer.class);
-		// criteriaQuery.w
 		return criteriaQuery;
 
 	}

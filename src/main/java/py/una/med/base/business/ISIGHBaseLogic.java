@@ -48,7 +48,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 * @throws NonUniqueResultException
 	 *             Cuando se encuentra mas de un resultado
 	 */
-	public T getByExample(T example) throws NonUniqueResultException;
+	T getByExample(T example) throws NonUniqueResultException;
 
 	/**
 	 * Trae todos los registros segun el parametro
@@ -57,7 +57,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 *            define el orden, limite y cantidad de registros
 	 * @return lista limitada y ordenada por los parametros
 	 */
-	public List<T> getAll(ISearchParam params);
+	List<T> getAll(ISearchParam params);
 
 	/**
 	 * Crea una consulta con los atributos seteados del parametro example para
@@ -70,7 +70,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 * @return null si no hay coincidencias o lista entidades de la base de
 	 *         datos que tiene los mismos atributos que el ejemplo.
 	 */
-	public List<T> getAllByExample(EntityExample<T> example, ISearchParam params);
+	List<T> getAllByExample(EntityExample<T> example, ISearchParam params);
 
 	/**
 	 * Crea una consulta con los atributos seteados del parametro example para
@@ -84,7 +84,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 *         datos que cumplen con el where pasado.
 	 * @see Where
 	 */
-	public List<T> getAll(Where<T> where, ISearchParam params);
+	List<T> getAll(Where<T> where, ISearchParam params);
 
 	/**
 	 * Persiste las modificaciones realizadas a una entidad <br>
@@ -96,7 +96,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 *            a ser persistida
 	 * @return otra instancia de la entidad con los atributos actualizados
 	 */
-	public T update(T entity);
+	T update(T entity);
 
 	/**
 	 * Persiste una entidad en la base de datos
@@ -105,7 +105,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 *            a ser persistida
 	 * @return entidad persistida
 	 */
-	public T add(T entity);
+	T add(T entity);
 
 	/**
 	 * Elimina una entidad de la base de datos
@@ -113,7 +113,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 * @param entity
 	 *            a ser eliminada
 	 */
-	public void remove(T entity);
+	void remove(T entity);
 
 	/**
 	 * Dado una entidad retorna su ID
@@ -122,7 +122,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 *            entidad de la cual se desea su ID
 	 * @return ID de la entidad entity
 	 */
-	public ID getIdValue(T entity);
+	ID getIdValue(T entity);
 
 	/**
 	 * Retorna una nueva instancia de T
@@ -130,7 +130,7 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 * @return Entidad recien iniciailzada
 	 * 
 	 */
-	public T getNewInstance();
+	T getNewInstance();
 
 	/**
 	 * 
@@ -144,16 +144,16 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 * @return Lista de entidades
 	 */
 	@Deprecated
-	public List<T> getAllByExample(T ejemplo, ISearchParam sp);
+	List<T> getAllByExample(T ejemplo, ISearchParam sp);
 
 	/**
 	 * 
 	 * @param example
 	 * @return
 	 */
-	public Long getCountByExample(EntityExample<T> example);
+	Long getCountByExample(EntityExample<T> example);
 
-	public Long getCount(Where<T> where);
+	Long getCount(Where<T> where);
 
 	/*
 	 * (non-Javadoc)
@@ -162,13 +162,13 @@ public interface ISIGHBaseLogic<T, ID extends Serializable> {
 	 * py.una.med.base.repo.BaseDAO#getAll(py.una.med.base.dao.search.ISearchParam
 	 * )
 	 */
-	public Long getCount();
+	Long getCount();
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
 	 */
-	public T getById(ID id);
+	T getById(ID id);
 
 }

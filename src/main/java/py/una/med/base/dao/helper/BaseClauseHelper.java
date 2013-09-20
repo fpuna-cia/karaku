@@ -120,23 +120,31 @@ public abstract class BaseClauseHelper<T extends Clause> {
 			return partes[0];
 		}
 
-		String alias = aliases.get(partes[0]);
-		if (alias == null) {
-			alias = partes[0] + ALIAS_SEPARATOR;
+		StringBuilder sbAlias;
+		if (aliases.get(partes[0]) == null) {
+			sbAlias = new StringBuilder(partes[0]).append(ALIAS_SEPARATOR);
+			String alias = sbAlias.toString();
 			aliases.put(partes[0], alias);
 			_addAliasToCriteria(alias, partes[0], criteria);
+		} else {
+			sbAlias = new StringBuilder(aliases.get(partes[0]));
 		}
 
 		for (int i = 1; i < partes.length - 1; i++) {
-			String temp = alias + PROPERTY_SEPARATOR + partes[i];
-			alias += partes[i] + ALIAS_SEPARATOR;
-			if (!aliases.containsKey(temp)) {
-				_addAliasToCriteria(alias, temp, criteria);
-				aliases.put(temp, alias);
+
+			StringBuilder pathBuilder = new StringBuilder(sbAlias.toString())
+					.append(PROPERTY_SEPARATOR).append(partes[i]);
+			sbAlias.append(partes[i]).append(ALIAS_SEPARATOR);
+			String path = pathBuilder.toString();
+			String currentAlias = sbAlias.toString();
+			if (!aliases.containsKey(path)) {
+				_addAliasToCriteria(currentAlias, path, criteria);
+				aliases.put(path, currentAlias);
 			}
 		}
 
-		return alias + PROPERTY_SEPARATOR + partes[partes.length - 1];
+		sbAlias.append(PROPERTY_SEPARATOR).append(partes[partes.length - 1]);
+		return sbAlias.toString();
 	}
 
 	/**

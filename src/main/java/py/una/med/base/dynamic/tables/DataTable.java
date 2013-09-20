@@ -38,17 +38,10 @@ public class DataTable extends Field {
 	 */
 	public static final String DATA_TABLE_VARIABLE = "item";
 
-	// private SIGHListHelper<T, K> listHelper;
-	// private boolean idAdded;
-	// private boolean actionsAdded;
-	// private boolean exportsAdded;
 	private List<AbstractColumn> columns;
 	private final UIExtendedDataTable table;
 
 	private AbstractPagingDataSource dataSource;
-
-	// private boolean withExports = false;
-	// private boolean withActions = true;
 
 	/**
 	 * 
@@ -56,7 +49,6 @@ public class DataTable extends Field {
 	public DataTable() {
 
 		table = SIGHComponentFactory.getDataTable();
-//		table.setStyle(getCurrentStyle());
 		table.setVar(DATA_TABLE_VARIABLE);
 	}
 
@@ -77,7 +69,6 @@ public class DataTable extends Field {
 	 */
 	public void setColumns(final List<AbstractColumn> columns) {
 
-		// idAdded = false;
 		this.columns = columns;
 	}
 
@@ -123,7 +114,7 @@ public class DataTable extends Field {
 		table.setRowClasses(StringUtils.join(" ", clases));
 	}
 
-	boolean builded = false;
+	private boolean builded = false;
 
 	public void build() {
 
@@ -135,12 +126,6 @@ public class DataTable extends Field {
 			column.build();
 			table.getChildren().add(column.getBind());
 		}
-		//
-		// table.setv
-		// table.setValueExpression(
-		// "value",
-		// getElHelper().makeValueExpression("#{table.dataSource.items}",
-		// List.class));
 		getDataSource().refresh();
 		table.setValue(getDataSource().getItems());
 	}

@@ -252,7 +252,6 @@ public class PagingHelper {
 	 */
 	public void udpateCount(Long count) {
 
-		// assert dao != null;
 		currentCount = count;
 
 		if (page > getMaxPage(currentCount)) {

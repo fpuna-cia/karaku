@@ -24,7 +24,6 @@ public class Not implements Clause {
 		if (clause == null) {
 			return null;
 		} else {
-			// Criterion aRet = clause.getCriterion();
 			Criterion aRet = Restrictions.not(clause.getCriterion());
 			return aRet;
 

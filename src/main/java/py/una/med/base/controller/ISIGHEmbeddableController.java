@@ -63,7 +63,7 @@ public interface ISIGHEmbeddableController {
 	 * 
 	 * @return URI de la pagina de edicion
 	 */
-	public abstract String goEdit();
+	abstract String goEdit();
 
 	/**
 	 * Metodo que retorna la URI donde se encuentra el formulario de creacion,
@@ -72,7 +72,7 @@ public interface ISIGHEmbeddableController {
 	 * 
 	 * @return URI de la pagina de creacion
 	 */
-	public abstract String goNew();
+	abstract String goNew();
 
 	/**
 	 * Metodo que retorna la URI donde se encuentra el formulario de delete,
@@ -81,6 +81,6 @@ public interface ISIGHEmbeddableController {
 	 * 
 	 * @return URI de la pagina de eliminacion
 	 */
-	public abstract String goDelete();
+	abstract String goDelete();
 
 }

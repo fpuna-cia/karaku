@@ -20,9 +20,9 @@ import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
  */
 public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 
-	public String title;
+	private String title;
 	private final String id;
-	public List<EncuestaPlantillaPregunta> questions;
+	private List<EncuestaPlantillaPregunta> questions;
 
 	/**
 	 * 
@@ -131,5 +131,6 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 		// TODO Auto-generated method stub
 		return "";
 	}
+	
 
 }

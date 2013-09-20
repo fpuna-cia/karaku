@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Clase que representa un item del menu,
- *
+ * 
  * @see Menus
  * @author Arturo Volpe
  * @since 1.1
@@ -30,12 +30,12 @@ public class Menu {
 
 	private Menu father;
 
-	int depth;
+	private int depth;
 
 	/**
 	 * Retorna la profundidad de este menú, la profundidad se define como la
 	 * cantidad de padres que tiene en la jerarquía.
-	 *
+	 * 
 	 * @return depth
 	 */
 	public int getDepth() {
@@ -150,7 +150,7 @@ public class Menu {
 	public static class Menus {
 
 		@XmlElement(name = "menu")
-		public List<Menu> menus;
+		private List<Menu> menus;
 
 		public Menus() {
 
@@ -201,18 +201,31 @@ public class Menu {
 
 		/**
 		 * Retorna la lista de {@link Menu}.
-		 *
+		 * 
 		 * @return menus
 		 */
 		public List<Menu> getMenus() {
 
+			if (menus == null) {
+				menus = new ArrayList<Menu>(0);
+			}
+
 			return menus;
+		}
+
+		/**
+		 * @param menus
+		 *            menus para setear
+		 */
+		public void setMenus(List<Menu> menus) {
+
+			this.menus = menus;
 		}
 	}
 
 	/**
 	 * Retorna una cadena que tiene la forma del árbol.
-	 *
+	 * 
 	 * @return cadena con forma de árbol
 	 */
 	public String toVerboseString() {

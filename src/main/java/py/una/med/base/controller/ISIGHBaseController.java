@@ -100,7 +100,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * @see #DELETE
 	 * 
 	 */
-	public static enum Mode {
+	static enum Mode {
 		/**
 		 * Determina cuando el controlador esta en su punto de entrada,
 		 * desplegando la lista de opciones y mostrando los botones para crear,
@@ -171,7 +171,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 *            entidad que se usara de ejemplo
 	 * @see BaseDAO#getAllByExample(Object, ISearchParam)
 	 */
-	public void setExample(T example);
+	void setExample(T example);
 
 	/**
 	 * Retorna el bean por el que se esta buscando
@@ -179,7 +179,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * @see #doSearch()
 	 * @see BaseDAO#getAllByExample(Object, ISearchParam)
 	 */
-	public T getExample();
+	T getExample();
 
 	/**
 	 * Asigna un valor al filtro simple.

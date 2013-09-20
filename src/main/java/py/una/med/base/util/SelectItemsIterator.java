@@ -427,16 +427,6 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 
 				var = (String) sourceComponent.getAttributes().get(VAR);
 				this.sourceComponent = sourceComponent;
-				// itemValue = sourceComponent.getValueExpression(ITEM_VALUE);
-				// itemLabel = sourceComponent.getValueExpression(ITEM_LABEL);
-				// itemDescription =
-				// sourceComponent.getValueExpression(ITEM_DESCRIPTION);
-				// itemEscaped =
-				// sourceComponent.getValueExpression(ITEM_ESCAPED);
-				// itemDisabled =
-				// sourceComponent.getValueExpression(ITEM_DISABLED);
-				// noSelectionOption =
-				// sourceComponent.getValueExpression(NO_SELECTION_OPTION);
 
 			}
 

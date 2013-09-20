@@ -4,6 +4,6 @@ import org.hibernate.criterion.Criterion;
 
 public interface Clause {
 
-	public Criterion getCriterion();
+	Criterion getCriterion();
 
 }

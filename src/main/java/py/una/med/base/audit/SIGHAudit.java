@@ -76,10 +76,6 @@ public class SIGHAudit {
 				.getAuthentication().getName();
 		auditTrail.setUsername(userName);
 
-		// String ip = ((ServletRequestAttributes) RequestContextHolder
-		// .currentRequestAttributes()).getRequest().getRemoteAddr();
-		// auditTrail.setIp(ip);
-
 		String[] toAudit = annotation.toAudit();
 		String[] paramsToAudit = annotation.paramsToAudit();
 		Object object = joinPoint.getTarget();

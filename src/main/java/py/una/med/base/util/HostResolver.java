@@ -21,6 +21,8 @@ public class HostResolver {
 	@Autowired
 	private PropertiesUtil properties;
 
+	private static final String FACES_POSTFIX = "/faces";
+
 	/**
 	 * Retorna la URL del sistema dado como parámetro
 	 * 
@@ -34,21 +36,24 @@ public class HostResolver {
 		String url = "";
 
 		if ("CONF".equals(app)) {
-			url += "/" + properties.getProperty("conf.urlFragment") + "/faces";
+			url += properties.getProperty("conf.urlFragment");
 		} else if ("IDP".equals(app)) {
-			url += "/" + properties.getProperty("idp.urlFragment") + "/faces";
+			url += properties.getProperty("idp.urlFragment");
 		} else if ("SAF".equals(app)) {
-			url += "/" + properties.getProperty("saf.urlFragment") + "/faces";
+			url += properties.getProperty("saf.urlFragment");
 		} else if ("SOC".equals(app)) {
-			url += "/" + properties.getProperty("soc.urlFragment") + "/faces";
+			url += properties.getProperty("soc.urlFragment");
 		} else if ("SAS".equals(app)) {
-			url += "/" + properties.getProperty("sas.urlFragment") + "/faces";
+			url += properties.getProperty("sas.urlFragment");
 		} else if ("ASIS".equals(app)) {
-			url += "/" + properties.getProperty("asis.urlFragment") + "/faces";
+			url += properties.getProperty("asis.urlFragment");
 		} else if ("SIGH".equals(app)) {
 			// punto de acceso a los sistemas
-			url += "/" + properties.getProperty("sigh.urlFragment") + "/faces";
+			url += properties.getProperty("sigh.urlFragment");
 		}
-		return url;
+		if ("".equals(url)) {
+			return url;
+		}
+		return "/" + url + FACES_POSTFIX;
 	}
 }

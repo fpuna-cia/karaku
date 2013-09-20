@@ -32,7 +32,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 
 	private Map<String, String> propertiesMap;
 	/**
-	 * Ubicacion del archivo donde se almacena la informacion sensible.
+	 * Ubicacion del archivo donde se almacena la información sensible.
 	 */
 	private static final String ANOTHER_KEY = "karaku.changing.properties";
 

@@ -61,7 +61,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 	public void setFields(DynamicSurveyFieldOption[] fields) {
 
-		this.fields = fields;
+		this.fields = fields.clone();
 	}
 
 	/**
@@ -100,10 +100,10 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 		for (int i = 0; i < fieldsNumber; i++) {
 			if (fields[i] == null) {
-				fields[i] = new DynamicSurveyFieldOption(questions.get(i)
+				fields[i] = new DynamicSurveyFieldOption(getQuestions().get(i)
 						.getTipoObjeto().getNombre());
-				fields[i].setField(DynamicSurveyField.fieldFactory(questions
-						.get(i)));
+				fields[i].setField(DynamicSurveyField
+						.fieldFactory(getQuestions().get(i)));
 			}
 		}
 		return fields;
@@ -119,7 +119,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	 */
 	public String getTypeField(int index) {
 
-		return questions.get(index).getTipoObjeto().getNombre();
+		return getQuestions().get(index).getTipoObjeto().getNombre();
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	 */
 	public Boolean isRequiredField(int index) {
 
-		if (questions.get(index).getObligatoria().equals("SI")) {
+		if (getQuestions().get(index).getObligatoria().equals("SI")) {
 			return true;
 		}
 		return false;

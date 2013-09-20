@@ -40,7 +40,7 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 	@Log
 	private Logger log;
 
-	boolean editingHeader;
+	private boolean editingHeader;
 
 	private List<ISIGHEmbeddableController> controllers;
 

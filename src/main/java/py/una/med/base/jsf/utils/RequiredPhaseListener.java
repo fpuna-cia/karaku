@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIOutput;
@@ -43,9 +44,9 @@ import py.una.med.base.util.I18nHelper;
 public class RequiredPhaseListener implements Serializable {
 
 	@Autowired
-	I18nHelper helper;
+	private I18nHelper helper;
 
-	private HashMap<String, Field> hashedFields;
+	private Map<String, Field> hashedFields;
 
 	/**
 	 * String que representa la clase de aquellas etiquetas de campos que son
@@ -84,13 +85,12 @@ public class RequiredPhaseListener implements Serializable {
 
 		hashedFields = new HashMap<String, Field>(10);
 		lastOutput = null;
-		markLabels4Required(FacesContext.getCurrentInstance().getViewRoot());
+		handleRoot(FacesContext.getCurrentInstance().getViewRoot());
 
 	}
 
-	private void markLabels4Required(UIComponent parent) {
+	private void handleRoot(UIComponent parent) {
 
-		// String marker = " *";
 		Iterator<UIComponent> kids = parent.getFacetsAndChildren();
 		while (kids.hasNext()) {
 			UIComponent child = kids.next();
@@ -98,7 +98,7 @@ public class RequiredPhaseListener implements Serializable {
 				continue;
 			}
 			processUIComponent(child);
-			markLabels4Required(child);
+			handleRoot(child);
 		}
 
 	}
