@@ -8,10 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
 import javax.faces.context.FacesContext;
 import javax.validation.constraints.NotNull;
-import org.springframework.core.io.ClassPathResource;
+
 import org.springframework.stereotype.Component;
+
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.exception.KeyNotFoundException;
@@ -113,7 +115,7 @@ public class I18nHelper {
 	 *            claves del archivo de internacionalización
 	 * @return lista con los valores internacionalizados.
 	 */
-	public static List<String> convertStrings(@NotNull String ... keys) {
+	public static List<String> convertStrings(@NotNull String... keys) {
 
 		ArrayList<String> convert = new ArrayList<String>(keys.length);
 		for (String s : keys) {
@@ -157,15 +159,12 @@ public class I18nHelper {
 				displayName.key().length() - 1));
 	}
 
-	private synchronized static PropertiesUtil getPropertiesUtil() {
-
-		if (propertiesUtil == null) {
-			propertiesUtil = new PropertiesUtil();
-			propertiesUtil.setLocation(new ClassPathResource(
-					SIGHConfiguration.CONFIG_LOCATION));
-		}
+	private static PropertiesUtil getPropertiesUtil() {
 
 		return propertiesUtil;
 	}
 
+	public static void setPropertiesUtil(PropertiesUtil propertiesUtil) {
+		I18nHelper.propertiesUtil = propertiesUtil;
+	}
 }

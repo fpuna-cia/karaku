@@ -127,6 +127,7 @@ public class SIGHConfiguration {
 
 		propertiesUtil = new PropertiesUtil();
 		propertiesUtil.setLocation(new ClassPathResource(CONFIG_LOCATION));
+		I18nHelper.setPropertiesUtil(propertiesUtil);
 		return propertiesUtil;
 	}
 
