@@ -149,7 +149,6 @@ public class Menu {
 	@XmlRootElement(name = "menus")
 	public static class Menus {
 
-		@XmlElement(name = "menu")
 		private List<Menu> menus;
 
 		public Menus() {
@@ -204,6 +203,7 @@ public class Menu {
 		 * 
 		 * @return menus
 		 */
+		@XmlElement(name = "menu")
 		public List<Menu> getMenus() {
 
 			if (menus == null) {
