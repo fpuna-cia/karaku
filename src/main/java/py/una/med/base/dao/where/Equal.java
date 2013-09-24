@@ -39,8 +39,9 @@ public class Equal implements Clause {
 	 * {@link Object#toString()} de este valor sera utilizado para construir la
 	 * sentencia. <br />
 	 * La sentencia generada por esta clase será similar a: <br />
+	 * 
 	 * <pre>
-	 *     path = value.toString()
+	 * path = value.toString()
 	 * </pre>
 	 * 
 	 * @param path
@@ -51,5 +52,13 @@ public class Equal implements Clause {
 		super();
 		this.value = value;
 		this.path = path;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public Object getValue() {
+		return value;
 	}
 }
