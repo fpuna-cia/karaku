@@ -173,6 +173,28 @@ public class ControllerHelper {
 	}
 
 	/**
+	 * 
+	 * @param severity
+	 *            Severidad {@link FacesMessage}
+	 * @param summary
+	 *            Clave internacionalizada del sumario
+	 * @param detail
+	 *            Clave internacionalizada del detalle
+	 * @param componentId
+	 *            Nombre del componente,
+	 *            {@link ControllerHelper#getClientId(String)}
+	 */
+	public void createFacesMessageSimple(final Severity severity,
+			final String summary, final String detail, final String componentId) {
+
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+
+		FacesMessage msg = new FacesMessage(severity, getMessage(summary),
+				detail);
+		facesContext.addMessage(componentId, msg);
+	}
+
+	/**
 	 * Returns the clientId for a component with id, esto se usa por que JSF
 	 * genera claves distintas a las que se configuran en los componentes, esto
 	 * se hace para evitar que el mismo ID se repite, por ejemplo si ponemos en
@@ -247,7 +269,7 @@ public class ControllerHelper {
 	 */
 	public MethodExpression createMethodExpression(
 			final String valueExpression, final Class<?> expectedReturnType,
-			final Class<?> ... expectedParamTypes) {
+			final Class<?>... expectedParamTypes) {
 
 		MethodExpression methodExpression = null;
 		try {
