@@ -19,6 +19,8 @@
 	<composite:attribute name="headerTitle" />
 	<composite:attribute name="acceptButtonText"
 		default="#{msg['BASE_FORM_EDIT']}" />
+	<composite:attribute name="createAcceptButtonText"
+		default="#{msg['BASE_FORM_CREATE']}" />
 	<composite:attribute name="withConfirmPanel" default="true" />
 	<composite:facet name="preMainForm" />
 	<composite:facet name="moreButtons" />
@@ -47,7 +49,7 @@
 					onclick="no_alert()" value="#{cc.attrs.acceptButtonText}"
 					rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}" />
 				<h:commandButton action="#{cc.attrs.controller.doCreate()}"
-					value="#{msg['BASE_FORM_CREATE']}" onclick="no_alert()"
+					value="#{cc.attrs.createAcceptButtonText}" onclick="no_alert()"
 					rendered="#{cc.attrs.controller.create  and authorityController.hasRole(cc.attrs.controller.createPermission)}" />
 				<h:commandButton action="#{cc.attrs.controller.doDelete()}"
 					onclick="no_alert()" value="#{msg['BASE_FORM_DELETE']}"
