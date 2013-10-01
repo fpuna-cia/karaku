@@ -11,16 +11,18 @@ import javax.validation.constraints.Size;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.LikeExpression;
+import org.slf4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.where.Clause;
+import py.una.med.base.log.Log;
 
 /**
  * Clase que sirve para interceptar restricciones que se agregan a un query, por
- * ejemplo para agregar alias para joins entre columnas, caracteristica no
+ * ejemplo para agregar alias para joins entre columnas, característica no
  * soportada por Hibernate Criteria
  * 
  * @author Arturo Volpe
@@ -31,6 +33,9 @@ import py.una.med.base.dao.where.Clause;
  */
 @Component
 public class RestrictionHelper implements ApplicationContextAware {
+
+	@Log
+	private transient Logger log;
 
 	private static Map<Class<?>, BaseClauseHelper<?>> helpers;
 
@@ -57,7 +62,7 @@ public class RestrictionHelper implements ApplicationContextAware {
 	@PostConstruct
 	void postConstruct() {
 
-		Map<String, BaseClauseHelper> help = applicationContext
+		Map<String, BaseClauseHelper> help = this.applicationContext
 				.getBeansOfType(BaseClauseHelper.class);
 		for (Entry<String, BaseClauseHelper> entry : help.entrySet()) {
 			register(entry.getValue());
@@ -96,7 +101,7 @@ public class RestrictionHelper implements ApplicationContextAware {
 			return criteria;
 		}
 		if (where.getClauses() != null) {
-			List<Criterion> criterions = getCriterions(where.getClauses(),
+			List<Criterion> criterions = this.getCriterions(where.getClauses(),
 					criteria, aliaz);
 			for (Criterion c : criterions) {
 				criteria.add(c);
@@ -125,13 +130,7 @@ public class RestrictionHelper implements ApplicationContextAware {
 				clauses.size());
 		for (Clause cr : clauses) {
 
-			BaseClauseHelper<?> helper = getHelpers().get(cr.getClass());
-
-			if (helper == null) {
-				criterions.add(cr.getCriterion());
-			} else {
-				criterions.add(helper.getCriterion(criteria, cr, alias, true));
-			}
+			criterions.add(this.getCriterion(cr, criteria, alias));
 		}
 		return criterions;
 	}
@@ -148,12 +147,14 @@ public class RestrictionHelper implements ApplicationContextAware {
 	 *            mapa de alias actuales
 	 * @return {@link List} de criteriones, nunca null.
 	 */
+	@SuppressWarnings("deprecation")
 	public Criterion getCriterion(@NotNull Clause clause,
 			@NotNull Criteria criteria, @NotNull Map<String, String> alias) {
 
 		BaseClauseHelper<?> helper = getHelpers().get(clause.getClass());
 
 		if (helper == null) {
+			this.log.info("Helper not found for: {}", clause.getClass());
 			return clause.getCriterion();
 		} else {
 			return getHelpers().get(clause.getClass()).getCriterion(criteria,

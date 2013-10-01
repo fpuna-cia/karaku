@@ -3,7 +3,9 @@
  */
 package py.una.med.base.dao.where;
 
+import java.util.Date;
 import java.util.List;
+import py.una.med.base.dao.helper.AndExpressionHelper;
 import py.una.med.base.dao.helper.OrExpressionHelper;
 import py.una.med.base.dao.restrictions.NumberLike;
 import py.una.med.base.dao.restrictions.Where;
@@ -251,12 +253,42 @@ public final class Clauses {
 	 * Retorna unas {@link Clause} que es la negación de la pasada como
 	 * parámetro.
 	 * <p>
-	 * Si la {@link Clause} X retorna n de los N elementos de un conjunto ,
-	 * entonces la {@link Clause} {@link Not} retornada por este mÃ©todo,
+	 * Si la {@link Claus1e} X retorna n de los N elementos de un conjunto ,
+	 * entonces la {@link Clause} {@link Not} retornada por este método,
 	 * retornará los N - n elementos no retornados por la consulta sin negar.
 	 * </p>
 	 * <p>
-	 * Este mÃ©todo es idempotente, es decir, se lo puede invocar N veces,
+	 * Notar que la negación de un atributo anidado no siempre implica que el
+	 * padre no vuelva a aparecer en la lista retornada, por ejemplo.
+	 * 
+	 * <pre>
+	 * 	<b>id	|	   Nombre</b>		
+	 * 	 1	|	 Paraguay
+	 * 	 2	|	Argentina
+	 * 
+	 * 	<b>id	|	   Nombre 	| País</b>		
+	 * 	 1	|	 San Lorenzo	|   1
+	 * 	 2	|	Asunción	|   1
+	 * 
+	 * </pre>
+	 * 
+	 * La consulta:
+	 * 
+	 * <pre>
+	 * select * from Pais p join p.ciudades c where c.nombre = "Asunción"
+	 * </pre>
+	 * 
+	 * </p>
+	 * Retornará un registro (Paraguay), pero si negamos el Where, y utilizamos:
+	 * 
+	 * <pre>
+	 * select * from Pais p join p.ciudades c where not(c.nombre = "Asunción")
+	 * </pre>
+	 * 
+	 * </p> <b>Retornará exactamente lo mismo</b>, pues existe una ciudad que no
+	 * se llama Asunción y que pertenece a Paraguay.
+	 * <p>
+	 * Este método es idempotente, es decir, se lo puede invocar N veces,
 	 * teniendo siempre el mismo resultado.
 	 * </p>
 	 * 
@@ -301,8 +333,103 @@ public final class Clauses {
 		return new Equal(path, value);
 	}
 
+	/**
+	 * {@link Clause} que se utiliza comparar objetos, se pueden comparar tanto
+	 * números como fechas.
+	 * 
+	 * <p>
+	 * Esta cláusula genera un sql similar a :
+	 * 
+	 * <pre>
+	 * 	where <i>path</i>.date 	<b>&gt;=</b> '12-02-2013'
+	 * 	where <i>path</i>.costo	<b>&gt;=</b> 666.25
+	 * </pre>
+	 * 
+	 * </p>
+	 * 
+	 * @param path
+	 *            ubicación del atributo en formato HQL.
+	 * @param value
+	 *            objeto con la cual se desea comparar.
+	 * @return {@link Ge}.
+	 */
 	public static Clause ge(String path, Object value) {
 
 		return new Ge(path, value);
+	}
+
+	/**
+	 * {@link Clause} que se utiliza comparar objetos, se pueden comparar tanto
+	 * números como fechas.
+	 * 
+	 * <p>
+	 * Esta cláusula genera un sql similar a :
+	 * 
+	 * <pre>
+	 * 	where <i>path</i>.date 	<b>&lt;=</b> '12-02-2013'
+	 * 	where <i>path</i>.costo	<b>&lt;=</b> 666.25
+	 * </pre>
+	 * 
+	 * </p>
+	 * 
+	 * @param path
+	 *            ubicación del atributo en formato HQL.
+	 * @param value
+	 *            objeto con la cual se desea comparar.
+	 * @return {@link Le}.
+	 */
+	public static Clause le(String path, Object value) {
+
+		return new Le(path, value);
+	}
+
+	/**
+	 * {@link Clause} que se utiliza para comparar fechas, utilizar
+	 * preferentemente {@link DateClauses} que es un componente que provee mas
+	 * facilidades que este método.
+	 * 
+	 * @param path
+	 *            atributo
+	 * @param one
+	 *            desde
+	 * @param two
+	 *            hasta
+	 * @return Clause para comparar fechas
+	 */
+	public static Clause between(String path, Date one, Date two) {
+
+		return and(ge(path, one), le(path, two));
+	}
+
+	/**
+	 * Retorna un {@link Clause} que compara las cláusulas pasadas como una
+	 * conjunción (y). Significa que los objetos retornados deberán cumplir
+	 * <b>con todas</b> las {@link Clause} pasadas.
+	 * <p>
+	 * Si se desea que cumplan con solo alguna de las cláusulas, se deberá
+	 * utilizar {@link #or(Clause...)}.
+	 * </p>
+	 * <p>
+	 * La cláusula retornada ({@link And}) genera un SQL similar a :
+	 * 
+	 * <pre>
+	 * 	where <i>clause1</i> <b>and</b> <i>clause2</i> <b>and</b> <i>clause3</i> ...
+	 * </pre>
+	 * 
+	 * </p>
+	 * 
+	 * @see AndExpressionHelper
+	 * @param clauses
+	 *            una o mas {@link Clause}.
+	 * @return {@link And} para comparar una disjunción, nunca <code>null</code>
+	 *         .
+	 */
+	public static Clause and(final Clause ... clauses) {
+
+		if (clauses == null) {
+			throw new IllegalArgumentException("clauses can't be null");
+		}
+
+		return new And(clauses);
 	}
 }
