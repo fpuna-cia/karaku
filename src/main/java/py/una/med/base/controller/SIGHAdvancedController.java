@@ -2,19 +2,12 @@ package py.una.med.base.controller;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.exception.NotDisplayNameException;
+import py.una.med.base.dao.search.SearchHelper;
 import py.una.med.base.model.DisplayName;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
@@ -41,9 +34,8 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	@Autowired
 	private ControllerHelper helper;
 
-
-	@Override
-	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
+	@Autowired
+	private SearchHelper searchHelper;
 
 	@Override
 	public List<String> getBaseSearchItems() {
@@ -59,12 +51,17 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 		return aRet;
 	};
 
+	/**
+	 * Retorna la {@link Class} a la que este controller representa.
+	 * 
+	 * @return {@link Class}
+	 */
 	protected Class<T> getClazz() {
 
 		return getBaseLogic().getDao().getClassOfT();
 	}
 
-	private Field getField(final String value) {
+	private String getField(final String value) {
 
 		for (Field f : getClazz().getDeclaredFields()) {
 			DisplayName displayName = f.getAnnotation(DisplayName.class);
@@ -72,67 +69,29 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 				continue;
 			}
 			if (I18nHelper.getName(displayName).equals(value)) {
-				return f;
+				return value;
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * Delega la responsabilidad da {@link SearchHelper} para realizar búsquedas
+	 * genericas.
+	 * 
+	 * @return {@link Where} configurado, utilizar este {@link Where} como punto
+	 *         de partida.
+	 */
 	@Override
 	public Where<T> getSimpleFilters() {
 
 		Where<T> where = new Where<T>();
-		if (!StringUtils.isValid(getFilterOption())) {
+		if (!StringUtils.isValid(getFilterOption(), getFilterValue())) {
 			return where;
 		}
-		if (!StringUtils.isValid(getFilterValue())) {
-			return where;
-		}
-		try {
-			Field f = getField(getFilterOption());
-			DisplayName displayName = f.getAnnotation(DisplayName.class);
-			if (displayName == null) {
-				throw new NotDisplayNameException();
-			}
 
-			if (!"".equals(displayName.path())) {
-
-				String consulta = f.getName() + "." + displayName.path();
-				where.addClause(Clauses.iLike(consulta, getFilterValue()));
-				return where;
-			}
-			T example = getBaseEntity();
-			f.setAccessible(true);
-			if (f.getType().equals(String.class)) {
-				f.set(example, getFilterValue());
-				where.setExample(new EntityExample<T>(example));
-				return where;
-			}
-			if (Number.class.isAssignableFrom(f.getType())) {
-				Method method = f.getType().getMethod("valueOf", String.class);
-				Object o = method.invoke(null, getFilterValue());
-				f.set(example, o);
-				where.setExample(new EntityExample<T>(example));
-				return where;
-			}
-			if (f.getType().equals(Date.class)) {
-				try {
-
-					f.set(example, new SimpleDateFormat("dd-MM-yyyy")
-							.parse(getFilterValue()));
-				} catch (ParseException parseException) {
-					helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-							"La fecha debe tener el formato dd-MM-yyyy");
-					return null;
-				}
-				where.setExample(new EntityExample<T>(example));
-				return where;
-			}
-			throw new NotDisplayNameException();
-		} catch (Exception e) {
-			log.error("Error al obtener los filtros", e);
-		}
-		return where;
+		return searchHelper.buildWhere(getClazz(), getField(getFilterOption()),
+				getFilterValue());
 	}
 
 	/**
@@ -227,9 +186,9 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	 * <p>
 	 * Si el caso de uso dicta que se deben modificar mas de una entidad, se
 	 * recomienda que en este método se llame a la lógica y que sea ella la
-	 * encargada de realizar la operación, retornando el elemento relevante
-	 * para mostrar al usuario. Se recomienda el uso de la lógica pues aquí no
-	 * se pueden realizar transacciones.
+	 * encargada de realizar la operación, retornando el elemento relevante para
+	 * mostrar al usuario. Se recomienda el uso de la lógica pues aquí no se
+	 * pueden realizar transacciones.
 	 * </p>
 	 * 
 	 * @param entity

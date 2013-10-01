@@ -1,10 +1,10 @@
 insert into test (id, description, costo, fecha, bigdecimal) values (1, 'COSTO', 133333, '2013-12-13',     1000);
-insert into test (id, description, costo, fecha, bigdecimal) values (2, 'CASTO',   1245, '2013-12-13',    22222);
-insert into test (id, description, costo, fecha, bigdecimal) values (3, 'TESTO',     15, '2013-12-13',   123131);
-insert into test (id, description, costo, fecha, bigdecimal) values (4, 'TASTO',    145, '2013-12-13', 43585858);
-insert into test (id, description, costo, fecha, bigdecimal) values (5, 'PERO',     225, '2013-12-13',   196565);
-insert into test (id, description, costo, fecha, bigdecimal) values (6, 'PETOTE',   225, '2013-12-13',   659292);
-insert into test (id, description, costo, fecha, bigdecimal) values (7, 'TOTE',     225, '2013-12-13',     1287);
+insert into test (id, description, costo, fecha, bigdecimal) values (2, 'CASTO',   1245, '2013-12-14',    22222);
+insert into test (id, description, costo, fecha, bigdecimal) values (3, 'TESTO',     15, '2013-12-15',   123131);
+insert into test (id, description, costo, fecha, bigdecimal) values (4, 'TASTO',    145, '2013-12-16', 43585858);
+insert into test (id, description, costo, fecha, bigdecimal) values (5, 'PERO',     225, '2013-12-17',   196565);
+insert into test (id, description, costo, fecha, bigdecimal) values (6, 'PETOTE',   225, '2013-12-18',   659292);
+insert into test (id, description, costo, fecha, bigdecimal) values (7, 'TOTE',     225, '2013-12-19',     1287);
 
 
 insert into test_child (id, description, father_id, fecha, bigdecimal) values(1, 'COSTO_CHILD', 	3, '2013-12-13',     1000);

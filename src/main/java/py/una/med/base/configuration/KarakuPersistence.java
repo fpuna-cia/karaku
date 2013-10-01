@@ -66,11 +66,11 @@ public class KarakuPersistence {
 	public DataSource dataSource() {
 
 		DriverManagerDataSource dataSource = null;
-		if (enabled) {
+		if (this.enabled) {
 			dataSource = new DriverManagerDataSource();
-			dataSource.setUrl(properties.getProperty("database.url"));
-			dataSource.setUsername(properties.getProperty("database.user"));
-			dataSource.setPassword(properties.getProperty("database.password"));
+			dataSource.setUrl(this.properties.getProperty("database.url"));
+			dataSource.setUsername(this.properties.getProperty("database.user"));
+			dataSource.setPassword(this.properties.getProperty("database.password"));
 		}
 
 		return dataSource;
@@ -80,7 +80,7 @@ public class KarakuPersistence {
 	public void setPropertiesUtil(PropertiesUtil propertiesUtil) {
 
 		this.properties = propertiesUtil;
-		checkState();
+		this.checkState();
 	}
 
 	/**
@@ -88,23 +88,23 @@ public class KarakuPersistence {
 	 */
 	private void checkState() {
 
-		if (properties.get("karaku.jpa.enabled", STRING_TRUE).trim()
+		if (this.properties.get("karaku.jpa.enabled", STRING_TRUE).trim()
 				.equals(STRING_FALSE)) {
 			log.info("Karaku JPA support is disabled");
-			enabled = false;
+			this.enabled = false;
 			log.info("Karaku Liquibase support is disabled");
-			liquibase = false;
+			this.liquibase = false;
 			return;
 		} else {
-			enabled = true;
+			this.enabled = true;
 
 		}
-		if (properties.get("karaku.liquibase.enabled", STRING_TRUE).trim()
+		if (this.properties.get("karaku.liquibase.enabled", STRING_TRUE).trim()
 				.equals(STRING_FALSE)) {
 			log.info("Karaku Liquibase support is disabled");
-			liquibase = false;
+			this.liquibase = false;
 		} else {
-			liquibase = true;
+			this.liquibase = true;
 		}
 	}
 
@@ -115,7 +115,7 @@ public class KarakuPersistence {
 	public void loadDriver() {
 
 		try {
-			Class.forName(properties.getProperty(DRIVER_PROPS));
+			Class.forName(this.properties.getProperty(DRIVER_PROPS));
 		} catch (ClassNotFoundException cnfe) {
 			throw new KarakuRuntimeException(String.format(
 					"No se puede cargar driver %s.", DRIVER_PROPS), cnfe);
@@ -126,7 +126,7 @@ public class KarakuPersistence {
 	@Bean
 	public Object liquibase() {
 
-		if (!liquibase) {
+		if (!this.liquibase) {
 			return null;
 		}
 		@SuppressWarnings("rawtypes")
@@ -143,9 +143,9 @@ public class KarakuPersistence {
 		try {
 			o = clazz.newInstance();
 			clazz.getMethod("setDataSource", DataSource.class).invoke(o,
-					dataSource());
+					this.dataSource());
 			clazz.getMethod("setChangeLog", String.class).invoke(o,
-					properties.getProperty("liquibase.changelog-file"));
+					this.properties.getProperty("liquibase.changelog-file"));
 			return o;
 		} catch (Exception e) {
 			throw new KarakuRuntimeException(
@@ -158,28 +158,30 @@ public class KarakuPersistence {
 	@DependsOn("liquibase")
 	public LocalSessionFactoryBean sessionFactory() {
 
-		if (!enabled) {
+		if (!this.enabled) {
 			return null;
 		}
 		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
-		bean.setPackagesToScan(properties.getProperty("base-package-hibernate")
+		bean.setPackagesToScan(this.properties.getProperty("base-package-hibernate")
 				.split("\\s+"));
-		bean.setDataSource(dataSource());
+		bean.setDataSource(this.dataSource());
+
 		Properties props = new Properties();
 		try {
-			props.put("hibernate.dialect", properties.get("hibernate.dialect"));
+			props.put("hibernate.dialect", this.properties.get("hibernate.dialect"));
 			props.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
 			props.put("hibernate.hbm2ddl.auto",
-					properties.get("hibernate.hbm2ddl.auto", "validate"));
+					this.properties.get("hibernate.hbm2ddl.auto", "validate"));
 			props.put("hibernate.show_sql",
-					properties.get("hibernate.show_sql", STRING_FALSE));
+					this.properties.get("hibernate.show_sql", STRING_FALSE));
 			props.put("hibernate.format_sql",
-					properties.get("hibernate.format_sql", STRING_FALSE));
+					this.properties.get("hibernate.format_sql", STRING_FALSE));
 		} catch (KarakuPropertyNotFoundException kpnfe) {
 			throw new KarakuRuntimeException(
 					"Please check the properties file", kpnfe);
 		}
 		bean.setHibernateProperties(props);
+
 		return bean;
 
 	}
@@ -187,8 +189,8 @@ public class KarakuPersistence {
 	@Bean
 	public HibernateTransactionManager transactionManager() {
 
-		if (enabled) {
-			return new HibernateTransactionManager(sessionFactory().getObject());
+		if (this.enabled) {
+			return new HibernateTransactionManager(this.sessionFactory().getObject());
 		} else {
 			return null;
 		}

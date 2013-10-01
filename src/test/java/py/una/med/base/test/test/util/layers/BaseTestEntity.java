@@ -5,7 +5,7 @@
 package py.una.med.base.test.test.util.layers;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +22,8 @@ import py.una.med.base.domain.BaseEntity;
  * 
  */
 @MappedSuperclass
+// @TypeDefs({ @TypeDef(defaultForType = Date.class, typeClass = DateType.class)
+// })
 public class BaseTestEntity extends BaseEntity {
 
 	@Id
@@ -45,7 +47,7 @@ public class BaseTestEntity extends BaseEntity {
 	 */
 	public String getDescription() {
 
-		return description;
+		return this.description;
 	}
 
 	/**
@@ -65,7 +67,7 @@ public class BaseTestEntity extends BaseEntity {
 	@Override
 	public Long getId() {
 
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -82,7 +84,7 @@ public class BaseTestEntity extends BaseEntity {
 	 */
 	public BigDecimal getBigDecimal() {
 
-		return bigDecimal;
+		return this.bigDecimal;
 	}
 
 	/**
@@ -99,7 +101,7 @@ public class BaseTestEntity extends BaseEntity {
 	 */
 	public Date getFecha() {
 
-		return fecha;
+		return this.fecha;
 	}
 
 	/**
@@ -121,7 +123,7 @@ public class BaseTestEntity extends BaseEntity {
 
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
 		return result;
 	}
 
@@ -137,13 +139,13 @@ public class BaseTestEntity extends BaseEntity {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (getClass() != obj.getClass())
+		if (this.getClass() != obj.getClass())
 			return false;
 		BaseTestEntity other = (BaseTestEntity) obj;
-		if (id == null) {
+		if (this.id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!this.id.equals(other.id))
 			return false;
 		return true;
 	}
@@ -156,6 +158,6 @@ public class BaseTestEntity extends BaseEntity {
 	@Override
 	public String toString() {
 
-		return getId().toString();
+		return this.getId().toString();
 	}
 }

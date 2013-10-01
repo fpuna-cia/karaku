@@ -6,7 +6,6 @@ package py.una.med.base.exception;
 
 import java.io.IOException;
 import java.util.Iterator;
-import javax.faces.FacesException;
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerWrapper;
 import javax.faces.context.FacesContext;
@@ -33,10 +32,10 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 	private static final String EXCEPTION_KEY = "karaku.exception.error.page";
 	private static final String EXCEPTION_DEFAULT = "/faces/views/errors/error.xhtml";
 
-	static final Logger logger = LoggerFactory
+	static final Logger LOG = LoggerFactory
 			.getLogger(SIGHExceptionHandler.class);
 
-	private ExceptionHandler wrapped;
+	private final ExceptionHandler wrapped;
 
 	public SIGHExceptionHandler(ExceptionHandler wrapped) {
 
@@ -46,18 +45,18 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 	@Override
 	public ExceptionHandler getWrapped() {
 
-		return wrapped;
+		return this.wrapped;
 	}
 
 	@Override
-	public void handle() throws FacesException {
+	public void handle() {
 
-		if (isDevelop()) {
-			wrapped.handle();
+		if (this.isDevelop()) {
+			this.wrapped.handle();
 			return;
 		}
 		// itera sobre todas las excepciones no controladas
-		Iterator<ExceptionQueuedEvent> iterator = getUnhandledExceptionQueuedEvents()
+		Iterator<ExceptionQueuedEvent> iterator = this.getUnhandledExceptionQueuedEvents()
 				.iterator();
 		while (iterator.hasNext()) {
 			ExceptionQueuedEvent event = iterator.next();
@@ -75,16 +74,16 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 
 					if (t instanceof org.springframework.security.access.AccessDeniedException) {
 						// redirigimos al error view etc....
-						accessDenied(t);
+						this.accessDenied(t);
 						return;
 					}
 					t = t.getCause();
 				}
 				// no se ha tratado aun ningun error
-				error(context.getException());
+				this.error(context.getException());
 
 			} catch (Exception e) {
-				logger.error("Se ha producido un error al manejar el error", e);
+				LOG.error("Se ha producido un error al manejar el error", e);
 			} finally {
 				// despues que la excepcion es controlada, la removemos de la
 				// cola
@@ -99,15 +98,15 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 
 	private void accessDenied(Throwable t) throws IOException {
 
-		printLog(t);
-		redirectTo(PropertiesUtil.getCurrentFromJSF().get(ACCESS_DENIED_KEY,
+		this.printLog(t);
+		this.redirectTo(PropertiesUtil.getCurrentFromJSF().get(ACCESS_DENIED_KEY,
 				ACCESS_DENIED_DEFAULT));
 	}
 
 	private void error(Throwable t) throws IOException {
 
-		printLog(t);
-		redirectTo(PropertiesUtil.getCurrentFromJSF().get(EXCEPTION_KEY,
+		this.printLog(t);
+		this.redirectTo(PropertiesUtil.getCurrentFromJSF().get(EXCEPTION_KEY,
 				EXCEPTION_DEFAULT));
 	}
 
@@ -128,7 +127,7 @@ public class SIGHExceptionHandler extends ExceptionHandlerWrapper {
 	 */
 	private void printLog(Throwable t) {
 
-		logger.error(t.getMessage(), t);
+		LOG.error(t.getMessage(), t);
 	}
 
 	private boolean isDevelop() {

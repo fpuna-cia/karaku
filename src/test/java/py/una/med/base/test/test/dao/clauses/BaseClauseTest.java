@@ -2,7 +2,7 @@
  * @BaseClauseTest.java 1.0 Aug 19, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.dao;
+package py.una.med.base.test.test.dao.clauses;
 
 import static org.junit.Assert.assertNotNull;
 import org.hibernate.SessionFactory;

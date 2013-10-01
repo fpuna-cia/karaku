@@ -6,10 +6,7 @@ package py.una.med.base.util;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
@@ -17,9 +14,8 @@ import org.slf4j.LoggerFactory;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
+import py.una.med.base.dao.search.SearchHelper;
 import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.exception.NotDisplayNameException;
 import py.una.med.base.model.DisplayName;
 
 /**
@@ -52,7 +48,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		this.clazz = clazz;
 		this.simpleFilter = simpleFilter;
 		this.logic = logic;
-		helper = new PagingHelper(10);
+		this.helper = new PagingHelper(10);
 	}
 
 	/**
@@ -60,13 +56,14 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	 */
 	public Where<T> getBaseWhere() {
 
-		return baseWhere;
+		return this.baseWhere;
 	}
 
 	/**
 	 * @param baseWhere
 	 *            baseWhere para setear
 	 */
+	@Override
 	public void setBaseWhere(Where<T> baseWhere) {
 
 		this.baseWhere = baseWhere;
@@ -80,12 +77,13 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	@Override
 	public List<T> getEntities() {
 
-		Where<T> where = getFilters(clazz, example, simpleFilter);
-		Long totalSize = logic.getCount(where);
-		helper.udpateCount(totalSize);
-		ISearchParam isp = helper.getISearchparam();
-		configureSearchParams(isp);
-		return logic.getAll(where, isp);
+		Where<T> where = this.getFilters(this.clazz, this.example,
+				this.simpleFilter);
+		Long totalSize = this.logic.getCount(where);
+		this.helper.udpateCount(totalSize);
+		ISearchParam isp = this.helper.getISearchparam();
+		this.configureSearchParams(isp);
+		return this.logic.getAll(where, isp);
 	}
 
 	/**
@@ -104,61 +102,28 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	public Where<T> getFilters(Class<T> clazz, EntityExample<T> entityExample,
 			SimpleFilter simpleFilter) {
 
-		Where<T> where = getBaseWhere();
+		Where<T> where = this.getBaseWhere();
+
 		if (where == null) {
 			where = new Where<T>();
 		}
-		if (entityExample != null) {
+		if (this.example != null) {
 			where.setExample(entityExample);
 			return where;
 		}
-		if (!StringUtils.isValid(simpleFilter.getOption())) {
+		if (!StringUtils.isValid(simpleFilter.getOption(),
+				simpleFilter.getValue())) {
 			return where;
 		}
-		if (!StringUtils.isValid(simpleFilter.getValue())) {
-			return where;
-		}
-		try {
-			Field f = getField(simpleFilter.getOption(), clazz);
-			T ejemplo = clazz.newInstance();
-			DisplayName displayName = f.getAnnotation(DisplayName.class);
-			if (displayName == null) {
-				throw new NotDisplayNameException();
-			}
-			f.setAccessible(true);
-			if (!"".equals(displayName.path())) {
+		SearchHelper sh = Util.getSpringBeanByJSFContext(null,
+				SearchHelper.class);
+		String path = this.getField(clazz, simpleFilter.getOption());
 
-				String consulta = f.getName() + "." + displayName.path();
-				where.addClause(Clauses.iLike(consulta, simpleFilter.getValue()));
-				return where;
-			}
-			if (f.getType().equals(String.class)) {
-				f.set(ejemplo, simpleFilter.getValue());
-				where.setExample(new EntityExample<T>(ejemplo));
-				return where;
-			}
-			if (f.getType().isAssignableFrom(Number.class)) {
-				f.set(ejemplo, Integer.valueOf(simpleFilter.getValue()));
-				where.setExample(new EntityExample<T>(ejemplo));
-				return where;
-			}
-			if (f.getType().equals(Date.class)) {
-				try {
-					f.set(ejemplo, new SimpleDateFormat("dd/MM/yyyy")
-							.parse(simpleFilter.getValue()));
-				} catch (ParseException parseException) {
-					log.error("Error al parsear", parseException);
-				}
-				where.setExample(new EntityExample<T>(ejemplo));
-				return where;
-			}
-		} catch (Exception e) {
-			log.error("Error al crear el Where", e);
-		}
+		where.addClause(sh.getClause(clazz, path, simpleFilter.getValue()));
 		return where;
 	}
 
-	private static Field getField(String value, Class<?> clazz) {
+	private String getField(final Class<?> clazz, final String value) {
 
 		for (Field f : clazz.getDeclaredFields()) {
 			DisplayName displayName = f.getAnnotation(DisplayName.class);
@@ -166,7 +131,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 				continue;
 			}
 			if (I18nHelper.getName(displayName).equals(value)) {
-				return f;
+				return value;
 			}
 		}
 		return null;
@@ -180,7 +145,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	@Override
 	public SimpleFilter getSimpleFilter() {
 
-		return simpleFilter;
+		return this.simpleFilter;
 	}
 
 	/*
@@ -191,23 +156,24 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	@Override
 	public List<SelectItem> getFilterOptions() {
 
-		if (filterOptions == null) {
+		if (this.filterOptions == null) {
 
 			List<String> aRet = new ArrayList<String>();
-			for (Field f : clazz.getDeclaredFields()) {
+			for (Field f : this.clazz.getDeclaredFields()) {
 				DisplayName displayName = f.getAnnotation(DisplayName.class);
 				if (displayName != null) {
 					aRet.add(I18nHelper.getName(displayName));
 				}
 			}
-			filterOptions = SelectHelper.getSelectItems(aRet);
+			this.filterOptions = SelectHelper.getSelectItems(aRet);
 		}
-		return filterOptions;
+		return this.filterOptions;
 	}
 
+	@Override
 	public PagingHelper getHelper() {
 
-		return helper;
+		return this.helper;
 	}
 
 	public void setHelper(PagingHelper helper) {

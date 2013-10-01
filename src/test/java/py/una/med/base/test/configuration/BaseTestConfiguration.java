@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.log.LogPostProcessor;
+import py.una.med.base.util.FormatProvider;
 
 /**
  * 
@@ -46,5 +47,11 @@ public class BaseTestConfiguration {
 	LogPostProcessor logPostProcessor() {
 
 		return new LogPostProcessor();
+	}
+
+	@Bean(name = "fp")
+	FormatProvider formatProvider() {
+
+		return new FormatProvider();
 	}
 }

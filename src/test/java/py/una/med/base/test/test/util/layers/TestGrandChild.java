@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @Table(name = "test_grand_child")
 public class TestGrandChild extends BaseTestEntity {
 
-	@ManyToOne
+	@ManyToOne(optional = true)
 	private TestChild father;
 
 	/**

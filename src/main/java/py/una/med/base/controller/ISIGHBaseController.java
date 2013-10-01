@@ -150,7 +150,8 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 		 * @see ISIGHBaseController#isDelete()
 		 * @see ISIGHBaseController#doDelete()
 		 */
-		DELETE
+		DELETE;
+
 	}
 
 	/**
@@ -178,6 +179,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * 
 	 * @see #doSearch()
 	 * @see BaseDAO#getAllByExample(Object, ISearchParam)
+	 * @return Example actual
 	 */
 	T getExample();
 
@@ -278,9 +280,9 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	T getBean();
 
 	/**
-	 * Retorna la lista de entidades que seran mostradas en la grilla.
+	 * Retorna la lista de entidades que serán mostradas en la grilla.
 	 * 
-	 * @ * @return
+	 * @return entidades a mostrar.
 	 */
 	List<T> getEntities();
 
@@ -364,9 +366,11 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	/**
 	 * Método invocado para ir a la vista de creación de registros, al ser
 	 * invocado este método se debe asegurar que {@link #getBean()} retorne una
-	 * instancia limpia y ya configurada para ser creada. <br/>
+	 * instancia limpia y ya configurada para ser creada.
+	 * <p>
 	 * Cualquier lógica para entidades nueva debe ser realizada en
 	 * {@link #preCreate()}, este método es solo para navegación.
+	 * </p>
 	 * 
 	 * @see #preCreate()
 	 * @return cadena de navegación para ir a la vista de creación
@@ -376,9 +380,11 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	/**
 	 * Método invocado para ir a la vista de creación de registros, al ser
 	 * invocado este método se debe asegurar que {@link #getBean()} retorne una
-	 * ya configurada para poder verse. <br/>
+	 * ya configurada para poder verse.
+	 * <p>
 	 * Cualquier lógica para visualiar la entidad debe ser realizada en
 	 * {@link #preView()}, este método es solo para navegación.
+	 * </p>
 	 * 
 	 * @see #preView()
 	 * @return cadena de navegación para ir a la vista de visualización
@@ -547,43 +553,52 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	Where<T> getBaseWhere();
 
 	/**
-	 * Metodo que sera invocado cuando se desea generar algun reporte, el mismo
-	 * recoje los parametros de filtros ingresados y retorna el where
-	 * correspondiente. Dicho where sera utilizado posteriormente para realizar
-	 * la consulta a la base de datos.<br>
+	 * Método que será invocado cuando se desea generar algún reporte, el mismo
+	 * recoge los parámetros de filtros ingresados y retorna el where
+	 * correspondiente. Dicho where será utilizado posteriormente para realizar
+	 * la consulta a la base de datos.
 	 * 
 	 * @return Entidad que representa los filtros ingresados
 	 */
 	Where<T> getWhereReport();
 
 	/**
-	 * Metodo que sera invocado cuando se desea generar algun reporte, el mismo
-	 * recoje los parametros de filtros ingresados que seran desplegados en el
-	 * reporte.<br>
+	 * Método que será invocado cuando se desea generar algún reporte, el mismo
+	 * recoje los parámetros de filtros ingresados que serán desplegados en el
+	 * reporte.
 	 * 
-	 * @return String que representa los criterios de seleccion
+	 * @param paramsReport
+	 *            parámetros del reporte
+	 * @return String que representa los criterios de selección
 	 */
 	Map<String, Object> getParamsFilter(Map<String, Object> paramsReport);
 
 	/**
-	 * /** Metodo que sera invocado cuando se desea generar algun reporte
+	 * Método que será invocado cuando se desea generar algún reporte
 	 * correspondiente a la grilla, el mismo invoca al servicio que generara el
-	 * reporte fisicamente.<br>
+	 * reporte físicamente.
+	 * <p>
+	 * Notar que este método genera el reporte e interrupente todas las faces
+	 * JSF.
+	 * </p>
 	 * 
 	 * @param type
-	 *            Tipo de exportacion puede ser xls o pdf
-	 * @return Reporte generado
+	 *            Tipo de exportación puede ser <code>xls</code> o
+	 *            <code>pdf</code>
 	 */
 	void generateReport(String type);
 
 	/**
 	 * Método que será invocado cuando se desea generar algún reporte
 	 * correspondiente a un registro en especifico, el mismo invoca al servicio
-	 * que generara el reporte fisicamente.<br>
+	 * que generara el reporte físicamente.
+	 * <p>
+	 * Notar que este método genera el reporte e interrupente todas las faces
+	 * JSF.
+	 * </p>
 	 * 
 	 * @param type
 	 *            Tipo de exportación puede ser 'xls' o 'pdf'
-	 * @return Reporte generado
 	 */
 	void generateReportDetail(String type);
 
@@ -598,7 +613,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 
 	/**
 	 * Genera el titulo del reporte simple, dependiendo del nombre de la
-	 * entidad.<br>
+	 * entidad.
 	 * 
 	 * @return Titulo del reporte
 	 */

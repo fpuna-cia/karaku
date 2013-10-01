@@ -17,7 +17,6 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -33,7 +32,7 @@ import py.una.med.base.util.FormatProvider;
  * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-public class TestFormatProvider extends BaseTest {
+public class FormatProviderTest extends BaseTest {
 
 	private static final String EMPTY_STRING = "";
 
@@ -50,17 +49,6 @@ public class TestFormatProvider extends BaseTest {
 	@Configuration
 	static class ContextConfiguration extends BaseTestConfiguration {
 
-		/**
-		 * Se necesita poner el nombre por que esta declaraci�n es independiente
-		 * de la anotación que tiene la clase.
-		 * 
-		 * @return
-		 */
-		@Bean(name = FormatProvider.FORMAT_PROVIDER_NAME)
-		public FormatProvider formatProvider() {
-
-			return new FormatProvider();
-		}
 	}
 
 	@Autowired

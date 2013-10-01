@@ -35,10 +35,9 @@ import py.una.med.base.reports.Column;
  * vistas, proveen funcionalidades que ya integran todas las partes del sistema.
  * Es un singleton compartido por todas las sesiones
  * 
- * @author Arturo Volpe, Nathalia Ochoa
+ * @author Arturo Volpe
+ * @author Nathalia Ochoa
  * @since 1.1 08/02/2013
- * @version 1.0
- * 
  * @version 2.0 19/02/2013
  */
 @Component
@@ -62,16 +61,21 @@ public class ControllerHelper {
 	private I18nHelper i18nHelper;
 
 	/**
-	 * Crea un mensaje global, que sera mostrado en lugares como <br>
-	 * &lt rich:messages ajaxRendered="true" showDetail="true" globalOnly="true"
-	 * /&gt <br>
-	 * El parametro GlobalOnly permite que solo se muestren este tipo de
-	 * mensajes, en caso contrario se mostraran todos los mensajes
+	 * Crea un mensaje global, que será mostrado en lugares como
+	 * &lt;rich:messages ajaxRendered="true" showDetail="true"
+	 * globalOnly="true"/&gt;
+	 * <p>
+	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
+	 * mensajes, en caso contrario se mostrarán todos los mensajes
+	 * 
+	 * </p>
 	 * 
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
+	 *            resumen
 	 * @param detail
+	 *            detalle del mensaje
 	 */
 	public void createGlobalFacesMessage(final Severity severity,
 			final String summary, final String detail) {
@@ -85,16 +89,18 @@ public class ControllerHelper {
 	}
 
 	/**
-	 * Crea un mensaje global, que sera mostrado en lugares como <br>
-	 * &lt rich:messages ajaxRendered="true" showDetail="true" globalOnly="true"
-	 * /&gt <br>
-	 * El parametro GlobalOnly permite que solo se muestren este tipo de
+	 * Crea un mensaje global, que será mostrado en lugares como
+	 * &lt;rich:messages ajaxRendered="true" showDetail="true"
+	 * globalOnly="true">
+	 * <p>
+	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostraran todos los mensajes
+	 * </p>
 	 * 
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
-	 *            mensaje
+	 *            clave de lmensaje de internacionalización
 	 */
 	public void createGlobalFacesMessage(final Severity severity,
 			final String summary) {
@@ -106,6 +112,20 @@ public class ControllerHelper {
 		facesContext.addMessage(null, msg);
 	}
 
+	/**
+	 * Crea un mensaje global, que será mostrado en lugares como
+	 * &lt;rich:messages ajaxRendered="true" showDetail="true"
+	 * globalOnly="true">
+	 * <p>
+	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
+	 * mensajes, en caso contrario se mostraran todos los mensajes
+	 * </p>
+	 * 
+	 * @param severity
+	 *            grado de severidad {@link FacesMessage}
+	 * @param summary
+	 *            mensaje
+	 */
 	public void createGlobalFacesMessageSimple(final Severity severity,
 			final String summary) {
 
@@ -117,7 +137,7 @@ public class ControllerHelper {
 	}
 
 	/**
-	 * Retorna el mensaje internacionalizado del codigo dado, para claves no
+	 * Retorna el mensaje internacionalizado del código dado, para claves no
 	 * encontradas retorna &&&&&code&&&&&&
 	 * 
 	 * @param code
@@ -141,6 +161,7 @@ public class ControllerHelper {
 	 * Dada una cadena la retorna degenerada.
 	 * 
 	 * @param code
+	 *            cadena a deformar
 	 * @return Cadena degenerada, con el formato &&&&&code&&&&&
 	 */
 	public String getDegeneratedString(final String code) {
@@ -269,7 +290,7 @@ public class ControllerHelper {
 	 */
 	public MethodExpression createMethodExpression(
 			final String valueExpression, final Class<?> expectedReturnType,
-			final Class<?>... expectedParamTypes) {
+			final Class<?> ... expectedParamTypes) {
 
 		MethodExpression methodExpression = null;
 		try {
@@ -288,9 +309,10 @@ public class ControllerHelper {
 	}
 
 	/**
-	 * Muestra una excepcion con severidad de error
+	 * Muestra una excepción con severidad de error
 	 * 
 	 * @param e
+	 *            excepción a mostrar.
 	 */
 	public void showException(final Exception e) {
 
@@ -337,19 +359,21 @@ public class ControllerHelper {
 	/**
 	 * Clase que sirve de punto de acceso para convertir excepciones del tipo
 	 * que sea a excepciones manejadas por el sistema, si no puede convertirla
-	 * retorna la misma excepcion que recibio. <br>
+	 * retorna la misma excepcion que recibio.
+	 * <p>
 	 * <b>Las excepciones manejadas son:</b>
 	 * <ol>
 	 * <li>{@link ConstraintViolationException}: delega su manejo a
 	 * {@link UniqueHelper#createUniqueException(Exception, Class)}</li>
 	 * </ol>
+	 * </p>
 	 * 
 	 * @param e
-	 *            excepcion que se desea manejar
+	 *            excepción que se desea manejar
 	 * @param clazz
 	 *            clase padre de la cual proviene la excepcion, esto se usa para
 	 *            obtener fields y anotaciones
-	 * @return Excepcion convertida, si se puede, y si no la misma
+	 * @return Excepción convertida, si se puede, y si no la misma
 	 */
 	public Exception convertException(final Exception e, final Class<?> clazz) {
 
@@ -361,16 +385,19 @@ public class ControllerHelper {
 
 	/**
 	 * Actualizamos los valores de todos los componentes hijos de un componente
-	 * cuyo id se pasa como parametro, no toma en cuenta validaciones y deberia
+	 * cuyo id se pasa como parámetro, no toma en cuenta validaciones y deberia
 	 * funcionar igual a {@link UIComponentBase#processUpdates(FacesContext)}.
-	 * Se crea un nuevo metodo que realiza el trabajo ya que el
+	 * <p>
+	 * Se crea un nuevo método que realiza el trabajo ya que el
 	 * {@link UIComponent#processUpdates(FacesContext)} no realiza correctamente
 	 * su trabajo si no se valida antes el formulario, esto se debe a quel el
-	 * flujo normal de JSF es primero validar y luego actualizar, que serian las
-	 * fases 3 y 4.<br>
-	 * El proceso se describe a continuacion
+	 * flujo normal de JSF es primero validar y luego actualizar, que serían las
+	 * fases 3 y 4.
+	 * </p>
+	 * <p>
+	 * El proceso se describe a continuación
 	 * <ol>
-	 * <li>Obtencion de elementos: se obtiene el componente a travez de su ID,
+	 * <li>Obtención de elementos: se obtiene el componente a través de su ID,
 	 * el contexto de faces y el contexto de las expresiones del lenguaje</li>
 	 * <li>Se obtiene un {@link SIGHConverterV2} para convertir los combos</li>
 	 * <li>Se itera sobre la lista de los hijos del componente a actualizar</li>
@@ -380,6 +407,7 @@ public class ControllerHelper {
 	 * <li>Para otro caso, se obtiene su valor y se lo actualiza sin realizar
 	 * validaciones</li>
 	 * </ol>
+	 * </p>
 	 * 
 	 * </ol> <b>Observaciones:</b> no se verifica si algun valor no es
 	 * compatible con su destino, esto es si se ingresa una cadena en el lugar
@@ -396,10 +424,7 @@ public class ControllerHelper {
 		_updateModel(formulario);
 	}
 
-	/**
-	 * @param formulario
-	 */
-	protected void _updateModel(UIComponent formulario) {
+	private void _updateModel(UIComponent formulario) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		ELContext elContext = FacesContext.getCurrentInstance().getELContext();

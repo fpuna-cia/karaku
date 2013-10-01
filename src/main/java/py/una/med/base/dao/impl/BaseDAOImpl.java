@@ -79,7 +79,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@Override
 	public EntityManager getEntityManager() {
 
-		return em;
+		return this.em;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -87,10 +87,10 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public T add(final T entity) {
 
 		T entidad = entity;
-		sensitiveHelper.analize(entidad);
-		entidad = (T) getSession().merge(entidad);
-		getSession().flush();
-		copyID(entidad, entity);
+		this.sensitiveHelper.analize(entidad);
+		entidad = (T) this.getSession().merge(entidad);
+		this.getSession().flush();
+		this.copyID(entidad, entity);
 		return entidad;
 	}
 
@@ -119,7 +119,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 				criteria.add(Restrictions.eq(f.getName(), f.get(example)));
 			}
 		} catch (final Exception e) {
-			log.error("Error al agregar la relación", e);
+			this.log.error("Error al agregar la relación", e);
 		}
 		return criteria;
 	}
@@ -127,22 +127,22 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@Override
 	public List<T> getAll(final ISearchParam params) {
 
-		return getAll(null, params);
+		return this.getAll(null, params);
 	}
 
 	@Override
 	public List<T> getAll(final Where<T> where, final ISearchParam params) {
 
 		Map<String, String> alias = new HashMap<String, String>();
-		Criteria criteria = generateWhere(where, params, alias);
+		Criteria criteria = this.generateWhere(where, params, alias);
 
 		MainInstanceHelper helper2 = new MainInstanceHelper();
 
 		try {
-			return helper2.configureAndReturnList(getSession(), criteria,
-					getClassOfT(), alias, where);
+			return helper2.configureAndReturnList(this.getSession(), criteria,
+					this.getClassOfT(), alias, where);
 		} catch (Exception e) {
-			log.error("Imposible obtener lista de elementos", e);
+			this.log.error("Imposible obtener lista de elementos", e);
 			throw new KarakuRuntimeException(e);
 		}
 	}
@@ -150,7 +150,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	protected Criteria generateWhere(final Where<T> where,
 			final ISearchParam params, final Map<String, String> alias) {
 
-		Criteria criteria = getCriteria();
+		Criteria criteria = this.getCriteria();
 		if (where != null) {
 			EntityExample<T> example = where.getExample();
 			if (example != null && example.getEntity() != null) {
@@ -168,12 +168,12 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 						ejemplo.excludeProperty(excluded);
 					}
 				}
-				configureExample(criteria, example.getEntity());
+				this.configureExample(criteria, example.getEntity());
 			}
 		}
-		configureParams(params, criteria);
+		this.configureParams(params, criteria);
 
-		helper.applyRestrictions(criteria, where, alias);
+		this.helper.applyRestrictions(criteria, where, alias);
 		return criteria;
 	}
 
@@ -205,20 +205,20 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 		Where<T> where = new Where<T>();
 		where.setExample(example);
-		return getAll(where, params);
+		return this.getAll(where, params);
 	}
 
 	@Override
 	public List<T> getAllByExample(final T example, final ISearchParam params) {
 
 		EntityExample<T> entityExample = new EntityExample<T>(example);
-		return getAllByExample(entityExample, params);
+		return this.getAllByExample(entityExample, params);
 	}
 
 	@Override
 	public T getByExample(final T example) {
 
-		return getByExample(new EntityExample<T>(example));
+		return this.getByExample(new EntityExample<T>(example));
 
 	}
 
@@ -231,7 +231,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		isp.setLimit(2);
 		isp.setOffset(0);
 
-		List<T> result = getAll(where, isp);
+		List<T> result = this.getAll(where, isp);
 		if (result == null || result.size() == 0) {
 			return null;
 		}
@@ -248,7 +248,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public T getById(final K id) {
 
 		try {
-			return (T) getSession().get(getClassOfT(), id);
+			return (T) this.getSession().get(this.getClassOfT(), id);
 		} catch (ObjectNotFoundException onfe) {
 			return null;
 		}
@@ -258,19 +258,19 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@SuppressWarnings("unchecked")
 	public Class<T> getClassOfT() {
 
-		if (clazz == null) {
+		if (this.clazz == null) {
 			ParameterizedType type = (ParameterizedType) this.getClass()
 					.getGenericSuperclass();
-			clazz = (Class<T>) type.getActualTypeArguments()[0];
+			this.clazz = (Class<T>) type.getActualTypeArguments()[0];
 		}
-		return clazz;
+		return this.clazz;
 	}
 
 	@Override
 	public Long getCount(final Where<T> where) {
 
 		HashMap<String, String> alias = new HashMap<String, String>();
-		Criteria criteria = generateWhere(where, null, alias);
+		Criteria criteria = this.generateWhere(where, null, alias);
 		if (where != null && where.isDistinct()) {
 			criteria.setProjection(Projections.countDistinct("id"));
 		} else {
@@ -279,7 +279,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		Object result = criteria.uniqueResult();
 		if (result == null) {
 			throw new KarakuRuntimeException("The class "
-					+ getClassOfT().getSimpleName() + " is not mapped");
+					+ this.getClassOfT().getSimpleName() + " is not mapped");
 		}
 		return (Long) result;
 	}
@@ -287,7 +287,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@Override
 	public Long getCount() {
 
-		return getCount(null);
+		return this.getCount(null);
 	}
 
 	@Override
@@ -295,12 +295,12 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 		Where<T> where = new Where<T>();
 		where.setExample(example);
-		return getCount(where);
+		return this.getCount(where);
 	}
 
 	private Criteria getCriteria() {
 
-		Criteria criteria = getSession().createCriteria(getClassOfT(),
+		Criteria criteria = this.getSession().createCriteria(this.getClassOfT(),
 				Criteria.ROOT_ALIAS);
 		return criteria;
 	}
@@ -313,7 +313,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	 */
 	public CaseSensitiveHelper getSensitiveHelper() {
 
-		return sensitiveHelper;
+		return this.sensitiveHelper;
 	}
 
 	/**
@@ -334,7 +334,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	 */
 	public Session getSession() {
 
-		return sessionFactory.getCurrentSession();
+		return this.sessionFactory.getCurrentSession();
 	}
 
 	/**
@@ -344,13 +344,13 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	 */
 	protected SessionFactory getSessionFactory() {
 
-		return sessionFactory;
+		return this.sessionFactory;
 	}
 
 	@Override
 	public String getTableName() {
 
-		Class<T> clase = getClassOfT();
+		Class<T> clase = this.getClassOfT();
 		Table t = clase.getAnnotation(Table.class);
 		if (t == null) {
 			return clase.getSimpleName().toLowerCase();
@@ -363,16 +363,16 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public void remove(final K id) {
 
 		// TODO lograr que no haga una consulta antes de eliminar
-		Object o = getSession().load(getClassOfT(), id);
-		getSession().delete(o);
+		Object o = this.getSession().load(this.getClassOfT(), id);
+		this.getSession().delete(o);
 	}
 
 	@Override
 	public void remove(final T entity) {
 
 		// TODO lograr que no haga una consulta antes de eliminar
-		Object o = getSession().load(getClassOfT(), getIdValue(entity));
-		getSession().delete(o);
+		Object o = this.getSession().load(this.getClassOfT(), this.getIdValue(entity));
+		this.getSession().delete(o);
 	}
 
 	/**
@@ -397,9 +397,9 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public T update(final T entity) {
 
 		T entidad = entity;
-		sensitiveHelper.analize(entidad);
-		entidad = (T) getSession().merge(entidad);
-		getSession().flush();
+		this.sensitiveHelper.analize(entidad);
+		entidad = (T) this.getSession().merge(entidad);
+		this.getSession().flush();
 		return entidad;
 	}
 
@@ -407,7 +407,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	private K getIdValue(final T obj) {
 
 		try {
-			if (getClassOfT().getMethod("getId") != null) {
+			if (this.getClassOfT().getMethod("getId") != null) {
 				return ((K) obj.getClass().getMethod("getId")
 						.invoke(obj, (Object[]) null));
 			}
@@ -424,7 +424,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 			}
 			return null;
 		} catch (Exception ex) {
-			log.error("Error al obtener el Id", ex);
+			this.log.error("Error al obtener el Id", ex);
 			return null;
 		}
 	};
@@ -432,8 +432,8 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	private void copyID(final T src, final T dst) {
 
 		try {
-			Method get = getClassOfT().getMethod("getId");
-			Method set = getClassOfT().getMethod("setId", Long.class);
+			Method get = this.getClassOfT().getMethod("getId");
+			Method set = this.getClassOfT().getMethod("setId", Long.class);
 			if (get != null && set != null) {
 				set.invoke(dst, get.invoke(src, (Object[]) null));
 				return;
@@ -441,7 +441,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		} catch (Exception nsme) {
 		}
 		try {
-			for (Field field : getClassOfT().getDeclaredFields()) {
+			for (Field field : this.getClassOfT().getDeclaredFields()) {
 				if (field.isAnnotationPresent(Id.class)) {
 					field.setAccessible(true);
 					field.set(dst, field.get(src));
@@ -450,10 +450,10 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 				}
 			}
 		} catch (Exception ex) {
-			log.error("Error al copiar el Id", ex);
+			this.log.error("Error al copiar el Id", ex);
 			return;
 		}
-		log.error("Error al copiar el Id (not found)");
+		this.log.error("Error al copiar el Id (not found)");
 	};
 
 }

@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import py.una.med.base.model.DisplayName;
 
 /**
  * Clase que representa a un hijo en la relación:
@@ -31,6 +32,7 @@ public class TestChild extends BaseTestEntity {
 	private TestEntity father;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "father")
+	@DisplayName(clazz = TestGrandChild.class, key = "")
 	private List<TestGrandChild> grandChilds;
 
 	/**
@@ -38,11 +40,12 @@ public class TestChild extends BaseTestEntity {
 	 */
 	public TestEntity getFather() {
 
-		return father;
+		return this.father;
 	}
 
 	/**
-	 * @param father father para setear
+	 * @param father
+	 *            father para setear
 	 */
 	public void setFather(TestEntity father) {
 
@@ -54,11 +57,12 @@ public class TestChild extends BaseTestEntity {
 	 */
 	public List<TestGrandChild> getGrandChilds() {
 
-		return grandChilds;
+		return this.grandChilds;
 	}
 
 	/**
-	 * @param grandChilds grandChilds para setear
+	 * @param grandChilds
+	 *            grandChilds para setear
 	 */
 	public void setGrandChilds(List<TestGrandChild> grandChilds) {
 

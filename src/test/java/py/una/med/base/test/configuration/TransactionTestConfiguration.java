@@ -13,12 +13,17 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import py.una.med.base.dao.helper.AndExpressionHelper;
+import py.una.med.base.dao.helper.GeExpressionHelper;
+import py.una.med.base.dao.helper.LeExpressionHelper;
 import py.una.med.base.dao.helper.LikeExpressionHelper;
 import py.una.med.base.dao.helper.NotExpressionHelper;
 import py.una.med.base.dao.helper.NumberLikeExpressionHelper;
 import py.una.med.base.dao.helper.OrExpressionHelper;
 import py.una.med.base.dao.helper.RestrictionHelper;
 import py.una.med.base.dao.util.CaseSensitiveHelper;
+import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.exception.KarakuPropertyNotFoundException;
 import py.una.med.base.exception.KarakuRuntimeException;
 
@@ -69,14 +74,14 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() throws IOException {
 
-		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
-		if (getEntityClasses() == null) {
-			bean.setPackagesToScan(getBasePackageToScan());
+		LocalSessionFactoryBean bean = new TestLocalSessionFactoryBean();
+		if (this.getEntityClasses() == null) {
+			bean.setPackagesToScan(this.getBasePackageToScan());
 		} else {
-			bean.setAnnotatedClasses(getEntityClasses());
+			bean.setAnnotatedClasses(this.getEntityClasses());
 		}
 
-		bean.setDataSource(dataSource());
+		bean.setDataSource(this.dataSource());
 		Properties props = new Properties();
 		try {
 			// props.put("hibernate.dialect",
@@ -98,8 +103,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	/**
-	 * Retorna la lista de paquetes que serán exploradas por esta
-	 * configuración.
+	 * Retorna la lista de paquetes que serán exploradas por esta configuración.
 	 * <p>
 	 * Por defecto utiliza la propiedad <code>base-package-hibernate</code> del
 	 * archivo de propiedades.
@@ -114,9 +118,9 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	/**
-	 * Retorna la lista de paquetes que serán exploradas por esta
-	 * configuración. Si este método no retorna <code>null</code>, entonces el
-	 * método {@link #getBasePackageToScan()} es omitido.
+	 * Retorna la lista de paquetes que serán exploradas por esta configuración.
+	 * Si este método no retorna <code>null</code>, entonces el método
+	 * {@link #getBasePackageToScan()} es omitido.
 	 * <p>
 	 * Por defecto retorna null.
 	 * </p>
@@ -133,7 +137,8 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	@Bean
 	HibernateTransactionManager transactionManager() throws IOException {
 
-		return new HibernateTransactionManager(sessionFactory().getObject());
+		return new HibernateTransactionManager(this.sessionFactory()
+				.getObject());
 	}
 
 	@Bean
@@ -170,5 +175,46 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	NotExpressionHelper notExpressionHelper() {
 
 		return new NotExpressionHelper();
+	}
+
+	@Bean
+	AndExpressionHelper andExpressionHelper() {
+
+		return new AndExpressionHelper();
+	}
+
+	@Bean
+	LeExpressionHelper leExpressionHelper() {
+
+		return new LeExpressionHelper();
+	}
+
+	@Bean
+	GeExpressionHelper geExpressionHelper() {
+
+		return new GeExpressionHelper();
+	}
+
+	@Bean
+	DateClauses dateClauses() {
+
+		return new DateClauses();
+	}
+
+	static class TestLocalSessionFactoryBean extends LocalSessionFactoryBean {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.springframework.orm.hibernate4.LocalSessionFactoryBean#
+		 * buildSessionFactory
+		 * (org.springframework.orm.hibernate4.LocalSessionFactoryBuilder)
+		 */
+		@Override
+		protected SessionFactory buildSessionFactory(
+				LocalSessionFactoryBuilder sfb) {
+
+			return super.buildSessionFactory(sfb);
+		}
 	}
 }

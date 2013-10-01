@@ -557,4 +557,24 @@ public class FormatProvider {
 
 		return dfs;
 	}
+
+	/**
+	 * Verifica si una fecha tiene el formato correspondiente a
+	 * {@link #DATE_FORMAT}.
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public boolean isDate(String date) {
+
+		if (date == null) {
+			return false;
+		}
+		try {
+			parseDate(date);
+			return true;
+		} catch (ParseException pe) {
+			return false;
+		}
+	}
 }
