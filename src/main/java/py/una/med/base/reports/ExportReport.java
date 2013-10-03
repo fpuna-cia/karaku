@@ -103,7 +103,26 @@ public class ExportReport {
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public void exportAvancedReport(HttpServletResponse httpServletResponse,
+			DynamicReport report, JRDataSource dataSource,
+			Map<String, Object> params, String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(report,
+					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -144,7 +163,28 @@ public class ExportReport {
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportDetailReport(HttpServletResponse httpServletResponse,
+			SIGHReportDetails report, Align align, Class<T> clazz,
+			JRDataSource dataSource, Map<String, Object> params, String type)
+			throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buildReportDetail(report, align, clazz),
+					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -189,7 +229,28 @@ public class ExportReport {
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportDetailReport(HttpServletResponse httpServletResponse,
+			String path, SIGHReportDetails report, Class<T> clazz,
+			JRDataSource dataSource, Map<String, Object> params, String type)
+			throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buildReportDetail(path, report, clazz),
+					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -228,7 +289,41 @@ public class ExportReport {
 			jasperPrint = JasperFillManager.fillReport(compile(fileReport),
 					getDetailsReport(params), dataSource);
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> JasperPrint generateReport(String fileReport,
+			JRDataSource dataSource, Map<String, Object> params, String type)
+			throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = JasperFillManager.fillReport(compile(fileReport),
+					getDetailsReport(params), dataSource);
+			return jasperPrint;
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportReportStatic(HttpServletResponse httpServletResponse,
+			String fileReport, JRDataSource dataSource,
+			Map<String, Object> params, String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = JasperFillManager.fillReport(compile(fileReport),
+					getDetailsReport(params), dataSource);
+
+			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -267,7 +362,27 @@ public class ExportReport {
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportSimpleReport(HttpServletResponse httpServletResponse,
+			List<Column> columns, Class<T> clazz, JRDataSource dataSource,
+			Map<String, Object> params, String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buildReportSimple(columns, clazz),
+					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -300,7 +415,27 @@ public class ExportReport {
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportReportFields(HttpServletResponse httpServletResponse,
+			List<SIGHReportBlock> blocks, Map<String, Object> params,
+			String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buidReportFields(blocks),
+					new ClassicLayoutManager(), new JREmptyDataSource(),
+					getDetailsReport(params));
+
+			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -319,7 +454,27 @@ public class ExportReport {
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportReportGrid(HttpServletResponse httpServletResponse,
+			List<SIGHReportBlockGrid> blocks, Map<String, Object> params,
+			String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buidReportBlockGrid(blocks),
+					new ClassicLayoutManager(), new JREmptyDataSource(),
+					getDetailsReport(params));
+
+			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -359,7 +514,27 @@ public class ExportReport {
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportReportFields(HttpServletResponse httpServletResponse,
+			List<SIGHReportBlock> blocks, List<SIGHReportBlockSign> signs,
+			Map<String, Object> params, String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buidReportFields(blocks, signs),
+					new ClassicLayoutManager(), new JREmptyDataSource(),
+					getDetailsReport(params));
+
+			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -397,13 +572,39 @@ public class ExportReport {
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
-			generate(jasperPrint, params, type);
+			generate(getServletResponse(), jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
 		} catch (IOException e) {
 			throw new ReportException(e);
 		}
+	}
+
+	public <T> void exportSimpleReport(HttpServletResponse httpServletResponse,
+			List<Column> columns, JRDataSource dataSource,
+			Map<String, Object> params, String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buildReportSimple(columns),
+					new ClassicLayoutManager(), dataSource,
+					getDetailsReport(params));
+
+			generate(httpServletResponse, jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	private HttpServletResponse getServletResponse() {
+
+		return (HttpServletResponse) FacesContext.getCurrentInstance()
+				.getExternalContext().getResponse();
 	}
 
 	/**
@@ -417,19 +618,25 @@ public class ExportReport {
 	 *            Tipo de exportacion, puede ser XLS o PDF
 	 * @throws ReportException
 	 */
-	private void generate(JasperPrint jasperPrint, Map<String, Object> params,
-			String type) throws ReportException {
+	public void generate(HttpServletResponse httpServletResponse,
+			JasperPrint jasperPrint, Map<String, Object> params, String type)
+			throws ReportException {
+
+		generate(httpServletResponse, jasperPrint,
+				(String) params.get("titleReport"), type);
+	}
+
+	public void generate(HttpServletResponse httpServletResponse,
+			JasperPrint jasperPrint, String name, String type)
+			throws ReportException {
 
 		try {
-
-			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext
-					.getCurrentInstance().getExternalContext().getResponse();
 
 			if (type.equalsIgnoreCase(EXPORT_TYPE_EXCEL)) {
 				httpServletResponse.setContentType(MEDIA_TYPE_EXCEL);
 				httpServletResponse.setHeader("Content-Disposition",
-						"attachment; filename=" + params.get("titleReport")
-								+ "." + EXPORT_TYPE_EXCEL);
+						"attachment; filename=" + name + "."
+								+ EXPORT_TYPE_EXCEL);
 
 				JRXlsExporter exporter = new JRXlsExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT,
@@ -443,7 +650,7 @@ public class ExportReport {
 			if (type.equalsIgnoreCase(EXPORT_TYPE_PDF)) {
 				httpServletResponse.setContentType(MEDIA_TYPE_PDF);
 				httpServletResponse.setHeader("Content-Disposition",
-						"attachment; filename=" + params.get("titleReport"));
+						"attachment; filename=" + name);
 
 				JRPdfExporter exporter = new JRPdfExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT,
@@ -455,7 +662,10 @@ public class ExportReport {
 
 			}
 
-			FacesContext.getCurrentInstance().responseComplete();
+			// XXX crear lógica de invocación a través de JSF
+			if (FacesContext.getCurrentInstance() != null) {
+				FacesContext.getCurrentInstance().responseComplete();
+			}
 		} catch (JRException e) {
 			throw new ReportException(e);
 		} catch (IOException e) {
