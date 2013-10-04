@@ -6,11 +6,9 @@ package py.una.med.base.services.util;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.springframework.stereotype.Component;
 
 /**
@@ -53,8 +51,7 @@ public class ServiceUtil {
 	public XMLGregorianCalendar asXMLGregorianCalendar(Date date) {
 
 		if (date == null) {
-			throw new IllegalArgumentException(
-					"The argument date cannot be null");
+			return null;
 		} else {
 			GregorianCalendar gc = new GregorianCalendar();
 			gc.setTimeInMillis(date.getTime());
@@ -74,7 +71,7 @@ public class ServiceUtil {
 	public Date asDate(XMLGregorianCalendar xgc) {
 
 		if (xgc == null) {
-			throw new IllegalArgumentException("xgc");
+			return null;
 		} else {
 			return xgc.toGregorianCalendar().getTime();
 		}
