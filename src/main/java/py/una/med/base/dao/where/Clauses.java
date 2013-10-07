@@ -3,11 +3,9 @@
  */
 package py.una.med.base.dao.where;
 
-import java.util.Date;
 import java.util.List;
 import py.una.med.base.dao.helper.AndExpressionHelper;
 import py.una.med.base.dao.helper.OrExpressionHelper;
-import py.una.med.base.dao.restrictions.NumberLike;
 import py.una.med.base.dao.restrictions.Where;
 
 /**
@@ -384,21 +382,29 @@ public final class Clauses {
 	}
 
 	/**
-	 * {@link Clause} que se utiliza para comparar fechas, utilizar
-	 * preferentemente {@link DateClauses} que es un componente que provee mas
-	 * facilidades que este método.
+	 * {@link Clause} que se utiliza para comparar rangos.
+	 * 
+	 * <p>
+	 * Es similar al atributo <code>between</code>, y como este, solo es
+	 * aplicable a ciertos tipos de datos como números y fechas.
+	 * <p>
+	 * 
+	 * <p>
+	 * Notar que esta comparación es inclusiva, es decir siempre incluirá a los
+	 * elementos de los extremos.
+	 * </p>
 	 * 
 	 * @param path
 	 *            atributo
-	 * @param one
+	 * @param first
 	 *            desde
-	 * @param two
+	 * @param last
 	 *            hasta
 	 * @return Clause para comparar fechas
 	 */
-	public static Clause between(String path, Date one, Date two) {
+	public static Clause between(String path, Object first, Object last) {
 
-		return and(ge(path, one), le(path, two));
+		return new Between(path, first, last);
 	}
 
 	/**
