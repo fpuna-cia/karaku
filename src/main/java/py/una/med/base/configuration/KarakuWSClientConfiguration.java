@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
+
 import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.services.client.WSSecurityInterceptor;
 
 /**
  * 
@@ -48,8 +49,6 @@ public class KarakuWSClientConfiguration {
 	@Autowired
 	private PropertiesUtil properties;
 
-	@Autowired
-	private WSSecurityInterceptor securityInterceptor;
 
 	/**
 	 * 

@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractPagingDataSource implements PagingDataSource {
 
-	public static final Logger logger = LoggerFactory
+	public static final Logger LOG = LoggerFactory
 			.getLogger(AbstractPagingDataSource.class);
 
 	private Long currentPage;
@@ -72,7 +72,7 @@ public abstract class AbstractPagingDataSource implements PagingDataSource {
 			currentPage++;
 			refresh();
 		} else {
-			logger.warn("Next() llamado estando en la última página");
+			LOG.warn("Next() llamado estando en la última página");
 		}
 	}
 
@@ -85,7 +85,7 @@ public abstract class AbstractPagingDataSource implements PagingDataSource {
 			currentPage = getMaxPage();
 			refresh();
 		} else {
-			logger.warn("Last() llamado estando en la última página");
+			LOG.warn("Last() llamado estando en la última página");
 		}
 	}
 
@@ -98,7 +98,7 @@ public abstract class AbstractPagingDataSource implements PagingDataSource {
 			currentPage--;
 			refresh();
 		} else {
-			logger.warn("Previous() llamado estando en la primera página");
+			LOG.warn("Previous() llamado estando en la primera página");
 		}
 	}
 
@@ -112,7 +112,7 @@ public abstract class AbstractPagingDataSource implements PagingDataSource {
 			currentPage = 0L;
 			refresh();
 		} else {
-			logger.warn("First() llamado estando en la primera página");
+			LOG.warn("First() llamado estando en la primera página");
 		}
 	}
 

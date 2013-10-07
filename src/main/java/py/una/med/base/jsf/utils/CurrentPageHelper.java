@@ -5,39 +5,38 @@ package py.una.med.base.jsf.utils;
 
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
-import javax.faces.event.FacesListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.controller.MenuBean;
 import py.una.med.base.domain.Menu;
-import py.una.med.base.dynamic.forms.SIGHComponentFactory;
 import py.una.med.base.util.MenuHelper;
 
 /**
  * Componente que se encarga de proveer funcionalidades básicas para la
  * manipulación de la vista actual.
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Aug 23, 2013
- *
+ * 
  */
 @Component
-@Scope(value = WebApplicationContext.SCOPE_SESSION)
-public class CurrentPageHelper {
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
+public class CurrentPageHelper implements ICurrentpageHelper {
 
 	@Autowired
 	private MenuHelper menuHelper;
 
 	private Menu menu;
 
-	/**
-	 * Método que se encarga de inicializar este componente, debe ser invocado
-	 * al inicio de cada página, no es un {@link FacesListener} por qué debe ser
-	 * un componente de Spring.
+	HtmlOutputText bind;
+
+	/** 
+	 * {@inheritDoc} 
 	 */
+	@Override
 	public String initialize() {
 
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -46,32 +45,22 @@ public class CurrentPageHelper {
 		return null;
 	}
 
-	/**
-	 * <b>WorkAround</b> para permitir que esto sea lo primero que se ejecuta a
-	 * la hora de mostrar una página.
-	 * <p>
-	 * Gracias a este método, se ejecuta la acción {@link #initialize()} antes
-	 * de que ocurra cualquier otro <code>bind</code> con algún componente, como
-	 * ocurre con {@link MenuBean}.
-	 * </p>
-	 *
-	 * @return dummy {@link HtmlOutputText}
+	/** 
+	 * {@inheritDoc} 
 	 */
+	@Override
 	public HtmlOutputText getBind() {
 
 		// XXX
-		HtmlOutputText bind = SIGHComponentFactory.getHtmlOutputText();
+
 		initialize();
 		return bind;
 	}
 
-	/**
-	 * <b>WorkAround</b> para permitir que esto sea lo primero que se ejecuta a
-	 * la hora de mostrar una página.
-	 * <p>
-	 *
-	 * @see #getBind()
+	/** 
+	 * {@inheritDoc} 
 	 */
+	@Override
 	public void setBind(HtmlOutputText input) {
 
 	}
@@ -85,12 +74,10 @@ public class CurrentPageHelper {
 		this.menu = menu;
 	}
 
-	/**
-	 * Retorna el menú que actualmente esta seleccionado, si el mismo no se
-	 * puede detectar, se retorna <code>null</code>
-	 *
-	 * @return menu actual elemento seleccionado.
+	/** 
+	 * {@inheritDoc} 
 	 */
+	@Override
 	public Menu getCurrentMenu() {
 
 		if (menu == null) {

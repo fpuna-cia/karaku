@@ -7,11 +7,15 @@ package py.una.med.base.dao.helper;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
+
 import py.una.med.base.dao.where.Clause;
+import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
  * Clase que sirve de base para los componentes que se utilizan para mapear una
@@ -125,7 +129,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 			sbAlias = new StringBuilder(partes[0]).append(ALIAS_SEPARATOR);
 			String alias = sbAlias.toString();
 			aliases.put(partes[0], alias);
-			_addAliasToCriteria(alias, partes[0], criteria);
+			addAliasToCriteria(alias, partes[0], criteria);
 		} else {
 			sbAlias = new StringBuilder(aliases.get(partes[0]));
 		}
@@ -138,7 +142,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 			String path = pathBuilder.toString();
 			String currentAlias = sbAlias.toString();
 			if (!aliases.containsKey(path)) {
-				_addAliasToCriteria(currentAlias, path, criteria);
+				addAliasToCriteria(currentAlias, path, criteria);
 				aliases.put(path, currentAlias);
 			}
 		}
@@ -161,7 +165,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 			f.setAccessible(true);
 			return f;
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Imposible obtener field");
+			throw new KarakuRuntimeException("Imposible obtener field", e);
 		}
 	}
 
@@ -182,8 +186,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 		return clazz;
 	}
 
-	private void _addAliasToCriteria(String alias, String path,
-			Criteria criteria) {
+	private void addAliasToCriteria(String alias, String path, Criteria criteria) {
 
 		if (criteria == null) {
 			return;

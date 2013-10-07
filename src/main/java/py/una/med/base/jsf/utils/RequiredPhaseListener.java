@@ -44,9 +44,9 @@ import py.una.med.base.util.I18nHelper;
 public class RequiredPhaseListener implements Serializable {
 
 	@Autowired
-	private I18nHelper helper;
+	private transient I18nHelper helper;
 
-	private Map<String, Field> hashedFields;
+	private transient Map<String, Field> hashedFields;
 
 	/**
 	 * String que representa la clase de aquellas etiquetas de campos que son
@@ -67,7 +67,7 @@ public class RequiredPhaseListener implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = -5178965595775494541L;
-	private UIOutput lastOutput;
+	private transient UIOutput lastOutput;
 
 	/**
 	 * Se buscan aquellos {@link UIInput} que son requeridos, se define un campo
@@ -83,7 +83,7 @@ public class RequiredPhaseListener implements Serializable {
 	 */
 	public void preRenderView(ComponentSystemEvent componentSystemEvent) {
 
-		hashedFields = new HashMap<String, Field>(10);
+		hashedFields = new HashMap<String, Field>();
 		lastOutput = null;
 		handleRoot(FacesContext.getCurrentInstance().getViewRoot());
 
@@ -158,9 +158,7 @@ public class RequiredPhaseListener implements Serializable {
 					return;
 				}
 				if (f.getAnnotation(NotNull.class) != null) {
-					if (lastOutput != null) {
-						addClass = true;
-					}
+					addClass = lastOutput != null;
 				}
 			}
 		}

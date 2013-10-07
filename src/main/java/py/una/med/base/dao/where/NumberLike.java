@@ -1,4 +1,4 @@
-package py.una.med.base.dao.restrictions;
+package py.una.med.base.dao.where;
 
 import org.hibernate.Criteria;
 import org.hibernate.EntityMode;
@@ -33,7 +33,7 @@ import py.una.med.base.dao.where.MatchMode;
  * columna, la convertirá automáticamente a String.
  * </p>
  * 
- * TODO ver para agregar comparacion con decimales.
+ * TODO ver para agregar comparación con decimales.
  * 
  * @author Arturo Volpe
  * @version 1.0
@@ -118,8 +118,7 @@ public class NumberLike implements Criterion, Clause {
 	private static final long serialVersionUID = 46392094642533751L;
 
 	@Override
-	public String toSqlString(Criteria criteria, CriteriaQuery criteriaQuery)
-			throws HibernateException {
+	public String toSqlString(Criteria criteria, CriteriaQuery criteriaQuery) {
 
 		String[] columns = criteriaQuery.findColumns(getPropiedad(), criteria);
 		if (columns.length != 1) {
@@ -142,7 +141,7 @@ public class NumberLike implements Criterion, Clause {
 	 */
 	@Override
 	public TypedValue[] getTypedValues(Criteria criteria,
-			CriteriaQuery criteriaQuery) throws HibernateException {
+			CriteriaQuery criteriaQuery) {
 
 		TypedValue tv = new TypedValue(new org.hibernate.type.StringType(),
 				matchMode.toString(valor), EntityMode.POJO);

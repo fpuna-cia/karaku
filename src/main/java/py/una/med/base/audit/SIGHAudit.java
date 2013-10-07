@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -22,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import py.una.med.base.business.IAuditLogic;
 import py.una.med.base.domain.AuditTrail;
 import py.una.med.base.domain.AuditTrailDetail;
+import py.una.med.base.log.Log;
 
 /**
  * Servicio que se encarga de capturar el {@link JoinPoint} de auditoría y
@@ -36,7 +36,8 @@ import py.una.med.base.domain.AuditTrailDetail;
 @Service
 public class SIGHAudit {
 
-	private Logger log = LoggerFactory.getLogger(SIGHAudit.class);
+	@Log
+	private Logger log;
 
 	@Autowired
 	private IAuditLogic logic;
@@ -84,13 +85,14 @@ public class SIGHAudit {
 		if (toAudit != null) {
 			for (String string : toAudit) {
 				Expression exp = parser.parseExpression(string);
+
 				Object value = exp.getValue(object);
 				AuditTrailDetail detail = new AuditTrailDetail();
 				detail.setHeader(auditTrail);
 				detail.setValue((Serializable) value);
 				detail.setExpression(string);
 				details.add(detail);
-				log.info("Audit", string + ":" + value);
+				log.info("Audit {}:{}", string, value);
 			}
 		}
 

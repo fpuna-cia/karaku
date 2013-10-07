@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import py.una.med.base.dao.impl.BaseDAOImpl;
-import py.una.med.base.dao.util.CaseSensitiveHelper;
 import py.una.med.base.log.Log;
 
 @Repository
@@ -28,23 +27,16 @@ public class SIGHBaseDao<T, K extends Serializable> extends BaseDAOImpl<T, K>
 	}
 
 	@Override
-	@Autowired
-	public void setSensitiveHelper(final CaseSensitiveHelper sensitiveHelper) {
-
-		super.setSensitiveHelper(sensitiveHelper);
-	}
-
-	@Override
 	public T update(T entity) {
 
-		doPreUpdate(entity);
+		this.doPreUpdate(entity);
 		return super.add(entity);
 	}
 
 	@Override
 	public T add(T entity) {
 
-		doPrePersist(entity);
+		this.doPrePersist(entity);
 		return super.add(entity);
 	};
 
@@ -54,30 +46,30 @@ public class SIGHBaseDao<T, K extends Serializable> extends BaseDAOImpl<T, K>
 
 	public Method getPrePersist() {
 
-		if (!metodoscargados) {
-			cargarMetodos();
+		if (!this.metodoscargados) {
+			this.cargarMetodos();
 		}
-		return prePersist;
+		return this.prePersist;
 	}
 
 	public Method getPreUpdate() {
 
-		if (!metodoscargados) {
-			cargarMetodos();
+		if (!this.metodoscargados) {
+			this.cargarMetodos();
 		}
-		return preUpdate;
+		return this.preUpdate;
 	}
 
 	private void cargarMetodos() {
 
-		Method[] m = getClassOfT().getMethods();
+		Method[] m = this.getClassOfT().getMethods();
 
 		for (Method method : m) {
 			if (method.isAnnotationPresent(PrePersist.class)) {
-				prePersist = method;
+				this.prePersist = method;
 			}
 			if (method.isAnnotationPresent(PreUpdate.class)) {
-				preUpdate = method;
+				this.preUpdate = method;
 			}
 		}
 
@@ -85,33 +77,33 @@ public class SIGHBaseDao<T, K extends Serializable> extends BaseDAOImpl<T, K>
 
 	private void doPrePersist(T entity) {
 
-		if (getPrePersist() != null) {
+		if (this.getPrePersist() != null) {
 			try {
-				getPrePersist().invoke(entity, (Object[]) null);
+				this.getPrePersist().invoke(entity, (Object[]) null);
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
-				log.error("Error al intentar persistir", e);
+				this.log.error("Error al intentar persistir", e);
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
-				log.error("Error al intentar persistir", e);
+				this.log.error("Error al intentar persistir", e);
 			} catch (InvocationTargetException e) {
 				// TODO Auto-generated catch block
-				log.error("Error al intentar persistir", e);
+				this.log.error("Error al intentar persistir", e);
 			}
 		}
 	}
 
 	private void doPreUpdate(T entity) {
 
-		if (getPreUpdate() != null) {
+		if (this.getPreUpdate() != null) {
 			try {
-				getPreUpdate().invoke(entity, (Object[]) null);
+				this.getPreUpdate().invoke(entity, (Object[]) null);
 			} catch (IllegalArgumentException e) {
-				log.error("Error al intentar actualizar", e);
+				this.log.error("Error al intentar actualizar", e);
 			} catch (IllegalAccessException e) {
-				log.error("Error al intentar actualizar", e);
+				this.log.error("Error al intentar actualizar", e);
 			} catch (InvocationTargetException e) {
-				log.error("Error al intentar actualizar", e);
+				this.log.error("Error al intentar actualizar", e);
 			}
 		}
 	}

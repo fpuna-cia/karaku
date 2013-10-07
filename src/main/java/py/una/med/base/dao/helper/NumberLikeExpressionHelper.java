@@ -4,8 +4,8 @@ import java.util.Map;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.springframework.stereotype.Component;
-import py.una.med.base.dao.restrictions.NumberLike;
 import py.una.med.base.dao.where.Clause;
+import py.una.med.base.dao.where.NumberLike;
 
 /**
  * Helper que se encarga de crear los alias necesarios para que se pueda navegar

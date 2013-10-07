@@ -1,11 +1,10 @@
 package py.una.med.base.dao.where;
 
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 
 public class Not implements Clause {
 
-	private Clause clause;
+	private final Clause clause;
 
 	public Not(Clause clause) {
 
@@ -15,18 +14,12 @@ public class Not implements Clause {
 
 	public Clause getClause() {
 
-		return clause;
+		return this.clause;
 	}
 
 	@Override
 	public Criterion getCriterion() {
 
-		if (clause == null) {
-			return null;
-		} else {
-			Criterion aRet = Restrictions.not(clause.getCriterion());
-			return aRet;
-
-		}
+		return null;
 	}
 }

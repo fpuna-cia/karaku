@@ -58,11 +58,7 @@ public abstract class BaseEntity {
 		if (obj.getClass().isAssignableFrom(getClass())) {
 			BaseEntity other = (BaseEntity) obj;
 			if (this.getId() == null) {
-				if (other.getId() == null) {
-					return true;
-				} else {
-					return false;
-				}
+				return other.getId() == null;
 			} else {
 				return getId().equals(other.getId());
 			}

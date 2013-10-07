@@ -19,11 +19,11 @@ import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.model.DisplayName;
 
 /**
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 25, 2013
- * 
+ *
  */
 public class SIGHListHelper<T, K extends Serializable> implements
 		KarakuListHelperProvider<T> {
@@ -35,7 +35,8 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	private Where<T> baseWhere;
 	private List<SelectItem> filterOptions;
 	private Class<T> clazz;
-	private final Logger log = LoggerFactory.getLogger(SIGHListHelper.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SIGHListHelper.class);
 
 	public SIGHListHelper(Class<T> clazz, ISIGHBaseLogic<T, K> logic) {
 
@@ -71,12 +72,13 @@ public class SIGHListHelper<T, K extends Serializable> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see py.una.med.base.util.KarakuListHelperProvider#getEntities()
 	 */
 	@Override
 	public List<T> getEntities() {
 
+		LOG.debug("Get entities of {} ", this.getClass());
 		Where<T> where = this.getFilters(this.clazz, this.example,
 				this.simpleFilter);
 		Long totalSize = this.logic.getCount(where);
@@ -137,22 +139,12 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.util.KarakuListHelperProvider#getSimpleFilter()
-	 */
 	@Override
 	public SimpleFilter getSimpleFilter() {
 
 		return this.simpleFilter;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.util.KarakuListHelperProvider#getFilterOptions()
-	 */
 	@Override
 	public List<SelectItem> getFilterOptions() {
 

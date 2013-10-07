@@ -9,7 +9,6 @@ import javax.faces.context.FacesContext;
 import org.richfaces.component.UIPanelMenu;
 import org.richfaces.component.UIPanelMenuGroup;
 import org.richfaces.component.UIPanelMenuItem;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -17,8 +16,8 @@ import org.springframework.web.context.WebApplicationContext;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
-import py.una.med.base.jsf.utils.CurrentPageHelper;
-import py.una.med.base.log.Log;
+import py.una.med.base.jsf.utils.ICurrentpageHelper;
+import py.una.med.base.security.AuthorityController;
 import py.una.med.base.util.HostResolver;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.MenuHelper;
@@ -37,9 +36,6 @@ public class MenuBean {
 
 	private UIPanelMenu menupanel;
 
-	@Log
-	private Logger log;
-
 	@Autowired
 	private I18nHelper helper;
 
@@ -50,7 +46,7 @@ public class MenuBean {
 	private HostResolver hostResolver;
 
 	@Autowired
-	private CurrentPageHelper currentPageHelper;
+	private ICurrentpageHelper currentPageHelper;
 
 	@Autowired
 	private MenuHelper menuHelper;
@@ -171,7 +167,7 @@ public class MenuBean {
 			} else {
 				// link a otro sistema
 				String urlPlaceHolder = menuUrl.substring(0,
-						menuUrl.indexOf("/"));
+						menuUrl.indexOf('/'));
 
 				menuUrl = menuUrl.replace(urlPlaceHolder,
 						hostResolver.getSystemURL(urlPlaceHolder));

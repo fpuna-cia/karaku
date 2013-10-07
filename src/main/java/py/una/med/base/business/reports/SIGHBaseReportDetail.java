@@ -6,11 +6,17 @@ package py.una.med.base.business.reports;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.faces.application.FacesMessage;
+
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import py.una.med.base.business.ISIGHBaseLogic;
+import py.una.med.base.log.Log;
 import py.una.med.base.reports.Align;
 import py.una.med.base.reports.ExportReport;
 import py.una.med.base.reports.SIGHReportBlock;
@@ -30,6 +36,10 @@ import py.una.med.base.util.ControllerHelper;
 public abstract class SIGHBaseReportDetail<T> implements
 		ISIGHBaseReportDetail<T> {
 
+	private static final String BASE_REPORT_CREATE_FAILURE = "BASE_REPORT_CREATE_FAILURE";
+	private static final String BASE_REPORT_CREATE_SUCCESS = "BASE_REPORT_CREATE_SUCCESS";
+	@Log
+	private transient Logger log;
 	@Autowired
 	private ExportReport exportReport;
 
@@ -52,10 +62,10 @@ public abstract class SIGHBaseReportDetail<T> implements
 			exportReport.exportDetailReport(report, align, clazz, datasource,
 					params, type);
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
 
 	}
@@ -70,10 +80,10 @@ public abstract class SIGHBaseReportDetail<T> implements
 			exportReport.exportDetailReport(path, report, clazz, datasource,
 					params, type);
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
 
 	}
@@ -87,11 +97,11 @@ public abstract class SIGHBaseReportDetail<T> implements
 					getDetails(bean));
 			exportReport.exportReportStatic(path, datasource, params, type);
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("Can't generate report", e);
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
 
 	}
@@ -104,11 +114,11 @@ public abstract class SIGHBaseReportDetail<T> implements
 			exportReport.exportReportFields(blocks,
 					setDataSources(blocks, params), type);
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("Can't generate report", e);
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
 
 	}
@@ -122,11 +132,11 @@ public abstract class SIGHBaseReportDetail<T> implements
 			exportReport.exportReportFields(blocks, signs,
 					setDataSources(blocks, params), type);
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_SUCCESS");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.warn("Can't generate report", e);
 			controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_INFO, "BASE_REPORT_CREATE_FAILURE");
+					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
 
 	}

@@ -21,7 +21,7 @@ import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.exception.ReportException;
-import py.una.med.base.jsf.utils.CurrentPageHelper;
+import py.una.med.base.jsf.utils.ICurrentpageHelper;
 import py.una.med.base.log.Log;
 import py.una.med.base.reports.Column;
 import py.una.med.base.security.HasRole;
@@ -55,7 +55,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	private BreadcrumbController breadcrumController;
 
 	@Autowired
-	private CurrentPageHelper currentPageHelper;
+	private ICurrentpageHelper currentPageHelper;
 
 	private static final int ROWS_FOR_PAGE = 10;
 

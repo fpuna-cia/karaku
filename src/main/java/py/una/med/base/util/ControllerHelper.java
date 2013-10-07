@@ -6,6 +6,7 @@ package py.una.med.base.util;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -21,6 +22,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.richfaces.component.UIColumn;
 import org.richfaces.component.UIExtendedDataTable;
@@ -28,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import py.una.med.base.reports.Column;
 
 /**
@@ -42,6 +45,8 @@ import py.una.med.base.reports.Column;
  */
 @Component
 public class ControllerHelper {
+
+	private static final String EL_VALUE_PROPERTY = "value";
 
 	private Logger log;
 
@@ -290,7 +295,7 @@ public class ControllerHelper {
 	 */
 	public MethodExpression createMethodExpression(
 			final String valueExpression, final Class<?> expectedReturnType,
-			final Class<?> ... expectedParamTypes) {
+			final Class<?>... expectedParamTypes) {
 
 		MethodExpression methodExpression = null;
 		try {
@@ -302,7 +307,7 @@ public class ControllerHelper {
 					expectedParamTypes);
 		} catch (Exception e) {
 			throw new FacesException("Method expression '" + valueExpression
-					+ "' could not be created.");
+					+ "' could not be created.", e);
 		}
 
 		return methodExpression;
@@ -335,7 +340,7 @@ public class ControllerHelper {
 		for (UIComponent ui : table.getChildren()) {
 			if (ui instanceof UIColumn) {
 				ValueExpression expressionHeader = ((HtmlOutputText) ((UIColumn) ui)
-						.getHeader()).getValueExpression("value");
+						.getHeader()).getValueExpression(EL_VALUE_PROPERTY);
 
 				String header = ELParser.getHeaderColumn(expressionHeader
 						.getExpressionString());
@@ -344,7 +349,7 @@ public class ControllerHelper {
 					if (children instanceof HtmlOutputText) {
 						HtmlOutputText text = (HtmlOutputText) children;
 						ValueExpression expression = text
-								.getValueExpression("value");
+								.getValueExpression(EL_VALUE_PROPERTY);
 
 						String field = ELParser.getFieldByExpression(expression
 								.getExpressionString());
@@ -421,10 +426,10 @@ public class ControllerHelper {
 		// Obtenemos el id
 
 		UIComponent formulario = findComponent(componentID);
-		_updateModel(formulario);
+		updateModel(formulario);
 	}
 
-	private void _updateModel(UIComponent formulario) {
+	private void updateModel(UIComponent formulario) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
@@ -439,7 +444,8 @@ public class ControllerHelper {
 				if (newValue == null) {
 					continue;
 				}
-				ValueExpression value = com.getValueExpression("value");
+				ValueExpression value = com
+						.getValueExpression(EL_VALUE_PROPERTY);
 				// Si tiene un converter definido, entonces utilizamos ese
 				// converter para obtener el valor
 				if (!(com.getConverter() == null)) {
@@ -452,11 +458,12 @@ public class ControllerHelper {
 			if (component instanceof UIInput) {
 				UIInput com = (UIInput) component;
 				Object newValue = com.getSubmittedValue();
-				ValueExpression value = com.getValueExpression("value");
+				ValueExpression value = com
+						.getValueExpression(EL_VALUE_PROPERTY);
 
 				value.setValue(elContext, newValue);
 			}
-			_updateModel(component);
+			updateModel(component);
 		}
 	}
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.controller.ISIGHBaseController;
 import py.una.med.base.domain.Menu;
-import py.una.med.base.jsf.utils.CurrentPageHelper;
+import py.una.med.base.jsf.utils.ICurrentpageHelper;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.MenuHelper;
 
@@ -30,7 +30,7 @@ import py.una.med.base.util.MenuHelper;
 public class BreadcrumbController {
 
 	@Autowired
-	private CurrentPageHelper currentPageHelper;
+	private ICurrentpageHelper currentPageHelper;
 
 	@Autowired
 	private MenuHelper menuHelper;
