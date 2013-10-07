@@ -1,6 +1,6 @@
 /*
  * @BaseDaoImpl
- * 
+ *
  * Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.dao.impl;
@@ -30,12 +30,12 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.BaseDAO;
+import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
 import py.una.med.base.dao.helper.RestrictionHelper;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.search.OrderParam;
 import py.una.med.base.dao.search.SearchParam;
-import py.una.med.base.dao.util.CaseSensitiveHelper;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.exception.KarakuRuntimeException;
@@ -46,7 +46,7 @@ import py.una.med.base.log.Log;
  * Debería migrar paulatinamente a {@link EntityManager} para una mayor
  * portabilidad hacia otros motores que no sean hibernate, y para utilizar mejor
  * hibernate 4
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 14, 2013
@@ -54,8 +54,8 @@ import py.una.med.base.log.Log;
  *            Clase de la entidad a ser utilizada
  * @param <ID>
  *            ID de la entidad
- * 
- * 
+ *
+ *
  */
 public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		BaseDAO<T, K> {
@@ -66,17 +66,16 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	private EntityManager em;
 
 	@Autowired
-	private CaseSensitiveHelper sensitiveHelper;
-
-	@Autowired
 	private RestrictionHelper helper;
 
 	@Log
 	private Logger log;
 
+	@Autowired
+	private transient InterceptorHandler interceptorHandler;
+
 	private Class<T> clazz;
 
-	@Override
 	public EntityManager getEntityManager() {
 
 		return this.em;
@@ -87,7 +86,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public T add(final T entity) {
 
 		T entidad = entity;
-		this.sensitiveHelper.analize(entidad);
+		this.interceptorHandler.intercept(entidad);
 		entidad = (T) this.getSession().merge(entidad);
 		this.getSession().flush();
 		this.copyID(entidad, entity);
@@ -96,7 +95,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * Metodo que agrega relaciones
-	 * 
+	 *
 	 * @param criteria
 	 * @param example
 	 * @return
@@ -300,36 +299,16 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	private Criteria getCriteria() {
 
-		Criteria criteria = this.getSession().createCriteria(this.getClassOfT(),
-				Criteria.ROOT_ALIAS);
+		Criteria criteria = this.getSession().createCriteria(
+				this.getClassOfT(), Criteria.ROOT_ALIAS);
 		return criteria;
-	}
-
-	/**
-	 * Retorna una instancia del {@link org.springframework.stereotype.Service}
-	 * que se encarga de realizar controles de formato en cadenas
-	 * 
-	 * @return {@link CaseSensitiveHelper} atado al contexto actual
-	 */
-	public CaseSensitiveHelper getSensitiveHelper() {
-
-		return this.sensitiveHelper;
-	}
-
-	/**
-	 * @param sensitiveHelper
-	 *            sensitiveHelper para setear
-	 */
-	public void setSensitiveHelper(final CaseSensitiveHelper sensitiveHelper) {
-
-		this.sensitiveHelper = sensitiveHelper;
 	}
 
 	/**
 	 * Obtiene una session del contexto actual, si no hay una sesion abierta,
 	 * lanza una excepcion {@link HibernateException} con el mensaje
 	 * "Not session found in the current thread"
-	 * 
+	 *
 	 * @return {@link Session} del contexto actual
 	 */
 	public Session getSession() {
@@ -339,7 +318,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * Retorna el Componente creador de Sessiones
-	 * 
+	 *
 	 * @return SessionFactory del thread actual
 	 */
 	protected SessionFactory getSessionFactory() {
@@ -371,14 +350,15 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public void remove(final T entity) {
 
 		// TODO lograr que no haga una consulta antes de eliminar
-		Object o = this.getSession().load(this.getClassOfT(), this.getIdValue(entity));
+		Object o = this.getSession().load(this.getClassOfT(),
+				this.getIdValue(entity));
 		this.getSession().delete(o);
 	}
 
 	/**
 	 * Asigna un sessionFactory para ser usado de ahora en mas para obtener
 	 * sessiones y mantener transacciones
-	 * 
+	 *
 	 * @param sessionFactory
 	 */
 	public void setSessionFactory(final SessionFactory sessionFactory) {
@@ -388,7 +368,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * Aquí no se debe copiar el ID como en {@link #add(Object)}, pues el
 	 * {@link Id} no debe ser mutable.
 	 */
@@ -397,7 +377,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public T update(final T entity) {
 
 		T entidad = entity;
-		this.sensitiveHelper.analize(entidad);
+		this.interceptorHandler.intercept(entidad);
 		entidad = (T) this.getSession().merge(entidad);
 		this.getSession().flush();
 		return entidad;

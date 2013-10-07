@@ -14,7 +14,12 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import py.una.med.base.dao.entity.interceptors.BigDecimalInterceptor;
+import py.una.med.base.dao.entity.interceptors.CaseSensitiveInterceptor;
+import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
+import py.una.med.base.dao.entity.interceptors.TimeInterceptor;
 import py.una.med.base.dao.helper.AndExpressionHelper;
+import py.una.med.base.dao.helper.BetweenExpressionHelper;
 import py.una.med.base.dao.helper.GeExpressionHelper;
 import py.una.med.base.dao.helper.LeExpressionHelper;
 import py.una.med.base.dao.helper.LikeExpressionHelper;
@@ -22,7 +27,6 @@ import py.una.med.base.dao.helper.NotExpressionHelper;
 import py.una.med.base.dao.helper.NumberLikeExpressionHelper;
 import py.una.med.base.dao.helper.OrExpressionHelper;
 import py.una.med.base.dao.helper.RestrictionHelper;
-import py.una.med.base.dao.util.CaseSensitiveHelper;
 import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.exception.KarakuPropertyNotFoundException;
 import py.una.med.base.exception.KarakuRuntimeException;
@@ -142,12 +146,6 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	@Bean
-	CaseSensitiveHelper caseSensitiveHelper() {
-
-		return new CaseSensitiveHelper();
-	}
-
-	@Bean
 	RestrictionHelper restrictionHelper() {
 
 		return new RestrictionHelper();
@@ -196,9 +194,39 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	@Bean
+	BetweenExpressionHelper betweenExpressionHelper() {
+
+		return new BetweenExpressionHelper();
+	}
+
+	@Bean
 	DateClauses dateClauses() {
 
 		return new DateClauses();
+	}
+
+	@Bean
+	InterceptorHandler interceptorHandler() {
+
+		return new InterceptorHandler();
+	}
+
+	@Bean
+	TimeInterceptor timeInterceptor() {
+
+		return new TimeInterceptor();
+	}
+
+	@Bean
+	BigDecimalInterceptor bigDecimalInterceptor() {
+
+		return new BigDecimalInterceptor();
+	}
+
+	@Bean
+	CaseSensitiveInterceptor caseSensitiveInterceptor() {
+
+		return new CaseSensitiveInterceptor();
 	}
 
 	static class TestLocalSessionFactoryBean extends LocalSessionFactoryBean {

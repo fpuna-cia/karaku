@@ -19,7 +19,7 @@ import py.una.med.base.dao.search.SearchParam;
 public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 		BaseDAO<T, K> {
 
-	private Logger log = LoggerFactory.getLogger(BaseJPADAOImpl.class);
+	private final Logger log = LoggerFactory.getLogger(BaseJPADAOImpl.class);
 
 	@PersistenceContext(name = "primary")
 	private EntityManager entityManager;
@@ -27,20 +27,19 @@ public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 	@PersistenceContext(name = "primary")
 	private EntityManager persisteContext;
 
-	private SearchParamJPAHelper<T> helper = new SearchParamJPAHelper<T>();
+	private final SearchParamJPAHelper<T> helper = new SearchParamJPAHelper<T>();
 
 	private Class<T> clazzT;
 
-	@Override
 	public EntityManager getEntityManager() {
 
-		return entityManager;
+		return this.entityManager;
 	}
 
 	@Override
 	public T getById(K id) {
 
-		return getEntityManager().find(getClassOfT(), id);
+		return this.getEntityManager().find(this.getClassOfT(), id);
 	}
 
 	@Override
@@ -51,15 +50,15 @@ public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 
 	public List<T> getAll(SearchParam params) {
 
-		CriteriaBuilder criteriaBuilder = getEntityManager()
+		CriteriaBuilder criteriaBuilder = this.getEntityManager()
 				.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder
-				.createQuery(getClassOfT());
-		Root<T> root = criteriaQuery.from(getClassOfT());
+				.createQuery(this.getClassOfT());
+		Root<T> root = criteriaQuery.from(this.getClassOfT());
 		CriteriaQuery<T> select = criteriaQuery.select(root);
-		helper.apply(params, criteriaQuery, root, criteriaBuilder);
-		TypedQuery<T> typedQuery = getEntityManager().createQuery(select);
-		helper.apply(params, typedQuery);
+		this.helper.apply(params, criteriaQuery, root, criteriaBuilder);
+		TypedQuery<T> typedQuery = this.getEntityManager().createQuery(select);
+		this.helper.apply(params, typedQuery);
 		return typedQuery.getResultList();
 	}
 
@@ -71,7 +70,7 @@ public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 	@Override
 	public T update(T entity) {
 
-		getEntityManager().merge(entity);
+		this.getEntityManager().merge(entity);
 		return entity;
 	}
 
@@ -79,10 +78,10 @@ public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 	public T add(T entity) {
 
 		try {
-			entityManager.persist(entity);
-			entityManager.flush();
+			this.entityManager.persist(entity);
+			this.entityManager.flush();
 		} catch (Exception e) {
-			log.error("Error al crear la entidad", e);
+			this.log.error("Error al crear la entidad", e);
 		}
 		return entity;
 	}
@@ -90,32 +89,32 @@ public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 	@Override
 	public void remove(T entity) {
 
-		getEntityManager().remove(update(entity));
+		this.getEntityManager().remove(this.update(entity));
 
 	}
 
 	@Override
 	public void remove(K id) {
 
-		getEntityManager().refresh(getById(id));
+		this.getEntityManager().refresh(this.getById(id));
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public Class<T> getClassOfT() {
 
-		if (clazzT == null) {
+		if (this.clazzT == null) {
 			ParameterizedType type = (ParameterizedType) this.getClass()
 					.getGenericSuperclass();
-			clazzT = (Class<T>) type.getActualTypeArguments()[0];
+			this.clazzT = (Class<T>) type.getActualTypeArguments()[0];
 		}
-		return clazzT;
+		return this.clazzT;
 	}
 
 	@Override
 	public String getTableName() {
 
-		Class<T> clase = getClassOfT();
+		Class<T> clase = this.getClassOfT();
 		Table t = clase.getAnnotation(Table.class);
 		if (t == null) {
 			return clase.getSimpleName().toLowerCase();
