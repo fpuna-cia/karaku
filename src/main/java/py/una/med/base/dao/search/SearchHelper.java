@@ -6,10 +6,12 @@ package py.una.med.base.dao.search;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import java.util.regex.Pattern;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import py.una.med.base.dao.restrictions.Where;
@@ -46,9 +48,9 @@ import py.una.med.base.util.FormatProvider;
  * auxiliar {@link DateClauses}.</li>
  * <li>Si se detecta una {@link Collection} en el path a un atributo, se utiliza
  * un {@link ILike} como técnica de mejor esfuerzo, no se garantiza que el tipo
- * de búsqueda es el correcto. Aunque, si se encuentra una colección con la
- * anotación {@link DisplayName#clazz()}, se utiliza esa información para
- * recorrer la jerarquía.</li>
+ * de búsqueda es el correcto. Si la {@link Collection} que se encuentra es una
+ * interfaz ( {@link Set} por ejemplo), entones se puede obtener su tipo
+ * genérico.</li>
  * </ul>
  * </p>
  * 
@@ -233,7 +235,7 @@ public class SearchHelper {
 			Class<?> cClass = root;
 			Field toRet = null;
 			boolean collectionFound = false;
-			for (int i = 0; i < splited.length && !collectionFound; i++) {
+			for (int i = 0; i < splited.length; i++) {
 				cProperty = splited[i];
 				toRet = ReflectionUtils.findField(cClass, cProperty);
 				if (toRet == null) {
@@ -243,22 +245,14 @@ public class SearchHelper {
 				cClass = toRet.getType();
 				// Si tenemos una lista, buscar el tipo de la lista.
 				if (Collection.class.isAssignableFrom(cClass)) {
-					if (toRet.getAnnotation(DisplayName.class).clazz() != DisplayName.DEFAULT.class) {
-						cClass = toRet.getAnnotation(DisplayName.class).clazz();
-					} else {
-						collectionFound = true;
-					}
+					cClass = GenericCollectionTypeResolver
+							.getCollectionFieldType(toRet);
 				}
+				// TODO add expansion if found a @Display in the last field
+				// Ejemplo: pais.departamento, puede seguir siendo expltoado
+				// si departamento tiene un DisplayName
 			}
-			if (collectionFound) {
-				return new FieldInfo(toRet, true);
-			}
-			toRet.setAccessible(true);
-			if (Collection.class.isAssignableFrom(toRet.getType())) {
-
-				return new FieldInfo(toRet, true);
-			}
-			return new FieldInfo(toRet);
+			return new FieldInfo(toRet, collectionFound);
 		} catch (SecurityException e) {
 			throw new KarakuRuntimeException("Field not accessible: "
 					+ property + " in class " + root.getSimpleName());
@@ -295,7 +289,7 @@ public class SearchHelper {
 			}
 			throw new NotDisplayNameException();
 		} catch (Exception e) {
-			this.log.error("Error al obtener los clause for: " + property, e);
+			this.log.error("Error building clause for: {}", e, property);
 		}
 		return null;
 	}
@@ -391,8 +385,7 @@ public class SearchHelper {
 		}
 
 		/**
-		 * Verifica si la información se asocia a una {@link Collection}, cuando
-		 * retorna <code>true</code> {@link #getField()} no es preciso.
+		 * Verifica si la información se asocia a una {@link Collection}.
 		 * 
 		 * @return isCollection <code>false</code> si no es una colección y
 		 *         <code>true</code> en caso contrario.

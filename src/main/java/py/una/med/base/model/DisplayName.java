@@ -4,7 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.Collection;
 
 /**
  * Anotación que define la internacionalizacion para un field, con el
@@ -57,36 +56,4 @@ public @interface DisplayName {
 	 */
 	String path() default "";
 
-	/**
-	 * <b>Solo útil cuando se trabaja con clases que implementan
-	 * {@link Collection}, </b> esté método define el tipo de una colección, ya
-	 * que el mismo no puede ser recuperado mediante reflection.
-	 * <p>
-	 * 
-	 * <pre>
-	 * {@literal @}DisplayName(path="descripcion", class=Nacionalidad.class)
-	 * List<Nacionalidad> nacionalidades;
-	 * </pre>
-	 * 
-	 * En el ejemplo anterior, se buscara en el atributo
-	 * <code>descripción</code> de la clase <code>Nacionalidad</code>.
-	 * 
-	 * <p>
-	 * El valor por defecto es {@link Void} pues, una lisa carece de sentido si
-	 * es del tipo {@link Void}
-	 * </p>
-	 * 
-	 * @return {@link Class} parametrizada en la {@link Collection}
-	 */
-	Class<?> clazz() default DEFAULT.class;
-
-	/**
-	 * Clase por defecto del parámetro {@link DisplayName#clazz()}
-	 * 
-	 * @author Arturo Volpe
-	 * @since 1.0
-	 * @version 1.0 Sep 25, 2013
-	 * 
-	 */
-	public static final class DEFAULT {}
 }

@@ -7,7 +7,7 @@ package py.una.med.base.test.test.dao;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -105,6 +105,8 @@ public class SearchHelperTest extends BaseTestWithDatabase {
 
 	}
 
+	Map<String, String> field1;
+
 	@Test
 	public void testGrandChildSearch() {
 
@@ -128,10 +130,6 @@ public class SearchHelperTest extends BaseTestWithDatabase {
 								this.sh.getClause(TestEntity.class,
 										"testChild.fecha", "13-12-13")));
 
-		List<TestEntity> total = this.testDAO.getAll(where, null);
-		for (TestEntity te : total) {
-			System.out.println(te.getId());
-		}
 		assertThat(this.countWhere(where), is(2L));
 	}
 
