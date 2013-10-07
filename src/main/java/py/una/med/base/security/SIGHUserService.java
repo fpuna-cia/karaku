@@ -6,6 +6,7 @@ package py.una.med.base.security;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -16,12 +17,13 @@ import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import py.una.med.base.configuration.PropertiesUtil;
 
 /**
@@ -97,8 +99,7 @@ public class SIGHUserService implements UserDetailsService {
 	 * @return la información del usuario.
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String uid)
-			throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String uid) {
 
 		SIGHUserDetails user = new SIGHUserDetails();
 		user.setUserName(uid);

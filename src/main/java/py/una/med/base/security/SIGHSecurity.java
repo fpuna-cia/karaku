@@ -7,11 +7,10 @@ package py.una.med.base.security;
 
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-import py.una.med.base.controller.AuthorityController;
 import py.una.med.base.controller.ISIGHBaseController;
+import py.una.med.base.log.Log;
 import py.una.med.base.util.StringUtils;
 
 /**
@@ -50,40 +49,8 @@ import py.una.med.base.util.StringUtils;
 @Component
 public class SIGHSecurity {
 
-	/**
-	 * Cuando sea un {@link ISIGHBaseController} el componente que se este
-	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
-	 * sino se invocara al método
-	 * {@link ISIGHBaseController#getDefaultPermission()}
-	 */
-	public static final String DEFAULT = "DEFAULT";
-
-	/**
-	 * Cuando sea un {@link ISIGHBaseController} el componente que se este
-	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
-	 * sino se invocara al método
-	 * {@link ISIGHBaseController#getCreatePermission()}
-	 */
-	public static final String DEFAULT_CREATE = "DEFAULT_CREATE";
-
-	/**
-	 * Cuando sea un {@link ISIGHBaseController} el componente que se este
-	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
-	 * sino se invocara al método
-	 * {@link ISIGHBaseController#getEditPermission()}
-	 */
-	public static final String DEFAULT_EDIT = "DEFAULT_EDIT";
-
-	/**
-	 * Cuando sea un {@link ISIGHBaseController} el componente que se este
-	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
-	 * sino se invocara al método
-	 * {@link ISIGHBaseController#getDeletePermission()}
-	 */
-	public static final String DEFAULT_DELETE = "DEFAULT_DELETE";
-
-	private static final Logger log = LoggerFactory
-			.getLogger(SIGHSecurity.class);
+	@Log
+	private Logger log;
 
 	/**
 	 * Método central de la seguridad de Karaku, utiliza la anotación
@@ -94,7 +61,6 @@ public class SIGHSecurity {
 	 * @param hasRole
 	 *            {@link HasRole} utilizado para definir el punto de control
 	 */
-	@SuppressWarnings("rawtypes")
 	public void doIt(final JoinPoint joinPoint, final HasRole hasRole) {
 
 		String permission = hasRole.value();
@@ -104,24 +70,56 @@ public class SIGHSecurity {
 
 		Object target = joinPoint.getTarget();
 
-		if (target instanceof ISIGHBaseController) {
+		if (target instanceof HasDefaultPermissions) {
 
-			ISIGHBaseController controller = (ISIGHBaseController) target;
+			HasDefaultPermissions controller = (HasDefaultPermissions) target;
 
-			if (DEFAULT.equals(permission)) {
+			if (HasDefaultPermissions.DEFAULT.equals(permission)) {
 				permission = controller.getDefaultPermission();
-			} else if (DEFAULT_CREATE.equals(permission)) {
+			} else if (HasDefaultPermissions.DEFAULT_CREATE.equals(permission)) {
 				permission = controller.getCreatePermission();
-			} else if (DEFAULT_EDIT.equals(permission)) {
+			} else if (HasDefaultPermissions.DEFAULT_EDIT.equals(permission)) {
 				permission = controller.getEditPermission();
-			} else if (DEFAULT_DELETE.equals(permission)) {
+			} else if (HasDefaultPermissions.DEFAULT_DELETE.equals(permission)) {
 				permission = controller.getDeletePermission();
 			}
 		}
 		if (!AuthorityController.hasRoleStatic(permission)) {
-			log.warn("User %s don't have the perimssion: %s",
+			log.warn("User {} don't have the perimssion: {}",
 					AuthorityController.getUsernameStatic(), permission);
 			throw new AccessDeniedException("Access denied");
 		}
 	}
+
+	/**
+	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
+	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
+	 * sino se invocara al método
+	 * {@link HasDefaultPermissions#getDefaultPermission()}
+	 */
+	public static final String DEFAULT = HasDefaultPermissions.DEFAULT;
+
+	/**
+	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
+	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
+	 * sino se invocara al método
+	 * {@link HasDefaultPermissions#getCreatePermission()}
+	 */
+	public static final String DEFAULT_CREATE = HasDefaultPermissions.DEFAULT_CREATE;
+
+	/**
+	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
+	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
+	 * sino se invocara al método
+	 * {@link HasDefaultPermissions#getEditPermission()}
+	 */
+	public static final String DEFAULT_EDIT = HasDefaultPermissions.DEFAULT_EDIT;
+
+	/**
+	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
+	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
+	 * sino se invocara al método
+	 * {@link HasDefaultPermissions#getDeletePermission()}
+	 */
+	public static final String DEFAULT_DELETE = HasDefaultPermissions.DEFAULT_DELETE;
 }

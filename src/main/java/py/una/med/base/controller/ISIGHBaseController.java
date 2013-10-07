@@ -18,6 +18,7 @@ import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.reports.Column;
+import py.una.med.base.security.HasDefaultPermissions;
 import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.PagingHelper;
 import py.una.med.base.util.SelectHelper;
@@ -27,9 +28,9 @@ import py.una.med.base.util.SelectHelper;
  * Facelets. Sirve tanto para manejar vistas y páginas de edición.
  * 
  * <br />
- * Un controlador que implementa esta interfaz solo podra realizar casos de usos
+ * Un controlador que implementa esta interfaz solo podrá realizar casos de usos
  * simples, para Karaku, un caso de uso simple es aquel que no tiene la forma
- * cabecera detalle, para estos casos se usa la conjuncion de este controlador y
+ * cabecera detalle, para estos casos se usa la conjunción de este controlador y
  * {@link ISIGHMainController} (para el controlador cabecera) y
  * {@link ISIGHEmbeddableController} (para los controladores detalle). <br />
  * Ejemplos de uso:
@@ -83,7 +84,8 @@ import py.una.med.base.util.SelectHelper;
  * @see ISIGHEmbeddableController ISIGHEmbeddableController interfaz que define
  *      el detalle de un caso de uso complejo
  */
-public interface ISIGHBaseController<T, ID extends Serializable> {
+public interface ISIGHBaseController<T, ID extends Serializable> extends
+		HasDefaultPermissions {
 
 	/**
 	 * Enumeración utilizada para determinar el estado en el que se encuentra un
@@ -618,45 +620,6 @@ public interface ISIGHBaseController<T, ID extends Serializable> {
 	 * @return Titulo del reporte
 	 */
 	String getHeaderReport();
-
-	/**
-	 * Retorna una cadena que representa el defecto, este permiso es utilizado
-	 * cuando ningún otro permiso es proveído, y es el permiso necesario para
-	 * poder Ver
-	 * 
-	 * @see #isView()
-	 * @return cadena que representa el permiso
-	 */
-	String getDefaultPermission();
-
-	/**
-	 * Retorna la cadena que representa el nombre del permiso necesario para
-	 * poder borrar registros en este controlador.<br />
-	 * Si no se quiere que se pueda borrar, se puede poner una cadena aleatoria
-	 * o retornar <code>""</code>
-	 * 
-	 * @see #isDelete()
-	 * @return cadena que representa el permiso
-	 */
-	String getDeletePermission();
-
-	/**
-	 * Retorna la cadena que representa el nombre del permiso necesario para
-	 * poder crear nuevos registros en este controlador.<br />
-	 * 
-	 * @see #isCreate()
-	 * @return cadena que representa el permiso
-	 */
-	String getCreatePermission();
-
-	/**
-	 * Retorna la cadena que representa el nombre del permiso necesario para
-	 * poder editar registros en este controlador.<br />
-	 * 
-	 * @see #isEdit()
-	 * @return cadena que representa el permiso
-	 */
-	String getEditPermission();
 
 	/**
 	 * Método que debe ser implementado en la clase que desea definir alguna
