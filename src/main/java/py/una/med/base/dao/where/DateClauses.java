@@ -6,11 +6,9 @@ package py.una.med.base.dao.where;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.log.Log;
 import py.una.med.base.util.FormatProvider;
 
 /**
@@ -24,17 +22,33 @@ import py.una.med.base.util.FormatProvider;
 @Component
 public final class DateClauses {
 
+	/**
+	 * 
+	 */
+	private static final int MILISECOND_SECOND = 1000;
+
+	private static final int LAST_MINUTE = 59;
+
+	private static final int LAST_HOUR = 23;
+
+	/**
+	 * Tomando como zona horaria la paraguaya, GMT-4, son 4 horas de diferencia.
+	 */
+	private static final long EPOCH_MILISECONDS = 14400000;
+
 	@Autowired
 	private FormatProvider fp;
 
-	@Log
-	private Logger logger;
-
 	/**
+	 * Comparación de rangos de fechas.
+	 * 
+	 * <p>
 	 * Dadas dos fechas en cualquier formato (
 	 * {@link FormatProvider#DATE_FORMAT} o
 	 * {@link FormatProvider#DATE_SHORT_FORMAT}), retorna una cláusula que
 	 * realiza la comparación de fechas.
+	 * 
+	 * </p>
 	 * 
 	 * @param path
 	 *            ubicación del atributo
@@ -49,10 +63,10 @@ public final class DateClauses {
 	public Clause between(String path, String dateOne, String dateTwo,
 			boolean inclusive) {
 
-		Date one = this._asDate(dateOne);
-		Date two = this._asDate(dateTwo);
+		Date one = this.getAsDate(dateOne);
+		Date two = this.getAsDate(dateTwo);
 
-		return this._between(path, one, two, inclusive);
+		return this.doBetween(path, one, two, inclusive);
 	}
 
 	/***
@@ -72,7 +86,7 @@ public final class DateClauses {
 	public Clause between(String path, Date dateOne, Date dateTwo,
 			boolean inclusive) {
 
-		return this._between(path, dateOne, dateTwo, inclusive);
+		return this.doBetween(path, dateOne, dateTwo, inclusive);
 	}
 
 	/**
@@ -94,35 +108,10 @@ public final class DateClauses {
 	public Clause betweenTime(String path, String dateOne, String dateTwo,
 			boolean inclusive) {
 
-		Date one = this._asDate(dateOne);
-		Date two = this._asDate(dateTwo);
+		Date one = this.getAsDate(dateOne);
+		Date two = this.getAsDate(dateTwo);
 
-		return this._between(path, one, two, inclusive);
-	}
-
-	/**
-	 * Dadas dos fechas en cualquier formato (
-	 * {@link FormatProvider#DATETIME_FORMAT} o
-	 * {@link FormatProvider#DATETIME_SHORT_FORMAT}), retorna una cláusula que
-	 * realiza la comparación de fechas.
-	 * 
-	 * @param path
-	 *            ubicación del atributo
-	 * @param dateOne
-	 *            fecha de inicio
-	 * @param dateTwo
-	 *            fecha de fin
-	 * @param inclusive
-	 *            si el rango es inclusivo o exclusivo.
-	 * @return {@link Clause} de comparación.
-	 */
-	public Clause betweenDateTime(String path, String dateOne, String dateTwo,
-			boolean inclusive) {
-
-		Date one = this._asDate(dateOne);
-		Date two = this._asDate(dateTwo);
-
-		return this._between(path, one, two, inclusive);
+		return this.doBetweenTime(path, one, two, inclusive);
 	}
 
 	/***
@@ -142,10 +131,63 @@ public final class DateClauses {
 	public Clause betweenTime(String path, Date dateOne, Date dateTwo,
 			boolean inclusive) {
 
-		return this._between(path, dateOne, dateTwo, inclusive);
+		return this.doBetweenTime(path, dateOne, dateTwo, inclusive);
 	}
 
-	private Clause _between(String path, Date one, Date two, boolean inclusive) {
+	/**
+	 * Comparación de fechas con horas y minutos.
+	 * <p>
+	 * Dadas dos fechas en cualquier formato (
+	 * {@link FormatProvider#DATETIME_FORMAT} o
+	 * {@link FormatProvider#DATETIME_SHORT_FORMAT}), retorna una cláusula que
+	 * realiza la comparación de fechas.
+	 * </p>
+	 * 
+	 * @param path
+	 *            ubicación del atributo
+	 * @param dateOne
+	 *            fecha de inicio
+	 * @param dateTwo
+	 *            fecha de fin
+	 * @param inclusive
+	 *            si el rango es inclusivo o exclusivo.
+	 * @return {@link Clause} de comparación.
+	 */
+	public Clause betweenDateTime(String path, String dateOne, String dateTwo,
+			boolean inclusive) {
+
+		Date one = this.getAsDate(dateOne);
+		Date two = this.getAsDate(dateTwo);
+
+		return this.doBetweenDateTime(path, one, two, inclusive);
+	}
+
+	/**
+	 * Comparación de fechas con horas y minutos.
+	 * <p>
+	 * Dadas dos fechas en cualquier formato (
+	 * {@link FormatProvider#DATETIME_FORMAT} o
+	 * {@link FormatProvider#DATETIME_SHORT_FORMAT}), retorna una cláusula que
+	 * realiza la comparación de fechas.
+	 * </p>
+	 * 
+	 * @param path
+	 *            ubicación del atributo
+	 * @param one
+	 *            fecha de inicio
+	 * @param two
+	 *            fecha de fin
+	 * @param inclusive
+	 *            si el rango es inclusivo o exclusivo.
+	 * @return {@link Clause} de comparación.
+	 */
+	public Clause betweenDateTime(String path, Date one, Date two,
+			boolean inclusive) {
+
+		return this.doBetweenDateTime(path, one, two, inclusive);
+	}
+
+	private Clause doBetween(String path, Date one, Date two, boolean inclusive) {
 
 		if (inclusive) {
 			one = this.setTimeToBegin(one);
@@ -153,13 +195,60 @@ public final class DateClauses {
 		} else {
 			one = this.setTimeToEnd(one);
 			two = this.setTimeToBegin(two);
-			one = this.addMinute(one, 1);
-			two = this.addMinute(two, -1);
+			one = this.nextInstant(one);
+			two = this.previousInstant(two);
 		}
 		return Clauses.between(path, one, two);
 	}
 
-	private Date _asDate(final String date) {
+	private Clause doBetweenTime(final String path, final Date one,
+			final Date two, boolean inclusive) {
+
+		Date first = getOnlyHourAndMinutes(one);
+		Date last = getOnlyHourAndMinutes(two);
+
+		if (!inclusive) {
+			first = nextInstant(first);
+			last = previousInstant(last);
+		}
+		return Clauses.between(path, first, last);
+	}
+
+	private Clause doBetweenDateTime(final String path, final Date one,
+			final Date two, boolean inclusive) {
+
+		Date first = truncateSecondsAndMinutes(one);
+		Date last = truncateSecondsAndMinutes(two);
+
+		if (!inclusive) {
+			first = nextInstant(first);
+			last = previousInstant(last);
+		}
+		return Clauses.between(path, first, last);
+	}
+
+	private Date truncateSecondsAndMinutes(Date date) {
+
+		Calendar c = getCalendar(date);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTime();
+	}
+
+	/**
+	 * Retorna un {@link Date} que solo contiene la hora y los minutos,
+	 * eliminado todos los demas.
+	 * 
+	 * @param date
+	 * @return
+	 */
+	private Date getOnlyHourAndMinutes(Date date) {
+
+		return copy(getCalendar(date), getEpoch(), Calendar.HOUR_OF_DAY,
+				Calendar.MINUTE).getTime();
+	}
+
+	private Date getAsDate(final String date) {
 
 		try {
 			if (this.fp.isDate(date)) {
@@ -168,17 +257,24 @@ public final class DateClauses {
 				return this.fp.parseShortDate(date);
 			}
 		} catch (ParseException e) {
-			this.logger.info("Can't parse: {}", date);
-			throw new KarakuRuntimeException("Can't parse: " + date);
+			throw new KarakuRuntimeException("Can't parse: " + date, e);
 		}
+	}
+
+	private Date nextInstant(Date date) {
+
+		return addMinute(date, 1);
+	}
+
+	private Date previousInstant(Date date) {
+
+		return addMinute(date, -1);
 	}
 
 	private Date addMinute(Date date, int minutes) {
 
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) + minutes);
-		return c.getTime();
+		date.setTime(date.getTime() + (MILISECOND_SECOND * minutes));
+		return date;
 	}
 
 	/**
@@ -191,8 +287,8 @@ public final class DateClauses {
 
 		Calendar c = Calendar.getInstance();
 		c.setTime(d);
-		c.set(Calendar.MINUTE, 59);
-		c.set(Calendar.HOUR_OF_DAY, 23);
+		c.set(Calendar.MINUTE, LAST_MINUTE);
+		c.set(Calendar.HOUR_OF_DAY, LAST_HOUR);
 		return c.getTime();
 	}
 
@@ -209,5 +305,29 @@ public final class DateClauses {
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		return c.getTime();
+	}
+
+	private Calendar getEpoch() {
+
+		Calendar epoch = Calendar.getInstance();
+		epoch.setTimeInMillis(EPOCH_MILISECONDS);
+		// epoch.set(Calendar.YEAR, 1970);
+		// epoch.set(Calendar.DAY_OF_YEAR, 1);
+		return epoch;
+	}
+
+	private Calendar copy(Calendar from, Calendar to, int ... fields) {
+
+		for (int i : fields) {
+			to.set(i, from.get(i));
+		}
+		return to;
+	}
+
+	private Calendar getCalendar(Date date) {
+
+		Calendar first = Calendar.getInstance();
+		first.setTime(date);
+		return first;
 	}
 }

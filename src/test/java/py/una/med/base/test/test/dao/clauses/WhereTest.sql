@@ -7,15 +7,15 @@ insert into test (id, description, costo, fecha, bigdecimal) values (6, 'PETOTE'
 insert into test (id, description, costo, fecha, bigdecimal) values (7, 'TOTE',     225, '2013-12-19',     1287);
 
 
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(1, 'COSTO_CHILD', 	3, '2013-12-13',     1000);
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(2, 'COSTO2_CHILD', 	2, '2013-12-13',     8228);
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(3, 'ASTEAS', 			5, '2013-12-13',     6879);
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(4, 'TEASTO', 			6, '2013-12-13',     2357);
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(5, 'TOASTE', 			7, '2013-12-13', 15798565);
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(6, 'TO', 				4, '2013-12-13',   549865);
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(7, 'COSTO_CHILD', 	4, '2013-12-13',    54896);
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(8, 'TOTE', 			1, '2013-12-13',  8972145);
-insert into test_child (id, description, father_id, fecha, bigdecimal) values(9, 'XXX', 			1, '2013-12-13', 54789218);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(1, 'COSTO_CHILD', 	3, '1970-01-01 08:00:00.0',     1000);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(2, 'COSTO2_CHILD', 	2, '1970-01-01 08:30:00.0',     8228);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(3, 'ASTEAS', 			5, '1970-01-01 09:00:00.0',     6879);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(4, 'TEASTO', 			6, '1970-01-01 09:30:00.0',     2357);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(5, 'TOASTE', 			7, '1970-01-01 14:00:00.0', 15798565);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(6, 'TO', 				4, '1970-01-01 14:30:00.0',   549865);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(7, 'COSTO_CHILD', 	4, '1970-01-01 18:30:00.0',    54896);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(8, 'TOTE', 			1, '1970-01-01 22:59:00.0',  8972145);
+insert into test_child (id, description, father_id, fecha, bigdecimal) values(9, 'XXX', 			1, '1970-01-01 23:59:00.0', 54789218);
 
 
 
