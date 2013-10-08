@@ -5,11 +5,14 @@
 
 package py.una.med.base.business.reports;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.exception.ReportException;
@@ -91,6 +94,25 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	}
 
 	/**
+	 * Se utiliza para REPORTES ESTÁTICOS
+	 * 
+	 * @param blocks
+	 * @param params
+	 * @return
+	 */
+
+	@Override
+	public void generateReportStatic(String fileReport,
+			Map<String, Object> params, String type,
+			Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException {
+
+		JRDataSource datasource = new JRBeanCollectionDataSource(getList(
+				listFilters, listOrder));
+		exportReport.exportReportStatic(fileReport, datasource, params, type);
+	}
+
+	/**
 	 * Se utiliza para setear como parametro una lista de datasources, esto se
 	 * aplica para subreportes concatenados
 	 * 
@@ -106,6 +128,12 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 			params.put(block.getNameDataSource(), block.getDataSource());
 		}
 		return params;
+	}
+
+	@Override
+	public List<Column> getColumnsReport() {
+
+		return new ArrayList<Column>();
 	}
 
 	@Override

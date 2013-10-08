@@ -130,4 +130,8 @@ public interface ISIGHBaseReportAdvanced<T> {
 	Map<String, Object> setDataSources(List<SIGHReportBlockGrid> blocks,
 			Map<String, Object> params);
 
+	void generateReportStatic(String fileReport, Map<String, Object> params,
+			String type, Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException;
+
 }
