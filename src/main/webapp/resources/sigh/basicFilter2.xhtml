@@ -17,26 +17,29 @@
 	<composite:facet name="extraButtons" />
 </composite:interface>
 <composite:implementation>
+	<rich:messages globalOnly="false"></rich:messages>
 	<h:panelGrid columns="8">
+
 		<h:outputLabel value="Filtro: " />
 		<h:inputText id="filterValue" value="#{cc.attrs.simpleFilter.value}"
 			style="width:200px" />
-		<h:message for="filterValue" />
+		<rich:messages for="filterValue" styleClass="form_error" />
 		<h:outputLabel value="Atributo:" />
 		<h:selectOneMenu id="filterOption"
 			value="#{cc.attrs.simpleFilter.option}" style="width:200px"
 			converter="oldStringConverter">
-			<f:selectItem itemLabel="Ingrese una opción" />
+			<f:selectItem itemLabel="#{msg['BASE_SELECT_SIMPLE_SEARCH']}"
+				noSelectionOption="true" />
 			<f:selectItems value="#{cc.attrs.filterOptions}" />
 		</h:selectOneMenu>
-		<h:message for="filterOption" />
+		<rich:messages for="filterOption" styleClass="form_error" />
 
 		<a4j:commandButton value="#{msg['BASE_SEARCH_SIMPLE_SEARCH']}"
 			execute="filterValue filterOption"
 			render="@form #{cc.attrs.searchRender}" />
 		<a4j:commandButton value="#{msg['LIST_CLEAR']}"
 			render="#{cc.attrs.searchRender} @form" immediate="true"
-			execute="@none" action="#{cc.attrs.simpleFilter.clear}" />
+			action="#{cc.attrs.simpleFilter.clear}" />
 	</h:panelGrid>
 </composite:implementation>
 </html>

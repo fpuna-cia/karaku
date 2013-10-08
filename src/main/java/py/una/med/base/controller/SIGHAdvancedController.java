@@ -29,7 +29,7 @@ import py.una.med.base.util.StringUtils;
  * @version 1.4 07/02/2013
  */
 public abstract class SIGHAdvancedController<T, K extends Serializable> extends
-		SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
+SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
 
 	@Autowired
 	private ControllerHelper helper;
@@ -69,7 +69,11 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 				continue;
 			}
 			if (I18nHelper.getName(displayName).equals(value)) {
-				return value;
+				if ("".equals(displayName.path().trim())) {
+					return f.getName();
+				} else {
+					return f.getName() + "." + displayName.path();
+				}
 			}
 		}
 		return null;

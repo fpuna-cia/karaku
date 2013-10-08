@@ -19,15 +19,19 @@ import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.model.DisplayName;
 
 /**
- *
+ * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 25, 2013
- *
+ * 
  */
 public class SIGHListHelper<T, K extends Serializable> implements
 		KarakuListHelperProvider<T> {
 
+	/**
+	 * 
+	 */
+	private static final int ROWS_FOR_PAGE = 5;
 	private SimpleFilter simpleFilter;
 	private PagingHelper helper;
 	private ISIGHBaseLogic<T, K> logic;
@@ -49,7 +53,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		this.clazz = clazz;
 		this.simpleFilter = simpleFilter;
 		this.logic = logic;
-		this.helper = new PagingHelper(10);
+		this.helper = new PagingHelper(ROWS_FOR_PAGE);
 	}
 
 	/**
@@ -72,7 +76,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see py.una.med.base.util.KarakuListHelperProvider#getEntities()
 	 */
 	@Override
@@ -133,7 +137,11 @@ public class SIGHListHelper<T, K extends Serializable> implements
 				continue;
 			}
 			if (I18nHelper.getName(displayName).equals(value)) {
-				return value;
+				if ("".equals(displayName.path().trim())) {
+					return f.getName();
+				} else {
+					return f.getName() + "." + displayName.path();
+				}
 			}
 		}
 		return null;

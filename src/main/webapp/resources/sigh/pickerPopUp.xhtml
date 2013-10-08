@@ -63,13 +63,18 @@
 							listener="#{cc.selectionListener}" render="@form" />
 						<ui:include src="#{cc.attrs.urlColumns}" />
 					</rich:extendedDataTable>
-
+					<h:panelGrid columns="3" width="100%"
+						columnClasses="list_button_class,list_export_class,list_pagin_class">
+						<h:outputLabel value="" />
+						<h:outputLabel value="" />
+						<sigh:navigation helper="#{cc.attrs.pickerField.listHelper.helper}"
+							idPanel="idPagingPanel" render="pg" />
+					</h:panelGrid>
 					<rich:panel>
 						<h:outputLabel value="Valor Seleccionado: " />
 						<h:outputText
 							value="#{cc.attrs.pickerField.getFormmatedOption(cc.selectedItem)} "
-							style="font-weight: bold;"
-							id="pickerResult" />
+							style="font-weight: bold;" id="pickerResult" />
 					</rich:panel>
 					<h:panelGrid id="picker_control" columns="2">
 						<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
@@ -83,6 +88,7 @@
 						</a4j:commandButton>
 					</h:panelGrid>
 				</h:panelGroup>
+
 			</h:form>
 		</rich:popupPanel>
 	</cc:implementation>
