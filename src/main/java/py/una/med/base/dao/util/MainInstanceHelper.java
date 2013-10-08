@@ -184,6 +184,7 @@ public class MainInstanceHelper {
 				Object o = m.get(generateAlias(mi));
 				f.setAccessible(true);
 				f.set(entity, o);
+				f.setAccessible(false);
 			}
 		}
 		aRet = new ArrayList<T>(toBuild);

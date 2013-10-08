@@ -30,9 +30,6 @@ public class LeExpressionHelper extends BaseClauseHelper<Le> {
 
 		String aliasWithProperty = configureAlias(criteria, le.getPath(),
 				aliases);
-		if (aliasWithProperty == null) {
-			return le.getCriterion();
-		}
 		return Restrictions.le(aliasWithProperty, le.getValue());
 
 	}

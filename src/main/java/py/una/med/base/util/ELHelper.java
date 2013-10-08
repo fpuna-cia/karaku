@@ -262,7 +262,7 @@ public class ELHelper {
 		return real.getDeclaredField(name);
 	}
 
-	private static Pattern getPattern() {
+	private synchronized static Pattern getPattern() {
 
 		if (pattern == null) {
 			pattern = Pattern

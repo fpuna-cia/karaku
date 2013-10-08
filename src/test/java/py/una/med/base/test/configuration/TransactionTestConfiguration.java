@@ -27,6 +27,7 @@ import py.una.med.base.dao.helper.NotExpressionHelper;
 import py.una.med.base.dao.helper.NumberLikeExpressionHelper;
 import py.una.med.base.dao.helper.OrExpressionHelper;
 import py.una.med.base.dao.helper.RestrictionHelper;
+import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.exception.KarakuPropertyNotFoundException;
 import py.una.med.base.exception.KarakuRuntimeException;
@@ -34,7 +35,9 @@ import py.una.med.base.exception.KarakuRuntimeException;
 /**
  * Clases de persistencia para los test, sus anotaciones no se heredan.
  * <p>
- * Crea por defecto una base de datos H2, sin ningún
+ * Crea por defecto una base de datos H2, sin ningún dato, solamente las
+ * entidades definidas en {@link #getBasePackageToScan()} o
+ * {@link #getEntityClasses()}.
  * </p>
  * 
  * @author Arturo Volpe
@@ -62,7 +65,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	public DataSource dataSource() throws IOException {
 
 		EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder()
-				.setType(EmbeddedDatabaseType.H2);
+		.setType(EmbeddedDatabaseType.H2);
 		return edb.build();
 
 	}
@@ -229,15 +232,14 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 		return new CaseSensitiveInterceptor();
 	}
 
+	@Bean
+	MainInstanceHelper mainInstanceHelper() {
+
+		return new MainInstanceHelper();
+	}
+
 	static class TestLocalSessionFactoryBean extends LocalSessionFactoryBean {
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.springframework.orm.hibernate4.LocalSessionFactoryBean#
-		 * buildSessionFactory
-		 * (org.springframework.orm.hibernate4.LocalSessionFactoryBuilder)
-		 */
 		@Override
 		protected SessionFactory buildSessionFactory(
 				LocalSessionFactoryBuilder sfb) {

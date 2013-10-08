@@ -28,13 +28,6 @@ public final class OrExpressionHelper extends BaseClauseHelper<Or> {
 	@Autowired
 	private RestrictionHelper helper;
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * py.una.med.base.dao.helper.BaseClauseHelper#getCriterion(org.hibernate
-	 * .Criteria, py.una.med.base.dao.where.Clause, java.util.Map)
-	 */
 	@Override
 	public Criterion getCriterion(Criteria criteria, Or clause,
 			Map<String, String> aliases) {

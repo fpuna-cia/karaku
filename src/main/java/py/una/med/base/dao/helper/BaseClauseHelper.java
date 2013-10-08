@@ -7,13 +7,10 @@ package py.una.med.base.dao.helper;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
-
 import py.una.med.base.dao.where.Clause;
 import py.una.med.base.exception.KarakuRuntimeException;
 
@@ -107,15 +104,16 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	 * @return alias configurado (y agregado si {@link Criteria} no es
 	 *         <code>null</code>);
 	 */
-	public String configureAlias(@Nullable Criteria criteria,
+	public static String configureAlias(@Nullable Criteria criteria,
 			@NotNull String property, @NotNull final Map<String, String> aliases) {
 
+		// TODO mover a algo parecido a un AliasHelper
 		if (aliases == null) {
 			throw new IllegalArgumentException("Aliases can not be null");
 		}
 		if (!property.contains(PROPERTY_SEPARATOR)) {
 
-			return null;
+			return property;
 		}
 
 		String[] partes = property.split(PROPERTY_SEPARATOR_REGEX);
@@ -186,7 +184,8 @@ public abstract class BaseClauseHelper<T extends Clause> {
 		return clazz;
 	}
 
-	private void addAliasToCriteria(String alias, String path, Criteria criteria) {
+	private static void addAliasToCriteria(String alias, String path,
+			Criteria criteria) {
 
 		if (criteria == null) {
 			return;

@@ -22,23 +22,26 @@ import py.una.med.base.test.util.transaction.DatabasePopulatorExecutionListener;
 import py.una.med.base.test.util.transaction.SQLFiles;
 
 /**
- * 
+ * Base clase para Test que utilicen una base de datos.
+ * <p>
  * Los test que desean tener un script de inserción de datos para pruebas deben
  * heredad de esta clase. Automáticamente todos los test son isolados, es decir,
  * utilizan este proceso:
  * <ol>
  * <li>Invocación de {@link #populateTable()} que crea los datos de prueba</li>
- * <li>Se invoca a los métodos que esten marcados con {@literal @}{@link Before} </li>
+ * <li>Se invoca a los métodos que están marcados con {@literal @}{@link Before}
+ * </li>
  * <li>Se inicia una transacción</li>
  * <li>Se invoca al método</li>
  * <li>Se hace un rollback de la transacción</li>
  * </ol>
+ * </p>
  * <p>
  * Las anotaciones {@link Transactional} y {@link TransactionConfiguration} se
  * heredan, asi que no hace falta declararlas en cada subclase. Estas
- * anotaciones indican que todos los {@literal @}{@link Test} seran ejecutados
+ * anotaciones indican que todos los {@literal @}{@link Test} ser�n ejecutados
  * como una transacción independiente, si se desea que un test no realice
- * rollback, se puede utilizar la anotación {@litel @}{@link Rollback} pasando
+ * rollback, se puede utilizar la anotación {@literal @}{@link Rollback} pasando
  * como {@link Rollback#value()} <code>false</code>
  * </p>
  * 
@@ -61,7 +64,7 @@ import py.una.med.base.test.util.transaction.SQLFiles;
  * 
  * 	}
  * 
- * 	{@literal @}{@link Autowired}	// Podemos inyectar el bean que creamos más arriba
+ * 	{@literal @}{@link Autowired}	// Podemos inyectar el bean que creamos m�s arriba
  * 	MyBean mybean;
  * 
  * 	{@literal @}{@link Test}
@@ -93,7 +96,7 @@ import py.una.med.base.test.util.transaction.SQLFiles;
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @TestExecutionListeners({ TransactionalTestExecutionListener.class,
-		DatabasePopulatorExecutionListener.class })
+	DatabasePopulatorExecutionListener.class })
 @SQLFiles
 public abstract class BaseTestWithDatabase extends BaseTest {
 

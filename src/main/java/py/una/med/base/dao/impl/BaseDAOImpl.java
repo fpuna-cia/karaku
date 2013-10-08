@@ -1,6 +1,6 @@
 /*
  * @BaseDaoImpl
- *
+ * 
  * Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.dao.impl;
@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.BaseDAO;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
+import py.una.med.base.dao.helper.BaseClauseHelper;
 import py.una.med.base.dao.helper.RestrictionHelper;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
@@ -46,7 +47,7 @@ import py.una.med.base.log.Log;
  * Debería migrar paulatinamente a {@link EntityManager} para una mayor
  * portabilidad hacia otros motores que no sean hibernate, y para utilizar mejor
  * hibernate 4
- *
+ * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 14, 2013
@@ -54,8 +55,8 @@ import py.una.med.base.log.Log;
  *            Clase de la entidad a ser utilizada
  * @param <ID>
  *            ID de la entidad
- *
- *
+ * 
+ * 
  */
 public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		BaseDAO<T, K> {
@@ -67,6 +68,9 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	@Autowired
 	private RestrictionHelper helper;
+
+	@Autowired
+	private MainInstanceHelper mainInstanceHelper;
 
 	@Log
 	private Logger log;
@@ -95,7 +99,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * Metodo que agrega relaciones
-	 *
+	 * 
 	 * @param criteria
 	 * @param example
 	 * @return
@@ -133,13 +137,12 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public List<T> getAll(final Where<T> where, final ISearchParam params) {
 
 		Map<String, String> alias = new HashMap<String, String>();
-		Criteria criteria = this.generateWhere(where, params, alias);
-
-		MainInstanceHelper helper2 = new MainInstanceHelper();
+		Criteria criteria = this.generateWhere(where, alias);
+		configureParams(params, criteria, alias);
 
 		try {
-			return helper2.configureAndReturnList(this.getSession(), criteria,
-					this.getClassOfT(), alias, where);
+			return mainInstanceHelper.configureAndReturnList(this.getSession(),
+					criteria, this.getClassOfT(), alias, where);
 		} catch (Exception e) {
 			this.log.error("Imposible obtener lista de elementos", e);
 			throw new KarakuRuntimeException(e);
@@ -147,7 +150,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	protected Criteria generateWhere(final Where<T> where,
-			final ISearchParam params, final Map<String, String> alias) {
+			final Map<String, String> alias) {
 
 		Criteria criteria = this.getCriteria();
 		if (where != null) {
@@ -170,22 +173,22 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 				this.configureExample(criteria, example.getEntity());
 			}
 		}
-		this.configureParams(params, criteria);
-
 		this.helper.applyRestrictions(criteria, where, alias);
 		return criteria;
 	}
 
 	protected void configureParams(final ISearchParam params,
-			final Criteria criteria) {
+			final Criteria criteria, Map<String, String> alias) {
 
 		if (params != null) {
 			if (params.getOrders() != null) {
 				for (OrderParam order : params.getOrders()) {
+					String property = BaseClauseHelper.configureAlias(criteria,
+							order.getColumnName(), alias);
 					if (order.isAsc()) {
-						criteria.addOrder(Order.asc(order.getColumnName()));
+						criteria.addOrder(Order.asc(property));
 					} else {
-						criteria.addOrder(Order.desc(order.getColumnName()));
+						criteria.addOrder(Order.desc(property));
 					}
 				}
 			}
@@ -269,7 +272,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public Long getCount(final Where<T> where) {
 
 		HashMap<String, String> alias = new HashMap<String, String>();
-		Criteria criteria = this.generateWhere(where, null, alias);
+		Criteria criteria = this.generateWhere(where, alias);
 		if (where != null && where.isDistinct()) {
 			criteria.setProjection(Projections.countDistinct("id"));
 		} else {
@@ -308,7 +311,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	 * Obtiene una session del contexto actual, si no hay una sesion abierta,
 	 * lanza una excepcion {@link HibernateException} con el mensaje
 	 * "Not session found in the current thread"
-	 *
+	 * 
 	 * @return {@link Session} del contexto actual
 	 */
 	public Session getSession() {
@@ -318,7 +321,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * Retorna el Componente creador de Sessiones
-	 *
+	 * 
 	 * @return SessionFactory del thread actual
 	 */
 	protected SessionFactory getSessionFactory() {
@@ -358,7 +361,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	/**
 	 * Asigna un sessionFactory para ser usado de ahora en mas para obtener
 	 * sessiones y mantener transacciones
-	 *
+	 * 
 	 * @param sessionFactory
 	 */
 	public void setSessionFactory(final SessionFactory sessionFactory) {
@@ -368,7 +371,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * Aquí no se debe copiar el ID como en {@link #add(Object)}, pues el
 	 * {@link Id} no debe ser mutable.
 	 */

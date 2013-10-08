@@ -35,9 +35,6 @@ public final class NumberLikeExpressionHelper extends
 
 		String aliasWithProperty = configureAlias(criteria,
 				clause.getPropiedad(), aliases);
-		if (aliasWithProperty == null) {
-			return clause;
-		}
 		clause.setPropiedad(aliasWithProperty);
 		return clause;
 

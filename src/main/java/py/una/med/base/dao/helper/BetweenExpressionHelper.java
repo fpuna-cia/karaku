@@ -38,9 +38,6 @@ public final class BetweenExpressionHelper extends BaseClauseHelper<Between> {
 
 		String aliasWithProperty = configureAlias(criteria, clause.getPath(),
 				aliases);
-		if (aliasWithProperty == null) {
-			aliasWithProperty = clause.getPath();
-		}
 		return Restrictions.between(aliasWithProperty, clause.getBegin(),
 				clause.getEnd());
 	}

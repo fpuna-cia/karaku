@@ -73,6 +73,9 @@ public class BigDecimalInterceptorTest extends BaseTest {
 		
 		cst = new CaseSensitiveTest(new BigDecimal("100000000.01"));
 		interceptorHandler.intercept(cst);
+		
+		cst = new CaseSensitiveTest(new BigDecimal("-1.01"));
+		interceptorHandler.intercept(cst);
 	}
 
 	@Test(expected = KarakuRuntimeException.class)
