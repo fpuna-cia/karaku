@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,9 +55,9 @@ public class ReportControllerHelper {
 	 *            Tipo del reporte.
 	 */
 	public void addReport(final String key, final JasperPrint print,
-			final String name, final String type) {
+			final String name, final String type, final String user) {
 
-		this.getHolder().put(key, new Holder(print, name, type));
+		this.getHolder().put(key, new Holder(print, name, type, user));
 
 	}
 
@@ -76,15 +78,25 @@ public class ReportControllerHelper {
 		this.setLoad(false);
 
 		if (this.getHolder().containsKey(id)) {
-			final Holder holderPrint = this.getHolder().get(id);
-			this.exportReport.generate(httpServletResponse,
-					holderPrint.getJasperPrint(), holderPrint.getName(),
-					holderPrint.getType());
-			this.getHolder().remove(id);
+			if (this.checkPermission(this.getHolder().get(id).getUser())) {
+
+				final Holder holderPrint = this.getHolder().get(id);
+				this.exportReport.generate(httpServletResponse,
+						holderPrint.getJasperPrint(), holderPrint.getName(),
+						holderPrint.getType());
+				this.getHolder().remove(id);
+			} else {
+				throw new AccessDeniedException("Access denied");
+			}
 		} else {
 			throw new KarakuRuntimeException("Report already printed");
 		}
+	}
 
+	private boolean checkPermission(String user) {
+
+		return user.equals(SecurityContextHolder.getContext()
+				.getAuthentication().getName());
 	}
 
 	/**
@@ -123,6 +135,7 @@ public class ReportControllerHelper {
 		private final JasperPrint jasperPrint;
 		private final String name;
 		private final String type;
+		private final String user;
 
 		/**
 		 * Constructor por defecto.
@@ -131,16 +144,19 @@ public class ReportControllerHelper {
 		 *            Reporte creado que se desea exportar.
 		 * @param name
 		 *            Nombre del reporte.
+		 * @param user
+		 *            Usuario que genero el reporte.
 		 * @param type
 		 *            Tipo del reporte.
 		 */
 		public Holder(final JasperPrint jasperPrint, final String name,
-				final String type) {
+				final String type, final String user) {
 
 			super();
 			this.jasperPrint = jasperPrint;
 			this.name = name;
 			this.type = type;
+			this.user = user;
 		}
 
 		/**
@@ -171,6 +187,16 @@ public class ReportControllerHelper {
 		public String getType() {
 
 			return this.type;
+		}
+
+		/**
+		 * Retorna el usuario que genero el reporte.
+		 * 
+		 * @return
+		 */
+		public String getUser() {
+
+			return this.user;
 		}
 
 	}
