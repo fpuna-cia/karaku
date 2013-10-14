@@ -5,6 +5,8 @@
 package py.una.med.base.controller.reports;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +81,14 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 
 				} else {
 					value = entry.getValue().toString();
+					if (entry.getValue().getClass().getName() == Date.class
+							.getName()) {
+						SimpleDateFormat sdf = new SimpleDateFormat(
+								"dd-MM-yyyy");
+						value = sdf.format(entry.getValue()).toString();
+					} else {
+						value = entry.getValue().toString();
+					}
 					if (value.equals("true")) {
 						value = "SI";
 					} else {
