@@ -4,8 +4,6 @@
  */
 package py.una.med.base.test.test.dao.searchParam;
 
-import static org.junit.Assert.assertEquals;
-import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +20,7 @@ import py.una.med.base.test.test.util.layers.TestChild;
 import py.una.med.base.test.test.util.layers.TestDAO;
 import py.una.med.base.test.test.util.layers.TestEntity;
 import py.una.med.base.test.test.util.layers.TestGrandChild;
-import py.una.med.base.test.util.Util;
+import py.una.med.base.test.util.TestUtils;
 import py.una.med.base.test.util.transaction.SQLFiles;
 
 /**
@@ -44,7 +42,7 @@ public class SearchParamTest extends BaseTestWithDatabase {
 		@SuppressWarnings("unchecked")
 		public Class<?>[] getEntityClasses() {
 
-			return Util.getAsArray(TestEntity.class, TestChild.class,
+			return TestUtils.getAsArray(TestEntity.class, TestChild.class,
 					TestGrandChild.class);
 		}
 
@@ -78,33 +76,22 @@ public class SearchParamTest extends BaseTestWithDatabase {
 	@Test
 	public void nestSortTest() {
 
-		checkOrder(new SearchParam().addOrder("testChild.fecha", false), "TOTE",
-				"PETOTE", "PERO");
+		checkOrder(new SearchParam().addOrder("testChild.fecha", false),
+				"TOTE", "PETOTE", "PERO");
 
-		checkOrder(new SearchParam().addOrder("testChild.fecha"), "COSTO", "CASTO",
-				"TESTO");
+		checkOrder(new SearchParam().addOrder("testChild.fecha"), "COSTO",
+				"CASTO", "TESTO");
 
-		checkOrder(new SearchParam().addOrder("testChild.bigDecimal", false), "TOTE",
-				"PERO", "PETOTE");
+		checkOrder(new SearchParam().addOrder("testChild.bigDecimal", false),
+				"TOTE", "PERO", "PETOTE");
 
-		checkOrder(new SearchParam().addOrder("testChild.bigDecimal"), "COSTO", "TASTO",
-				"TESTO", "CASTO");
+		checkOrder(new SearchParam().addOrder("testChild.bigDecimal"), "COSTO",
+				"TASTO", "TESTO", "CASTO");
 	}
 
 	private void checkOrder(ISearchParam sp, String ... descriptions) {
 
-		List<TestEntity> all = dao.getAll(sp);
-		checkOrder(all, descriptions.length, descriptions);
+		TestUtils.checkOrder(dao.getAll(sp), descriptions);
 	}
 
-	private void checkOrder(List<TestEntity> list, int count,
-			String ... descriptions) {
-
-		for (int i = 0; i < count; i++) {
-			System.out.println("Esperando: " + descriptions[i] + " vino: "
-					+ list.get(i).getDescription());
-			assertEquals(descriptions[i], list.get(i).getDescription());
-		}
-		System.out.println("=---=");
-	}
 }

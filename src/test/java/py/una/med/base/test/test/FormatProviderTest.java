@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import py.una.med.base.math.Quantity;
 import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
 import py.una.med.base.util.FormatProvider;
@@ -254,7 +255,7 @@ public class FormatProviderTest extends BaseTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testNotNull() {
 
-		assertEquals(null, fp.asNumber(null));
+		assertEquals(null, fp.asNumber((Quantity) null));
 	}
 
 	private boolean hasSameHourMinuteAndDate(Date one, Date two) {

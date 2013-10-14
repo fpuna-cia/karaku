@@ -38,6 +38,11 @@ public class LogTest extends BaseTest {
 
 	@Log
 	Logger log;
+	
+	@Log
+	public void setLog(Logger log) {
+		assertNotNull(log);
+	}
 
 	/**
 	 * Verifica si se importa correctamente

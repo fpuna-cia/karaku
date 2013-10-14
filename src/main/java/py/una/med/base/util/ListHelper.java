@@ -82,4 +82,21 @@ public final class ListHelper {
 		return collection.toArray(result);
 
 	}
+
+	/**
+	 * Define si una colección tiene o no elementos.
+	 * <p>
+	 * Este método es null-safe, es decir hasElements(null) retorna
+	 * <code>false</code>
+	 * </p>
+	 * 
+	 * @param collection
+	 *            lista de elementos, puede ser <code>null</code>
+	 * @return <code>true</code> si la lista tiene elementos, <code>false</code>
+	 *         en otro caso
+	 */
+	public boolean hasElements(Collection<?> collection) {
+
+		return !(collection == null || collection.isEmpty());
+	}
 }

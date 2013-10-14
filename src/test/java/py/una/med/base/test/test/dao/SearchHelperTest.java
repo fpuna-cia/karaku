@@ -27,7 +27,7 @@ import py.una.med.base.test.test.util.layers.TestChild;
 import py.una.med.base.test.test.util.layers.TestDAO;
 import py.una.med.base.test.test.util.layers.TestEntity;
 import py.una.med.base.test.test.util.layers.TestGrandChild;
-import py.una.med.base.test.util.Util;
+import py.una.med.base.test.util.TestUtils;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class SearchHelperTest extends BaseTestWithDatabase {
 		@SuppressWarnings("unchecked")
 		public Class<?>[] getEntityClasses() {
 
-			return Util.getAsArray(TestEntity.class, TestChild.class,
+			return TestUtils.getAsArray(TestEntity.class, TestChild.class,
 					TestGrandChild.class);
 		}
 

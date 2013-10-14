@@ -177,9 +177,6 @@ public class InterceptorHandler implements InitializingBean {
 	 */
 	private boolean isAssignable(Field field) {
 
-		if (field == null) {
-			throw new IllegalArgumentException("Field f cannot be null");
-		}
 		int modifier = field.getModifiers();
 		if (Modifier.isFinal(modifier)) {
 			return false;
