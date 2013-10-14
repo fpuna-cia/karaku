@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+	<cc:interface>
+		<cc:attribute name="controller" required="true"
+			type="py.una.med.base.controller.ISIGHQueryController" />
+		<cc:attribute name="nameQuery" required="true" type="java.lang.String" />
+		<cc:attribute name="urlFilter" type="java.lang.String" required="true" />
+		<cc:attribute name="idPanelGridOrder" default="idPanelGridOrder" />
+		<cc:attribute name="idPanelGridFormat" default="idPanelGridFormat" />
+		<cc:attribute name="idPanelGridFilter" default="idPanelGridFilter" />
+		<cc:attribute name="withOrder" default="true" />
+		<cc:attribute name="urlColumns" required="true" />
+	</cc:interface>
+
+	<cc:implementation>
+		<rich:messages ajaxRendered="true" showDetail="true" globalOnly="true" />
+		<h:form
+			rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+			<rich:panel header="#{msg['BASE_QUERY_HEADER']}">
+				<div align="center">
+					<h:outputText value="#{cc.attrs.nameQuery}" style="font-size: 11pt" />
+
+				</div>
+				<fieldset>
+					<legend>
+						<h:outputText value="#{msg['BASE_REPORT_SELECTION_CRITERIA']}" />
+					</legend>
+					<h:panelGrid columns="9" id="#{cc.attrs.idPanelGridFilter}"
+						columnClasses="form_label, form_input, form_error">
+						<ui:include src="#{cc.attrs.urlFilter}" />
+					</h:panelGrid>
+				</fieldset>
+				<h:panelGroup rendered="#{cc.attrs.withOrder}">
+					<fieldset>
+						<legend>
+							<h:outputText value="#{msg['BASE_REPORT_ORDER']}" />
+						</legend>
+						<h:panelGrid columns="3" id="#{cc.attrs.idPanelGridOrder}"
+							columnClasses="form_label,form_input,form_error">
+							<rich:pickList value="#{cc.attrs.controller.orderSelected}"
+								sourceCaption="Disponibles" targetCaption="Seleccionados"
+								listWidth="165px" listHeight="100px" orderable="true">
+								<f:selectItems value="#{cc.attrs.controller.baseOrderOptions}" />
+							</rich:pickList>
+						</h:panelGrid>
+					</fieldset>
+				</h:panelGroup>
+				<div class="space"></div>
+				<rich:panel
+					rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+					<f:facet name="header">
+						<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
+					</f:facet>
+					<div class="space"></div>
+					<h:form
+						rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+						<sigh:dataTable items="#{cc.attrs.controller.values}"
+							idDataTable="#{cc.attrs.idListEntities}"
+							controller="#{cc.attrs.controller}"
+							deleteText="#{cc.attrs.deleteButtonName}"
+							editText="#{cc.attrs.editButtonName}"
+							withActions="#{cc.attrs.withRowActions}" width="100%"
+							deleteVisible="#{cc.attrs.withDeleteVisible}"
+							withExports="#{cc.attrs.withRowExports}">
+							<ui:include src="#{cc.attrs.urlColumns}" />
+						</sigh:dataTable>
+					</h:form>
+
+					<h:panelGrid columns="1" width="100%"
+						columnClasses="list_pagin_class">
+
+						<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
+							idPanel="idPagingPanel" render="#{cc.attrs.idListEntities}" />
+
+					</h:panelGrid>
+				</rich:panel>
+				<fieldset>
+					<h:commandButton action="#{cc.attrs.controller.generateQuery()}"
+						value="Consultar" />
+				</fieldset>
+			</rich:panel>
+		</h:form>
+	</cc:implementation>
+</ui:composition>
