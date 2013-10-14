@@ -364,6 +364,31 @@ public final class Clauses {
 	 * Esta cláusula genera un sql similar a :
 	 * 
 	 * <pre>
+	 * 	where <i>path</i>.date 	<b>&gt;</b> '12-02-2013'
+	 * 	where <i>path</i>.costo	<b>&gt;</b> 666.25
+	 * </pre>
+	 * 
+	 * </p>
+	 * 
+	 * @param path
+	 *            ubicación del atributo en formato HQL.
+	 * @param value
+	 *            objeto con la cual se desea comparar.
+	 * @return {@link Gt}.
+	 */
+	public static Clause gt(String path, Object value) {
+
+		return new Gt(path, value);
+	}
+
+	/**
+	 * {@link Clause} que se utiliza comparar objetos, se pueden comparar tanto
+	 * números como fechas.
+	 * 
+	 * <p>
+	 * Esta cláusula genera un sql similar a :
+	 * 
+	 * <pre>
 	 * 	where <i>path</i>.date 	<b>&lt;=</b> '12-02-2013'
 	 * 	where <i>path</i>.costo	<b>&lt;=</b> 666.25
 	 * </pre>
@@ -379,6 +404,31 @@ public final class Clauses {
 	public static Clause le(String path, Object value) {
 
 		return new Le(path, value);
+	}
+
+	/**
+	 * {@link Clause} que se utiliza comparar objetos, se pueden comparar tanto
+	 * números como fechas.
+	 * 
+	 * <p>
+	 * Esta cláusula genera un sql similar a :
+	 * 
+	 * <pre>
+	 * 	where <i>path</i>.date 	<b>&lt;</b> '12-02-2013'
+	 * 	where <i>path</i>.costo	<b>&lt;</b> 666.25
+	 * </pre>
+	 * 
+	 * </p>
+	 * 
+	 * @param path
+	 *            ubicación del atributo en formato HQL.
+	 * @param value
+	 *            objeto con la cual se desea comparar.
+	 * @return {@link Lt}.
+	 */
+	public static Clause lt(String path, Object value) {
+
+		return new Lt(path, value);
 	}
 
 	/**

@@ -69,6 +69,62 @@ public final class DateClauses {
 		return this.doBetween(path, one, two, inclusive);
 	}
 
+	/**
+	 * Construye la cláusula SQL menor que.
+	 * 
+	 * @param path
+	 *            Ubicación del atributo.
+	 * @param date
+	 *            Fecha a comparar.
+	 * @return
+	 */
+	public Clause lt(String path, Date date) {
+
+		return this.doLt(path, date);
+	}
+
+	/**
+	 * Construye la cláusula SQL menor o igual que.
+	 * 
+	 * @param path
+	 *            Ubicación del atributo.
+	 * @param date
+	 *            Fecha a comparar.
+	 * @return
+	 */
+	public Clause le(String path, Date date) {
+
+		return this.doLe(path, date);
+	}
+
+	/**
+	 * Construye la cláusula SQL mayor que.
+	 * 
+	 * @param path
+	 *            Ubicación del atributo.
+	 * @param date
+	 *            Fecha a comparar.
+	 * @return
+	 */
+	public Clause gt(String path, Date date) {
+
+		return this.doGt(path, date);
+	}
+
+	/**
+	 * Construye la cláusula SQL mayor o igual que.
+	 * 
+	 * @param path
+	 *            Ubicación del atributo.
+	 * @param date
+	 *            Fecha a comparar.
+	 * @return
+	 */
+	public Clause ge(String path, Date date) {
+
+		return this.doGe(path, date);
+	}
+
 	/***
 	 * Compara dos fechas (sin tener en cuenta horas y minutos),
 	 *
@@ -206,12 +262,12 @@ public final class DateClauses {
 	private Clause doBetweenTime(final String path, final Date one,
 			final Date two, boolean inclusive) {
 
-		Date first = getOnlyHourAndMinutes(one);
-		Date last = getOnlyHourAndMinutes(two);
+		Date first = this.getOnlyHourAndMinutes(one);
+		Date last = this.getOnlyHourAndMinutes(two);
 
 		if (!inclusive) {
-			first = nextInstant(first);
-			last = previousInstant(last);
+			first = this.nextInstant(first);
+			last = this.previousInstant(last);
 		}
 		return Clauses.between(path, first, last);
 	}
@@ -219,19 +275,46 @@ public final class DateClauses {
 	private Clause doBetweenDateTime(final String path, final Date one,
 			final Date two, boolean inclusive) {
 
-		Date first = truncateSecondsAndMinutes(one);
-		Date last = truncateSecondsAndMinutes(two);
+		Date first = this.truncateSecondsAndMinutes(one);
+		Date last = this.truncateSecondsAndMinutes(two);
 
 		if (!inclusive) {
-			first = nextInstant(first);
-			last = previousInstant(last);
+			first = this.nextInstant(first);
+			last = this.previousInstant(last);
 		}
 		return Clauses.between(path, first, last);
 	}
 
+	private Clause doLt(String path, Date date) {
+
+		date = this.setTimeToEnd(date);
+		date = this.nextInstant(date);
+		return Clauses.lt(path, date);
+	}
+
+	private Clause doLe(String path, Date date) {
+
+		date = this.setTimeToBegin(date);
+		return Clauses.le(path, date);
+	}
+
+	private Clause doGt(String path, Date date) {
+
+		date = this.setTimeToEnd(date);
+		date = this.nextInstant(date);
+
+		return Clauses.gt(path, date);
+	}
+
+	private Clause doGe(String path, Date date) {
+
+		date = this.setTimeToBegin(date);
+		return Clauses.ge(path, date);
+	}
+
 	private Date truncateSecondsAndMinutes(Date date) {
 
-		Calendar c = getCalendar(date);
+		Calendar c = this.getCalendar(date);
 		c.set(Calendar.SECOND, 0);
 		c.set(Calendar.MILLISECOND, 0);
 		return c.getTime();
@@ -246,8 +329,8 @@ public final class DateClauses {
 	 */
 	private Date getOnlyHourAndMinutes(Date date) {
 
-		return copy(getCalendar(date), getEpoch(), Calendar.HOUR_OF_DAY,
-				Calendar.MINUTE).getTime();
+		return this.copy(this.getCalendar(date), this.getEpoch(),
+				Calendar.HOUR_OF_DAY, Calendar.MINUTE).getTime();
 	}
 
 	private Date getAsDate(final String date) {
@@ -265,12 +348,12 @@ public final class DateClauses {
 
 	private Date nextInstant(Date date) {
 
-		return addMinute(date, 1);
+		return this.addMinute(date, 1);
 	}
 
 	private Date previousInstant(Date date) {
 
-		return addMinute(date, -1);
+		return this.addMinute(date, -1);
 	}
 
 	private Date addMinute(Date date, int minutes) {
