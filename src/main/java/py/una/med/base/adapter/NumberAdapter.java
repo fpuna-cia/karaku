@@ -8,6 +8,7 @@ import java.math.BigDecimal;
  * 
  * @author Uriel González
  */
+@Deprecated
 public class NumberAdapter {
 
 	/**

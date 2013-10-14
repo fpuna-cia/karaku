@@ -8,8 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
+import py.una.med.base.adapter.QuantityAdapter;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.log.LogPostProcessor;
+import py.una.med.base.math.MathContextProvider;
 import py.una.med.base.util.FormatProvider;
 
 /**
@@ -54,4 +56,17 @@ public class BaseTestConfiguration {
 
 		return new FormatProvider();
 	}
+
+	@Bean
+	MathContextProvider mathContextProvider() {
+
+		return MathContextProvider.INSTANCE;
+	}
+
+	@Bean
+	QuantityAdapter quantityAdapter() {
+
+		return QuantityAdapter.INSTANCE;
+	}
+
 }

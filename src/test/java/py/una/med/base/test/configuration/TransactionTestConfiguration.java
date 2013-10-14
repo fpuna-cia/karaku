@@ -9,6 +9,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
@@ -18,8 +19,10 @@ import py.una.med.base.dao.entity.interceptors.BigDecimalInterceptor;
 import py.una.med.base.dao.entity.interceptors.CaseSensitiveInterceptor;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
 import py.una.med.base.dao.entity.interceptors.TimeInterceptor;
+import py.una.med.base.dao.entity.types.QuantityType;
 import py.una.med.base.dao.helper.AndExpressionHelper;
 import py.una.med.base.dao.helper.BetweenExpressionHelper;
+import py.una.med.base.dao.helper.EqualExpressionHelper;
 import py.una.med.base.dao.helper.GeExpressionHelper;
 import py.una.med.base.dao.helper.LeExpressionHelper;
 import py.una.med.base.dao.helper.LikeExpressionHelper;
@@ -64,9 +67,21 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	@Bean
 	public DataSource dataSource() throws IOException {
 
-		EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder()
-		.setType(EmbeddedDatabaseType.H2);
-		return edb.build();
+		DataSource ds;
+		if (properties.get("test.hibernate.use_embedded", "false").equals(
+				"false")) {
+
+			DriverManagerDataSource dataSource = new DriverManagerDataSource();
+			dataSource.setUrl(properties.getProperty("database.url"));
+			dataSource.setUsername(properties.getProperty("database.user"));
+			dataSource.setPassword(properties.getProperty("database.password"));
+			ds = dataSource;
+		} else {
+			EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder()
+					.setType(EmbeddedDatabaseType.H2);
+			ds = edb.build();
+		}
+		return ds;
 
 	}
 
@@ -82,19 +97,28 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	public LocalSessionFactoryBean sessionFactory() throws IOException {
 
 		LocalSessionFactoryBean bean = new TestLocalSessionFactoryBean();
-		if (this.getEntityClasses() == null) {
+		Class<?>[] annonClasses = getEntityClasses();
+		if (annonClasses == null) {
 			bean.setPackagesToScan(this.getBasePackageToScan());
 		} else {
-			bean.setAnnotatedClasses(this.getEntityClasses());
+			bean.setAnnotatedClasses(annonClasses);
 		}
 
 		bean.setDataSource(this.dataSource());
 		Properties props = new Properties();
 		try {
-			// props.put("hibernate.dialect",
-			// properties.get("hibernate.dialect"));
-			props.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-			props.put("hibernate.hbm2ddl.auto", "create-drop");
+			if (properties.get("test.hibernate.use_embedded", "true").equals(
+					"true")) {
+				props.put("hibernate.dialect", properties.get(
+						"test.hibernate.dialect",
+						"org.hibernate.dialect.H2Dialect"));
+				props.put("hibernate.hbm2ddl.auto", "create-drop");
+			} else {
+				props.put("hibernate.dialect",
+						properties.get("hibernate.dialect"));
+				props.put("hibernate.hbm2ddl.auto",
+						properties.get("hibernate.hbm2ddl.auto", "validate"));
+			}
 			props.put("hibernate.show_sql",
 					properties.get("hibernate.show_sql", STRING_FALSE));
 			props.put("hibernate.format_sql",
@@ -197,6 +221,12 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	@Bean
+	EqualExpressionHelper equalExpressionHelper() {
+
+		return new EqualExpressionHelper();
+	}
+
+	@Bean
 	BetweenExpressionHelper betweenExpressionHelper() {
 
 		return new BetweenExpressionHelper();
@@ -244,6 +274,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 		protected SessionFactory buildSessionFactory(
 				LocalSessionFactoryBuilder sfb) {
 
+			getConfiguration().registerTypeOverride(QuantityType.INSTANCE);
 			return super.buildSessionFactory(sfb);
 		}
 	}

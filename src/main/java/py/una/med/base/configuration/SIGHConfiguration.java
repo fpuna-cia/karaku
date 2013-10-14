@@ -27,6 +27,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.domain.Menu.Menus;
+import py.una.med.base.math.MathContextProvider;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.MenuHelper;
 import py.una.med.base.util.Util;
@@ -216,6 +217,12 @@ public class SIGHConfiguration {
 
 		return FacesContext.getCurrentInstance().isProjectStage(
 				ProjectStage.Development);
+	}
+
+	@Bean
+	public MathContextProvider mathContextProvider() {
+
+		return MathContextProvider.INSTANCE;
 	}
 
 	/**

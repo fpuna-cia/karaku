@@ -21,6 +21,7 @@ import javax.faces.component.FacesComponent;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.stereotype.Component;
+import py.una.med.base.math.Quantity;
 
 /**
  * Singleton que se encarga de realizar los formatos de {@link Date} y
@@ -118,6 +119,17 @@ public class FormatProvider {
 	 * </p>
 	 */
 	public static final String NUMBER_FORMAT = "###,###,###,###,###,###,###,###,###,###,##0.##";
+
+	/**
+	 * Formato para los números. Se compone de una cantidad variable de numeros
+	 * a la izquierda, y a lo sumo dos a la derecha.
+	 * <p>
+	 * La cadena mas pequeña que puede generar este formato es <code>"0"</code>,
+	 * notar que el método {@link #asNumber(BigDecimal)} puede retornar
+	 * <code>""</code> si se le pasa como parámetro <code>null</code>.
+	 * </p>
+	 */
+	public static final String LONG_NUMBER_FORMAT = "###,###,###,###,###,###,###,###,###,###,##0.##";
 
 	/**
 	 * Formato para las monedas. Se compone de una cantidad variable de numeros
@@ -465,6 +477,94 @@ public class FormatProvider {
 		}
 		return getNumberFormat(NUMBER_FORMAT).format(bd);
 
+	}
+
+	/**
+	 * Parsea un número con el formato estandar.
+	 * 
+	 * <p>
+	 * 
+	 * <table>
+	 * <tr>
+	 * <td><b>Numero</b></td>
+	 * <td><b>Convertido</b></td>
+	 * </tr>
+	 * <tr>
+	 * <td>1000000000000</td>
+	 * <td>1.000.000.000.000</td>
+	 * </tr>
+	 * <tr>
+	 * <td>100000</td>
+	 * <td>100.000</td>
+	 * </tr>
+	 * <tr>
+	 * <td>100</td>
+	 * <td>100</td>
+	 * </tr>
+	 * <tr>
+	 * <td>1</td>
+	 * <td>1</td>
+	 * </tr>
+	 * <tr>
+	 * <td>0</td>
+	 * <td>0</td>
+	 * </tr>
+	 * <tr>
+	 * <td>0.111</td>
+	 * <td>0,11</td>
+	 * </tr>
+	 * <tr>
+	 * <td>0.119</td>
+	 * <td>0,12</td>
+	 * </tr>
+	 * <tr>
+	 * <td>0.0111</td>
+	 * <td>0,01</td>
+	 * </tr>
+	 * <tr>
+	 * <td>0.0159</td>
+	 * <td>0,02</td>
+	 * </tr>
+	 * bd
+	 * </table>
+	 * </p>
+	 * 
+	 * @param bd
+	 *            {@link BigDecimal} a convertir.
+	 * @return cadena formateada, segun los ejemplos anteriores
+	 */
+	public String asNumber(@NotNull Quantity bd) {
+
+		if (bd == null) {
+			throw new IllegalArgumentException("Cant parse null BigIntegers");
+		}
+		return getNumberFormat(NUMBER_FORMAT).format(bd);
+
+	}
+
+	public Quantity parseQuantity(String number) {
+
+		if (number == null || EMPTY_STRING.equals(number)) {
+			return null;
+		}
+		return new Quantity(number);
+	}
+
+	public String asLongNumber(@NotNull Quantity bd) {
+
+		if (bd == null) {
+			throw new IllegalArgumentException("Cant parse null BigIntegers");
+		}
+		return getNumberFormat(LONG_NUMBER_FORMAT).format(bd);
+
+	}
+
+	public Quantity parseLongQuantity(String number) {
+
+		if (number == null || EMPTY_STRING.equals(number)) {
+			return null;
+		}
+		return new Quantity(number);
 	}
 
 	/**

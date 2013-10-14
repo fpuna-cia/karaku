@@ -4,6 +4,7 @@
 package py.una.med.base.test.test.util.layers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import py.una.med.base.business.SIGHBaseLogic;
 import py.una.med.base.repo.ISIGHBaseDao;
 
@@ -14,6 +15,7 @@ import py.una.med.base.repo.ISIGHBaseDao;
  * @version 1.0 Sep 10, 2013
  *
  */
+@Service
 public class TestLogic extends SIGHBaseLogic<TestEntity, Long> implements
 		ITestLogic {
 

@@ -8,10 +8,10 @@
  * Se divide en tres secciones:
  * <ul>
  * <li>Anotaciones: anotaciones para entidades, sirven para extender la
- * semantica de un atributo</li>
+ * semántica de un atributo</li>
  * <li>Interceptors: Clases que manipulan tipos y anotaciones a la hora de
  * persistir</li>
- * <li>Types: tipos no estandar que soporta Karaku</li>
+ * <li>Types: tipos no estándar que soporta Karaku</li>
  * </ul>
  * </p>
  *
