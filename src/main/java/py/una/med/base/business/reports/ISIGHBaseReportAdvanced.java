@@ -46,7 +46,7 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 *            Lista de ordenes en el cual se desea visualizar el reporte
 	 * @return
 	 */
-	DRDataSource getDataSource(Map<String, Object> listFilters,
+	DRDataSource getDataSourceCustom(Map<String, Object> listFilters,
 			List<String> listOrder);
 
 	/**
@@ -132,6 +132,15 @@ public interface ISIGHBaseReportAdvanced<T> {
 
 	void generateReportStatic(String fileReport, Map<String, Object> params,
 			String type, Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException;
+
+	void generateReport(String path, Map<String, Object> params, String type,
+			Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException;
+
+	void generateReport(boolean dataSource, boolean isClass,
+			Map<String, Object> params, String type,
+			Map<String, Object> listFilters, List<String> listOrder)
 			throws ReportException;
 
 }

@@ -43,18 +43,18 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	@Override
 	public DRDataSource getStructDataSource() {
 
-		DRDataSource dataSource = new DRDataSource(
-				ListHelper.asArray(getColumnsDataSource()));
+		DRDataSource dataSource = new DRDataSource(ListHelper.asArray(this
+				.getColumnsDataSource()));
 		return dataSource;
 	}
 
 	@Override
-	public DRDataSource getDataSource(Map<String, Object> listFilters,
+	public DRDataSource getDataSourceCustom(Map<String, Object> listFilters,
 			List<String> listOrder) {
 
-		DRDataSource dataSource = getStructDataSource();
+		DRDataSource dataSource = this.getStructDataSource();
 
-		List<?> aRet = getList(listFilters, listOrder);
+		List<?> aRet = this.getList(listFilters, listOrder);
 
 		for (Object o : aRet) {
 			dataSource.add((Object[]) o);
@@ -62,34 +62,90 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 		return dataSource;
 	}
 
+	public JRDataSource getDataSource(Map<String, Object> listFilters,
+			List<String> listOrder) {
+
+		return new JRBeanCollectionDataSource(this.getList(listFilters,
+				listOrder));
+	}
+
 	@Override
 	public List<String> getColumnsDataSource() {
 
 		LinkedList<String> template = new LinkedList<String>();
-		for (Column column : getColumnsReport()) {
+		for (Column column : this.getColumnsReport()) {
 			template.add(column.getField());
 		}
 		return template;
 	}
 
 	@Override
+	public List<Column> getColumnsReport() {
+
+		return new ArrayList<Column>();
+	}
+
+	@Override
 	public abstract List<?> getList(Map<String, Object> listFilters,
 			List<String> listOrder);
 
+	@Deprecated
 	@Override
 	public void generateReport(boolean dataSource, Map<String, Object> params,
 			String type, Map<String, Object> listFilters, List<String> listOrder)
 			throws ReportException {
 
 		if (!dataSource) {
-			exportReport.exportAvancedReport(
-					builReport(params, listFilters, listOrder),
+			this.exportReport.exportAvancedReport(
+					this.builReport(params, listFilters, listOrder),
 					new JREmptyDataSource(), params, type);
 		} else {
-			exportReport.exportAvancedReport(
-					builReport(params, listFilters, listOrder),
-					getDataSource(listFilters, listOrder), params, type);
+			this.exportReport.exportAvancedReport(
+					this.builReport(params, listFilters, listOrder),
+					this.getDataSourceCustom(listFilters, listOrder), params,
+					type);
 		}
+
+	}
+
+	@Override
+	public void generateReport(boolean dataSource, boolean isClass,
+			Map<String, Object> params, String type,
+			Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException {
+
+		// Si posee más de un dataSource
+		if (!dataSource) {
+			this.exportReport.exportAvancedReport(
+					this.builReport(params, listFilters, listOrder),
+					new JREmptyDataSource(), params, type);
+		} else {
+			// Si la lista a ser visualizada en el reporte esta representada por
+			// una clase
+			if (isClass) {
+				this.exportReport.exportAvancedReport(
+						this.builReport(params, listFilters, listOrder),
+						this.getDataSource(listFilters, listOrder), params,
+						type);
+			} else {
+				this.exportReport.exportAvancedReport(
+						this.builReport(params, listFilters, listOrder),
+						this.getDataSourceCustom(listFilters, listOrder),
+						params, type);
+			}
+
+		}
+
+	}
+
+	@Override
+	public void generateReport(String path, Map<String, Object> params,
+			String type, Map<String, Object> listFilters, List<String> listOrder)
+			throws ReportException {
+
+		JRDataSource dataSource = new JRBeanCollectionDataSource(this.getList(
+				listFilters, listOrder));
+		this.exportReport.exportReportStatic(path, dataSource, params, type);
 
 	}
 
@@ -107,9 +163,10 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 			Map<String, Object> listFilters, List<String> listOrder)
 			throws ReportException {
 
-		JRDataSource datasource = new JRBeanCollectionDataSource(getList(
+		JRDataSource datasource = new JRBeanCollectionDataSource(this.getList(
 				listFilters, listOrder));
-		exportReport.exportReportStatic(fileReport, datasource, params, type);
+		this.exportReport.exportReportStatic(fileReport, datasource, params,
+				type);
 	}
 
 	/**
@@ -131,13 +188,10 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	}
 
 	@Override
-	public List<Column> getColumnsReport() {
-
-		return new ArrayList<Column>();
-	}
-
-	@Override
-	public abstract DynamicReport builReport(Map<String, Object> params,
+	public DynamicReport builReport(Map<String, Object> params,
 			Map<String, Object> listFilters, List<String> listOrder)
-			throws ReportException;
+			throws ReportException {
+
+		return new DynamicReport();
+	}
 }

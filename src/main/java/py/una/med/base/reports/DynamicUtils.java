@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
 import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.SIGHReportBlockSign.Sign;
 import py.una.med.base.reports.SIGHReportDetails.Detail;
@@ -46,8 +47,50 @@ public final class DynamicUtils {
 	private static final String FILE_PORTRAIT_LOCATION = "report/base/PageBaseReportPortrait.jrxml";
 	private static final String FILE_LOCATION = "report/";
 	private static final String FILE_LANDSCAPE_LOCATION = "report/base/PageBaseReportLandscape.jrxml";
-
+	private static final String NOT_DATA = "BASE_REPORT_NOT_DATA";
 	private static final int BIG = 12;
+	private static final int WIDTH_SEPARATOR = 10;
+
+	/**
+	 * Crea una estructura de reporte configurada con las características
+	 * generales sin template alguno.
+	 * 
+	 * @return Reporte con las configuraciones generales
+	 */
+	public FastReportBuilder newInstance() {
+
+		FastReportBuilder structReport = new FastReportBuilder();
+		this.setWhenNotData(structReport);
+		structReport.setUseFullPageWidth(true);
+
+		return structReport;
+	}
+
+	/**
+	 * Crea una estructura de reporte vertical configurada con las
+	 * características generales.
+	 * 
+	 * @return Reporte con las configuraciones generales
+	 */
+	public FastReportBuilder newInstancePortrait() {
+
+		FastReportBuilder structReport = this.newInstance();
+		this.setTemplatePortrait(structReport);
+		return structReport;
+	}
+
+	/**
+	 * Crea una estructura de reporte horizontal configurada con las
+	 * características generales.
+	 * 
+	 * @return Reporte con las configuraciones generales
+	 */
+	public FastReportBuilder newInstanceLandScape() {
+
+		FastReportBuilder structReport = this.newInstance();
+		this.setTemplateLandScape(structReport);
+		return structReport;
+	}
 
 	/**
 	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template
@@ -64,14 +107,8 @@ public final class DynamicUtils {
 	public <T> DynamicReport buildReportSimple(List<Column> columns,
 			Class<T> clazz) throws ReportException {
 
-		FastReportBuilder structReport = new FastReportBuilder();
-
-		setTemplatePortrait(structReport);
-		setWhenNotData(structReport);
-
-		buildColumnHeader(structReport, columns, clazz);
-
-		structReport.setUseFullPageWidth(true);
+		FastReportBuilder structReport = this.newInstancePortrait();
+		this.buildColumnHeader(structReport, columns, clazz);
 
 		return structReport.build();
 	}
@@ -91,16 +128,8 @@ public final class DynamicUtils {
 	public <T> DynamicReport buildReportSimple(List<Column> columns)
 			throws ReportException {
 
-		FastReportBuilder structReport = new FastReportBuilder();
-
-		setTemplatePortrait(structReport);
-		setWhenNotData(structReport);
-
-		addColumn(structReport, columns);
-
-		structReport.setDefaultStyles(null, null, getStyleColumnHeader(), null);
-
-		structReport.setUseFullPageWidth(true);
+		FastReportBuilder structReport = this.newInstancePortrait();
+		this.buildColumnHeader(structReport, columns);
 
 		return structReport.build();
 	}
@@ -118,13 +147,9 @@ public final class DynamicUtils {
 	public <T> DynamicReport buidReportFields(List<SIGHReportBlock> blocks)
 			throws ReportException {
 
-		FastReportBuilder structReport = new FastReportBuilder();
-		setTemplatePortrait(structReport);
-		setWhenNotData(structReport);
+		FastReportBuilder structReport = this.newInstancePortrait();
 
-		addBlocks(structReport, blocks);
-
-		structReport.setUseFullPageWidth(true);
+		this.addBlocks(structReport, blocks);
 
 		return structReport.build();
 	}
@@ -132,13 +157,9 @@ public final class DynamicUtils {
 	public <T> DynamicReport buidReportBlockGrid(
 			List<SIGHReportBlockGrid> blocks) throws ReportException {
 
-		FastReportBuilder structReport = new FastReportBuilder();
-		setTemplatePortrait(structReport);
-		setWhenNotData(structReport);
+		FastReportBuilder structReport = this.newInstancePortrait();
 
-		addBlocksGrid(structReport, blocks);
-
-		structReport.setUseFullPageWidth(true);
+		this.addBlocksGrid(structReport, blocks);
 
 		return structReport.build();
 	}
@@ -163,14 +184,10 @@ public final class DynamicUtils {
 	public <T> DynamicReport buidReportFields(List<SIGHReportBlock> blocks,
 			List<SIGHReportBlockSign> signs) throws ReportException {
 
-		FastReportBuilder structReport = new FastReportBuilder();
-		setTemplatePortrait(structReport);
-		setWhenNotData(structReport);
+		FastReportBuilder structReport = this.newInstancePortrait();
 
-		addBlocks(structReport, blocks);
-		addBlocksSign(structReport, signs);
-
-		structReport.setUseFullPageWidth(true);
+		this.addBlocks(structReport, blocks);
+		this.addBlocksSign(structReport, signs);
 
 		return structReport.build();
 	}
@@ -193,19 +210,15 @@ public final class DynamicUtils {
 	public <T> DynamicReport buildReportDetail(SIGHReportDetails report,
 			Align align, Class<T> clazz) throws ReportException {
 
-		FastReportBuilder structReportHead = new FastReportBuilder();
+		FastReportBuilder structReportHead = this.newInstance();
 
-		setAlignReport(structReportHead, align);
+		this.setAlignReport(structReportHead, align);
 
-		setWhenNotData(structReportHead);
-
-		buildColumnHeader(structReportHead, report.getColumns(), clazz);
+		this.buildColumnHeader(structReportHead, report.getColumns(), clazz);
 
 		if (!(report.getDetails() == null)) {
-			addDetails(structReportHead, report, clazz);
+			this.addDetails(structReportHead, report, clazz);
 		}
-
-		structReportHead.setUseFullPageWidth(true);
 
 		return structReportHead.build();
 
@@ -235,13 +248,10 @@ public final class DynamicUtils {
 	public <T> DynamicReport buildReportDetail(String path,
 			SIGHReportDetails report, Class<T> clazz) throws ReportException {
 
-		FastReportBuilder structReportHead = new FastReportBuilder();
-		setTemplate(path, structReportHead);
-		setWhenNotData(structReportHead);
+		FastReportBuilder structReportHead = this.newInstance();
+		this.setTemplate(path, structReportHead);
 
-		addDetails(structReportHead, report, clazz);
-
-		structReportHead.setUseFullPageWidth(true);
+		this.addDetails(structReportHead, report, clazz);
 
 		return structReportHead.build();
 
@@ -269,16 +279,14 @@ public final class DynamicUtils {
 		for (Detail detail : report.getDetails()) {
 			structReportHead.addField(detail.getField(), List.class.getName());
 
-			FastReportBuilder structSubreport = new FastReportBuilder();
+			FastReportBuilder structSubreport = this.newInstance();
 			structSubreport.setTitle(detail.getTitle());
 			structSubreport.setTitleStyle(titleStyle);
-			structSubreport.setUseFullPageWidth(true);
 
-			setWhenNotData(structSubreport);
+			Class<?> clazzDetail = this.getClazzDetail(clazz, detail);
 
-			Class<?> clazzDetail = getClazzDetail(clazz, detail);
-
-			buildColumnDetail(structSubreport, detail.getColumns(), clazzDetail);
+			this.buildColumnDetail(structSubreport, detail.getColumns(),
+					clazzDetail);
 
 			DynamicReport subreport = structSubreport.build();
 
@@ -300,12 +308,9 @@ public final class DynamicUtils {
 	public DynamicReport builReportCrossTab(DJCrosstab crosstab)
 			throws ClassNotFoundException {
 
-		FastReportBuilder structReport = new FastReportBuilder();
-		setTemplateLandScape(structReport);
+		FastReportBuilder structReport = this.newInstanceLandScape();
 
 		structReport.addHeaderCrosstab(crosstab).setUseFullPageWidth(true);
-
-		setWhenNotData(structReport);
 
 		return structReport.build();
 
@@ -325,13 +330,37 @@ public final class DynamicUtils {
 	 *         aplicados.
 	 * @throws ReportException
 	 */
-	private <T> FastReportBuilder buildColumnHeader(
+	public <T> FastReportBuilder buildColumnHeader(
 			FastReportBuilder structReport, List<Column> columns, Class<T> clazz)
 			throws ReportException {
 
-		addColumn(structReport, columns, clazz);
+		this.addColumn(structReport, columns, clazz);
 
-		structReport.setDefaultStyles(null, null, getStyleColumnHeader(), null);
+		structReport.setDefaultStyles(null, null, this.getStyleColumnHeader(),
+				null);
+		return structReport;
+	}
+
+	/**
+	 * Metodo que genera las columnas principales de un reporte de forma
+	 * dinamica,ademas configura los estilos correspondientes.
+	 * 
+	 * @param structReport
+	 *            Estructura del reporte
+	 * @param columns
+	 *            Lista de columnas que deben ser generadas
+	 * @return Reporte con las correspondientes columnas generadas y estilos
+	 *         aplicados.
+	 * @throws ReportException
+	 */
+	public <T> FastReportBuilder buildColumnHeader(
+			FastReportBuilder structReport, List<Column> columns)
+			throws ReportException {
+
+		this.addColumn(structReport, columns);
+
+		structReport.setDefaultStyles(null, null, this.getStyleColumnHeader(),
+				null);
 		return structReport;
 	}
 
@@ -353,14 +382,10 @@ public final class DynamicUtils {
 	private FastReportBuilder buildColumnDetail(FastReportBuilder structReport,
 			List<Column> columns, Class<?> clazz) throws ReportException {
 
-		if (clazz.equals(Object.class)) {
-			addColumn(structReport, columns);
-		} else {
-			addColumn(structReport, columns, clazz);
-		}
+		this.addColumn(structReport, columns, clazz);
 
-		structReport.setDefaultStyles(getStyleTitle(), null,
-				getStyleColumnHeaderDetails(), null);
+		structReport.setDefaultStyles(this.getStyleTitle(), null,
+				this.getStyleColumnHeaderDetails(), null);
 		return structReport;
 	}
 
@@ -378,20 +403,83 @@ public final class DynamicUtils {
 	 * @return Reporte con las correspondientes columnas generadas
 	 * @throws ReportException
 	 */
+
 	private <T> FastReportBuilder addColumn(FastReportBuilder structReport,
 			List<Column> columns, Class<T> clazz) throws ReportException {
 
 		for (Column column : columns) {
 			try {
+				if (column.getField().contains(".")) {
+					structReport.addColumn(column.getTitle(),
+							column.getField(), Object.class.getName(),
+							column.getWidth());
+				} else {
+					Field field = ReflectionUtils.findField(clazz,
+							column.getNameField());
 
-				structReport.addColumn(column.getTitle(), column.getField(),
-						Object.class.getName(), column.getWidth());
+					structReport.addColumn(column.getTitle(),
+							column.getField(), field.getType().getName(),
+							column.getWidth(),
+							this.getStyleColumn(this.getAlignColumn(field)));
+				}
 
 			} catch (ClassNotFoundException e) {
+				throw new ReportException(e);
+			} catch (SecurityException e) {
 				throw new ReportException(e);
 			}
 		}
 		return structReport;
+	}
+
+	/**
+	 * Configura la alineación de las columnas de los reportes.
+	 * 
+	 * @param field
+	 *            Field que se desea alinear
+	 * 
+	 * @return
+	 */
+	private HorizontalAlign getAlignColumn(Field field) {
+
+		if (Number.class.isAssignableFrom(field.getType())) {
+			return HorizontalAlign.RIGHT;
+		}
+		return HorizontalAlign.LEFT;
+	}
+
+	private Style getStyleColumn(HorizontalAlign align) {
+
+		Style style = new Style();
+		style.setHorizontalAlign(align);
+		return style;
+	}
+
+	/**
+	 * Metodo que agrega las columnas al reporte, el tipo de las columnas
+	 * generadas es del tipo Object, se utiliza para el caso que el objeto
+	 * utilizado dentro del reporte no sea un objeto fisico existente, sino uno
+	 * creado en memoria.
+	 * 
+	 * @param structReport
+	 *            Estructura del reporte
+	 * @param columns
+	 *            Lista de columnas que deben ser generadas
+	 * @return Reporte con las correspondiente columnas generadas
+	 * @throws ReportException
+	 */
+	public FastReportBuilder addColumn(FastReportBuilder structReport,
+			List<Column> columns) throws ReportException {
+
+		try {
+			for (Column column : columns) {
+				structReport.addColumn(column.getTitle(), column.getField(),
+						Object.class.getName(), column.getWidth());
+			}
+			return structReport;
+		} catch (ClassNotFoundException e) {
+			throw new ReportException(e);
+		}
 	}
 
 	/**
@@ -409,7 +497,7 @@ public final class DynamicUtils {
 			List<SIGHReportBlock> blocks) throws ReportException {
 
 		for (SIGHReportBlock block : blocks) {
-			buildBlock(structReport, block);
+			this.buildBlock(structReport, block);
 		}
 
 		return structReport;
@@ -419,7 +507,7 @@ public final class DynamicUtils {
 			List<SIGHReportBlockGrid> blocks) throws ReportException {
 
 		for (SIGHReportBlockGrid block : blocks) {
-			buildBlockGrid(structReport, block);
+			this.buildBlockGrid(structReport, block);
 		}
 
 		return structReport;
@@ -440,38 +528,9 @@ public final class DynamicUtils {
 			List<SIGHReportBlockSign> blocks) throws ReportException {
 
 		for (SIGHReportBlockSign block : blocks) {
-			buildBlockSign(structReport, block);
+			this.buildBlockSign(structReport, block);
 		}
 
-		return structReport;
-	}
-
-	/**
-	 * Metodo que agrega las columnas al reporte, el tipo de las columnas
-	 * generadas es del tipo Object, se utiliza para el caso que el objeto
-	 * utilizado dentro del reporte no sea un objeto fisico existente, sino uno
-	 * creado en memoria.
-	 * 
-	 * @param structReport
-	 *            Estructura del reporte
-	 * @param columns
-	 *            Lista de columnas que deben ser generadas
-	 * @return Reporte con las correspondiente columnas generadas
-	 * @throws ReportException
-	 */
-	private FastReportBuilder addColumn(FastReportBuilder structReport,
-			List<Column> columns) throws ReportException {
-
-		for (Column column : columns) {
-			try {
-				structReport.addColumn(column.getTitle(), column.getField(),
-						Object.class.getName(), column.getWidth());
-
-			} catch (ClassNotFoundException e) {
-				throw new ReportException(e);
-			}
-
-		}
 		return structReport;
 	}
 
@@ -490,11 +549,12 @@ public final class DynamicUtils {
 			SIGHReportBlock block) throws ReportException {
 
 		FastReportBuilder structBlockReport = new FastReportBuilder();
-		structBlockReport.setDefaultStyles(getStyleTitleTransparentUnderline(),
-				getStyleTitle(), getStyleColumnHeaderBlank(), null);
+		structBlockReport.setDefaultStyles(
+				this.getStyleTitleTransparentUnderline(), this.getStyleTitle(),
+				this.getStyleColumnHeaderBlank(), null);
 
 		structBlockReport.setUseFullPageWidth(true);
-		setWhenNotData(structBlockReport);
+		this.setWhenNotData(structBlockReport);
 
 		try {
 
@@ -525,15 +585,12 @@ public final class DynamicUtils {
 	public FastReportBuilder buildBlockGrid(FastReportBuilder structReportHead,
 			SIGHReportBlockGrid block) throws ReportException {
 
-		FastReportBuilder structBlockReport = new FastReportBuilder();
-		structBlockReport.setDefaultStyles(getStyleTitle(), null,
-				getStyleColumnHeader(), null);
-
-		structBlockReport.setUseFullPageWidth(true);
-		setWhenNotData(structBlockReport);
+		FastReportBuilder structBlockReport = this.newInstance();
+		structBlockReport.setDefaultStyles(this.getStyleTitle(), null,
+				this.getStyleColumnHeader(), null);
 
 		structBlockReport.setTitle(block.getTitle());
-		addColumn(structBlockReport, block.getColumns());
+		this.addColumn(structBlockReport, block.getColumns());
 
 		Subreport subReport = new SubReportBuilder()
 				.setDataSource(DJConstants.DATA_SOURCE_ORIGIN_PARAMETER,
@@ -563,11 +620,12 @@ public final class DynamicUtils {
 			SIGHReportBlockSign block) throws ReportException {
 
 		FastReportBuilder structBlockReport = new FastReportBuilder();
-		structBlockReport.setDefaultStyles(getStyleTitle(), getStyleTitle(),
-				getStyleColumnHeaderTransparentUnderlineTop(), null);
+		structBlockReport.setDefaultStyles(this.getStyleTitle(),
+				this.getStyleTitle(),
+				this.getStyleColumnHeaderTransparentUnderlineTop(), null);
 
 		structBlockReport.setUseFullPageWidth(true);
-		setWhenNotDataEmpty(structBlockReport);
+		this.setWhenNotDataEmpty(structBlockReport);
 
 		try {
 
@@ -577,12 +635,12 @@ public final class DynamicUtils {
 						String.class, sign.getWidth());
 				if (!sign.equals(block.getSigns().get(
 						block.getSigns().size() - 1))) {
-					structBlockReport.addColumn(buildColumnSeparator());
+					structBlockReport.addColumn(this.buildColumnSeparator());
 				}
 
 			}
 
-			structReportHead.addConcatenatedReport(buildReportSeparator());
+			structReportHead.addConcatenatedReport(this.buildReportSeparator());
 
 			Subreport subReport = new SubReportBuilder()
 					.setDataSource("")
@@ -600,18 +658,20 @@ public final class DynamicUtils {
 
 	private AbstractColumn buildColumnSeparator() {
 
-		return ColumnBuilder.getNew().setStyle(getStyleColumnHeader())
-				.setColumnProperty("label", String.class).setWidth(10).build();
+		return ColumnBuilder.getNew().setStyle(this.getStyleColumnHeader())
+				.setColumnProperty("label", String.class)
+				.setWidth(WIDTH_SEPARATOR).build();
 	}
 
 	private Subreport buildReportSeparator() {
 
 		FastReportBuilder structReport = new FastReportBuilder();
-		structReport.setDefaultStyles(getStyleTitle(), getStyleTitle(),
-				getStyleColumnHeaderTransparentUnderlineTop(), null);
-		structReport.addColumn(buildColumnSeparator());
+		structReport.setDefaultStyles(this.getStyleTitle(),
+				this.getStyleTitle(),
+				this.getStyleColumnHeaderTransparentUnderlineTop(), null);
+		structReport.addColumn(this.buildColumnSeparator());
 		structReport.setUseFullPageWidth(true);
-		setWhenNotDataEmpty(structReport);
+		this.setWhenNotDataEmpty(structReport);
 
 		Subreport subReport = new SubReportBuilder()
 				.setDataSource("")
@@ -746,10 +806,9 @@ public final class DynamicUtils {
 	 * @param structReport
 	 * @return
 	 */
-	private FastReportBuilder setWhenNotData(FastReportBuilder structReport) {
+	public FastReportBuilder setWhenNotData(FastReportBuilder structReport) {
 
-		structReport.setWhenNoData(
-				I18nHelper.getMessage("BASE_REPORT_NOT_DATA"), null);
+		structReport.setWhenNoData(I18nHelper.getMessage(NOT_DATA), null);
 		return structReport;
 	}
 
@@ -763,9 +822,9 @@ public final class DynamicUtils {
 			Align align) {
 
 		if (align.equals(Align.HORIZONTAL)) {
-			setTemplateLandScape(report);
+			this.setTemplateLandScape(report);
 		} else {
-			setTemplatePortrait(report);
+			this.setTemplatePortrait(report);
 
 		}
 		return report;
@@ -778,7 +837,7 @@ public final class DynamicUtils {
 	 * @param report
 	 * @return
 	 */
-	private FastReportBuilder setTemplatePortrait(FastReportBuilder report) {
+	public FastReportBuilder setTemplatePortrait(FastReportBuilder report) {
 
 		report.setTemplateFile(FILE_PORTRAIT_LOCATION, true, false, true, true);
 		return report;
@@ -790,7 +849,7 @@ public final class DynamicUtils {
 	 * @param report
 	 * @return
 	 */
-	private FastReportBuilder setTemplateLandScape(FastReportBuilder report) {
+	public FastReportBuilder setTemplateLandScape(FastReportBuilder report) {
 
 		report.setTemplateFile(FILE_LANDSCAPE_LOCATION, true, false, true, true);
 		return report;
