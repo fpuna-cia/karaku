@@ -19,7 +19,7 @@ import py.una.med.base.test.configuration.BaseTestConfiguration;
 
 /**
  * 
- * @author arturo
+ * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 27, 2013
  * 
@@ -43,13 +43,16 @@ public class JSFUtilTest extends BaseTest {
 	@Test
 	public void parseDate() throws ParseException {
 
+		Date test = new SimpleDateFormat().parse("11/22/11 00:00 AM");
 		Date date = new SimpleDateFormat().parse("11/22/11 00:00 AM");
-		Date jsf = this.jsfUtils.asDate("Tue Nov 22 00:00:00 PYST 2011");
+		Date jsf = this.jsfUtils.asDate(new SimpleDateFormat(
+				JSFUtils.CALENDAR_DATE_PATTERN).format(test));
 		assertEquals(date, jsf);
 	}
 
 	@Test(expected = ParseException.class)
 	public void parseWrongDate() throws ParseException {
+
 		this.jsfUtils.asDate("Tue Nov 22 00:00:00 XXX 2011");
 	}
 }
