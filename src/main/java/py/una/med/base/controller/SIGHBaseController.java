@@ -37,12 +37,12 @@ import py.una.med.base.util.StringUtils;
 /**
  * Controlador base para todos los controladores del sistema, implementa las
  * funcionalidades definidas en {@link ISIGHBaseController}.
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.5 Aug 1, 2013
  * @see ISIGHBaseController
- * 
+ *
  */
 public abstract class SIGHBaseController<T, K extends Serializable> implements
 		ISIGHBaseController<T, K> {
@@ -50,7 +50,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Vector que contiene las columnas por las que se intentará ordenar.
 	 */
-	private static String[] DEFAULT_SORT_COLUMNS = { "descripcion", "id" };
+	private static final String[] DEFAULT_SORT_COLUMNS = { "descripcion", "id" };
 	@Autowired
 	private BreadcrumbController breadcrumController;
 
@@ -112,7 +112,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Crea un nuevo mensaje para ser mostrado en la interfaz.
-	 * 
+	 *
 	 * @param severity
 	 *            severidad
 	 * @param summary
@@ -131,7 +131,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Crea un mensaje global.
-	 * 
+	 *
 	 * @param severity
 	 *            severidad del mismo
 	 * @param detail
@@ -144,7 +144,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Crea un mensaje global.
-	 * 
+	 *
 	 * @param severity
 	 *            severidad del mismo
 	 * @param detail
@@ -258,7 +258,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * Retorna una lista de cadenas representando las opciones por las cuales el
 	 * caso de uso podra buscar, es un método de utilidad para
 	 * {@link #getSearchSelectItemsList()}
-	 * 
+	 *
 	 * @return lista de strings
 	 * @see #getSearchSelectItemsList()
 	 */
@@ -267,7 +267,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Retorna el bean que actualmente se esta visualizando, editando o
 	 * borrando.
-	 * 
+	 *
 	 * @return entidad actual
 	 */
 	@Override
@@ -281,7 +281,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Genera un {@link Where} para los reportes.
-	 * 
+	 *
 	 * @return {@link Where} con los filtros aplicados.
 	 */
 	@Override
@@ -303,7 +303,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * <p>
 	 * Puede ser por la búsqueda simple o por la avanzada
 	 * </p>
-	 * 
+	 *
 	 * @param paramsReport
 	 *            mapa de los reportes.
 	 * @return mismo mapa recibido, pero con los filtros.
@@ -316,7 +316,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 					EntitySerializer.serialize(this.getExample()));
 			return paramsReport;
 		}
-		if (this.getFilterValue() != null && !this.getFilterValue().equals("")) {
+		if ((this.getFilterValue() != null) && !this.getFilterValue().equals("")) {
 			paramsReport.put("selectionFilters", this.getFilterOption() + ": "
 					+ this.getFilterValue());
 			return paramsReport;
@@ -352,7 +352,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Retorna la lista de columnas para ser mostradas por el reporte.
-	 * 
+	 *
 	 * @return lista de columnas
 	 */
 	@Override
@@ -372,7 +372,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Retorna la lista de entidades
-	 * 
+	 *
 	 * @return lista de entidades a mostrar
 	 */
 	@Override
@@ -409,7 +409,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * avanzada), retorna lo mismo que {@link #getSimpleFilters()}, por ello,
 	 * siempre es recomendable reescribir estos dos métodos cuando se quiere
 	 * modificar lo que se muestra.
-	 * 
+	 *
 	 * @return {@link Where} configurado para mostrar
 	 */
 	@Override
@@ -428,7 +428,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Método que debe ser implementado en la clase que desea definir alguna
 	 * configuración especial en la obtención de valores desde la base de datos
-	 * 
+	 *
 	 * <p>
 	 * La implementación por defecto, intenta ordenar por (si no puede ordenar
 	 * por un atributo, pasa al siguiente):
@@ -437,7 +437,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * <li>id</li>
 	 * </ol>
 	 * </p>
-	 * 
+	 *
 	 * @see #DEFAULT_SORT_COLUMNS
 	 * @param sp
 	 *            parámetro de búsqueda definido en el paginHelper y a ser
@@ -469,7 +469,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Retorna la entidad que esta siendo utilizada como ejemplo por al búsqueda
 	 * avanzada.
-	 * 
+	 *
 	 * @return Entidad utilziada como ejemplo
 	 */
 	@Override
@@ -480,7 +480,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Retorna la opción actualmente seleccionada en la vista (filtro simple).
-	 * 
+	 *
 	 * @return cadena que representa el texto actualmente seleccionado en el
 	 *         combo box.
 	 */
@@ -491,7 +491,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Retorna el valor actual en el filtro simple
-	 * 
+	 *
 	 * @return String ingresado por el usuario
 	 */
 	public String getFilterValue() {
@@ -501,7 +501,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Retorna una cadena internacionalizada dada la llave.
-	 * 
+	 *
 	 * @param code
 	 *            clave del archivo de internacionalización
 	 * @return cadena internacionalizada
@@ -521,7 +521,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * Por lo tanto, se genera un id que tiene como prefijo el nombre de la
 	 * entidad seguido de "faces_message". Ej: Usuario_faces_message
 	 * </p>
-	 * 
+	 *
 	 * @return cadena con el nombre del controlador, mas _faces_message
 	 **/
 	@Override
@@ -545,7 +545,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * Se crea un nuevo {@link PagingHelper} y se le asigna un
 	 * {@link ChangeListener} que recarga la lista de entidades cada vez que hay
 	 * un cambio
-	 * 
+	 *
 	 * @return {@link PagingHelper} que se encarga de la paginación
 	 */
 	@Override
@@ -568,7 +568,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Cantidad de registros mostrados por este controlador en la vista.
-	 * 
+	 *
 	 * @return {@value #ROWS_FOR_PAGE}
 	 */
 	public int getRowsForPage() {
@@ -579,7 +579,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Esta lista del tipo SelectItem es necesaria para los combobox hechos con
 	 * este objeto (para la lista de filtros).
-	 * 
+	 *
 	 * @return {@link List} de {@link SelectItem} que representan los criterios
 	 *         por los cuales se puede buscar en este controller.
 	 */
@@ -593,7 +593,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * XXX Workaround para registrar a este controlador como el principal en un
 	 * momento dado.
-	 * 
+	 *
 	 * @return ""
 	 */
 	public String getUsarController() {
@@ -656,7 +656,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	/**
 	 * Define si un atributo es o no editable en el estado actual del
 	 * controlador.
-	 * 
+	 *
 	 * @param campo
 	 *            field a verificar
 	 * @return <code>true</code> si puede ser editable, <code>false</code> si
@@ -807,7 +807,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Modifica el estado actual del controlador.
-	 * 
+	 *
 	 * @param mode
 	 *            nuevo estado
 	 */
@@ -842,7 +842,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	/**
 	 * Retorna el mensaje que debe ser desplegado en el botón de cancelar.
-	 * 
+	 *
 	 * @return cadena a mostrar
 	 */
 	public String getCancelText() {

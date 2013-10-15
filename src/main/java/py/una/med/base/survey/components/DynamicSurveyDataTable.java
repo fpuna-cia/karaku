@@ -14,11 +14,11 @@ import py.una.med.base.util.I18nHelper;
 /**
  * Esta clase representa un dataTable, el cual esta compuesto de una lista de
  * filas.
- * 
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 04/06/2013
- * 
+ *
  */
 public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 
@@ -31,7 +31,7 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 
 	/**
 	 * Construye un bloque del tipo GRILLA.
-	 * 
+	 *
 	 * @param questions
 	 *            Lista de preguntas del bloque, que en este caso se representan
 	 *            como las columnas del bloque.
@@ -138,10 +138,10 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 
 	/**
 	 * Crea una celda para aquellas respuestas no requeridas.
-	 * 
+	 *
 	 * @param rows
 	 *            lista de respuestas registradas o almacenadas
-	 * 
+	 *
 	 * @return filas del bloque construidas
 	 */
 	private List<DynamicSurveyRow> validateResponse(List<DynamicSurveyRow> rows) {
@@ -183,14 +183,14 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 		return columnsNumber;
 	}
 
-	public void setColumnsNumber(int columnsNumber) {
+	public final void setColumnsNumber(int columnsNumber) {
 
 		this.columnsNumber = columnsNumber;
 	}
 
 	/**
 	 * Obtiene una fila en particular del dataTable en cuestion.
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 */
@@ -219,7 +219,7 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 	 * Obtiene el mensaje asociado a una determinada clave de
 	 * internacionalizacion, para ser visualizado en la seccion de mensajes
 	 * globales.
-	 * 
+	 *
 	 * @param key
 	 */
 	private void setGlobalMessagePerkeyValue(String key) {
@@ -235,7 +235,7 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 	/**
 	 * Setea el valor ingresado en una celda de una fila en particular en el
 	 * momento en el cual el valor es ingresado de manera a preservar el valor.
-	 * 
+	 *
 	 * @param event
 	 */
 	public void completeChangeListener(AjaxBehaviorEvent event) {

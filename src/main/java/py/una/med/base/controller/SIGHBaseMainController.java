@@ -5,14 +5,11 @@ package py.una.med.base.controller;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
-
 import org.apache.myfaces.orchestra.conversation.Conversation;
 import org.richfaces.event.ItemChangeEvent;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import py.una.med.base.log.Log;
 import py.una.med.base.security.AuthorityController;
 import py.una.med.base.security.HasRole;
@@ -20,10 +17,10 @@ import py.una.med.base.security.SIGHSecurity;
 import py.una.med.base.util.ControllerHelper;
 
 /**
- * 
+ *
  * Clase que implementa las funcionalidades basicas de un controller que tiene
  * varios controlles embebidos.
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.1 Feb 18, 2013
@@ -31,7 +28,7 @@ import py.una.med.base.util.ControllerHelper;
  *            entidad
  * @param <ID>
  *            clase de la clave primaria de la entidad
- * 
+ *
  */
 public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		SIGHAdvancedController<T, K> implements ISIGHAdvancedController<T, K>,
@@ -243,16 +240,12 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 
 	/**
 	 * Define si las tabs deben estar habilitadas o no
-	 * 
+	 *
 	 * @return true si estan deshabilitadas y false si deben estar habilitadas
 	 */
 	public boolean getTabDisabled() {
 
-		if (getBaseLogic().getIdValue(getBean()) == null) {
-			return true;
-		} else {
-			return false;
-		}
+		return getBaseLogic().getIdValue(getBean()) == null;
 	}
 
 	@Override
@@ -275,11 +268,11 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		if (!isEditingHeader()) {
 			return false;
 		}
-		if (this.getMode() == Mode.NEW
+		if ((this.getMode() == Mode.NEW)
 				&& authorityController.hasRole(getCreatePermission())) {
 			return true;
 		}
-		if (getMode() == Mode.EDIT
+		if ((getMode() == Mode.EDIT)
 				&& authorityController.hasRole(getEditPermission())) {
 			return true;
 		}
@@ -302,7 +295,7 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 
 	public boolean editButtonVisible() {
 
-		if (getMode() == Mode.EDIT && !isEditingHeader()
+		if ((getMode() == Mode.EDIT) && !isEditingHeader()
 				&& authorityController.hasRole(getEditPermission())) {
 			return true;
 		}

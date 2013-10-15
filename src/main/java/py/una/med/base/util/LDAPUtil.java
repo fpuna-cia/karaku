@@ -19,9 +19,9 @@ import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
  * Clase para realizar operaciones de directorio en LDAP
- * 
+ *
  * @author Uriel Gonzalez
- * 
+ *
  */
 @Component
 public class LDAPUtil {
@@ -53,18 +53,17 @@ public class LDAPUtil {
 				propertiesUtil.get(LDAP_ADMIN_PASS_KEY));
 
 		try {
-			DirContext ctx = new InitialDirContext(env);
-			return ctx;
+			return new InitialDirContext(env);
 
 		} catch (NamingException e) {
-			throw new KarakuRuntimeException(e.getMessage(), e.getCause());
+			throw new KarakuRuntimeException(e.getMessage(), e);
 		}
 
 	}
 
 	/**
 	 * Recupera los usuarios de LDAP
-	 * 
+	 *
 	 * @return Una lista con los usuarios de LDAP
 	 */
 	public List<User> getUsers() {
@@ -95,7 +94,7 @@ public class LDAPUtil {
 			}
 
 		} catch (NamingException e) {
-			throw new KarakuRuntimeException(e.getMessage(), e.getCause());
+			throw new KarakuRuntimeException(e.getMessage(), e);
 		}
 
 		return users;

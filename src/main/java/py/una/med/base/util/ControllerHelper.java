@@ -6,7 +6,7 @@ package py.una.med.base.util;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -22,7 +22,6 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
-
 import org.hibernate.exception.ConstraintViolationException;
 import org.richfaces.component.UIColumn;
 import org.richfaces.component.UIExtendedDataTable;
@@ -30,14 +29,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import py.una.med.base.reports.Column;
 
 /**
  * Clase que implementa funcionalidades generales para la manipulacion de
  * vistas, proveen funcionalidades que ya integran todas las partes del sistema.
  * Es un singleton compartido por todas las sesiones
- * 
+ *
  * @author Arturo Volpe
  * @author Nathalia Ochoa
  * @since 1.1 08/02/2013
@@ -72,9 +70,9 @@ public class ControllerHelper {
 	 * <p>
 	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostrarán todos los mensajes
-	 * 
+	 *
 	 * </p>
-	 * 
+	 *
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
@@ -101,7 +99,7 @@ public class ControllerHelper {
 	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostraran todos los mensajes
 	 * </p>
-	 * 
+	 *
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
@@ -125,7 +123,7 @@ public class ControllerHelper {
 	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostraran todos los mensajes
 	 * </p>
-	 * 
+	 *
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
@@ -144,7 +142,7 @@ public class ControllerHelper {
 	/**
 	 * Retorna el mensaje internacionalizado del código dado, para claves no
 	 * encontradas retorna &&&&&code&&&&&&
-	 * 
+	 *
 	 * @param code
 	 *            llave del mensaje
 	 * @return cadena internacionalizada
@@ -164,7 +162,7 @@ public class ControllerHelper {
 
 	/**
 	 * Dada una cadena la retorna degenerada.
-	 * 
+	 *
 	 * @param code
 	 *            cadena a deformar
 	 * @return Cadena degenerada, con el formato &&&&&code&&&&&
@@ -177,7 +175,7 @@ public class ControllerHelper {
 
 	/**
 	 * Crea un mensaje para un componente determinado
-	 * 
+	 *
 	 * @param severity
 	 *            Severidad {@link FacesMessage}
 	 * @param summary
@@ -199,7 +197,7 @@ public class ControllerHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param severity
 	 *            Severidad {@link FacesMessage}
 	 * @param summary
@@ -228,7 +226,7 @@ public class ControllerHelper {
 	 * generara identificadorse parecidos a: formID para el form, y
 	 * formID:labelID para el label, esta funcion recibe como parametro
 	 * "labelID" y retorna "formID:labelID".
-	 * 
+	 *
 	 * @param id
 	 *            de la vista del elemento a buscar
 	 * @return id del componente del lado del cliente
@@ -249,7 +247,7 @@ public class ControllerHelper {
 	/**
 	 * Dado un ID (vease {@link ControllerHelper#getClientId(String)}) retorna
 	 * el componente al que pertenece
-	 * 
+	 *
 	 * @param id
 	 *            id del cliente para obtener el componente
 	 * @return Componente de vista
@@ -259,8 +257,7 @@ public class ControllerHelper {
 		FacesContext context = FacesContext.getCurrentInstance();
 		UIViewRoot root = context.getViewRoot();
 
-		UIComponent c = findComponent(root, id);
-		return c;
+		return findComponent(root, id);
 	}
 
 	/**
@@ -283,19 +280,19 @@ public class ControllerHelper {
 
 	/**
 	 * Retorna una EL expression correspondiente a un metodo.
-	 * 
+	 *
 	 * @param valueExpression
 	 *            cadena que representa la expresion.
 	 * @param expectedReturnType
 	 *            clase del tipo que se espera que retorna la expresion
 	 * @param expectedParamTypes
 	 *            clase de los parametros esperados que reciba el metodo
-	 * 
+	 *
 	 * @return {@link MethodExpression} correspondiente
 	 */
 	public MethodExpression createMethodExpression(
 			final String valueExpression, final Class<?> expectedReturnType,
-			final Class<?>... expectedParamTypes) {
+			final Class<?> ... expectedParamTypes) {
 
 		MethodExpression methodExpression = null;
 		try {
@@ -315,7 +312,7 @@ public class ControllerHelper {
 
 	/**
 	 * Muestra una excepción con severidad de error
-	 * 
+	 *
 	 * @param e
 	 *            excepción a mostrar.
 	 */
@@ -328,10 +325,10 @@ public class ControllerHelper {
 	/**
 	 * Escanea el archivo columns.xhtml donde se definen las columnas
 	 * visualizadas en la grilla, y retorna las mismas.
-	 * 
+	 *
 	 * @return Lista de columnas -> [header, field]
 	 */
-	public LinkedList<Column> getColumns() {
+	public List<Column> getColumns() {
 
 		String id = "idListEntities";
 		LinkedList<Column> columns = new LinkedList<Column>();
@@ -372,7 +369,7 @@ public class ControllerHelper {
 	 * {@link UniqueHelper#createUniqueException(Exception, Class)}</li>
 	 * </ol>
 	 * </p>
-	 * 
+	 *
 	 * @param e
 	 *            excepción que se desea manejar
 	 * @param clazz
@@ -413,11 +410,11 @@ public class ControllerHelper {
 	 * validaciones</li>
 	 * </ol>
 	 * </p>
-	 * 
+	 *
 	 * </ol> <b>Observaciones:</b> no se verifica si algun valor no es
 	 * compatible con su destino, esto es si se ingresa una cadena en el lugar
 	 * de un numero, se lanzara una excepcion del tipo
-	 * 
+	 *
 	 * @param componentID
 	 *            es el id del lado servidor del objeto que sera actualizado.
 	 */

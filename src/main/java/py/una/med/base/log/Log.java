@@ -9,28 +9,28 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 
- * Anotación que sirve para indicar que se debe inyectar un {@link Logger}.
+ * Anotación que sirve para indicar que se debe inyectar un
+ * {@link org.slf4j.Logger}.
  * <p>
  * La utilización debe ser como sigue:
  * 
  * <pre>
  * {@literal @}{@link Log}
- * {@link Logger} log;
+ * Logger log;
  * </pre>
  * 
  * De esta forma, el {@link LogPostProcessor} se encargará automáticamente de
- * inyectar el {@link Logger} (a través del {@link LoggerFactory}) pertinente al
- * atributo.
+ * inyectar el {@link org.slf4j.Logger} (a través del
+ * {@link org.slf4j.LoggerFactory}) pertinente al atributo.
  * </p>
  * <p>
  * Esto produce el mismo resultado que:
  * 
  * <pre>
- * {@link Logger} log = {@link LoggerFactory#getLogger(String)} //pasando como parámetro el nombre de la clase.
+ * Logger log = LoggerFactory.getLogger("py.una.clase")
  * </pre>
  * 
  * </p>
@@ -49,7 +49,7 @@ public @interface Log {
 	/**
 	 * Nombre del log, si es <code>null</code>, entonces se utilizará un
 	 * {@link Logger} con el nombre del bean.
-	 * 
+	 *
 	 * @return cadena que representa el nombre del {@link Logger},
 	 *         <code>""</code> es interpretado como <code>null</code>.
 	 */

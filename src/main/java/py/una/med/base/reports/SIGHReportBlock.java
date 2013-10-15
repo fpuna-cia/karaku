@@ -13,13 +13,13 @@ import net.sf.jasperreports.engine.JRDataSource;
  * cada bloque definido dentro del reporte debe tener un nameDataSource unico,
  * de manera a poder incorporar el dataSource correspondiente dentro de la lista
  * de parametros.
- * 
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 23/07/2013
- * 
+ *
  */
-public class SIGHReportBlock {
+public final class SIGHReportBlock {
 
 	private String title;
 	// origen de los datos
@@ -72,12 +72,12 @@ public class SIGHReportBlock {
 
 	public JRDataSource buildDataSource(List<Field> fields) {
 
-		DRDataSource dataSource = new DRDataSource("label", "value");
+		DRDataSource ds = new DRDataSource("label", "value");
 
 		for (Field field : fields) {
-			dataSource.add(field.getLabel(), field.getValue());
+			ds.add(field.getLabel(), field.getValue());
 		}
-		return dataSource;
+		return ds;
 	}
 
 	public int getWidthValue() {

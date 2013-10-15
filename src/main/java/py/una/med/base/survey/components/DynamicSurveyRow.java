@@ -8,11 +8,11 @@ import py.una.med.base.survey.components.DynamicSurveyField.SurveyField;
 /**
  * Esta clase representa una fila de un dataTable. La cual esta compuesta de un
  * vector de celdas, las cuales representan cada columna del dataTable.
- * 
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 17/06/2013
- * 
+ *
  */
 public class DynamicSurveyRow {
 
@@ -35,7 +35,7 @@ public class DynamicSurveyRow {
 
 	public SurveyField[] getCells() {
 
-		return cells;
+		return cells.clone();
 	}
 
 	public void setCells(SurveyField[] cells) {
@@ -62,7 +62,7 @@ public class DynamicSurveyRow {
 
 	/**
 	 * Obtiene una celda en particular de la fila en cuestion.
-	 * 
+	 *
 	 * @param index
 	 * @return
 	 */

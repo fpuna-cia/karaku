@@ -22,12 +22,12 @@ import org.springframework.stereotype.Component;
 
 /**
  * Clase que provee funcionalidades para el uso de expresiones
- * 
+ *
  * @author Arturo Volpe Torres
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.3.2 25/07/2013
- * 
+ *
  */
 @Component
 public class ELHelper {
@@ -37,11 +37,11 @@ public class ELHelper {
 
 	/**
 	 * Dada una expresión del tipo:<br />
-	 * 
+	 *
 	 * <pre>
 	 * 		#{controller.bean.field}
 	 * </pre>
-	 * 
+	 *
 	 * Determina tres grupos, de la siguiente forma
 	 * <table>
 	 * <tr>
@@ -65,7 +65,7 @@ public class ELHelper {
 	 * <br />
 	 * <br />
 	 * Reemplazando por ejemplo con $1$3 obtenemos la expresion:
-	 * 
+	 *
 	 * <pre>
 	 * #{controller.bean}
 	 * </pre>
@@ -77,7 +77,7 @@ public class ELHelper {
 
 	/**
 	 * Crea una expression que se utiliza para representar el tipo
-	 * 
+	 *
 	 * @param expression
 	 * @param type
 	 * @return value expression con la expression pasada que retorna el type
@@ -106,14 +106,14 @@ public class ELHelper {
 			return methodExpression;
 		} catch (Exception e) {
 			throw new FacesException("Method expression '" + expression
-					+ "' no se puede crear.");
+					+ "' no se puede crear.", e);
 		}
 	}
 
 	/**
 	 * Este método debe retornar un String que se usara para el mapa de
 	 * navegación, retornar null o "" para refrescar la página
-	 * 
+	 *
 	 * @param controller
 	 * @param action
 	 * @return
@@ -127,7 +127,7 @@ public class ELHelper {
 
 	/**
 	 * Crea un método con el formato #{CONTROLLER.ACTION}
-	 * 
+	 *
 	 * @param controller
 	 * @param action
 	 * @return
@@ -140,7 +140,7 @@ public class ELHelper {
 
 	/**
 	 * Este método genera la expresion para invocar a un metodo utilizando ajax.
-	 * 
+	 *
 	 * @param controller
 	 * @param action
 	 * @return
@@ -185,16 +185,16 @@ public class ELHelper {
 
 	/**
 	 * Dada una expresión del tipo
-	 * 
+	 *
 	 * <pre>
 	 * 		#{controller.bean.field}
 	 * </pre>
-	 * 
+	 *
 	 * Retorna el {@link Field} donde se almacenara el campo field, notar que es
 	 * a nivel de {@link Field}, es decir, requiere que el getter y el setter,
 	 * tengan el mismo nombre (getField, setField), no sirve para campos que no
 	 * cumplan esta condicion.
-	 * 
+	 *
 	 * @param beanExpression
 	 *            expresión con el formato de
 	 *            {@link #EXTRACT_FIELD_FROM_EXPRESSION_REGEX}
@@ -246,7 +246,7 @@ public class ELHelper {
 	}
 
 	private static Field getFieldForce(String name, Class<?> clazz)
-			throws NoSuchFieldException, SecurityException {
+			throws NoSuchFieldException {
 
 		if (clazz.getName().toUpperCase().contains("CGLIB")) {
 			return getFieldFromCGEnhancedClass(name, clazz);
@@ -256,13 +256,13 @@ public class ELHelper {
 	}
 
 	private static Field getFieldFromCGEnhancedClass(String name, Class<?> clazz)
-			throws NoSuchFieldException, SecurityException {
+			throws NoSuchFieldException {
 
 		Class<?> real = clazz.getSuperclass();
 		return real.getDeclaredField(name);
 	}
 
-	private synchronized static Pattern getPattern() {
+	private static synchronized Pattern getPattern() {
 
 		if (pattern == null) {
 			pattern = Pattern

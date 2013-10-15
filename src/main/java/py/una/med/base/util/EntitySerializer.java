@@ -5,9 +5,14 @@ import java.lang.reflect.Field;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import py.una.med.base.model.DisplayName;
 
 public final class EntitySerializer {
+
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(EntitySerializer.class);
 
 	private EntitySerializer() {
 
@@ -27,14 +32,14 @@ public final class EntitySerializer {
 				construct(sb, field, object);
 			}
 		} catch (Exception e) {
-			// TODO
+			LOGGER.warn("Can't serialize: ", e);
 			return null;
 		}
 		return sb.toString();
 	}
 
 	private static StringBuilder construct(StringBuilder sb, Field f, Object o)
-			throws IllegalArgumentException, IllegalAccessException {
+			throws IllegalAccessException {
 
 		f.setAccessible(true);
 		String key = f.getName();
@@ -45,7 +50,7 @@ public final class EntitySerializer {
 			key = I18nHelper.getName(displayName);
 		}
 
-		if (!key.equals("serialVersionUID") && value != null
+		if (!key.equals("serialVersionUID") && (value != null)
 				&& !value.equals("")) {
 			return Serializer.contruct(sb, key, value.toString());
 		}

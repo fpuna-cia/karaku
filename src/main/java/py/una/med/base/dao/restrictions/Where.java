@@ -8,8 +8,6 @@ import java.util.List;
 import org.hibernate.criterion.Criterion;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.where.Clause;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.dao.where.Or;
 
 /**
  * Clase que representa las restricciones para la busqueda, todo lo que
@@ -82,8 +80,8 @@ public class Where<T> {
 	}
 
 	/**
-	 * Utilize {@link Where#addClause(Clause)} y {@link Clauses} para generar
-	 * restricciones
+	 * Utilize {@link Where#addClause(Clause)} y
+	 * {@link py.una.med.base.dao.where.Clauses} para generar restricciones.
 	 *
 	 * @param crit
 	 *            para agregar.
@@ -100,11 +98,12 @@ public class Where<T> {
 
 	/**
 	 * Agrega una restricción a la consulta, estos se construyen con la clase
-	 * {@link Clauses} y se pueden agregar tantos como se desean. Todas las
-	 * clausulas que se agregan por este método se añaden como una condición
-	 * <code>and</code>.
+	 * {@link py.una.med.base.dao.where.Clauses} y se pueden agregar tantos como
+	 * se desean. Todas las clausulas que se agregan por este método se añaden
+	 * como una condición <code>and</code>.
 	 * <p>
-	 * Si se desea que se agregen como <code>or</code>, ver {@link Or}
+	 * Si se desea que se agregen como <code>or</code>, ver
+	 * {@link py.una.med.base.dao.where.Or}
 	 * </p>
 	 *
 	 * @param clauses

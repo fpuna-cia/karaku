@@ -13,6 +13,7 @@ import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.faces.model.SelectItem;
+import org.slf4j.LoggerFactory;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.LabelProvider.StringLabelProvider;
@@ -21,16 +22,16 @@ import py.una.med.base.util.SIGHConverterV2;
 import py.una.med.base.util.SelectHelper;
 
 /**
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 21, 2013
- * 
+ *
  */
 public class ComboBoxField<T> extends LabelField {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final String DEFAULT_LABEL_ID = "seleccionar";
 	private static final String DEFAULT_LABEL_TEXT = "COMBO_BOX_DEFAULT_VALUE";
@@ -42,7 +43,6 @@ public class ComboBoxField<T> extends LabelField {
 
 	private SIGHConverterV2 converter;
 	private HtmlSelectOneMenu bind;
-	private ValueChangeListener changeListener;
 	private List<String> toRender;
 	private boolean withDefault;
 	private boolean defaultAdded = false;
@@ -69,7 +69,7 @@ public class ComboBoxField<T> extends LabelField {
 
 	/**
 	 * Retorna el converter por defecto de este objeto
-	 * 
+	 *
 	 * @return converter
 	 */
 	public SIGHConverterV2 getConverter() {
@@ -164,7 +164,7 @@ public class ComboBoxField<T> extends LabelField {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see py.una.med.base.forms.dynamic.Field#getType()
 	 */
 	@Override
@@ -195,9 +195,11 @@ public class ComboBoxField<T> extends LabelField {
 	 */
 	public void changeListener(final ValueChangeEvent event) {
 
-		if (changeListener != null) {
-			changeListener.processValueChange(event);
+		if (event == null) {
+			return;
 		}
+		LoggerFactory.getLogger(ComboBoxField.class).debug(
+				"change listener called {}", event);
 	}
 
 	@Override

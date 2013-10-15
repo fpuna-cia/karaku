@@ -4,15 +4,14 @@
 package py.una.med.base.dao.where;
 
 import org.hibernate.criterion.Criterion;
-import py.una.med.base.dao.helper.AndExpressionHelper;
 
 /**
  * Clase que implementa la cláusula And (sql = 'and').
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 12/03/2013
- * 
+ *
  */
 public class And implements Clause {
 
@@ -32,16 +31,16 @@ public class And implements Clause {
 	 * clase.
 	 * </p>
 	 * <p>
-	 * 
+	 *
 	 * <pre>
 	 * 	where <i>clause1</i> <b>and</b> <i>clause2</i> <b>and</b> <i>clause3</i> ...
 	 * </pre>
-	 * 
+	 *
 	 * </p>
-	 * 
+	 *
 	 * @param clauses
 	 *            una o mas {@link Clause}.
-	 * @see AndExpressionHelper
+	 * @see py.una.med.base.dao.helper.AndExpressionHelper
 	 */
 	public And(Clause ... clauses) {
 
@@ -51,12 +50,12 @@ public class And implements Clause {
 
 	/**
 	 * Retorna la lista de {@link Clause} que actualmente une esta cláusula.
-	 * 
+	 *
 	 * @return
 	 */
 	public Clause[] getClauses() {
 
-		return clauses;
+		return clauses.clone();
 	}
 
 	/**

@@ -1,10 +1,10 @@
 package py.una.med.base.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -52,7 +52,7 @@ public final class SelectHelper {
 
 	public static boolean isEmpty(Object[] array) {
 
-		return array == null || array.length == 0;
+		return (array == null) || (array.length == 0);
 	}
 
 	public static Object findValueByStringConversion(FacesContext context,
@@ -72,9 +72,10 @@ public final class SelectHelper {
 				SelectItem subitems[] = ((SelectItemGroup) item)
 						.getSelectItems();
 				if (!isEmpty(subitems)) {
+					Iterator<SelectItem> iSubItems = Arrays.asList(subitems)
+							.iterator();
 					Object object = findValueByStringConversion(context,
-							component, new ArrayIterator(subitems), value,
-							converter);
+							component, iSubItems, value, converter);
 					if (object != null) {
 						return object;
 					}
@@ -86,38 +87,5 @@ public final class SelectHelper {
 			}
 		}
 		return null;
-	}
-
-	static class ArrayIterator implements Iterator<SelectItem> {
-
-		public ArrayIterator(SelectItem items[]) {
-
-			this.items = items.clone();
-		}
-
-		private SelectItem items[];
-		private int index = 0;
-
-		@Override
-		public boolean hasNext() {
-
-			return index < items.length;
-		}
-
-		@Override
-		public SelectItem next() {
-
-			try {
-				return items[index++];
-			} catch (IndexOutOfBoundsException e) {
-				throw new NoSuchElementException();
-			}
-		}
-
-		@Override
-		public void remove() {
-
-			throw new UnsupportedOperationException();
-		}
 	}
 }

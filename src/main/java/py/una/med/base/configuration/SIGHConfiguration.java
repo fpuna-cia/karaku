@@ -15,16 +15,14 @@ import javax.faces.context.FacesContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import org.apache.myfaces.orchestra.conversation.Conversation;
+import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 import py.una.med.base.domain.Menu;
 import py.una.med.base.domain.Menu.Menus;
 import py.una.med.base.math.MathContextProvider;
@@ -34,17 +32,14 @@ import py.una.med.base.util.Util;
 
 /**
  * Clase de configuración de la aplicación.
- * 
+ *
  * @author Arturo Volpe
  * @since 1.1
  * @version 1.0
- * 
+ *
  */
 @Configuration
 public class SIGHConfiguration {
-
-	@Autowired
-	private ApplicationContext applicationContext;
 
 	private Logger log = LoggerFactory.getLogger(SIGHConfiguration.class);
 
@@ -83,9 +78,9 @@ public class SIGHConfiguration {
 	 * orchestra, esta cadena se configura, además, en el archivo
 	 * applicationContext-orchestra.xml.
 	 * <p>
-	 * Para que un {@link Component} que forme parte de este contexto continue
-	 * con vida, es suficiente con que haya una referencia al mismo en la página
-	 * xhtml.
+	 * Para que un {@link org.springframework.stereotype.Component} que forme
+	 * parte de este contexto continue con vida, es suficiente con que haya una
+	 * referencia al mismo en la página xhtml.
 	 * </p>
 	 */
 	public static final String SCOPE_CONVERSATION = "conversation.access";
@@ -94,11 +89,13 @@ public class SIGHConfiguration {
 	 * Define un scope de conversación de acceso para el uso de apache
 	 * orchestra, esta cadena se configura, además, en el archivo
 	 * applicationContext-orchestra.xml
-	 * 
+	 *
 	 * <p>
-	 * Para que un {@link Component} que forme parte de este contexto continue
-	 * con vida, es suficiente con que exista, para eliminarlo, se debe invocar
-	 * a {@link Conversation#invalidate()}.
+	 * Para que un {@link org.springframework.stereotype.Component} que forme
+	 * parte de este contexto continue con vida, es suficiente con que exista,
+	 * para eliminarlo, se debe invocar a
+	 * {@link org.apache.myfaces.orchestra.conversation.Conversation#invalidate()}
+	 * .
 	 * </p>
 	 */
 	public static final String SCOPE_CONVERSATION_MANUAL = "conversation.manual";
@@ -114,12 +111,12 @@ public class SIGHConfiguration {
 	public static final String CONFIG_LOCATION = "karaku.properties";
 
 	/**
-	 * {@link Component} que provee las propiedades con las que se inicia la
-	 * aplicación.
+	 * {@link org.springframework.stereotype.Component} que provee las
+	 * propiedades con las que se inicia la aplicación.
 	 * <p>
 	 * Las mismas se definen en {@link #CONFIG_LOCATION}.
 	 * </p>
-	 * 
+	 *
 	 * @return {@link PropertiesUtil} base de karaku.
 	 * @see PropertiesUtil
 	 */
@@ -134,7 +131,7 @@ public class SIGHConfiguration {
 
 	/**
 	 * Construye una instancia de {@link Menus}.
-	 * 
+	 *
 	 * @return nueva instancia de Menus
 	 * @throws IOException
 	 *             si el archivo no existe
@@ -154,7 +151,7 @@ public class SIGHConfiguration {
 			JAXBContext jaxbContext;
 			inputStream = resource.getInputStream();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					inputStream));
+					inputStream, CharEncoding.ISO_8859_1));
 			jaxbContext = JAXBContext.newInstance(Menus.class);
 			Unmarshaller um = jaxbContext.createUnmarshaller();
 			Menus toConcat = (Menus) um.unmarshal(reader);
@@ -163,13 +160,12 @@ public class SIGHConfiguration {
 			toRet.getMenus().addAll(toConcat.getMenus());
 		}
 
-		MenuHelper mh = new MenuHelper(toRet);
-		return mh;
+		return new MenuHelper(toRet);
 	}
 
 	private void cleanMenuID(String file, Menus loaded) {
 
-		int location = file.indexOf(".");
+		int location = file.indexOf('.');
 		String pre;
 		if (location <= 0) {
 			pre = file;
@@ -178,7 +174,7 @@ public class SIGHConfiguration {
 		}
 		for (Menu m : loaded.getMenus()) {
 			m.setId(pre + m.getId());
-			if (m.getIdFather() != null && !"".equals(m.getIdFather())) {
+			if ((m.getIdFather() != null) && !"".equals(m.getIdFather())) {
 				m.setIdFather(pre + m.getIdFather());
 			}
 		}
@@ -187,7 +183,7 @@ public class SIGHConfiguration {
 	/**
 	 * Crea un {@link Map} que contiene las cadenas de internacionalización
 	 * actuales.
-	 * 
+	 *
 	 * @return Bean para internacionalización.
 	 */
 	@Bean(name = "msg")
@@ -209,11 +205,11 @@ public class SIGHConfiguration {
 	/**
 	 * Retorna true si la aplicacion esta en estado de desarrollo y false si
 	 * esta en otro estado.
-	 * 
+	 *
 	 * @see ProjectStage
 	 * @return true si es develop, false en otro caso
 	 */
-	public final static boolean isDevelop() {
+	public static final boolean isDevelop() {
 
 		return FacesContext.getCurrentInstance().isProjectStage(
 				ProjectStage.Development);
@@ -227,11 +223,11 @@ public class SIGHConfiguration {
 
 	/**
 	 * Retorna true si el entorno actual de ejecucion es de Debug
-	 * 
+	 *
 	 * @return true si se esta debugeando, false si se esta ejecutando
 	 *         normalmente
 	 */
-	public final static boolean isDebug() {
+	public static final boolean isDebug() {
 
 		return java.lang.management.ManagementFactory.getRuntimeMXBean()
 				.getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;

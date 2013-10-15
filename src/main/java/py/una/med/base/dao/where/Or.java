@@ -26,7 +26,7 @@ public class Or implements Clause {
 
 	public Clause[] getClauses() {
 
-		return this.clauses;
+		return this.clauses.clone();
 	}
 
 	@Override

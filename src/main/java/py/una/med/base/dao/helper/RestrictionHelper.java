@@ -10,9 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.LikeExpression;
 import org.slf4j.Logger;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -24,11 +22,11 @@ import py.una.med.base.log.Log;
  * Clase que sirve para interceptar restricciones que se agregan a un query, por
  * ejemplo para agregar alias para joins entre columnas, característica no
  * soportada por Hibernate Criteria
- * 
+ *
  * @author Arturo Volpe
  * @version 1.1
  * @since 1.0 08/02/2013
- * 
+ *
  * @param <T>
  */
 @Component
@@ -70,15 +68,18 @@ public class RestrictionHelper implements ApplicationContextAware {
 	}
 
 	/**
-	 * Agrega todas las restriciones a la criteria, si encuentra expresiones del
-	 * tipo {@link LikeExpression}, las modifica para aceptar paths anidados
-	 * como "pais.descripcion", los cuales no son soportados nativamente por
-	 * 
+	 * Agrega todas las clauses a la {@link Criteria}.
+	 *
+	 * <p>
+	 * Utiliza todas las instancias de {@link BaseClauseHelper} para poder
+	 * realizar consultas anidadas a todos los tipos de {@link Clause}.
+	 * </p>
+	 *
 	 * <p>
 	 * Para agregar soporte a mas restricciones, véase
 	 * {@link #register(BaseClauseHelper)}
 	 * </p>
-	 * 
+	 *
 	 * @param where
 	 *            filtros que se desea aplicar
 	 * @param criteria
@@ -88,16 +89,16 @@ public class RestrictionHelper implements ApplicationContextAware {
 	 * @return Criteria con los filtro aplicados
 	 */
 	@SuppressWarnings("deprecation")
-	public Criteria applyRestrictions(final Criteria criteria,
-			final Where<?> where, final Map<String, String> alias) {
+	public Criteria applyClauses(final Criteria criteria, final Where<?> where,
+			final Map<String, String> alias) {
 
 		Map<String, String> aliaz = alias;
 
 		if (aliaz == null) {
 			throw new IllegalArgumentException("Alias can't be null");
 		}
-		if (where == null || where.getCriterions() == null
-				&& where.getClauses() == null) {
+		if ((where == null)
+				|| ((where.getCriterions() == null) && (where.getClauses() == null))) {
 			return criteria;
 		}
 		if (where.getClauses() != null) {
@@ -113,7 +114,7 @@ public class RestrictionHelper implements ApplicationContextAware {
 	/**
 	 * Retorna la lista de {@link Criterion}, sin realmente modificar la
 	 * consulta (solamente los alias listados se agregan a la consulta).
-	 * 
+	 *
 	 * @param clauses
 	 *            lista de {@link Clause}, not null.
 	 * @param criteria
@@ -138,7 +139,7 @@ public class RestrictionHelper implements ApplicationContextAware {
 	/**
 	 * Retorna el {@link Criterion}, sin realmente modificar la consulta
 	 * (solamente los alias listados se agregan a la consulta).
-	 * 
+	 *
 	 * @param clause
 	 *            {@link Clause}, not null.
 	 * @param criteria
@@ -154,7 +155,7 @@ public class RestrictionHelper implements ApplicationContextAware {
 		BaseClauseHelper<?> helper = getHelpers().get(clause.getClass());
 
 		if (helper == null) {
-			this.log.info("Helper not found for: {}", clause.getClass());
+			this.log.warn("Helper not found for: {}", clause.getClass());
 			return clause.getCriterion();
 		} else {
 			return getHelpers().get(clause.getClass()).getCriterion(criteria,
@@ -162,15 +163,8 @@ public class RestrictionHelper implements ApplicationContextAware {
 		}
 	}
 
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext
-	 *      (org.springframework.context.ApplicationContext)
-	 */
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
+	public void setApplicationContext(ApplicationContext applicationContext) {
 
 		this.applicationContext = applicationContext;
 	}

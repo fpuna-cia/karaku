@@ -24,12 +24,12 @@ import org.hibernate.envers.Audited;
 import py.una.med.base.domain.BaseEntity;
 
 /**
- * 
- * 
+ *
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 29/05/2013
- * 
+ *
  */
 @Entity
 @Audited
@@ -68,12 +68,17 @@ public class Encuesta extends BaseEntity implements Serializable {
 
 	public Date getFechaRealizacion() {
 
-		return fechaRealizacion;
+		if (fechaRealizacion != null) {
+			return new Date(fechaRealizacion.getTime());
+		}
+		return null;
 	}
 
 	public void setFechaRealizacion(Date fechaRealizacion) {
 
-		this.fechaRealizacion = fechaRealizacion;
+		if (fechaRealizacion != null) {
+			this.fechaRealizacion = new Date(fechaRealizacion.getTime());
+		}
 	}
 
 	public EncuestaPlantilla getPlantilla() {

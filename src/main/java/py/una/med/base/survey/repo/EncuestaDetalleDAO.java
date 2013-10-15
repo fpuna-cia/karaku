@@ -20,12 +20,12 @@ import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
 import py.una.med.base.survey.domain.OpcionRespuesta;
 
 /**
- * 
- * 
+ *
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 29/05/2013
- * 
+ *
  */
 @Repository
 public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
@@ -58,8 +58,8 @@ public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
 		EncuestaDetalle example = new EncuestaDetalle();
 		example.setEncuesta(encuesta);
 		example.setPregunta(pregunta);
-		EncuestaDetalle detalle = getByExample(example);
-		return detalle;
+
+		return getByExample(example);
 	}
 
 	@Override

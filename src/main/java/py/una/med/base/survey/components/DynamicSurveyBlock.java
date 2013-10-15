@@ -12,11 +12,11 @@ import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
 
 /**
  * r
- * 
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 04/06/2013
- * 
+ *
  */
 public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 
@@ -25,7 +25,7 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 	private List<EncuestaPlantillaPregunta> questions;
 
 	/**
-	 * 
+	 *
 	 * @param questions
 	 *            Lista de preguntas relacionadas al bloque
 	 * @param index
@@ -71,7 +71,7 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 
 	/**
 	 * Obtiene una pregunta en particular del bloque.
-	 * 
+	 *
 	 * @param index
 	 *            Representa el orden de la pregunta dentro del bloque
 	 * @return
@@ -85,9 +85,9 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 	 * Genera un identificador para el bloque en cuestion
 	 */
 
-	public String generateIdBlock(int index) {
+	public final String generateIdBlock(int index) {
 
-		return "_block_" + String.valueOf(index + 1);
+		return "_block_" + (index + 1);
 	}
 
 	public String getTitle() {
@@ -108,7 +108,7 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 
 	/**
 	 * Obtiene el valor del parametro asociado a un compoenente.
-	 * 
+	 *
 	 * @param name
 	 *            nombre del parametro
 	 * @return
@@ -122,7 +122,7 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see py.una.med.base.survey.IDynamicSurveyBlock#getType()
 	 */
 	@Override
@@ -131,6 +131,5 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 		// TODO Auto-generated method stub
 		return "";
 	}
-	
 
 }

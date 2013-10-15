@@ -6,7 +6,6 @@ package py.una.med.base.dynamic.wizard;
 import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AbortProcessingException;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.AjaxBehaviorListener;
 import org.richfaces.component.UIPopupPanel;
@@ -297,8 +296,7 @@ public class StepBuilder {
 		ab.addAjaxBehaviorListener(new AjaxBehaviorListener() {
 
 			@Override
-			public void processAjaxBehavior(AjaxBehaviorEvent event)
-					throws AbortProcessingException {
+			public void processAjaxBehavior(AjaxBehaviorEvent event) {
 
 				clickCallBack.onClick();
 

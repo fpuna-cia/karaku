@@ -22,11 +22,11 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 import py.una.med.base.log.Log;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 1, 2013
- * 
+ *
  */
 @Component
 public class InterceptorHandler implements InitializingBean {
@@ -35,24 +35,24 @@ public class InterceptorHandler implements InitializingBean {
 	private transient Logger log;
 
 	@Autowired
-	List<Interceptor> interceptors;
+	private List<Interceptor> interceptors;
 
 	private transient int interceptorsCount;
 
-	Map<Class<?>, Set<Interceptor>> byType;
-	Map<Class<?>, Set<Interceptor>> byAnnotation;
+	private Map<Class<?>, Set<Interceptor>> byType;
+	private Map<Class<?>, Set<Interceptor>> byAnnotation;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 
 		this.log.info("Building InterceptorHandler");
 		// Map<String, AbstractInterceptor> interceptors = this.ac
 		// .getBeansOfType(AbstractInterceptor.class);
 		this.interceptorsCount = interceptors.size();
-		for (Interceptor bi : interceptors) {// .values()) {
+		for (Interceptor bi : interceptors) {
 			this.log.info("Add: {}", bi.getClass().getSimpleName());
 			for (Class<?> type : bi.getObservedTypes()) {
 				// Cuando type == null, entonces se agregara al grupo de
@@ -74,8 +74,7 @@ public class InterceptorHandler implements InitializingBean {
 		ReflectionUtils.doWithFields(bean.getClass(), new FieldCallback() {
 
 			@Override
-			public void doWith(Field field) throws IllegalArgumentException,
-					IllegalAccessException {
+			public void doWith(Field field) throws IllegalAccessException {
 
 				InterceptorHandler.this.intercept(field, bean);
 			}
@@ -108,24 +107,24 @@ public class InterceptorHandler implements InitializingBean {
 
 	private Set<Interceptor> getInterceptorsByType(Class<?> type) {
 
-		Set<Interceptor> interceptors = this.getByType().get(type);
-		if (interceptors == null) {
-			interceptors = new HashSet<Interceptor>();
-			this.getByType().put(type, interceptors);
+		Set<Interceptor> toRet = this.getByType().get(type);
+		if (toRet == null) {
+			toRet = new HashSet<Interceptor>();
+			this.getByType().put(type, toRet);
 		}
 
-		return interceptors;
+		return toRet;
 	}
 
 	private Set<Interceptor> getInterceptorsByAnnotation(Class<?> type) {
 
-		Set<Interceptor> interceptors = this.getByAnnotation().get(type);
-		if (interceptors == null) {
-			interceptors = new HashSet<Interceptor>();
-			this.getByAnnotation().put(type, interceptors);
+		Set<Interceptor> toRet = this.getByAnnotation().get(type);
+		if (toRet == null) {
+			toRet = new HashSet<Interceptor>();
+			this.getByAnnotation().put(type, toRet);
 		}
 
-		return interceptors;
+		return toRet;
 	}
 
 	/**
@@ -155,7 +154,7 @@ public class InterceptorHandler implements InitializingBean {
 
 	/**
 	 * Retorna el número de {@link Interceptor} registrados por este componente.
-	 * 
+	 *
 	 * @return interceptorsCount
 	 */
 	public int getInterceptorsCount() {
@@ -166,10 +165,10 @@ public class InterceptorHandler implements InitializingBean {
 	/**
 	 * Verifica si un field puede ser asignable. Se define un fiel asignable
 	 * como aquel que no es estatico, final.
-	 * 
+	 *
 	 * Como nota general tener en cuenta que un campo que no es String es
 	 * inmediatamente no asignable
-	 * 
+	 *
 	 * @param field
 	 *            a ser evaluado
 	 * @return <code>true</code> si es asignable, <code>false</code> en caso

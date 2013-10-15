@@ -6,7 +6,7 @@ import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import py.una.med.base.util.ListHelper;
 
-public class SIGHReportBlockGrid {
+public final class SIGHReportBlockGrid {
 
 	private String title;
 	// origen de los datos
@@ -63,14 +63,14 @@ public class SIGHReportBlockGrid {
 			columnsDataSource.add(column.getField());
 		}
 
-		DRDataSource dataSource = new DRDataSource(
+		DRDataSource ds = new DRDataSource(
 				ListHelper.asArray(columnsDataSource));
 
 		for (Object o : listElement) {
-			dataSource.add((Object[]) o);
+			ds.add((Object[]) o);
 		}
 
-		return dataSource;
+		return ds;
 	}
 
 	public List<Column> getColumns() {

@@ -1,7 +1,6 @@
 package py.una.med.base.domain;
 
 import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,16 +11,21 @@ import javax.persistence.Table;
 
 /**
  * Detalle de una auditoria
- * 
+ *
  * @author Romina Fernandez, Arturo Volpe
  * @version 1.0
  * @since 1.0
- * 
+ *
  */
 @Entity
 @Table(name = "audit_trail_detail")
 @SequenceGenerator(name = "AUDIT_TRAIL_DETAIL_SEQ", sequenceName = "audit_trail_detail_id_seq")
-public class AuditTrailDetail {
+public class AuditTrailDetail implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -1292116113097030666L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "AUDIT_TRAIL_DETAIL_SEQ")

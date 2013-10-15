@@ -1,6 +1,6 @@
 /*
  * @MainInstanceHelper.java 1.0 Feb 13, 2013
- * 
+ *
  * Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.dao.util;
@@ -30,24 +30,24 @@ import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.log.Log;
 
 /**
- * 
+ *
  * Clase que se encarga de crear los proxies para manejar las anotaciones
  * MainInstance, además en caso de que el {@link FetchType} sea
  * {@link FetchType#EAGER} modifica la consulta para que los resultados sena
  * Traídos y luego los parsea para agregar al objeto.
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 13, 2013
- * 
+ *
  */
 @Component
+@SuppressWarnings("unchecked")
 public class MainInstanceHelper {
 
 	@Log
 	private Logger log;
 
-	@SuppressWarnings("unchecked")
 	static Object fetchAttribute(final Session session, final String hql,
 			final MainInstance principal, final Object parent) {
 
@@ -79,7 +79,7 @@ public class MainInstanceHelper {
 	 * <i>Notese que no se limita la cantidad de resultados, esto es para
 	 * realizar otros controles, como que no se lanzen excepciones cuando hay
 	 * mas de un atributo principal</i>
-	 * 
+	 *
 	 * @param entity
 	 *            Entidad raiz
 	 * @param principal
@@ -109,8 +109,8 @@ public class MainInstanceHelper {
 	 * depende exclusivamente de la capacidad del método {@link T#hashCode()}
 	 * para realizar su propósito de retornar elementos no duplicados.
 	 * </p>
-	 * 
-	 * 
+	 *
+	 *
 	 * @param session
 	 *            Session, a la cual se ata el proxy, mientras este viva el
 	 *            proxy funciona
@@ -123,21 +123,21 @@ public class MainInstanceHelper {
 	 * @throws IllegalAccessException
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
+
 	public <T> List<T> configureAndReturnList(final Session session,
 			final Criteria criteria, final Class<T> clase,
 			final Map<String, String> alias, final Where<T> where)
-			throws IllegalArgumentException, IllegalAccessException {
+			throws IllegalAccessException {
 
 		List<Field> fields = MainInstanceFieldHelper
 				.getMainInstanceFields(clase);
 		List<T> aRet;
 
-		if (where != null && where.isDistinct()) {
+		if ((where != null) && where.isDistinct()) {
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		}
 
-		if (fields != null && fields.size() != 0) {
+		if ((fields != null) && (fields.size() != 0)) {
 			aRet = applyMainInstance(criteria, alias, where, fields);
 		} else {
 			aRet = criteria.list();
@@ -159,14 +159,14 @@ public class MainInstanceHelper {
 	 * @return
 	 * @throws IllegalAccessException
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	private <T> List<T> applyMainInstance(final Criteria criteria,
 			final Map<String, String> alias, final Where<T> where,
 			List<Field> fields) throws IllegalAccessException {
 
 		List<T> aRet;
 		Collection<T> toBuild;
-		if (where != null && where.isDistinct()) {
+		if ((where != null) && where.isDistinct()) {
 			toBuild = new LinkedHashSet<T>();
 		} else {
 			toBuild = new ArrayList<T>();
@@ -192,7 +192,7 @@ public class MainInstanceHelper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param criteria
 	 * @param fields
 	 *            lista de fields que tienen la anotación {@link MainInstance},
@@ -239,7 +239,7 @@ public class MainInstanceHelper {
 	/**
 	 * Dado <b>un</b> objeto, agrega el proxy que tiene sentido mientras dure la
 	 * session
-	 * 
+	 *
 	 * @param entity
 	 *            entidad a aplicar los proxies
 	 * @param session
@@ -251,9 +251,8 @@ public class MainInstanceHelper {
 	 * @throws NoSuchMethodException
 	 */
 	public void help(final Object entity, final Session session)
-			throws IllegalArgumentException, IllegalAccessException,
-			NoSuchMethodException, InstantiationException,
-			InvocationTargetException {
+			throws IllegalAccessException, NoSuchMethodException,
+			InstantiationException, InvocationTargetException {
 
 		if (entity == null) {
 			return;
@@ -272,7 +271,7 @@ public class MainInstanceHelper {
 	 * Método que agrega los proxy's para el {@link FetchType#LAZY}, para
 	 * agregar otro tipo de fetch utilice
 	 * {@link MainInstanceHelper#configureAndReturnList(Session, Criteria, Class)}
-	 * 
+	 *
 	 * @param entities
 	 * @param session
 	 * @throws IllegalAccessException
@@ -283,9 +282,8 @@ public class MainInstanceHelper {
 	 * @throws Exception
 	 */
 	public void helpList(final List<?> entities, final Session session)
-			throws IllegalArgumentException, IllegalAccessException,
-			NoSuchMethodException, InstantiationException,
-			InvocationTargetException {
+			throws IllegalAccessException, NoSuchMethodException,
+			InstantiationException, InvocationTargetException {
 
 		if ((entities == null) || (entities.size() == 0)) {
 			return;
@@ -305,17 +303,14 @@ public class MainInstanceHelper {
 
 	private <T> T newInstance(final Object entity, final Session em,
 			final MainInstance principal, final Class<T> fieldType)
-			throws NoSuchMethodException, IllegalArgumentException,
-			InstantiationException, IllegalAccessException,
-			InvocationTargetException {
+			throws NoSuchMethodException, InstantiationException,
+			IllegalAccessException, InvocationTargetException {
 
 		ProxyFactory factory = new ProxyFactory();
 		factory.setSuperclass(fieldType);
 		MethodHandler handler = new MainInstanceMethodHandler<T>(em, principal,
 				entity, fieldType);
 
-		@SuppressWarnings("unchecked")
-		T value = (T) factory.create(new Class<?>[0], new Object[0], handler);
-		return value;
+		return (T) factory.create(new Class<?>[0], new Object[0], handler);
 	}
 }

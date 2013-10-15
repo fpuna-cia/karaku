@@ -12,14 +12,24 @@ import org.springframework.util.ReflectionUtils;
 import py.una.med.base.dao.entity.annotations.Time;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 1, 2013
- * 
+ *
  */
 @Component
 public class TimeInterceptor extends AbstractInterceptor {
+
+	/**
+	 * 
+	 */
+	private static final int FIRST_DAY_OF_YEAR = 1;
+	/**
+	 * 
+	 */
+	private static final int FIRST_YEAR = 1970;
+
 
 	@Override
 	public Class<?>[] getObservedTypes() {
@@ -48,13 +58,13 @@ public class TimeInterceptor extends AbstractInterceptor {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 
-		if (t == null || t.type().equals(Time.Type.DATE)) {
+		if ((t == null) || t.type().equals(Time.Type.DATE)) {
 			this.handleDate(c);
-		} else if (t.type().equals(Time.Type.DATETIME)) {
-			this.handleDateTime(c);
-		} else {
+		} else if (t.type().equals(Time.Type.TIME)) {
 			this.handleTime(c);
 		}
+		// DATETIME no es manejado por que no requeire ningun
+		// trato especial
 
 		c.set(Calendar.SECOND, 0);
 		c.set(Calendar.MILLISECOND, 0);
@@ -66,17 +76,11 @@ public class TimeInterceptor extends AbstractInterceptor {
 	 */
 	private void handleTime(Calendar c) {
 
-		c.set(Calendar.YEAR, 1970);
-		c.set(Calendar.DAY_OF_YEAR, 1);
+		c.set(Calendar.YEAR, FIRST_YEAR);
+		c.set(Calendar.DAY_OF_YEAR, FIRST_DAY_OF_YEAR);
 
 	}
 
-	/**
-	 * @param c
-	 */
-	private void handleDateTime(Calendar calendar) {
-
-	}
 
 	/**
 	 * @param c

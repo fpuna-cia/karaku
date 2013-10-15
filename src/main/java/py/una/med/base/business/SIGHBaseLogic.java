@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
 import javax.persistence.Id;
-import org.hibernate.NonUniqueResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,9 +15,9 @@ import py.una.med.base.dao.util.EntityExample;
 /**
  * Clase que implementa {@link ISIGHBaseLogic} y que debe ser el punto base de
  * todas las logicas.
- * 
+ *
  * @author Arturo Volpe
- * 
+ *
  * @param <T>
  *            Clase de la entidad
  * @param <ID>
@@ -33,7 +32,7 @@ public abstract class SIGHBaseLogic<T, K extends Serializable> implements
 
 	@Override
 	@Transactional(readOnly = true)
-	public T getByExample(T example) throws NonUniqueResultException {
+	public T getByExample(T example) {
 
 		return getDao().getByExample(example);
 	}
@@ -141,7 +140,7 @@ public abstract class SIGHBaseLogic<T, K extends Serializable> implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * py.una.med.base.business.ISIGHBaseLogic#getCount(py.una.med.base.dao.
 	 * restrictions.Where)

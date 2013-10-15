@@ -1,6 +1,6 @@
 /*
  * @PrincipalMethodHandler.java 1.0 Feb 14, 2013
- * 
+ *
  * Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.dao.util;
@@ -13,12 +13,12 @@ import py.una.med.base.dao.annotations.MainInstance;
 
 /**
  * MethodHandler (proxy) que se encarga de interceptar las llamadas a los
- * metodos lazy y reliza la consulta
- * 
+ * métodos lazy y realiza la consulta.
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 14, 2013
- * 
+ *
  */
 public class MainInstanceMethodHandler<T> implements MethodHandler {
 
@@ -56,16 +56,10 @@ public class MainInstanceMethodHandler<T> implements MethodHandler {
 				principal, entity);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javassist.util.proxy.MethodHandler#invoke(java.lang.Object,
-	 * java.lang.reflect.Method, java.lang.reflect.Method, java.lang.Object[])
-	 */
 	@Override
 	public Object invoke(Object proxy, Method method, Method proceed,
-			Object[] args) throws IllegalArgumentException,
-			IllegalAccessException, InvocationTargetException {
+			Object[] args) throws IllegalAccessException,
+			InvocationTargetException {
 
 		if (!consulted) {
 			initialize();

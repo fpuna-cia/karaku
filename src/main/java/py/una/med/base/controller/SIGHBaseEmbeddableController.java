@@ -3,11 +3,9 @@ package py.una.med.base.controller;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
-import py.una.med.base.util.ControllerHelper;
 
 /**
  * Implementacion base de la interfaz {@link ISIGHEmbeddableController}
@@ -37,9 +35,6 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 	private ISIGHMainController mainController;
 
 	private boolean isEmbedded;
-
-	@Autowired
-	private ControllerHelper helper;
 
 	@Override
 	public void setMainController(ISIGHMainController mainController) {
@@ -220,12 +215,6 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 	}
 
 	@Override
-	public void preSearch() {
-
-		super.preSearch();
-	}
-
-	@Override
 	@HasRole(SIGHSecurity.DEFAULT)
 	public void doSearch() {
 
@@ -235,6 +224,7 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 		reloadEntities();
 	}
 
+	@Override
 	public boolean isEditable(String campo) {
 
 		if (getMode() == null) {

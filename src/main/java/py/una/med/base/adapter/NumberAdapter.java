@@ -3,17 +3,24 @@ package py.una.med.base.adapter;
 import java.math.BigDecimal;
 
 /**
- * 
+ *
  * Adapter para convertir el elemento base:Number a un BigDecimal y viceversa.
- * 
+ *
  * @author Uriel González
  */
 @Deprecated
-public class NumberAdapter {
+public final class NumberAdapter {
+
+	/**
+	 *
+	 */
+	private NumberAdapter() {
+
+	}
 
 	/**
 	 * Convierte un BigDecimal a un elemento base:Number.
-	 * 
+	 *
 	 * @param numero
 	 *            BigDecimal a convertir a un base:Number.
 	 * @return Cadena en base:Number
@@ -25,7 +32,7 @@ public class NumberAdapter {
 
 	/**
 	 * Convierte un elemento base:Number a un BigDecimal.
-	 * 
+	 *
 	 * @param decimal
 	 *            Elemento base:Number.
 	 * @return en caso de que base:Number sea un número decimal sin signo cuya

@@ -10,7 +10,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import javax.persistence.FetchType;
-import py.una.med.base.dao.util.MainInstanceHelper;
 
 /**
  * Anotacio que permite definir un atributo de una lista como el atributo
@@ -59,7 +58,7 @@ import py.una.med.base.dao.util.MainInstanceHelper;
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 13, 2013
- * @see MainInstanceHelper
+ * @see py.una.med.base.dao.util.MainInstanceHelper
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

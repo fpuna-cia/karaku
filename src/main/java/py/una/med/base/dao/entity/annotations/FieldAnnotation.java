@@ -9,16 +9,15 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import py.una.med.base.dao.entity.interceptors.Interceptor;
 
 /**
  * Meta-Anotación para anotar todas las anotaciones que son capturadas por un
- * {@link Interceptor}.
- * 
+ * {@link py.una.med.base.dao.entity.interceptors.Interceptor}.
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 1, 2013
- * 
+ *
  */
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,8 +1,8 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
- * 
+ *
  * Copyright (c) 1997-2010 Oracle and/or its affiliates. All rights reserved.
- * 
+ *
  * The contents of this file are subject to the terms of either the GNU General
  * Public License Version 2 only ("GPL") or the Common Development and
  * Distribution License("CDDL") (collectively, the "License"). You may not use
@@ -10,18 +10,18 @@
  * License at https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html or
  * packager/legal/LICENSE.txt. See the License for the specific language
  * governing permissions and limitations under the License.
- * 
+ *
  * When distributing the software, include this License Header Notice in each
  * file and include the License file at packager/legal/LICENSE.txt.
- * 
+ *
  * GPL Classpath Exception: Oracle designates this particular file as subject to
  * the "Classpath" exception as provided by Oracle in the GPL Version 2 section
  * of the License file that accompanied this code.
- * 
+ *
  * Modifications: If applicable, add the following below the License Header,
  * with the fields enclosed by brackets [] replaced by your own identifying
  * information: "Portions Copyright [year] [name of copyright owner]"
- * 
+ *
  * Contributor(s): If you wish your version of this file to be governed by only
  * the CDDL or only the GPL Version 2, indicate your decision by adding
  * "[Contributor] elects to include this software in this distribution under the
@@ -57,7 +57,7 @@ import javax.faces.model.SelectItem;
  * Package private class for iterating over the set of {@link SelectItem}s for a
  * parent {@link UISelectMany} or {@link UISelectOne}.
  * </p>
- * 
+ *
  * // RELEASE_PENDING (rlubke,driscoll) performanc review
  */
 final class SelectItemsIterator implements Iterator<SelectItem> {
@@ -65,10 +65,15 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	// ------------------------------------------------------------ Constructors
 
 	/**
+	 *
+	 */
+	private static final String RAWTYPES = "rawtypes";
+
+	/**
 	 * <p>
 	 * Construct an iterator instance for the specified parent component.
 	 * </p>
-	 * 
+	 *
 	 * @param ctx
 	 *            the {@link FacesContext} for the current request
 	 * @param parent
@@ -144,7 +149,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	 * <p>
 	 * Return the next element in the iteration.
 	 * </p>
-	 * 
+	 *
 	 * @throws NoSuchElementException
 	 *             if there are no more elements
 	 */
@@ -181,7 +186,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	 * <code>Iterator</code> appropriate to the UISelectItem(s) value.
 	 * </p>
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings(RAWTYPES)
 	private void initializeItems(Object kid) {
 
 		if (kid instanceof UISelectItem) {
@@ -212,7 +217,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 					throw new IllegalArgumentException();
 				}
 			}
-			if (items != null && !items.hasNext()) {
+			if ((items != null) && !items.hasNext()) {
 				items = null;
 			}
 		}
@@ -227,10 +232,11 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 		if (kids.hasNext()) {
 			Object next = kids.next();
 			while (kids.hasNext()
-					&& !(next instanceof UISelectItem || next instanceof UISelectItems)) {
+					&& !((next instanceof UISelectItem) || (next instanceof UISelectItems))) {
 				next = kids.next();
 			}
-			if (next instanceof UISelectItem || next instanceof UISelectItems) {
+			if ((next instanceof UISelectItem)
+					|| (next instanceof UISelectItems)) {
 				return next;
 			}
 		}
@@ -241,7 +247,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	/**
 	 * Update the <code>singleItemIterator</code> with the provided
 	 * <code>item</code>
-	 * 
+	 *
 	 * @param item
 	 *            the {@link SelectItem} to expose as an Iterator
 	 */
@@ -311,12 +317,12 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	private static final class MapIterator implements Iterator<SelectItem> {
 
 		private final SelectItem item = new SelectItem();
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings(RAWTYPES)
 		private final Iterator iterator;
 
 		// -------------------------------------------------------- Constructors
 
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings(RAWTYPES)
 		private MapIterator(Map map) {
 
 			this.iterator = map.entrySet().iterator();
@@ -335,7 +341,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 		@Override
 		public SelectItem next() {
 
-			@SuppressWarnings("rawtypes")
+			@SuppressWarnings(RAWTYPES)
 			Map.Entry entry = (Map.Entry) iterator.next();
 			Object key = entry.getKey();
 			Object value = entry.getValue();
@@ -436,7 +442,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 			/**
 			 * Updates the <code>SelectItem</code> properties based on the
 			 * current value.
-			 * 
+			 *
 			 * @param ctx
 			 *            the {@link FacesContext} for the current request
 			 * @param value
@@ -488,12 +494,18 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 
 			private void writeObject(ObjectOutputStream out) throws IOException {
 
+				if (out == null) {
+					return;
+				}
 				throw new NotSerializableException();
 
 			}
 
 			private void readObject(ObjectInputStream in) throws IOException {
 
+				if (in == null) {
+					return;
+				}
 				throw new NotSerializableException();
 
 			}
@@ -505,7 +517,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	/**
 	 * Handles arrays of <code>SelectItem</code>s, generic Objects, or
 	 * combintations of both.
-	 * 
+	 *
 	 * A single <code>GenericObjectSelectItem</code> will be leverage for any
 	 * non-<code>SelectItem</code> objects encountered.
 	 */
@@ -565,7 +577,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	/**
 	 * Handles Collections of <code>SelectItem</code>s, generic Objects, or
 	 * combintations of both.
-	 * 
+	 *
 	 * A single <code>GenericObjectSelectItem</code> will be leverage for any
 	 * non-<code>SelectItem</code> objects encountered.
 	 */

@@ -7,27 +7,33 @@ import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 import py.una.med.base.math.Quantity;
 
 /**
  * Hibernate Type para la clase {@link Quantity}.
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 9, 2013
- * 
+ *
  */
-public class QuantityCustomType implements UserType {
+public final class QuantityCustomType implements UserType {
 
 	private QuantityType qt = QuantityType.INSTANCE;
 
 	/**
 	 * Singleton de esta tipo.
 	 */
-	public static QuantityCustomType INSTANCE = new QuantityCustomType();
+	public static final QuantityCustomType INSTANCE = new QuantityCustomType();
+
+	/**
+	 * Definirlo como singleton.
+	 */
+	private QuantityCustomType() {
+
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -52,7 +58,7 @@ public class QuantityCustomType implements UserType {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean equals(Object x, Object y) throws HibernateException {
+	public boolean equals(final Object x, final Object y) {
 
 		if (x == null) {
 			return y == null;
@@ -64,7 +70,7 @@ public class QuantityCustomType implements UserType {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int hashCode(Object x) throws HibernateException {
+	public int hashCode(Object x) {
 
 		return x.hashCode();
 	}
@@ -74,8 +80,7 @@ public class QuantityCustomType implements UserType {
 	 */
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names,
-			SessionImplementor session, Object owner)
-			throws HibernateException, SQLException {
+			SessionImplementor session, Object owner) throws SQLException {
 
 		return qt.nullSafeGet(rs, names, session, owner);
 	}
@@ -85,7 +90,7 @@ public class QuantityCustomType implements UserType {
 	 */
 	@Override
 	public void nullSafeSet(PreparedStatement st, Object value, int index,
-			SessionImplementor session) throws HibernateException, SQLException {
+			SessionImplementor session) throws SQLException {
 
 		qt.nullSafeSet(st, value, index, session);
 
@@ -95,7 +100,7 @@ public class QuantityCustomType implements UserType {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object deepCopy(Object value) throws HibernateException {
+	public Object deepCopy(Object value) {
 
 		if (value == null) {
 			return null;
@@ -120,7 +125,7 @@ public class QuantityCustomType implements UserType {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Serializable disassemble(Object value) throws HibernateException {
+	public Serializable disassemble(Object value) {
 
 		return qt.disassemble(value, null, null);
 	}
@@ -129,8 +134,7 @@ public class QuantityCustomType implements UserType {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object assemble(Serializable cached, Object owner)
-			throws HibernateException {
+	public Object assemble(Serializable cached, Object owner) {
 
 		return qt.assemble(cached, null, owner);
 	}
@@ -139,8 +143,7 @@ public class QuantityCustomType implements UserType {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object replace(Object original, Object target, Object owner)
-			throws HibernateException {
+	public Object replace(Object original, Object target, Object owner) {
 
 		return original;
 	}

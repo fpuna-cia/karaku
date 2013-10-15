@@ -8,12 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javax.faces.context.FacesContext;
 import javax.validation.constraints.NotNull;
-
 import org.springframework.stereotype.Component;
-
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.exception.KeyNotFoundException;
@@ -21,7 +18,7 @@ import py.una.med.base.model.DisplayName;
 
 /**
  * Clase que sirve como punto de acceso único para la internacionalizacion
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 2.1
@@ -84,7 +81,7 @@ public class I18nHelper {
 	/**
 	 * Retorna la cadena internacionalizada de la llave pasada, busca en todos
 	 * los archivos de internacionalizacion definidos en el karaku.properties.
-	 * 
+	 *
 	 * @param key
 	 *            llave del archivo de internacionalizacion
 	 * @return cadena internacionalizad de acuerdo al locale actual
@@ -97,7 +94,7 @@ public class I18nHelper {
 	/**
 	 * Retorna la cadena internacionalizada de la llave pasada, busca en todos
 	 * los archivos de internacionalizacion definidos en el karaku.properties.
-	 * 
+	 *
 	 * @param key
 	 *            llave del archivo de internacionalizacion
 	 * @return cadena internacionalizad de acuerdo al locale actual
@@ -110,13 +107,14 @@ public class I18nHelper {
 	/**
 	 * Invoca al método {@link #getMessage(String)} por cada cadena pasada, y lo
 	 * agrega a una lista.
-	 * 
+	 *
 	 * @param keys
 	 *            claves del archivo de internacionalización
 	 * @return lista con los valores internacionalizados.
 	 */
-	public static List<String> convertStrings(@NotNull String... keys) {
+	public static List<String> convertStrings(@NotNull String ... keys) {
 
+		assert keys != null;
 		ArrayList<String> convert = new ArrayList<String>(keys.length);
 		for (String s : keys) {
 			convert.add(getMessage(s));
@@ -126,7 +124,7 @@ public class I18nHelper {
 
 	/**
 	 * Compara una clave con un valor internacionalizado.
-	 * 
+	 *
 	 * @param key
 	 *            clave del archivo
 	 * @param value
@@ -141,7 +139,7 @@ public class I18nHelper {
 
 	/**
 	 * Retorna el valor internacionalizado de una anotación {@link DisplayName}.
-	 * 
+	 *
 	 * @param displayName
 	 *            anotación
 	 * @return "" si es <code>null</code> o esta vacía, en otro caso del valor
@@ -165,6 +163,7 @@ public class I18nHelper {
 	}
 
 	public static void setPropertiesUtil(PropertiesUtil propertiesUtil) {
+
 		I18nHelper.propertiesUtil = propertiesUtil;
 	}
 }

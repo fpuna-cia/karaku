@@ -10,7 +10,7 @@ import py.una.med.base.controller.MenuBean;
 import py.una.med.base.domain.Menu;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 7, 2013
@@ -23,7 +23,7 @@ public interface ICurrentpageHelper {
 	 * al inicio de cada página, no es un {@link FacesListener} por qué debe ser
 	 * un componente de Spring.
 	 */
-	public abstract String initialize();
+	String initialize();
 
 	/**
 	 * <b>WorkAround</b> para permitir que esto sea lo primero que se ejecuta a
@@ -33,26 +33,26 @@ public interface ICurrentpageHelper {
 	 * de que ocurra cualquier otro <code>bind</code> con algún componente, como
 	 * ocurre con {@link MenuBean}.
 	 * </p>
-	 * 
+	 *
 	 * @return dummy {@link HtmlOutputText}
 	 */
-	public abstract HtmlOutputText getBind();
+	HtmlOutputText getBind();
 
 	/**
 	 * <b>WorkAround</b> para permitir que esto sea lo primero que se ejecuta a
 	 * la hora de mostrar una página.
 	 * <p>
-	 * 
+	 *
 	 * @see #getBind()
 	 */
-	public abstract void setBind(HtmlOutputText input);
+	void setBind(HtmlOutputText input);
 
 	/**
 	 * Retorna el menú que actualmente esta seleccionado, si el mismo no se
 	 * puede detectar, se retorna <code>null</code>
-	 * 
+	 *
 	 * @return menu actual elemento seleccionado.
 	 */
-	public abstract Menu getCurrentMenu();
+	Menu getCurrentMenu();
 
 }

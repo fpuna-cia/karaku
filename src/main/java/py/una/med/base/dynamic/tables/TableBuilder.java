@@ -3,7 +3,7 @@ package py.una.med.base.dynamic.tables;
 import org.richfaces.model.SelectionMode;
 import py.una.med.base.dynamic.data.AbstractPagingDataSource;
 
-public class TableBuilder {
+public final class TableBuilder {
 
 	private final DataTable table;
 
@@ -41,7 +41,7 @@ public class TableBuilder {
 	/**
 	 * Actualmente solo se soporta {@link SelectionMode#single} y
 	 * {@link SelectionMode#none}
-	 * 
+	 *
 	 * @param mode
 	 * @return this
 	 */

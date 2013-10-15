@@ -20,14 +20,23 @@ import py.una.med.base.dynamic.forms.MultiplePickerField;
 
 /**
  *
- * @author Jorge Ramírez, Nathalia Ochoa
+ * @author Jorge Ramírez
+ * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 Jun 25, 2013
  *
  */
 @FacesComponent(value = "multiplePickerButton")
-public class MultiplePickerButton extends UINamingContainer {
+public final class MultiplePickerButton extends UINamingContainer {
 
+	/**
+	 *
+	 */
+	private static final String UNCHECKED = "unchecked";
+	/**
+	 *
+	 */
+	private static final String RAWTYPES = "rawtypes";
 	private static final String GET_ITEM_KEY_METHOD = "getItemKey";
 	private static final String CHECKED_ITEMS = "checkedItems";
 	private static final String SELECTED_ITEMS_TEMP = "selectedItemsTemp";
@@ -40,7 +49,7 @@ public class MultiplePickerButton extends UINamingContainer {
 	private List<Object> selectedItemsTemp;
 	private List<Object> selectedItems;
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings(RAWTYPES)
 	private MultiplePickerField pickerField;
 
 	public MultiplePickerButton() {
@@ -52,17 +61,17 @@ public class MultiplePickerButton extends UINamingContainer {
 		setSelectAllChecked(false);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public String init() {
 
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings(RAWTYPES)
 		MultiplePickerField mpb = (MultiplePickerField) getAttributes().get(
 				"pickerField");
 		pickerField = mpb;
 
 		List<?> values = mpb.getValues();
 		setSelectedItems((List<Object>) values);
-		if (values == null || values.size() == 0) {
+		if ((values == null) || (values.size() == 0)) {
 			return "";
 		}
 		List<Object> newSelected = new ArrayList<Object>(values.size());
@@ -102,7 +111,7 @@ public class MultiplePickerButton extends UINamingContainer {
 	 * ocasionando que todos los elementos se seleccionen o ninguno se
 	 * seleccione.
 	 **/
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public void onCheckboxHeaderClicked(final AjaxBehaviorEvent event) {
 
 		setSelectAllChecked(!isSelectAllChecked());
@@ -122,7 +131,7 @@ public class MultiplePickerButton extends UINamingContainer {
 			setSelectedItemsTemp(new ArrayList<Object>());
 		} else {
 			setSelectedItemsTemp(items);
-			@SuppressWarnings("rawtypes")
+			@SuppressWarnings(RAWTYPES)
 			MultiplePickerField mpb = (MultiplePickerField) getAttributes()
 					.get("pickerField");
 			pickerField = mpb;
@@ -135,7 +144,7 @@ public class MultiplePickerButton extends UINamingContainer {
 	/**
 	 *
 	 **/
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public void onItemCheckboxClicked(final AjaxBehaviorEvent event) {
 
 		if (getCheckedItems() != null) {
@@ -156,7 +165,7 @@ public class MultiplePickerButton extends UINamingContainer {
 
 		for (Object item : allValues) {
 			Object key = getItemKey(item);
-			if (checkedItems.get(key) == null || !getCheckedItems().get(key)) {
+			if ((checkedItems.get(key) == null) || !getCheckedItems().get(key)) {
 				setSelectAllChecked(false);
 				return;
 			}
@@ -164,7 +173,7 @@ public class MultiplePickerButton extends UINamingContainer {
 		setSelectAllChecked(true);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	private Object getItemKey(Object item) {
 
 		if (pickerField != null) {
@@ -206,10 +215,10 @@ public class MultiplePickerButton extends UINamingContainer {
 	 * seleccionados los vuelve a setear para que la accion de seleccion
 	 * cancelada no tenga efecto .
 	 **/
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public String clear() {
 
-		@SuppressWarnings("rawtypes")
+		@SuppressWarnings(RAWTYPES)
 		MultiplePickerField mpb = (MultiplePickerField) getAttributes().get(
 				"pickerField");
 		pickerField = mpb;
@@ -242,13 +251,13 @@ public class MultiplePickerButton extends UINamingContainer {
 		this.dataTable = dataTable;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public Map<Object, Boolean> getCheckedItems() {
 
 		return (Map<Object, Boolean>) get(CHECKED_ITEMS);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public List<Object> getSelectedItemsTemp() {
 
 		return (List<Object>) get(SELECTED_ITEMS_TEMP);
@@ -276,7 +285,7 @@ public class MultiplePickerButton extends UINamingContainer {
 		put(SELECTED_ITEMS_TEMP, selectedItemsTemp);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public List<Object> getSelectedItems() {
 
 		return (List<Object>) get(SELECTED_ITEMS);

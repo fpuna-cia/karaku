@@ -13,17 +13,17 @@ import py.una.med.base.util.FormatProvider;
 
 /**
  * Factoría de {@link Clauses} para manipulación de fechas.
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 20, 2013
- * 
+ *
  */
 @Component
 public final class DateClauses {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final int MILISECOND_SECOND = 1000;
 
@@ -41,15 +41,15 @@ public final class DateClauses {
 
 	/**
 	 * Comparación de rangos de fechas.
-	 * 
+	 *
 	 * <p>
 	 * Dadas dos fechas en cualquier formato (
 	 * {@link FormatProvider#DATE_FORMAT} o
 	 * {@link FormatProvider#DATE_SHORT_FORMAT}), retorna una cláusula que
 	 * realiza la comparación de fechas.
-	 * 
+	 *
 	 * </p>
-	 * 
+	 *
 	 * @param path
 	 *            ubicación del atributo
 	 * @param dateOne
@@ -71,7 +71,7 @@ public final class DateClauses {
 
 	/***
 	 * Compara dos fechas (sin tener en cuenta horas y minutos),
-	 * 
+	 *
 	 * @param path
 	 *            atributo para comparar
 	 * @param dateOne
@@ -94,7 +94,7 @@ public final class DateClauses {
 	 * retorna todos los registros que se encuentren en el medio de ambos.
 	 * <p>
 	 * Notar que esto omite por completo la
-	 * 
+	 *
 	 * @param path
 	 *            ubicación del atributo
 	 * @param dateOne
@@ -116,7 +116,7 @@ public final class DateClauses {
 
 	/***
 	 * Compara dos fechas (sin tener en cuenta días, meses y horas),
-	 * 
+	 *
 	 * @param path
 	 *            atributo para comparar
 	 * @param dateOne
@@ -142,7 +142,7 @@ public final class DateClauses {
 	 * {@link FormatProvider#DATETIME_SHORT_FORMAT}), retorna una cláusula que
 	 * realiza la comparación de fechas.
 	 * </p>
-	 * 
+	 *
 	 * @param path
 	 *            ubicación del atributo
 	 * @param dateOne
@@ -170,7 +170,7 @@ public final class DateClauses {
 	 * {@link FormatProvider#DATETIME_SHORT_FORMAT}), retorna una cláusula que
 	 * realiza la comparación de fechas.
 	 * </p>
-	 * 
+	 *
 	 * @param path
 	 *            ubicación del atributo
 	 * @param one
@@ -189,16 +189,18 @@ public final class DateClauses {
 
 	private Clause doBetween(String path, Date one, Date two, boolean inclusive) {
 
+		Date from;
+		Date to;
 		if (inclusive) {
-			one = this.setTimeToBegin(one);
-			two = this.setTimeToEnd(two);
+			from = this.setTimeToBegin(one);
+			to = this.setTimeToEnd(two);
 		} else {
-			one = this.setTimeToEnd(one);
-			two = this.setTimeToBegin(two);
-			one = this.nextInstant(one);
-			two = this.previousInstant(two);
+			from = this.setTimeToEnd(one);
+			to = this.setTimeToBegin(two);
+			from = this.nextInstant(from);
+			to = this.previousInstant(to);
 		}
-		return Clauses.between(path, one, two);
+		return Clauses.between(path, from, to);
 	}
 
 	private Clause doBetweenTime(final String path, final Date one,
@@ -238,7 +240,7 @@ public final class DateClauses {
 	/**
 	 * Retorna un {@link Date} que solo contiene la hora y los minutos,
 	 * eliminado todos los demas.
-	 * 
+	 *
 	 * @param date
 	 * @return
 	 */
@@ -279,7 +281,7 @@ public final class DateClauses {
 
 	/**
 	 * Hace que una fecha tenga el ultimo minuto posible 23:59
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -294,7 +296,7 @@ public final class DateClauses {
 
 	/**
 	 * Hace que una fecha tenga el primer minuto posible 0:00
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */

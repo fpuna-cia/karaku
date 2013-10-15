@@ -1,6 +1,6 @@
 /*
  * @MainInstanceHelperData.java 1.0 Feb 14, 2013
- * 
+ *
  * Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.dao.util;
@@ -15,11 +15,11 @@ import py.una.med.base.dao.annotations.MainInstance;
 /**
  * Clase auxiliar que manipula los field que tienen la anotación
  * {@link MainInstance}.
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 14, 2013
- * 
+ *
  */
 public final class MainInstanceFieldHelper {
 
@@ -30,7 +30,7 @@ public final class MainInstanceFieldHelper {
 
 	private static Map<Class<?>, List<Field>> fields;
 
-	private synchronized static <T> List<Field> generateAndCreateFields(
+	private static synchronized <T> List<Field> generateAndCreateFields(
 			final Class<T> clazz) {
 
 		if (fields.containsKey(clazz)) {
@@ -48,6 +48,18 @@ public final class MainInstanceFieldHelper {
 		return aRet;
 	}
 
+	/**
+	 * Lista de atributos con la anotación {@link MainInstance}.
+	 *
+	 * <p>
+	 * Busca recursivamente entre los atributos de una clase, se cachean los
+	 * resultados para reducir costos de reflección.
+	 * </p>
+	 *
+	 * @param clazz
+	 *            clase a inspeccionar.
+	 * @return {@link List} de atributos, nunca <code>null</code>
+	 */
 	public static <T> List<Field> getMainInstanceFields(final Class<T> clazz) {
 
 		init();
@@ -57,10 +69,7 @@ public final class MainInstanceFieldHelper {
 		return generateAndCreateFields(clazz);
 	}
 
-	/**
-	 * 
-	 */
-	private synchronized static void init() {
+	private static synchronized void init() {
 
 		if (fields == null) {
 			fields = new HashMap<Class<?>, List<Field>>(1);

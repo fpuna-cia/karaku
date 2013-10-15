@@ -6,7 +6,6 @@ package py.una.med.base.dao.search;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 import java.util.regex.Pattern;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -18,13 +17,10 @@ import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.where.Clause;
 import py.una.med.base.dao.where.Clauses;
 import py.una.med.base.dao.where.DateClauses;
-import py.una.med.base.dao.where.ILike;
 import py.una.med.base.dao.where.MatchMode;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.exception.NotDisplayNameException;
 import py.una.med.base.log.Log;
-import py.una.med.base.model.DisplayName;
-import py.una.med.base.util.FormatProvider;
 
 /**
  * Componente que sirve de ayuda al realizar búsquedas dinámicas sobre objetos.
@@ -43,17 +39,18 @@ import py.una.med.base.util.FormatProvider;
  * <li> {@link Number}: utiliza una búsqueda por <i>like</i>, todas las clases
  * que heredan de number se buscan bajo los mismos criterios.</li>
  * <li> {@link Date}: utiliza una búsqueda por rango, donde la primera fecha, es
- * la fecha pasada en formato {@link FormatProvider#DATE_FORMAT} o
- * {@link FormatProvider#DATETIME_SHORT_FORMAT}, utilizando el componente
- * auxiliar {@link DateClauses}.</li>
+ * la fecha pasada en formato
+ * {@link py.una.med.base.util.FormatProvider#DATE_FORMAT} o
+ * {@link py.una.med.base.util.FormatProvider#DATETIME_SHORT_FORMAT}, utilizando
+ * el componente auxiliar {@link DateClauses}.</li>
  * <li>Si se detecta una {@link Collection} en el path a un atributo, se utiliza
- * un {@link ILike} como técnica de mejor esfuerzo, no se garantiza que el tipo
- * de búsqueda es el correcto. Si la {@link Collection} que se encuentra es una
- * interfaz ( {@link Set} por ejemplo), entones se puede obtener su tipo
+ * un {@link py.una.med.base.dao.where.ILike} como técnica de mejor esfuerzo, no
+ * se garantiza que el tipo de búsqueda es el correcto. Si la {@link Collection}
+ * que se encuentra es una interfaz, entones <b>SI</b> se puede obtener su tipo
  * genérico.</li>
  * </ul>
  * </p>
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 19, 2013
@@ -66,15 +63,12 @@ public class SearchHelper {
 	private Logger log;
 
 	@Autowired
-	private FormatProvider fp;
-
-	@Autowired
 	private DateClauses dc;
 
 	/**
 	 * Método auxiliar a {@link #getClause(Class, String, String)} que crea un
 	 * nuevo {@link Where} y lo retorna con la {@link Clause} agregada.
-	 * 
+	 *
 	 * @param root
 	 *            raíz de la búsqueda el atributo, no debe ser <code>null</code>
 	 * @param property
@@ -102,33 +96,33 @@ public class SearchHelper {
 	 * <p>
 	 * Ver la descripción de esta clase ( {@link SearchHelper} )
 	 * </p>
-	 * 
+	 *
 	 * <h3>Ejemplos</h3> Estos ejemplos utilizan las entidades de Test, y son
 	 * extraidos de los Test, para verlos en funcionamiento, ir a los Test.
-	 * 
+	 *
 	 * <pre>
 	 * getClause(TestEntity.class, &quot;testChild.description&quot;, &quot;COSTO&quot;)
 	 * </pre>
-	 * 
+	 *
 	 * Es lo mismo que utilizar:
-	 * 
+	 *
 	 * <pre>
 	 * Clauses.ilike("testChild.description", "COSTO", {@link MatchMode#CONTAIN})
 	 * </pre>
-	 * 
+	 *
 	 * Cambiando solamente el path, el {@link Clause} generado cambia
 	 * drásticamente:
-	 * 
+	 *
 	 * <pre>
 	 * getClause(TestEntity.class, &quot;testChild.fecha&quot;, &quot;13-11-2013&quot;)
 	 * </pre>
-	 * 
+	 *
 	 * Es lo mismo que utilizar:
-	 * 
+	 *
 	 * <pre>
 	 * dateClauses.between("testChild.fecha", "13-11-2013", "13-11-2013", <code>true</code>);
 	 * </pre>
-	 * 
+	 *
 	 * @param root
 	 *            raíz de la búsqueda el atributo, no debe ser <code>null</code>
 	 * @param property
@@ -142,7 +136,7 @@ public class SearchHelper {
 	public <T> Clause getClause(@NotNull Class<T> root,
 			@NotNull String property, String value) {
 
-		if (property == null || "".equals(property)) {
+		if ((property == null) || "".equals(property)) {
 			throw new IllegalArgumentException("Property can't be empty");
 		}
 
@@ -150,7 +144,7 @@ public class SearchHelper {
 		if (fi.isCollection()) {
 			// Si es una colección, se utiliza una técnica de mejor
 			// esfuerzo.
-			return Clauses.iLike(property, value);
+			return Clauses.iLike(property, value, MatchMode.CONTAIN);
 		} else {
 			return this.getFilter(fi, property, value);
 		}
@@ -161,61 +155,49 @@ public class SearchHelper {
 	 * (con un formato separado por puntos).
 	 * <p>
 	 * Por ejemplo, si invocamos de la siguiente manera:
-	 * 
+	 *
 	 * <pre>
 	 * 	class Pais {
 	 * 		...
-	 * 		{@literal @}{@link DisplayName}(clazz=Departamento.class)
-	 * 		Set ciudades;
-	 * 
+	 * 		Set{@literal <}Departamento> departamentos;
+	 *
 	 * 		...
 	 * 	}
-	 * 
+	 *
 	 * 	class Departamento {
 	 * 		...
-	 * 		{@literal @}{@link DisplayName}(clazz=Ciudad.class)
-	 * 		Set ciudades;
-	 * 
+	 * 		Set{@literal <}Ciudad> ciudades;
+	 *
 	 * 		Set etnias;
-	 * 
+	 *
 	 * 		Pais pais;
 	 * 		...
 	 * 	}
-	 * 
+	 *
 	 * 	class Ciudad {
 	 * 		...
-	 * 
+	 *
 	 * 		Departamento departamento;
 	 * 		...
 	 * 	}
-	 * 
+	 *
 	 * 1. Y invocamos de la siguiente manera:
-	 * 	
+	 *
 	 * 	fi = getFieldInfo(Ciudad.class, "departamento.pais");
 	 * 	fi.getField() ==> Pais.class
 	 * 	fi.isCollection() == > <code>false</code>
-	 * 
-	 * 2. El siguiente ejemplo, es cuando no se encuentra la anotación {@link DisplayName#clazz()}.
-	 * 
+	 *
+	 * 2. El siguiente ejemplo, es cuando se encuentra una {@link Collection}
+	 *
 	 * 	fi = getFieldInfo(Ciudad.class, "departamento.etnias");
-	 * 	fi.getField() ==> Set.class
-	 * 	fi.isCollection() == > <code>true</code>
-	 * 
-	 * 3. El siguiente ejemplo, es cuando se encuentra la anotación {@link DisplayName#clazz()}
-	 * 
-	 * 	fi = getFieldInfo(Ciudad.class, "departamento.ciudades");
-	 * 	fi.getField() ==> Ciudad.class
+	 * 	fi.getField() ==> Etnia.class
 	 * 	fi.isCollection() == > <code>true</code>
 	 * </pre>
-	 * 
-	 * <b>Notar que si después de etnias, en el ejemplo 2, solicitamos otro
-	 * atributo, este método retornaría exactamente lo mismo, pues no es posible
-	 * avanzar más ante la ausencia de información.</b>
-	 * </p>
+	 *
 	 * <p>
 	 * TODO ver para meter en una clase de utilidad
 	 * </p>
-	 * 
+	 *
 	 * @param root
 	 *            {@link Class} que sirve de base para buscar la propiedad
 	 * @param property
@@ -235,8 +217,8 @@ public class SearchHelper {
 			Class<?> cClass = root;
 			Field toRet = null;
 			boolean collectionFound = false;
-			for (int i = 0; i < splited.length; i++) {
-				cProperty = splited[i];
+			for (String element : splited) {
+				cProperty = element;
 				toRet = ReflectionUtils.findField(cClass, cProperty);
 				if (toRet == null) {
 					throw new KarakuRuntimeException("Field: " + cProperty
@@ -255,13 +237,13 @@ public class SearchHelper {
 			return new FieldInfo(toRet, collectionFound);
 		} catch (SecurityException e) {
 			throw new KarakuRuntimeException("Field not accessible: "
-					+ property + " in class " + root.getSimpleName());
+					+ property + " in class " + root.getSimpleName(), e);
 		}
 	}
 
 	/**
 	 * Retorna el filtro simple.
-	 * 
+	 *
 	 * @param where
 	 *            {@link Where}, no puede ser <code>null</code>
 	 * @param fi
@@ -285,7 +267,7 @@ public class SearchHelper {
 				return this.handleNumber(property, value);
 			}
 			if (Date.class.isAssignableFrom(fi.field.getType())) {
-				return this.handleDate(fi.field, property, value);
+				return this.handleDate(property, value);
 			}
 			throw new NotDisplayNameException();
 		} catch (Exception e) {
@@ -324,7 +306,7 @@ public class SearchHelper {
 	 * @param value
 	 * @return
 	 */
-	private <T> Clause handleDate(Field f, String property, String value) {
+	private <T> Clause handleDate(String property, String value) {
 
 		return this.dc.between(property, value, value, true);
 	}
@@ -332,22 +314,22 @@ public class SearchHelper {
 	/**
 	 * Clase auxiliar para {@link #getField()} que se utiliza para obtener
 	 * información valiosa a partir de un {@link Field}.
-	 * 
+	 *
 	 * @author Arturo Volpe
 	 * @since 1.0
 	 * @version 1.0 Sep 26, 2013
-	 * 
+	 *
 	 */
 	public static class FieldInfo {
 
-		Field field;
+		private Field field;
 
-		boolean collection;
+		private boolean collection;
 
 		/**
 		 * Crea un nuevo field, que no es una colección con el {@link Field}
 		 * dado.
-		 * 
+		 *
 		 * @param f
 		 *            {@link Field} del cual se presenta la información
 		 */
@@ -359,7 +341,7 @@ public class SearchHelper {
 		/**
 		 * Crea un nuevo field, que es o no una colección (depende de
 		 * {@link #isCollection()} con el {@link Field} dado.
-		 * 
+		 *
 		 * @param f
 		 *            {@link Field} del cual se presenta la información
 		 * @param isCollection
@@ -376,7 +358,7 @@ public class SearchHelper {
 		 * que {@link #isCollection()} sea <code>true</code>, este método
 		 * retorna el primer {@link Field} que es asignable desde una
 		 * {@link Collection}.
-		 * 
+		 *
 		 * @return field asociado.
 		 */
 		public Field getField() {
@@ -386,7 +368,7 @@ public class SearchHelper {
 
 		/**
 		 * Verifica si la información se asocia a una {@link Collection}.
-		 * 
+		 *
 		 * @return isCollection <code>false</code> si no es una colección y
 		 *         <code>true</code> en caso contrario.
 		 */
