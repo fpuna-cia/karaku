@@ -395,4 +395,13 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 		return getWrapped().toString();
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+
+		return wrapped.hashCode();
+	}
 }

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import javax.faces.context.FacesContext;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
@@ -39,7 +38,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	@Override
 	protected void processProperties(
 			final ConfigurableListableBeanFactory beanFactory,
-			final Properties props) throws BeansException {
+			final Properties props) {
 
 		super.processProperties(beanFactory, mergeProperties(props));
 		if (propertiesMap == null) {
@@ -100,6 +99,40 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 
 		if (propertiesMap.containsKey(key)) {
 			return propertiesMap.get(key);
+		}
+		return def;
+	}
+
+	/**
+	 * Parsea la cadena intentando convertirla a un booleano.
+	 * 
+	 * <p>
+	 * Retorna el valor almacenado, en caso de no estar contenido, retorna el
+	 * valor por defecto.
+	 * </p>
+	 * <p>
+	 * Los valores posibles son:
+	 * <ol>
+	 * <li><b>'1'</b> retorna <code>true</code>
+	 * <li>
+	 * <li><b>'true'</b> retorna <code>true</code>
+	 * <li>
+	 * <li><b>otro</b> retorna <code>false</code>
+	 * <li>
+	 * <p>
+	 * 
+	 * @param key
+	 * @param def
+	 * @return valor almacenado
+	 */
+	public boolean getBoolean(final String key, boolean def) {
+
+		if (!propertiesMap.containsKey(key)) {
+			return def;
+		}
+		String property = propertiesMap.get(key);
+		if ("1".equals(property.trim()) || "true".equals(property.trim())) {
+			return true;
 		}
 		return def;
 	}

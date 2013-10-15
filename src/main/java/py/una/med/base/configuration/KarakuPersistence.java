@@ -5,6 +5,7 @@ package py.una.med.base.configuration;
 
 import java.util.Properties;
 import javax.sql.DataSource;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,12 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import py.una.med.base.dao.entity.types.QuantityCustomType;
 import py.una.med.base.exception.KarakuPropertyNotFoundException;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.math.Quantity;
 
 /**
  * Clase de configuración de la persistencia
@@ -69,8 +73,10 @@ public class KarakuPersistence {
 		if (this.enabled) {
 			dataSource = new DriverManagerDataSource();
 			dataSource.setUrl(this.properties.getProperty("database.url"));
-			dataSource.setUsername(this.properties.getProperty("database.user"));
-			dataSource.setPassword(this.properties.getProperty("database.password"));
+			dataSource
+					.setUsername(this.properties.getProperty("database.user"));
+			dataSource.setPassword(this.properties
+					.getProperty("database.password"));
 		}
 
 		return dataSource;
@@ -161,14 +167,15 @@ public class KarakuPersistence {
 		if (!this.enabled) {
 			return null;
 		}
-		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
-		bean.setPackagesToScan(this.properties.getProperty("base-package-hibernate")
-				.split("\\s+"));
+		LocalSessionFactoryBean bean = new KarakuLocalSessionFactoryBean();
+		bean.setPackagesToScan(this.properties.getProperty(
+				"base-package-hibernate").split("\\s+"));
 		bean.setDataSource(this.dataSource());
 
 		Properties props = new Properties();
 		try {
-			props.put("hibernate.dialect", this.properties.get("hibernate.dialect"));
+			props.put("hibernate.dialect",
+					this.properties.get("hibernate.dialect"));
 			props.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
 			props.put("hibernate.hbm2ddl.auto",
 					this.properties.get("hibernate.hbm2ddl.auto", "validate"));
@@ -190,9 +197,39 @@ public class KarakuPersistence {
 	public HibernateTransactionManager transactionManager() {
 
 		if (this.enabled) {
-			return new HibernateTransactionManager(this.sessionFactory().getObject());
+			return new HibernateTransactionManager(this.sessionFactory()
+					.getObject());
 		} else {
 			return null;
+		}
+	}
+
+	/**
+	 * SessionFactory que se encarga de registrar los tipos de Karaku.
+	 * 
+	 * <p>
+	 * Intercepta la creación del session factory y entre la creación de
+	 * configuración y la función que efectivamente crea la
+	 * {@link SessionFactory} registra los tipos personalizados.
+	 * </p>
+	 * 
+	 * @author Arturo Volpe
+	 * @since 2.2.8
+	 * @version 1.0 Oct 15, 2013
+	 * 
+	 */
+	public static class KarakuLocalSessionFactoryBean extends
+			LocalSessionFactoryBean {
+
+		@Override
+		protected SessionFactory buildSessionFactory(
+				LocalSessionFactoryBuilder sfb) {
+
+			// getConfiguration().registerTypeOverride(QuantityType.INSTANCE);
+			getConfiguration().registerTypeOverride(
+					QuantityCustomType.INSTANCE,
+					new String[] { Quantity.class.getName() });
+			return super.buildSessionFactory(sfb);
 		}
 	}
 }

@@ -14,12 +14,11 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import py.una.med.base.configuration.KarakuPersistence;
 import py.una.med.base.dao.entity.interceptors.BigDecimalInterceptor;
 import py.una.med.base.dao.entity.interceptors.CaseSensitiveInterceptor;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
 import py.una.med.base.dao.entity.interceptors.TimeInterceptor;
-import py.una.med.base.dao.entity.types.QuantityType;
 import py.una.med.base.dao.helper.AndExpressionHelper;
 import py.una.med.base.dao.helper.BetweenExpressionHelper;
 import py.una.med.base.dao.helper.EqualExpressionHelper;
@@ -57,6 +56,8 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	 */
 	private static final String STRING_FALSE = "false";
 
+	private static final String USE_EMBEDDED = "test.hibernate.use_embedded";
+
 	/**
 	 * Crea un datasource para una base de datos embebida
 	 * 
@@ -68,18 +69,18 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	public DataSource dataSource() throws IOException {
 
 		DataSource ds;
-		if (properties.get("test.hibernate.use_embedded", "false").equals(
-				"false")) {
+		if (properties.getBoolean(USE_EMBEDDED, true)) {
+			EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder()
+					.setType(EmbeddedDatabaseType.H2);
+			ds = edb.build();
 
+		} else {
 			DriverManagerDataSource dataSource = new DriverManagerDataSource();
 			dataSource.setUrl(properties.getProperty("database.url"));
 			dataSource.setUsername(properties.getProperty("database.user"));
 			dataSource.setPassword(properties.getProperty("database.password"));
 			ds = dataSource;
-		} else {
-			EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder()
-					.setType(EmbeddedDatabaseType.H2);
-			ds = edb.build();
+
 		}
 		return ds;
 
@@ -96,7 +97,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() throws IOException {
 
-		LocalSessionFactoryBean bean = new TestLocalSessionFactoryBean();
+		LocalSessionFactoryBean bean = new KarakuPersistence.KarakuLocalSessionFactoryBean();
 		Class<?>[] annonClasses = getEntityClasses();
 		if (annonClasses == null) {
 			bean.setPackagesToScan(this.getBasePackageToScan());
@@ -107,8 +108,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 		bean.setDataSource(this.dataSource());
 		Properties props = new Properties();
 		try {
-			if (properties.get("test.hibernate.use_embedded", "true").equals(
-					"true")) {
+			if (properties.getBoolean(USE_EMBEDDED, true)) {
 				props.put("hibernate.dialect", properties.get(
 						"test.hibernate.dialect",
 						"org.hibernate.dialect.H2Dialect"));
@@ -268,14 +268,4 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 		return new MainInstanceHelper();
 	}
 
-	static class TestLocalSessionFactoryBean extends LocalSessionFactoryBean {
-
-		@Override
-		protected SessionFactory buildSessionFactory(
-				LocalSessionFactoryBuilder sfb) {
-
-			getConfiguration().registerTypeOverride(QuantityType.INSTANCE);
-			return super.buildSessionFactory(sfb);
-		}
-	}
 }

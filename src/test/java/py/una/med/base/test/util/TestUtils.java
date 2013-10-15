@@ -63,7 +63,7 @@ public class TestUtils {
 	}
 
 	/**
-	 * Verificación de orden de una lista.
+	 * VerificaciÃ³n de orden de una lista.
 	 * 
 	 * Determinan si una lista tiene las descripciones pasadas en el orden
 	 * adecuado.
@@ -71,12 +71,14 @@ public class TestUtils {
 	 * @param list
 	 *            lista de entidades
 	 * @param descriptions
-	 *            descripciones, la entidad n debe tener la descripción n
+	 *            descripciones, la entidad n debe tener la descripciÃ³n
 	 */
-	public static void checkOrder(List<TestEntity> list, String ... descriptions) {
+	public static void checkOrder(List<TestEntity> list,
+			String ... descriptions) {
 
 		for (int i = 0; i < descriptions.length; i++) {
-			assertEquals("Fail at index " + i, descriptions[i], list.get(i).getDescription());
+			assertEquals("Fail at index " + i, descriptions[i], list.get(i)
+					.getDescription());
 		}
 	}
 
