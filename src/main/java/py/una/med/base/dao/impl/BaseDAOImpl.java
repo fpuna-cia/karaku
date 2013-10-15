@@ -1,6 +1,6 @@
 /*
  * @BaseDaoImpl
- * 
+ *
  * Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.dao.impl;
@@ -18,13 +18,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -37,6 +37,8 @@ import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.search.OrderParam;
 import py.una.med.base.dao.search.SearchParam;
+import py.una.med.base.dao.select.KarakuAliasToBeanTransformer;
+import py.una.med.base.dao.select.Select;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.exception.KarakuRuntimeException;
@@ -47,7 +49,7 @@ import py.una.med.base.log.Log;
  * Debería migrar paulatinamente a {@link EntityManager} para una mayor
  * portabilidad hacia otros motores que no sean hibernate, y para utilizar mejor
  * hibernate 4
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 14, 2013
@@ -55,16 +57,18 @@ import py.una.med.base.log.Log;
  *            Clase de la entidad a ser utilizada
  * @param <ID>
  *            ID de la entidad
- * 
- * 
+ *
+ *
  */
 public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		BaseDAO<T, K> {
 
-	private SessionFactory sessionFactory;
+	/**
+	 * Cadena para que se marque un método que no es type-safe
+	 */
+	private static final String UNCHECKED = "unchecked";
 
-	// @Autowired
-	private EntityManager em;
+	private SessionFactory sessionFactory;
 
 	@Autowired
 	private RestrictionHelper helper;
@@ -82,10 +86,10 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	public EntityManager getEntityManager() {
 
-		return this.em;
+		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	@Override
 	public T add(final T entity) {
 
@@ -99,7 +103,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * Metodo que agrega relaciones
-	 * 
+	 *
 	 * @param criteria
 	 * @param example
 	 * @return
@@ -111,8 +115,8 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		}
 		try {
 			for (final Field f : example.getClass().getDeclaredFields()) {
-				if (f.getAnnotation(OneToOne.class) == null
-						&& f.getAnnotation(ManyToOne.class) == null) {
+				if ((f.getAnnotation(OneToOne.class) == null)
+						&& (f.getAnnotation(ManyToOne.class) == null)) {
 					continue;
 				}
 				f.setAccessible(true);
@@ -155,7 +159,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		Criteria criteria = this.getCriteria();
 		if (where != null) {
 			EntityExample<T> example = where.getExample();
-			if (example != null && example.getEntity() != null) {
+			if ((example != null) && (example.getEntity() != null)) {
 				Example ejemplo = Example.create(example.getEntity());
 				ejemplo.enableLike(example.getMatchMode().getMatchMode());
 				if (example.isIgnoreCase()) {
@@ -173,7 +177,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 				this.configureExample(criteria, example.getEntity());
 			}
 		}
-		this.helper.applyRestrictions(criteria, where, alias);
+		this.helper.applyClauses(criteria, where, alias);
 		return criteria;
 	}
 
@@ -234,7 +238,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		isp.setOffset(0);
 
 		List<T> result = this.getAll(where, isp);
-		if (result == null || result.size() == 0) {
+		if ((result == null) || (result.size() == 0)) {
 			return null;
 		}
 		if (result.size() == 1) {
@@ -246,7 +250,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public T getById(final K id) {
 
 		try {
@@ -257,7 +261,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public Class<T> getClassOfT() {
 
 		if (this.clazz == null) {
@@ -273,7 +277,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 		HashMap<String, String> alias = new HashMap<String, String>();
 		Criteria criteria = this.generateWhere(where, alias);
-		if (where != null && where.isDistinct()) {
+		if ((where != null) && where.isDistinct()) {
 			criteria.setProjection(Projections.countDistinct("id"));
 		} else {
 			criteria.setProjection(Projections.rowCount());
@@ -302,16 +306,16 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	private Criteria getCriteria() {
 
-		Criteria criteria = this.getSession().createCriteria(
-				this.getClassOfT(), Criteria.ROOT_ALIAS);
+		Criteria criteria = this.getSession()
+				.createCriteria(this.getClassOfT());
 		return criteria;
 	}
 
 	/**
-	 * Obtiene una session del contexto actual, si no hay una sesion abierta,
-	 * lanza una excepcion {@link HibernateException} con el mensaje
-	 * "Not session found in the current thread"
-	 * 
+	 * Obtiene una session del contexto actual, si no hay una sesión abierta,
+	 * lanza una excepción con el mensaje "Not session found in the current
+	 * thread"
+	 *
 	 * @return {@link Session} del contexto actual
 	 */
 	public Session getSession() {
@@ -321,7 +325,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * Retorna el Componente creador de Sessiones
-	 * 
+	 *
 	 * @return SessionFactory del thread actual
 	 */
 	protected SessionFactory getSessionFactory() {
@@ -361,7 +365,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	/**
 	 * Asigna un sessionFactory para ser usado de ahora en mas para obtener
 	 * sessiones y mantener transacciones
-	 * 
+	 *
 	 * @param sessionFactory
 	 */
 	public void setSessionFactory(final SessionFactory sessionFactory) {
@@ -371,11 +375,11 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * Aquí no se debe copiar el ID como en {@link #add(Object)}, pues el
 	 * {@link Id} no debe ser mutable.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	@Override
 	public T update(final T entity) {
 
@@ -386,15 +390,17 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		return entidad;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	private K getIdValue(final T obj) {
 
+		Exception ex;
 		try {
 			if (this.getClassOfT().getMethod("getId") != null) {
 				return ((K) obj.getClass().getMethod("getId")
 						.invoke(obj, (Object[]) null));
 			}
 		} catch (Exception nsme) {
+			ex = nsme;
 		}
 		try {
 			for (Field field : obj.getClass().getDeclaredFields()) {
@@ -406,22 +412,25 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 				}
 			}
 			return null;
-		} catch (Exception ex) {
-			this.log.error("Error al obtener el Id", ex);
-			return null;
+		} catch (Exception exe) {
+			ex = exe;
 		}
+		this.log.error("Error al obtener el Id", ex);
+		return null;
 	};
 
 	private void copyID(final T src, final T dst) {
 
+		Exception ex = null;
 		try {
 			Method get = this.getClassOfT().getMethod("getId");
 			Method set = this.getClassOfT().getMethod("setId", Long.class);
-			if (get != null && set != null) {
+			if ((get != null) && (set != null)) {
 				set.invoke(dst, get.invoke(src, (Object[]) null));
 				return;
 			}
 		} catch (Exception nsme) {
+			ex = nsme;
 		}
 		try {
 			for (Field field : this.getClassOfT().getDeclaredFields()) {
@@ -432,11 +441,58 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 					return;
 				}
 			}
-		} catch (Exception ex) {
-			this.log.error("Error al copiar el Id", ex);
-			return;
+		} catch (Exception exe) {
+			ex = exe;
 		}
-		this.log.error("Error al copiar el Id (not found)");
-	};
+		if (ex != null) {
+			this.log.error("Error al copiar el Id (not found)", ex);
+		}
+	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<T> get(Select select) {
+
+		return get(select, null, null);
+	}
+
+	@SuppressWarnings(UNCHECKED)
+	@Override
+	public List<T> get(Select select, Where<T> where, ISearchParam params) {
+
+		Map<String, String> alias = new HashMap<String, String>();
+		Criteria criteria = this.generateWhere(where, alias);
+		configureParams(params, criteria, alias);
+
+		boolean isDistinct = where != null ? where.isDistinct() : false;
+
+		if (select != null) {
+			ProjectionList projections = Projections.projectionList();
+			for (String column : select.getAttributes()) {
+
+				String property = BaseClauseHelper.configureAlias(criteria,
+						column, alias);
+
+				projections.add(Projections.property(property), column);
+
+			}
+			criteria.setProjection(projections);
+			criteria.setResultTransformer(new KarakuAliasToBeanTransformer<T>(
+					getClassOfT(), isDistinct));
+			// criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		}
+
+		// Esto no va de la mano con el mainInstance, aparte de ser un bodrio,
+		// es mejor omitirlos
+		// try {
+		// return mainInstanceHelper.configureAndReturnList(this.getSession(),
+		// criteria, this.getClassOfT(), alias, where);
+		// } catch (Exception e) {
+		// this.log.error("Imposible obtener lista de elementos", e);
+		// throw new KarakuRuntimeException(e);
+		// }
+		return criteria.list();
+	}
 }

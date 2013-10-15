@@ -24,9 +24,6 @@ public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 	@PersistenceContext(name = "primary")
 	private EntityManager entityManager;
 
-	@PersistenceContext(name = "primary")
-	private EntityManager persisteContext;
-
 	private final SearchParamJPAHelper<T> helper = new SearchParamJPAHelper<T>();
 
 	private Class<T> clazzT;

@@ -5,24 +5,27 @@ package py.una.med.base.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Id;
-import org.hibernate.NonUniqueResultException;
-import py.una.med.base.dao.annotations.CaseSensitive;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
+import py.una.med.base.dao.select.Select;
 import py.una.med.base.dao.util.EntityExample;
 
 /**
+ * Intefaz de acceso a datos.
+ *
+ * <p>
  * Interfaz de los metidos proveídos por todos los daos, provee búsqueda por
  * criterios básicos, creación, modificación y eliminación de entidades, y
  * metadatos de la tabla a la que accede
+ *
+ * </p>
  *
  * @author Arturo Volpe
  * @version 1.0, 23/10/2012
  * @since 1.0
  *
  * @param <T>
- *            Entidad que sera accedida a través del DAO
+ *            Entidad que será accedida a través del DAO
  * @param <ID>
  *            Clase de la Clave Primaria de la entidad
  *
@@ -47,12 +50,12 @@ public interface BaseDAO<T, ID extends Serializable> {
 	 *            Entidad que sera utilizada como ejemplo
 	 * @return Entidad con los mismos atributos que el ejemplo,
 	 *         <code>null</code> si no encuentra ninguna coincidencia
-	 * @throws NonUniqueResultException
+	 * @throws org.hibernate.NonUniqueResultException
 	 *             si para la consulta se encuentran varias entidades que
 	 *             cumplen con el ejemplo, se lanza la excepción
 	 * @see #getByExample(EntityExample)
 	 */
-	T getByExample(T example) throws NonUniqueResultException;
+	T getByExample(T example);
 
 	/**
 	 * Retorna <b>una</b> entidad dado una entidad ejemplo
@@ -67,13 +70,13 @@ public interface BaseDAO<T, ID extends Serializable> {
 	 * @see EntityExample
 	 *
 	 */
-	T getByExample(EntityExample<T> example) throws NonUniqueResultException;
+	T getByExample(EntityExample<T> example);
 
 	/**
 	 * Retorna una lista de entidades.
 	 *
 	 * @param params
-	 *            Parámetros de la busqeuda, vease {@link ISearchParam}
+	 *            Parámetros de la búsqueda, vease {@link ISearchParam}
 	 * @return lista de entidades, null si no encuentra ninguna entidad
 	 */
 	List<T> getAll(ISearchParam params);
@@ -121,7 +124,8 @@ public interface BaseDAO<T, ID extends Serializable> {
 	 * </p>
 	 * <p>
 	 * Restricciones del negocio, como la utilización de la anotación
-	 * {@link CaseSensitive} si se ven reflejadas en la entidad pasada.
+	 * {@link py.una.med.base.dao.annotations.CaseSensitive} si se ven
+	 * reflejadas en la entidad pasada.
 	 * </p>
 	 *
 	 * <p>
@@ -209,4 +213,112 @@ public interface BaseDAO<T, ID extends Serializable> {
 	 */
 	Long getCount(Where<T> where);
 
+	/**
+	 * Lista de entidades proyectadas de acuerdo a un {@link Select}.
+	 *
+	 * <p>
+	 * La diferencia principal con {@link #getAll(ISearchParam)} es que no
+	 * retorna todas las columnas, si bien retorna una entidad, la misma tiene
+	 * -en las columnas no traídas- el valor <code>null</code>.
+	 * </p>
+	 * <p>
+	 * Por ejemplo, para hacer la consulta HQl:
+	 *
+	 * <pre>
+	 * select id, descripcion from Pais
+	 * </pre>
+	 *
+	 * Se puede utilizar el código:
+	 *
+	 * <pre>
+	 * dao.get(Select.columns(&quot;id&quot;, &quot;descripcion&quot;));
+	 * </pre>
+	 *
+	 * Y pasará el siguiente test:
+	 *
+	 * <pre>
+	 * {@literal @}Test
+	 * public void test() {
+	 * 	list = dao.getIdAndDescription();
+	 * 	for (Entidad e : list) {
+	 * 		assertNotNull(e.getId());
+	 * 		assertNotNull(e.getDescripcion());
+	 * 		assertNull(e.getCiudadCapital());
+	 * 		assertNull(e.get<b>CualquierOtroCampo()</b>));
+	 * 	}
+	 * }
+	 * </pre>
+	 *
+	 * @param select
+	 *            select para limitar la cantidad de columnas, o
+	 *            <code>null</code> si se desean todas.
+	 * @return Lista de entidades, nunca <code>null</code>, si no hay entidades,
+	 *         retorna una lista vacía.
+	 * @see #get(Select, Where, ISearchParam)
+	 */
+	List<T> get(Select select);
+
+	/**
+	 * Lista de entidades proyectadas de acuerdo a un {@link Select}
+	 * condicionadas por un {@link Where} y limitadas por un
+	 * {@link ISearchParam}.
+	 *
+	 * <p>
+	 * La diferencia principal con {@link #getAll(Where, ISearchParam)} es que
+	 * no retorna todas las columnas, si bien retorna una entidad, la misma
+	 * tiene -en las columnas no traídas- el valor <code>null</code>.
+	 * </p>
+	 * <p>
+	 * Por ejemplo, para hacer la consulta HQL:
+	 *
+	 * <pre>
+	 * select c.id, c.descripcion
+	 * 	from Ciudad c join c.pais
+	 * 	where p.descripcion = 'Paraguay'
+	 * 	limit 10
+	 * 	order by c.id
+	 *
+	 * </pre>
+	 *
+	 * Se puede utilizar el código:
+	 *
+	 * <pre>
+	 * dao.get(
+	 * 	Select.columns(&quot;id&quot;, &quot;descripcion&quot;),
+	 * 	new Where().addClause(Clauses.eq("pais.descripcion", 'Paraguay'),
+	 * 	new SearchParam().addOrder("id").setLimit(10);
+	 *
+	 * );
+	 * </pre>
+	 *
+	 * Y pasará el siguiente test:
+	 *
+	 * <pre>
+	 * {@literal @}Test
+	 * public void test() {
+	 * 	list = dao.getIdAndDescription();
+	 * 	for (Entidad e : list) {
+	 * 		assertNotNull(e.getId());
+	 * 		assertNotNull(e.getDescripcion());
+	 * 		assertNull(e.<b>getPais</b>());
+	 * 		assertNull(e.get<b>CualquierOtroCampo()</b>));
+	 * 	}
+	 * }
+	 * </pre>
+	 *
+	 * Todos los atributos son opcionales )
+	 *
+	 * @param select
+	 *            select para limitar la cantidad de columnas, o
+	 *            <code>null</code> si se desean todas.
+	 * @param where
+	 *            condicionador de la consulta o <code>null</code> si no se
+	 *            aplican restricciones.
+	 * @param params
+	 *            parámetros de orden, offset y limites o <code>null</code> si
+	 *            se desean todas.
+	 * @return Lista de entidades, nunca <code>null</code>, si no hay entidades,
+	 *         retorna una lista vacía.
+	 */
+	List<T> get(Select select, Where<T> where, ISearchParam params);
 }
