@@ -19,6 +19,7 @@ import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
+import py.una.med.base.adapter.QuantityAdapter;
 import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
@@ -48,7 +49,6 @@ public class KarakuWSClientConfiguration {
 
 	@Autowired
 	private PropertiesUtil properties;
-
 
 	/**
 	 * 
@@ -175,6 +175,10 @@ public class KarakuWSClientConfiguration {
 					"Wrong version of WS dependencies, please check your pom",
 					e);
 		}
+	}
 
+	@Bean
+	QuantityAdapter quantityAdapter() {
+		return QuantityAdapter.INSTANCE;
 	}
 }
