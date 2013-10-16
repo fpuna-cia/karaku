@@ -61,7 +61,7 @@ public interface HasDefaultPermissions {
 	 * sino se invocara al método
 	 * {@link HasDefaultPermissions#getDefaultPermission()}
 	 */
-	static String DEFAULT = "DEFAULT";
+	String DEFAULT = "DEFAULT";
 
 	/**
 	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
@@ -69,7 +69,7 @@ public interface HasDefaultPermissions {
 	 * sino se invocara al método
 	 * {@link HasDefaultPermissions#getCreatePermission()}
 	 */
-	static String DEFAULT_CREATE = "DEFAULT_CREATE";
+	String DEFAULT_CREATE = "DEFAULT_CREATE";
 
 	/**
 	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
@@ -77,7 +77,7 @@ public interface HasDefaultPermissions {
 	 * sino se invocara al método
 	 * {@link HasDefaultPermissions#getEditPermission()}
 	 */
-	static String DEFAULT_EDIT = "DEFAULT_EDIT";
+	String DEFAULT_EDIT = "DEFAULT_EDIT";
 
 	/**
 	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
@@ -85,5 +85,5 @@ public interface HasDefaultPermissions {
 	 * sino se invocara al método
 	 * {@link HasDefaultPermissions#getDeletePermission()}
 	 */
-	static String DEFAULT_DELETE = "DEFAULT_DELETE";
+	String DEFAULT_DELETE = "DEFAULT_DELETE";
 }

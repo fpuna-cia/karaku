@@ -3,44 +3,42 @@
  */
 package py.una.med.base.services.client;
 
-import java.net.URI;
-import java.net.URL;
 
 /**
- * Interfaz que define los componentes que proveen {@link URL} para llamar a los
- * servicios
- * 
+ * Interfaz que define los componentes que proveen {@link Info} para llamar a
+ * los servicios.
+ *
  * @author Arturo Volpe
  * @since 2.1
  * @version 1.0 Aug 5, 2013
  * @see EntityURLProvider
- * 
+ *
  */
 public interface WSInformationProvider {
 
 	/**
-	 * Retorna la {@link URI} para invocar a un servicio desde la clase que
+	 * Retorna la {@link Info} para invocar a un servicio desde la clase que
 	 * retorna.
-	 * 
+	 *
 	 * @param type
 	 *            retornado por el servicio
-	 * @return {@link URI} utilizada para invocar al servicio
+	 * @return {@link Info} utilizada para invocar al servicio
 	 */
 	Info getInfoByReturnType(Class<?> type);
 
 	/**
-	 * Retorna la {@link URI} para invocar a un servicio desde el nombre de la
+	 * Retorna la {@link Info} para invocar a un servicio desde el nombre de la
 	 * clase que retorna.
-	 * 
+	 *
 	 * @param key
 	 *            clave de la tabla {@link WSEndpoint}
-	 * @return {@link URI} utilizada para invocar al servicio
+	 * @return {@link Info} utilizada para invocar al servicio
 	 */
 	Info getInfoByKey(String key);
 
 	/**
 	 * Retorna la {@link Info} para invocar a un servicio.
-	 * 
+	 *
 	 * @param internalTag
 	 * @return {@link Info} que contiene los detalles del servicio
 	 */
@@ -48,11 +46,11 @@ public interface WSInformationProvider {
 
 	/**
 	 * PlaceHolder utilizado para manipular datos de servicios
-	 * 
+	 *
 	 * @author Arturo Volpe
 	 * @since 2.2
 	 * @version 1.0 Aug 5, 2013
-	 * 
+	 *
 	 */
 	class Info {
 
@@ -85,7 +83,7 @@ public interface WSInformationProvider {
 
 		/**
 		 * Retorna la URL del servicio.
-		 * 
+		 *
 		 * @return {@link String} con el formato de la URL.
 		 */
 		public String getUrl() {
@@ -95,7 +93,7 @@ public interface WSInformationProvider {
 
 		/**
 		 * Retorna la clave del servicio.
-		 * 
+		 *
 		 * @return {@link String} que reprenta de manera única al servicio.
 		 */
 		public String getKey() {

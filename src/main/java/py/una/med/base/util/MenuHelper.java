@@ -25,15 +25,15 @@ public class MenuHelper {
 	 */
 	private static final String MENU_ID_SEPARATOR = "__";
 	private static Pattern pattern;
-	private final static String SPLIT_REGEX = "[a-z]*/(.*/)*(.*)";
-	private final static Logger log = LoggerFactory.getLogger(MenuHelper.class);
+	private static final String SPLIT_REGEX = "[a-z]*/(.*/)*(.*)";
+	private static final Logger log = LoggerFactory.getLogger(MenuHelper.class);
 	private Map<String, Menu> menusIndexByURL;
 
 	/**
-	 * 
+	 *
 	 * Dada una lista plana de menús, crea la jerarquía completa del mismo, en
 	 * forma de un árbol con N raices.
-	 * 
+	 *
 	 * @param input
 	 *            lista plana de menús
 	 */
@@ -51,7 +51,7 @@ public class MenuHelper {
 		List<Menu> current = salida.getMenus();
 		List<Menu> nextGen;
 		maxDepth = 0;
-		while (current != null && current.size() > 0) {
+		while ((current != null) && (current.size() > 0)) {
 			nextGen = new ArrayList<Menu>(current.size());
 			for (Menu m : current) {
 				if (m.getFather() == null) {
@@ -78,7 +78,7 @@ public class MenuHelper {
 	/**
 	 * Elimina todos los problemas relacionados con el formato en el menú, como
 	 * URL's con espacios al inicio y al fin.
-	 * 
+	 *
 	 * @param m
 	 *            {@link Menu} a limpiar
 	 */
@@ -98,7 +98,7 @@ public class MenuHelper {
 	 * <p>
 	 * Los menús retornados por este método están completamente configurados.
 	 * </p>
-	 * 
+	 *
 	 * @return menus
 	 */
 	public Menus getMenus() {
@@ -108,7 +108,7 @@ public class MenuHelper {
 
 	/**
 	 * Retorna la mayor profundidad que alcanza el menú.
-	 * 
+	 *
 	 * @return maxDepth
 	 */
 	public int getMaxDepth() {
@@ -118,7 +118,7 @@ public class MenuHelper {
 
 	private boolean addMenuIndex(@NotNull Menu m) {
 
-		if (m.getUrl() == null || "".equals(m.getUrl())) {
+		if ((m.getUrl() == null) || "".equals(m.getUrl())) {
 			return false;
 		}
 
@@ -137,24 +137,24 @@ public class MenuHelper {
 
 	/**
 	 * Retorna un menú dado el inicio de la cadena que representa su URI
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * <pre>
 	 * /faces/views/sistema/caso_de_uso/abm.xhml
 	 * </pre>
-	 * 
+	 *
 	 * Y existe en el archivo de menús, una entrada con la url:
-	 * 
+	 *
 	 * <pre>
 	 * /faces/views/sistema/caso_de_uso/list.xhtml
 	 * </pre>
-	 * 
+	 *
 	 * Se retorna la entrada de ese menú, es decir no hay una coincidencia
 	 * exacta, pero se hace el mejor esfuerzo según el caso de uso.
 	 * </p>
-	 * 
-	 * 
+	 *
+	 *
 	 * @param uri
 	 *            cadena con el formato <code>(/?.*\/)*(.*)</code>
 	 * @return {@link Menu} correspondiente a al URL, o <code>null</code> si no
@@ -163,7 +163,7 @@ public class MenuHelper {
 	public Menu getMenuByStartUrl(@NotNull String uri) {
 
 		Matcher ma = getPattern().matcher(uri);
-		if (!ma.matches() || ma.groupCount() < 2) {
+		if (!ma.matches() || (ma.groupCount() < 2)) {
 			return null;
 		}
 		return getMenusIndexByURL().get(ma.group(1));
@@ -199,7 +199,7 @@ public class MenuHelper {
 			}
 		}
 
-		if (newMenu.getIdFather() == null || newMenu.getIdFather().equals("")) {
+		if ((newMenu.getIdFather() == null) || newMenu.getIdFather().equals("")) {
 			input.getMenus().add(newMenu);
 			return true;
 		}
@@ -219,7 +219,7 @@ public class MenuHelper {
 
 	private boolean addMenu(Menu root, Menu newMenu) {
 
-		if (newMenu.getIdFather() != null
+		if ((newMenu.getIdFather() != null)
 				&& newMenu.getIdFather().equals(root.getId())) {
 			if (!exist(root, newMenu)) {
 				root.getChildrens().add(newMenu);
@@ -246,24 +246,24 @@ public class MenuHelper {
 
 	/**
 	 * Retorna un menú dada la cadena que representa su URI
-	 * 
+	 *
 	 * <p>
-	 * 
+	 *
 	 * <pre>
 	 * /faces/views/sistema/caso_de_uso/abm.xhml
 	 * </pre>
-	 * 
+	 *
 	 * Y existe en el archivo de menús, una entrada con la url:
-	 * 
+	 *
 	 * <pre>
 	 * SAF / faces / views / sistema / caso_de_uso / list.xhtml
 	 * </pre>
-	 * 
+	 *
 	 * Se retorna la entrada de ese menú, es decir no hay una coincidencia
 	 * exacta, pero se hace el mejor esfuerzo según el caso de uso.
 	 * </p>
-	 * 
-	 * 
+	 *
+	 *
 	 * @param uri
 	 *            cadena con el formato
 	 *            <code>[a-z]{@literal *}/(.{@literal *}/)*(.*)</code>
@@ -273,7 +273,7 @@ public class MenuHelper {
 	public Menu getMenuByUrl(String uri) {
 
 		Matcher ma = getPattern().matcher(uri);
-		if (!ma.matches() || ma.groupCount() < 2) {
+		if (!ma.matches() || (ma.groupCount() < 2)) {
 			return null;
 		}
 		return getMenusIndexByURL().get(ma.group(1));

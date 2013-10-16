@@ -7,7 +7,6 @@ package py.una.med.base.dynamic.util;
 import javax.el.ValueExpression;
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 import py.una.med.base.util.ELHelper;
@@ -17,15 +16,15 @@ import py.una.med.base.util.ELHelper;
  * &lt;f:setPropertyActionListener&gt;, esto se debe a que no se puede crear un
  * componente de ese tipo, si se encuentra la implementacion de referencia
  * marcar esta como deprecada y utilizar esa
- * 
+ *
  * @author Arturo Volpe Volpe
  * @since 1.0
  * @version 1.0 Mar 13, 2013
  * @see <a
  *      href="http://www.java2s.com/Open-Source/Java/EJB-Server/resin-4.0.7/com/caucho/jsf/event/SetPropertyActionListener.java.htm">
  *      MyFaces SetPropertyActionListener implementation</a>
- * 
- * 
+ *
+ *
  */
 public class SIGHSetPropertyActionListener implements ActionListener,
 		StateHolder {
@@ -56,14 +55,13 @@ public class SIGHSetPropertyActionListener implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.faces.event.ActionListener#processAction(javax.faces.event.ActionEvent
 	 * )
 	 */
 	@Override
-	public void processAction(final ActionEvent event)
-			throws AbortProcessingException {
+	public void processAction(final ActionEvent event) {
 
 		FacesContext fc = FacesContext.getCurrentInstance();
 
@@ -74,7 +72,7 @@ public class SIGHSetPropertyActionListener implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.faces.component.StateHolder#saveState(javax.faces.context.FacesContext
 	 * )
@@ -87,7 +85,7 @@ public class SIGHSetPropertyActionListener implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.faces.component.StateHolder#restoreState(javax.faces.context.
 	 * FacesContext, java.lang.Object)
 	 */
@@ -102,7 +100,7 @@ public class SIGHSetPropertyActionListener implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.faces.component.StateHolder#isTransient()
 	 */
 	@Override
@@ -113,7 +111,7 @@ public class SIGHSetPropertyActionListener implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.faces.component.StateHolder#setTransient(boolean)
 	 */
 	@Override

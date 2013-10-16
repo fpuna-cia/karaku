@@ -49,7 +49,7 @@ public class I18nHelper {
 		return bundles;
 	}
 
-	private synchronized static void initializeBundles() {
+	private static synchronized void initializeBundles() {
 
 		if (bundles != null) {
 			return;
@@ -67,7 +67,7 @@ public class I18nHelper {
 		}
 	}
 
-	private static String findInBundles(String key) throws KeyNotFoundException {
+	private static String findInBundles(String key) {
 
 		for (ResourceBundle bundle : getBundles()) {
 			if (bundle.containsKey(key)) {

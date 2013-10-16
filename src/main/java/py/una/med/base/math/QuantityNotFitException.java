@@ -8,11 +8,11 @@ import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
  * Conversión de tipos que reducen la precisión no se permiten.
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 8, 2013
- * 
+ *
  */
 public final class QuantityNotFitException extends KarakuRuntimeException {
 
@@ -26,7 +26,7 @@ public final class QuantityNotFitException extends KarakuRuntimeException {
 		super(buildMessage(from, to));
 	}
 
-	private static final String buildMessage(Quantity from, Number to) {
+	private static String buildMessage(Quantity from, Number to) {
 
 		StringBuilder sb = new StringBuilder(
 				"Precision loss detected, the quantity ");

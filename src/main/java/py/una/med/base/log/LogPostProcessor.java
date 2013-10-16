@@ -58,13 +58,12 @@ public class LogPostProcessor implements BeanPostProcessor {
 	 */
 	@Override
 	public Object postProcessBeforeInitialization(final Object bean,
-			final String beanName) throws BeansException {
+			final String beanName) {
 
 		ReflectionUtils.doWithFields(bean.getClass(), new FieldCallback() {
 
 			@Override
-			public void doWith(Field field) throws IllegalArgumentException,
-					IllegalAccessException {
+			public void doWith(Field field) throws IllegalAccessException {
 
 				ReflectionUtils.makeAccessible(field);
 				Log log = field.getAnnotation(Log.class);
@@ -83,8 +82,7 @@ public class LogPostProcessor implements BeanPostProcessor {
 		ReflectionUtils.doWithMethods(bean.getClass(), new MethodCallback() {
 
 			@Override
-			public void doWith(Method method) throws IllegalArgumentException,
-					IllegalAccessException {
+			public void doWith(Method method) throws IllegalAccessException {
 
 				Log log = method.getAnnotation(Log.class);
 				try {
@@ -123,7 +121,7 @@ public class LogPostProcessor implements BeanPostProcessor {
 	 */
 	@Override
 	public Object postProcessAfterInitialization(final Object bean,
-			final String beanName) throws BeansException {
+			final String beanName) {
 
 		return bean;
 	}

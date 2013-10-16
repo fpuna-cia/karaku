@@ -47,15 +47,14 @@ import java.util.NoSuchElementException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
-import javax.faces.component.UISelectMany;
-import javax.faces.component.UISelectOne;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
  * <p>
  * Package private class for iterating over the set of {@link SelectItem}s for a
- * parent {@link UISelectMany} or {@link UISelectOne}.
+ * parent {@link javax.faces.component.UISelectMany} or
+ * {@link javax.faces.component.UISelectOne}.
  * </p>
  *
  * // RELEASE_PENDING (rlubke,driscoll) performanc review
@@ -366,7 +365,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	 * may not contain <code>SelectItem</code> instances.
 	 * </p>
 	 */
-	private static abstract class GenericObjectSelectItemIterator implements
+	private abstract static class GenericObjectSelectItemIterator implements
 			Iterator<SelectItem> {
 
 		/**
