@@ -7,6 +7,7 @@ package py.una.med.base.util;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
@@ -16,20 +17,25 @@ import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.search.SearchHelper;
 import py.una.med.base.dao.util.EntityExample;
+import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.model.DisplayName;
 
 /**
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 25, 2013
- * 
+ *
  */
 public class SIGHListHelper<T, K extends Serializable> implements
 		KarakuListHelperProvider<T> {
 
 	/**
-	 * 
+	 * Vector que contiene las columnas por las que se intentará ordenar.
+	 */
+	private static final String[] DEFAULT_SORT_COLUMNS = { "descripcion", "id" };
+	/**
+	 *
 	 */
 	private static final int ROWS_FOR_PAGE = 5;
 	private SimpleFilter simpleFilter;
@@ -74,11 +80,6 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		this.baseWhere = baseWhere;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.util.KarakuListHelperProvider#getEntities()
-	 */
 	@Override
 	public List<T> getEntities() {
 
@@ -200,10 +201,42 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	}
 
 	/**
-	 * Permite extender los parametros de busquedas utilizados
-	 **/
-	public void configureSearchParams(ISearchParam isp) {
+	 * Método que debe ser implementado en la clase que desea definir alguna
+	 * configuración especial en la obtención de valores desde la base de datos
+	 *
+	 * <p>
+	 * La implementación por defecto, intenta ordenar por (si no puede ordenar
+	 * por un atributo, pasa al siguiente):
+	 * <ol>
+	 * <li>descripcion</li>
+	 * <li>id</li>
+	 * </ol>
+	 * </p>
+	 *
+	 * @see #DEFAULT_SORT_COLUMNS
+	 * @param sp
+	 *            parámetro de búsqueda definido en el paginHelper y a ser
+	 *            configurado
+	 */
+	public void configureSearchParams(ISearchParam sp) {
 
-		return;
+		for (String s : DEFAULT_SORT_COLUMNS) {
+			try {
+				this.logic.getDao().getClassOfT().getDeclaredField(s);
+				sp.addOrder(s, true);
+				return;
+			} catch (Exception e) {
+				LOG.trace("Column: {} not found in table: {}", s, logic
+						.getDao().getTableName());
+			}
+		}
+		throw new KarakuRuntimeException(
+				"Tabla '"
+						+ this.logic.getDao().getTableName()
+						+ "' no posee las columnas por defecto para ordenar "
+						+ Arrays.toString(DEFAULT_SORT_COLUMNS)
+						+ " por favor, reescriba el método configureSearchparam en el picker: "
+						+ this.getClass().getSimpleName());
+
 	}
 }
