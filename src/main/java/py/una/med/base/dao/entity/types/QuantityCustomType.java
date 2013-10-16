@@ -29,13 +29,6 @@ public final class QuantityCustomType implements UserType {
 	public static final QuantityCustomType INSTANCE = new QuantityCustomType();
 
 	/**
-	 * Definirlo como singleton.
-	 */
-	private QuantityCustomType() {
-
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
