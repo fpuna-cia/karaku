@@ -152,6 +152,12 @@ public abstract class SIGHDynamicSurveyBaseController implements
 
 		}
 
+		if (blocks.get(10) instanceof DynamicSurveyFields && isNew()) {
+			log.debug("Obtiene los datos actuales de la solicitud..");
+			getDetailsDiagnostico((DynamicSurveyFields) blocks.get(10));
+
+		}
+
 	}
 
 	/**
@@ -391,6 +397,14 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	 *            bloque donde se deben cargar los datos de la persona
 	 */
 	public abstract void getDetailsPerson(DynamicSurveyFields block);
+
+	/**
+	 * Carga los datos de la solicitud en la encuesta.
+	 * 
+	 * @param block
+	 *            bloque donde se deben cargar los datos de la solicitud
+	 */
+	public abstract void getDetailsDiagnostico(DynamicSurveyFields block);
 
 	@Override
 	public void preCreate(EncuestaPlantilla template, Encuesta survey,

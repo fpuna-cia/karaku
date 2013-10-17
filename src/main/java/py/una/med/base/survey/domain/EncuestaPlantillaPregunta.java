@@ -68,6 +68,11 @@ public class EncuestaPlantillaPregunta extends BaseEntity implements
 	@Column(name = "longitud_respuesta")
 	private Integer longitudRespuesta;
 
+	@NotNull
+	@Size(min = 2, max = 2, message = "{LENGTH}")
+	@Column(name = "editable")
+	private String editable;
+
 	@OneToMany(mappedBy = "pregunta")
 	private List<OpcionRespuesta> opcionRespuesta;
 
@@ -150,6 +155,16 @@ public class EncuestaPlantillaPregunta extends BaseEntity implements
 	public void setLongitudRespuesta(Integer longitudRespuesta) {
 
 		this.longitudRespuesta = longitudRespuesta;
+	}
+
+	public String getEditable() {
+
+		return editable;
+	}
+
+	public void setEditable(String editable) {
+
+		this.editable = editable;
 	}
 
 	public List<OpcionRespuesta> getOpcionRespuesta() {

@@ -38,7 +38,7 @@
 						style="color:blue;" />
 					<h:inputText value="#{element.field.value}"
 						id="#{cc.attrs.block.id}_#{cont}"
-						disabled="#{not cc.attrs.controller.isEditable()}"
+						disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
 						required="#{cc.attrs.block.isRequiredField(cont)}" />
 				</c:if>
 				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'RADIO'}">
@@ -54,7 +54,7 @@
 							required="#{cc.attrs.block.isRequiredField(cont)}"
 							style="text-transform:none !important;"
 							id="#{cc.attrs.block.id}_#{cont}"
-							disabled="#{not cc.attrs.controller.isEditable()}">
+							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
 							<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
 							<a4j:ajax event="change"
 								render="#{cc.attrs.block.id}_#{cont}_pgrid"
@@ -83,7 +83,7 @@
 							required="#{cc.attrs.block.isRequiredField(cont)}"
 							style="text-transform:none !important;"
 							id="#{cc.attrs.block.id}_#{cont}"
-							disabled="#{not cc.attrs.controller.isEditable()}">
+							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
 							<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
 							<a4j:ajax event="change"
 								render="#{cc.attrs.block.id}_#{cont}_pgrid"
@@ -108,7 +108,7 @@
 						id="#{cc.attrs.block.id}_#{cont}"
 						converter="#{cc.attrs.block.converter}"
 						required="#{cc.attrs.block.isRequiredField(cont)}"
-						disabled="#{not cc.attrs.controller.isEditable()}">
+						disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
 						<f:selectItem itemLabel="#{msg['ABM_SURVEY_SELECT']}"
 							noSelectionOption="true" />
 						<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
@@ -123,8 +123,8 @@
 					<rich:calendar value="#{element.field.value}"
 						id="#{cc.attrs.block.id}_#{cont}"
 						converter="#{cc.attrs.block.converterString}"
-						datePattern="dd/MM/yyyy"
-						disabled="#{not cc.attrs.controller.isEditable()}">
+						datePattern="dd-MM-yyyy"
+						disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
 					</rich:calendar>
 				</c:if>
 				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO_AREA'}">
@@ -135,7 +135,7 @@
 					<h:inputTextarea value="#{element.field.value}"
 						id="#{cc.attrs.block.id}_#{cont}"
 						style="width:182px; height: 115px; text-transform: uppercase;"
-						disabled="#{not cc.attrs.controller.isEditable()}"
+						disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
 						required="#{cc.attrs.block.isRequiredField(cont)}" />
 				</c:if>
 				<rich:messages ajaxRendered="true"

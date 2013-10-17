@@ -14,11 +14,11 @@ import py.una.med.base.survey.domain.OpcionRespuesta;
 import py.una.med.base.util.SIGHConverterV2;
 
 /**
- *
+ * 
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 07/06/2013
- *
+ * 
  */
 public class DynamicSurveyFields extends DynamicSurveyBlock {
 
@@ -28,7 +28,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 	/**
 	 * Construye un bloque del tipo Simple.
-	 *
+	 * 
 	 * @param questions
 	 *            Lista de preguntas del bloque.
 	 * @param index
@@ -65,7 +65,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param fieldValue
 	 * @param index
 	 *            ubicacion de la pregunta dentro del bloque
@@ -83,7 +83,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 	/**
 	 * Agrega un field al bloque.
-	 *
+	 * 
 	 * @param element
 	 */
 	public void addField(DynamicSurveyFieldOption element) {
@@ -93,7 +93,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 	/**
 	 * Valida los campos para cada pregunta.
-	 *
+	 * 
 	 * @return
 	 */
 	private DynamicSurveyFieldOption[] validateFields() {
@@ -111,7 +111,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 	/**
 	 * Obtiene el tipo de objeto de un field en particular.
-	 *
+	 * 
 	 * @param index
 	 *            Orden del Field o pregunta dentro del bloque.
 	 * @return Puede retornar alguna de las siguientes opciones: TEXTO,
@@ -125,7 +125,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	/**
 	 * Retorna true si la pregunta recibida como parametro es requerida, de lo
 	 * contrario retorna false.
-	 *
+	 * 
 	 * @param index
 	 *            Posicion de la pregunta dentro de la encuesta
 	 * @return true si es requerida false si no es requerida
@@ -133,6 +133,14 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	public Boolean isRequiredField(int index) {
 
 		if (getQuestions().get(index).getObligatoria().equals("SI")) {
+			return true;
+		}
+		return false;
+	}
+
+	public Boolean isEditableField(int index) {
+
+		if (getQuestions().get(index).getEditable().equals("SI")) {
 			return true;
 		}
 		return false;
@@ -151,7 +159,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	/**
 	 * Obtiene las opciones de respuestas para una determinada pregunta si
 	 * aplica.
-	 *
+	 * 
 	 * @param index
 	 *            Ubicacion de la pregunta dentro del bloque
 	 * @return
@@ -171,7 +179,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	/**
 	 * Este converter es utilizado por los field del tipo ComboBox y radio, los
 	 * cuales deben mantener el elemento que ha sido seleccionado.
-	 *
+	 * 
 	 * @return converter
 	 */
 	public SIGHConverterV2 getConverter() {
@@ -182,7 +190,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	/**
 	 * Este converter se utiliza para los field del tipo fecha,lo que hace es
 	 * convertir el objeto fecha a string.
-	 *
+	 * 
 	 * @return converterString
 	 */
 	public SIGHConverterString getConverterString() {
@@ -206,7 +214,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	 * en particular. Esto se debe hacer debido a que cuando se selecciona otra
 	 * opcion el valor ingresado en la caja de texto aun no es submiteado motivo
 	 * por el cual si no submiteamos explicitamente perderemos el valor.
-	 *
+	 * 
 	 * @param event
 	 */
 	public void completeChangeListener(AjaxBehaviorEvent event) {
