@@ -7,11 +7,12 @@ import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.persistence.Entity;
 import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
@@ -20,12 +21,12 @@ import org.springframework.util.ReflectionUtils.FieldFilter;
 import py.una.med.base.test.test.util.layers.TestEntity;
 
 /**
- * Provee utilidades para los test
- * 
+ * Provee utilidades para los test.
+ *
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Sep 10, 2013
- * 
+ *
  */
 public class TestUtils {
 
@@ -33,7 +34,7 @@ public class TestUtils {
 
 	/**
 	 * Retorna un vector de elementos a partir de una lista de los mismos.
-	 * 
+	 *
 	 * @param elements
 	 *            de clase T
 	 * @return T[]
@@ -45,7 +46,7 @@ public class TestUtils {
 
 	/**
 	 * Retorna la lista de entidades relacionadas a una base.
-	 * 
+	 *
 	 * @param base
 	 *            entidad base
 	 * @return array con todas las entidades que se pueden acceder desde base.
@@ -83,8 +84,51 @@ public class TestUtils {
 	}
 
 	/**
-	 * Retorna la lista de entidades relacionadas a una base.
+	 * Determina si dos colecciones son iguales.
 	 * 
+	 * <p>
+	 * Este método es similar a {@link java.util.AbstractList#equals(Object)}
+	 * solamente que realiza una comparación de longitud para ser más rapido.
+	 * 
+	 * </p>
+	 * 
+	 * @param l1
+	 *            colección ejemplo
+	 * @param l2
+	 *            colección con la que comparar
+	 * @return <code>true</code> sí y solamente sí, tienen el mismo tamaño,
+	 *         ambas son <code>null</code>, o todos sus elementos son iguales
+	 *         (de acuerdo al método equals).
+	 */
+	public static <T> boolean comparareCollections(Collection<T> l1,
+			Collection<T> l2) {
+
+		if ((l1 == null) && (l2 != null)) {
+			return false;
+		}
+		if ((l2 == null) && (l1 != null)) {
+			return false;
+		}
+		if ((l1 == null) && (l2 == null)) {
+			return true;
+		}
+		if (l1.size() != l2.size()) {
+			return false;
+		}
+		Iterator<T> e1 = l1.iterator();
+		Iterator<T> e2 = l2.iterator();
+		while (e1.hasNext() && e2.hasNext()) {
+			T o1 = e1.next();
+			T o2 = e2.next();
+			if (!(o1 == null ? o2 == null : o1.equals(o2)))
+				return false;
+		}
+		return !(e1.hasNext() || e2.hasNext());
+	}
+
+	/**
+	 * Retorna la lista de entidades relacionadas a una base.
+	 *
 	 * @param base
 	 *            entidad base
 	 * @return array con todas las entidades que se pueden acceder desde base.

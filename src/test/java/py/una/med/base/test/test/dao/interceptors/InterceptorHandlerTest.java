@@ -22,11 +22,11 @@ import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 14, 2013
- * 
+ *
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class InterceptorHandlerTest extends BaseTest {
@@ -162,6 +162,23 @@ public class InterceptorHandlerTest extends BaseTest {
 		public String getEsFinal() {
 
 			return esFinal;
+		}
+
+		/**
+		 * @return interceptable
+		 */
+		public String getInterceptable() {
+
+			return interceptable;
+		}
+
+		/**
+		 * @param interceptable
+		 *            interceptable para setear
+		 */
+		public void setInterceptable(String interceptable) {
+
+			this.interceptable = interceptable;
 		}
 
 	}

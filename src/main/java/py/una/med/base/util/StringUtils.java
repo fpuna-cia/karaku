@@ -7,13 +7,13 @@ import java.util.List;
 
 /**
  * Provee funcionalidades básicas para todas las cadenas del sistema
- * 
+ *
  * @author Arturo Volpe
  * @author Nathalia Ochoa
- * 
+ *
  * @since 1.0
  * @version 1.1 08/02/2013
- * 
+ *
  */
 public final class StringUtils {
 
@@ -40,9 +40,9 @@ public final class StringUtils {
 
 	/**
 	 * Valida si una cadena es o no válida (tomando en cuenta cadenas recibidas
-	 * desde la interfaz), una cadena es váliada si no es <code>null</code> y si
-	 * tiene al menos un carácter distinto de un espacio
-	 * 
+	 * desde la interfaz), una cadena es válidada si no es <code>null</code> y
+	 * si tiene al menos un carácter distinto de un espacio
+	 *
 	 * @param string
 	 *            a validar
 	 * @return <code>true</code> si es válida, y <code>false</code> en caso
@@ -63,7 +63,7 @@ public final class StringUtils {
 	 * Invoca al método {@link #isValid(String)} por cada cadena del vector y
 	 * retorna <code>false</code> si alguna de las llamadas retorna
 	 * <code>false</code>
-	 * 
+	 *
 	 * @see #isInvalid(String)
 	 * @param strings
 	 *            cadenas a validar
@@ -73,7 +73,7 @@ public final class StringUtils {
 	 */
 	public static boolean isValid(String ... strings) {
 
-		if (strings == null || strings.length == 0) {
+		if ((strings == null) || (strings.length == 0)) {
 			return false;
 		}
 
@@ -89,7 +89,7 @@ public final class StringUtils {
 	 * Valida si una cadena es o no inválida (tomando en cuenta cadenas
 	 * recibidas desde la interfaz), una cadena es válida si no es
 	 * <code>null</code> y si tiene al menos un carácter distinto de un espacio
-	 * 
+	 *
 	 * @param string
 	 *            a validar
 	 * @return <code>true</code> si es válida, y <code>false</code> en caso
@@ -102,7 +102,7 @@ public final class StringUtils {
 
 	/**
 	 * Une un grupo de palabras con un separador.
-	 * 
+	 *
 	 * @param separator
 	 *            cadena que servira de pegamento entre las demás cadenas
 	 * @param strings
@@ -129,7 +129,7 @@ public final class StringUtils {
 
 	/**
 	 * Une un grupo de palabras con un separador.
-	 * 
+	 *
 	 * @param separator
 	 *            cadena que servirá de pegamento entre las demas cadenas
 	 * @param strings
@@ -155,7 +155,7 @@ public final class StringUtils {
 
 	/**
 	 * Une un grupo de palabras con un separador.
-	 * 
+	 *
 	 * @param separator
 	 *            cadena que servirá de pegamento entre las demas cadenas
 	 * @param strings
@@ -202,9 +202,9 @@ public final class StringUtils {
 	 * <ol>
 	 * <li><b>HolaMundo</b>, retorna [Hola,Mundo]</li>
 	 * </ol>
-	 * 
+	 *
 	 * </p>
-	 * 
+	 *
 	 * @param string
 	 *            cadena a partir
 	 * @return list de elementos
@@ -232,7 +232,7 @@ public final class StringUtils {
 	 * <li><b>Pais</b>, retorna Paises</li>
 	 * </ol>
 	 * </p>
-	 * 
+	 *
 	 * @param singular
 	 *            cadena en singular
 	 * @return plural cadena pluralizada
@@ -284,15 +284,15 @@ public final class StringUtils {
 
 	private static boolean is(char first, char ... c) {
 
-		if (c == null || c.length < 1) {
+		if ((c == null) || (c.length < 1)) {
 			return true;
 		}
 		if (c.length < 1) {
 			return false;
 		}
-		for (int i = 0; i < c.length; i++) {
+		for (char element : c) {
 
-			if (first == c[i]) {
+			if (first == element) {
 				return true;
 			}
 		}
@@ -301,7 +301,7 @@ public final class StringUtils {
 
 	/**
 	 * Pluraliza una serie de palabras separandolas por un espacio.
-	 * 
+	 *
 	 * @param terms
 	 *            grupo de palabras a pluralizar
 	 * @return <code>null</code> si no hay terms o terms es <code>null</code>,
@@ -311,14 +311,14 @@ public final class StringUtils {
 	 */
 	public static String pluralize(final Collection<String> terms) {
 
-		if (terms == null || terms.size() == 0) {
+		if ((terms == null) || (terms.size() == 0)) {
 			return null;
 		}
 		StringBuilder buf = new StringBuilder();
 		String[] array = terms.toArray(new String[terms.size()]);
 		for (int i = 0; i < terms.size(); i++) {
 			buf.append(pluralize(array[i]));
-			if (i + 1 != terms.size()) {
+			if ((i + 1) != terms.size()) {
 				buf.append(" ");
 			}
 		}
@@ -327,7 +327,7 @@ public final class StringUtils {
 
 	/**
 	 * Pluraliza una serie de palabras separandolas por un token separador.
-	 * 
+	 *
 	 * @param terms
 	 *            grupo de palabras a pluralizar
 	 * @param separator
@@ -339,14 +339,14 @@ public final class StringUtils {
 	public static String pluralize(String separator,
 			final Collection<String> terms) {
 
-		if (terms == null || terms.size() == 0) {
+		if ((terms == null) || (terms.size() == 0)) {
 			return null;
 		}
 		StringBuilder buf = new StringBuilder();
 		String[] array = terms.toArray(new String[terms.size()]);
 		for (int i = 0; i < terms.size(); i++) {
 			buf.append(pluralize(array[i]));
-			if (i + 1 != terms.size()) {
+			if ((i + 1) != terms.size()) {
 				buf.append(separator);
 			}
 		}

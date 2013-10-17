@@ -20,7 +20,7 @@ public interface IBaseController<T, ID extends Serializable> {
 
 	ISIGHBaseLogic<T, ID> getBaseLogic();
 
-	abstract List<String> getBaseSearchItems();
+	List<String> getBaseSearchItems();
 
 	T getBean();
 
