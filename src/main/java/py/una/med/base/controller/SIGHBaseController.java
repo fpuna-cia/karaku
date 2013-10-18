@@ -240,7 +240,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	public void doSimpleSearch() {
 
 		this.log.info("doSimpleSearch llamado");
-
+		setMode(Mode.LIST);
 		if (!StringUtils.isValid(this.getFilterOption())
 				|| !StringUtils.isValid(this.getFilterValue())) {
 			this.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN, "",
@@ -251,7 +251,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 			this.reloadEntities();
 		}
-
+		
 	}
 
 	/**
