@@ -17,10 +17,10 @@ import py.una.med.base.security.SIGHSecurity;
 import py.una.med.base.util.ControllerHelper;
 
 /**
- *
+ * 
  * Clase que implementa las funcionalidades basicas de un controller que tiene
  * varios controlles embebidos.
- *
+ * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.1 Feb 18, 2013
@@ -28,7 +28,7 @@ import py.una.med.base.util.ControllerHelper;
  *            entidad
  * @param <ID>
  *            clase de la clave primaria de la entidad
- *
+ * 
  */
 public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		SIGHAdvancedController<T, K> implements ISIGHAdvancedController<T, K>,
@@ -134,6 +134,9 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		try {
 			setBean(create(getBean()));
 			reloadEntities();
+			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
+					"BASE_ABM_CREATE_SUCCESS");
+
 			return SUCCESS;
 		} catch (Exception e) {
 			e = helper.convertException(e, getClazz());
@@ -153,6 +156,8 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		try {
 			edit(getBean());
 			reloadEntities();
+			this.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
+					"BASE_ABM_EDIT_SUCCESS");
 			return SUCCESS;
 		} catch (Exception e) {
 			e = helper.convertException(e, getClazz());
@@ -240,7 +245,7 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 
 	/**
 	 * Define si las tabs deben estar habilitadas o no
-	 *
+	 * 
 	 * @return true si estan deshabilitadas y false si deben estar habilitadas
 	 */
 	public boolean getTabDisabled() {
