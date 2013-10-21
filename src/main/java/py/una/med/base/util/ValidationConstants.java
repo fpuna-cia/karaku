@@ -133,6 +133,15 @@ public final class ValidationConstants {
 
 	public static final String GN_WORDS_SPE_DIG = "[a-zA-Z0-9'ñÑ" + grave
 			+ nasal + special + " ]*";
+	
+	/**
+	 * Expresión que admite caracteres del castellano y guaraní tanto en mayúsculas 
+	 * o minúsculas además de dígitos y caracteres especiales como por ejemplo [
+	 * <code>, . + - * $ / \</code>]
+	 * 
+	 */
+	public static final String GN_ALPHANUMERIC_SPE = "[a-zA-Z'0-9ñÑ" + grave
+			+ special + nasal + " ]*";
 
 	/**
 	 * Expresión regular para validar cadenas que representan URL's, en su forma
