@@ -6,7 +6,7 @@
 	<groupId>py.una.med</groupId>
 	<artifactId>SIGHBase</artifactId>
 	<packaging>war</packaging>
-	<version>2.2.10</version>
+	<version>2.2.11</version>
 
 	<name>Sistema Integral de Gestion Hospitalaria - SYSTEM_NAME</name>
 
