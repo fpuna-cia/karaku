@@ -85,14 +85,14 @@ public class FormatProviderTest extends BaseTest {
 
 		date = calendar.getTime();
 
-		veryLarge = getByString("1000000000000");
-		large = getByString("100000");
-		small = getByString("100");
-		verySmall = getByString("1");
-		decimal = getByString("0.111");
-		decimalUP = getByString("0.119");
-		smallDecimal = getByString("0.0111");
-		smallDecimalUP = getByString("0.0159");
+		veryLarge = this.getByString("1000000000000");
+		large = this.getByString("100000");
+		small = this.getByString("100");
+		verySmall = this.getByString("1");
+		decimal = this.getByString("0.111");
+		decimalUP = this.getByString("0.119");
+		smallDecimal = this.getByString("0.0111");
+		smallDecimalUP = this.getByString("0.0159");
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class FormatProviderTest extends BaseTest {
 	public void testTime() throws ParseException {
 
 		assertEquals(TIME, fp.asTime(date));
-		assertTrue(hasSameHourAndMinute(date, fp.parseTime(TIME)));
+		assertTrue(this.hasSameHourAndMinute(date, fp.parseTime(TIME)));
 
 		assertEquals(EMPTY_STRING, fp.asTime(null));
 		assertEquals(null, fp.parseTime(EMPTY_STRING));
@@ -189,7 +189,7 @@ public class FormatProviderTest extends BaseTest {
 	public void testLongDateTime() throws ParseException {
 
 		assertEquals(DATE_TIME, fp.asDateTime(date));
-		assertTrue(hasSameHourMinuteAndDate(date, fp.parseDateTime(DATE_TIME)));
+		assertTrue(this.hasSameHourMinuteAndDate(date, fp.parseDateTime(DATE_TIME)));
 
 		assertEquals(EMPTY_STRING, fp.asDateTime(null));
 		assertEquals(null, fp.parseDateTime(EMPTY_STRING));
@@ -214,7 +214,7 @@ public class FormatProviderTest extends BaseTest {
 	public void testShortDateTime() throws ParseException {
 
 		assertEquals(DATE_SHORT_TIME, fp.asShortDateTime(date));
-		assertTrue(hasSameHourMinuteAndDate(date,
+		assertTrue(this.hasSameHourMinuteAndDate(date,
 				fp.parseShortDateTime(DATE_SHORT_TIME)));
 
 		assertEquals(EMPTY_STRING, fp.asShortDateTime(null));
@@ -252,6 +252,16 @@ public class FormatProviderTest extends BaseTest {
 
 	}
 
+	@Test
+	public void testNumberParse() throws Exception {
+
+		assertEquals(Quantity.ONE, fp.parseLongQuantity("1"));
+		assertEquals(Quantity.ZERO, fp.parseLongQuantity("0"));
+		assertEquals(Quantity.ONE.negate(), fp.parseLongQuantity("-1"));
+		assertEquals(Quantity.ONE, fp.parseLongQuantity("1,0000000123"));
+	}
+
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testNotNull() {
 
@@ -260,7 +270,7 @@ public class FormatProviderTest extends BaseTest {
 
 	private boolean hasSameHourMinuteAndDate(Date one, Date two) {
 
-		return DateUtils.isSameDay(one, two) && hasSameHourAndMinute(one, two);
+		return DateUtils.isSameDay(one, two) && this.hasSameHourAndMinute(one, two);
 	}
 
 	/**

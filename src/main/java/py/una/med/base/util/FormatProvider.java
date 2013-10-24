@@ -147,19 +147,22 @@ public class FormatProvider {
 
 	private synchronized void init() {
 
-		if (initialized) {
+		if (this.initialized) {
 			return;
 		}
-		initialized = true;
-		formats = new HashMap<String, SimpleDateFormat>(
-				NUMBER_OF_SUPPORTED_FORMATS);
-		formats.put(DATE_FORMAT, new SimpleDateFormat(DATE_FORMAT));
-		formats.put(DATE_SHORT_FORMAT, new SimpleDateFormat(DATE_SHORT_FORMAT));
-		formats.put(TIME_FORMAT, new SimpleDateFormat(TIME_FORMAT));
-		formats.put(DATETIME_FORMAT, new SimpleDateFormat(DATETIME_FORMAT));
-		formats.put(DATETIME_SHORT_FORMAT, new SimpleDateFormat(
+
+		this.initialized = true;
+		this.formats = new HashMap<String, SimpleDateFormat>(5);
+		this.formats.put(DATE_FORMAT, new SimpleDateFormat(DATE_FORMAT));
+		this.formats.put(DATE_SHORT_FORMAT, new SimpleDateFormat(
+				DATE_SHORT_FORMAT));
+		this.formats.put(TIME_FORMAT, new SimpleDateFormat(TIME_FORMAT));
+		this.formats
+		.put(DATETIME_FORMAT, new SimpleDateFormat(DATETIME_FORMAT));
+		this.formats.put(DATETIME_SHORT_FORMAT, new SimpleDateFormat(
+
 				DATETIME_SHORT_FORMAT));
-		for (SimpleDateFormat sdf : formats.values()) {
+		for (SimpleDateFormat sdf : this.formats.values()) {
 			sdf.setLenient(false);
 		}
 	}
@@ -186,7 +189,7 @@ public class FormatProvider {
 	 */
 	public String asShortDate(@Nullable Date date) {
 
-		return dateToString(date, DATE_SHORT_FORMAT);
+		return this.dateToString(date, DATE_SHORT_FORMAT);
 	}
 
 	/**
@@ -212,7 +215,7 @@ public class FormatProvider {
 	 */
 	public Date parseShortDate(@Nullable String string) throws ParseException {
 
-		return stringToDate(string, DATE_SHORT_FORMAT);
+		return this.stringToDate(string, DATE_SHORT_FORMAT);
 	}
 
 	/**
@@ -237,7 +240,7 @@ public class FormatProvider {
 	 */
 	public String asDate(@Nullable Date date) {
 
-		return dateToString(date, DATE_FORMAT);
+		return this.dateToString(date, DATE_FORMAT);
 
 	}
 
@@ -264,7 +267,7 @@ public class FormatProvider {
 	 */
 	public Date parseDate(@Nullable String string) throws ParseException {
 
-		return stringToDate(string, DATE_FORMAT);
+		return this.stringToDate(string, DATE_FORMAT);
 	}
 
 	/**
@@ -288,7 +291,7 @@ public class FormatProvider {
 	 */
 	public String asTime(@Nullable Date date) {
 
-		return dateToString(date, TIME_FORMAT);
+		return this.dateToString(date, TIME_FORMAT);
 
 	}
 
@@ -315,7 +318,7 @@ public class FormatProvider {
 	 */
 	public Date parseTime(@Nullable String string) throws ParseException {
 
-		return stringToDate(string, TIME_FORMAT);
+		return this.stringToDate(string, TIME_FORMAT);
 	}
 
 	/**
@@ -339,7 +342,7 @@ public class FormatProvider {
 	 */
 	public String asDateTime(@Nullable Date date) {
 
-		return dateToString(date, DATETIME_FORMAT);
+		return this.dateToString(date, DATETIME_FORMAT);
 	}
 
 	/**
@@ -365,7 +368,7 @@ public class FormatProvider {
 	 */
 	public Date parseDateTime(@Nullable String string) throws ParseException {
 
-		return stringToDate(string, DATETIME_FORMAT);
+		return this.stringToDate(string, DATETIME_FORMAT);
 	}
 
 	/**
@@ -389,7 +392,7 @@ public class FormatProvider {
 	 */
 	public String asShortDateTime(@Nullable Date date) {
 
-		return dateToString(date, DATETIME_SHORT_FORMAT);
+		return this.dateToString(date, DATETIME_SHORT_FORMAT);
 	}
 
 	/**
@@ -416,7 +419,7 @@ public class FormatProvider {
 	public Date parseShortDateTime(@Nullable String string)
 			throws ParseException {
 
-		return stringToDate(string, DATETIME_SHORT_FORMAT);
+		return this.stringToDate(string, DATETIME_SHORT_FORMAT);
 	}
 
 	/**
@@ -477,7 +480,7 @@ public class FormatProvider {
 		if (bd == null) {
 			throw new IllegalArgumentException("Cant parse null BigIntegers");
 		}
-		return getNumberFormat(NUMBER_FORMAT).format(bd);
+		return this.getNumberFormat(NUMBER_FORMAT).format(bd);
 
 	}
 
@@ -540,7 +543,7 @@ public class FormatProvider {
 		if (bd == null) {
 			throw new IllegalArgumentException("Cant parse null BigIntegers");
 		}
-		return getNumberFormat(NUMBER_FORMAT).format(bd);
+		return this.getNumberFormat(NUMBER_FORMAT).format(bd);
 
 	}
 
@@ -557,16 +560,18 @@ public class FormatProvider {
 		if (bd == null) {
 			throw new IllegalArgumentException("Cant parse null BigIntegers");
 		}
-		return getNumberFormat(LONG_NUMBER_FORMAT).format(bd);
+		return this.getNumberFormat(LONG_NUMBER_FORMAT).format(bd);
 
 	}
 
-	public Quantity parseLongQuantity(String number) {
+	public Quantity parseLongQuantity(String number) throws ParseException {
 
 		if ((number == null) || EMPTY_STRING.equals(number)) {
 			return null;
 		}
-		return new Quantity(number);
+
+		return new Quantity(this.getNumberFormat(LONG_NUMBER_FORMAT)
+				.parse(number).toString());
 	}
 
 	/**
@@ -583,7 +588,7 @@ public class FormatProvider {
 		if (date == null) {
 			return EMPTY_STRING;
 		}
-		return getFormat(format).format(date);
+		return this.getFormat(format).format(date);
 	}
 
 	/**
@@ -603,14 +608,14 @@ public class FormatProvider {
 		if ((string == null) || EMPTY_STRING.equals(string)) {
 			return null;
 		}
-		SimpleDateFormat sdf = getFormat(format);
+		SimpleDateFormat sdf = this.getFormat(format);
 		ParsePosition psp = new ParsePosition(0);
 		if (string.length() != format.length()) {
-			throwException(string, format);
+			this.throwException(string, format);
 		}
 		Date toRet = sdf.parse(string, psp);
 		if (psp.getIndex() != string.length()) {
-			throwException(string, format);
+			this.throwException(string, format);
 		}
 		return toRet;
 	}
@@ -630,19 +635,19 @@ public class FormatProvider {
 	 */
 	private SimpleDateFormat getFormat(String format) {
 
-		if (!initialized) {
-			init();
+		if (!this.initialized) {
+			this.init();
 		}
-		if (!formats.containsKey(format)) {
+		if (!this.formats.containsKey(format)) {
 			throw new IllegalArgumentException("Unknow format " + format);
 		}
-		return formats.get(format);
+		return this.formats.get(format);
 	}
 
 	private NumberFormat getNumberFormat(String format) {
 
 		DecimalFormat df = new DecimalFormat(format);
-		df.setDecimalFormatSymbols(getDFS());
+		df.setDecimalFormatSymbols(this.getDFS());
 		return df;
 	}
 
@@ -651,13 +656,13 @@ public class FormatProvider {
 	 */
 	private DecimalFormatSymbols getDFS() {
 
-		if (dfs == null) {
-			dfs = new DecimalFormatSymbols(Locale.getDefault());
-			dfs.setDecimalSeparator(',');
-			dfs.setGroupingSeparator('.');
+		if (this.dfs == null) {
+			this.dfs = new DecimalFormatSymbols(Locale.getDefault());
+			this.dfs.setDecimalSeparator(',');
+			this.dfs.setGroupingSeparator('.');
 		}
 
-		return dfs;
+		return this.dfs;
 	}
 
 	/**
@@ -673,7 +678,7 @@ public class FormatProvider {
 			return false;
 		}
 		try {
-			parseDate(date);
+			this.parseDate(date);
 			return true;
 		} catch (ParseException pe) {
 			return false;

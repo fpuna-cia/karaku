@@ -43,8 +43,17 @@ public class QuantityAdapterTest extends BaseTest {
 
 		assertEquals(Quantity.ONE, QuantityAdapter.unmarshal("1"));
 		assertEquals(Quantity.TWO, QuantityAdapter.unmarshal("00000000000002"));
-		assertEquals(Quantity.ONE, QuantityAdapter.unmarshal("1.000012345"));
-		assertEquals(Quantity.TWO, QuantityAdapter.unmarshal("1.99999"));
+		assertEquals(Quantity.ONE, QuantityAdapter.unmarshal("1,000012345"));
+		assertEquals(new Quantity("1000258.7"),
+				QuantityAdapter.unmarshal("1.000.258,7"));
+		assertEquals(Quantity.TWO, QuantityAdapter.unmarshal("1,99999"));
 		assertEquals(Quantity.ONE.negate(), QuantityAdapter.unmarshal("-1"));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testIllegalArgumentException() throws Exception {
+
+		QuantityAdapter.unmarshal("No Number");
+
 	}
 }
