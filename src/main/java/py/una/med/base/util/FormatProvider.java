@@ -684,4 +684,9 @@ public class FormatProvider {
 			return false;
 		}
 	}
+
+	public String getDateFormat() {
+
+		return DATE_FORMAT;
+	}
 }

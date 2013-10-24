@@ -232,7 +232,7 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 		}
 		switch (getMode()) {
 			case VIEW:
-				return true;
+				return false;
 			case EDIT:
 				return true;
 			case NEW:
