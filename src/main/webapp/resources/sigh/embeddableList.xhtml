@@ -107,27 +107,29 @@
 		test="#{cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 		<sigh:popup title="#{msg['BASE_FORM_SEARCH']} fasdfasd"
 			popupId="#{cc.attrs.controller.messageIdName}_puSearch">
-			<h:form>
-				<rich:messages id="globalMessages" />
-				<h:panelGrid columns="3"
-					columnClasses="form_label,form_input,form_error"
-					id="#{cc.attrs.controller.messageIdName}_pgSearch">
-					<ui:include src="#{cc.attrs.urlSearchForm}" />
-				</h:panelGrid>
+			<sigh:karakuSkipRequired>
+				<h:form>
+					<rich:messages id="globalMessages" />
+					<h:panelGrid columns="3"
+						columnClasses="form_label,form_input,form_error"
+						id="#{cc.attrs.controller.messageIdName}_pgSearch">
+						<ui:include src="#{cc.attrs.urlSearchForm}" />
+					</h:panelGrid>
 
-				<h:panelGrid columns="2">
-					<a4j:commandButton
-						oncomplete="#{rich:component(cc.attrs.controller.messageIdName.concat('_puSearch'))}.hide(); "
-						actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
-						render="globalMessages, @form, #{cc.attrs.idListEntities} idPagingPanel"
-						immediate="true">
-					</a4j:commandButton>
-					<a4j:commandButton immediate="true"
-						value="#{msg['BASE_FORM_SEARCH_CANCEL']}"
-						oncomplete="#{rich:component(cc.attrs.controller.messageIdName.concat('_puSearch'))}.hide(); ">
-					</a4j:commandButton>
-				</h:panelGrid>
-			</h:form>
+					<h:panelGrid columns="2">
+						<a4j:commandButton
+							oncomplete="#{rich:component(cc.attrs.controller.messageIdName.concat('_puSearch'))}.hide(); "
+							actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
+							render="globalMessages, @form, #{cc.attrs.idListEntities} idPagingPanel"
+							immediate="true">
+						</a4j:commandButton>
+						<a4j:commandButton immediate="true"
+							value="#{msg['BASE_FORM_SEARCH_CANCEL']}"
+							oncomplete="#{rich:component(cc.attrs.controller.messageIdName.concat('_puSearch'))}.hide(); ">
+						</a4j:commandButton>
+					</h:panelGrid>
+				</h:form>
+			</sigh:karakuSkipRequired>
 		</sigh:popup>
 	</c:if>
 </composite:implementation>

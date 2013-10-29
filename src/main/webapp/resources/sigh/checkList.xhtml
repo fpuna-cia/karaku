@@ -35,7 +35,7 @@
 		displayName="Muestra una columna con las acciones editar, borrar y ver" />
 	<composite:attribute name="showMessages" default="true" />
 	<composite:attribute name="createButtonText" default="Crear" />
-    <composite:attribute name="withAdvancedSearch" default="true"
+	<composite:attribute name="withAdvancedSearch" default="true"
 		type="java.lang.Boolean" />
 	<composite:attribute name="withMessages" default="true"
 		type="java.lang.Boolean" />
@@ -45,9 +45,9 @@
 	<composite:attribute name="withDeleteVisible" type="java.lang.Boolean"
 		default="true"
 		shortDescription="Define si el enlace borrar sera visible" />
-    <composite:attribute name="withEditVisible" type="java.lang.Boolean"
-        default="true"
-        shortDescription="Define si el enlace editar sera visible" />
+	<composite:attribute name="withEditVisible" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el enlace editar sera visible" />
 </composite:interface>
 <composite:implementation
 	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
@@ -83,31 +83,27 @@
 				deleteText="#{cc.attrs.deleteButtonName}"
 				withActions="#{cc.attrs.withRowActions}" width="100%"
 				deleteVisible="#{cc.attrs.withDeleteVisible}"
-                editVisible="#{cc.attrs.withEditVisible}"
+				editVisible="#{cc.attrs.withEditVisible}"
 				withExports="#{cc.attrs.withRowExports}">
-                <ui:param name="itemKey"
-                            value="#{cc.attrs.controller.getItemKeyProvider(item)}" />
-                        <rich:column
-                            rendered="#{not cc.attrs.controller.selectAllButtonVisible}">
-                            <f:facet name="header">
-                                <h:outputText
-                                    value="#{msg['MULTIPLE_PICKER_SELECCIONAR_HEADER']}"
-                                    style="margin-right: 3px;" />
-                                <h:selectBooleanCheckbox>
-                                    <a4j:ajax
-                                        listener="#{cc.attrs.controller.onCheckboxHeaderClicked}"
-                                        render="#{cc.attrs.idListEntities}"
-                                        execute="@this" />
-                                </h:selectBooleanCheckbox>
-                            </f:facet>
-                            <h:selectBooleanCheckbox
-                                value="#{cc.attrs.controller.selectedMap[item]}"
-                                style="margin-left: 80px; margin-top: 5px;">
-                                <a4j:ajax
-                                    render="#{cc.attrs.idListEntities}"
-                                    execute="@this" />
-                            </h:selectBooleanCheckbox>
-                        </rich:column>
+				<ui:param name="itemKey"
+					value="#{cc.attrs.controller.getItemKeyProvider(item)}" />
+				<rich:column
+					rendered="#{not cc.attrs.controller.selectAllButtonVisible}">
+					<f:facet name="header">
+						<h:outputText value="#{msg['MULTIPLE_PICKER_SELECCIONAR_HEADER']}"
+							style="margin-right: 3px;" />
+						<h:selectBooleanCheckbox>
+							<a4j:ajax
+								listener="#{cc.attrs.controller.onCheckboxHeaderClicked}"
+								render="#{cc.attrs.idListEntities}" execute="@this" />
+						</h:selectBooleanCheckbox>
+					</f:facet>
+					<h:selectBooleanCheckbox
+						value="#{cc.attrs.controller.selectedMap[item]}"
+						style="margin-left: 80px; margin-top: 5px;">
+						<a4j:ajax render="#{cc.attrs.idListEntities}" execute="@this" />
+					</h:selectBooleanCheckbox>
+				</rich:column>
 				<ui:include src="#{cc.attrs.urlColumns}" />
 			</sigh:dataTable>
 		</h:form>
@@ -119,8 +115,8 @@
 			<o:separateConversationContext>
 				<tsigh:security
 					hasPermission="#{cc.attrs.controller.createPermission}">
-					<h:commandButton value="#{cc.attrs.createButtonText}" immediate="true"
-						rendered="#{cc.attrs.withCreateButton}"
+					<h:commandButton value="#{cc.attrs.createButtonText}"
+						immediate="true" rendered="#{cc.attrs.withCreateButton}"
 						action="#{cc.attrs.controller.preCreate()}"
 						render="panelGridCreate" />
 				</tsigh:security>
@@ -138,7 +134,7 @@
 						style="width:24px;height:24px" />
 				</h:commandLink>
 			</h:panelGrid>
-			<h:panelGroup rendered="#{not cc.attrs.withGridExports}"/>
+			<h:panelGroup rendered="#{not cc.attrs.withGridExports}" />
 
 			<sigh:navigation helper="#{cc.attrs.controller.pagingHelper}"
 				idPanel="idPagingPanel" render="#{cc.attrs.idListEntities}" />
@@ -147,25 +143,27 @@
 	<c:if
 		test="#{cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 		<sigh:popup title="#{msg['BASE_FORM_SEARCH']}" popupId="puSearch">
-			<h:form>
-				<rich:messages id="globalMessages" globalOnly="true" />
-				<h:panelGrid columns="3"
-					columnClasses="form_label,form_input,form_error" id="pgSearch">
-					<ui:include src="#{cc.attrs.urlSearchForm}" />
-				</h:panelGrid>
-				<h:panelGrid columns="2">
-					<a4j:commandButton
-						actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
-						oncomplete="#{rich:component('puSearch')}.hide(); return false;"
-						render="globalMessages, @form, #{cc.attrs.idListEntities} idPagingPanel"
-						immediate="true">
+			<sigh:karakuSkipRequired>
+				<h:form>
+					<rich:messages id="globalMessages" globalOnly="true" />
+					<h:panelGrid columns="3"
+						columnClasses="form_label,form_input,form_error" id="pgSearch">
+						<ui:include src="#{cc.attrs.urlSearchForm}" />
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<a4j:commandButton
+							actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
+							oncomplete="#{rich:component('puSearch')}.hide(); return false;"
+							render="globalMessages, @form, #{cc.attrs.idListEntities} idPagingPanel"
+							immediate="true">
 
-					</a4j:commandButton>
-					<a4j:commandButton immediate="true"
-						value="#{msg['BASE_FORM_SEARCH_CANCEL']}"
-						oncomplete="#{rich:component('puSearch')}.hide()" />
-				</h:panelGrid>
-			</h:form>
+						</a4j:commandButton>
+						<a4j:commandButton immediate="true"
+							value="#{msg['BASE_FORM_SEARCH_CANCEL']}"
+							oncomplete="#{rich:component('puSearch')}.hide()" />
+					</h:panelGrid>
+				</h:form>
+			</sigh:karakuSkipRequired>
 		</sigh:popup>
 	</c:if>
 </composite:implementation>

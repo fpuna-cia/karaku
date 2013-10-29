@@ -121,25 +121,28 @@
 	<c:if
 		test="#{cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 		<sigh:popup title="#{msg['BASE_FORM_SEARCH']}" popupId="puSearch">
-			<h:form>
-				<rich:messages id="globalMessages" globalOnly="true" />
-				<h:panelGrid columns="3"
-					columnClasses="form_label,form_input,form_error" id="pgSearch">
-					<ui:include src="#{cc.attrs.urlSearchForm}" />
-				</h:panelGrid>
-				<h:panelGrid columns="2">
-					<a4j:commandButton
-						actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
-						oncomplete="#{rich:component('puSearch')}.hide(); return false;"
-						render="globalMessages, @form, #{cc.attrs.idListEntities} idPagingPanel"
-						immediate="true">
+			<sigh:karakuSkipRequired>
 
-					</a4j:commandButton>
-					<a4j:commandButton immediate="true"
-						value="#{msg['BASE_FORM_SEARCH_CANCEL']}"
-						oncomplete="#{rich:component('puSearch')}.hide()" />
-				</h:panelGrid>
-			</h:form>
+				<h:form>
+					<rich:messages id="globalMessages" globalOnly="true" />
+					<h:panelGrid columns="3"
+						columnClasses="form_label,form_input,form_error" id="pgSearch">
+						<ui:include src="#{cc.attrs.urlSearchForm}" />
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<a4j:commandButton
+							actionListener="#{cc.attrs.controller.doSearch()}" value="Buscar"
+							oncomplete="#{rich:component('puSearch')}.hide(); return false;"
+							render="globalMessages, @form, #{cc.attrs.idListEntities} idPagingPanel"
+							immediate="true">
+
+						</a4j:commandButton>
+						<a4j:commandButton immediate="true"
+							value="#{msg['BASE_FORM_SEARCH_CANCEL']}"
+							oncomplete="#{rich:component('puSearch')}.hide()" />
+					</h:panelGrid>
+				</h:form>
+			</sigh:karakuSkipRequired>
 		</sigh:popup>
 	</c:if>
 </composite:implementation>
