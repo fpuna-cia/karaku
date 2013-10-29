@@ -17,18 +17,18 @@ import py.una.med.base.util.SIGHConverterV2;
 import py.una.med.base.util.Serializer;
 
 /**
- *
+ * 
  * Controlador utilizado para manejar los reportes complejos, es decir aquellos
  * que implican una serie de filtros y/o lista de ordenes.
- *
+ * 
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 15/03/2013
- *
+ * 
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class SIGHBaseReportController<T, K extends Serializable>
-		implements ISIGHBaseReportController<T, K> {
+implements ISIGHBaseReportController<T, K> {
 
 	/**
 	 * Mantiene los filtros ingresados
@@ -75,7 +75,7 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 
 			if ((entry.getValue() != null) && !entry.getValue().equals("")) {
 				String value;
-				if (labels.get(entry.getKey()) != null) {
+				if (labels != null && labels.get(entry.getKey()) != null) {
 					value = labels.get(entry.getKey()).getAsString(
 							entry.getValue());
 
@@ -165,7 +165,7 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 	public <U> LabelProvider<U> setLabelProvider(String field,
 			LabelProvider<U> lp) {
 
-		getLabels().put(field, lp);
+		this.getLabels().put(field, lp);
 		return labels.get(field);
 	}
 

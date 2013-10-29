@@ -14,6 +14,8 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.exception.ReportException;
 import py.una.med.base.reports.Column;
@@ -25,12 +27,14 @@ import ar.com.fdvs.dj.domain.DynamicReport;
 /**
  * Clase que implementa las funcionalidades basicas necesarias para generar
  * reportes complejos
- * 
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.1 12/03/2013
- * 
+ *
  */
+@Service
+@Transactional
 public abstract class SIGHBaseReportAdvanced<T> implements
 		ISIGHBaseReportAdvanced<T> {
 
@@ -38,7 +42,10 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	private ExportReport exportReport;
 
 	@Override
-	public abstract ISIGHBaseLogic<T, ?> getBaseLogic();
+	public ISIGHBaseLogic<T, ?> getBaseLogic() {
+
+		return null;
+	}
 
 	@Override
 	public DRDataSource getStructDataSource() {
@@ -86,8 +93,11 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	}
 
 	@Override
-	public abstract List<?> getList(Map<String, Object> listFilters,
-			List<String> listOrder);
+	public List<?> getList(Map<String, Object> listFilters,
+			List<String> listOrder) {
+
+		return null;
+	};
 
 	@Deprecated
 	@Override
@@ -151,7 +161,7 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 
 	/**
 	 * Se utiliza para REPORTES ESTÁTICOS
-	 * 
+	 *
 	 * @param blocks
 	 * @param params
 	 * @return
@@ -172,7 +182,7 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	/**
 	 * Se utiliza para setear como parametro una lista de datasources, esto se
 	 * aplica para subreportes concatenados
-	 * 
+	 *
 	 * @param blocks
 	 * @param params
 	 * @return
