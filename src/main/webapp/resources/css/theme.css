@@ -18,7 +18,6 @@ html,body {
 	font-family: 'Ubuntu';
 	font-style: normal;
 	font-weight: 400;
-	src: local('Ubuntu'), url(../fonts/Ubuntu.woff) format('woff');
 }
 
 button,input[type="reset"],input[type="submit"],input[type="button"] {
