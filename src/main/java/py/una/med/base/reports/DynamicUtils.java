@@ -1,6 +1,6 @@
 /**
  * /**
- * 
+ *
  * @DynamicUtils 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
@@ -33,7 +33,7 @@ import ar.com.fdvs.dj.domain.entities.columns.AbstractColumn;
 
 /**
  * Clase que provee las funcionalidades basicas para generar reportes dinamicos.
- * 
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.5 19/03/2013
@@ -54,7 +54,7 @@ public final class DynamicUtils {
 	/**
 	 * Crea una estructura de reporte configurada con las características
 	 * generales sin template alguno.
-	 * 
+	 *
 	 * @return Reporte con las configuraciones generales
 	 */
 	public FastReportBuilder newInstance() {
@@ -69,7 +69,7 @@ public final class DynamicUtils {
 	/**
 	 * Crea una estructura de reporte vertical configurada con las
 	 * características generales.
-	 * 
+	 *
 	 * @return Reporte con las configuraciones generales
 	 */
 	public FastReportBuilder newInstancePortrait() {
@@ -82,7 +82,7 @@ public final class DynamicUtils {
 	/**
 	 * Crea una estructura de reporte horizontal configurada con las
 	 * características generales.
-	 * 
+	 *
 	 * @return Reporte con las configuraciones generales
 	 */
 	public FastReportBuilder newInstanceLandScape() {
@@ -95,7 +95,7 @@ public final class DynamicUtils {
 	/**
 	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template
 	 * base para la configuracion general. Se utiliza para los reportes simples.
-	 * 
+	 *
 	 * @param columns
 	 *            Lista de columnas -> [header, field], que deben ser generadas
 	 *            de forma dinamica.
@@ -118,7 +118,7 @@ public final class DynamicUtils {
 	 * base para la configuracion general. Se utiliza para los reportes simples,
 	 * cuya grilla no define los atributos fisicos de la entidad, sino son
 	 * atributos transformados.
-	 * 
+	 *
 	 * @param columns
 	 *            Lista de columnas -> [header, field] que deben ser generadas
 	 *            de forma dinamica.
@@ -137,7 +137,7 @@ public final class DynamicUtils {
 	/**
 	 * Construye un reporte dinamico(maestro), el cual posee una lista de
 	 * bloques, donde cada bloque es una lista de fields.
-	 * 
+	 *
 	 * @param blocks
 	 *            bloques del reporte que son solo del tipo field, es decir que
 	 *            posee columnas horizontales(label,value)
@@ -165,12 +165,12 @@ public final class DynamicUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * Construye un reporte dinamico (maestro) formado por bloques del tipo
 	 * field y del tipo firma, es decir un reporte que posee una lista de
 	 * columnas horizontales y al final del reporte posee una serie de firmas
 	 * (se aplica a los reportes que necesitan ser firmados).
-	 * 
+	 *
 	 * @param blocks
 	 *            bloques del reporte que son solo del tipo field, es decir que
 	 *            posee columnas horizontales(label,value)
@@ -196,7 +196,7 @@ public final class DynamicUtils {
 	 * Metodo que crea un reporte dinamico, utilizando un template base para la
 	 * configuracion general, los atributos de la cabecera tambien son generados
 	 * dinamicamente. Se utiliza para los reportes del tipo cabecera-detalle.
-	 * 
+	 *
 	 * @param report
 	 *            Estructura que contiene la definicion y datos necesarios para
 	 *            generar el reporte.
@@ -228,7 +228,7 @@ public final class DynamicUtils {
 	 * Metodo que crea un reporte dinamico, utilizando un template especifico
 	 * para la configuracion referente a los atributos de la cabecera. Se
 	 * utiliza para los reportes del tipo cabecera-detalle.
-	 * 
+	 *
 	 * @param path
 	 *            Ubicacion del template que se desea adicionar al reporte. Debe
 	 *            ser el nombre de la dependencia,luego el nombre del
@@ -259,7 +259,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Agrega una lista de detalles al reporte cabecera.
-	 * 
+	 *
 	 * @param structReportHead
 	 *            Structura del reporte principal
 	 * @param report
@@ -298,9 +298,43 @@ public final class DynamicUtils {
 		return structReportHead;
 	}
 
+	public FastReportBuilder addDetailByParameter(
+			FastReportBuilder structReportHead, FastReportBuilder subReport,
+			String field) throws ReportException {
+
+		subReport.setDefaultStyles(this.getStyleTitle(), null,
+				this.getStyleColumnHeader(), this.getStyleColumnDetail());
+
+		Subreport subAux = new SubReportBuilder()
+				.setDataSource(DJConstants.DATA_SOURCE_ORIGIN_PARAMETER,
+						DJConstants.DATA_SOURCE_TYPE_JRDATASOURCE, field)
+				.setDynamicReport(subReport.build(), new ClassicLayoutManager())
+				.build();
+
+		structReportHead.addConcatenatedReport(subAux);
+
+		return structReportHead;
+	}
+
+	public FastReportBuilder addDetailByField(
+			FastReportBuilder structReportHead, FastReportBuilder subReport,
+			String field) throws ReportException {
+
+		structReportHead.addField(field, List.class.getName());
+		subReport.setDefaultStyles(this.getStyleTitle(), null,
+				this.getStyleColumnHeader(), this.getStyleColumnDetail());
+
+		structReportHead.addConcatenatedReport(subReport.build(),
+				new ClassicLayoutManager(), field,
+				DJConstants.SUBREPORT_PARAM_ORIGIN_FIELD,
+				DJConstants.DATA_SOURCE_TYPE_COLLECTION);
+
+		return structReportHead;
+	}
+
 	/**
 	 * Genera un reporte utilizando crosstab.
-	 * 
+	 *
 	 * @param crosstab
 	 *            Crosstab estructurado a ser agregado al reporte.
 	 * @return
@@ -319,7 +353,7 @@ public final class DynamicUtils {
 	/**
 	 * Metodo que genera las columnas principales de un reporte de forma
 	 * dinamica,ademas configura los estilos correspondientes.
-	 * 
+	 *
 	 * @param structReport
 	 *            Estructura del reporte
 	 * @param columns
@@ -337,14 +371,14 @@ public final class DynamicUtils {
 		this.addColumn(structReport, columns, clazz);
 
 		structReport.setDefaultStyles(null, null, this.getStyleColumnHeader(),
-				null);
+				this.getStyleColumnDetail());
 		return structReport;
 	}
 
 	/**
 	 * Metodo que genera las columnas principales de un reporte de forma
 	 * dinamica,ademas configura los estilos correspondientes.
-	 * 
+	 *
 	 * @param structReport
 	 *            Estructura del reporte
 	 * @param columns
@@ -360,7 +394,7 @@ public final class DynamicUtils {
 		this.addColumn(structReport, columns);
 
 		structReport.setDefaultStyles(null, null, this.getStyleColumnHeader(),
-				null);
+				this.getStyleColumnDetail());
 		return structReport;
 	}
 
@@ -368,7 +402,7 @@ public final class DynamicUtils {
 	 * Metodo que genera las columnas secundarias correspondientes a los
 	 * subreportes de forma dinamica, ademas configura los estilos
 	 * correspondientes.
-	 * 
+	 *
 	 * @param structReport
 	 *            Estructura del reporte
 	 * @param columns
@@ -384,8 +418,10 @@ public final class DynamicUtils {
 
 		this.addColumn(structReport, columns, clazz);
 
-		structReport.setDefaultStyles(this.getStyleTitle(), null,
-				this.getStyleColumnHeaderDetails(), null);
+		structReport
+				.setDefaultStyles(this.getStyleTitle(), null,
+						this.getStyleColumnHeaderDetails(),
+						this.getStyleColumnDetail());
 		return structReport;
 	}
 
@@ -393,7 +429,7 @@ public final class DynamicUtils {
 	 * Metodo que obtiene el tipo de dato de cada columna que debe ser generada
 	 * de forma dinamica y finalmente agrega las columnas correctamente
 	 * definidas al reporte.
-	 * 
+	 *
 	 * @param structReport
 	 *            Estructura del reporte
 	 * @param columns
@@ -404,7 +440,7 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 
-	private <T> FastReportBuilder addColumn(FastReportBuilder structReport,
+	public <T> FastReportBuilder addColumn(FastReportBuilder structReport,
 			List<Column> columns, Class<T> clazz) throws ReportException {
 
 		for (Column column : columns) {
@@ -434,10 +470,10 @@ public final class DynamicUtils {
 
 	/**
 	 * Configura la alineación de las columnas de los reportes.
-	 * 
+	 *
 	 * @param field
 	 *            Field que se desea alinear
-	 * 
+	 *
 	 * @return
 	 */
 	private HorizontalAlign getAlignColumn(Field field) {
@@ -450,7 +486,7 @@ public final class DynamicUtils {
 
 	private Style getStyleColumn(HorizontalAlign align) {
 
-		Style style = new Style();
+		Style style = this.getStyleColumnDetail();
 		style.setHorizontalAlign(align);
 		return style;
 	}
@@ -460,7 +496,7 @@ public final class DynamicUtils {
 	 * generadas es del tipo Object, se utiliza para el caso que el objeto
 	 * utilizado dentro del reporte no sea un objeto fisico existente, sino uno
 	 * creado en memoria.
-	 * 
+	 *
 	 * @param structReport
 	 *            Estructura del reporte
 	 * @param columns
@@ -484,7 +520,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Agrega la lista de bloques del tipo field(label,value)al reporte maestro
-	 * 
+	 *
 	 * @param structReport
 	 *            estructura del reporte dinamico
 	 * @param blocks
@@ -515,7 +551,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Agrega la lista de bloques del tipo firma al reporte maestro
-	 * 
+	 *
 	 * @param structReport
 	 *            estructura del reporte dinamico
 	 * @param blocks
@@ -536,7 +572,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Construye un bloque del tipo field dinamico y lo agrega al reporte.
-	 * 
+	 *
 	 * @param structReportHead
 	 *            estructura del reporte maestro(principal)
 	 * @param block
@@ -607,7 +643,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Construye un bloque del tipo firma dinamico y lo agrega al reporte.
-	 * 
+	 *
 	 * @param structReportHead
 	 *            estructura del reporte maestro(principal)
 	 * @param block
@@ -683,7 +719,7 @@ public final class DynamicUtils {
 	/**
 	 * Metodo que obtiene la clase de cada detalle que sera incorporado en los
 	 * reportes del tipo cabecera-detalle.
-	 * 
+	 *
 	 * @param clazz
 	 *            Clase de la cabecera
 	 * @param detail
@@ -712,7 +748,7 @@ public final class DynamicUtils {
 	/**
 	 * Metodo que define el estilo que debe ser aplicado al titulo principal de
 	 * los reportes.
-	 * 
+	 *
 	 * @return StyleTitle
 	 */
 	public Style getStyleTitle() {
@@ -725,7 +761,7 @@ public final class DynamicUtils {
 	/**
 	 * Metodo que define el estilo para las columnas principales de los
 	 * reportes.
-	 * 
+	 *
 	 * @return StyleColumnHeader
 	 */
 
@@ -738,6 +774,13 @@ public final class DynamicUtils {
 		styleColumns.setTextColor(Color.white);
 		styleColumns.setHorizontalAlign(HorizontalAlign.CENTER);
 		styleColumns.setVerticalAlign(VerticalAlign.MIDDLE);
+		return styleColumns;
+	}
+
+	public Style getStyleColumnDetail() {
+
+		Style styleColumns = new Style();
+		styleColumns.setBorder(Border.THIN());
 		return styleColumns;
 	}
 
@@ -772,7 +815,7 @@ public final class DynamicUtils {
 	/**
 	 * Metodo que define el estilo para las columnas secundarias de los
 	 * reportes.
-	 * 
+	 *
 	 * @return StyleColumnHeader
 	 */
 
@@ -790,7 +833,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Proporciona el estilo para el pivot utilizado al realizar el crosstab.
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -802,7 +845,7 @@ public final class DynamicUtils {
 	/**
 	 * Agrega al reporte un mensaje personalizado en el caso de que el reporte
 	 * no tenga datos que puedan ser visualizados.
-	 * 
+	 *
 	 * @param structReport
 	 * @return
 	 */
@@ -833,7 +876,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Adiciona al reporte el template base con orientación horizontal.
-	 * 
+	 *
 	 * @param report
 	 * @return
 	 */
@@ -845,7 +888,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Adiciona al reporte el template base con orientación vertical.
-	 * 
+	 *
 	 * @param report
 	 * @return
 	 */
@@ -857,7 +900,7 @@ public final class DynamicUtils {
 
 	/**
 	 * Adiciona al reporte un template especifico, definido por el usuario.
-	 * 
+	 *
 	 * @param path
 	 *            Ubicacion del template que se desea adicionar al reporte. Debe
 	 *            ser el nombre del directorio, seguido del nombre del jrxml.
