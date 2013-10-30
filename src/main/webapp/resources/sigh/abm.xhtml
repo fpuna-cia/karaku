@@ -64,17 +64,18 @@
 					value="#{cc.attrs.controller.cancelText}" immediate="true" />
 			</rich:panel>
 			<rich:panel rendered="#{cc.attrs.withConfirmPanel and cc.attrs.ajaxSave}">
-			
+
 				<a4j:commandButton action="#{cc.attrs.saveAction}"
 					value="#{cc.attrs.acceptButtonText}"
 					render="#{cc.attrs.saveRender}"
+					rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}"
 					oncomplete="#{cc.attrs.saveOnComple}"
 					execute="base_abm_form" />
 				<a4j:commandButton action="#{cc.attrs.controller.doDelete()}"
 					onclick="no_alert()" value="#{msg['BASE_FORM_DELETE']}"
 					rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />
 				<composite:renderFacet name="moreButtons" />
-				<a4j:commandButton action="#{cc.attrs.controller.preList()}"
+				<h:commandButton action="#{cc.attrs.controller.preList()}"
 					rendered="#{cc.attrs.withCancelButton}"
 					value="#{cc.attrs.controller.cancelText}" immediate="true" />
 			</rich:panel>
