@@ -68,7 +68,8 @@
 				<a4j:commandButton action="#{cc.attrs.saveAction}"
 					value="#{cc.attrs.acceptButtonText}"
 					render="#{cc.attrs.saveRender}"
-					oncomplete="#{cc.attrs.saveOnComple}" />
+					oncomplete="#{cc.attrs.saveOnComple}"
+					execute="base_abm_form" />
 				<a4j:commandButton action="#{cc.attrs.controller.doDelete()}"
 					onclick="no_alert()" value="#{msg['BASE_FORM_DELETE']}"
 					rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />

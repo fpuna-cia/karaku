@@ -16,12 +16,12 @@ import javax.faces.context.FacesContext;
  * no requerido. Este componente tiene como id <code>required</code> y si esta
  * presente, entonces el picker es necesario.
  * </p>
- *
- *
+ * 
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Sep 4, 2013
- *
+ * 
  */
 @FacesComponent(value = "pickerUpdater")
 @SuppressWarnings("rawtypes")
@@ -34,7 +34,7 @@ public class PickerUpdater extends UINamingContainer {
 
 	/**
 	 * Determina si el picker al que corresponde es o no requerido.
-	 *
+	 * 
 	 * @return <code>true</code> si no admite valores nulos, <code>false</code>
 	 *         si los permite.
 	 */
@@ -71,6 +71,7 @@ public class PickerUpdater extends UINamingContainer {
 					.getClientId(context);
 			context.addMessage(clientId, msg);
 			context.validationFailed();
+			context.renderResponse();
 		}
 	}
 
