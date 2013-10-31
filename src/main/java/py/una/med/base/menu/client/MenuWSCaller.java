@@ -57,7 +57,9 @@ public class MenuWSCaller {
 				if (object.getMenu() == null) {
 					onFailure(new KarakuException("Null menu from WS"));
 				}
-				if ("true".equalsIgnoreCase(object.getSkipRoot())) {
+				if ("true".equalsIgnoreCase(object.getSkipRoot())
+						|| "true".equalsIgnoreCase(object.getMenu()
+								.getSkipThis())) {
 					callback.onSucess(object.getMenu().getItems());
 				} else {
 					callback.onSucess(Arrays.asList(object.getMenu()));

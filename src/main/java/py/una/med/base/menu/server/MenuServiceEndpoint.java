@@ -49,6 +49,7 @@ public class MenuServiceEndpoint {
 				Menu newRoot = new Menu();
 				newRoot.setSkipThis("true");
 				newRoot.setItems(menus);
+				toRet.setSkipRoot("true");
 				toRet.setMenu(newRoot);
 			}
 			return toRet;
