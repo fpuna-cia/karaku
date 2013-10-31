@@ -5,11 +5,11 @@
 package py.una.med.base.exception;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 May 23, 2013
- * 
+ *
  */
 public class KarakuException extends Exception {
 
@@ -19,7 +19,7 @@ public class KarakuException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 */
 	public KarakuException() {
 
@@ -34,4 +34,11 @@ public class KarakuException extends Exception {
 		super(cause);
 	}
 
+	/**
+	 * @param string
+	 */
+	public KarakuException(String string) {
+
+		super(string);
+	}
 }

@@ -24,6 +24,22 @@
 			</h:form>
 		</rich:panel>
 
+		<rich:collapsiblePanel switchType="client" header="Menu Status"
+			id="menu_status">
+
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Number of current menu" />
+				<h:outputLabel value="#{WSMenuProvider.menu.size()}" />
+				<h:outputLabel value="Current WSMenuProvider object" />
+				<h:outputLabel value="#{WSMenuProvider}" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<a4j:commandButton render="menu_status" value="doSync"
+					action="#{WSMenuProvider.call()}" />
+				<a4j:commandButton render="menu_status" value="Refresh" />
+			</h:panelGrid>
+		</rich:collapsiblePanel>
+
 		<rich:collapsiblePanel switchType="client" header="Security TEST"
 			expanded="false">
 			<h:form>

@@ -41,11 +41,11 @@ import py.una.med.base.exception.KarakuRuntimeException;
  * entidades definidas en {@link #getBasePackageToScan()} o
  * {@link #getEntityClasses()}.
  * </p>
- * 
+ *
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Aug 19, 2013
- * 
+ *
  */
 public class TransactionTestConfiguration extends BaseTestConfiguration {
 
@@ -60,7 +60,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 
 	/**
 	 * Crea un datasource para una base de datos embebida
-	 * 
+	 *
 	 * @return dataSource creada o null si no se necesita un datasource
 	 * @throws IOException
 	 *             si no se puede crear la base de datos
@@ -76,9 +76,9 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 
 		} else {
 			DriverManagerDataSource dataSource = new DriverManagerDataSource();
-			dataSource.setUrl(properties.getProperty("database.url"));
-			dataSource.setUsername(properties.getProperty("database.user"));
-			dataSource.setPassword(properties.getProperty("database.password"));
+			dataSource.setUrl(properties.get("database.url"));
+			dataSource.setUsername(properties.get("database.user"));
+			dataSource.setPassword(properties.get("database.password"));
 			ds = dataSource;
 
 		}
@@ -89,7 +89,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	/**
 	 * Retorna un {@link SessionFactory} para los test, utilizando el
 	 * {@link DataSource} definido por {@link #dataSource()}.
-	 * 
+	 *
 	 * @return {@link SessionFactory}
 	 * @throws IOException
 	 *             si no puede leer el datasource
@@ -139,13 +139,13 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	 * Por defecto utiliza la propiedad <code>base-package-hibernate</code> del
 	 * archivo de propiedades.
 	 * </p>
-	 * 
+	 *
 	 * @return lista de paquetes, si retorna <code>null</code>, el método
 	 *         {@link #getEntityClasses()} debe retornar algo.
 	 */
 	public String[] getBasePackageToScan() {
 
-		return properties.getProperty("base-package-hibernate").split("\\s+");
+		return properties.get("base-package-hibernate").split("\\s+");
 	}
 
 	/**
@@ -155,8 +155,8 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	 * <p>
 	 * Por defecto retorna null.
 	 * </p>
-	 * 
-	 * 
+	 *
+	 *
 	 * @return lista de entidades, si retorna <code>null</code>, el método
 	 *         {@link #getBasePackageToScan()} debe retornar algo.
 	 */

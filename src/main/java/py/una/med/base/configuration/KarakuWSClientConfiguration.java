@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +17,23 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
-
-import py.una.med.base.adapter.QuantityAdapter;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.services.client.EntityURLProvider;
+import py.una.med.base.services.client.JsonURLProvider;
+import py.una.med.base.services.client.WSInformationProvider;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Jun 7, 2013
- * 
+ *
  */
 @Configuration
 public class KarakuWSClientConfiguration {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final String DEFAULT_PACKAGES_TO_SCAN_EXPRESSION = "[\\w\\.]*services\\.schemas";
 
@@ -41,7 +41,7 @@ public class KarakuWSClientConfiguration {
 			.getLogger(KarakuWSClientConfiguration.class);
 
 	/**
-	 * 
+	 *
 	 */
 	private static final String KARAKU_WS_CLIENT_PACKAGES_TO_SCAN = "karaku.ws.client.packages_to_scan";
 	private static final String KARAKU_WS_CLIENT_PACKAGES_TO_SCAN_SPACES = "karaku.ws.client.packages_to_scan.with_spaces";
@@ -51,16 +51,9 @@ public class KarakuWSClientConfiguration {
 	private PropertiesUtil properties;
 
 	/**
-	 * 
-	 */
-	public KarakuWSClientConfiguration() {
-
-	}
-
-	/**
 	 * Instancia un nuevo bean del Tipo {@link WebServiceTemplate}, utilizado
 	 * para realizar llamadas del tipo SOAP.
-	 * 
+	 *
 	 * @return {@link WebServiceTemplate} para realizar llamadas
 	 */
 	@Bean
@@ -84,11 +77,30 @@ public class KarakuWSClientConfiguration {
 	}
 
 	/**
+	 * Define el tipo de proveedor de URl que a ser utilizado.
+	 *
+	 * Si la persistencia esta activa se retorna un {@link EntityURLProvider}
+	 * que busca en la base de datos. En caso contrario retorna un
+	 * {@link JsonURLProvider}.
+	 *
+	 * @return {@link WSInformationProvider}
+	 */
+	@Bean
+	WSInformationProvider wsInformationProvider() {
+
+		if (properties.getBoolean(KarakuPersistence.KARAKU_JPA_ENABLED, true)) {
+			return new EntityURLProvider();
+		} else {
+			return new JsonURLProvider();
+		}
+	}
+
+	/**
 	 * Crea un bean para ser utilizado como marshaller (serializador). <br>
 	 * Utiliza
-	 * 
+	 *
 	 * <pre>
-	 * {@literal 
+	 * {@literal
 	 * 	<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
 	 * 		<property name="packagesToScan">
 	 * 			<list>
@@ -108,9 +120,9 @@ public class KarakuWSClientConfiguration {
 	/**
 	 * Crea un bean para ser utilizado como unmarshaller (serializador). <br>
 	 * Utiliza
-	 * 
+	 *
 	 * <pre>
-	 * {@literal 
+	 * {@literal
 	 * 		<bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
 	 * 			<property name="packagesToScan">
 	 * 				<list>
@@ -177,8 +189,4 @@ public class KarakuWSClientConfiguration {
 		}
 	}
 
-	@Bean
-	QuantityAdapter quantityAdapter() {
-		return QuantityAdapter.INSTANCE;
-	}
 }

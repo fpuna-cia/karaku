@@ -1,0 +1,42 @@
+{
+   "services":[
+      {
+         "url":"https://app.med.una.py:8443/SIGHConfiguracion/endpoints/menuService.wsdl",
+         "key":"test",
+         "password":"PASSWORD",
+         "user":"USUARIO",
+         "internalTag":"WS_MENU"
+      }, {
+         "url":"https://app.med.una.py:8443/SIGHIdentificacion/endpoints/menuService.wsdl",
+         "key":"test",
+         "password":"PASSWORD",
+         "user":"USUARIO",
+         "internalTag":"WS_MENU"
+      }, {
+         "url":"https://app.med.una.py:8443/SIGHFarmacia/endpoints/menuService.wsdl",
+         "key":"test",
+         "password":"PASSWORD",
+         "user":"USUARIO",
+         "internalTag":"WS_MENU"
+      }, {
+         "url":"https://app.med.una.py:8443/SIGHStock/endpoints/menuService.wsdl",
+         "key":"test",
+         "password":"PASSWORD",
+         "user":"USUARIO",
+         "internalTag":"WS_MENU"
+      }, {
+         "url":"https://app.med.una.py:8443/SIGHS/endpoints/menuService.wsdl",
+         "key":"test",
+         "password":"PASSWORD",
+         "user":"USUARIO",
+         "internalTag":"WS_MENU"
+      }, {
+         "url":"https://app.med.una.py:8443/SIGHSocial/endpoints/menuService.wsdl",
+         "key":"test",
+         "password":"PASSWORD",
+         "user":"USUARIO",
+         "internalTag":"WS_MENU"
+      }
+   ]
+}
+

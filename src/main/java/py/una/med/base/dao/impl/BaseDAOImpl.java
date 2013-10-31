@@ -314,13 +314,13 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	/**
 	 * Obtiene una session del contexto actual, si no hay una sesión abierta,
 	 * lanza una excepción con el mensaje "Not session found in the current
-	 * thread"
+	 * thread".
 	 *
 	 * @return {@link Session} del contexto actual
 	 */
 	public Session getSession() {
 
-		return this.sessionFactory.getCurrentSession();
+		return this.getSessionFactory().getCurrentSession();
 	}
 
 	/**

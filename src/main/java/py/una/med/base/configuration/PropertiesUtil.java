@@ -15,17 +15,18 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import py.una.med.base.exception.KarakuPropertyNotFoundException;
+import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.exception.KarakuWrongConfigurationFileException;
 import py.una.med.base.util.Util;
 
 /**
  * PlaceHolder para el acceso programatico a las opciones de configuración del
  * sistema
- * 
+ *
  * @author Arturo Volpe
  * @since 1.2
  * @version 1.0
- * 
+ *
  */
 public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 
@@ -54,7 +55,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	/**
 	 * Dado un nombre de archivo lo carga a las propiedades, si no es un path
 	 * del classpath, lo carga del sistema operativo.
-	 * 
+	 *
 	 * @param properties
 	 *            al que se le añadiran propiedades
 	 */
@@ -90,9 +91,11 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	/**
 	 * Retorna el valor almacenado, en caso de no estar contenido, retorna el
 	 * valor por defecto.
-	 * 
+	 *
 	 * @param key
+	 *            llave a buscar
 	 * @param def
+	 *            valor por defecto para retornar
 	 * @return valor almacenado
 	 */
 	public String get(final String key, final String def) {
@@ -105,7 +108,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 
 	/**
 	 * Parsea la cadena intentando convertirla a un booleano.
-	 * 
+	 *
 	 * <p>
 	 * Retorna el valor almacenado, en caso de no estar contenido, retorna el
 	 * valor por defecto.
@@ -120,47 +123,70 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	 * <li><b>otro</b> retorna <code>false</code>
 	 * <li>
 	 * <p>
-	 * 
+	 *
 	 * @param key
 	 * @param def
-	 * @return valor almacenado
+	 * @return valor encontrado o def
 	 */
 	public boolean getBoolean(final String key, boolean def) {
 
-		if (!propertiesMap.containsKey(key)) {
-			return def;
-		}
-		String property = propertiesMap.get(key);
+		String defStr = def ? "1" : "0";
+		String property = get(key, defStr);
+
 		if ("1".equals(property.trim()) || "true".equals(property.trim())) {
 			return true;
 		}
-		return def;
+		if (defStr.equals(property)) {
+			return def;
+		}
+		return false;
+	}
+
+	/**
+	 * Parsea la cadena intentando convertirla a un entero.
+	 *
+	 * <p>
+	 * Retorna el valor almacenado, en caso de no estar contenido, retorna el
+	 * valor por defecto.
+	 * </p>
+	 *
+	 * @param key
+	 *            cadena a buscar
+	 * @param def
+	 *            valor por defecto
+	 * @return valor encontrado o def
+	 */
+	public int getInteger(String key, int def) {
+
+		try {
+			return Integer.parseInt(get(key, def + ""));
+		} catch (NumberFormatException nfe) {
+			throw new KarakuRuntimeException("The key " + key
+					+ " doesn't contain a integer", nfe);
+		}
 	}
 
 	/**
 	 * Retorna el valor almacenado, en caso de no estar en el contenido, lanza
 	 * una excepcion.
-	 * 
+	 *
 	 * @param key
 	 * @return valor almacenado
 	 */
 	public String get(final String key) {
 
-		if (propertiesMap.containsKey(key))
-			return propertiesMap.get(key);
-		else
+		String toRet = get(key, null);
+		if (toRet != null) {
+			return toRet.trim();
+		} else {
 			throw new KarakuPropertyNotFoundException(key);
-	}
-
-	public String getProperty(final String name) {
-
-		return propertiesMap.get(name);
+		}
 	}
 
 	/**
 	 * Retorna una instancia de esta clase, este método solo puede ser invocado
 	 * dentro de un contexto de JSF.
-	 * 
+	 *
 	 * @return {@link PropertiesUtil} para el contexto actual.
 	 */
 	public static PropertiesUtil getCurrentFromJSF() {

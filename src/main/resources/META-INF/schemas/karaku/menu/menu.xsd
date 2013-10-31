@@ -1,0 +1,27 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sigh.med.una.py/2013/schemas/base"
+	targetNamespace="http://sigh.med.una.py/2013/schemas/base"
+	elementFormDefault="unqualified">
+
+	<xs:complexType name="Menu">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="1" />
+			<xs:element name="name" type="xs:string" minOccurs="1" />
+			<xs:element name="url" type="xs:string" />
+			<xs:element name="permissions" type="xs:string" />
+			<xs:element name="enabled" type="xs:string" />
+			<!-- Si SkipThis se igual a true, en la raíz, se la omitirá, pero sus 
+				Hijos serán agregados, si se encuentra en otra parte, toda la descendencia 
+				del menú será podada. -->
+			<xs:element name="skipThis" type="xs:string" />
+			<xs:element name="order" type="xs:int" />
+			<xs:element name="items">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="menu"
+							type="Menu" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

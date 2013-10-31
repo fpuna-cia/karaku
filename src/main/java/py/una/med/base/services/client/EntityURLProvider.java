@@ -1,21 +1,23 @@
 package py.una.med.base.services.client;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.util.EntityExample;
+import py.una.med.base.dao.where.Clauses;
 import py.una.med.base.dao.where.MatchMode;
 
 /**
  * Componente que provee acceso a URL's a través de la entidad
  * {@link WSEndpoint}
- * 
+ *
  * @author Arturo Volpe
  * @since 2.1.3 11 de Junio de 2013
  * @version 2.0
- * 
+ *
  */
-@Service
 @Transactional
 public class EntityURLProvider implements WSInformationProvider {
 
@@ -34,8 +36,7 @@ public class EntityURLProvider implements WSInformationProvider {
 		if ((toRet == null) || (toRet.getUrl() == null)) {
 			throw new URLNotFoundException(key);
 		}
-		return new Info(toRet.getUrl(), toRet.getKey(), toRet.getPassword(),
-				toRet.getUser(), toRet.getInternalTag());
+		return getInfoByEndPoint(toRet);
 	}
 
 	@Override
@@ -47,22 +48,23 @@ public class EntityURLProvider implements WSInformationProvider {
 		return getInfoByKey(type.getSimpleName());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * py.una.med.base.services.client.WSInformationProvider#getInfoByTag(java
-	 * .lang.String)
-	 */
 	@Override
-	public Info getInfoByTag(String internalTag) {
+	public List<Info> getInfoByTag(String internalTag) {
 
-		WSEndpoint example = new WSEndpoint();
-		example.setInternalTag(internalTag);
-		EntityExample<WSEndpoint> example2 = new EntityExample<WSEndpoint>(
-				example);
-		WSEndpoint toRet = dao.getByExample(example2);
-		return new Info(toRet.getUrl(), toRet.getKey(), toRet.getPassword(),
-				toRet.getUser(), toRet.getInternalTag());
+		Where<WSEndpoint> where = new Where<WSEndpoint>().makeDistinct();
+		where.addClause(Clauses.eq("internalTag", internalTag));
+		List<WSEndpoint> result = dao.getAll(where, null);
+		List<Info> toRet = new ArrayList<Info>(result.size());
+		for (WSEndpoint ws : result) {
+			toRet.add(getInfoByEndPoint(ws));
+		}
+		return toRet;
+	}
+
+	private Info getInfoByEndPoint(WSEndpoint endPoint) {
+
+		return new Info(endPoint.getUrl(), endPoint.getKey(),
+				endPoint.getPassword(), endPoint.getUser(),
+				endPoint.getInternalTag());
 	}
 }

@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.controller.ISIGHBaseController;
-import py.una.med.base.domain.Menu;
 import py.una.med.base.jsf.utils.ICurrentpageHelper;
+import py.una.med.base.menu.client.MenuHelper;
+import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.MenuHelper;
 
 /**
  * Controlador que se encarga de manipular la vista del breadcrum
@@ -46,11 +46,11 @@ public class BreadcrumbController {
 	private void initialize() {
 
 		Menu current = currentPageHelper.getCurrentMenu();
-		items = new ArrayList<BreadcrumbItem>(menuHelper.getMaxDepth());
+		items = new ArrayList<BreadcrumbItem>();
 		while (current != null) {
 
 			items.add(0, getBreadcrumItem(current));
-			current = current.getFather();
+			current = menuHelper.getFather(current);
 		}
 
 		if (actualController != null) {
@@ -129,8 +129,7 @@ public class BreadcrumbController {
 	 */
 	public BreadcrumbItem getBreadcrumItem(final Menu menu) {
 
-		return new BreadcrumbItem(menu.getUrl(), I18nHelper.getMessage(menu
-				.getName()));
+		return new BreadcrumbItem(menu.getUrl(), menu.getName());
 	}
 
 	/**

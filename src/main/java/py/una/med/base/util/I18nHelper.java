@@ -4,20 +4,17 @@
 package py.una.med.base.util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.faces.context.FacesContext;
 import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.exception.KeyNotFoundException;
 import py.una.med.base.model.DisplayName;
 
 /**
- * Clase que sirve como punto de acceso único para la internacionalizacion
+ * Clase que sirve como punto de acceso único para la internacionalizacion.
  *
  * @author Arturo Volpe
  * @since 1.0
@@ -27,47 +24,46 @@ import py.una.med.base.model.DisplayName;
 @Component
 public class I18nHelper {
 
-	private static PropertiesUtil propertiesUtil;
+	/**
+	 *
+	 * XXX Este atributo no es final para que pueda ser reemplazado por otra
+	 * implementación, por ejemplo en los test.
+	 */
+	public static I18nHelper INSTANCE = new I18nHelper();
 
-	private static List<ResourceBundle> bundles;
+	protected Locale getLocale() {
 
-	private static List<String> getBundlesLocation() {
-
-		String value = getPropertiesUtil().getProperty(
-				SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
-
-		return Arrays.asList(value.split("\\s+"));
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		if (facesContext != null) {
+			return facesContext.getViewRoot().getLocale();
+		}
+		return new Locale("es", "PY");
 	}
 
-	private static List<ResourceBundle> getBundles() {
+	protected static List<ResourceBundle> bundles;
 
-		if (bundles != null) {
-			return bundles;
-		} else {
-			initializeBundles();
-		}
+	protected List<ResourceBundle> getBundles() {
+
 		return bundles;
 	}
 
-	private static synchronized void initializeBundles() {
+	public synchronized void initializeBundles(List<String> bundlesLocation) {
 
 		if (bundles != null) {
 			return;
 		}
-		List<String> bundlesLocation = getBundlesLocation();
 		bundles = new ArrayList<ResourceBundle>(bundlesLocation.size());
 		for (String bundle : bundlesLocation) {
 			if (bundle.equals("")) {
 				continue;
 			}
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			Locale locale = facesContext.getViewRoot().getLocale();
-			ResourceBundle toAdd = ResourceBundle.getBundle(bundle, locale);
+			ResourceBundle toAdd = ResourceBundle
+					.getBundle(bundle, getLocale());
 			bundles.add(toAdd);
 		}
 	}
 
-	private static String findInBundles(String key) {
+	private String findInBundles(String key) {
 
 		for (ResourceBundle bundle : getBundles()) {
 			if (bundle.containsKey(key)) {
@@ -101,7 +97,7 @@ public class I18nHelper {
 	 */
 	public static String getMessage(String key) {
 
-		return findInBundles(key);
+		return INSTANCE.findInBundles(key);
 	}
 
 	/**
@@ -112,7 +108,7 @@ public class I18nHelper {
 	 *            claves del archivo de internacionalización
 	 * @return lista con los valores internacionalizados.
 	 */
-	public static List<String> convertStrings(@NotNull String ... keys) {
+	public List<String> convertStrings(@NotNull String ... keys) {
 
 		assert keys != null;
 		ArrayList<String> convert = new ArrayList<String>(keys.length);
@@ -132,7 +128,7 @@ public class I18nHelper {
 	 * @return <code>true</code> si es el valor, <code>false</code> en otro
 	 *         caso.
 	 */
-	public static boolean compare(String key, String value) {
+	public boolean compare(String key, String value) {
 
 		return getMessage(key).equals(value);
 	}
@@ -157,13 +153,4 @@ public class I18nHelper {
 				displayName.key().length() - 1));
 	}
 
-	private static PropertiesUtil getPropertiesUtil() {
-
-		return propertiesUtil;
-	}
-
-	public static void setPropertiesUtil(PropertiesUtil propertiesUtil) {
-
-		I18nHelper.propertiesUtil = propertiesUtil;
-	}
 }

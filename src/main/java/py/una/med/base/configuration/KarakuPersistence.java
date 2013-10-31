@@ -24,22 +24,20 @@ import py.una.med.base.math.Quantity;
 
 /**
  * Clase de configuración de la persistencia
- * 
+ *
  * @author Arturo Volpe
  * @since 1.1
  * @version 1.0
- * 
+ *
  */
 @Configuration
 @EnableTransactionManagement()
 public class KarakuPersistence {
 
 	/**
-	 * Cadena que representa el valor positivo, es decir, si esta cadena esta
-	 * presente como valor de una propiedad, entonces será evaluada como
-	 * <code>true</code>
+	 * Define si la persistencia esta activa.
 	 */
-	private static final String STRING_TRUE = "true";
+	public static final String KARAKU_JPA_ENABLED = "karaku.jpa.enabled";
 
 	/**
 	 * Cadena que representa el valor negativo, es decir, si esta cadena esta
@@ -63,7 +61,7 @@ public class KarakuPersistence {
 
 	/**
 	 * Crea un datasource con los valores definidos en el karaku.properties.
-	 * 
+	 *
 	 * @return dataSource creada o null si no se necesita un datasource
 	 */
 	@Bean
@@ -72,11 +70,9 @@ public class KarakuPersistence {
 		DriverManagerDataSource dataSource = null;
 		if (this.enabled) {
 			dataSource = new DriverManagerDataSource();
-			dataSource.setUrl(this.properties.getProperty("database.url"));
-			dataSource
-					.setUsername(this.properties.getProperty("database.user"));
-			dataSource.setPassword(this.properties
-					.getProperty("database.password"));
+			dataSource.setUrl(this.properties.get("database.url"));
+			dataSource.setUsername(this.properties.get("database.user"));
+			dataSource.setPassword(this.properties.get("database.password"));
 		}
 
 		return dataSource;
@@ -90,27 +86,24 @@ public class KarakuPersistence {
 	}
 
 	/**
-	 * Verifica si esta activado JPA y si no es asi lo desabilita
+	 * Verifica si esta activado JPA y si no es así lo deshabilita.
 	 */
 	private void checkState() {
 
-		if (this.properties.get("karaku.jpa.enabled", STRING_TRUE).trim()
-				.equals(STRING_FALSE)) {
+		if (this.properties.getBoolean(KARAKU_JPA_ENABLED, true)) {
+			this.enabled = true;
+		} else {
 			log.info("Karaku JPA support is disabled");
 			this.enabled = false;
 			log.info("Karaku Liquibase support is disabled");
 			this.liquibase = false;
 			return;
-		} else {
-			this.enabled = true;
-
 		}
-		if (this.properties.get("karaku.liquibase.enabled", STRING_TRUE).trim()
-				.equals(STRING_FALSE)) {
+		if (this.properties.getBoolean("karaku.liquibase.enabled", true)) {
+			this.liquibase = true;
+		} else {
 			log.info("Karaku Liquibase support is disabled");
 			this.liquibase = false;
-		} else {
-			this.liquibase = true;
 		}
 	}
 
@@ -121,7 +114,7 @@ public class KarakuPersistence {
 	public void loadDriver() {
 
 		try {
-			Class.forName(this.properties.getProperty(DRIVER_PROPS));
+			Class.forName(this.properties.get(DRIVER_PROPS));
 		} catch (ClassNotFoundException cnfe) {
 			throw new KarakuRuntimeException(String.format(
 					"No se puede cargar driver %s.", DRIVER_PROPS), cnfe);
@@ -151,7 +144,7 @@ public class KarakuPersistence {
 			clazz.getMethod("setDataSource", DataSource.class).invoke(o,
 					this.dataSource());
 			clazz.getMethod("setChangeLog", String.class).invoke(o,
-					this.properties.getProperty("liquibase.changelog-file"));
+					this.properties.get("liquibase.changelog-file"));
 			return o;
 		} catch (Exception e) {
 			throw new KarakuRuntimeException(
@@ -168,8 +161,8 @@ public class KarakuPersistence {
 			return null;
 		}
 		LocalSessionFactoryBean bean = new KarakuLocalSessionFactoryBean();
-		bean.setPackagesToScan(this.properties.getProperty(
-				"base-package-hibernate").split("\\s+"));
+		bean.setPackagesToScan(this.properties.get("base-package-hibernate")
+				.split("\\s+"));
 		bean.setDataSource(this.dataSource());
 
 		Properties props = new Properties();
@@ -206,17 +199,17 @@ public class KarakuPersistence {
 
 	/**
 	 * SessionFactory que se encarga de registrar los tipos de Karaku.
-	 * 
+	 *
 	 * <p>
 	 * Intercepta la creación del session factory y entre la creación de
 	 * configuración y la función que efectivamente crea la
 	 * {@link SessionFactory} registra los tipos personalizados.
 	 * </p>
-	 * 
+	 *
 	 * @author Arturo Volpe
 	 * @since 2.2.8
 	 * @version 1.0 Oct 15, 2013
-	 * 
+	 *
 	 */
 	public static class KarakuLocalSessionFactoryBean extends
 			LocalSessionFactoryBean {

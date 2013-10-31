@@ -3,31 +3,21 @@
  */
 package py.una.med.base.configuration;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.ProjectStage;
 import javax.faces.context.FacesContext;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import org.apache.commons.lang3.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import py.una.med.base.domain.Menu;
-import py.una.med.base.domain.Menu.Menus;
+import py.una.med.base.adapter.QuantityAdapter;
 import py.una.med.base.math.MathContextProvider;
 import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.MenuHelper;
 import py.una.med.base.util.Util;
 
 /**
@@ -46,7 +36,6 @@ public class SIGHConfiguration {
 	// @Autowired
 	private static PropertiesUtil propertiesUtil;
 
-	@Autowired
 	private I18nHelper i18nHelper;
 
 	@Autowired
@@ -125,59 +114,20 @@ public class SIGHConfiguration {
 
 		propertiesUtil = new PropertiesUtil();
 		propertiesUtil.setLocation(new ClassPathResource(CONFIG_LOCATION));
-		I18nHelper.setPropertiesUtil(propertiesUtil);
+
 		return propertiesUtil;
 	}
 
-	/**
-	 * Construye una instancia de {@link Menus}.
-	 *
-	 * @return nueva instancia de Menus
-	 * @throws IOException
-	 *             si el archivo no existe
-	 * @throws JAXBException
-	 *             si no se puede parsear el archivo
-	 */
 	@Bean
-	public MenuHelper menuHelper() throws IOException, JAXBException {
+	public I18nHelper helper() {
 
-		// XXX mejorar mexclar arboles
-		Menus toRet = new Menus();
-		String menus = propertiesUtil.getProperty("menu_location");
-		String[] menusPath = menus.split("\\s+");
-		for (String menuPath : menusPath) {
-			Resource resource = new ClassPathResource(menuPath);
-			InputStream inputStream;
-			JAXBContext jaxbContext;
-			inputStream = resource.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					inputStream, CharEncoding.ISO_8859_1));
-			jaxbContext = JAXBContext.newInstance(Menus.class);
-			Unmarshaller um = jaxbContext.createUnmarshaller();
-			Menus toConcat = (Menus) um.unmarshal(reader);
+		i18nHelper = I18nHelper.INSTANCE;
+		String value = propertiesUtil
+				.get(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
 
-			cleanMenuID(resource.getFilename(), toConcat);
-			toRet.getMenus().addAll(toConcat.getMenus());
-		}
+		i18nHelper.initializeBundles(Arrays.asList(value.split("\\s+")));
 
-		return new MenuHelper(toRet);
-	}
-
-	private void cleanMenuID(String file, Menus loaded) {
-
-		int location = file.indexOf('.');
-		String pre;
-		if (location <= 0) {
-			pre = file;
-		} else {
-			pre = file.substring(0, location);
-		}
-		for (Menu m : loaded.getMenus()) {
-			m.setId(pre + m.getId());
-			if ((m.getIdFather() != null) && !"".equals(m.getIdFather())) {
-				m.setIdFather(pre + m.getIdFather());
-			}
-		}
+		return i18nHelper;
 	}
 
 	/**
@@ -196,8 +146,7 @@ public class SIGHConfiguration {
 			@Override
 			public String get(Object key) {
 
-				String sKey = (String) key;
-				return i18nHelper.getString(sKey);
+				return i18nHelper.getString((String) key);
 			}
 		};
 	}
@@ -231,6 +180,12 @@ public class SIGHConfiguration {
 
 		return java.lang.management.ManagementFactory.getRuntimeMXBean()
 				.getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;
+	}
+
+	@Bean
+	QuantityAdapter quantityAdapter() {
+
+		return QuantityAdapter.INSTANCE;
 	}
 
 }

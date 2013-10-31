@@ -14,21 +14,20 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.domain.Menu;
 import py.una.med.base.dynamic.forms.SIGHComponentFactory;
 import py.una.med.base.jsf.utils.ICurrentpageHelper;
+import py.una.med.base.menu.client.AbstractMenuProvider;
+import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.security.AuthorityController;
-import py.una.med.base.util.HostResolver;
 import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.MenuHelper;
 
 /**
- * Clase que implementa la creacion del menu de la aplicacion.
- * 
- * @author Arturo Volpe Torres
+ * Clase que implementa la creación del menu de la aplicación.
+ *
+ * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Feb 20, 2013
- * 
+ *
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
@@ -43,17 +42,14 @@ public class MenuBean {
 	private PropertiesUtil properties;
 
 	@Autowired
-	private HostResolver hostResolver;
-
-	@Autowired
 	private ICurrentpageHelper currentPageHelper;
 
 	@Autowired
-	private MenuHelper menuHelper;
+	private AbstractMenuProvider menuProvider;
 
 	/**
 	 * Configura y retorna un menu
-	 * 
+	 *
 	 * @return Menu entero de la aplicación
 	 */
 	public UIPanelMenu getMenu() {
@@ -77,7 +73,7 @@ public class MenuBean {
 	/**
 	 * Si se llama a esta funcion algo esta mal, se utiliza solamente para que
 	 * "menu" sea una atributo de menuBean
-	 * 
+	 *
 	 * @param obj
 	 */
 	public void setMenu(UIPanelMenu menupanel) {
@@ -87,10 +83,9 @@ public class MenuBean {
 
 	private List<UIComponent> buildMenu() {
 
-		List<UIComponent> menuGroups = new ArrayList<UIComponent>(menuHelper
-				.getMenus().getMenus().size());
+		List<UIComponent> menuGroups = new ArrayList<UIComponent>();
 
-		for (Menu menu : menuHelper.getMenus().getMenus()) {
+		for (Menu menu : menuProvider.getMenu()) {
 			UIComponent component = getComponent(menu);
 			if (component != null) {
 				menuGroups.add(component);
@@ -106,7 +101,7 @@ public class MenuBean {
 			return null;
 		}
 
-		if (menu.getChildrens() == null || menu.getChildrens().size() == 0) {
+		if ((menu.getItems() == null) || (menu.getItems().isEmpty())) {
 			return getSingleMenu(menu);
 		} else {
 			return getMultipleMenu(menu);
@@ -116,15 +111,15 @@ public class MenuBean {
 	private UIComponent getMultipleMenu(Menu menu) {
 
 		UIPanelMenuGroup menuGroup = SIGHComponentFactory.getMenuGroup();
-		menuGroup.setId(menu.getId());
-		menuGroup.setName(menu.getId());
-		menuGroup.setLabel(helper.getString(menu.getName()));
+		// menuGroup.setId(menu.getId());
+		// menuGroup.setName(menu.getId());
+		menuGroup.setLabel(menu.getName());
 
-		for (Menu children : menu.getChildrens()) {
+		for (Menu children : menu.getItems()) {
 			UIComponent component = getComponent(children);
 			if (component != null) {
 				menuGroup.getChildren().add(component);
-				if (getCurrentMenuSelected() != null
+				if ((getCurrentMenuSelected() != null)
 						&& children.equals(getCurrentMenuSelected())) {
 					menuGroup.setExpanded(true);
 				}
@@ -147,16 +142,21 @@ public class MenuBean {
 	private UIComponent getSingleMenu(Menu menu) {
 
 		UIPanelMenuItem item = SIGHComponentFactory.getMenuItem();
-		item.setId(menu.getId());
-		item.setName(menu.getId());
+		// Con este código se consigue que solo el menu actualmente seleccionado
+		// tenga un ID legible, así se puede marcar como seleccionado.
+		if ((getCurrentMenuSelected() != null)
+				&& (menu.getId() == getCurrentMenuSelected().getId())) {
+			item.setId(menu.getId());
+			item.setName(menu.getId());
+		}
 
-		item.setLabel(helper.getString(menu.getName()));
+		item.setLabel(menu.getName());
 		UIComponent link;
 
 		if (menu.getUrl() != null) {
 			String menuUrl = menu.getUrl().trim();
 			String appPlaceHolder = properties
-					.getProperty("application.appUrlPlaceHolder");
+					.get("application.appUrlPlaceHolder");
 
 			if (menuUrl.startsWith(appPlaceHolder)
 					|| menuUrl.startsWith("/view")) {
@@ -166,11 +166,7 @@ public class MenuBean {
 				((HtmlOutcomeTargetLink) link).setOutcome(menuUrl);
 			} else {
 				// link a otro sistema
-				String urlPlaceHolder = menuUrl.substring(0,
-						menuUrl.indexOf('/'));
 
-				menuUrl = menuUrl.replace(urlPlaceHolder,
-						hostResolver.getSystemURL(urlPlaceHolder));
 				link = FacesContext
 						.getCurrentInstance()
 						.getApplication()
@@ -193,14 +189,12 @@ public class MenuBean {
 			return false;
 		}
 
-		if (menu.getPermissions() == null) {
+		if (menu.getPermission() == null) {
 			return true;
 		}
 
-		for (String permission : menu.getPermissions()) {
-			if (AuthorityController.hasRoleStatic(permission)) {
-				return true;
-			}
+		if (AuthorityController.hasRoleStatic(menu.getPermission())) {
+			return true;
 		}
 
 		return false;

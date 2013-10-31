@@ -47,10 +47,6 @@ import py.una.med.base.math.Quantity;
 @Component(value = FormatProvider.FORMAT_PROVIDER_NAME)
 public class FormatProvider {
 
-	/**
-	 *
-	 */
-	private static final int NUMBER_OF_SUPPORTED_FORMATS = 5;
 
 	/**
 	 * Nombre de este bean, se reduce el nombre para disminuir la verbosidad

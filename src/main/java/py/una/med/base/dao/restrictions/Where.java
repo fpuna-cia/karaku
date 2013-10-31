@@ -10,13 +10,14 @@ import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.where.Clause;
 
 /**
- * Clase que representa las restricciones para la busqueda, todo lo que
- * corresponde al parámetro Where <br />
- * <i>Notese que se puede utilizar un ejemplo y Clauses para filtrar la
- * Consulta</i>
+ * Clase que representa las restricciones para la busqueda.
+ *
+ * <p>
+ * Todo lo que corresponde al parámetro Where. <i>Notese que se puede utilizar
+ * un ejemplo y Clauses para filtrar la Consulta</i>
+ * </p>
  *
  * @author Arturo Volpe
- *
  * @param <T>
  *            Entidad
  * @version 1.1

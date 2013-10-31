@@ -78,12 +78,12 @@ public class WhereTest extends BaseTestWithDatabase {
 
 	/**
 	 * Prueba la función de contar con tres métodos:
-	 * 
+	 *
 	 * <ol>
 	 * <li>{@link #byDescription(String)}</li>
 	 * <li>{@link #byDescriptionOfChild(String)}</li>
 	 * <li>{@link #byDescriptionOfGrandChild(String)}</li>
-	 * 
+	 *
 	 * </ol>
 	 */
 	@Test
@@ -114,7 +114,7 @@ public class WhereTest extends BaseTestWithDatabase {
 
 	/**
 	 * Prueba si se puede crear un registro
-	 * 
+	 *
 	 * <p>
 	 * Podemos ver que una manera mas fácil de probar seria crear el registro y
 	 * llamar a {@link BaseDAO#getCount()}, pero esto esta conceptualmente mal
@@ -185,7 +185,7 @@ public class WhereTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestGrandChild}
-	 * 
+	 *
 	 * @return {@link Where}
 	 */
 	private Where<TestEntity> byDescriptionOfGrandChild(String description) {
@@ -199,7 +199,7 @@ public class WhereTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestChild}
-	 * 
+	 *
 	 * @return {@link Where}
 	 */
 	private Where<TestEntity> byDescriptionOfChild(String description) {
@@ -213,7 +213,7 @@ public class WhereTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestEntity}
-	 * 
+	 *
 	 * @return {@link Where}
 	 */
 	private Where<TestEntity> byDescription(String description) {

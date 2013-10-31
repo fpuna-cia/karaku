@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.repo.SIGHBaseDao;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 2.1
  * @version 1.0 Jun 11, 2013
- * 
+ *
  */
 @Repository
 @Transactional

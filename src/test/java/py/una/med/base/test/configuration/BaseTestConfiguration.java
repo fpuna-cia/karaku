@@ -4,22 +4,26 @@
  */
 package py.una.med.base.test.configuration;
 
+import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import py.una.med.base.adapter.QuantityAdapter;
-import py.una.med.base.configuration.PropertiesUtil;
+import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.log.LogPostProcessor;
 import py.una.med.base.math.MathContextProvider;
+import py.una.med.base.test.util.TestI18nHelper;
+import py.una.med.base.test.util.TestPropertiesUtil;
 import py.una.med.base.util.FormatProvider;
+import py.una.med.base.util.I18nHelper;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Aug 19, 2013
- * 
+ *
  */
 @Configuration
 @Profile(BaseTestConfiguration.TEST_PROFILE)
@@ -35,12 +39,12 @@ public class BaseTestConfiguration {
 	 */
 	public static final String TEST_PROFILE = "test";
 
-	protected static PropertiesUtil properties;
+	protected static TestPropertiesUtil properties;
 
 	@Bean
-	public static PropertiesUtil propertiesUtil() {
+	public static TestPropertiesUtil propertiesUtil() {
 
-		properties = new PropertiesUtil();
+		properties = new TestPropertiesUtil();
 		properties.setLocation(new ClassPathResource(CONFIG_LOCATION));
 		return properties;
 	}
@@ -67,6 +71,17 @@ public class BaseTestConfiguration {
 	QuantityAdapter quantityAdapter() {
 
 		return QuantityAdapter.INSTANCE;
+	}
+
+	@Bean
+	I18nHelper i18nHelper() {
+
+		TestI18nHelper i18nHelper = new TestI18nHelper();
+		I18nHelper.INSTANCE = i18nHelper;
+		String value = properties.get(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
+
+		i18nHelper.initializeBundles(Arrays.asList(value.split("\\s+")));
+		return i18nHelper;
 	}
 
 }

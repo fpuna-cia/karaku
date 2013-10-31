@@ -7,7 +7,7 @@ package py.una.med.base.jsf.utils;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.event.FacesListener;
 import py.una.med.base.controller.MenuBean;
-import py.una.med.base.domain.Menu;
+import py.una.med.base.menu.schemas.Menu;
 
 /**
  *

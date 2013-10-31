@@ -9,15 +9,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.security.SIGHUserGrantedAuthority;
 
 /**
  * Controller que se encarga de verificar permisos.
- * 
+ *
  * @author Arturo Volpe
  * @version 1.1
  * @since 1.0
- * 
+ *
  */
 @Controller
 @Scope(WebApplicationContext.SCOPE_SESSION)
@@ -36,7 +35,7 @@ public class AuthorityController {
 	 * {@link SIGHUserGrantedAuthority}), compara el permiso que da cada una de
 	 * esas autoridades con el permiso solicitado, si no tiene el permiso
 	 * retorna falso, y loguea un mensaje de error
-	 * 
+	 *
 	 * @param rol
 	 *            a probar
 	 * @return true si tiene permiso, false en otro caso
@@ -48,7 +47,7 @@ public class AuthorityController {
 
 	/**
 	 * Retorna el usuario que actualmente esta autenticado en el sistema.
-	 * 
+	 *
 	 * @return {@link String} representando el nombre del usuario.
 	 */
 	public String getUsername() {
@@ -58,7 +57,7 @@ public class AuthorityController {
 
 	/**
 	 * Retorna el usuario que actualmente esta autenticado en el sistema.
-	 * 
+	 *
 	 * @return {@link String} representando el nombre del usuario.
 	 * @see #getUsername()
 	 */
@@ -72,7 +71,7 @@ public class AuthorityController {
 	 * lo que permite a clases que no están en el mismo alcance (
 	 * {@link WebApplicationContext#SCOPE_SESSION}) puedan realizar controles de
 	 * permisos.
-	 * 
+	 *
 	 * @param rol
 	 *            nombre del permiso.
 	 * @return <code>true</code> si se encuentra el permiso, <code>false</code>
@@ -82,8 +81,8 @@ public class AuthorityController {
 
 		Object[] sighUserGrantedAuthorities = SecurityContextHolder
 				.getContext().getAuthentication().getAuthorities().toArray();
-		if (sighUserGrantedAuthorities == null
-				|| sighUserGrantedAuthorities.length == 0) {
+		if ((sighUserGrantedAuthorities == null)
+				|| (sighUserGrantedAuthorities.length == 0)) {
 			log.warn("Usuario sin permisos: {}", SecurityContextHolder
 					.getContext().getAuthentication().getName());
 			return false;
@@ -96,7 +95,7 @@ public class AuthorityController {
 			}
 		}
 
-		log.debug("Usuario {} sin permiso: {}", SecurityContextHolder
+		log.trace("Usuario {} sin permiso: {}", SecurityContextHolder
 				.getContext().getAuthentication().getName(), rol);
 		return false;
 

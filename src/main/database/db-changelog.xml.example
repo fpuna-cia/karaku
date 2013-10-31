@@ -34,6 +34,13 @@
 	<include file="database/base/audit/20130510_REVISION-ENTITY_CT.xml" />
 	<!-- __________________________ -->
 
+	<!-- Tablas de WS-Endpoint (para proveer url's por tabla) -->
+	<include file="database/base/karaku/20130611_WS-END-POINT_CT.xml" />
+	<include file="database/base/audit/20130611_WS-END-POINT_AUD_CT.xml" />
+	<include file="database/base/audit/20130805_WS-END-POINT-AUD_AC_USER_PASS.xml" />
+	<include file="database/base/karaku/20130805_WS-END-POINT_AC_USER_PASS.xml" />
+	
+	<!-- ____________________________________________________ -->
 	<!-- Mantener esta línea al final del archivo, y solo agregar líneas arriba 
 		de ella -->
 </databaseChangeLog>

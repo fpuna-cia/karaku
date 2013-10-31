@@ -60,25 +60,29 @@ public class ValidationMessagesTest extends BaseTest {
 	@Test
 	public void testConstants() {
 
-		Class<ValidationMessages> cz = ValidationMessages.class;
-		ReflectionUtils.doWithFields(cz, new FieldCallback() {
+		ReflectionUtils.doWithFields(ValidationMessages.class,
+				new FieldCallback() {
 
-			@Override
-			public void doWith(Field field) throws IllegalArgumentException,
-					IllegalAccessException {
+					@Override
+					public void doWith(Field field)
+							throws IllegalArgumentException,
+							IllegalAccessException {
 
-				String value = (String) field.get(null);
-				assertNotNull(value);
-				assertTrue("Key: " + value + " not found", keys.contains(value));
-			}
-		}, new FieldFilter() {
+						String value = (String) field.get(null);
+						assertNotNull(value);
+						assertTrue("Key: " + value + " not found",
+								keys.contains(value));
+					}
+				}, new FieldFilter() {
 
-			@Override
-			public boolean matches(Field field) {
+					@Override
+					public boolean matches(Field field) {
 
-				int modifiers = field.getModifiers();
-				return Modifier.isStatic(modifiers);
-			}
-		});
+						int modifiers = field.getModifiers();
+						return Modifier.isStatic(modifiers)
+								&& !Modifier.isTransient(modifiers)
+								&& Modifier.isPublic(modifiers);
+					}
+				});
 	}
 }

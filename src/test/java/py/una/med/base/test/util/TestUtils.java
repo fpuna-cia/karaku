@@ -15,9 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 import org.springframework.util.ReflectionUtils.FieldFilter;
+import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.test.test.util.layers.TestEntity;
 
 /**
@@ -45,6 +47,18 @@ public class TestUtils {
 	}
 
 	/**
+	 * Retorna un vector de clases a partir de una lista de los mismos.
+	 *
+	 * @param elements
+	 *            del tipo Class
+	 * @return Class<?>[]
+	 */
+	public static Class<?>[] getAsClassArray(Class<?> ... elements) {
+
+		return elements;
+	}
+
+	/**
 	 * Retorna la lista de entidades relacionadas a una base.
 	 *
 	 * @param base
@@ -65,10 +79,10 @@ public class TestUtils {
 
 	/**
 	 * Verificación de orden de una lista.
-	 * 
+	 *
 	 * Determinan si una lista tiene las descripciones pasadas en el orden
 	 * adecuado.
-	 * 
+	 *
 	 * @param list
 	 *            lista de entidades
 	 * @param descriptions
@@ -85,13 +99,13 @@ public class TestUtils {
 
 	/**
 	 * Determina si dos colecciones son iguales.
-	 * 
+	 *
 	 * <p>
 	 * Este método es similar a {@link java.util.AbstractList#equals(Object)}
 	 * solamente que realiza una comparación de longitud para ser más rapido.
-	 * 
+	 *
 	 * </p>
-	 * 
+	 *
 	 * @param l1
 	 *            colección ejemplo
 	 * @param l2
@@ -180,5 +194,59 @@ public class TestUtils {
 			toRet = GenericCollectionTypeResolver.getCollectionFieldType(field);
 		}
 		return toRet;
+	}
+
+	/**
+	 * Retorna el path de un recurso que existe, es hermano de la clase pasada o
+	 * es un path absoluto.
+	 *
+	 * <p>
+	 * Si no existe se lanza una excepción.
+	 * </p>
+	 *
+	 * @param source
+	 *            Clase de dondese invoca
+	 * @param fileName
+	 *            nombre del archivo
+	 * @return ClassPath válido
+	 * @throws KarakuRuntimeException
+	 *             si no se encuentra el archivo
+	 */
+	public static String getSiblingResourceName(Class<?> source,
+			String resourceName) {
+
+		return getSiblingResource(source, resourceName).getPath();
+	}
+
+	/**
+	 * Retorna un recurso, que se supone esta en la misma ubicación que la
+	 * clase.
+	 *
+	 * @param source
+	 *            Clase de dondese invoca
+	 * @param fileName
+	 *            nombre del archivo
+	 * @return ClassPath válido
+	 * @throws KarakuRuntimeException
+	 *             si no se encuentra el archivo
+	 */
+	public static ClassPathResource getSiblingResource(Class<?> source,
+			String resourceName) {
+
+		ClassPathResource cpr = new ClassPathResource(resourceName);
+		if (cpr.exists()) {
+			return cpr;
+		}
+
+		String realPath = source.getPackage().getName().replaceAll("\\.", "/");
+		realPath += "/" + resourceName;
+		cpr = new ClassPathResource(realPath);
+
+		if (!cpr.exists()) {
+			throw new KarakuRuntimeException("File with name " + resourceName
+					+ " can not be found. Paths tried: Absolute:"
+					+ resourceName + "; Relative: " + realPath);
+		}
+		return cpr;
 	}
 }

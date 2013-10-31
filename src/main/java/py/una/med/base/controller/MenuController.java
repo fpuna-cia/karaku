@@ -21,11 +21,11 @@ import py.una.med.base.util.Util;
  * Controlador que provee funcionalidades transversales para la aplicación, se
  * utiliza para proveer información al template principal, y también provee
  * ciertas funciones de utilidad para todas las vistas.
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 21, 2013
- * 
+ *
  */
 @Controller
 @ManagedBean
@@ -40,7 +40,7 @@ public class MenuController {
 
 	/**
 	 * Retorna la URI para crear links de logout para la aplicación
-	 * 
+	 *
 	 * @return URL
 	 */
 	public String getLogoutUrl() {
@@ -50,7 +50,7 @@ public class MenuController {
 
 	/**
 	 * Retorna el titulo de la aplicación, esto esta en el manifest
-	 * 
+	 *
 	 * @return Titulo de la aplicación
 	 */
 	public String getTitle() {
@@ -60,7 +60,7 @@ public class MenuController {
 
 	/**
 	 * Retorna el nombre base del sistema
-	 * 
+	 *
 	 * @return Nombre base del sistema
 	 **/
 	public String getBaseName() {
@@ -70,7 +70,7 @@ public class MenuController {
 
 	/**
 	 * Retorna el nombre especifico de la aplicacion
-	 * 
+	 *
 	 * @return Nombre especifico de la aplicacion
 	 **/
 	public String getAppName() {
@@ -80,7 +80,7 @@ public class MenuController {
 
 	/**
 	 * Retorna la version actual de la aplicación
-	 * 
+	 *
 	 * @return numero identificador de la version
 	 */
 	public String getVersion() {
@@ -91,7 +91,7 @@ public class MenuController {
 	/**
 	 * Retorna la dirección desde donde esta accediendo el usuario de la sesión
 	 * actual.
-	 * 
+	 *
 	 * @return cadena en formato NNN.NNN.NNN.NNN que representa la dirección del
 	 *         cliente
 	 */
@@ -103,7 +103,7 @@ public class MenuController {
 	/**
 	 * Retorna true si la aplicación esta en estado de desarrollo y false si
 	 * esta en otro estado.
-	 * 
+	 *
 	 * @see ProjectStage
 	 * @return true si es develop, false en otro caso
 	 */
@@ -114,7 +114,7 @@ public class MenuController {
 
 	/**
 	 * Retorna true si el entorno actual de ejecución es de Debug
-	 * 
+	 *
 	 * @return true si se esta ejecutando en modo de depuración, false si se
 	 *         esta ejecutando normalmente
 	 */
@@ -125,7 +125,7 @@ public class MenuController {
 
 	/**
 	 * Retorna la fecha actual del sistema.
-	 * 
+	 *
 	 * @return {@link Date} representando el momento actual
 	 * @see py.una.med.base.util.Util#getCurrentTime()
 	 */
@@ -140,7 +140,7 @@ public class MenuController {
 	public void toIndex() {
 
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		String indexUrl = properties.getProperty("application.homePage")
+		String indexUrl = properties.get("application.homePage")
 				+ "?breadcrum_reset=true";
 		try {
 			ctx.getExternalContext().redirect(indexUrl);

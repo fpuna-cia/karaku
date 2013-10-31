@@ -22,16 +22,17 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.test.util.TestUtils;
 import py.una.med.base.util.StringUtils;
 
 /**
  * {@link AbstractTestExecutionListener} que se encarga de crear datos de prueba
  * al inicio de la ejecución de cualquier método.
- * 
+ *
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Sep 11, 2013
- * 
+ *
  */
 public class DatabasePopulatorExecutionListener extends
 		AbstractTestExecutionListener {
@@ -44,7 +45,7 @@ public class DatabasePopulatorExecutionListener extends
 	 * {@link #afterTestClass(TestContext)}
 	 * </p>
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @param testContext
 	 *            contexto del test.
 	 * @throws Exception
@@ -67,7 +68,7 @@ public class DatabasePopulatorExecutionListener extends
 
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * @param testContext
 	 *            contexto del test.
 	 * @throws Exception
@@ -144,21 +145,7 @@ public class DatabasePopulatorExecutionListener extends
 	private ClassPathResource getClassPathResource(String file,
 			TestContext context) {
 
-		ClassPathResource cpr = new ClassPathResource(file);
-		if (cpr.exists()) {
-			return cpr;
-		}
-
-		String scriptPath = context.getTestClass().getPackage().getName()
-				.replaceAll("\\.", "/");
-		scriptPath += "/" + file;
-		cpr = new ClassPathResource(scriptPath);
-		if (!cpr.exists()) {
-			throw new KarakuRuntimeException("File with name " + file
-					+ " can not be found. Paths tried: Absolute:" + file
-					+ "; Relative: " + scriptPath);
-		}
-		return cpr;
+		return TestUtils.getSiblingResource(context.getTestClass(), file);
 	}
 
 	/**
@@ -223,7 +210,7 @@ public class DatabasePopulatorExecutionListener extends
 	 * Implementación por defecto retorna un archivo que esta en el mismo lugar
 	 * que el archivo .java.
 	 * </p>
-	 * 
+	 *
 	 * @param path
 	 *            path del archivo. Es una cadena separada por puntos ( en vez
 	 *            de /) que no tiene una extensión.

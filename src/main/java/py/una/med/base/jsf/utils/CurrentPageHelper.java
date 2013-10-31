@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.domain.Menu;
-import py.una.med.base.util.MenuHelper;
+import py.una.med.base.menu.client.MenuHelper;
+import py.una.med.base.menu.schemas.Menu;
 
 /**
  * Componente que se encarga de proveer funcionalidades básicas para la

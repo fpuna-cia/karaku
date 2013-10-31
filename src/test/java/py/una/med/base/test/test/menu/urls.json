@@ -1,0 +1,18 @@
+{
+   "services":[
+      {
+         "url":"MENU 1",
+         "key":"test",
+         "password":"",
+         "user":"",
+         "internalTag":"WS_MENU"
+      },
+      {
+         "url":"MENU 2",
+         "key":"",
+         "password":"",
+         "user":"",
+         "internalTag":"WS_MENU"
+      }
+   ]
+}

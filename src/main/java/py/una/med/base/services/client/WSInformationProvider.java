@@ -3,6 +3,7 @@
  */
 package py.una.med.base.services.client;
 
+import java.util.List;
 
 /**
  * Interfaz que define los componentes que proveen {@link Info} para llamar a
@@ -42,7 +43,7 @@ public interface WSInformationProvider {
 	 * @param internalTag
 	 * @return {@link Info} que contiene los detalles del servicio
 	 */
-	Info getInfoByTag(String internalTag);
+	List<Info> getInfoByTag(String internalTag);
 
 	/**
 	 * PlaceHolder utilizado para manipular datos de servicios
@@ -52,17 +53,24 @@ public interface WSInformationProvider {
 	 * @version 1.0 Aug 5, 2013
 	 *
 	 */
-	class Info {
+	public class Info {
 
-		private final String url;
+		private String url;
 
-		private final String key;
+		private String key;
 
-		private final String password;
+		private String password;
 
-		private final String user;
+		private String user;
 
-		private final String internalTag;
+		private String internalTag;
+
+		/**
+		 * Para respetar la convención de Java Beans
+		 */
+		protected Info() {
+
+		}
 
 		/**
 		 * @param url
@@ -117,6 +125,52 @@ public interface WSInformationProvider {
 		public String getInternalTag() {
 
 			return internalTag;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public int hashCode() {
+
+			final int prime = 31;
+			int result = 1;
+			result = (prime * result)
+					+ ((internalTag == null) ? 0 : internalTag.hashCode());
+			result = (prime * result) + ((key == null) ? 0 : key.hashCode());
+			result = (prime * result) + ((url == null) ? 0 : url.hashCode());
+			return result;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean equals(Object obj) {
+
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Info other = (Info) obj;
+			if (internalTag == null) {
+				if (other.internalTag != null)
+					return false;
+			} else if (!internalTag.equals(other.internalTag))
+				return false;
+			if (key == null) {
+				if (other.key != null)
+					return false;
+			} else if (!key.equals(other.key))
+				return false;
+			if (url == null) {
+				if (other.url != null)
+					return false;
+			} else if (!url.equals(other.url))
+				return false;
+			return true;
 		}
 
 	}
