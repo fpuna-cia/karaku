@@ -34,9 +34,9 @@ public abstract class SIGHBaseMainController<T, K extends Serializable> extends
 		SIGHAdvancedController<T, K> implements ISIGHAdvancedController<T, K>,
 		ISIGHMainController {
 
-	private static final String FAILURE = "fail";
+	protected static final String FAILURE = "fail";
 
-	private static final String SUCCESS = "success";
+	protected static final String SUCCESS = "success";
 
 	@Log
 	private Logger log;
