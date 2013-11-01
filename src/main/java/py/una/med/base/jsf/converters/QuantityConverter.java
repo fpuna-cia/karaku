@@ -16,17 +16,17 @@ import py.una.med.base.util.FormatProvider;
 import py.una.med.base.util.Util;
 
 /**
- * 
- * 
+ *
+ *
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 16/10/2013
- * 
+ *
  */
 @FacesConverter(forClass = Quantity.class)
 public class QuantityConverter implements Converter {
 
-	private final static Logger LOGGER = LoggerFactory
+	private static final Logger LOGGER = LoggerFactory
 			.getLogger(QuantityConverter.class);
 
 	@Override

@@ -19,7 +19,6 @@ import py.una.med.base.jsf.utils.ICurrentpageHelper;
 import py.una.med.base.menu.client.AbstractMenuProvider;
 import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.security.AuthorityController;
-import py.una.med.base.util.I18nHelper;
 
 /**
  * Clase que implementa la creación del menu de la aplicación.
@@ -34,9 +33,6 @@ import py.una.med.base.util.I18nHelper;
 public class MenuBean {
 
 	private UIPanelMenu menupanel;
-
-	@Autowired
-	private I18nHelper helper;
 
 	@Autowired
 	private PropertiesUtil properties;
@@ -145,7 +141,7 @@ public class MenuBean {
 		// Con este código se consigue que solo el menu actualmente seleccionado
 		// tenga un ID legible, así se puede marcar como seleccionado.
 		if ((getCurrentMenuSelected() != null)
-				&& (menu.getId() == getCurrentMenuSelected().getId())) {
+				&& (menu.getId().equals(getCurrentMenuSelected().getId()))) {
 			item.setId(menu.getId());
 			item.setName(menu.getId());
 		}

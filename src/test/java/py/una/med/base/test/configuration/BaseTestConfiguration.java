@@ -77,9 +77,7 @@ public class BaseTestConfiguration {
 	I18nHelper i18nHelper() {
 
 		TestI18nHelper i18nHelper = new TestI18nHelper();
-		I18nHelper.INSTANCE = i18nHelper;
 		String value = properties.get(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
-
 		i18nHelper.initializeBundles(Arrays.asList(value.split("\\s+")));
 		return i18nHelper;
 	}

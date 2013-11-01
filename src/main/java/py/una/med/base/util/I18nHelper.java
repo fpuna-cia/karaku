@@ -26,10 +26,28 @@ public class I18nHelper {
 
 	/**
 	 *
+	 */
+	public I18nHelper() {
+
+		setSingleton(this);
+	}
+
+	/**
+	 *
 	 * XXX Este atributo no es final para que pueda ser reemplazado por otra
 	 * implementación, por ejemplo en los test.
 	 */
-	public static I18nHelper INSTANCE = new I18nHelper();
+	private static I18nHelper i18nHelper;
+
+	public static I18nHelper getSingleton() {
+
+		return i18nHelper;
+	}
+
+	protected static void setSingleton(I18nHelper newSingleton) {
+
+		i18nHelper = newSingleton;
+	}
 
 	protected Locale getLocale() {
 
@@ -40,9 +58,9 @@ public class I18nHelper {
 		return new Locale("es", "PY");
 	}
 
-	protected static List<ResourceBundle> bundles;
+	private static List<ResourceBundle> bundles;
 
-	protected List<ResourceBundle> getBundles() {
+	protected static List<ResourceBundle> getBundles() {
 
 		return bundles;
 	}
@@ -97,7 +115,7 @@ public class I18nHelper {
 	 */
 	public static String getMessage(String key) {
 
-		return INSTANCE.findInBundles(key);
+		return i18nHelper.findInBundles(key);
 	}
 
 	/**
@@ -153,4 +171,8 @@ public class I18nHelper {
 				displayName.key().length() - 1));
 	}
 
+	protected static void setBundles(List<ResourceBundle> bundles) {
+
+		I18nHelper.bundles = bundles;
+	}
 }

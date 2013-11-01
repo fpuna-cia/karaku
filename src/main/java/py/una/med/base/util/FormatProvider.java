@@ -148,7 +148,7 @@ public class FormatProvider {
 		}
 
 		this.initialized = true;
-		this.formats = new HashMap<String, SimpleDateFormat>(5);
+		this.formats = new HashMap<String, SimpleDateFormat>();
 		this.formats.put(DATE_FORMAT, new SimpleDateFormat(DATE_FORMAT));
 		this.formats.put(DATE_SHORT_FORMAT, new SimpleDateFormat(
 				DATE_SHORT_FORMAT));

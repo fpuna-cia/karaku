@@ -1,14 +1,12 @@
 package py.una.med.base.menu.server;
 
 import java.util.List;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import py.una.med.base.exception.HTTPException;
 import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.log.Log;
 import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.menu.schemas.MenuRequest;
 import py.una.med.base.menu.schemas.MenuResponse;
@@ -29,14 +27,11 @@ public class MenuServiceEndpoint {
 	public static final String TARGET_NAMESPACE = "http://sigh.med.una.py/2013/schemas/base";
 
 	@Autowired
-	MenuServerLogic menuServerLogic;
-
-	@Log
-	private transient Logger log;
+	private transient MenuServerLogic menuServerLogic;
 
 	@PayloadRoot(localPart = "menuRequest", namespace = TARGET_NAMESPACE)
-	public @ResponsePayload
-	MenuResponse menuRequest(@RequestPayload MenuRequest request)
+	@ResponsePayload
+	public MenuResponse menuRequest(@RequestPayload MenuRequest request)
 			throws HTTPException {
 
 		try {
@@ -54,7 +49,6 @@ public class MenuServiceEndpoint {
 			}
 			return toRet;
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new KarakuRuntimeException(e);
 		}
 	}

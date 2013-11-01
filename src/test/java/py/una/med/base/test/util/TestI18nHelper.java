@@ -21,7 +21,15 @@ import py.una.med.base.util.I18nHelper;
  */
 public class TestI18nHelper extends I18nHelper {
 
-	HashMap<String, String> aditionals;
+	/**
+	 *
+	 */
+	public TestI18nHelper() {
+
+		setSingleton(this);
+	}
+
+	private HashMap<String, String> aditionals;
 
 	public void addString(String key, String value) {
 
@@ -56,10 +64,11 @@ public class TestI18nHelper extends I18nHelper {
 	@Override
 	public synchronized void initializeBundles(List<String> bundlesLocation) {
 
-		if (bundles != null) {
+		if (getBundles() != null) {
 			return;
 		}
-		bundles = new ArrayList<ResourceBundle>(bundlesLocation.size());
+		ArrayList<ResourceBundle> bundles = new ArrayList<ResourceBundle>(
+				bundlesLocation.size());
 		for (String bundle : bundlesLocation) {
 			if (bundle.equals("")) {
 				continue;
@@ -69,5 +78,6 @@ public class TestI18nHelper extends I18nHelper {
 					.getBundle(bundle, getLocale());
 			bundles.add(toAdd);
 		}
+		setBundles(bundles);
 	}
 }

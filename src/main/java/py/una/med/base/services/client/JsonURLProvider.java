@@ -29,14 +29,14 @@ public class JsonURLProvider implements WSInformationProvider {
 	private Logger log;
 
 	@Autowired
-	PropertiesUtil util;
+	private PropertiesUtil util;
 
-	Holder h;
+	private Holder h;
 
 	@Override
 	public Info getInfoByKey(String key) {
 
-		for (Info info : getHolder().services) {
+		for (Info info : getHolder().getServices()) {
 			if (info.getKey().equals(key)) {
 				return info;
 			}
@@ -54,10 +54,10 @@ public class JsonURLProvider implements WSInformationProvider {
 	public List<Info> getInfoByTag(String internalTag) {
 
 		List<Info> respuesta = new ArrayList<WSInformationProvider.Info>(
-				getHolder().services.size());
-		for (Info info : getHolder().services) {
-			if (info.getInternalTag().trim().toLowerCase()
-					.equals(internalTag.trim().toLowerCase())) {
+				getHolder().getServices().size());
+		for (Info info : getHolder().getServices()) {
+			if (info.getInternalTag().trim()
+					.equalsIgnoreCase(internalTag.trim())) {
 				respuesta.add(info);
 			}
 		}
@@ -74,15 +74,14 @@ public class JsonURLProvider implements WSInformationProvider {
 				h = mapper.readValue(is, new TypeReference<Holder>() {});
 				is.close();
 			} catch (Exception e) {
-				e.printStackTrace();
 				log.warn("No se puede leer el archivo de Url's de Menu", e);
 
 				throw new KarakuRuntimeException(
 						"No se puede leer el archivo de Url's de Menu", e);
 			}
 		}
-		if (h.services == null) {
-			h.services = new ArrayList<Info>(0);
+		if (h.getServices() == null) {
+			h.setServices(new ArrayList<Info>(0));
 		}
 		return h;
 	}
@@ -100,6 +99,23 @@ public class JsonURLProvider implements WSInformationProvider {
 
 	public static class Holder {
 
-		public List<Info> services;
+		private List<Info> services;
+
+		/**
+		 * @return services
+		 */
+		public List<Info> getServices() {
+
+			return services;
+		}
+
+		/**
+		 * @param services
+		 *            services para setear
+		 */
+		public void setServices(List<Info> services) {
+
+			this.services = services;
+		}
 	}
 }

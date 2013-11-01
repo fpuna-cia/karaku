@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
  * Clase que agrega soporte para tareas asíncronas a Karaku,
@@ -74,13 +73,13 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
 	/**
 	 * Retorna el valor de la llave en el archivo de propiedades, si no se puede
-	 * parsear lanzar {@link KarakuRuntimeException}
+	 * parsear lanzar {@link py.una.med.base.exception.KarakuRuntimeException}
 	 *
 	 * @param key
 	 *            llave en el archivo de propiedades
 	 * @param def
 	 *            valor por defecto
-	 * @throws KarakuRuntimeException
+	 * @throws py.una.med.base.exception.KarakuRuntimeException
 	 *             si no puede parsear el valor del archivo de propiedades
 	 * @return def si no se encuentra, en caso contrario el valor parseado.
 	 */

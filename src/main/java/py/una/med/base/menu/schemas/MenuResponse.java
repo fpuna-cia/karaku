@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 public class MenuResponse {
 
 	@XmlElement(required = true)
-	protected Menu menu;
+	private Menu menu;
 
 	@XmlElement(required = true)
 	private String skipRoot;

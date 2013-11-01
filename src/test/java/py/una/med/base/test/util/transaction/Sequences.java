@@ -11,19 +11,20 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Define un conjunto de secuencias que deben ser ejecutadas antes de la clase.
- * 
- * 
+ * Define un conjunto de secuencias que deben ser creadas antes de la clase de
+ * test.
+ *
+ *
  * <p>
  * Las secuencias son generadas antes, y se eliminan después de cada clase, se
  * garantiza que sean ejecutadas antes de los scripts definidos con
  * {@link SQLFiles}
  * </p>
- * 
+ *
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 1, 2013
- * 
+ *
  */
 @Documented
 @Inherited
@@ -32,9 +33,10 @@ import java.lang.annotation.Target;
 public @interface Sequences {
 
 	/**
-	 * Nombre de las secuencias que deben ser ejecutadas antes de cada test.
-	 * 
-	 * 
+	 * Nombre de las secuencias que deben ser ejecutadas antes de cada test
+	 * class.
+	 *
+	 *
 	 * @return lista posiblemente nula o vacía de cadenas que representan los
 	 *         nombres de las secuencias.
 	 */

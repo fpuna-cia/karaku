@@ -7,13 +7,9 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.log.Log;
 import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.menu.server.MenuServerLogic;
 
 /**
  * Componente que provee funcionalidades básica para manipular {@link Menu}.
@@ -31,30 +27,22 @@ public class MenuHelper {
 		void walk(Menu father, Menu child, boolean leaf);
 	}
 
-	@Log
-	private Logger logger;
-
 	@Autowired
-	private IMenuProvider menuProvider;
+	private transient IMenuProvider menuProvider;
 
-	@Autowired
-	private MenuServerLogic logic;
+	private transient Map<String, String> aliases;
 
-	private Map<String, String> aliases;
+	private transient Map<String, Menu> cachedByUri;
 
-	private Map<String, Menu> cachedByUri;
-
-	private Map<Menu, Menu> fathersCached;
-
-	@Autowired
-	private PropertiesUtil propertiesUtil;
+	private transient Map<Menu, Menu> fathersCached;
 
 	/**
 	 * Reinicia este componente.
 	 *
 	 * <p>
-	 * Al reiniciarlo, obtiene nuevamente el menú del {@link MenuServerLogic}, y
-	 * construye nuevamente su cache.
+	 * Al reiniciarlo, obtiene nuevamente el menú del
+	 * {@link py.una.med.base.menu.server.MenuServerLogic}, y construye
+	 * nuevamente su cache.
 	 * </p>
 	 */
 	@PostConstruct
@@ -83,11 +71,7 @@ public class MenuHelper {
 					if (index != -1) {
 						url = url.substring(index);
 					}
-					for (Entry<String, String> alias : aliases.entrySet()) {
-						url = replace(url, alias.getKey(), alias.getValue());
-					}
-
-					cachedByUri.put(url, m);
+					cachedByUri.put(getAliasedUrl(url), m);
 				}
 
 				fathersCached.put(m, father);
@@ -127,11 +111,21 @@ public class MenuHelper {
 	 */
 	public Menu getMenuByUrl(String url) {
 
+		String real = getAliasedUrl(url);
+		return cachedByUri.get(real);
+	}
+
+	/**
+	 * @param url
+	 * @return
+	 */
+	private String getAliasedUrl(String url) {
+
 		String real = url;
 		for (Entry<String, String> alias : aliases.entrySet()) {
 			real = replace(real, alias.getKey(), alias.getValue());
 		}
-		return cachedByUri.get(real);
+		return real;
 	}
 
 	protected List<Menu> getMenus() {

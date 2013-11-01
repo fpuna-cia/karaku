@@ -121,7 +121,7 @@ public class SIGHConfiguration {
 	@Bean
 	public I18nHelper helper() {
 
-		i18nHelper = I18nHelper.INSTANCE;
+		i18nHelper = I18nHelper.getSingleton();
 		String value = propertiesUtil
 				.get(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
 

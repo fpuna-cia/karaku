@@ -7,7 +7,6 @@ package py.una.med.base.services.server;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -28,13 +27,13 @@ import py.una.med.base.exception.KarakuRuntimeException;
 @Component
 public class ServiceDefinitionRegister implements BeanFactoryPostProcessor {
 
-	Logger logger = LoggerFactory.getLogger(ServiceDefinitionRegister.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(ServiceDefinitionRegister.class);
 
 	@Override
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory bf)
-			throws BeansException {
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory bf) {
 
-		logger.info("Registering @WebServices");
+		LOG.info("Registering @WebServices");
 		String[] beans = bf.getBeanDefinitionNames();
 		for (String s : beans) {
 			Class<?> beanType = bf.getType(s);
@@ -46,7 +45,7 @@ public class ServiceDefinitionRegister implements BeanFactoryPostProcessor {
 						ws.xsds());
 
 				bf.registerSingleton(name, newWS);
-				logger.info("Web service: {} has been added", name);
+				LOG.info("Web service: {} has been added", name);
 			}
 		}
 
@@ -68,7 +67,7 @@ public class ServiceDefinitionRegister implements BeanFactoryPostProcessor {
 	private DefaultWsdl11Definition createWebService(String name,
 			String ... strings) {
 
-		logger.debug("Creating {} Web Service", name);
+		LOG.debug("Creating {} Web Service", name);
 		DefaultWsdl11Definition toRet = new DefaultWsdl11Definition();
 		toRet.setPortTypeName(name);
 		toRet.setServiceName(name);

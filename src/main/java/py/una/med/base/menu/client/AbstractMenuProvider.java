@@ -17,7 +17,7 @@ import py.una.med.base.menu.schemas.Menu;
  */
 public abstract class AbstractMenuProvider implements IMenuProvider {
 
-	List<MenuChangeListener> listeners;
+	private List<MenuChangeListener> listeners;
 
 	/**
 	 *

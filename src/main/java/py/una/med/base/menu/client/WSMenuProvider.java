@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,26 +42,31 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
 @Component
 public class WSMenuProvider extends AbstractMenuProvider {
 
+	/**
+	 *
+	 */
+	private static final int CALL_DELAY = 300000;
+
 	@Log
-	Logger logger;
+	private Logger logger;
 
 	@Autowired
-	WSInformationProvider provider;
+	private WSInformationProvider provider;
 
 	/**
 	 * Para obtener una referencia al menú del sistema actual.
 	 */
 	@Autowired
-	MenuServerLogic menuServerLogic;
+	private MenuServerLogic menuServerLogic;
 
 	@Autowired
-	MenuWSCaller caller;
+	private MenuWSCaller caller;
 
-	List<Menu> menu;
+	private List<Menu> menu;
 
-	HashMap<String, List<Menu>> menus;
+	private Map<String, List<Menu>> menus;
 
-	boolean isDirty;
+	private boolean isDirty;
 
 	private int numberOfMenus;
 	private int currentCount;
@@ -84,7 +90,7 @@ public class WSMenuProvider extends AbstractMenuProvider {
 		isDirty = true;
 	}
 
-	@Scheduled(fixedDelay = 300000)
+	@Scheduled(fixedDelay = CALL_DELAY)
 	public void call() {
 
 		logger.trace("[BEGIN] Start scheduled task for menu sync");
@@ -139,7 +145,7 @@ public class WSMenuProvider extends AbstractMenuProvider {
 			}
 			logger.debug("Rebuilding menu");
 			menu.clear();
-			for (List<Menu> m : menus.values()) {
+			for (List<Menu> m : getMenus().values()) {
 				menu.addAll(m);
 			}
 
@@ -151,7 +157,7 @@ public class WSMenuProvider extends AbstractMenuProvider {
 		}
 	}
 
-	private synchronized HashMap<String, List<Menu>> getMenus() {
+	private synchronized Map<String, List<Menu>> getMenus() {
 
 		if (menus == null) {
 			menus = new HashMap<String, List<Menu>>();
@@ -160,9 +166,9 @@ public class WSMenuProvider extends AbstractMenuProvider {
 		return menus;
 	}
 
-	public class CallBack implements WSCallBack<List<Menu>> {
+	private class CallBack implements WSCallBack<List<Menu>> {
 
-		Info info;
+		private Info info;
 
 		public CallBack(Info info) {
 
@@ -190,7 +196,7 @@ public class WSMenuProvider extends AbstractMenuProvider {
 	@Override
 	public List<Menu> getLocalMenu() {
 
-		return menus.get("LOCAL");
+		return getMenus().get("LOCAL");
 	}
 
 }

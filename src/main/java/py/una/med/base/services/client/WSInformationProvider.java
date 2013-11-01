@@ -53,7 +53,7 @@ public interface WSInformationProvider {
 	 * @version 1.0 Aug 5, 2013
 	 *
 	 */
-	public class Info {
+	class Info {
 
 		private String url;
 

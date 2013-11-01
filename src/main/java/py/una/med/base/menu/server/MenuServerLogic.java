@@ -16,14 +16,13 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import org.slf4j.Logger;
+import org.apache.commons.lang3.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.log.Log;
 import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.util.I18nHelper;
 
@@ -53,13 +52,10 @@ public class MenuServerLogic {
 	public static final String KARAKU_MENU_LOCATION_KEY = "karaku.menu.location";
 
 	@Autowired
-	I18nHelper helper;
+	private I18nHelper helper;
 
 	@Autowired
-	PropertiesUtil util;
-
-	@Log
-	Logger log;
+	private PropertiesUtil util;
 
 	/**
 	 * Recibe un menú y lo construye.
@@ -91,8 +87,7 @@ public class MenuServerLogic {
 			Resource resource = new ClassPathResource(
 					util.get(KARAKU_MENU_LOCATION_KEY));
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					resource.getInputStream()));
-
+					resource.getInputStream(), CharEncoding.ISO_8859_1));
 			Unmarshaller um = JAXBContext.newInstance(Menu.class)
 					.createUnmarshaller();
 			Menu m = (Menu) um.unmarshal(reader);
@@ -105,7 +100,6 @@ public class MenuServerLogic {
 			throw new KarakuRuntimeException(
 					"Cant open the menu (wrong encoding)", e);
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new KarakuRuntimeException(
 					"Cant open the menu (file not found)", e);
 		} catch (JAXBException e) {

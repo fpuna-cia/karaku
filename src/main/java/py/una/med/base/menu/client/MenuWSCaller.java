@@ -26,7 +26,7 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
 public class MenuWSCaller {
 
 	@Autowired
-	WSCaller WSCaller;
+	private WSCaller WSCaller;
 
 	/**
 	 * @param request
@@ -39,33 +39,30 @@ public class MenuWSCaller {
 
 		WSCaller.call(request, info, new WSCallBack<MenuResponse>() {
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void onFailure(KarakuException exception) {
 
 				callback.onFailure(exception);
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			@Override
 			public void onSucess(MenuResponse object) {
 
 				if (object.getMenu() == null) {
 					onFailure(new KarakuException("Null menu from WS"));
 				}
-				if ("true".equalsIgnoreCase(object.getSkipRoot())
-						|| "true".equalsIgnoreCase(object.getMenu()
-								.getSkipThis())) {
-					callback.onSucess(object.getMenu().getItems());
-				} else {
-					callback.onSucess(Arrays.asList(object.getMenu()));
-				}
+				callback.onSucess(buildResponse(object));
 			}
 		});
 	}
 
+	private List<Menu> buildResponse(MenuResponse response) {
+
+		if ("true".equalsIgnoreCase(response.getSkipRoot())
+				|| "true".equalsIgnoreCase(response.getMenu().getSkipThis())) {
+			return response.getMenu().getItems();
+		} else {
+			return Arrays.asList(response.getMenu());
+		}
+	}
 }

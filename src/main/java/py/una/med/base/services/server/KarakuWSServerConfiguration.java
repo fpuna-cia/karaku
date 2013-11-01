@@ -7,14 +7,14 @@ package py.una.med.base.services.server;
 import java.util.Properties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ws.soap.server.endpoint.SoapFaultDefinition;
-import py.una.med.base.configuration.KarakuWSClientConfiguration;
 import py.una.med.base.exception.HTTPException;
 
 /**
  * Configuración para ser proveedor de servicios.
  *
  * <p>
- * Esta muy relacionada a la clase {@link KarakuWSClientConfiguration} pues ella
+ * Esta muy relacionada a la clase
+ * {@link py.una.med.base.configuration.KarakuWSClientConfiguration} pues ella
  * es la que provee los beans marshaller y umarshaller necesarios para la
  * serialización y desserialización de XML.
  * </p>

@@ -63,20 +63,20 @@ import javax.xml.bind.annotation.XmlType;
 public final class Menu implements Comparable<Menu> {
 
 	@XmlElement(required = true)
-	protected String id;
+	private String id;
 	@XmlElement(required = true)
-	protected String name;
+	private String name;
 	@XmlElement(required = true)
-	protected String url;
+	private String url;
 	@XmlElement(required = true)
-	protected String permission;
+	private String permission;
 	@XmlElement(required = true)
-	protected String enabled;
+	private String enabled;
 	@XmlElement(required = true)
 	private String skipThis;
-	protected int order;
+	private int order;
 	@XmlElement(required = true)
-	protected Menu.Items items;
+	private Menu.Items items;
 
 	/**
 	 * Gets the value of the id property.
@@ -270,7 +270,7 @@ public final class Menu implements Comparable<Menu> {
 	@XmlType(name = "", propOrder = { "menu" })
 	public static class Items {
 
-		protected List<Menu> menu;
+		private List<Menu> menu;
 
 		/**
 		 * Gets the value of the menu property.
@@ -321,6 +321,61 @@ public final class Menu implements Comparable<Menu> {
 	private static int compare(int x, int y) {
 
 		return (x < y) ? -1 : ((x == y) ? 0 : 1);
+	}
+
+	@Override
+	public int hashCode() {
+
+		final int prime = 31;
+		int result = 1;
+		result = (prime * result) + ((id == null) ? 0 : id.hashCode());
+		result = (prime * result) + ((items == null) ? 0 : items.hashCode());
+		result = (prime * result) + ((name == null) ? 0 : name.hashCode());
+		result = (prime * result) + order;
+		result = (prime * result)
+				+ ((permission == null) ? 0 : permission.hashCode());
+		result = (prime * result) + ((url == null) ? 0 : url.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Menu other = (Menu) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (items == null) {
+			if (other.items != null)
+				return false;
+		} else if (!items.equals(other.items))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (order != other.order)
+			return false;
+		if (permission == null) {
+			if (other.permission != null)
+				return false;
+		} else if (!permission.equals(other.permission))
+			return false;
+		if (url == null) {
+			if (other.url != null)
+				return false;
+		} else if (!url.equals(other.url))
+			return false;
+		return true;
 	}
 
 	/**
