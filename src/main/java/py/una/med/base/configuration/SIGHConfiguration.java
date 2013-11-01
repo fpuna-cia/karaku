@@ -3,7 +3,6 @@
  */
 package py.una.med.base.configuration;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -121,12 +120,7 @@ public class SIGHConfiguration {
 	@Bean
 	public I18nHelper helper() {
 
-		i18nHelper = I18nHelper.getSingleton();
-		String value = propertiesUtil
-				.get(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
-
-		i18nHelper.initializeBundles(Arrays.asList(value.split("\\s+")));
-
+		i18nHelper = new I18nHelper();
 		return i18nHelper;
 	}
 

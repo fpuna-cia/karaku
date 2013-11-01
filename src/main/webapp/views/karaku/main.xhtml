@@ -33,11 +33,13 @@
 				<h:outputLabel value="Current WSMenuProvider object" />
 				<h:outputLabel value="#{WSMenuProvider}" />
 			</h:panelGrid>
-			<h:panelGrid columns="2">
-				<a4j:commandButton render="menu_status" value="doSync"
-					action="#{WSMenuProvider.call()}" />
-				<a4j:commandButton render="menu_status" value="Refresh" />
-			</h:panelGrid>
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:commandButton render="menu_status" value="doSync"
+						action="#{WSMenuProvider.call()}" />
+					<a4j:commandButton render="menu_status" value="Refresh" />
+				</h:panelGrid>
+			</h:form>
 		</rich:collapsiblePanel>
 
 		<rich:collapsiblePanel switchType="client" header="Security TEST"

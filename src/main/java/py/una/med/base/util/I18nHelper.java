@@ -4,12 +4,19 @@
 package py.una.med.base.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import py.una.med.base.configuration.PropertiesUtil;
+import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.exception.KeyNotFoundException;
 import py.una.med.base.model.DisplayName;
 
@@ -24,12 +31,25 @@ import py.una.med.base.model.DisplayName;
 @Component
 public class I18nHelper {
 
+	public static final Logger LOG = LoggerFactory.getLogger(I18nHelper.class);
+
+	@Autowired
+	private PropertiesUtil util;
+
 	/**
 	 *
 	 */
 	public I18nHelper() {
 
 		setSingleton(this);
+	}
+
+	@PostConstruct
+	public void initialize() {
+
+		String value = util.get(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
+
+		i18nHelper.initializeBundles(Arrays.asList(value.split("\\s+")));
 	}
 
 	/**
@@ -51,9 +71,13 @@ public class I18nHelper {
 
 	protected Locale getLocale() {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		if (facesContext != null) {
-			return facesContext.getViewRoot().getLocale();
+		try {
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			if (facesContext != null) {
+				return facesContext.getViewRoot().getLocale();
+			}
+		} catch (Exception e) {
+			LOG.debug("Can't get locale", e);
 		}
 		return new Locale("es", "PY");
 	}
@@ -83,13 +107,19 @@ public class I18nHelper {
 
 	private String findInBundles(String key) {
 
+		if (bundles == null) {
+			initialize();
+		}
+
 		for (ResourceBundle bundle : getBundles()) {
 			if (bundle.containsKey(key)) {
 
 				return bundle.getString(key);
 			}
 		}
-		throw new KeyNotFoundException(key);
+		LOG.warn("String not found in current bundles {}", key,
+				new KeyNotFoundException(key));
+		return key + "&&&";
 	}
 
 	/**
