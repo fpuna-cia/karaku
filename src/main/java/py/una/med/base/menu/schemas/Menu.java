@@ -310,12 +310,17 @@ public final class Menu implements Comparable<Menu> {
 	@Override
 	public int compareTo(Menu o) {
 
-		int result = Integer.compare(getOrder(), o.getOrder());
+		int result = compare(getOrder(), o.getOrder());
 		if (result == 0) {
 			// Son iguales
 			result = getName().compareTo(o.getName());
 		}
 		return result;
+	}
+
+	private static int compare(int x, int y) {
+
+		return (x < y) ? -1 : ((x == y) ? 0 : 1);
 	}
 
 	/**
