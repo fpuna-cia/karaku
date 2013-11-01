@@ -251,7 +251,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 			this.reloadEntities();
 		}
-		
+
 	}
 
 	/**
@@ -316,7 +316,8 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 					EntitySerializer.serialize(this.getExample()));
 			return paramsReport;
 		}
-		if ((this.getFilterValue() != null) && !this.getFilterValue().equals("")) {
+		if ((this.getFilterValue() != null)
+				&& !this.getFilterValue().equals("")) {
 			paramsReport.put("selectionFilters", this.getFilterOption() + ": "
 					+ this.getFilterValue());
 			return paramsReport;
@@ -888,8 +889,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		if (actual == null) {
 			return I18nHelper.getMessage(header);
 		} else {
-			return I18nHelper.getMessage(header) + " "
-					+ I18nHelper.getMessage(actual.getName());
+			return I18nHelper.getMessage(header) + " " + actual.getName();
 		}
 
 	}
