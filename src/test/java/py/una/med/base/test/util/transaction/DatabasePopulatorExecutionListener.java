@@ -13,6 +13,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import org.hibernate.SQLQuery;
 import org.hibernate.tool.hbm2ddl.SingleLineSqlCommandExtractor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
@@ -22,12 +23,18 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.test.util.DatabaseUtils;
 import py.una.med.base.test.util.TestUtils;
 import py.una.med.base.util.StringUtils;
 
 /**
  * {@link AbstractTestExecutionListener} que se encarga de crear datos de prueba
  * al inicio de la ejecución de cualquier método.
+ *
+ * <p>
+ * Este {@link AbstractTestExecutionListener} se encarga de procesar las
+ * anotaciones {@link SQLFiles} y {@link Sequences}
+ * </p>
  *
  * @author Arturo Volpe
  * @since 2.2
@@ -36,6 +43,9 @@ import py.una.med.base.util.StringUtils;
  */
 public class DatabasePopulatorExecutionListener extends
 		AbstractTestExecutionListener {
+
+	private String SEQUENCE_CONSTRUCTOR = "Create SEQUENCE %s;";
+	private String SEQUENCE_DESTRUCTOR = "Drop SEQUENCE %s;";
 
 	/**
 	 * Este método carga los archivos SQL tanto de la clase como del método.
@@ -66,19 +76,34 @@ public class DatabasePopulatorExecutionListener extends
 		executeSQLFiles(testContext, sqlFiles);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @param testContext
-	 *            contexto del test.
-	 * @throws Exception
-	 *             si no se encuentra el archivo se lanza una
-	 *             {@link IOException}
-	 */
 	@Override
 	public void afterTestClass(TestContext testContext) throws Exception {
 
 		super.afterTestClass(testContext);
+
+		final Sequences sequences = AnnotationUtils.findAnnotation(
+				testContext.getTestClass(), Sequences.class);
+
+		if ((sequences != null) && (sequences.value() != null)
+				&& (sequences.value().length > 0)) {
+			DatabaseUtils.executeDDL(SEQUENCE_DESTRUCTOR,
+					getApplicationContext(testContext), sequences.value());
+		}
+	}
+
+	@Override
+	public void beforeTestClass(TestContext testContext) throws Exception {
+
+		super.beforeTestClass(testContext);
+
+		final Sequences sequences = AnnotationUtils.findAnnotation(
+				testContext.getTestClass(), Sequences.class);
+
+		if ((sequences != null) && (sequences.value() != null)
+				&& (sequences.value().length > 0)) {
+			DatabaseUtils.executeDDL(SEQUENCE_CONSTRUCTOR,
+					getApplicationContext(testContext), sequences.value());
+		}
 	}
 
 	/**
@@ -164,6 +189,11 @@ public class DatabasePopulatorExecutionListener extends
 			throw new KarakuRuntimeException("Can not load the file "
 					+ cpr.getFilename(), e);
 		}
+	}
+
+	private ApplicationContext getApplicationContext(TestContext tc) {
+
+		return tc.getApplicationContext();
 	}
 
 	/**
