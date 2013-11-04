@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.exception.KeyNotFoundException;
@@ -27,8 +26,6 @@ import py.una.med.base.model.DisplayName;
  * @since 1.0
  * @version 2.1
  */
-
-@Component
 public class I18nHelper {
 
 	public static final Logger LOG = LoggerFactory.getLogger(I18nHelper.class);
