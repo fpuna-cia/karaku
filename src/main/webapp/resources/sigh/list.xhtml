@@ -50,6 +50,9 @@
 		default="true"
 		shortDescription="Define si el enlace editar sera visible" />
 	<composite:facet name="extraColumnButtons" />
+	<composite:attribute name="withViewVisible" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el enlace ver sera visible" />
 </composite:interface>
 <composite:implementation
 	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
@@ -87,6 +90,7 @@
 				withActions="#{cc.attrs.withRowActions}" width="100%"
 				deleteVisible="#{cc.attrs.withDeleteVisible}"
 				editVisible="#{cc.attrs.withEditVisible}"
+				viewVisible="#{cc.attrs.withViewVisible}"
 				withExports="#{cc.attrs.withRowExports}">
 
 				<f:facet name="extraColumnButtons">
