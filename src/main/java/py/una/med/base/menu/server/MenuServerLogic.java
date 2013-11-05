@@ -10,9 +10,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -25,6 +24,7 @@ import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.util.I18nHelper;
+import py.una.med.base.util.ListHelper;
 
 /**
  * Component que provee las funcionalidades para proveer menús.
@@ -112,27 +112,16 @@ public class MenuServerLogic {
 
 		// Este hashSet se usa como un queue, solamente que es deseable que no
 		// tenga valores repetidos
-		HashSet<Menu> toSort = new HashSet<Menu>();
+		TreeSet<Menu> toSort = new TreeSet<Menu>();
 		toSort.add(menu);
-		Menu next = menu;
-		while (next != null) {
+		Menu next;
+		while (!toSort.isEmpty()) {
 
-			toSort.remove(next);
+			next = toSort.pollFirst();
 			handleMenu(next);
-			if ((next.getItems() != null) && !next.getItems().isEmpty()) {
+			if (ListHelper.hasElements(next.getItems())) {
 				sortInMemory(next.getItems());
-				for (Menu m : next.getItems()) {
-					toSort.add(m);
-				}
-			}
-			if (toSort.isEmpty()) {
-				break;
-			}
-			Iterator<Menu> it = toSort.iterator();
-			if (it.hasNext()) {
-				next = it.next();
-			} else {
-				next = null;
+				toSort.addAll(next.getItems());
 			}
 		}
 	}
@@ -162,7 +151,7 @@ public class MenuServerLogic {
 		menu.setName(helper.getString(menu.getName()));
 		if (menu.getUrl() != null) {
 			String pre = util.get("application.host");
-			String url = menu.getUrl();
+			String url = menu.getUrl().trim();
 			if (!pre.endsWith("/") && !url.startsWith("/")) {
 				pre += "/";
 			}

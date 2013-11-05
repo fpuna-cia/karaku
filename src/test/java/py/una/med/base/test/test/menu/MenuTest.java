@@ -107,7 +107,7 @@ public class MenuTest extends BaseTest {
 
 		m1 = m(null, "1", 1, null);
 		m12 = m(m1, "1.2", 2, null);
-		m11 = m(m1, "1.1", 1, "/views/caso3/list.xhtml");
+		m11 = m(m1, "1.1", 1, "/views/caso3/list.xhtml\n");
 		m121 = m(m12, "1.2.1", 1, "/views/caso4/report.xhtml");
 		m122 = m(m12, "1.2.2", 2, "/views/caso5/list.xhtml");
 	}
