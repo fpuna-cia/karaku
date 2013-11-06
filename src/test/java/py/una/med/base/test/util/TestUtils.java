@@ -72,8 +72,11 @@ public class TestUtils {
 		Set<Class<?>> result = getReferencedClasses(base,
 				new HashSet<Class<?>>(10));
 		result.add(base);
+		for (Class<?> c : result) {
+			LOG.info("Found class {} ", c.getSimpleName());
+		}
 		LOG.info("Found '{}' classes with relations with '{}'", result.size(),
-				base.getName());
+				base.getSimpleName());
 		return result.toArray(new Class<?>[result.size()]);
 	}
 

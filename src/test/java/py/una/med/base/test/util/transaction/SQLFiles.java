@@ -23,6 +23,12 @@ public @interface SQLFiles {
 	public static final String DEFAULT = "default";
 
 	/**
+	 * En el caso de que no se quiere ejecutar ningún archivo, establecer esta
+	 * cadena, como valor del atributo {@link #value()}.
+	 */
+	public static final String NONE = "none";
+
+	/**
 	 * Ubicación de los archivos sql para cargar.
 	 * <p>
 	 * Si el archivo no puede ser cargardo se busca en la ubicación del test. <br />
@@ -50,5 +56,5 @@ public @interface SQLFiles {
 	 *
 	 * @return {@link String[]} con la ubicación de los archivos
 	 */
-	String[] filesToLoad() default { DEFAULT };
+	String[] value() default { DEFAULT };
 }

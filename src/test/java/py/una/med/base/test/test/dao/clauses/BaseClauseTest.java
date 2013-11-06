@@ -28,13 +28,13 @@ import py.una.med.base.test.util.transaction.SQLFiles;
 /**
  * Clase que se utiliza para facilitar la realización de test de los diferentes
  * tipos de {@link Clause}
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 13, 2013
- * 
+ *
  */
-@SQLFiles(filesToLoad = "WhereTest")
+@SQLFiles("WhereTest")
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class BaseClauseTest extends BaseTestWithDatabase {
 
@@ -96,7 +96,7 @@ public class BaseClauseTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestGrandChild}
-	 * 
+	 *
 	 * @return {@link Where}
 	 */
 	String g(String property) {
@@ -107,7 +107,7 @@ public class BaseClauseTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestChild}
-	 * 
+	 *
 	 * @return {@link Where}
 	 */
 	String c(String property) {

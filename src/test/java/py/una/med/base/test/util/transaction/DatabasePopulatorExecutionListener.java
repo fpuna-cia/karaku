@@ -203,10 +203,12 @@ public class DatabasePopulatorExecutionListener extends
 	 */
 	private List<String> getFiles(TestContext testContext, SQLFiles sqlFiles) {
 
-		List<String> files = new ArrayList<String>(
-				sqlFiles.filesToLoad().length);
-		for (String file : sqlFiles.filesToLoad()) {
+		List<String> files = new ArrayList<String>(sqlFiles.value().length);
+		for (String file : sqlFiles.value()) {
 			String path = file.trim();
+			if (path.equals(SQLFiles.NONE)) {
+				continue;
+			}
 			if (path.equals(SQLFiles.DEFAULT) || path.equals("")) {
 				path = getSQLFile(testContext.getTestClass().getName());
 			}

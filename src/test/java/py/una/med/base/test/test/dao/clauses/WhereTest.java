@@ -34,11 +34,11 @@ import py.una.med.base.test.util.transaction.SQLFiles;
 /**
  * Test de integración de {@link Where} del {@link SIGHBaseDao}. Ver el archivo
  * WhereTest.SQL
- * 
+ *
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Sep 10, 2013
- * 
+ *
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class WhereTest extends BaseTestWithDatabase {
@@ -168,7 +168,7 @@ public class WhereTest extends BaseTestWithDatabase {
 	 * </p>
 	 */
 	@Test
-	@SQLFiles(filesToLoad = "RemoveTest")
+	@SQLFiles("RemoveTest")
 	public void remove() {
 
 		Long idToTest = 100L;
