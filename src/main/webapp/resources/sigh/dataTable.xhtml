@@ -38,9 +38,12 @@
 	<composite:attribute name="width" default="620px" />
 	<composite:attribute name="disableSelection" default="true" />
 	<composite:attribute name="renderOnClick" />
+	<composite:facet name="extraColumnButtons" />
 
 </composite:interface>
 <composite:implementation>
+
+
 	<rich:extendedDataTable value="#{cc.attrs.items}" var="item"
 		id="#{cc.attrs.idDataTable}" rows="15" selectionMode="none"
 		style="height:#{cc.attrs.height}; width:#{cc.attrs.width}">
@@ -73,6 +76,7 @@
 						<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
 							value="#{item}" />
 					</h:commandButton>
+					<composite:renderFacet name="extraColumnButtons" />
 				</o:separateConversationContext>
 			</rich:column>
 		</c:if>
@@ -95,6 +99,8 @@
 				<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
 					value="#{item}" />
 			</h:commandLink>
+
+
 		</rich:column>
 	</rich:extendedDataTable>
 </composite:implementation>

@@ -49,7 +49,7 @@
 	<composite:attribute name="withEditVisible" type="java.lang.Boolean"
 		default="true"
 		shortDescription="Define si el enlace editar sera visible" />
-
+	<composite:facet name="extraColumnButtons" />
 </composite:interface>
 <composite:implementation
 	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
@@ -88,8 +88,15 @@
 				deleteVisible="#{cc.attrs.withDeleteVisible}"
 				editVisible="#{cc.attrs.withEditVisible}"
 				withExports="#{cc.attrs.withRowExports}">
+
+				<f:facet name="extraColumnButtons">
+					<h:inputHidden value="facetRender" />
+					<composite:insertFacet name="extraColumnButtons" />
+				</f:facet>
 				<ui:include src="#{cc.attrs.urlColumns}" />
+
 			</sigh:dataTable>
+
 		</h:form>
 	</rich:panel>
 	<h:form
