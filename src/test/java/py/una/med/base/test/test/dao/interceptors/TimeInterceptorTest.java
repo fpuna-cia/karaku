@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.dao.entity.annotations.Time;
 import py.una.med.base.dao.entity.annotations.Time.Type;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
@@ -24,7 +25,7 @@ import py.una.med.base.test.configuration.BaseTestConfiguration;
 
 /**
  * The Class TimeInterceptorTest.
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 1, 2013
@@ -40,7 +41,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Interceptor handler.
-		 * 
+		 *
 		 * @return the interceptor handler
 		 */
 		@Bean
@@ -51,7 +52,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Time interceptor.
-		 * 
+		 *
 		 * @return the time interceptor
 		 */
 		@Bean
@@ -86,7 +87,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		TimeTest tt = new TimeTest(d, d, d);
 
-		this.interceptorHandler.intercept(tt);
+		this.interceptorHandler.intercept(Operation.CREATE, tt);
 
 		Calendar c = Calendar.getInstance();
 		c.setTime(tt.getTime());
@@ -118,7 +119,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		TimeTest tt = new TimeTest(d, d, d);
 
-		this.interceptorHandler.intercept(tt);
+		this.interceptorHandler.intercept(Operation.CREATE, tt);
 
 		Calendar c = Calendar.getInstance();
 		c.setTime(tt.getDateTime());
@@ -150,7 +151,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		TimeTest tt = new TimeTest(d, d, d);
 
-		this.interceptorHandler.intercept(tt);
+		this.interceptorHandler.intercept(Operation.CREATE, tt);
 
 		Calendar c = Calendar.getInstance();
 		c.setTime(tt.getDate());
@@ -189,7 +190,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Instantiates a new time test.
-		 * 
+		 *
 		 * @param time
 		 *            the time
 		 * @param dateTime
@@ -207,7 +208,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Gets the time.
-		 * 
+		 *
 		 * @return time
 		 */
 		public Date getTime() {
@@ -217,7 +218,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Gets the date.
-		 * 
+		 *
 		 * @return date
 		 */
 		public Date getDate() {
@@ -227,7 +228,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Gets the date time.
-		 * 
+		 *
 		 * @return dateTime
 		 */
 		public Date getDateTime() {

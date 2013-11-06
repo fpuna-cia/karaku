@@ -6,6 +6,7 @@ package py.una.med.base.test.test.security;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import py.una.med.base.test.configuration.BaseTestConfiguration;
  * @version 1.0 Oct 24, 2013
  *
  */
+@Ignore("Para que se pueda ejecutar sin la existencia de un LDAP")
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class SIGHUserServiceTest extends BaseTest {
 

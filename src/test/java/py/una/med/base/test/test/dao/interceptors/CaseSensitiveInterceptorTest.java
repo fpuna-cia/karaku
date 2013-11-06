@@ -16,17 +16,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import py.una.med.base.dao.annotations.CaseSensitive;
+import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.dao.entity.interceptors.CaseSensitiveInterceptor;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
 import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 1, 2013
- * 
+ *
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class CaseSensitiveInterceptorTest extends BaseTest {
@@ -65,7 +66,7 @@ public class CaseSensitiveInterceptorTest extends BaseTest {
 		String upper = "UP";
 		CaseSensitiveTest cst = new CaseSensitiveTest(noUp, up);
 
-		this.interceptorHandler.intercept(cst);
+		this.interceptorHandler.intercept(Operation.CREATE, cst);
 
 		assertEquals(cst.getSensible(), noUp);
 		assertNotEquals(cst.getInsensible(), up);

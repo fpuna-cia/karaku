@@ -16,7 +16,7 @@ import py.una.med.base.dao.entity.annotations.FieldAnnotation;
  * @version 1.0
  *
  */
-@Target(ElementType.FIELD)
+@Target({ ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @FieldAnnotation
 public @interface CaseSensitive {

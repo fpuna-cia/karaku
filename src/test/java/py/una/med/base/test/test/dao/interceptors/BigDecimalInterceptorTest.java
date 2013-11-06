@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.dao.entity.interceptors.BigDecimalInterceptor;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
 import py.una.med.base.exception.KarakuRuntimeException;
@@ -21,11 +22,11 @@ import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 3, 2013
- * 
+ *
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class BigDecimalInterceptorTest extends BaseTest {
@@ -60,29 +61,29 @@ public class BigDecimalInterceptorTest extends BaseTest {
 	public void testBigDecimal() {
 
 		CaseSensitiveTest cst = new CaseSensitiveTest(BigDecimal.ONE);
-		interceptorHandler.intercept(cst);
+		interceptorHandler.intercept(Operation.CREATE, cst);
 
 		cst = new CaseSensitiveTest(new BigDecimal("12.01"));
-		interceptorHandler.intercept(cst);
-		
+		interceptorHandler.intercept(Operation.CREATE, cst);
+
 		cst = new CaseSensitiveTest(new BigDecimal("0.01"));
-		interceptorHandler.intercept(cst);
-		
+		interceptorHandler.intercept(Operation.CREATE, cst);
+
 		cst = new CaseSensitiveTest(new BigDecimal("0000000.01"));
-		interceptorHandler.intercept(cst);
-		
+		interceptorHandler.intercept(Operation.CREATE, cst);
+
 		cst = new CaseSensitiveTest(new BigDecimal("100000000.01"));
-		interceptorHandler.intercept(cst);
-		
+		interceptorHandler.intercept(Operation.CREATE, cst);
+
 		cst = new CaseSensitiveTest(new BigDecimal("-1.01"));
-		interceptorHandler.intercept(cst);
+		interceptorHandler.intercept(Operation.CREATE, cst);
 	}
 
 	@Test(expected = KarakuRuntimeException.class)
 	public void testExploit() {
 
 		CaseSensitiveTest cst = new CaseSensitiveTest(new BigDecimal("0.001"));
-		interceptorHandler.intercept(cst);
+		interceptorHandler.intercept(Operation.CREATE, cst);
 	}
 
 	class CaseSensitiveTest {

@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
+import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.dao.entity.annotations.Time;
 
 /**
@@ -22,14 +23,13 @@ import py.una.med.base.dao.entity.annotations.Time;
 public class TimeInterceptor extends AbstractInterceptor {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final int FIRST_DAY_OF_YEAR = 1;
 	/**
-	 * 
+	 *
 	 */
 	private static final int FIRST_YEAR = 1970;
-
 
 	@Override
 	public Class<?>[] getObservedTypes() {
@@ -45,7 +45,13 @@ public class TimeInterceptor extends AbstractInterceptor {
 	}
 
 	@Override
-	public void intercept(Field f, Object bean) {
+	public boolean interceptable(Operation op, Field field, Object bean) {
+
+		return op != Operation.DELETE;
+	};
+
+	@Override
+	public void intercept(Operation op, Field f, Object bean) {
 
 		Object o = ReflectionUtils.getField(f, bean);
 
@@ -80,7 +86,6 @@ public class TimeInterceptor extends AbstractInterceptor {
 		c.set(Calendar.DAY_OF_YEAR, FIRST_DAY_OF_YEAR);
 
 	}
-
 
 	/**
 	 * @param c

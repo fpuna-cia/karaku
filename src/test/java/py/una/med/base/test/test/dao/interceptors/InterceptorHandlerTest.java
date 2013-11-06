@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.dao.entity.interceptors.AbstractInterceptor;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
 import py.una.med.base.test.base.BaseTest;
@@ -67,7 +68,7 @@ public class InterceptorHandlerTest extends BaseTest {
 		cst.setTransientSerializable(noUp);
 		TestEntity.ESTATICA = noUp;
 
-		this.interceptorHandler.intercept(cst);
+		this.interceptorHandler.intercept(Operation.CREATE, cst);
 
 		assertEquals(cst.getTransientNoSerializable(), noUp);
 		assertEquals(cst.getTransientSerializable(), noUp);
@@ -92,7 +93,7 @@ public class InterceptorHandlerTest extends BaseTest {
 		}
 
 		@Override
-		public void intercept(Field f, Object bean) {
+		public void intercept(Operation op, Field f, Object bean) {
 
 			assertEquals("interceptable", f.getName());
 		}

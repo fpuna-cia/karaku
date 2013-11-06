@@ -30,6 +30,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.BaseDAO;
+import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
 import py.una.med.base.dao.helper.BaseClauseHelper;
 import py.una.med.base.dao.helper.RestrictionHelper;
@@ -94,7 +95,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public T add(final T entity) {
 
 		T entidad = entity;
-		this.interceptorHandler.intercept(entidad);
+		interceptorHandler.intercept(Operation.CREATE, entidad);
 		entidad = (T) this.getSession().merge(entidad);
 		this.getSession().flush();
 		this.copyID(entidad, entity);
@@ -349,7 +350,9 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public void remove(final K id) {
 
 		// TODO lograr que no haga una consulta antes de eliminar
+
 		Object o = this.getSession().load(this.getClassOfT(), id);
+		interceptorHandler.intercept(Operation.DELETE, o);
 		this.getSession().delete(o);
 	}
 
@@ -359,6 +362,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		// TODO lograr que no haga una consulta antes de eliminar
 		Object o = this.getSession().load(this.getClassOfT(),
 				this.getIdValue(entity));
+		interceptorHandler.intercept(Operation.DELETE, o);
 		this.getSession().delete(o);
 	}
 
@@ -384,7 +388,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public T update(final T entity) {
 
 		T entidad = entity;
-		this.interceptorHandler.intercept(entidad);
+		interceptorHandler.intercept(Operation.UPDATE, entidad);
 		entidad = (T) this.getSession().merge(entidad);
 		this.getSession().flush();
 		return entidad;

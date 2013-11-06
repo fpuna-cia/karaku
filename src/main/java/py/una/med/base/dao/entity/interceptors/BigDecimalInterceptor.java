@@ -8,20 +8,21 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
+import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 3, 2013
- * 
+ *
  */
 @Component
 public class BigDecimalInterceptor extends AbstractInterceptor {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final int MAXIMUM_PRECISION = 2;
 
@@ -38,7 +39,7 @@ public class BigDecimalInterceptor extends AbstractInterceptor {
 	}
 
 	@Override
-	public void intercept(Field field, Object bean) {
+	public void intercept(Operation o, Field field, Object bean) {
 
 		BigDecimal value = (BigDecimal) ReflectionUtils.getField(field, bean);
 		if (value == null) {
@@ -56,5 +57,14 @@ public class BigDecimalInterceptor extends AbstractInterceptor {
 							field.getName(), bean.getClass().getSimpleName(),
 							precision, MAXIMUM_PRECISION));
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean interceptable(Operation op, Field field, Object bean) {
+
+		return op != Operation.DELETE;
 	}
 }

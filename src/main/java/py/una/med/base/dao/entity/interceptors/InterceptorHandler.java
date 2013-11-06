@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
+import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.log.Log;
 
 /**
@@ -69,40 +70,61 @@ public class InterceptorHandler implements InitializingBean {
 
 	}
 
-	public void intercept(final Object bean) {
+	public void intercept(final Operation op, final Object bean) {
 
 		ReflectionUtils.doWithFields(bean.getClass(), new FieldCallback() {
 
 			@Override
 			public void doWith(Field field) throws IllegalAccessException {
 
-				InterceptorHandler.this.intercept(field, bean);
+				InterceptorHandler.this.intercept(op, field, bean);
 			}
 		});
 	}
 
-	public void intercept(Field field, Object bean) {
+	public void intercept(Operation op, Field field, Object bean) {
 
 		field.setAccessible(true);
 		Class<?> type = field.getType();
 
-		Set<Interceptor> typeInterceptors = this.getInterceptorsByType(type);
-		typeInterceptors.addAll(this.getInterceptorsByType(void.class));
+		Set<Interceptor> typeInterceptors = addAll(byType.get(void.class),
+				byType.get(type));
 
 		Annotation[] annons = field.getAnnotations();
-		Set<Interceptor> annonInterceptors = this
-				.getInterceptorsByAnnotation(void.class);
-		for (Annotation an : annons) {
-			annonInterceptors.addAll(this.getInterceptorsByAnnotation(an
-					.annotationType()));
+
+		Set<Interceptor> annonInterceptors = new HashSet<Interceptor>();
+		if (byAnnotation.get(void.class) != null) {
+			annonInterceptors.addAll(byAnnotation.get(void.class));
 		}
+
+		for (Annotation an : annons) {
+			if (byAnnotation.get(an.annotationType()) != null) {
+				annonInterceptors.addAll(byAnnotation.get(an.annotationType()));
+			}
+		}
+
 		typeInterceptors.retainAll(annonInterceptors);
 
 		for (Interceptor bi : typeInterceptors) {
-			if (this.isAssignable(field) && bi.interceptable(field, bean)) {
-				bi.intercept(field, bean);
+			if (this.isAssignable(field) && bi.interceptable(op, field, bean)) {
+				bi.intercept(op, field, bean);
 			}
 		}
+	}
+
+	private Set<Interceptor> addAll(Set<Interceptor> base,
+			Set<Interceptor> toAdd) {
+
+		Set<Interceptor> toRet;
+		if (base == null) {
+			toRet = new HashSet<Interceptor>();
+		} else {
+			toRet = new HashSet<Interceptor>(base);
+		}
+		if (toAdd != null) {
+			toRet.addAll(toAdd);
+		}
+		return toRet;
 	}
 
 	private Set<Interceptor> getInterceptorsByType(Class<?> type) {

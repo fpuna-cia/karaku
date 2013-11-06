@@ -4,6 +4,7 @@
 package py.una.med.base.dao.entity.interceptors;
 
 import java.lang.reflect.Field;
+import py.una.med.base.dao.entity.Operation;
 
 /**
  * Interfaz que define un EntityInterceptor
@@ -29,7 +30,7 @@ public interface Interceptor {
 	 * Lista de tipos observados.
 	 *
 	 * <p>
-	 * Si el vector que retorna, retorna {@link Void}.class, entonces escuchara
+	 * Si el vector que retorna, retorna {@link void}.class, entonces escuchara
 	 * a cualquier tipo.
 	 *
 	 * </p>
@@ -40,12 +41,12 @@ public interface Interceptor {
 
 	/**
 	 * Lista de anotaciones escuchadas
-	 *
+	 * 
 	 * <p>
-	 * Si el vector que retorna, retorna {@link Void}.class, entonces escuchara
+	 * Si el vector que retorna, retorna {@link void}.class, entonces escuchara
 	 * a cualquier anotación.
 	 * </p>
-	 *
+	 * 
 	 * @return vector de clases que definen las anotaciones observados.
 	 */
 	Class<?>[] getObservedAnnotations();
@@ -76,8 +77,11 @@ public interface Interceptor {
 	 *            campo actualmente procesado
 	 * @param bean
 	 *            bean a guardar
+	 * @param operation
+	 *            tipo de operación.
+	 * @see Operation
 	 */
-	void intercept(Field field, Object bean);
+	void intercept(Operation operation, Field field, Object bean);
 
 	/**
 	 * Define si un atributo debe ser interceptado.
@@ -104,9 +108,12 @@ public interface Interceptor {
 	 *            atributo a interceptar
 	 * @param bean
 	 *            bean actual del objeto
+	 * @param operation
+	 *            tipo de operación.
 	 * @return <code>true</code> si se desea interceptar, <code>false</code> si
 	 *         no cumple las precondiciones de la lógica.
+	 * @see Operation
 	 */
-	boolean interceptable(Field field, Object bean);
+	boolean interceptable(Operation op, Field field, Object bean);
 
 }

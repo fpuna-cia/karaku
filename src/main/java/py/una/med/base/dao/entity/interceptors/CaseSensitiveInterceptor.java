@@ -4,10 +4,12 @@
  */
 package py.una.med.base.dao.entity.interceptors;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import py.una.med.base.dao.annotations.CaseSensitive;
+import py.una.med.base.dao.entity.Operation;
 
 /**
  *
@@ -32,21 +34,22 @@ public class CaseSensitiveInterceptor extends AbstractInterceptor {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * py.una.med.base.dao.entity.interceptors.BaseInterceptor#filter(java.lang
-	 * .reflect.Field, java.lang.Object)
-	 */
 	@Override
-	public boolean interceptable(Field f, Object bean) {
+	public boolean interceptable(Operation op, Field f, Object bean) {
 
-		return f.getAnnotation(CaseSensitive.class) == null;
+		boolean interceptable = (op != Operation.DELETE)
+				&& (f.getAnnotation(CaseSensitive.class) == null);
+		for (Annotation a : f.getAnnotations()) {
+			if (a.annotationType().isAnnotationPresent(CaseSensitive.class)) {
+				interceptable = false;
+			}
+		}
+
+		return interceptable;
 	}
 
 	@Override
-	public void intercept(Field f, Object bean) {
+	public void intercept(Operation op, Field f, Object bean) {
 
 		Object o = ReflectionUtils.getField(f, bean);
 		String s = (String) o;
