@@ -368,7 +368,11 @@ public final class DynamicUtils {
 			FastReportBuilder structReport, List<Column> columns, Class<T> clazz)
 			throws ReportException {
 
-		this.addColumn(structReport, columns, clazz);
+		if (Object.class.equals(clazz)) {
+			addColumn(structReport, columns);
+		} else {
+			addColumn(structReport, columns, clazz);
+		}
 
 		structReport.setDefaultStyles(null, null, this.getStyleColumnHeader(),
 				this.getStyleColumnDetail());
@@ -623,7 +627,7 @@ public final class DynamicUtils {
 
 		FastReportBuilder structBlockReport = this.newInstance();
 		structBlockReport.setDefaultStyles(this.getStyleTitle(), null,
-				this.getStyleColumnHeader(), null);
+				this.getStyleColumnHeader(), getStyleColumnDetail());
 
 		structBlockReport.setTitle(block.getTitle());
 		this.addColumn(structBlockReport, block.getColumns());
