@@ -449,7 +449,8 @@ public abstract class SIGHDynamicSurveyBaseController implements
 					detalle.setEncuesta(getBean());
 					detalle.setPregunta(block.getQuestion(index));
 					// Solo almaceno los valores ingresados
-					if (!field.getField().getValue().equals("")) {
+					if (py.una.med.base.util.StringUtils.isValid(field
+							.getField().getValue())) {
 
 						detalle.setRespuesta(field.getField().getValue());
 					}
