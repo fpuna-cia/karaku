@@ -96,7 +96,7 @@ import py.una.med.base.test.util.transaction.SQLFiles;
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 @TestExecutionListeners({ TransactionalTestExecutionListener.class,
-	DatabasePopulatorExecutionListener.class })
+		DatabasePopulatorExecutionListener.class })
 @SQLFiles
 public abstract class BaseTestWithDatabase extends BaseTest {
 

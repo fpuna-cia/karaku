@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import py.una.med.base.exception.HTTPException;
-import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.menu.schemas.MenuRequest;
 import py.una.med.base.menu.schemas.MenuResponse;
@@ -31,25 +29,20 @@ public class MenuServiceEndpoint {
 
 	@PayloadRoot(localPart = "menuRequest", namespace = TARGET_NAMESPACE)
 	@ResponsePayload
-	public MenuResponse menuRequest(@RequestPayload MenuRequest request)
-			throws HTTPException {
+	public MenuResponse menuRequest(@RequestPayload MenuRequest request) {
 
-		try {
-			MenuResponse toRet = new MenuResponse();
-			List<Menu> menus = menuServerLogic.getCurrentSystemMenu();
+		MenuResponse toRet = new MenuResponse();
+		List<Menu> menus = menuServerLogic.getCurrentSystemMenu();
 
-			if (menus.size() == 1) {
-				toRet.setMenu(menus.get(0));
-			} else {
-				Menu newRoot = new Menu();
-				newRoot.setSkipThis("true");
-				newRoot.setItems(menus);
-				toRet.setSkipRoot("true");
-				toRet.setMenu(newRoot);
-			}
-			return toRet;
-		} catch (Exception e) {
-			throw new KarakuRuntimeException(e);
+		if (menus.size() == 1) {
+			toRet.setMenu(menus.get(0));
+		} else {
+			Menu newRoot = new Menu();
+			newRoot.setSkipThis("true");
+			newRoot.setItems(menus);
+			toRet.setSkipRoot("true");
+			toRet.setMenu(newRoot);
 		}
+		return toRet;
 	}
 }

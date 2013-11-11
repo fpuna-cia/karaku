@@ -8,22 +8,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
 import py.una.med.base.audit.SIGHRevisionListener;
 
 /**
- * 
- * 
- * @author Romina Fernandez, Arturo Volpe
+ *
+ *
+ * @author Romina Fernandez
+ * @author Arturo Volpe
  * @since 1.0
  * @version 1.0
- * 
+ *
  */
 @Entity
-@Table(name="revision_entity")
+@Table(name = "revision_entity")
 @RevisionEntity(SIGHRevisionListener.class)
 @SequenceGenerator(name = "REVISION_ENTITY_SEQ", sequenceName = "revision_entity_id_seq")
 public class SIGHRevisionEntity implements Serializable {
@@ -44,7 +44,7 @@ public class SIGHRevisionEntity implements Serializable {
 	private String ip;
 
 	/**
-	 * 
+	 *
 	 * @return Id principal de la entidad
 	 */
 	public Long getId() {
@@ -53,7 +53,7 @@ public class SIGHRevisionEntity implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(Long id) {
@@ -62,7 +62,7 @@ public class SIGHRevisionEntity implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Fecha en la cual se realizo la revision
 	 */
 	public long getTimestamp() {
@@ -71,7 +71,7 @@ public class SIGHRevisionEntity implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param timestamp
 	 */
 	public void setTimestamp(long timestamp) {
@@ -80,7 +80,7 @@ public class SIGHRevisionEntity implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return actor principal del hecho
 	 */
 	public String getUsername() {
@@ -89,7 +89,7 @@ public class SIGHRevisionEntity implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param username
 	 */
 	public void setUsername(String username) {
@@ -98,7 +98,7 @@ public class SIGHRevisionEntity implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return direccion desde la cual se realizo el hecho
 	 */
 	public String getIp() {
@@ -107,7 +107,7 @@ public class SIGHRevisionEntity implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ip
 	 */
 	public void setIp(String ip) {
