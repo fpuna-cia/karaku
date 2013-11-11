@@ -298,6 +298,20 @@ public final class DynamicUtils {
 		return structReportHead;
 	}
 
+	/**
+	 * Agrega un subreporte al reporte maestro, donde el dataSource del
+	 * subReporte se encuentra en la lista de parametros.
+	 * 
+	 * @param structReportHead
+	 *            Reporte maestro o principal.
+	 * @param subReport
+	 *            Subreporte que se desea agregar
+	 * @param field
+	 *            Nombre del parametro donde se encuentra el dataSource del
+	 *            subreporte
+	 * @return Reporte maestro con el subreporte concatenado
+	 * @throws ReportException
+	 */
 	public FastReportBuilder addDetailByParameter(
 			FastReportBuilder structReportHead, FastReportBuilder subReport,
 			String field) throws ReportException {
@@ -316,6 +330,22 @@ public final class DynamicUtils {
 		return structReportHead;
 	}
 
+	/**
+	 * Agrega un subreporte al reporte maestro, donde el dataSource del
+	 * subReporte se encuentra en un field del tipo <b>List</b> del dataSource
+	 * principal, por ejemplo: <li><b>documentos</b> Lista de documentos de una
+	 * persona</li>
+	 * 
+	 * @param structReportHead
+	 *            Reporte maestro o principal.
+	 * @param subReport
+	 *            Subreporte que se desea agregar
+	 * @param field
+	 *            Nombre del parametro donde se encuentra el dataSource del
+	 *            subreporte
+	 * @return Reporte maestro con el subreporte concatenado
+	 * @throws ReportException
+	 */
 	public FastReportBuilder addDetailByField(
 			FastReportBuilder structReportHead, FastReportBuilder subReport,
 			String field) throws ReportException {
