@@ -18,16 +18,16 @@ import py.una.med.base.test.test.util.layers.TestGrandChild;
 
 /**
  * Clases de prueba para la {@link Clause} {@link NumberLike}
- * 
+ *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 13, 2013
- * 
+ *
  */
 public class NumberLikeTest extends BaseClauseTest {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final String BIG_DECIMAL = "bigDecimal";
 	@Autowired
@@ -40,7 +40,7 @@ public class NumberLikeTest extends BaseClauseTest {
 	 * </p>
 	 */
 	@Test
-	public void main() {
+	public void testEntity() {
 
 		assertThat(
 				count(where().addClause(Clauses.numberLike(BIG_DECIMAL, 65))),
@@ -75,7 +75,7 @@ public class NumberLikeTest extends BaseClauseTest {
 	 * </p>
 	 */
 	@Test
-	public void child() {
+	public void testChild() {
 
 		assertThat(
 				count(where().addClause(Clauses.numberLike(c(BIG_DECIMAL), 65))),
@@ -113,7 +113,7 @@ public class NumberLikeTest extends BaseClauseTest {
 	 * </p>
 	 */
 	@Test
-	public void grandChild() {
+	public void testGrandChild() {
 
 		assertThat(
 				count(where().addClause(Clauses.numberLike(g(BIG_DECIMAL), 5))),

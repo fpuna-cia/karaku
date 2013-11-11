@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.BaseDAO;
 import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
+import py.una.med.base.dao.entity.watchers.WatcherHandler;
 import py.una.med.base.dao.helper.BaseClauseHelper;
 import py.una.med.base.dao.helper.RestrictionHelper;
 import py.una.med.base.dao.restrictions.Where;
@@ -77,6 +78,9 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@Autowired
 	private MainInstanceHelper mainInstanceHelper;
 
+	@Autowired
+	private WatcherHandler watcherHandler;
+
 	@Log
 	private Logger log;
 
@@ -90,16 +94,75 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		return null;
 	}
 
-	@SuppressWarnings(UNCHECKED)
 	@Override
 	public T add(final T entity) {
 
-		T entidad = entity;
-		interceptorHandler.intercept(Operation.CREATE, entidad);
-		entidad = (T) this.getSession().merge(entidad);
+		return doIt(Operation.CREATE, entity);
+	}
+
+	@SuppressWarnings(UNCHECKED)
+	@Override
+	public void remove(final K id) {
+
+		T o = (T) this.getSession().load(this.getClassOfT(), id);
+		remove(o);
+	}
+
+	@Override
+	public T update(final T entity) {
+
+		return doIt(Operation.UPDATE, entity);
+	}
+
+	@Override
+	public void remove(final T entity) {
+
+		doIt(Operation.DELETE, entity);
+	}
+
+	private T doIt(Operation op, T entity) {
+
+		Operation origin = op;
+		Operation real = watcherHandler.redirect(origin, getClassOfT(), entity);
+		watcherHandler.process(origin, real, getClassOfT(), entity);
+		interceptorHandler.intercept(real, entity);
+
+		switch (real) {
+			case CREATE:
+				return realAdd(entity);
+			case UPDATE:
+				return realUpdate(entity);
+			default:
+				realDelete(entity);
+				return null;
+		}
+
+	}
+
+	@SuppressWarnings(UNCHECKED)
+	private T realAdd(T entity) {
+
+		T entidad = (T) this.getSession().merge(entity);
 		this.getSession().flush();
 		this.copyID(entidad, entity);
 		return entidad;
+	}
+
+	@SuppressWarnings(UNCHECKED)
+	private T realUpdate(T entity) {
+
+		T entidad = entity;
+		entidad = (T) this.getSession().merge(entidad);
+		this.getSession().flush();
+		return entidad;
+	}
+
+	private void realDelete(T entity) {
+
+		// TODO lograr que no haga una consulta antes de eliminar
+		Object o = this.getSession().load(this.getClassOfT(),
+				this.getIdValue(entity));
+		this.getSession().delete(o);
 	}
 
 	/**
@@ -346,26 +409,6 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		}
 	};
 
-	@Override
-	public void remove(final K id) {
-
-		// TODO lograr que no haga una consulta antes de eliminar
-
-		Object o = this.getSession().load(this.getClassOfT(), id);
-		interceptorHandler.intercept(Operation.DELETE, o);
-		this.getSession().delete(o);
-	}
-
-	@Override
-	public void remove(final T entity) {
-
-		// TODO lograr que no haga una consulta antes de eliminar
-		Object o = this.getSession().load(this.getClassOfT(),
-				this.getIdValue(entity));
-		interceptorHandler.intercept(Operation.DELETE, o);
-		this.getSession().delete(o);
-	}
-
 	/**
 	 * Asigna un sessionFactory para ser usado de ahora en mas para obtener
 	 * sessiones y mantener transacciones
@@ -375,23 +418,6 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public void setSessionFactory(final SessionFactory sessionFactory) {
 
 		this.sessionFactory = sessionFactory;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * Aquí no se debe copiar el ID como en {@link #add(Object)}, pues el
-	 * {@link Id} no debe ser mutable.
-	 */
-	@SuppressWarnings(UNCHECKED)
-	@Override
-	public T update(final T entity) {
-
-		T entidad = entity;
-		interceptorHandler.intercept(Operation.UPDATE, entidad);
-		entidad = (T) this.getSession().merge(entidad);
-		this.getSession().flush();
-		return entidad;
 	}
 
 	@SuppressWarnings(UNCHECKED)

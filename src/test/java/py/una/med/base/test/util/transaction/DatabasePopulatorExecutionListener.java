@@ -47,6 +47,21 @@ public class DatabasePopulatorExecutionListener extends
 	private String SEQUENCE_CONSTRUCTOR = "Create SEQUENCE %s;";
 	private String SEQUENCE_DESTRUCTOR = "Drop SEQUENCE %s;";
 
+	@Override
+	public void afterTestClass(TestContext testContext) throws Exception {
+
+		super.afterTestClass(testContext);
+
+		final Sequences sequences = AnnotationUtils.findAnnotation(
+				testContext.getTestClass(), Sequences.class);
+
+		if ((sequences != null) && (sequences.value() != null)
+				&& (sequences.value().length > 0)) {
+			DatabaseUtils.executeDDL(SEQUENCE_DESTRUCTOR,
+					getApplicationContext(testContext), sequences.value());
+		}
+	}
+
 	/**
 	 * Este método carga los archivos SQL tanto de la clase como del método.
 	 * <p>
@@ -74,21 +89,6 @@ public class DatabasePopulatorExecutionListener extends
 		SQLFiles sqlFiles = AnnotationUtils.findAnnotation(
 				testContext.getTestMethod(), SQLFiles.class);
 		executeSQLFiles(testContext, sqlFiles);
-	}
-
-	@Override
-	public void afterTestClass(TestContext testContext) throws Exception {
-
-		super.afterTestClass(testContext);
-
-		final Sequences sequences = AnnotationUtils.findAnnotation(
-				testContext.getTestClass(), Sequences.class);
-
-		if ((sequences != null) && (sequences.value() != null)
-				&& (sequences.value().length > 0)) {
-			DatabaseUtils.executeDDL(SEQUENCE_DESTRUCTOR,
-					getApplicationContext(testContext), sequences.value());
-		}
 	}
 
 	@Override

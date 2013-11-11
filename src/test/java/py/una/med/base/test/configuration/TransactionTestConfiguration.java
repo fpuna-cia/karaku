@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
+import org.hibernate.envers.Audited;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -124,7 +125,8 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 					properties.get("hibernate.show_sql", STRING_FALSE));
 			props.put("hibernate.format_sql",
 					properties.get("hibernate.format_sql", STRING_FALSE));
-			props.put("hibernate.listeners.envers.autoRegister", "false");
+			props.put("hibernate.listeners.envers.autoRegister",
+					getWithEnvers());
 		} catch (KarakuPropertyNotFoundException kpnfe) {
 			throw new KarakuRuntimeException(
 					"Please check the properties file", kpnfe);
@@ -135,7 +137,19 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	/**
-	 * Retorna la lista de paquetes que serán exploradas por esta configuración.
+	 * Debe estar activado envers?.
+	 *
+	 * @return <code>true</code> si se desea que se autoregistren las entidades
+	 *         con {@link Audited}, <code>false</code> en caso contrario.
+	 */
+	protected boolean getWithEnvers() {
+
+		return false;
+	}
+
+	/**
+	 * Retorna la lista de paquetes que serán exploradas por esta
+	 * configuración.
 	 * <p>
 	 * Por defecto utiliza la propiedad <code>base-package-hibernate</code> del
 	 * archivo de propiedades.
@@ -150,9 +164,9 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	/**
-	 * Retorna la lista de paquetes que serán exploradas por esta configuración.
-	 * Si este método no retorna <code>null</code>, entonces el método
-	 * {@link #getBasePackageToScan()} es omitido.
+	 * Retorna la lista de paquetes que serán exploradas por esta
+	 * configuración. Si este método no retorna <code>null</code>, entonces el
+	 * método {@link #getBasePackageToScan()} es omitido.
 	 * <p>
 	 * Por defecto retorna null.
 	 * </p>
@@ -273,6 +287,12 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	UriInterceptor uriInterceptor() {
 
 		return new UriInterceptor();
+	}
+
+	@Bean
+	WatcherHandler watcherHandler() {
+
+		return new WatcherHandler();
 	}
 
 }

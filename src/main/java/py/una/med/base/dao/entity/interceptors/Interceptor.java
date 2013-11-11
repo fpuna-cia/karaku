@@ -41,12 +41,12 @@ public interface Interceptor {
 
 	/**
 	 * Lista de anotaciones escuchadas
-	 * 
+	 *
 	 * <p>
 	 * Si el vector que retorna, retorna {@link void}.class, entonces escuchara
 	 * a cualquier anotación.
 	 * </p>
-	 * 
+	 *
 	 * @return vector de clases que definen las anotaciones observados.
 	 */
 	Class<?>[] getObservedAnnotations();
