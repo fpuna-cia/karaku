@@ -127,7 +127,6 @@ public class MenuTest extends BaseTest {
 
 		Menu m = menuServerLogic.getCurrentSystemMenu().get(0);
 		assertNotNull(m.getItems());
-		assertNotNull(m.getName());
 		assertFalse(m.getOrder() == 0);
 	}
 

@@ -25,6 +25,7 @@ import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.ListHelper;
+import py.una.med.base.util.StringUtils;
 
 /**
  * Component que provee las funcionalidades para proveer menús.
@@ -148,7 +149,9 @@ public class MenuServerLogic {
 		if (menu.getOrder() == 0) {
 			menu.setOrder(Integer.MAX_VALUE);
 		}
-		menu.setName(helper.getString(menu.getName()));
+		if (StringUtils.isValid(menu.getName())) {
+			menu.setName(helper.getString(menu.getName()));
+		}
 		if (menu.getUrl() != null) {
 			String pre = util.get("application.host");
 			String url = menu.getUrl().trim();

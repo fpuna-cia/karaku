@@ -14,7 +14,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="menu" type="Menu" />
-				<xs:elemetn name="skipRoot" type="xs:string" />
+				<xs:element name="skipRoot" type="xs:string" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
