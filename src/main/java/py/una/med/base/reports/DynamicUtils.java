@@ -9,6 +9,7 @@ package py.una.med.base.reports;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
@@ -277,7 +278,8 @@ public final class DynamicUtils {
 		Style titleStyle = new Style();
 		titleStyle.setHorizontalAlign(HorizontalAlign.LEFT);
 		for (Detail detail : report.getDetails()) {
-			structReportHead.addField(detail.getField(), List.class.getName());
+			structReportHead.addField(detail.getField(),
+					Collection.class.getName());
 
 			FastReportBuilder structSubreport = this.newInstance();
 			structSubreport.setTitle(detail.getTitle());
@@ -350,7 +352,7 @@ public final class DynamicUtils {
 			FastReportBuilder structReportHead, FastReportBuilder subReport,
 			String field) throws ReportException {
 
-		structReportHead.addField(field, List.class.getName());
+		structReportHead.addField(field, Collection.class.getName());
 		subReport.setDefaultStyles(this.getStyleTitle(), null,
 				this.getStyleColumnHeader(), this.getStyleColumnDetail());
 
@@ -456,6 +458,7 @@ public final class DynamicUtils {
 				.setDefaultStyles(this.getStyleTitle(), null,
 						this.getStyleColumnHeaderDetails(),
 						this.getStyleColumnDetail());
+
 		return structReport;
 	}
 
@@ -849,8 +852,8 @@ public final class DynamicUtils {
 	/**
 	 * Metodo que define el estilo para las columnas secundarias de los
 	 * reportes.
-	 *
-	 * @return StyleColumnHeader
+	 * 
+	 * @return StyleColumnHeader Estilo de las columnas de la grilla.
 	 */
 
 	public Style getStyleColumnHeaderDetails() {

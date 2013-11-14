@@ -6,15 +6,11 @@ package py.una.med.base.business.reports;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.faces.application.FacesMessage;
-
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.log.Log;
 import py.una.med.base.reports.Align;
@@ -82,6 +78,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
+			log.warn("Can't generate report", e);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
