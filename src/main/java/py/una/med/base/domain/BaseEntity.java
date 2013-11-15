@@ -3,6 +3,8 @@
  */
 package py.una.med.base.domain;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author Arturo Volpe
@@ -10,7 +12,11 @@ package py.una.med.base.domain;
  * @version 1.0 May 24, 2013
  * 
  */
-public abstract class BaseEntity {
+public abstract class BaseEntity implements Serializable {
+
+	protected static final long serialVersionUID = 1L;
+
+	public abstract void setId(Long id);
 
 	/**
 	 * @return id
