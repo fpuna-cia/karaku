@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,14 +67,6 @@ public class I18nHelper {
 
 	protected Locale getLocale() {
 
-		try {
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			if (facesContext != null) {
-				return facesContext.getViewRoot().getLocale();
-			}
-		} catch (Exception e) {
-			LOG.debug("Can't get locale", e);
-		}
 		return new Locale("es", "PY");
 	}
 
