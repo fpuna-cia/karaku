@@ -5,21 +5,23 @@ package py.una.med.base.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
+import py.una.med.base.util.StringUtils;
 
 /**
  * Controller que se encarga de verificar permisos.
+ *
+ *
+ * TODO cambiar a AuthorityService
  *
  * @author Arturo Volpe
  * @version 1.1
  * @since 1.0
  *
  */
-@Controller
-@Scope(WebApplicationContext.SCOPE_SESSION)
+@Service
 public class AuthorityController {
 
 	private static final Logger log = LoggerFactory
@@ -79,25 +81,11 @@ public class AuthorityController {
 	 */
 	public static boolean hasRoleStatic(String rol) {
 
-		Object[] sighUserGrantedAuthorities = SecurityContextHolder
-				.getContext().getAuthentication().getAuthorities().toArray();
-		if ((sighUserGrantedAuthorities == null)
-				|| (sighUserGrantedAuthorities.length == 0)) {
-			log.warn("Usuario sin permisos: {}", SecurityContextHolder
-					.getContext().getAuthentication().getName());
-			return false;
+		if (StringUtils.isInvalid(rol)) {
+			log.trace("Checking a invalid rol ({})", rol);
 		}
-
-		for (Object o : sighUserGrantedAuthorities) {
-			SIGHUserGrantedAuthority authority = (SIGHUserGrantedAuthority) o;
-			if (authority.getAuthority().equals(rol)) {
-				return true;
-			}
-		}
-
-		log.trace("Usuario {} sin permiso: {}", SecurityContextHolder
-				.getContext().getAuthentication().getName(), rol);
-		return false;
+		return ((SIGHUserDetails) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).hasRole(rol);
 
 	}
 }
