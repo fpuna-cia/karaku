@@ -452,7 +452,11 @@ public final class DynamicUtils {
 	private FastReportBuilder buildColumnDetail(FastReportBuilder structReport,
 			List<Column> columns, Class<?> clazz) throws ReportException {
 
-		this.addColumn(structReport, columns, clazz);
+		if (Object.class.equals(clazz)) {
+			addColumn(structReport, columns);
+		} else {
+			addColumn(structReport, columns, clazz);
+		}
 
 		structReport
 				.setDefaultStyles(this.getStyleTitle(), null,
