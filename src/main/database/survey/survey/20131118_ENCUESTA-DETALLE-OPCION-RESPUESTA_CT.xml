@@ -1,0 +1,34 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="rfernandez@pol.una.py"
+		id="karaku_public_encuesta-detalle-opcion-respuesta_ct_001">
+		<createSequence incrementBy="${liquibase.sequence.increment_by}"
+			maxValue="${liquibase.sequence.max_value}" minValue="${liquibase.sequence.min_value}"
+			schemaName="public" sequenceName="encuesta_detalle_opcion_respuesta_id_seq"
+			startValue="${liquibase.sequence.start_value}" />
+		<createTable tableName="encuesta_detalle_opcion_respuesta"
+			schemaName="public">
+			<column name="id" type="BIGINT"
+				defaultValueNumeric="nextval('encuesta_detalle_opcion_respuesta_id_seq'::regclass))">
+				<constraints nullable="false" />
+			</column>
+			<column name="encuesta_detalle_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="opcion_respuesta_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<addPrimaryKey tableName="encuesta_detalle_opcion_respuesta"
+			constraintName="encuesta_detalle_opcion_respuesta_pkey" columnNames="id" />
+		<addForeignKeyConstraint baseTableName="encuesta_detalle_opcion_respuesta"
+			constraintName="fk_encuesta_detalle_id_encuesta_detalle_encuesta_detalle_opcion_respuesta"
+			baseColumnNames="encuesta_detalle_id" referencedTableName="encuesta_detalle"
+			referencedColumnNames="id" onDelete="RESTRICT" onUpdate="RESTRICT" />
+		<addForeignKeyConstraint baseTableName="encuesta_detalle_opcion_respuesta"
+			constraintName="fk_opcion_respuesta_id_opcion_respuesta_encuesta_detalle_opcion_respuesta"
+			baseColumnNames="opcion_respuesta_id" referencedTableName="opcion_respuesta"
+			referencedColumnNames="id" onDelete="RESTRICT" onUpdate="RESTRICT" />
+	</changeSet>
+</databaseChangeLog>

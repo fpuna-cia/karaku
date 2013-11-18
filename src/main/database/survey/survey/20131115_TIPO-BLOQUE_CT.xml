@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	
+	<changeSet author="rfernandez@pol.una.py" id="karaku_public_tipo-bloque_ct_001">
+		<createSequence incrementBy="${liquibase.sequence.increment_by}"
+			maxValue="${liquibase.sequence.max_value}" minValue="${liquibase.sequence.min_value}"
+			schemaName="public" sequenceName="tipo_bloque_id_seq" startValue="${liquibase.sequence.start_value}" />
+			
+		<createTable tableName="tipo_bloque" schemaName="public">
+			<column name="id" type="BIGINT"
+				defaultValueNumeric="nextval('tipo_bloque_id_seq'::regclass))">
+				<constraints nullable="false" />
+			</column>
+			<column name="descripcion" type="VARCHAR(15)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<addPrimaryKey tableName="tipo_bloque" constraintName="tipo_bloque_pkey"
+			columnNames="id" />
+		<addUniqueConstraint columnNames="descripcion"
+			constraintName="uq_tipo_bloque_descripcion" disabled="false"
+			schemaName="public" tableName="tipo_bloque" />
+			
+	</changeSet>
+</databaseChangeLog>

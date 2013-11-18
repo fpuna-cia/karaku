@@ -1,0 +1,19 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="rfernandez@pol.una.py" id="karaku_audit_opcion-respuesta-aud_ct_001">
+		<createTable tableName="opcion_respuesta_aud" schemaName="audit">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="rev" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="revtype" type="SMALLINT" />
+			<column name="descripcion" type="VARCHAR(50)" />
+			<column name="orden" type="INTEGER" />
+			<column name="completar" type="VARCHAR(2)" />
+			<column name="encuesta_plantilla_pregunta_id" type="BIGINT" />
+		</createTable>
+	</changeSet>
+</databaseChangeLog>

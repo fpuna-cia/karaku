@@ -1,0 +1,44 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	
+	<changeSet author="rfernandez@pol.una.py"
+		id="karaku_public_encuesta-plantilla-bloque_ct_001">
+		<createSequence incrementBy="${liquibase.sequence.increment_by}"
+			maxValue="${liquibase.sequence.max_value}" minValue="${liquibase.sequence.min_value}"
+			schemaName="public" sequenceName="encuesta_plantilla_bloque_id_seq"
+			startValue="${liquibase.sequence.start_value}" />
+			
+		<createTable tableName="encuesta_plantilla_bloque"
+			schemaName="public">
+			<column name="id" type="BIGINT"
+				defaultValueNumeric="nextval('encuesta_plantilla_bloque_id_seq'::regclass))">
+				<constraints nullable="false" />
+			</column>
+			<column name="encuesta_plantilla_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="titulo" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="orden" type="INTEGER">
+				<constraints nullable="false" />
+			</column>
+			<column name="tipo_bloque_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<addPrimaryKey tableName="encuesta_plantilla_bloque"
+			constraintName="encuesta_plantilla_bloque_pkey" columnNames="id" />
+		<addForeignKeyConstraint baseTableName="encuesta_plantilla_bloque"
+			constraintName="fk_encuesta_plantilla_id_encuesta_plantilla_encuesta_plantilla_bloque"
+			baseColumnNames="encuesta_plantilla_id" referencedTableName="encuesta_plantilla"
+			referencedColumnNames="id" onDelete="RESTRICT" onUpdate="RESTRICT" />
+		<addForeignKeyConstraint baseTableName="encuesta_plantilla_bloque"
+			constraintName="fk_tipo_bloque_id_tipo_bloque_encuesta_plantilla_bloque"
+			baseColumnNames="tipo_bloque_id" referencedTableName="tipo_bloque"
+			referencedColumnNames="id" onDelete="RESTRICT" onUpdate="RESTRICT" />
+			
+	</changeSet>
+</databaseChangeLog>
