@@ -48,7 +48,8 @@
 				style="width:100%">
 				<ui:include src="#{cc.attrs.urlForm}" />
 			</h:panelGrid>
-			<rich:panel rendered="#{cc.attrs.withConfirmPanel and not cc.attrs.ajaxSave}">
+			<rich:panel
+				rendered="#{cc.attrs.withConfirmPanel and not cc.attrs.ajaxSave}">
 				<h:commandButton action="#{cc.attrs.controller.doEdit()}"
 					onclick="no_alert()" value="#{cc.attrs.acceptButtonText}"
 					rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}" />
@@ -63,14 +64,21 @@
 					rendered="#{cc.attrs.withCancelButton}"
 					value="#{cc.attrs.controller.cancelText}" immediate="true" />
 			</rich:panel>
-			<rich:panel rendered="#{cc.attrs.withConfirmPanel and cc.attrs.ajaxSave}">
+			<rich:panel
+				rendered="#{cc.attrs.withConfirmPanel and cc.attrs.ajaxSave}">
 
 				<a4j:commandButton action="#{cc.attrs.saveAction}"
 					value="#{cc.attrs.acceptButtonText}"
 					render="#{cc.attrs.saveRender}"
 					rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}"
-					oncomplete="#{cc.attrs.saveOnComple}"
-					execute="base_abm_form" />
+					oncomplete="#{cc.attrs.saveOnComple}" execute="base_abm_form" />
+					
+				<a4j:commandButton action="#{cc.attrs.saveAction}"
+					value="#{msg['BASE_FORM_CREATE']}"
+					rendered="#{cc.attrs.controller.create  and authorityController.hasRole(cc.attrs.controller.createPermission)}"
+					render="#{cc.attrs.saveRender}"
+					oncomplete="#{cc.attrs.saveOnComple}" />
+
 				<a4j:commandButton action="#{cc.attrs.controller.doDelete()}"
 					onclick="no_alert()" value="#{msg['BASE_FORM_DELETE']}"
 					rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />
