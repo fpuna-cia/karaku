@@ -13,11 +13,11 @@ import py.una.med.base.util.I18nHelper;
 /**
  * Formulario dinámico base, es un wrapper de {@link List}, para mantener una
  * lista de {@link Field}
- * 
+ *
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 21, 2013
- * 
+ *
  */
 public class DynamicFormList {
 
@@ -30,7 +30,7 @@ public class DynamicFormList {
 
 	/**
 	 * Asigna un titulo al formulario.
-	 * 
+	 *
 	 * @param header
 	 *            key del archivo de internacionalización
 	 */
@@ -41,7 +41,7 @@ public class DynamicFormList {
 
 	/**
 	 * Retorna la cadena ya internacionalizada del titulo.
-	 * 
+	 *
 	 * @return header
 	 */
 	public String getHeader() {
@@ -68,7 +68,7 @@ public class DynamicFormList {
 		}
 	}
 
-	public void add(Field... field) {
+	public void add(Field ... field) {
 
 		for (Field f : field) {
 			fields.add(f);
@@ -86,7 +86,7 @@ public class DynamicFormList {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.util.LinkedList#add(java.lang.Object)
 	 */
 	public boolean add(Field e) {
@@ -105,14 +105,16 @@ public class DynamicFormList {
 	 */
 	public boolean addAll(Collection<? extends Field> collection) {
 
-		for (Field c : collection) {
-			if (c instanceof PickerField) {
-				getPickerFields().add((PickerField<?>) c);
-				withPickerFields();
+		if (collection != null) {
+			for (Field c : collection) {
+				if (c instanceof PickerField) {
+					getPickerFields().add((PickerField<?>) c);
+					withPickerFields();
+				}
 			}
+			return getFields().addAll(collection);
 		}
-
-		return getFields().addAll(collection);
+		return false;
 	}
 
 	/**
@@ -125,7 +127,7 @@ public class DynamicFormList {
 	}
 
 	/**
-	 * 
+	 *
 	 * @see java.util.List#clear()
 	 */
 	public void clear() {
@@ -136,7 +138,7 @@ public class DynamicFormList {
 	/**
 	 * Retorna la lista de {@link PickerField} que tiene este formulario, si
 	 * nunca se agrego ningun {@link PickerField}, por defecto tendra uno vacio.
-	 * 
+	 *
 	 * @return pickerFields
 	 */
 	private List<PickerField<?>> getPickerFields() {
@@ -152,7 +154,7 @@ public class DynamicFormList {
 	 * Retorna el {@link PickerField} que actualmente esta disponible, el
 	 * {@link PickerField} retornado por este método es el único que esta activo
 	 * en un momento, y por consiguiente ningún otro funciona.
-	 * 
+	 *
 	 * @return currentPickerField
 	 */
 	public PickerField<?> getCurrentPickerField() {
@@ -167,13 +169,13 @@ public class DynamicFormList {
 	 * Modifica el {@link #getCurrentPickerField()} para que retorne el
 	 * {@link PickerField} con el id pasado como parámetro.<br />
 	 * Para obtener este ID utilice {@link Field#getId()}
-	 * 
+	 *
 	 * @param identificador
 	 *            de {@link PickerField}
 	 */
 	public void setPicker(String id) {
 
-		if (id == null || "".equals(id)) {
+		if ((id == null) || "".equals(id)) {
 			throw new IllegalArgumentException("Id can not be null");
 		}
 		for (PickerField<?> pf : getPickerFields()) {
@@ -220,7 +222,7 @@ public class DynamicFormList {
 	/**
 	 * Retorna si el formulario tiene {@link PickerField}, por defecto es
 	 * <code>false</code>.
-	 * 
+	 *
 	 * @return <code>true</code> si tiene {@link PickerField} o
 	 *         <code>false</code> si nunca se llamo a
 	 *         {@link #withPickerFields()}
@@ -241,7 +243,7 @@ public class DynamicFormList {
 
 	/**
 	 * Retorna la lista de {@link Field} que componen este formulario
-	 * 
+	 *
 	 * @return fields
 	 */
 	public List<Field> getFields() {
