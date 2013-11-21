@@ -26,6 +26,51 @@ package py.una.med.base.replication;
 public interface Shareable {
 
 	/**
+	 * Cadena que se recomienda utilizar para una entidad que esta activa.
+	 *
+	 * <p>
+	 * El uso de esta constante es recomendada pero no obligatoria.
+	 * </p>
+	 * <p>
+	 * Ejemplo:
+	 *
+	 * <pre>
+	 * 	public boolean isActive() {
+	 * 		return active == Shareable.YES;
+	 * 	}
+	 * 	...
+	 * 	public boolean activate() {
+	 * 		this.active = Shareable.YES;
+	 * 	}
+	 * </pre>
+	 * <p>
+	 */
+	static String YES = "SI";
+
+	/**
+	 * Cadena que se recomienda utilizar para una entidad que ha sido eliminada
+	 * lógicamente.
+	 *
+	 * <p>
+	 * El uso de esta constante es recomendada pero no obligatoria.
+	 * </p>
+	 * <p>
+	 * Ejemplo:
+	 *
+	 * <pre>
+	 * 	public boolean isActive() {
+	 * 		return active != Shareable.NO;
+	 * 	}
+	 * 	...
+	 * 	public boolean inactivate() {
+	 * 		this.active = Shareable.NO;
+	 * 	}
+	 * </pre>
+	 * <p>
+	 */
+	static String NO = "NO";
+
+	/**
 	 * Retorna una cadena que identifica de manera única a este objeto.
 	 *
 	 * <p>

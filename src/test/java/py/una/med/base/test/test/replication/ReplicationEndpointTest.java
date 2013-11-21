@@ -6,9 +6,7 @@ package py.una.med.base.test.test.replication;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import org.hibernate.SessionFactory;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,7 +16,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.test.server.ResponseMatchers;
 import py.una.med.base.replication.Bundle;
-import py.una.med.base.replication.EnversReplicationProvider;
+import py.una.med.base.replication.DummyReplicationProvider;
 import py.una.med.base.replication.ReplicationProvider;
 import py.una.med.base.test.base.BaseTestWebService;
 import py.una.med.base.test.configuration.TransactionTestConfiguration;
@@ -62,10 +60,9 @@ public class ReplicationEndpointTest extends BaseTestWebService {
 		}
 
 		@Bean
-		@Autowired
-		ReplicationProvider provider(final SessionFactory factory) {
+		ReplicationProvider provider() {
 
-			return new EnversReplicationProvider();
+			return new DummyReplicationProvider();
 		}
 
 	}
