@@ -5,30 +5,31 @@
 package py.una.med.base.services.util;
 
 import org.apache.commons.lang.NotImplementedException;
+import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
 import py.una.med.base.util.KarakuReflectionUtils;
 
 /**
  * {@link Converter} base.
- *
+ * 
  * <p>
  * Es una implementación que simplemente no obliga a la clase no abstracta a
  * implementar todos los métodos, solo los que usará.
  * </p>
- *
+ * 
  * <p>
  * Además implementa una forma genérica de obtener el tipo de la entidad y del
  * dto.
  * </p>
- *
- *
+ * 
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 11, 2013
- *
+ * 
  */
-public abstract class AbstractConverter<E extends Shareable, T extends Shareable>
+public abstract class AbstractConverter<E extends Shareable, T extends DTO>
 		implements Converter<E, T> {
 
 	/**
@@ -66,9 +67,9 @@ public abstract class AbstractConverter<E extends Shareable, T extends Shareable
 	/**
 	 * Throw {@link NotImplementedException} exception, su intención es que si
 	 * se usa este método sea sobreescrito.
-	 *
+	 * 
 	 * <br>
-	 *
+	 * 
 	 * {@inheritDoc}
 	 */
 
@@ -81,7 +82,7 @@ public abstract class AbstractConverter<E extends Shareable, T extends Shareable
 	/**
 	 * Throw {@link NotImplementedException} exception, su intención es que si
 	 * se usa este método sea sobreescrito.
-	 *
+	 * 
 	 * <br>
 	 * {@inheritDoc}
 	 */
@@ -126,4 +127,5 @@ public abstract class AbstractConverter<E extends Shareable, T extends Shareable
 			return false;
 		return true;
 	}
+
 }

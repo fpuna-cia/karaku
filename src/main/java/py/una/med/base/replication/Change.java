@@ -6,13 +6,13 @@ package py.una.med.base.replication;
 import org.apache.commons.lang3.Validate;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 7, 2013
- *
+ * 
  */
-public class Change<T extends Shareable> {
+public class Change<T> {
 
 	String id;
 	T entity;

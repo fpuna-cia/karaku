@@ -14,24 +14,25 @@ import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
 
 /**
  * {@link Converter} que utiliza reflexión.
- *
+ * 
  * <p>
  * Este converter es el converter por defecto de cualquier entidad, y su uso no
  * es muy recomendado ya que no implementa una lógica compleja y absolutamente
  * todo es compartido.
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 12, 2013
- *
+ * 
  */
-public abstract class ReflectionConverter<E extends Shareable, T extends Shareable>
+public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 		implements Converter<E, T> {
 
 	Class<T> dtoClass;
@@ -70,7 +71,7 @@ public abstract class ReflectionConverter<E extends Shareable, T extends Shareab
 	}
 
 	/**
-	 *
+	 * 
 	 * @param source
 	 * @param targetClass
 	 * @param depth
@@ -118,9 +119,8 @@ public abstract class ReflectionConverter<E extends Shareable, T extends Shareab
 										if (row instanceof Shareable) {
 											colTarget.add(convert(
 													row.getClass(),
-													targetRowType,
-													(Shareable) row, depth - 1,
-													dtoToEntity));
+													targetRowType, row,
+													depth - 1, dtoToEntity));
 										} else {
 											colTarget.add(map(row,
 													targetRowType, depth - 1,
@@ -133,9 +133,8 @@ public abstract class ReflectionConverter<E extends Shareable, T extends Shareab
 								Object o = field.get(source);
 								toSet.set(toRet, o);
 							} else if (Shareable.class.isAssignableFrom(s)
-									&& Shareable.class.isAssignableFrom(t)) {
-								Object o = convert(s, t,
-										(Shareable) field.get(source),
+									&& DTO.class.isAssignableFrom(t)) {
+								Object o = convert(s, t, field.get(source),
 										depth - 1, dtoToEntity);
 								toSet.set(toRet, o);
 							} else {
@@ -155,13 +154,14 @@ public abstract class ReflectionConverter<E extends Shareable, T extends Shareab
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private Object convert(Class fromClass, Class toClass, Shareable object,
+	private Object convert(Class fromClass, Class toClass, Object object,
 			int depth, boolean dtoToEntity) {
 
 		if (dtoToEntity) {
-			return getConverter(toClass, fromClass).toEntity(object);
+			return getConverter(toClass, fromClass).toEntity((DTO) object);
 		} else {
-			return getConverter(fromClass, toClass).toDTO(object, depth);
+			return getConverter(fromClass, toClass).toDTO((Shareable) object,
+					depth);
 		}
 	}
 
@@ -178,6 +178,6 @@ public abstract class ReflectionConverter<E extends Shareable, T extends Shareab
 				+ collectionClass);
 	}
 
-	public abstract <Y extends Shareable, O extends Shareable> Converter<Y, O> getConverter(
+	public abstract <Y extends Shareable, O extends DTO> Converter<Y, O> getConverter(
 			Class<Y> entityClass, Class<O> dtoClass);
 }

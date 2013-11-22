@@ -24,11 +24,11 @@ import py.una.med.base.test.configuration.BaseTestConfiguration;
 import py.una.med.base.util.ListHelper;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 11, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class ReflectionConverterTest extends BaseTest {
@@ -138,13 +138,13 @@ public class ReflectionConverterTest extends BaseTest {
 
 	}
 
-	private <E extends Shareable, T extends Shareable> Converter<E, T> make(
+	private <E extends Shareable, T extends py.una.med.base.replication.DTO> Converter<E, T> make(
 			Class<E> eClass, Class<T> eDTO) {
 
 		return new ReflectionConverter<E, T>(eDTO, eClass) {
 
 			@Override
-			public <Y extends Shareable, O extends Shareable> Converter<Y, O> getConverter(
+			public <Y extends Shareable, O extends py.una.med.base.replication.DTO> Converter<Y, O> getConverter(
 					Class<Y> entityClass, Class<O> dtoClass) {
 
 				return make(entityClass, dtoClass);
@@ -217,7 +217,7 @@ public class ReflectionConverterTest extends BaseTest {
 		}
 	}
 
-	public static class DTO implements Shareable {
+	public static class DTO implements py.una.med.base.replication.DTO {
 
 		private Quantity quantity;
 		private Date date;
@@ -234,25 +234,13 @@ public class ReflectionConverterTest extends BaseTest {
 		}
 
 		@Override
-		public void inactivate() {
-
-			active = false;
-		}
-
-		@Override
-		public void activate() {
-
-			active = true;
-		}
-
-		@Override
 		public boolean isActive() {
 
 			return active;
 		}
 	}
 
-	public static class DTOChild implements Shareable {
+	public static class DTOChild implements py.una.med.base.replication.DTO {
 
 		String string;
 
@@ -260,16 +248,6 @@ public class ReflectionConverterTest extends BaseTest {
 		public String getUri() {
 
 			return null;
-		}
-
-		@Override
-		public void inactivate() {
-
-		}
-
-		@Override
-		public void activate() {
-
 		}
 
 		@Override

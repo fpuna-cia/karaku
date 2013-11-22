@@ -26,6 +26,11 @@ import py.una.med.base.domain.BaseEntity;
 // })
 public class BaseTestEntity extends BaseEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 528988319740601664L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -74,6 +79,7 @@ public class BaseTestEntity extends BaseEntity {
 	 * @param id
 	 *            id para setear
 	 */
+	@Override
 	public void setId(Long id) {
 
 		this.id = id;
@@ -123,7 +129,7 @@ public class BaseTestEntity extends BaseEntity {
 
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+		result = (prime * result) + ((this.id == null) ? 0 : this.id.hashCode());
 		return result;
 	}
 

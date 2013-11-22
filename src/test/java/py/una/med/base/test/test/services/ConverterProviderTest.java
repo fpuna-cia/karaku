@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
 import py.una.med.base.services.ConverterProvider;
@@ -20,11 +21,11 @@ import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 11, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class ConverterProviderTest extends BaseTest {
@@ -58,8 +59,7 @@ public class ConverterProviderTest extends BaseTest {
 	@Test
 	public void testGetDefault() throws Exception {
 
-		assertTrue(converterProvider.getConverter(Shareable.class,
-				Shareable.class) instanceof ReflectionConverter);
+		assertTrue(converterProvider.getConverter(Shareable.class, DTO.class) instanceof ReflectionConverter);
 
 	}
 
@@ -135,22 +135,12 @@ public class ConverterProviderTest extends BaseTest {
 
 	}
 
-	static class DTO1 implements Shareable {
+	static class DTO1 implements DTO {
 
 		@Override
 		public String getUri() {
 
 			return null;
-		}
-
-		@Override
-		public void inactivate() {
-
-		}
-
-		@Override
-		public void activate() {
-
 		}
 
 		@Override
@@ -161,22 +151,12 @@ public class ConverterProviderTest extends BaseTest {
 
 	}
 
-	static class DTO2 implements Shareable {
+	static class DTO2 implements DTO {
 
 		@Override
 		public String getUri() {
 
 			return null;
-		}
-
-		@Override
-		public void inactivate() {
-
-		}
-
-		@Override
-		public void activate() {
-
 		}
 
 		@Override

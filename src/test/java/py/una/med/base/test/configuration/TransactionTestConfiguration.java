@@ -21,6 +21,7 @@ import py.una.med.base.dao.entity.interceptors.CaseSensitiveInterceptor;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
 import py.una.med.base.dao.entity.interceptors.TimeInterceptor;
 import py.una.med.base.dao.entity.interceptors.UriInterceptor;
+import py.una.med.base.dao.entity.watchers.WatcherHandler;
 import py.una.med.base.dao.helper.AndExpressionHelper;
 import py.una.med.base.dao.helper.BetweenExpressionHelper;
 import py.una.med.base.dao.helper.EqualExpressionHelper;

@@ -28,6 +28,11 @@ import javax.validation.constraints.NotNull;
 @Table(name = "test")
 public class TestEntity extends BaseTestEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5218054809166947011L;
+
 	@NotNull
 	@Min(0L)
 	@Max(500000L)

@@ -10,25 +10,19 @@ import java.util.LinkedList;
 import java.util.Set;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 7, 2013
- *
+ * 
  */
-public class Bundle<T extends Shareable> implements Iterable<Change<T>> {
+public class Bundle<T> implements Iterable<Change<T>> {
 
-	/**
-	 * Identificador utilizado cuando se cargan los datos que no se metieron por
-	 * envers. (Pero aún hay datos).
-	 *
-	 */
-	public static final String NO_ENVERS_DATA_ID = "NO_ENVERS_DATA";
 	/**
 	 * Identificador utilizado cuando no hay cambios.
 	 */
 	public static final String ZERO_ID = "ZERO";
-	Deque<Change<T>> changes;
+	private Deque<Change<T>> changes;
 
 	/**
 	 *
@@ -47,7 +41,7 @@ public class Bundle<T extends Shareable> implements Iterable<Change<T>> {
 
 	/**
 	 * Tamaño del cambio.
-	 *
+	 * 
 	 * @return
 	 */
 	public int size() {

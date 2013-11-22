@@ -25,6 +25,10 @@ import javax.persistence.Table;
 @Table(name = "test_grand_child")
 public class TestGrandChild extends BaseTestEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2841607668100128822L;
 	@ManyToOne(optional = true)
 	private TestChild father;
 

@@ -8,17 +8,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.stereotype.Component;
+import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.util.ReflectionConverter;
 
 /**
  * Proveedor de {@link Converter}.
- *
- *
+ * 
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 11, 2013
- *
+ * 
  */
 @Component
 public class ConverterProvider {
@@ -29,13 +30,13 @@ public class ConverterProvider {
 
 	/**
 	 * Provee un converter.
-	 *
+	 * 
 	 * <p>
 	 * Busca en el contexto de Spring por algún converter que se pueda aplicar a
 	 * los tipos pedidos, en el caso de que ninún converter sea encontrado,
 	 * retorna un {@link GenericConverter}
 	 * </p>
-	 *
+	 * 
 	 * @param entityClass
 	 *            clase de la entidad
 	 * @param dtoClass
@@ -43,7 +44,7 @@ public class ConverterProvider {
 	 * @return converter, nunca <code>null</code>
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <E extends Shareable, T extends Shareable> Converter<E, T> getConverter(
+	public <E extends Shareable, T extends DTO> Converter<E, T> getConverter(
 			Class<E> entityClass, Class<T> dtoClass) {
 
 		if (converters != null) {
@@ -57,7 +58,7 @@ public class ConverterProvider {
 		return new ContextReflexionConverter<E, T>(dtoClass, entityClass);
 	}
 
-	private class ContextReflexionConverter<E extends Shareable, T extends Shareable>
+	private class ContextReflexionConverter<E extends Shareable, T extends DTO>
 			extends ReflectionConverter<E, T> {
 
 		/**
@@ -70,7 +71,7 @@ public class ConverterProvider {
 		}
 
 		@Override
-		public <Y extends Shareable, O extends Shareable> Converter<Y, O> getConverter(
+		public <Y extends Shareable, O extends DTO> Converter<Y, O> getConverter(
 				Class<Y> entityClass, Class<O> dtoClass) {
 
 			return getConverter(entityClass, dtoClass);

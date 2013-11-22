@@ -14,21 +14,22 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.envers.Audited;
 import py.una.med.base.dao.entity.annotations.URI;
 import py.una.med.base.dao.entity.annotations.URI.Type;
+import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 
 /**
  * Entidad para los test de replicación.
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 4, 2013
- *
+ * 
  */
 @Audited
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "description"),
 		@UniqueConstraint(columnNames = "uri") })
-public class ReplicatedEntity implements Shareable {
+public class ReplicatedEntity implements DTO, Shareable {
 
 	/**
 	 * Clave primaria igual al 80% de los casos implementados.
