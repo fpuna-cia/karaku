@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.envers.Audited;
 import py.una.med.base.dao.entity.annotations.URI;
 import py.una.med.base.dao.entity.annotations.URI.Type;
+import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 
@@ -29,7 +30,12 @@ import py.una.med.base.replication.Shareable;
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "description"),
 		@UniqueConstraint(columnNames = "uri") })
-public class ReplicatedEntity implements DTO, Shareable {
+public class ReplicatedEntity extends BaseEntity implements DTO, Shareable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3101207945256545348L;
 
 	/**
 	 * Clave primaria igual al 80% de los casos implementados.
@@ -58,6 +64,7 @@ public class ReplicatedEntity implements DTO, Shareable {
 	/**
 	 * @return id
 	 */
+	@Override
 	public Long getId() {
 
 		return id;
@@ -67,6 +74,7 @@ public class ReplicatedEntity implements DTO, Shareable {
 	 * @param id
 	 *            id para setear
 	 */
+	@Override
 	public void setId(Long id) {
 
 		this.id = id;
@@ -166,5 +174,24 @@ public class ReplicatedEntity implements DTO, Shareable {
 	public void activate() {
 
 		active = true;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (obj instanceof ReplicatedEntity) {
+			ReplicatedEntity oth = (ReplicatedEntity) obj;
+			if ((uri == null) && (oth.uri == null)) {
+				return true;
+			}
+			return uri.equals(oth.uri) && description.equals(oth.description);
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+
+		return uri;
 	}
 }

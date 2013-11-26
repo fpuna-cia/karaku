@@ -10,17 +10,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import org.hibernate.envers.Audited;
+import py.una.med.base.replication.Shareable;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 4, 2013
- *
+ * 
  */
 @Audited
 @Entity
-public class ReplicatedEntityChild {
+public class ReplicatedEntityChild implements Shareable {
 
 	/**
 	 * Clave primaria igual al 80% de los casos implementados.
@@ -31,6 +32,7 @@ public class ReplicatedEntityChild {
 
 	@ManyToOne
 	private ReplicatedEntity father;
+
 
 	/**
 	 * @return id
@@ -64,6 +66,28 @@ public class ReplicatedEntityChild {
 	public void setFather(ReplicatedEntity father) {
 
 		this.father = father;
+	}
+
+	@Override
+	public String getUri() {
+
+		return id + "";
+	}
+
+	@Override
+	public void inactivate() {
+
+	}
+
+	@Override
+	public void activate() {
+
+	}
+
+	@Override
+	public boolean isActive() {
+
+		return false;
 	}
 
 }
