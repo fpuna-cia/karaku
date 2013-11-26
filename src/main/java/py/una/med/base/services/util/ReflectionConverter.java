@@ -132,8 +132,10 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 							} else if (s.isAssignableFrom(t)) {
 								Object o = field.get(source);
 								toSet.set(toRet, o);
-							} else if (Shareable.class.isAssignableFrom(s)
-									&& DTO.class.isAssignableFrom(t)) {
+							} else if ((Shareable.class.isAssignableFrom(s)
+									&& DTO.class.isAssignableFrom(t))
+									|| (Shareable.class.isAssignableFrom(t) && DTO.class
+											.isAssignableFrom(s))) {
 								Object o = convert(s, t, field.get(source),
 										depth - 1, dtoToEntity);
 								toSet.set(toRet, o);

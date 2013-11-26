@@ -4,7 +4,9 @@
  */
 package py.una.med.base.util;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import org.springframework.util.ReflectionUtils;
 
 /**
  * Provee funcionalidades básicas para utilizar Reflection.
@@ -32,5 +34,33 @@ public final class KarakuReflectionUtils {
 		ParameterizedType type = (ParameterizedType) leaf.getClass()
 				.getGenericSuperclass();
 		return ((Class<T>) type.getActualTypeArguments()[index]);
+	}
+
+	/**
+	 * Busca un {@link Field} por su nombre entre una lista de nombres.
+	 * 
+	 * <p>
+	 * Retorna el primer {@link Field} que encuentra, el orden de búsqueda es el
+	 * mismo que el vector de nombres.
+	 * </p>
+	 * 
+	 * @see ReflectionUtils#findField(Class, String)
+	 * @param base
+	 *            clase en la que se busca
+	 * @param names
+	 *            nombres de los métodos
+	 * @return {@link Field} encontrado, <code>null</code> si no encuentra
+	 *         ninguno.
+	 */
+	public static Field findField(Class<?> base, String ... names) {
+
+		Field f = null;
+		for (String s : names) {
+			f = ReflectionUtils.findField(base, s);
+			if (f != null) {
+				return f;
+			}
+		}
+		return f;
 	}
 }

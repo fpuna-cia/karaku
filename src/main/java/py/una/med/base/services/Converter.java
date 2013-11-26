@@ -78,6 +78,13 @@ public interface Converter<E extends Shareable, T extends DTO> {
 	 * un objeto más grande.
 	 * </p>
 	 * 
+	 * <p>
+	 * No se debe completar el identificador del mismo, es decir el ID del
+	 * objeto debe ser nulo, el {@link Shareable#getUri()} es el mecanismo
+	 * elegido para poder apuntar a la entidad de la base de datos a la que
+	 * apunta.
+	 * </p>
+	 * 
 	 * @param dto
 	 * @return
 	 */

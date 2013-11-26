@@ -22,7 +22,7 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
  * {@link org.springframework.ws.client.support.interceptor.ClientInterceptor}
  * que se encarga de agregar seguridad a todas las peticiones realizadas por
  * Karaku.
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.
  * @version 1.0 Aug 5, 2013
@@ -34,8 +34,8 @@ public class WSSecurityInterceptor {
 
 	/**
 	 * Nombre del parámetro, es un estándar definido en el RFC.
-	 *
-	 *
+	 * 
+	 * 
 	 * @see <a
 	 *      href="http://www.w3.org/Protocols/HTTP/1.0/spec.html#Authorization"
 	 *      >http://www.w3.org/Protocols/HTTP/1.0/spec.html#Authorization</a>
@@ -50,21 +50,24 @@ public class WSSecurityInterceptor {
 	/**
 	 * Agrega seguridad a una llamada a un servicio, para ello agrega dos header
 	 * params, pertenecientes a Usuario y Password.
-	 *
-	 * @param info
-	 *            información de la llamada que se esta realizando
+	 * 
+	 * @param user
+	 *            usuario de la llamada
+	 * @param password
+	 *            contraseña del que invoca el servicio.
 	 * @param message
 	 *            mensaje que actualmente se esta enviando
 	 */
-	public void addSecurity(Info info, WebServiceMessage message) {
+	public void addSecurity(String user, String password,
+			WebServiceMessage message) {
 
 		Charset cs = Charset.forName(CharEncoding.UTF_8);
 		TransportContext context = TransportContextHolder.getTransportContext();
 		HttpUrlConnection connection = (HttpUrlConnection) context
 				.getConnection();
 		HttpURLConnection uRLConnection = connection.getConnection();
-		String auth = CREDENTIALS_FORMAT.replace("USER", info.getUser())
-				.replace("PASSWORD", info.getPassword());
+		String auth = CREDENTIALS_FORMAT.replace("USER", user).replace(
+				"PASSWORD", password);
 		byte[] encode = Base64.encode(auth.getBytes(cs));
 		uRLConnection.addRequestProperty(AUTHORIZATION_HEADER_PARAM,
 				HEADER_CREDENTIALS_FORMAT.replace("CREDENTIALS", new String(
@@ -76,7 +79,7 @@ public class WSSecurityInterceptor {
 	 * y le agrega un Interceptor que se encarga de invocar al método
 	 * {@link #addSecurity(Info, WebServiceMessage)}, el cual añade la seguridad
 	 * necesaria.
-	 *
+	 * 
 	 * @see #addSecurity(Info, WebServiceMessage)
 	 * @param info
 	 *            información de la llamada
@@ -86,13 +89,41 @@ public class WSSecurityInterceptor {
 	public WebServiceMessageCallback getWebServiceMessageCallback(
 			final Info info) {
 
+		return createCallback(info.getUser(), info.getPassword());
+	}
+
+	/**
+	 * Método que crea una nueva instancia de {@link WebServiceMessageCallback}
+	 * y le agrega un Interceptor que se encarga de invocar al método
+	 * {@link #addSecurity(Info, WebServiceMessage)}, el cual añade la seguridad
+	 * necesaria.
+	 * 
+	 * @see #addSecurity(Info, WebServiceMessage)
+	 * @param info
+	 *            información de la llamada
+	 * @return {@link WebServiceMessageCallback} que agrega seguridad antes de
+	 *         llamar
+	 */
+	public WebServiceMessageCallback getWebServiceMessageCallback(
+			final WSEndpoint endpoint) {
+
+		return createCallback(endpoint.getUser(), endpoint.getPassword());
+	}
+
+	/**
+	 * @param info
+	 * @return
+	 */
+	private WebServiceMessageCallback createCallback(final String user,
+			final String pass) {
+
 		return new WebServiceMessageCallback() {
 
 			@Override
 			public void doWithMessage(WebServiceMessage message)
 					throws IOException, TransformerException {
 
-				addSecurity(info, message);
+				addSecurity(user, pass, message);
 			}
 		};
 	}
