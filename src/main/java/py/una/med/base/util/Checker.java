@@ -17,9 +17,11 @@ public class Checker {
 	 * 
 	 * <p>
 	 * Si el parámetro es nulo, entonces lanza una excepción del tipo
+	 * {@link IllegalArgumentException}.
 	 * </p>
 	 * 
 	 * @param object
+	 *            objeto a verificar
 	 */
 	public static <T> T notNull(T object) {
 
@@ -43,8 +45,9 @@ public class Checker {
 		return string;
 	}
 
-	private static String format(String message, Object ... arguments) {
+	public static String format(String message, Object ... arguments) {
 
-		return message;
+		// TODO cambiar por un mecanismo mas eficiente, ver guava Preconditions.
+		return String.format(message, arguments);
 	}
 }
