@@ -7,8 +7,8 @@ package py.una.med.base.test.test.replication.layers;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import py.una.med.base.replication.AbstractReplicationEndpoint;
-import py.una.med.base.replication.Bundle;
+import py.una.med.base.replication.server.AbstractReplicationEndpoint;
+import py.una.med.base.replication.server.Bundle;
 import py.una.med.base.services.server.WebServiceDefinition;
 
 /**

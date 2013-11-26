@@ -14,13 +14,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import py.una.med.base.replication.Bundle;
-import py.una.med.base.replication.EnversReplicationProvider;
-import py.una.med.base.replication.ReplicationProvider;
 import py.una.med.base.replication.ShareableWatcher;
+import py.una.med.base.replication.server.Bundle;
+import py.una.med.base.replication.server.EnversReplicationProvider;
+import py.una.med.base.replication.server.ReplicationProvider;
 import py.una.med.base.test.base.BaseTestWithDatabase;
 import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.test.replication.layers.EntityDao;
+import py.una.med.base.test.test.replication.layers.ReplicatedEntityDao;
 import py.una.med.base.test.test.replication.layers.ReplicatedEntity;
 import py.una.med.base.test.util.TestUtils;
 import py.una.med.base.test.util.transaction.Sequences;
@@ -53,9 +53,9 @@ public class ReplicationProviderTest extends BaseTestWithDatabase {
 		}
 
 		@Bean
-		EntityDao dao() {
+		ReplicatedEntityDao dao() {
 
-			return new EntityDao();
+			return new ReplicatedEntityDao();
 		}
 
 		@Bean
@@ -73,7 +73,7 @@ public class ReplicationProviderTest extends BaseTestWithDatabase {
 	}
 
 	@Autowired
-	private EntityDao dao;
+	private ReplicatedEntityDao dao;
 
 	@Autowired
 	private ReplicationProvider rp;

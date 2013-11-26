@@ -2,13 +2,14 @@
  * @ReplicationProvider.java 1.0 Nov 7, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication;
+package py.una.med.base.replication.server;
 
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import py.una.med.base.replication.Shareable;
 
 /**
  *

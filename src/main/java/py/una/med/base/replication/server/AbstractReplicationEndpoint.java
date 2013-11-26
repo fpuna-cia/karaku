@@ -2,7 +2,7 @@
  * @AbstractReplicationEndPoint.java 1.0 Nov 7, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication;
+package py.una.med.base.replication.server;
 
 import static py.una.med.base.util.Checker.notValid;
 import javax.annotation.PostConstruct;
@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import py.una.med.base.replication.DTO;
+import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
 import py.una.med.base.services.ConverterProvider;
 import py.una.med.base.services.server.WebServiceDefinition;
@@ -17,8 +19,7 @@ import py.una.med.base.test.test.replication.ReplicationEndpointTest;
 import py.una.med.base.util.KarakuReflectionUtils;
 
 /**
- * Clase base para los Endpoints que proveen replicación a través de WS.
- * 
+ * Clase base para los Endpoints que proveen replicación a través de WS. s
  * <p>
  * Facilta la implementación del mismo, por ejemplo, la replicación de una
  * entidad denominada Pais y su versión para enviar por la red PaisDTO*. Los

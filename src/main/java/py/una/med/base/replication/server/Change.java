@@ -1,7 +1,7 @@
 /*
  * @Change.java 1.0 Nov 7, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.replication;
+package py.una.med.base.replication.server;
 
 import org.apache.commons.lang3.Validate;
 

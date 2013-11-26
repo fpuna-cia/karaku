@@ -17,6 +17,6 @@ import py.una.med.base.repo.SIGHBaseDao;
  */
 @Transactional
 @Repository
-public class EntityDao extends SIGHBaseDao<ReplicatedEntity, Long> {
+public class ReplicatedEntityDao extends SIGHBaseDao<ReplicatedEntity, Long> {
 
 }
