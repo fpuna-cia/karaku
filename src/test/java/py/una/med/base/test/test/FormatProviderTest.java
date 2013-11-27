@@ -259,6 +259,17 @@ public class FormatProviderTest extends BaseTest {
 		assertEquals(Quantity.ZERO, fp.parseLongQuantity("0"));
 		assertEquals(Quantity.ONE.negate(), fp.parseLongQuantity("-1"));
 		assertEquals(Quantity.ONE, fp.parseLongQuantity("1,0000000123"));
+
+	}
+
+	@Test
+	public void testParseQuantity() throws Exception {
+
+		assertEquals(Quantity.ONE, fp.parseQuantity("1"));
+		assertEquals(new Quantity("10"), fp.parseQuantity("1.0"));
+		assertEquals(new Quantity("1000"), fp.parseQuantity("1.000"));
+		assertEquals(new Quantity("25360"), fp.parseQuantity("25.360"));
+
 	}
 
 

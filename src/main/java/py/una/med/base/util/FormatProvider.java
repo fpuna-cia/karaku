@@ -543,12 +543,13 @@ public class FormatProvider {
 
 	}
 
-	public Quantity parseQuantity(String number) {
+	public Quantity parseQuantity(String number) throws ParseException {
 
 		if ((number == null) || EMPTY_STRING.equals(number)) {
 			return null;
 		}
-		return new Quantity(number);
+		return new Quantity(getNumberFormat(NUMBER_FORMAT).parse(number)
+				.doubleValue());
 	}
 
 	public String asLongNumber(@NotNull Quantity bd) {
