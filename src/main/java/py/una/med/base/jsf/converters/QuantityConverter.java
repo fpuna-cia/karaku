@@ -4,6 +4,7 @@
  */
 package py.una.med.base.jsf.converters;
 
+import java.text.ParseException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -15,12 +16,12 @@ import py.una.med.base.util.Util;
 
 /**
  * Conversor JSF de cadenas a {@link Quantity}.
- *
+ * 
  * @author Nathalia Ochoa
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 16/10/2013
- *
+ * 
  */
 @FacesConverter(forClass = Quantity.class)
 public class QuantityConverter implements Converter {
@@ -32,15 +33,24 @@ public class QuantityConverter implements Converter {
 		if (StringUtils.isInvalid(value)) {
 			return null;
 		}
-		return new Quantity(value);
+		try {
+			return getFormatProvider(context).parseQuantity(value);
+		} catch (ParseException e) {
+
+			return null;
+		}
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object object) {
 
-		return Util.getSpringBeanByJSFContext(context, FormatProvider.class)
-				.asNumber((Quantity) object);
+		return getFormatProvider(context).asNumber((Quantity) object);
+	}
+
+	protected FormatProvider getFormatProvider(FacesContext context) {
+
+		return Util.getSpringBeanByJSFContext(context, FormatProvider.class);
 	}
 
 }
