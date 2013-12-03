@@ -15,6 +15,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.replication.DTO;
+import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
 
@@ -92,7 +93,8 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 
 						@Override
 						public void doWith(Field field)
-								throws IllegalAccessException {
+								throws IllegalAccessException,
+								IllegalArgumentException {
 
 							Field toSet = ReflectionUtils.findField(
 									targetClass, field.getName());
@@ -132,8 +134,8 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 							} else if (s.isAssignableFrom(t)) {
 								Object o = field.get(source);
 								toSet.set(toRet, o);
-							} else if ((Shareable.class.isAssignableFrom(s)
-									&& DTO.class.isAssignableFrom(t))
+							} else if ((Shareable.class.isAssignableFrom(s) && DTO.class
+									.isAssignableFrom(t))
 									|| (Shareable.class.isAssignableFrom(t) && DTO.class
 											.isAssignableFrom(s))) {
 								Object o = convert(s, t, field.get(source),
@@ -160,7 +162,12 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 			int depth, boolean dtoToEntity) {
 
 		if (dtoToEntity) {
-			return getConverter(toClass, fromClass).toEntity((DTO) object);
+			try {
+				return getConverter(toClass, fromClass).toEntity((DTO) object);
+			} catch (EntityNotFoundException enf) {
+				// TODO ver la forma de propagar
+				throw new KarakuRuntimeException("Can't convert", enf);
+			}
 		} else {
 			return getConverter(fromClass, toClass).toDTO((Shareable) object,
 					depth);

@@ -5,6 +5,7 @@ package py.una.med.base.services;
 
 import org.springframework.core.convert.converter.GenericConverter;
 import py.una.med.base.replication.DTO;
+import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.util.AbstractConverter;
 import py.una.med.base.services.util.ReflectionConverter;
@@ -88,7 +89,7 @@ public interface Converter<E extends Shareable, T extends DTO> {
 	 * @param dto
 	 * @return
 	 */
-	E toEntity(T dto);
+	E toEntity(T dto) throws EntityNotFoundException;
 
 	/**
 	 * Retorna la clase del DTO.

@@ -6,6 +6,7 @@ package py.una.med.base.services.util;
 
 import org.apache.commons.lang.NotImplementedException;
 import py.una.med.base.replication.DTO;
+import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
 import py.una.med.base.util.KarakuReflectionUtils;
@@ -87,7 +88,7 @@ public abstract class AbstractConverter<E extends Shareable, T extends DTO>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public E toEntity(T dto) {
+	public E toEntity(T dto) throws EntityNotFoundException {
 
 		throw new NotImplementedException();
 	}
