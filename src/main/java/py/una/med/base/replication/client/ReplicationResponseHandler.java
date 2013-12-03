@@ -8,6 +8,7 @@ import static py.una.med.base.util.Checker.notNull;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,11 @@ public class ReplicationResponseHandler {
 		notNull(response, "Cant get changes from null response");
 		Field f = KarakuReflectionUtils.findField(response.getClass(),
 				CHANGE_FIELDS);
+
+		if (f == null) {
+			f = ReflectionUtils
+					.findField(response.getClass(), null, List.class);
+		}
 
 		notNull(f, "Cant get the id field, "
 				+ "use the @ReplicationData annotation or create "

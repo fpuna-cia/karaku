@@ -21,6 +21,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import py.una.med.base.model.SIGHRevisionEntity;
 import py.una.med.base.replication.client.IReplicationLogic;
 import py.una.med.base.replication.client.ReplicationHandler;
 import py.una.med.base.replication.client.ReplicationInfo;
@@ -59,7 +60,7 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 		public Class<?>[] getEntityClasses() {
 
 			return TestUtils.getReferencedClasses(ReplicatedEntity.class,
-					ReplicationInfo.class);
+					ReplicationInfo.class, SIGHRevisionEntity.class);
 		}
 
 		@Bean
@@ -122,6 +123,12 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 			return new ReplicationResponseHandler();
 		}
 
+		@Override
+		protected boolean getWithEnvers() {
+
+			return true;
+		}
+
 	}
 
 	@Autowired
@@ -131,10 +138,10 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 	private ReplicationHandler replicationHandler;
 
 	@Autowired
-	private ReplicationLogic logic;
+	private IReplicationLogic logic;
 
 	@Autowired
-	ReplicatedEntityDao dao;
+	private ReplicatedEntityDao dao;
 
 	@Autowired
 	private WSTemplate template;
@@ -151,7 +158,7 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 		replicationHandler.doSync();
 
 		assertTrue(logic.getReplicationsToDo().isEmpty());
-		assertTrue(dao.getCount() == 1);
+		assertThat(dao.getCount(), is(1L));
 		assertThat(dao.getAll(null), hasItem(re1));
 
 		// minutos 2
