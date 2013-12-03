@@ -21,8 +21,8 @@ import py.una.med.base.dao.search.SearchParam;
 import py.una.med.base.dao.where.Clauses;
 import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.log.Log;
+import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
-import py.una.med.base.test.test.services.ReflectionConverterTest.DTO;
 import py.una.med.base.util.DateProvider;
 
 /**

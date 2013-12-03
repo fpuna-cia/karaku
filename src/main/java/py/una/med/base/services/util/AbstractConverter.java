@@ -44,23 +44,19 @@ public abstract class AbstractConverter<E extends Shareable, T extends DTO>
 	protected Class<E> entityClass;
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Class<T> getDtoType() {
 
 		if (dtoClass == null) {
-			dtoClass = (Class<T>) KarakuReflectionUtils.getParameterizedClass(
-					this, 1);
+			dtoClass = KarakuReflectionUtils.getParameterizedClass(this, 1);
 		}
 		return dtoClass;
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public Class<E> getEntityType() {
 
 		if (entityClass == null) {
-			entityClass = (Class<E>) KarakuReflectionUtils
-					.getParameterizedClass(this, 0);
+			entityClass = KarakuReflectionUtils.getParameterizedClass(this, 0);
 		}
 		return entityClass;
 	}

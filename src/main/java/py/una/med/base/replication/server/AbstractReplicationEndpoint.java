@@ -5,6 +5,8 @@
 package py.una.med.base.replication.server;
 
 import static py.una.med.base.util.Checker.notValid;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -15,7 +17,6 @@ import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
 import py.una.med.base.services.ConverterProvider;
 import py.una.med.base.services.server.WebServiceDefinition;
-import py.una.med.base.test.test.replication.ReplicationEndpointTest;
 import py.una.med.base.util.KarakuReflectionUtils;
 
 /**
@@ -91,7 +92,8 @@ import py.una.med.base.util.KarakuReflectionUtils;
  * 
  * </li>
  * <li>Se debe realizar un test de esto, para lo mismo se puede ver el ejemplo
- * de {@link ReplicationEndpointTest}</li>
+ * de {@link import
+ * py.una.med.base.test.test.replication.ReplicationEndpointTest}</li>
  * </ol>
  * </p>
  * 
@@ -167,5 +169,21 @@ public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 		}
 
 		return changesConverted;
+	}
+
+	/**
+	 * Retorna los cambios de un bundle como una lista de entidades.
+	 * 
+	 * @param bundle
+	 *            set de cambios
+	 * @return lista de objetos que cambiaron.
+	 */
+	public List<T> getAsList(Bundle<T> bundle) {
+
+		List<T> toRet = new ArrayList<T>(bundle.size());
+		for (Change<T> p : bundle) {
+			toRet.add(p.getEntity());
+		}
+		return toRet;
 	}
 }

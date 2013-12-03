@@ -17,6 +17,13 @@ package py.una.med.base.replication;
  * sobre entidades de ese tipo.</li>
  * </ol>
  * <p>
+ * TODO:
+ * <ul>
+ * <li>Crear un BaseShareableEntity, que tenga URI, activo</li>
+ * 
+ * </ul>
+ * 
+ * </p>
  * 
  * @author Arturo Volpe
  * @since 2.2.8
