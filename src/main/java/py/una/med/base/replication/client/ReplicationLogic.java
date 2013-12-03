@@ -15,7 +15,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.dao.search.SearchParam;
 import py.una.med.base.dao.where.Clauses;
 import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.log.Log;
@@ -34,7 +36,7 @@ import py.una.med.base.util.DateProvider;
 public class ReplicationLogic implements IReplicationLogic {
 
 	@Autowired
-	private ReplicationInfoDao dao;
+	private IReplicationInfoDao dao;
 
 	@Autowired
 	private DateClauses clauses;
@@ -51,7 +53,12 @@ public class ReplicationLogic implements IReplicationLogic {
 		Where<ReplicationInfo> where = Where.get();
 		where.addClause(Clauses.eq("active", true));
 
-		return loadClass(dao.getAll(where, null));
+		List<ReplicationInfo> ri = dao.getAll(where, null);
+		if (ri == null) {
+			return Collections.emptySet();
+		} else {
+			return loadClass(ri);
+		}
 	}
 
 	@Override
@@ -63,14 +70,15 @@ public class ReplicationLogic implements IReplicationLogic {
 		Where<ReplicationInfo> where = Where.get();
 		where.addClause(Clauses.eq("entityClassName", clazzName));
 
-		List<ReplicationInfo> infos = dao.getAll(where, null);
+		List<ReplicationInfo> infos = dao.getAll(where, getSearchParam());
 
 		switch (infos.size()) {
 			case 0:
 				return null;
 			case 1:
-				log.warn("Multiple replicationInfo for the same class name");
+				return loadClass(infos.get(0));
 			default:
+				log.warn("Multiple replicationInfo for the same class name");
 				return loadClass(infos.get(0));
 		}
 
@@ -78,13 +86,26 @@ public class ReplicationLogic implements IReplicationLogic {
 
 	/**
 	 * @return
+	 * 
+	 */
+	private SearchParam getSearchParam() {
+
+		SearchParam sp = new SearchParam();
+		sp.addOrder("number");
+		return sp;
+	}
+
+	/**
+	 * @return
 	 */
 	@Override
+	@Transactional
 	public Set<ReplicationInfo> getReplicationsToDo() {
 
 		Where<ReplicationInfo> where = Where.get();
+		where.addClause(Clauses.eq("active", true));
 
-		List<ReplicationInfo> loaded = dao.getAll(where, null);
+		List<ReplicationInfo> loaded = dao.getAll(where, getSearchParam());
 
 		if (loaded == null) {
 			return Collections.emptySet();
@@ -105,10 +126,15 @@ public class ReplicationLogic implements IReplicationLogic {
 
 	private Calendar getNextSync(ReplicationInfo ri) {
 
-		Date lastReplicated = ri.getLastSync();
 		Calendar last = Calendar.getInstance();
-		last.setTime(lastReplicated);
-		last.add(Calendar.MINUTE, ri.getInterval());
+		Date lastReplicated = ri.getLastSync();
+		if (ri.getLastSync() == null) {
+			last.clear(); // seteamos al principio de los tiempos, para que sí o
+							// sí se sincronize
+		} else {
+			last.setTime(lastReplicated);
+			last.add(Calendar.MINUTE, ri.getInterval());
+		}
 		return last;
 	}
 
@@ -116,6 +142,7 @@ public class ReplicationLogic implements IReplicationLogic {
 	 * @param clazz
 	 */
 	@Override
+	@Transactional(readOnly = false)
 	public void notifyReplication(Class<?> clazz, String id) {
 
 		ReplicationInfo info = getByClass(clazz);
@@ -162,13 +189,20 @@ public class ReplicationLogic implements IReplicationLogic {
 
 	private Set<ReplicationInfo> loadClass(Collection<ReplicationInfo> loaded) {
 
+		notNull(loaded, "Can not load a empty size set");
 		Set<ReplicationInfo> toRet = new HashSet<ReplicationInfo>(loaded.size());
 
 		for (ReplicationInfo ri : loaded) {
-			loadClass(ri);
-			toRet.add(ri);
+			toRet.add(loadClass(ri));
 		}
 		return toRet;
 	}
 
+	@Override
+	public void configureInfo(ReplicationInfo info) {
+
+		if (info.getEntityClazz() == null) {
+			loadClass(info);
+		}
+	}
 }

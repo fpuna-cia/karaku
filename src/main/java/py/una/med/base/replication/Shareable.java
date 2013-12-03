@@ -105,6 +105,11 @@ public interface Shareable {
 
 	/**
 	 * Realiza un borrado lógico de la entidad.
+	 * <p>
+	 * Esta operación no debería afectar a otras entidades, solamente a la
+	 * misma, para realizar una activación o desactivación en cascada, utilice
+	 * el DAO.
+	 * </p>
 	 * 
 	 * @see #activate()
 	 */
@@ -112,7 +117,11 @@ public interface Shareable {
 
 	/**
 	 * Realiza el proceso inverso al borrado lógico.
-	 * 
+	 * <p>
+	 * Esta operación no debería afectar a otras entidades, solamente a la
+	 * misma, para realizar una activación o desactivación en cascada, utilice
+	 * el DAO.
+	 * </p>
 	 */
 	void activate();
 

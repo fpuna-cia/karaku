@@ -7,7 +7,7 @@ package py.una.med.base.replication.client;
 import static py.una.med.base.util.Checker.notNull;
 import java.util.Collection;
 import java.util.Set;
-import javax.persistence.Table;
+import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.tuple.Pair;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -15,20 +15,23 @@ import org.hibernate.SessionFactory;
 import org.hibernate.exception.SQLGrammarException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.log.Log;
 import py.una.med.base.replication.DTO;
+import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
+import py.una.med.base.replication.client.ReplicationContextHolder.ReplicationContext;
 import py.una.med.base.services.Converter;
 import py.una.med.base.services.ConverterProvider;
 import py.una.med.base.services.client.WSEndpoint;
 import py.una.med.base.services.client.WSSecurityInterceptor;
 import py.una.med.base.util.Checker;
-import py.una.med.base.util.StringUtils;
 
 /**
  * Servicio que se encarga de sincronizar las entidades periodicamente.
@@ -74,26 +77,76 @@ public class ReplicationHandler {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@Autowired
+	private ApplicationContext applicationContext;
+
+	ReplicationHandler replicationHandler;
+
+	@PostConstruct
+	void getThis() {
+
+		replicationHandler = applicationContext
+				.getBean(ReplicationHandler.class);
+	}
+
+	/**
+	 * Realiza la sincronización de todas las entidades.
+	 * 
+	 * <p>
+	 * Todas aquellas entidades que deben ser sincronizadas serán sincronizadas,
+	 * las mismas se ejecutan en una transacción por entidad, es decir que si
+	 * una entidad falla, las demás pueden continuar sin problemas.
+	 * </p>
+	 */
 	@Scheduled(fixedDelay = CALL_DELAY)
-	public void doSync() {
+	public synchronized void doSync() {
 
 		Set<ReplicationInfo> toReplicate = logic.getReplicationsToDo();
 
+		beginLocalThread();
 		for (ReplicationInfo ri : toReplicate) {
-
-			doSync(ri);
+			try {
+				replicationHandler.doSync(ri);
+			} catch (Exception e) {
+				log.warn("Can't sync entity {}", ri.getEntityClassName(), e);
+			}
 		}
+		resetLocalThread();
 	}
 
+	/**
+	 * Sincroniza una sola entidad.
+	 * 
+	 * @param ri
+	 */
+	@Transactional
 	public void doSync(ReplicationInfo ri) {
 
+		updateLocalThread(ri);
 		String lastId = replicate(ri);
 		logic.notifyReplication(ri.getEntityClazz(), lastId);
 	}
 
-	/**
-	 * @param ri
-	 */
+	private void updateLocalThread(ReplicationInfo ri) {
+
+		notNull(ReplicationContextHolder.getContext(),
+				"Null replication context, please initialize one");
+		ReplicationContextHolder.getContext().setCurrentClassName(
+				ri.getEntityClassName());
+	}
+
+	private void beginLocalThread() {
+
+		ReplicationContext rc = new ReplicationContext();
+		rc.setReplicationUser("REPLICATION_USER");
+		ReplicationContextHolder.setContext(rc);
+	}
+
+	private void resetLocalThread() {
+
+		ReplicationContextHolder.setContext(null);
+	}
+
 	private String replicate(ReplicationInfo ri) {
 
 		WSEndpoint endpoint = ri.getWsEndpoint();
@@ -122,9 +175,22 @@ public class ReplicationHandler {
 		Converter converter = converterProvider.getConverter(
 				ri.getEntityClazz(), ri.getDaoClazz());
 
-		for (Object dto : items) {
-			Shareable entity = converter.toEntity((DTO) dto);
-			merge(ri, entity);
+		for (Object obj : items) {
+			DTO dto = (DTO) obj;
+			try {
+				Shareable entity = converter.toEntity(dto);
+				merge(ri, entity);
+			} catch (EntityNotFoundException enf) {
+				log.warn(
+						"Can't get entity from uri, skipping entity with uri {}",
+						dto.getUri());
+			} catch (Exception e) {
+				log.warn("Can't replicate entity with name {} and uri {}", obj
+						.getClass().getSimpleName(), dto.getUri());
+				throw new KarakuRuntimeException("Can't replicate entity "
+						+ obj.getClass().getSimpleName() + " uri = "
+						+ dto.getUri(), e);
+			}
 		}
 
 		return newLastId;
@@ -139,13 +205,13 @@ public class ReplicationHandler {
 
 		Session s = sessionFactory.getCurrentSession();
 
-		BaseEntity realEntity = getPersistedByUri(s, ri, entity.getUri());
+		Long id = getPersistedIdByUri(s, ri, entity.getUri());
 
-		if (realEntity == null) {
+		if (id == null) {
 			s.persist(entity);
 		} else {
 			BaseEntity toPersist = (BaseEntity) entity;
-			toPersist.setId(realEntity.getId());
+			toPersist.setId(id);
 			s.merge(toPersist);
 		}
 		s.flush();
@@ -170,16 +236,15 @@ public class ReplicationHandler {
 	 * @param uri
 	 * @return
 	 */
-	private BaseEntity getPersistedByUri(Session s, ReplicationInfo ri,
-			String uri) {
+	private Long getPersistedIdByUri(Session s, ReplicationInfo ri, String uri) {
 
 		try {
-			String query = "from " + getTableName(ri, uri)
+			String query = "select id from " + getEntityName(ri, uri)
 					+ " where uri = :uri";
 			Query q = s.createQuery(query);
 			q.setParameter("uri", uri);
 
-			return (BaseEntity) q.uniqueResult();
+			return (Long) q.uniqueResult();
 		} catch (SQLGrammarException sge) {
 			throw new KarakuRuntimeException(Checker.format(
 					"Can't find column 'uri' of entity %s, "
@@ -196,13 +261,9 @@ public class ReplicationHandler {
 	 * @param uri
 	 * @return
 	 */
-	private String getTableName(ReplicationInfo ri, String uri) {
+	private String getEntityName(ReplicationInfo ri, String uri) {
 
-		Table t = ri.getEntityClazz().getAnnotation(Table.class);
-		if ((t == null) || StringUtils.isInvalid(t.name())) {
-			return ri.getEntityClazz().getSimpleName();
-		} else {
-			return t.name();
-		}
+		notNull(ri, "Can't get entity from null Replicationinfo");
+		return ri.getEntityClazz().getSimpleName();
 	};
 }
