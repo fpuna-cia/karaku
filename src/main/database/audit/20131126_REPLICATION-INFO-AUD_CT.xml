@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="avolpe@pol.una.py" id="base_audit_replication-info-aud_ct_001">
+		<createTable tableName="replication_info_aud" schemaName="${liquibase.audit.schema}">
+			<column name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="rev" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="ws_end_point_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_id" type="VARCHAR(255)" />
+			<column name="last_sync" type="TIMESTAMP" />
+			<column name="entity_class_name" type="VARCHAR(255)" />
+			<column name="dto_class_name" type="VARCHAR(255)" />
+			<column name="request_class_name" type="VARCHAR(255)" />
+			<column name="response_class_name" type="VARCHAR(255)" />
+			<column name="interval" type="BIGINT" />
+			<column name="number" type="INT" />
+			<column name="active" type="BOOLEAN" />
+		</createTable>
+	</changeSet>
+</databaseChangeLog>

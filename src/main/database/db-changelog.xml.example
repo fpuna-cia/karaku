@@ -41,6 +41,11 @@
 	<include file="database/base/karaku/20130805_WS-END-POINT_AC_USER_PASS.xml" />
 	
 	<!-- ____________________________________________________ -->
+	
+	<!-- Tablas de configuración de replicacion -->
+	<include file="database/base/karaku/20131126_REPLICATION-INFO_CT.xml" />
+	<include file="database/base/audit/20131126_REPLICATION-INFO-AUD_CT.xml" />
+	<!-- ______________________________________ -->
 	<!-- Mantener esta línea al final del archivo, y solo agregar líneas arriba 
 		de ella -->
 </databaseChangeLog>
