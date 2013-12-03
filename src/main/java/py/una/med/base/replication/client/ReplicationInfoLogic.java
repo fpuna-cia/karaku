@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.business.SIGHBaseLogic;
+import py.una.med.base.replication.server.Bundle;
 import py.una.med.base.repo.ISIGHBaseDao;
 
 /**
@@ -24,10 +25,20 @@ public class ReplicationInfoLogic extends SIGHBaseLogic<ReplicationInfo, Long> {
 	@Autowired
 	private ReplicationInfoDao dao;
 
+	static final int DEFAULT_INTERVAL = 5;
 	@Override
 	public ISIGHBaseDao<ReplicationInfo, Long> getDao() {
 
 		return dao;
+	}
+
+	@Override
+	public ReplicationInfo getNewInstance() {
+
+		ReplicationInfo ri = new ReplicationInfo();
+		ri.setLastId(Bundle.ZERO_ID);
+		ri.setInterval(5);
+		return ri;
 	}
 
 }

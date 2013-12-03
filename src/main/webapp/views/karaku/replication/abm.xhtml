@@ -10,12 +10,9 @@
 	template="/views/templates/header.xhtml">
 
 	<ui:define name="content">
-		<sigh:list controller="#{WSEndpointController}"
-			urlColumns="/views/karaku/ws_client_manager/columns.xhtml"
-			urlSearchForm="/views/karaku/ws_client_manager/fields.xhtml">
-		</sigh:list>
-		<h:form>
-			<h:commandButton value="Go to main" action="../main.xhtml" />
-		</h:form>
+		<sigh:abm controller="#{replicationJSFController}"
+			urlForm="/views/karaku/replication/fields.xhtml" />
+
 	</ui:define>
+
 </ui:composition>

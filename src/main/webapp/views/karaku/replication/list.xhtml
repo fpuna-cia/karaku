@@ -10,11 +10,14 @@
 	template="/views/templates/header.xhtml">
 
 	<ui:define name="content">
-		<sigh:list controller="#{WSEndpointController}"
-			urlColumns="/views/karaku/ws_client_manager/columns.xhtml"
-			urlSearchForm="/views/karaku/ws_client_manager/fields.xhtml">
+
+		<sigh:list controller="#{replicationJSFController}"
+			urlColumns="/views/karaku/replication/columns.xhtml"
+			urlSearchForm="/views/karaku/replication/fields.xhtml">
 		</sigh:list>
 		<h:form>
+			<h:commandButton value="Do all sync"
+				action="#{replicationHandler.doSync()}" />
 			<h:commandButton value="Go to main" action="../main.xhtml" />
 		</h:form>
 	</ui:define>

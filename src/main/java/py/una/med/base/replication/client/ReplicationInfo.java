@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import py.una.med.base.dao.annotations.CaseSensitive;
 import py.una.med.base.dao.entity.annotations.Time;
@@ -33,7 +34,7 @@ import py.una.med.base.services.client.WSEndpoint;
  */
 @Entity
 @Table(name = "replication_info")
-@SequenceGenerator(name = "REPLICATION_INFO_SEQ", sequenceName = "replication_info_seq")
+@SequenceGenerator(name = "REPLICATION_INFO_SEQ", sequenceName = "replication_info_id_seq")
 public class ReplicationInfo extends BaseEntity {
 
 	private static final long serialVersionUID = 2664426116899009727L;
@@ -44,12 +45,13 @@ public class ReplicationInfo extends BaseEntity {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "ws_end_point_id")
+	@NotNull
 	private WSEndpoint wsEndpoint;
 
 	@Column(name = "last_id")
+	@CaseSensitive
 	private String lastId;
 
-	@NotNull
 	@Time(type = Type.DATETIME)
 	@Column(name = "last_sync")
 	private Date lastSync;
@@ -86,7 +88,13 @@ public class ReplicationInfo extends BaseEntity {
 	@Transient
 	private Class<?> responseClazz;
 
+	@NotNull
+	@Min(0L)
 	private int interval;
+
+	@NotNull
+	@Min(0L)
+	private int number;
 
 	private boolean active;
 
@@ -97,7 +105,7 @@ public class ReplicationInfo extends BaseEntity {
 
 	}
 
-	ReplicationInfo() {
+	public ReplicationInfo() {
 
 	}
 
@@ -143,7 +151,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param lastId
 	 *            lastId para setear
 	 */
-	void setLastId(String lastId) {
+	public void setLastId(String lastId) {
 
 		this.lastId = lastId;
 	}
@@ -160,7 +168,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param wsEndpoint
 	 *            wsEndpoint para setear
 	 */
-	void setWsEndpoint(WSEndpoint wsEndpoint) {
+	public void setWsEndpoint(WSEndpoint wsEndpoint) {
 
 		this.wsEndpoint = wsEndpoint;
 	}
@@ -177,7 +185,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param interval
 	 *            interval para setear
 	 */
-	void setInterval(int interval) {
+	public void setInterval(int interval) {
 
 		this.interval = interval;
 	}
@@ -194,7 +202,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param active
 	 *            active para setear
 	 */
-	void setActive(boolean active) {
+	public void setActive(boolean active) {
 
 		this.active = active;
 	}
@@ -211,7 +219,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param lastSync
 	 *            lastSync para setear
 	 */
-	void setLastSync(Date lastSync) {
+	public void setLastSync(Date lastSync) {
 
 		this.lastSync = lastSync;
 	}
@@ -228,7 +236,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param daoClazz
 	 *            daoClazz para setear
 	 */
-	void setDaoClazz(Class<? extends DTO> daoClazz) {
+	public void setDaoClazz(Class<? extends DTO> daoClazz) {
 
 		this.daoClazz = daoClazz;
 	}
@@ -245,7 +253,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param entityClazz
 	 *            entityClazz para setear
 	 */
-	void setEntityClazz(Class<? extends Shareable> entityClazz) {
+	public void setEntityClazz(Class<? extends Shareable> entityClazz) {
 
 		this.entityClazz = entityClazz;
 	}
@@ -262,7 +270,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param entityClassName
 	 *            entityClassName para setear
 	 */
-	void setEntityClassName(String entityClassName) {
+	public void setEntityClassName(String entityClassName) {
 
 		this.entityClassName = entityClassName;
 	}
@@ -279,7 +287,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param dtoClassName
 	 *            daoClassName para setear
 	 */
-	void setDtoClassName(String dtoClassName) {
+	public void setDtoClassName(String dtoClassName) {
 
 		this.dtoClassName = dtoClassName;
 	}
@@ -296,7 +304,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param requestClassName
 	 *            requestClassName para setear
 	 */
-	void setRequestClassName(String requestClassName) {
+	public void setRequestClassName(String requestClassName) {
 
 		this.requestClassName = requestClassName;
 	}
@@ -313,7 +321,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param responseClassName
 	 *            responseClassName para setear
 	 */
-	void setResponseClassName(String responseClassName) {
+	public void setResponseClassName(String responseClassName) {
 
 		this.responseClassName = responseClassName;
 	}
@@ -330,7 +338,7 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param requestClazz
 	 *            requestClazz para setear
 	 */
-	void setRequestClazz(Class<?> requestClazz) {
+	public void setRequestClazz(Class<?> requestClazz) {
 
 		this.requestClazz = requestClazz;
 	}
@@ -347,8 +355,25 @@ public class ReplicationInfo extends BaseEntity {
 	 * @param responseClazz
 	 *            responseClazz para setear
 	 */
-	void setResponseClazz(Class<?> responseClazz) {
+	public void setResponseClazz(Class<?> responseClazz) {
 
 		this.responseClazz = responseClazz;
 	}
+
+	/**
+	 * @return number
+	 */
+	public int getNumber() {
+
+		return number;
+	}
+
+	/**
+	 * @param number number para setear
+	 */
+	public void setNumber(int number) {
+
+		this.number = number;
+	}
+
 }

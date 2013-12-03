@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+
+	<ui:param name="bean" value="#{replicationJSFController.bean}" />
+	<ui:param name="controller" value="#{replicationJSFController}" />
+
+	<h:panelGrid columns="6"
+		columnClasses="form_label,form_input,form_error,form_label,form_input,form_error"
+		style="width:100%">
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_ACTIVE']}" />
+		<h:selectBooleanCheckbox value="#{bean.active}" id="active" />
+		<rich:messages for="active" />
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_WS_ENDPOINT']}" />
+		<h:selectOneMenu value="#{bean.wsEndpoint}" id="endpoint"
+			converter="#{controller.converter}"
+			disabled="#{not controller.isEditable('endpoint')}">
+			<f:selectItems value="#{controller.endpoints}" />
+		</h:selectOneMenu>
+		<rich:message for="endpoint" />
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_LAST_ID']}" />
+		<h:inputText value="#{bean.lastId}" id="lastId"
+			style="text-transform:none;"
+			disabled="#{not controller.isEditable('lastId')}" />
+		<rich:message for="lastId" ajaxRendered="true" />
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_ORDER']}" />
+		<h:inputText value="#{bean.number}" id="number"
+			disabled="#{not controller.isEditable('number')}" />
+		<rich:message for="number" ajaxRendered="true" />
+
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_LAST_DATE']}" />
+		<h:inputText value="#{bean.lastSync}" id="lastSync" disabled="true" />
+		<rich:message for="lastSync" ajaxRendered="true" />
+
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_ENTITY']}" />
+		<h:selectOneMenu value="#{bean.entityClassName}" id="entityClassName"
+			converter="oldStringConverter"
+			disabled="#{not controller.isEditable('entityClassName')}">
+			<f:selectItems value="#{controller.entitiesClasses}" />
+		</h:selectOneMenu>
+		<rich:message for="entityClassName" ajaxRendered="true" />
+
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_DTO']}" />
+		<h:selectOneMenu value="#{bean.dtoClassName}" id="dtoClassName"
+			converter="oldStringConverter"
+			disabled="#{not controller.isEditable('dtoClassName')}">
+			<f:selectItems value="#{controller.dtoClasses}" />
+		</h:selectOneMenu>
+		<rich:message for="dtoClassName" ajaxRendered="true" />
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_REQUEST']}" />
+		<h:selectOneMenu value="#{bean.requestClassName}"
+			id="requestClassName" converter="oldStringConverter"
+			disabled="#{not controller.isEditable('requestClassName')}">
+			<f:selectItems value="#{controller.requestClasses}" />
+		</h:selectOneMenu>
+		<rich:message for="requestClassName" ajaxRendered="true" />
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_RESPONSE']}" />
+		<h:selectOneMenu value="#{bean.responseClassName}"
+			id="responseClassName" converter="oldStringConverter"
+			disabled="#{not controller.isEditable('responseClassName')}">
+			<f:selectItems value="#{controller.responseClasses}" />
+		</h:selectOneMenu>
+		<rich:message for="responseClassName" ajaxRendered="true" />
+
+		<h:outputText value="#{msg['KARAKU_REPLICATION_INTERVAL']}" />
+		<h:inputText value="#{bean.interval}" id="interval"
+			style="text-transform:none;"
+			disabled="#{not controller.isEditable('interval')}" />
+		<rich:message for="interval" ajaxRendered="true" />
+
+
+	</h:panelGrid>
+</ui:composition>

@@ -4,8 +4,7 @@
  */
 package py.una.med.base.replication.client;
 
-import org.springframework.stereotype.Repository;
-import py.una.med.base.repo.SIGHBaseDao;
+import py.una.med.base.repo.ISIGHBaseDao;
 
 /**
  * 
@@ -14,8 +13,7 @@ import py.una.med.base.repo.SIGHBaseDao;
  * @version 1.0 Nov 25, 2013
  * 
  */
-@Repository
-public class ReplicationInfoDao extends SIGHBaseDao<ReplicationInfo, Long>
-		implements IReplicationInfoDao {
+public interface IReplicationInfoDao extends
+		ISIGHBaseDao<ReplicationInfo, Long> {
 
 }
