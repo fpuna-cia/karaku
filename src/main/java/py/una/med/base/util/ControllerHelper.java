@@ -22,7 +22,9 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.DateTimeConverter;
 import org.hibernate.exception.ConstraintViolationException;
+import org.richfaces.component.UICalendar;
 import org.richfaces.component.UIColumn;
 import org.richfaces.component.UIExtendedDataTable;
 import org.slf4j.Logger;
@@ -35,7 +37,7 @@ import py.una.med.base.reports.Column;
  * Clase que implementa funcionalidades generales para la manipulacion de
  * vistas, proveen funcionalidades que ya integran todas las partes del sistema.
  * Es un singleton compartido por todas las sesiones
- *
+ * 
  * @author Arturo Volpe
  * @author Nathalia Ochoa
  * @since 1.1 08/02/2013
@@ -70,9 +72,9 @@ public class ControllerHelper {
 	 * <p>
 	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostrarán todos los mensajes
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
@@ -99,7 +101,7 @@ public class ControllerHelper {
 	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostraran todos los mensajes
 	 * </p>
-	 *
+	 * 
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
@@ -123,7 +125,7 @@ public class ControllerHelper {
 	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
 	 * mensajes, en caso contrario se mostraran todos los mensajes
 	 * </p>
-	 *
+	 * 
 	 * @param severity
 	 *            grado de severidad {@link FacesMessage}
 	 * @param summary
@@ -142,7 +144,7 @@ public class ControllerHelper {
 	/**
 	 * Retorna el mensaje internacionalizado del código dado, para claves no
 	 * encontradas retorna &&&&&code&&&&&&
-	 *
+	 * 
 	 * @param code
 	 *            llave del mensaje
 	 * @return cadena internacionalizada
@@ -162,7 +164,7 @@ public class ControllerHelper {
 
 	/**
 	 * Dada una cadena la retorna degenerada.
-	 *
+	 * 
 	 * @param code
 	 *            cadena a deformar
 	 * @return Cadena degenerada, con el formato &&&&&code&&&&&
@@ -175,7 +177,7 @@ public class ControllerHelper {
 
 	/**
 	 * Crea un mensaje para un componente determinado
-	 *
+	 * 
 	 * @param severity
 	 *            Severidad {@link FacesMessage}
 	 * @param summary
@@ -197,7 +199,7 @@ public class ControllerHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param severity
 	 *            Severidad {@link FacesMessage}
 	 * @param summary
@@ -226,7 +228,7 @@ public class ControllerHelper {
 	 * generara identificadorse parecidos a: formID para el form, y
 	 * formID:labelID para el label, esta funcion recibe como parametro
 	 * "labelID" y retorna "formID:labelID".
-	 *
+	 * 
 	 * @param id
 	 *            de la vista del elemento a buscar
 	 * @return id del componente del lado del cliente
@@ -247,7 +249,7 @@ public class ControllerHelper {
 	/**
 	 * Dado un ID (vease {@link ControllerHelper#getClientId(String)}) retorna
 	 * el componente al que pertenece
-	 *
+	 * 
 	 * @param id
 	 *            id del cliente para obtener el componente
 	 * @return Componente de vista
@@ -280,14 +282,14 @@ public class ControllerHelper {
 
 	/**
 	 * Retorna una EL expression correspondiente a un metodo.
-	 *
+	 * 
 	 * @param valueExpression
 	 *            cadena que representa la expresion.
 	 * @param expectedReturnType
 	 *            clase del tipo que se espera que retorna la expresion
 	 * @param expectedParamTypes
 	 *            clase de los parametros esperados que reciba el metodo
-	 *
+	 * 
 	 * @return {@link MethodExpression} correspondiente
 	 */
 	public MethodExpression createMethodExpression(
@@ -312,7 +314,7 @@ public class ControllerHelper {
 
 	/**
 	 * Muestra una excepción con severidad de error
-	 *
+	 * 
 	 * @param e
 	 *            excepción a mostrar.
 	 */
@@ -325,7 +327,7 @@ public class ControllerHelper {
 	/**
 	 * Escanea el archivo columns.xhtml donde se definen las columnas
 	 * visualizadas en la grilla, y retorna las mismas.
-	 *
+	 * 
 	 * @return Lista de columnas -> [header, field]
 	 */
 	public List<Column> getColumns() {
@@ -369,7 +371,7 @@ public class ControllerHelper {
 	 * {@link UniqueHelper#createUniqueException(Exception, Class)}</li>
 	 * </ol>
 	 * </p>
-	 *
+	 * 
 	 * @param e
 	 *            excepción que se desea manejar
 	 * @param clazz
@@ -410,11 +412,11 @@ public class ControllerHelper {
 	 * validaciones</li>
 	 * </ol>
 	 * </p>
-	 *
+	 * 
 	 * </ol> <b>Observaciones:</b> no se verifica si algun valor no es
 	 * compatible con su destino, esto es si se ingresa una cadena en el lugar
 	 * de un numero, se lanzara una excepcion del tipo
-	 *
+	 * 
 	 * @param componentID
 	 *            es el id del lado servidor del objeto que sera actualizado.
 	 */
@@ -452,7 +454,21 @@ public class ControllerHelper {
 				value.setValue(elContext, newValue);
 				continue;
 			}
-			if (component instanceof UIInput) {
+			if (component instanceof UICalendar) {
+				UICalendar com = (UICalendar) component;
+				Object newValue = com.getSubmittedValue();
+				if (newValue == null) {
+					continue;
+				}
+
+				ValueExpression value = com
+						.getValueExpression(EL_VALUE_PROPERTY);
+				newValue = getConverter().getAsObject(context, component,
+						newValue.toString());
+				value.setValue(elContext, newValue);
+			}
+			if (component instanceof UIInput
+					&& !(component instanceof UICalendar)) {
 				UIInput com = (UIInput) component;
 				Object newValue = com.getSubmittedValue();
 				ValueExpression value = com
@@ -463,4 +479,12 @@ public class ControllerHelper {
 			updateModel(component);
 		}
 	}
+
+	private DateTimeConverter getConverter() {
+
+		DateTimeConverter converter = new DateTimeConverter();
+		converter.setPattern(FormatProvider.DATE_FORMAT);
+		return converter;
+	}
+
 }
