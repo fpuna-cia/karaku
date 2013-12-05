@@ -8,11 +8,15 @@ import static py.una.med.base.util.Checker.notNull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.xml.bind.annotation.XmlType;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
+import org.richfaces.component.UIExtendedDataTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,7 @@ import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.client.WSEndpoint;
 import py.una.med.base.services.client.WSEndpointLogic;
+import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.SelectHelper;
 import py.una.med.base.util.StringUtils;
@@ -48,6 +53,9 @@ public class ReplicationJSFController extends
 	public static int ROWS_FOR_PAGE = 100;
 	@Autowired
 	private ReplicationInfoLogic logic;
+
+	@Autowired
+	private ControllerHelper helper;
 
 	@Autowired
 	private WSEndpointLogic endpointLogic;
@@ -172,5 +180,20 @@ public class ReplicationJSFController extends
 			}
 		}
 		return toRet;
+	}
+
+	public void onActiveClicked(final AjaxBehaviorEvent event) {
+
+		UIComponent check = (UIComponent) event.getSource();
+		UIComponent uiColumn = check.getParent();
+		UIExtendedDataTable dataTable = (UIExtendedDataTable) uiColumn
+				.getParent();
+		ReplicationInfo data = (ReplicationInfo) dataTable.getRowData();
+		data.setActive(!data.isActive());
+		logic.update(data);
+		helper.createGlobalFacesMessageSimple(FacesMessage.SEVERITY_INFO,
+				"Info for entity " + getSimpleName(data.getEntityClassName())
+						+ " is now "
+						+ (data.isActive() ? "active" : "inactive"));
 	}
 }

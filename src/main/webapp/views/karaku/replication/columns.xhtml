@@ -20,7 +20,10 @@
 		<f:facet name="header">
 			<h:outputText value="#{msg['KARAKU_REPLICATION_ACTIVE']}" />
 		</f:facet>
-		<h:selectBooleanCheckbox value="#{item.active}" id="active" disabled="true" />
+		<h:selectBooleanCheckbox value="#{item.active}" id="active">
+			<a4j:ajax listener="#{replicationJSFController.onActiveClicked}"
+				render="@this" execute="@this" immediate="true" />
+		</h:selectBooleanCheckbox>
 	</rich:column>
 
 	<rich:column>
@@ -53,24 +56,28 @@
 		<f:facet name="header">
 			<h:outputText value="#{msg['KARAKU_REPLICATION_ENTITY']}" />
 		</f:facet>
-		<h:outputText value="#{replicationJSFController.getSimpleName(item.entityClassName)}" />
+		<h:outputText
+			value="#{replicationJSFController.getSimpleName(item.entityClassName)}" />
 	</rich:column>
 	<rich:column>
 		<f:facet name="header">
 			<h:outputText value="#{msg['KARAKU_REPLICATION_DTO']}" />
 		</f:facet>
-		<h:outputText value="#{replicationJSFController.getSimpleName(item.dtoClassName)}" />
+		<h:outputText
+			value="#{replicationJSFController.getSimpleName(item.dtoClassName)}" />
 	</rich:column>
 	<rich:column>
 		<f:facet name="header">
 			<h:outputText value="#{msg['KARAKU_REPLICATION_REQUEST']}" />
 		</f:facet>
-		<h:outputText value="#{replicationJSFController.getSimpleName(item.requestClassName)}" />
+		<h:outputText
+			value="#{replicationJSFController.getSimpleName(item.requestClassName)}" />
 	</rich:column>
 	<rich:column>
 		<f:facet name="header">
 			<h:outputText value="#{msg['KARAKU_REPLICATION_RESPONSE']}" />
 		</f:facet>
-		<h:outputText value="#{replicationJSFController.getSimpleName(item.requestClassName)}" />
+		<h:outputText
+			value="#{replicationJSFController.getSimpleName(item.requestClassName)}" />
 	</rich:column>
 </ui:composition>
