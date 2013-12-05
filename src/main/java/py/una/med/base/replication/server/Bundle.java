@@ -55,7 +55,7 @@ public class Bundle<T> implements Iterable<Change<T>> {
 		return changes.iterator();
 	}
 
-	Change<T> add(T entity, String id) {
+	public Change<T> add(T entity, String id) {
 
 		Change<T> nC = new Change<T>();
 		nC.setEntity(entity);

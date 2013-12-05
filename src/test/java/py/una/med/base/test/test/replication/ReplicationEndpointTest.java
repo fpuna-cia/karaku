@@ -16,7 +16,9 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.test.server.ResponseMatchers;
 import py.una.med.base.replication.server.Bundle;
+import py.una.med.base.replication.server.DummyFirstChangeProvider;
 import py.una.med.base.replication.server.DummyReplicationProvider;
+import py.una.med.base.replication.server.FirstChangeProviderHandler;
 import py.una.med.base.replication.server.ReplicationProvider;
 import py.una.med.base.services.ConverterProvider;
 import py.una.med.base.test.base.BaseTestWebService;
@@ -72,6 +74,17 @@ public class ReplicationEndpointTest extends BaseTestWebService {
 			return new ConverterProvider();
 		}
 
+		@Bean
+		FirstChangeProviderHandler changeProviderHandler() {
+
+			return new FirstChangeProviderHandler();
+		}
+
+		@Bean
+		DummyFirstChangeProvider dummyFirstChangeProvider() {
+
+			return new DummyFirstChangeProvider();
+		}
 	}
 
 	@Configuration

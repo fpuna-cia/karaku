@@ -44,11 +44,11 @@ import py.una.med.base.exception.KarakuRuntimeException;
  * entidades definidas en {@link #getBasePackageToScan()} o
  * {@link #getEntityClasses()}.
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Aug 19, 2013
- *
+ * 
  */
 public class TransactionTestConfiguration extends BaseTestConfiguration {
 
@@ -62,8 +62,8 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	private static final String USE_EMBEDDED = "test.hibernate.use_embedded";
 
 	/**
-	 * Crea un datasource para una base de datos embebida
-	 *
+	 * Crea un datasource para una base de datos embebida.
+	 * 
 	 * @return dataSource creada o null si no se necesita un datasource
 	 * @throws IOException
 	 *             si no se puede crear la base de datos
@@ -79,9 +79,9 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 
 		} else {
 			DriverManagerDataSource dataSource = new DriverManagerDataSource();
-			dataSource.setUrl(properties.get("database.url"));
-			dataSource.setUsername(properties.get("database.user"));
-			dataSource.setPassword(properties.get("database.password"));
+			dataSource.setUrl(properties.get("test.hiberante.database"));
+			dataSource.setUsername(properties.get("test.hibernate.user"));
+			dataSource.setPassword(properties.get("test.hibernate.pass"));
 			ds = dataSource;
 
 		}
@@ -92,7 +92,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	/**
 	 * Retorna un {@link SessionFactory} para los test, utilizando el
 	 * {@link DataSource} definido por {@link #dataSource()}.
-	 *
+	 * 
 	 * @return {@link SessionFactory}
 	 * @throws IOException
 	 *             si no puede leer el datasource
@@ -112,16 +112,13 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 		Properties props = new Properties();
 		try {
 			if (properties.getBoolean(USE_EMBEDDED, true)) {
-				props.put("hibernate.dialect", properties.get(
-						"test.hibernate.dialect",
-						"org.hibernate.dialect.H2Dialect"));
-				props.put("hibernate.hbm2ddl.auto", "create-drop");
+				props.put("hibernate.dialect",
+						"org.hibernate.dialect.H2Dialect");
 			} else {
 				props.put("hibernate.dialect",
-						properties.get("hibernate.dialect"));
-				props.put("hibernate.hbm2ddl.auto",
-						properties.get("hibernate.hbm2ddl.auto", "validate"));
+						properties.get("test.hibernate.dialect"));
 			}
+			props.put("hibernate.hbm2ddl.auto", "create-drop");
 			props.put("hibernate.show_sql",
 					properties.get("hibernate.show_sql", STRING_FALSE));
 			props.put("hibernate.format_sql",
@@ -139,7 +136,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 
 	/**
 	 * Debe estar activado envers?.
-	 *
+	 * 
 	 * @return <code>true</code> si se desea que se autoregistren las entidades
 	 *         con {@link Audited}, <code>false</code> en caso contrario.
 	 */
@@ -155,7 +152,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	 * Por defecto utiliza la propiedad <code>base-package-hibernate</code> del
 	 * archivo de propiedades.
 	 * </p>
-	 *
+	 * 
 	 * @return lista de paquetes, si retorna <code>null</code>, el método
 	 *         {@link #getEntityClasses()} debe retornar algo.
 	 */
@@ -171,8 +168,8 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	 * <p>
 	 * Por defecto retorna null.
 	 * </p>
-	 *
-	 *
+	 * 
+	 * 
 	 * @return lista de entidades, si retorna <code>null</code>, el método
 	 *         {@link #getBasePackageToScan()} debe retornar algo.
 	 */
