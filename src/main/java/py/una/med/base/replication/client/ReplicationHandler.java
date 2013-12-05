@@ -82,6 +82,8 @@ public class ReplicationHandler {
 
 	ReplicationHandler replicationHandler;
 
+	boolean skiped = false;
+
 	@PostConstruct
 	void getThis() {
 
@@ -93,6 +95,11 @@ public class ReplicationHandler {
 	 * Realiza la sincronización de todas las entidades.
 	 * 
 	 * <p>
+	 * Por defecto, la primera llamada es omitida, esta llamada se realiza
+	 * cuando se levanta el contenedor y es improbable que otro sistema este
+	 * disponible
+	 * </p>
+	 * <p>
 	 * Todas aquellas entidades que deben ser sincronizadas serán sincronizadas,
 	 * las mismas se ejecutan en una transacción por entidad, es decir que si
 	 * una entidad falla, las demás pueden continuar sin problemas.
@@ -100,6 +107,11 @@ public class ReplicationHandler {
 	 */
 	@Scheduled(fixedDelay = CALL_DELAY)
 	public synchronized void doSync() {
+
+		if (!skiped) {
+			skiped = true;
+			return;
+		}
 
 		Set<ReplicationInfo> toReplicate = logic.getReplicationsToDo();
 
