@@ -51,7 +51,7 @@ import py.una.med.base.util.Checker;
 @Service
 public class ReplicationHandler {
 
-	private static final long CALL_DELAY = 1000;
+	private static final long CALL_DELAY = 60000;
 
 	@Autowired
 	private IReplicationLogic logic;
