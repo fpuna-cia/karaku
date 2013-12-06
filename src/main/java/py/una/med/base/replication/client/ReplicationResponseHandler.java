@@ -25,8 +25,8 @@ import py.una.med.base.util.KarakuReflectionUtils;
 @Component
 public class ReplicationResponseHandler {
 
-	private String[] ID_FIELDS = { "id", "lastId" };
-	private String[] CHANGE_FIELDS = { "entities", "data" };
+	private static final String[] ID_FIELDS = { "id", "lastId" };
+	private static final String[] CHANGE_FIELDS = { "entities", "data" };
 
 	/**
 	 * @param t1

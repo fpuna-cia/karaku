@@ -18,11 +18,11 @@ import org.springframework.xml.xsd.commons.CommonsXsdSchemaCollection;
 import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 18, 2013
- *
+ * 
  */
 @Component
 public class ServiceDefinitionRegister implements BeanFactoryPostProcessor {
@@ -76,7 +76,7 @@ public class ServiceDefinitionRegister implements BeanFactoryPostProcessor {
 		for (int i = 0; i < strings.length; i++) {
 			resources[i] = new ClassPathResource(strings[i]);
 			if (!resources[i].exists()) {
-				throw new RuntimeException("XSD with url: " + strings[i]
+				throw new KarakuRuntimeException("XSD with url: " + strings[i]
 						+ " doesn't exist!");
 			}
 		}

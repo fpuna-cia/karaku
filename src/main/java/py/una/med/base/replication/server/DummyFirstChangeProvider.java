@@ -24,7 +24,7 @@ import py.una.med.base.replication.Shareable;
 public class DummyFirstChangeProvider implements FirstChangeProvider<Shareable> {
 
 	@Autowired
-	SessionFactory factory;
+	private SessionFactory factory;
 
 	@SuppressWarnings("unchecked")
 	private <T extends Shareable> List<T> getAll(Class<T> clazz) {
@@ -44,6 +44,7 @@ public class DummyFirstChangeProvider implements FirstChangeProvider<Shareable> 
 		return factory.getCurrentSession();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Shareable> getChanges(Class<? extends Shareable> clazz) {
 

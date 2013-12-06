@@ -9,14 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-import org.springframework.ws.server.endpoint.annotation.RequestPayload;
-import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
 import py.una.med.base.services.ConverterProvider;
-import py.una.med.base.services.server.WebServiceDefinition;
 import py.una.med.base.util.KarakuReflectionUtils;
 
 /**
@@ -41,7 +37,7 @@ import py.una.med.base.util.KarakuReflectionUtils;
  * sistema></i>.webservice.endpoint), con el nombre PaisReplicationEndpoint
  * 
  * <pre>
- * {@literal @}{@link WebServiceDefinition}(xsds =
+ * {@literal @}{@link py.una.med.base.services.server.WebServiceDefinition}(xsds =
  * 	{
  * 		"/META-INF/schemas/configuracion/pais/Pais.xsd",
  * 		"/META-INF/schemas/configuracion/pais/PaisReplicationOperations.xsd"
@@ -50,18 +46,19 @@ import py.una.med.base.util.KarakuReflectionUtils;
  * </pre>
  * 
  * </li>
- * <li>Agregar la anotación {@literal @}{@link WebServiceDefinition} y
- * configurar los <i>xsd's</i> anteriormente generados</li>
+ * <li>Agregar la anotación {@literal @}
+ * {@link py.una.med.base.services.server.WebServiceDefinition} y configurar los
+ * <i>xsd's</i> anteriormente generados</li>
  * <li>Crear un método de la siguiente forma
  * 
  * <pre>
  * 
  * 
- * &#064;{@link PayloadRoot}(localPart = &quot;paisReplicationRequest&quot;, 
+ * &#064;{@link org.springframework.ws.server.endpoint.annotation.PayloadRoot}(localPart = &quot;paisReplicationRequest&quot;, 
  * 	 namespace = "http://sigh.med.una.py/2013/schemas/configuracion")
- * &#064;{@link ResponsePayload}
+ * &#064;{@link org.springframework.ws.server.endpoint.annotation.ResponsePayload}
  * public PaisReplicationResponse paisReplicationRequest(
- * 		&#064;{@link RequestPayload} PaisReplicationRequest request) {
+ * 		&#064;{@link org.springframework.ws.server.endpoint.annotation.RequestPayload} PaisReplicationRequest request) {
  * 
  * 	notNull(request, &quot;Please provide a paisReplicationRequest object&quot;);
  * 	String lastId = notValid(request.getId(), &quot;Please provide a last ID&quot;);
@@ -113,16 +110,16 @@ import py.una.med.base.util.KarakuReflectionUtils;
  */
 public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 
-	Class<E> clazzEntity;
-	Class<T> clazzDTO;
+	private Class<E> clazzEntity;
+	private Class<T> clazzDTO;
 
 	@Autowired
-	ReplicationProvider replicationProvider;
+	private ReplicationProvider replicationProvider;
 
 	@Autowired
 	private ConverterProvider converterProvider;
 
-	Converter<E, T> converter;
+	private Converter<E, T> converter;
 
 	/**
 	 * Crea una nueva instancia, recuperando información acerca de la entidad y

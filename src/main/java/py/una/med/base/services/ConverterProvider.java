@@ -6,11 +6,9 @@ package py.una.med.base.services;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.stereotype.Component;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
-import py.una.med.base.services.util.ReflectionConverter;
 
 /**
  * Proveedor de {@link Converter}.
@@ -26,7 +24,7 @@ public class ConverterProvider {
 
 	@Autowired(required = false)
 	@SuppressWarnings("rawtypes")
-	List<Converter> converters;
+	private List<Converter> converters;
 
 	/**
 	 * Provee un converter.
@@ -34,7 +32,7 @@ public class ConverterProvider {
 	 * <p>
 	 * Busca en el contexto de Spring por algún converter que se pueda aplicar a
 	 * los tipos pedidos, en el caso de que ninún converter sea encontrado,
-	 * retorna un {@link GenericConverter}
+	 * retorna un {@link ReflectionConverter}
 	 * </p>
 	 * 
 	 * @param entityClass
@@ -74,7 +72,7 @@ public class ConverterProvider {
 		public <Y extends Shareable, O extends DTO> Converter<Y, O> getConverter(
 				Class<Y> entityClass, Class<O> dtoClass) {
 
-			return getConverter(entityClass, dtoClass);
+			return ConverterProvider.this.getConverter(entityClass, dtoClass);
 		}
 	}
 }

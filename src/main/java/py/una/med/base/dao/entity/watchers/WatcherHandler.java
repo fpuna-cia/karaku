@@ -9,17 +9,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import py.una.med.base.dao.entity.Operation;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 6, 2013
- *
+ * 
  */
 @Component
 public class WatcherHandler {
@@ -27,7 +28,7 @@ public class WatcherHandler {
 	@Autowired(required = false)
 	private List<Watcher<?>> watchers;
 
-	Map<Class<?>, List<Watcher<?>>> maps;
+	private Map<Class<?>, List<Watcher<?>>> maps;
 
 	@PostConstruct
 	void init() {
@@ -66,12 +67,12 @@ public class WatcherHandler {
 	@SuppressWarnings("unchecked")
 	public <T> Operation redirect(Operation operation, Class<T> clazz, T dc) {
 
-		HashSet<Watcher<?>> watchers = getWatchers(clazz);
+		Set<Watcher<?>> watchers = getWatchers(clazz);
 
 		for (Watcher<?> watcher : watchers) {
 			Watcher<T> wath = (Watcher<T>) watcher;
 			Operation nOp = wath.redirect(operation, dc);
-			if (nOp != operation) {
+			if (!nOp.equals(operation)) {
 				return redirect(nOp, clazz, dc);
 			}
 		}
@@ -87,10 +88,10 @@ public class WatcherHandler {
 	public <T> T process(Operation origin, Operation operation, Class<T> clazz,
 			T dc) {
 
-		HashSet<Watcher<?>> watchers = getWatchers(clazz);
+		Set<Watcher<?>> currentWatchers = getWatchers(clazz);
 
 		T bean = dc;
-		for (Watcher<?> watcher : watchers) {
+		for (Watcher<?> watcher : currentWatchers) {
 			Watcher<T> wath = (Watcher<T>) watcher;
 			bean = wath.process(origin, operation, bean);
 		}
@@ -101,16 +102,16 @@ public class WatcherHandler {
 	 * @param clazz
 	 * @return
 	 */
-	private <T> HashSet<Watcher<?>> getWatchers(Class<T> clazz) {
+	private <T> Set<Watcher<?>> getWatchers(Class<T> clazz) {
 
-		HashSet<Watcher<?>> watchers = new HashSet<Watcher<?>>();
+		Set<Watcher<?>> currentWatchers = new HashSet<Watcher<?>>();
 		for (Entry<Class<?>, List<Watcher<?>>> entry : maps.entrySet()) {
 
 			Class<?> oClazz = entry.getKey();
 			if (oClazz.isAssignableFrom(clazz)) {
-				watchers.addAll(entry.getValue());
+				currentWatchers.addAll(entry.getValue());
 			}
 		}
-		return watchers;
+		return currentWatchers;
 	}
 }

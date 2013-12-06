@@ -23,11 +23,11 @@ import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.log.Log;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 1, 2013
- *
+ * 
  */
 @Component
 public class InterceptorHandler implements InitializingBean {
@@ -50,8 +50,6 @@ public class InterceptorHandler implements InitializingBean {
 	public void afterPropertiesSet() {
 
 		this.log.info("Building InterceptorHandler");
-		// Map<String, AbstractInterceptor> interceptors = this.ac
-		// .getBeansOfType(AbstractInterceptor.class);
 		this.interceptorsCount = interceptors.size();
 		for (Interceptor bi : interceptors) {
 			this.log.info("Add: {}", bi.getClass().getSimpleName());
@@ -176,7 +174,7 @@ public class InterceptorHandler implements InitializingBean {
 
 	/**
 	 * Retorna el número de {@link Interceptor} registrados por este componente.
-	 *
+	 * 
 	 * @return interceptorsCount
 	 */
 	public int getInterceptorsCount() {
@@ -187,10 +185,10 @@ public class InterceptorHandler implements InitializingBean {
 	/**
 	 * Verifica si un field puede ser asignable. Se define un fiel asignable
 	 * como aquel que no es estatico, final.
-	 *
+	 * 
 	 * Como nota general tener en cuenta que un campo que no es String es
 	 * inmediatamente no asignable
-	 *
+	 * 
 	 * @param field
 	 *            a ser evaluado
 	 * @return <code>true</code> si es asignable, <code>false</code> en caso

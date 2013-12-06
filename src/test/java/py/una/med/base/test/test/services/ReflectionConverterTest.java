@@ -18,7 +18,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import py.una.med.base.math.Quantity;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.Converter;
-import py.una.med.base.services.util.ReflectionConverter;
+import py.una.med.base.services.ReflectionConverter;
 import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
 import py.una.med.base.util.ListHelper;

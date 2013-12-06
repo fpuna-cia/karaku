@@ -37,14 +37,14 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
  * URI de la misma, y la clase PersonImporter hereda de {@link WSCaller} para
  * proveer mecanismos de llamadas a los servicios.
  * </p>
- *
+ * 
  * <pre>
  *    {@literal @}{@link Component}
  *    public class Controller {
- *
+ * 
  *        {@literal @}{@link Autowired}
  *        PersonImporter personImporter;  // Clase que injecta  {@link WSCaller}
- *
+ * 
  *        public <b>{@link Void}</b> loadData() {
  *             personImporter.getByUri(
  *                 uri,
@@ -61,42 +61,42 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
  *         }
  *         ...
  *    }
- *
+ * 
  *    {@literal @}{@link Component}
  *    public class PersonImporter extends {@link WSCaller} {
- *
+ * 
  *        public <b>{@link Void}</b> getByUri(String uri, {@link WSCallBack}&lt;List&lt;Persona&gt;&gt; WSCallBack) {
  *            PersonaRequest Object = new PersonaRequest(uri);
  *            {@link #call(Object, WSCallBack)};
  *        }
- *
+ * 
  *    }
  * </pre>
- *
+ * 
  * <b>Si invocamos de la siguiente manera</b>
- *
+ * 
  * <pre>
  * System.out.printLn(&quot;Llamando al servicio&quot;);
  * controler.loadData();
  * System.out.printLn(&quot;Finalizando la llamada&quot;);
  * </pre>
- *
+ * 
  * <b>Producirá la siguiente salida</b>
- *
+ * 
  * <pre>
  * Llamando al servicio
  * Finalizando la llamada
  * Álvar Núñez Cabeza de Vaca
  * </pre>
- *
+ * 
  * <p>
  * Siendo <b>Álvar Núñez Cabeza de Vaca</b> el resultado del servicio, podemos
  * notar que no son métodos síncronos, por ello la importancia del
  * {@link WSCallBack}.
  * </p>
- *
- *
- *
+ * 
+ * 
+ * 
  * @author Arturo Volpe
  * @since 2.1.3
  * @version 1.0 Jun 11, 2013
@@ -105,7 +105,7 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
  * @see #call(Object, WSCallBack) Invocación normal
  * @see #call(Object, Info, WSCallBack) Invocación TypeSafe
  * @see #call(Object, Class, WSCallBack) Invocación con información del servicio
- *
+ * 
  */
 @Component
 public class WSCaller {
@@ -144,7 +144,7 @@ public class WSCaller {
 	 * método puede ser invocado pasando parámetros que no tienen sentido, como
 	 * un {@link WSCallBack} que no corresponde al resultado del servicio.
 	 * </p>
-	 *
+	 * 
 	 * @param request
 	 *            no nula, la información que será serializada y enviada.
 	 * @param callback
@@ -174,7 +174,7 @@ public class WSCaller {
 	 * clases, su utilización es muy similar a la de
 	 * {@link #call(Object, WSCallBack)}.
 	 * </p>
-	 *
+	 * 
 	 * @see #call(Object, WSCallBack)
 	 * @param request
 	 *            no nula, la información que será serializada.
@@ -202,7 +202,7 @@ public class WSCaller {
 	 * <p>
 	 * Este método es el punto de acceso a todos los servicios de Karaku.
 	 * </p>
-	 *
+	 * 
 	 * @param request
 	 *            objeto que será serializado para realizar la invocación
 	 * @param info
@@ -221,14 +221,15 @@ public class WSCaller {
 		executor.execute(new Runnable() {
 
 			@Override
+			@SuppressWarnings("unchecked")
 			public void run() {
 
 				try {
 					log.debug("Calling WebService with uri {}", info.getUrl());
-					@SuppressWarnings("unchecked")
+					WebServiceMessageCallback wsmc = interceptor
+							.getWebServiceMessageCallback(info);
 					T toRet = (T) template.marshalSendAndReceive(info.getUrl(),
-							request,
-							interceptor.getWebServiceMessageCallback(info));
+							request, wsmc);
 					log.debug("Web service call ended");
 					callBack.onSucess(toRet);
 				} catch (Exception e) {

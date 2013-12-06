@@ -2,7 +2,7 @@
  * @ReflexionConverter.java 1.0 Nov 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services.util;
+package py.una.med.base.services;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
-import py.una.med.base.services.Converter;
 
 /**
  * {@link Converter} que utiliza reflexión.
@@ -36,8 +35,16 @@ import py.una.med.base.services.Converter;
 public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 		implements Converter<E, T> {
 
-	Class<T> dtoClass;
-	Class<E> entityClass;
+	/**
+	 * 
+	 */
+	private static final String RAWTYPES = "rawtypes";
+	/**
+	 * 
+	 */
+	private static final String UNCHECKED = "unchecked";
+	private Class<T> dtoClass;
+	private Class<E> entityClass;
 
 	public ReflectionConverter(Class<T> dtoClass, Class<E> entityClass) {
 
@@ -58,14 +65,14 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public T toDTO(E entity, int depth) {
 
 		return (T) map(entity, getDtoType(), depth, false);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED)
 	public E toEntity(T dto) {
 
 		return (E) map(dto, getEntityType(), Integer.MAX_VALUE, true);
@@ -79,7 +86,6 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 	 * @param dtoToEntity
 	 * @return
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected Object map(final Object source, final Class<?> targetClass,
 			final int depth, final boolean dtoToEntity) {
 
@@ -93,61 +99,12 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 
 						@Override
 						public void doWith(Field field)
-								throws IllegalAccessException,
-								IllegalArgumentException {
+								throws IllegalAccessException {
 
-							Field toSet = ReflectionUtils.findField(
-									targetClass, field.getName());
-							if (toSet == null) {
-								return;
-							}
-							field.setAccessible(true);
-							toSet.setAccessible(true);
-							Class<?> s = field.getType();
-							Class<?> t = toSet.getType();
-
-							if (Collection.class.isAssignableFrom(s)
-									&& Collection.class.isAssignableFrom(t)) {
-								if (depth > 0) {
-									Collection colTarget = getNewCollection(t);
-									Collection colSource = (Collection) field
-											.get(source);
-									if (colSource == null) {
-										return;
-									}
-									Class targetRowType = GenericCollectionTypeResolver
-											.getCollectionFieldType(toSet);
-									for (Object row : colSource) {
-										if (row instanceof Shareable) {
-											colTarget.add(convert(
-													row.getClass(),
-													targetRowType, row,
-													depth - 1, dtoToEntity));
-										} else {
-											colTarget.add(map(row,
-													targetRowType, depth - 1,
-													dtoToEntity));
-										}
-									}
-									toSet.set(toRet, colTarget);
-								}
-							} else if (s.isAssignableFrom(t)) {
-								Object o = field.get(source);
-								toSet.set(toRet, o);
-							} else if ((Shareable.class.isAssignableFrom(s) && DTO.class
-									.isAssignableFrom(t))
-									|| (Shareable.class.isAssignableFrom(t) && DTO.class
-											.isAssignableFrom(s))) {
-								Object o = convert(s, t, field.get(source),
-										depth - 1, dtoToEntity);
-								toSet.set(toRet, o);
-							} else {
-
-								throw new KarakuRuntimeException(String.format(
-										"Cant copy from field %s to field %s",
-										field, toSet));
-							}
+							mapField(source, targetClass, depth, dtoToEntity,
+									toRet, field);
 						}
+
 					}, ReflectionUtils.COPYABLE_FIELDS);
 			return toRet;
 		} catch (Exception e) {
@@ -157,7 +114,94 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	/**
+	 * @param source
+	 * @param targetClass
+	 * @param depth
+	 * @param dtoToEntity
+	 * @param bean
+	 * @param field
+	 * @throws IllegalAccessException
+	 */
+	@SuppressWarnings({ RAWTYPES, UNCHECKED })
+	private void mapField(final Object source, final Class<?> targetClass,
+			final int depth, final boolean dtoToEntity, final Object bean,
+			Field field) throws IllegalAccessException {
+
+		Field toSet = ReflectionUtils.findField(targetClass, field.getName());
+		if (toSet == null) {
+			return;
+		}
+		field.setAccessible(true);
+		toSet.setAccessible(true);
+		Class<?> s = field.getType();
+		Class<?> t = toSet.getType();
+
+		if (Collection.class.isAssignableFrom(s)
+				&& Collection.class.isAssignableFrom(t)) {
+			mapCollection(source, depth, dtoToEntity, bean, field, toSet, t);
+		} else if (s.isAssignableFrom(t)) {
+			Object o = field.get(source);
+			toSet.set(bean, o);
+		} else if (checkMappable(s, t)) {
+			Object o = convert(s, t, field.get(source), depth - 1, dtoToEntity);
+			toSet.set(bean, o);
+		} else {
+			throw new KarakuRuntimeException(String.format(
+					"Cant copy from field %s to field %s", field, toSet));
+		}
+	}
+
+	/**
+	 * @param source
+	 * @param target
+	 * @return
+	 */
+	private boolean checkMappable(Class<?> source, Class<?> target) {
+
+		return (Shareable.class.isAssignableFrom(source) && DTO.class
+				.isAssignableFrom(target))
+				|| (Shareable.class.isAssignableFrom(target) && DTO.class
+						.isAssignableFrom(source));
+	}
+
+	/**
+	 * @param source
+	 * @param depth
+	 * @param dtoToEntity
+	 * @param bean
+	 * @param field
+	 * @param toSet
+	 * @param targetClass
+	 * @throws IllegalAccessException
+	 */
+	@SuppressWarnings({ RAWTYPES, UNCHECKED })
+	private void mapCollection(final Object source, final int depth,
+			final boolean dtoToEntity, final Object bean, Field field,
+			Field toSet, Class<?> targetClass) throws IllegalAccessException {
+
+		if (depth > 0) {
+			Collection colTarget = getNewCollection(targetClass);
+			Collection colSource = (Collection) field.get(source);
+			if (colSource == null) {
+				return;
+			}
+			Class targetRowType = GenericCollectionTypeResolver
+					.getCollectionFieldType(toSet);
+			for (Object row : colSource) {
+				if (row instanceof Shareable) {
+					colTarget.add(convert(row.getClass(), targetRowType, row,
+							depth - 1, dtoToEntity));
+				} else {
+					colTarget.add(map(row, targetRowType, depth - 1,
+							dtoToEntity));
+				}
+			}
+			toSet.set(bean, colTarget);
+		}
+	}
+
+	@SuppressWarnings({ UNCHECKED, RAWTYPES })
 	private Object convert(Class fromClass, Class toClass, Object object,
 			int depth, boolean dtoToEntity) {
 
@@ -174,7 +218,7 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings(RAWTYPES)
 	private Collection getNewCollection(Class collectionClass) {
 
 		if (List.class.isAssignableFrom(collectionClass)) {

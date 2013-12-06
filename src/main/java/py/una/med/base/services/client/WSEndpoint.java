@@ -33,9 +33,6 @@ import py.una.med.base.util.ValidationConstants;
 @SequenceGenerator(name = "WS_ENDPOINT_SEQ", sequenceName = "ws_end_point_id_seq")
 public class WSEndpoint extends BaseEntity {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5879654731910374623L;
 
 	@Id

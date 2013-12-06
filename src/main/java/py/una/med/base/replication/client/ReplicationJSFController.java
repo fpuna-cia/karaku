@@ -50,7 +50,7 @@ public class ReplicationJSFController extends
 	 * 
 	 */
 	private static final String BASE_PACKAGE_FOR_SCAN = "py.una.med";
-	public static int ROWS_FOR_PAGE = 100;
+	public static final int ROWS_FOR_PAGE = 100;
 	@Autowired
 	private ReplicationInfoLogic logic;
 

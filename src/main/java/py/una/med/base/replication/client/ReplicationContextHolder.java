@@ -13,20 +13,21 @@ package py.una.med.base.replication.client;
  */
 public final class ReplicationContextHolder {
 
-	private static final ThreadLocal<ReplicationContext> holder = new ThreadLocal<ReplicationContext>();
+	private static final ThreadLocal<ReplicationContext> HOLDER = new ThreadLocal<ReplicationContext>();
 
 	public static ReplicationContext getContext() {
 
-		return holder.get();
+		return HOLDER.get();
 
 	}
 
 	static void setContext(ReplicationContext rc) {
 
-		holder.set(rc);
+		HOLDER.set(rc);
 	}
 
 	private ReplicationContextHolder() {
+
 	}
 
 	public static final class ReplicationContext {

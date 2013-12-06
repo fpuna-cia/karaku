@@ -5,6 +5,7 @@
 package py.una.med.base.replication.server;
 
 import java.util.List;
+import org.apache.commons.lang.NotImplementedException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.replication.Shareable;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 7, 2013
- *
+ * 
  */
 @Transactional
 public class EnversReplicationProvider implements ReplicationProvider {
 
 	@Autowired
-	SessionFactory factory;
+	private SessionFactory factory;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -33,17 +34,7 @@ public class EnversReplicationProvider implements ReplicationProvider {
 		if (Bundle.ZERO_ID.equals(lastId)) {
 			return getAll(clazz);
 		}
-		return getById(clazz, Long.valueOf(lastId));
-	}
-
-	private <T extends Shareable> Bundle<T> getById(Class<T> clazz,
-			Number number) {
-
-		// AuditReader reader = getReader();
-		// AuditQuery query = reader.createQuery().forRevisionsOfEntity(clazz,
-		// false, true);
-
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,9 +53,5 @@ public class EnversReplicationProvider implements ReplicationProvider {
 
 		return factory.getCurrentSession();
 	}
-	// private AuditReader getReader() {
-	//
-	// return AuditReaderFactory.get(factory.getCurrentSession());
-	// }
 
 }

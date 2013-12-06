@@ -2,7 +2,7 @@
  * @KeyNotFoundException.java 1.0 Mar 20, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.exception;
+package py.una.med.base.util;
 
 
 /**

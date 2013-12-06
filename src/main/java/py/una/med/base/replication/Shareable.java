@@ -52,7 +52,7 @@ public interface Shareable {
 	 * </pre>
 	 * <p>
 	 */
-	static String YES = "SI";
+	String YES = "SI";
 
 	/**
 	 * Cadena que se recomienda utilizar para una entidad que ha sido eliminada
@@ -75,7 +75,7 @@ public interface Shareable {
 	 * </pre>
 	 * <p>
 	 */
-	static String NO = "NO";
+	String NO = "NO";
 
 	/**
 	 * Retorna una cadena que identifica de manera única a este objeto.

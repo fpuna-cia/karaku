@@ -4,6 +4,9 @@
  */
 package py.una.med.base.configuration;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -23,11 +27,11 @@ import py.una.med.base.services.client.JsonURLProvider;
 import py.una.med.base.services.client.WSInformationProvider;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Jun 7, 2013
- *
+ * 
  */
 @Configuration
 public class KarakuWSClientConfiguration {
@@ -53,7 +57,7 @@ public class KarakuWSClientConfiguration {
 	/**
 	 * Instancia un nuevo bean del Tipo {@link WebServiceTemplate}, utilizado
 	 * para realizar llamadas del tipo SOAP.
-	 *
+	 * 
 	 * @return {@link WebServiceTemplate} para realizar llamadas
 	 */
 	@Bean
@@ -78,27 +82,36 @@ public class KarakuWSClientConfiguration {
 
 	/**
 	 * Define el tipo de proveedor de URl que a ser utilizado.
-	 *
+	 * 
 	 * Si la persistencia esta activa se retorna un {@link EntityURLProvider}
 	 * que busca en la base de datos. En caso contrario retorna un
 	 * {@link JsonURLProvider}.
-	 *
+	 * 
 	 * @return {@link WSInformationProvider}
+	 * @throws Exception
 	 */
 	@Bean
-	WSInformationProvider wsInformationProvider() {
+	WSInformationProvider wsInformationProvider() throws IOException {
 
 		if (properties.getBoolean(KarakuPersistence.KARAKU_JPA_ENABLED, true)) {
 			return new EntityURLProvider();
 		} else {
-			return new JsonURLProvider();
+			String url = properties.get("karaku.menu.json_urls", "urls.json");
+			InputStream is;
+			if (url.startsWith("/")) {
+				is = new FileInputStream(url);
+			} else {
+				is = new ClassPathResource(properties.get(
+						"karaku.menu.json_urls", "urls.json")).getInputStream();
+			}
+			return new JsonURLProvider(is);
 		}
 	}
 
 	/**
 	 * Crea un bean para ser utilizado como marshaller (serializador). <br>
 	 * Utiliza
-	 *
+	 * 
 	 * <pre>
 	 * {@literal
 	 * 	<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
@@ -120,7 +133,7 @@ public class KarakuWSClientConfiguration {
 	/**
 	 * Crea un bean para ser utilizado como unmarshaller (serializador). <br>
 	 * Utiliza
-	 *
+	 * 
 	 * <pre>
 	 * {@literal
 	 * 		<bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
@@ -160,6 +173,20 @@ public class KarakuWSClientConfiguration {
 			}
 		}
 
+		addSpecificPackages(packagesFound);
+
+		return instanciateMarshaller(packagesFound);
+	}
+
+	/**
+	 * Agrega los paquetes definidos en la propiedad
+	 * {@link #KARAKU_WS_CLIENT_PACKAGES_TO_SCAN_SPACES}.
+	 * 
+	 * @param packagesFound
+	 *            paquetes en donde se deben agregar
+	 */
+	private void addSpecificPackages(List<String> packagesFound) {
+
 		String paquetes = properties.get(
 				KARAKU_WS_CLIENT_PACKAGES_TO_SCAN_SPACES, "").trim();
 		if (!"".equals(paquetes)) {
@@ -167,6 +194,16 @@ public class KarakuWSClientConfiguration {
 				packagesFound.add(pa);
 			}
 		}
+	}
+
+	/**
+	 * Crea un nuevo marhsaller.
+	 * 
+	 * @param packagesFound
+	 *            lista de paquetes.
+	 * @return
+	 */
+	private Jaxb2Marshaller instanciateMarshaller(List<String> packagesFound) {
 
 		try {
 

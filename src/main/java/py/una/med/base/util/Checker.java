@@ -10,7 +10,11 @@ package py.una.med.base.util;
  * @version 1.0 Nov 21, 2013
  * 
  */
-public class Checker {
+public final class Checker {
+
+	private Checker() {
+
+	}
 
 	/**
 	 * Chequea si un parámetro es nulo.

@@ -35,7 +35,7 @@ public class FirstChangeProviderHandler {
 			public int compare(FirstChangeProvider arg0,
 					FirstChangeProvider arg1) {
 
-				return -arg0.getPriority().compareTo(arg1.getPriority());
+				return arg1.getPriority().compareTo(arg0.getPriority());
 			}
 		});
 	}

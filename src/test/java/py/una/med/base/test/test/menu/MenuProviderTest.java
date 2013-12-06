@@ -4,6 +4,7 @@
  */
 package py.una.med.base.test.test.menu;
 
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,12 +30,12 @@ import py.una.med.base.test.util.TestPropertiesUtil;
 import py.una.med.base.test.util.TestUtils;
 
 /**
- *
- *
+ * 
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 18, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class MenuProviderTest extends BaseTestWebService {
@@ -63,12 +64,11 @@ public class MenuProviderTest extends BaseTestWebService {
 
 		@Bean
 		@Override
-		protected WSInformationProvider wsInformationProvider() {
+		protected WSInformationProvider wsInformationProvider()
+				throws IOException {
 
-			properties.put("karaku.menu.json_urls",
-					TestUtils.getSiblingResourceName(MenuProviderTest.class,
-							"urls.json"));
-			return new JsonURLProvider();
+			return new JsonURLProvider(TestUtils.getSiblingResource(
+					MenuProviderTest.class, "urls.json").getInputStream());
 		}
 
 		@Bean

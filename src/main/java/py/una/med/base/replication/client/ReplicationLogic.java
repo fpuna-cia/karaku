@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.SearchParam;
 import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.log.Log;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
@@ -37,9 +36,6 @@ public class ReplicationLogic implements IReplicationLogic {
 
 	@Autowired
 	private IReplicationInfoDao dao;
-
-	@Autowired
-	private DateClauses clauses;
 
 	@Autowired
 	private DateProvider dateProvider;
@@ -129,8 +125,9 @@ public class ReplicationLogic implements IReplicationLogic {
 		Calendar last = Calendar.getInstance();
 		Date lastReplicated = ri.getLastSync();
 		if (ri.getLastSync() == null) {
-			last.clear(); // seteamos al principio de los tiempos, para que sí o
-							// sí se sincronize
+			last.clear();
+			// seteamos al principio de los tiempos, para que sí o
+			// sí se sincronize
 		} else {
 			last.setTime(lastReplicated);
 			last.add(Calendar.MINUTE, ri.getInterval());

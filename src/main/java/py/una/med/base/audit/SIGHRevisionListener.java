@@ -25,11 +25,10 @@ public class SIGHRevisionListener implements RevisionListener {
 
 		SIGHRevisionEntity revisionEntity = (SIGHRevisionEntity) arg0;
 
-		if (!processReplicationChange(revisionEntity)) {
-			if (!processJSFChange(revisionEntity)) {
-				throw new KarakuRuntimeException(
-						"Not context found!, please add a processTHISCONTEXTChange");
-			}
+		if (!processReplicationChange(revisionEntity)
+				&& !processJSFChange(revisionEntity)) {
+			throw new KarakuRuntimeException(
+					"Not context found!, please add a processTHISCONTEXTChange");
 		}
 	}
 

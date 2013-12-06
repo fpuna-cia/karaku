@@ -2,13 +2,13 @@
  * @AbstractConverter.java 1.0 Nov 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services.util;
+package py.una.med.base.services;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
-import py.una.med.base.services.Converter;
 import py.una.med.base.util.KarakuReflectionUtils;
 
 /**
@@ -36,12 +36,12 @@ public abstract class AbstractConverter<E extends Shareable, T extends DTO>
 	/**
 	 * Clase del DTO.
 	 */
-	protected Class<T> dtoClass;
+	private Class<T> dtoClass;
 
 	/**
 	 * Clase de la entidad.
 	 */
-	protected Class<E> entityClass;
+	private Class<E> entityClass;
 
 	@Override
 	public Class<T> getDtoType() {
@@ -105,24 +105,18 @@ public abstract class AbstractConverter<E extends Shareable, T extends DTO>
 	@Override
 	public boolean equals(Object obj) {
 
-		if (this == obj)
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
 			return true;
-		if (obj == null)
+		}
+		if (obj.getClass() != getClass()) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AbstractConverter other = (AbstractConverter) obj;
-		if (dtoClass == null) {
-			if (other.dtoClass != null)
-				return false;
-		} else if (!dtoClass.equals(other.dtoClass))
-			return false;
-		if (entityClass == null) {
-			if (other.entityClass != null)
-				return false;
-		} else if (!entityClass.equals(other.entityClass))
-			return false;
-		return true;
+		}
+		AbstractConverter rhs = (AbstractConverter) obj;
+		return new EqualsBuilder().append(dtoClass, rhs.getDtoType())
+				.append(entityClass, rhs.getEntityType()).isEquals();
 	}
 
 }

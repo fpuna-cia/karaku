@@ -21,7 +21,7 @@ import py.una.med.base.util.KarakuReflectionUtils;
 @Component
 public class ReplicationRequestFactory {
 
-	private static String[] FIELDS = { "id", "lastId" };
+	private static final String[] FIELDS = { "id", "lastId" };
 
 	/**
 	 * Crea un objeto del tipo request para una petición de sincronización.

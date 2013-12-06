@@ -16,6 +16,10 @@ import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
  */
 public class Column {
 
+	/**
+	 * 
+	 */
+	private static final int DEFAULT_WIDTH = 20;
 	private String title;
 	private String field;
 	private String nameField;
@@ -111,7 +115,7 @@ public class Column {
 		this.title = title;
 		this.field = field;
 		this.nameField = field;
-		this.width = 20;
+		this.width = DEFAULT_WIDTH;
 		this.align = align;
 	}
 
@@ -135,7 +139,7 @@ public class Column {
 		this.title = title;
 		this.field = field;
 		this.nameField = field;
-		this.width = 20;
+		this.width = DEFAULT_WIDTH;
 		this.align = align;
 		this.pattern = pattern;
 	}
@@ -155,7 +159,7 @@ public class Column {
 		this.title = title;
 		this.field = field;
 		this.nameField = field;
-		this.width = 20;
+		this.width = DEFAULT_WIDTH;
 		this.align = HorizontalAlign.LEFT;
 	}
 
@@ -172,7 +176,7 @@ public class Column {
 		this.title = field;
 		this.field = field;
 		this.nameField = field;
-		this.width = 20;
+		this.width = DEFAULT_WIDTH;
 		this.align = HorizontalAlign.LEFT;
 	}
 

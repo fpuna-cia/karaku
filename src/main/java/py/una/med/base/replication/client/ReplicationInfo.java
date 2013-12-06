@@ -24,6 +24,7 @@ import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
 import py.una.med.base.services.client.WSEndpoint;
+import py.una.med.base.util.DateUtils;
 
 /**
  * 
@@ -212,7 +213,7 @@ public class ReplicationInfo extends BaseEntity {
 	 */
 	public Date getLastSync() {
 
-		return lastSync;
+		return DateUtils.cloneDate(lastSync);
 	}
 
 	/**
@@ -221,7 +222,7 @@ public class ReplicationInfo extends BaseEntity {
 	 */
 	public void setLastSync(Date lastSync) {
 
-		this.lastSync = lastSync;
+		this.lastSync = DateUtils.cloneDate(lastSync);
 	}
 
 	/**
@@ -369,7 +370,8 @@ public class ReplicationInfo extends BaseEntity {
 	}
 
 	/**
-	 * @param number number para setear
+	 * @param number
+	 *            number para setear
 	 */
 	public void setNumber(int number) {
 

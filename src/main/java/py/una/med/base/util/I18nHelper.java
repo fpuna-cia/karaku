@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.configuration.SIGHConfiguration;
-import py.una.med.base.exception.KeyNotFoundException;
 import py.una.med.base.model.DisplayName;
 
 /**

@@ -18,6 +18,10 @@ import org.springframework.util.ReflectionUtils;
  */
 public final class KarakuReflectionUtils {
 
+	private KarakuReflectionUtils() {
+
+	}
+
 	/**
 	 * Retorna el tipo parámetrico implementado por <i>root</i> de un nivel de
 	 * jerarquía.

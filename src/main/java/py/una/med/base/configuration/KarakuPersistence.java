@@ -24,11 +24,11 @@ import py.una.med.base.math.Quantity;
 
 /**
  * Clase de configuración de la persistencia
- *
+ * 
  * @author Arturo Volpe
  * @since 1.1
  * @version 1.0
- *
+ * 
  */
 @Configuration
 @EnableTransactionManagement()
@@ -51,7 +51,7 @@ public class KarakuPersistence {
 	 */
 	private static final String DRIVER_PROPS = "karaku.jpa.driverName";
 
-	private static final Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(KarakuPersistence.class);
 
 	private PropertiesUtil properties;
@@ -61,7 +61,7 @@ public class KarakuPersistence {
 
 	/**
 	 * Crea un datasource con los valores definidos en el karaku.properties.
-	 *
+	 * 
 	 * @return dataSource creada o null si no se necesita un datasource
 	 */
 	@Bean
@@ -93,16 +93,16 @@ public class KarakuPersistence {
 		if (this.properties.getBoolean(KARAKU_JPA_ENABLED, true)) {
 			this.enabled = true;
 		} else {
-			log.info("Karaku JPA support is disabled");
+			LOG.info("Karaku JPA support is disabled");
 			this.enabled = false;
-			log.info("Karaku Liquibase support is disabled");
+			LOG.info("Karaku Liquibase support is disabled");
 			this.liquibase = false;
 			return;
 		}
 		if (this.properties.getBoolean("karaku.liquibase.enabled", true)) {
 			this.liquibase = true;
 		} else {
-			log.info("Karaku Liquibase support is disabled");
+			LOG.info("Karaku Liquibase support is disabled");
 			this.liquibase = false;
 		}
 	}
@@ -199,17 +199,17 @@ public class KarakuPersistence {
 
 	/**
 	 * SessionFactory que se encarga de registrar los tipos de Karaku.
-	 *
+	 * 
 	 * <p>
 	 * Intercepta la creación del session factory y entre la creación de
 	 * configuración y la función que efectivamente crea la
 	 * {@link SessionFactory} registra los tipos personalizados.
 	 * </p>
-	 *
+	 * 
 	 * @author Arturo Volpe
 	 * @since 2.2.8
 	 * @version 1.0 Oct 15, 2013
-	 *
+	 * 
 	 */
 	public static class KarakuLocalSessionFactoryBean extends
 			LocalSessionFactoryBean {
@@ -218,7 +218,6 @@ public class KarakuPersistence {
 		protected SessionFactory buildSessionFactory(
 				LocalSessionFactoryBuilder sfb) {
 
-			// getConfiguration().registerTypeOverride(QuantityType.INSTANCE);
 			getConfiguration().registerTypeOverride(
 					QuantityCustomType.INSTANCE,
 					new String[] { Quantity.class.getName() });

@@ -30,7 +30,7 @@ import py.una.med.base.replication.Shareable;
  */
 public interface FirstChangeProvider<T extends Shareable> {
 
-	static final Integer MAX_PRIORITY = Integer.MAX_VALUE;
+	Integer MAX_PRIORITY = Integer.MAX_VALUE;
 
 	Collection<? extends T> getChanges(Class<? extends T> clazz);
 

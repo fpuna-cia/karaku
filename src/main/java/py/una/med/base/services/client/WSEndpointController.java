@@ -53,11 +53,6 @@ public class WSEndpointController extends
 		return logic;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.controller.SIGHBaseController#getDefaultPermission()
-	 */
 	@Override
 	public String getDefaultPermission() {
 

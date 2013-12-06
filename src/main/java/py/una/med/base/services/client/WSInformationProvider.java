@@ -4,23 +4,24 @@
 package py.una.med.base.services.client;
 
 import java.util.List;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Interfaz que define los componentes que proveen {@link Info} para llamar a
  * los servicios.
- *
+ * 
  * @author Arturo Volpe
  * @since 2.1
  * @version 1.0 Aug 5, 2013
  * @see EntityURLProvider
- *
+ * 
  */
 public interface WSInformationProvider {
 
 	/**
 	 * Retorna la {@link Info} para invocar a un servicio desde la clase que
 	 * retorna.
-	 *
+	 * 
 	 * @param type
 	 *            retornado por el servicio
 	 * @return {@link Info} utilizada para invocar al servicio
@@ -30,7 +31,7 @@ public interface WSInformationProvider {
 	/**
 	 * Retorna la {@link Info} para invocar a un servicio desde el nombre de la
 	 * clase que retorna.
-	 *
+	 * 
 	 * @param key
 	 *            clave de la tabla {@link WSEndpoint}
 	 * @return {@link Info} utilizada para invocar al servicio
@@ -39,7 +40,7 @@ public interface WSInformationProvider {
 
 	/**
 	 * Retorna la {@link Info} para invocar a un servicio.
-	 *
+	 * 
 	 * @param internalTag
 	 * @return {@link Info} que contiene los detalles del servicio
 	 */
@@ -47,11 +48,11 @@ public interface WSInformationProvider {
 
 	/**
 	 * PlaceHolder utilizado para manipular datos de servicios
-	 *
+	 * 
 	 * @author Arturo Volpe
 	 * @since 2.2
 	 * @version 1.0 Aug 5, 2013
-	 *
+	 * 
 	 */
 	class Info {
 
@@ -91,7 +92,7 @@ public interface WSInformationProvider {
 
 		/**
 		 * Retorna la URL del servicio.
-		 *
+		 * 
 		 * @return {@link String} con el formato de la URL.
 		 */
 		public String getUrl() {
@@ -101,7 +102,7 @@ public interface WSInformationProvider {
 
 		/**
 		 * Retorna la clave del servicio.
-		 *
+		 * 
 		 * @return {@link String} que reprenta de manera única al servicio.
 		 */
 		public String getKey() {
@@ -148,29 +149,19 @@ public interface WSInformationProvider {
 		@Override
 		public boolean equals(Object obj) {
 
-			if (this == obj)
+			if (obj == null) {
+				return false;
+			}
+			if (obj == this) {
 				return true;
-			if (obj == null)
+			}
+			if (obj.getClass() != getClass()) {
 				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Info other = (Info) obj;
-			if (internalTag == null) {
-				if (other.internalTag != null)
-					return false;
-			} else if (!internalTag.equals(other.internalTag))
-				return false;
-			if (key == null) {
-				if (other.key != null)
-					return false;
-			} else if (!key.equals(other.key))
-				return false;
-			if (url == null) {
-				if (other.url != null)
-					return false;
-			} else if (!url.equals(other.url))
-				return false;
-			return true;
+			}
+			Info rhs = (Info) obj;
+			return new EqualsBuilder().append(internalTag, rhs.internalTag)
+					.append(key, rhs.key).append(url, rhs.url).isEquals();
+
 		}
 
 	}

@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.domain.BaseEntity;
+import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.log.Log;
 
 /**
@@ -29,9 +30,9 @@ import py.una.med.base.log.Log;
 @Component
 public class UriCache {
 
-	UriCache cache;
+	private UriCache cache;
 
-	Map<String, Object> map;
+	private Map<String, Object> map;
 
 	@Log
 	private Logger log;
@@ -131,7 +132,7 @@ public class UriCache {
 		} catch (Exception e) {
 			log.warn("Can't create a empty entity for cache, clazz: {}",
 					clazz.getName(), e);
-			throw new RuntimeException("Can't create a empty clazz ("
+			throw new KarakuRuntimeException("Can't create a empty clazz ("
 					+ clazz.getName() + ")", e);
 		}
 

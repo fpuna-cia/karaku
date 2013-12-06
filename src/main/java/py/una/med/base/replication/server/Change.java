@@ -14,8 +14,8 @@ import org.apache.commons.lang3.Validate;
  */
 public class Change<T> {
 
-	String id;
-	T entity;
+	private String id;
+	private T entity;
 
 	/**
 	 * @return entity

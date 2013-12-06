@@ -15,7 +15,7 @@ import java.util.Date;
  * @version 1.0 Nov 14, 2013
  *
  */
-public class DateUtils {
+public final class DateUtils {
 
 	private DateUtils() {
 

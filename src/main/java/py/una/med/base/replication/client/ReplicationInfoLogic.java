@@ -37,7 +37,7 @@ public class ReplicationInfoLogic extends SIGHBaseLogic<ReplicationInfo, Long> {
 
 		ReplicationInfo ri = new ReplicationInfo();
 		ri.setLastId(Bundle.ZERO_ID);
-		ri.setInterval(5);
+		ri.setInterval(DEFAULT_INTERVAL);
 		ri.setActive(true);
 		return ri;
 	}

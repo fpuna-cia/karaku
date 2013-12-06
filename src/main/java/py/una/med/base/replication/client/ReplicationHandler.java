@@ -264,7 +264,7 @@ public class ReplicationHandler {
 	private Long getPersistedIdByUri(Session s, ReplicationInfo ri, String uri) {
 
 		try {
-			String query = "select id from " + getEntityName(ri, uri)
+			String query = "select id from " + getEntityName(ri)
 					+ " where uri = :uri";
 			Query q = s.createQuery(query);
 			q.setParameter("uri", uri);
@@ -286,7 +286,7 @@ public class ReplicationHandler {
 	 * @param uri
 	 * @return
 	 */
-	private String getEntityName(ReplicationInfo ri, String uri) {
+	private String getEntityName(ReplicationInfo ri) {
 
 		notNull(ri, "Can't get entity from null Replicationinfo");
 		return ri.getEntityClazz().getSimpleName();
