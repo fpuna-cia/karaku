@@ -143,11 +143,11 @@ public class UriCacheTest extends BaseTestWithDatabase {
 	 * Componente que hereda de {@link UriCache} para dar mejor soporte a test.
 	 * 
 	 * <p>
-	 * Se crea el mÈtodo {@link #hasInCache(String)} para que se pueda verificar
-	 * f·cilmente si se obtuvieron las referencias.
+	 * Se crea el m√©todo {@link #hasInCache(String)} para que se pueda verificar
+	 * f√°cilmente si se obtuvieron las referencias.
 	 * </p>
 	 * <p>
-	 * Y el mÈtodo {@link #getEntityName(Class)} se sobreescribe para dar
+	 * Y el m√©todo {@link #getEntityName(Class)} se sobreescribe para dar
 	 * soporte a clases anidadas como las que se utilizan en este test.
 	 * </p>
 	 * 

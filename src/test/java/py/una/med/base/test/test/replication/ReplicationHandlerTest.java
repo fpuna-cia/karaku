@@ -156,7 +156,8 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 		template.addReplicatedEntity(re1);
 
 		replicationHandler.doSync();
-
+		// the first is skiped
+		replicationHandler.doSync();
 		assertTrue(logic.getReplicationsToDo().isEmpty());
 		assertThat(dao.getCount(), is(1L));
 		assertThat(dao.getAll(null), hasItem(re1));

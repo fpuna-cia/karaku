@@ -20,6 +20,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.client.core.WebServiceTemplate;
+import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.log.Log;
@@ -51,10 +52,18 @@ import py.una.med.base.util.Checker;
 @Service
 public class ReplicationHandler {
 
+	/**
+	 * Define si la repliación esta activa o no.
+	 */
+	private static final String REPLICATION_ENABLED = "karaku.replication.enabled";
+
 	private static final long CALL_DELAY = 60000;
 
 	@Autowired
 	private IReplicationLogic logic;
+
+	@Autowired
+	private PropertiesUtil util;
 
 	@Log
 	private Logger log;
@@ -80,9 +89,9 @@ public class ReplicationHandler {
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	ReplicationHandler replicationHandler;
+	private ReplicationHandler replicationHandler;
 
-	boolean skiped = false;
+	private boolean skiped = false;
 
 	@PostConstruct
 	void getThis() {
@@ -107,6 +116,10 @@ public class ReplicationHandler {
 	 */
 	@Scheduled(fixedDelay = CALL_DELAY)
 	public synchronized void doSync() {
+
+		if (!util.getBoolean(REPLICATION_ENABLED, true)) {
+			return;
+		}
 
 		if (!skiped) {
 			skiped = true;

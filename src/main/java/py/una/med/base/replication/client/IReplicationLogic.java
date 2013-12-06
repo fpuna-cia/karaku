@@ -5,8 +5,6 @@
 package py.una.med.base.replication.client;
 
 import java.util.Set;
-import javax.annotation.Nonnull;
-import javax.validation.constraints.NotNull;
 
 /**
  * Interfaz que define las operaciones lógicas de replicación.
@@ -40,7 +38,6 @@ public interface IReplicationLogic {
 	 * 
 	 * @return set de replicaciones, o un set vacío si no se encuentra ningúna.
 	 */
-	@NotNull
 	Set<ReplicationInfo> getActiveReplications();
 
 	/**
@@ -63,8 +60,7 @@ public interface IReplicationLogic {
 	 *         retorna la misma, y si se encuentran más de una debe emitir una
 	 *         alerta y retornar el primer objeto retornado.
 	 */
-	@NotNull
-	ReplicationInfo getByClass(@Nonnull Class<?> clazz);
+	ReplicationInfo getByClass(Class<?> clazz);
 
 	/**
 	 * Retorna la lista de entidades que se deben replicar.
@@ -77,7 +73,6 @@ public interface IReplicationLogic {
 	 * @return {@link Set} de replicaciones, un {@link Set} vacío si no hay nada
 	 *         que replicar. Nunca <code>null</code>.
 	 */
-	@Nonnull
 	Set<ReplicationInfo> getReplicationsToDo();
 
 	/**
@@ -94,7 +89,7 @@ public interface IReplicationLogic {
 	 * @param id
 	 *            identificador de la ultima replicación
 	 */
-	void notifyReplication(@Nonnull Class<?> clazz, @Nonnull String id);
+	void notifyReplication(Class<?> clazz, String id);
 
 	/**
 	 * Actualiza el tiempo entre actualizaciones de una entidad.
@@ -107,8 +102,7 @@ public interface IReplicationLogic {
 	 * @param interval
 	 *            nuevo intervalo de tiempo.
 	 */
-	@Nonnull
-	ReplicationInfo updateSyncTime(@Nonnull Class<?> entity, int interval);
+	ReplicationInfo updateSyncTime(Class<?> entity, int interval);
 
 	/**
 	 * Actualiza una {@link ReplicationInfo} y la deja lista para el proceso de
@@ -121,6 +115,6 @@ public interface IReplicationLogic {
 	 * @param info
 	 *            información no nula a actualizar.
 	 */
-	void configureInfo(@Nonnull ReplicationInfo info);
+	void configureInfo(ReplicationInfo info);
 
 }
