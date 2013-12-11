@@ -110,10 +110,10 @@ public final class ValidationConstants {
 
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
-	 * minúsculas además de dígitos y guiones medios.
+	 * minúsculas además de dígitos, espacio en blanco y guiones medios.
 	 */
 	public static final String ALPHANUMERIC_HYPHEN = "[a-zA-Z0-9ñÑ" + grave
-			+ "\\-]*";
+			+ " \\-]*";
 
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
