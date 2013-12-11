@@ -6,6 +6,7 @@ package py.una.med.base.dao.entity.interceptors;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import org.apache.commons.lang3.Validate;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,11 +18,11 @@ import py.una.med.base.util.StringUtils;
 /**
  * Intercepta los atributos con la anotación {@link URI} y genera
  * automaticamente las mismas.
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 5, 2013
- *
+ * 
  */
 @Component
 public class UriInterceptor extends AbstractInterceptor {
@@ -98,11 +99,14 @@ public class UriInterceptor extends AbstractInterceptor {
 
 	protected String getNextSequence(String sequenceName) {
 
-		BigInteger nextVal = (BigInteger) factory
-				.getCurrentSession()
-				.createSQLQuery(
-						String.format("select nextval('%s');", sequenceName))
+		BigInteger nextVal = (BigInteger) getSession().createSQLQuery(
+				String.format("select nextval('%s');", sequenceName))
 				.uniqueResult();
 		return "" + nextVal.longValue();
+	}
+
+	protected Session getSession() {
+
+		return factory.getCurrentSession();
 	}
 }

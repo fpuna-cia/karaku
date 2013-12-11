@@ -155,7 +155,7 @@ public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 
 		Bundle<E> changes = replicationProvider.getChanges(clazzEntity, lastId);
 
-		Bundle<T> changesConverted = new Bundle<T>();
+		Bundle<T> changesConverted = new Bundle<T>(changes.getLastId());
 
 		if (changes != null) {
 			for (Change<E> change : changes) {

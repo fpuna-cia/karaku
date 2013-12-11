@@ -19,24 +19,48 @@ import java.util.Set;
 public class Bundle<T> implements Iterable<Change<T>> {
 
 	/**
-	 * Identificador utilizado cuando no hay cambios.
+	 * Identificador utilizado cuando no se conoce el estado.
 	 */
 	public static final String ZERO_ID = "ZERO";
+
+	/**
+	 * Identificador utilizado cuando se envia el primer cambio.
+	 */
+	public static final String FIRST_CHANGE = "0";
+
 	private Deque<Change<T>> changes;
+
+	private String lastId;
 
 	/**
 	 *
 	 */
 	public Bundle() {
 
+		this(null);
+	}
+
+	/**
+	 * @param identificador
+	 *            a usar cuando no hay cambios.
+	 */
+	public Bundle(String lastId) {
+
 		changes = new LinkedList<Change<T>>();
+		this.lastId = lastId;
 	}
 
 	public String getLastId() {
 
 		Change<T> c = changes.peekLast();
-
-		return c == null ? ZERO_ID : c.getId();
+		if (c == null) {
+			if (lastId == null) {
+				return Bundle.ZERO_ID;
+			} else {
+				return lastId;
+			}
+		}
+		return c.getId();
 	}
 
 	/**

@@ -11,13 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.util.EntityExample;
+import py.una.med.base.replication.Shareable;
 
 /**
  * Clase que implementa {@link ISIGHBaseLogic} y que debe ser el punto base de
  * todas las logicas.
- *
+ * 
  * @author Arturo Volpe
- *
+ * 
  * @param <T>
  *            Clase de la entidad
  * @param <ID>
@@ -103,7 +104,11 @@ public abstract class SIGHBaseLogic<T, K extends Serializable> implements
 	public T getNewInstance() {
 
 		try {
-			return getDao().getClassOfT().newInstance();
+			T instance = getDao().getClassOfT().newInstance();
+			if (instance instanceof Shareable) {
+				((Shareable) instance).activate();
+			}
+			return instance;
 		} catch (Exception e) {
 			log.error("Error al obtener una instancia", e);
 			return null;
@@ -140,7 +145,7 @@ public abstract class SIGHBaseLogic<T, K extends Serializable> implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * py.una.med.base.business.ISIGHBaseLogic#getCount(py.una.med.base.dao.
 	 * restrictions.Where)

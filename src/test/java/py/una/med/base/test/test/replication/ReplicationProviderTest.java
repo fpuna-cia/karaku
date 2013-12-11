@@ -16,21 +16,23 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import py.una.med.base.replication.ShareableWatcher;
 import py.una.med.base.replication.server.Bundle;
-import py.una.med.base.replication.server.EnversReplicationProvider;
+import py.una.med.base.replication.server.DummyFirstChangeProvider;
+import py.una.med.base.replication.server.DummyReplicationProvider;
+import py.una.med.base.replication.server.FirstChangeProviderHandler;
 import py.una.med.base.replication.server.ReplicationProvider;
 import py.una.med.base.test.base.BaseTestWithDatabase;
 import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntityDao;
 import py.una.med.base.test.test.replication.layers.ReplicatedEntity;
+import py.una.med.base.test.test.replication.layers.ReplicatedEntityDao;
 import py.una.med.base.test.util.TestUtils;
 import py.una.med.base.test.util.transaction.Sequences;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 4, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 @Sequences("tt1")
@@ -61,13 +63,25 @@ public class ReplicationProviderTest extends BaseTestWithDatabase {
 		@Bean
 		ReplicationProvider provider() {
 
-			return new EnversReplicationProvider();
+			return new DummyReplicationProvider();
 		}
 
 		@Bean
 		ShareableWatcher shareableWatcher() {
 
 			return new ShareableWatcher();
+		}
+
+		@Bean
+		DummyFirstChangeProvider dummyFirstChangeProvider() {
+
+			return new DummyFirstChangeProvider();
+		}
+
+		@Bean
+		FirstChangeProviderHandler type() {
+
+			return new FirstChangeProviderHandler();
 		}
 
 	}

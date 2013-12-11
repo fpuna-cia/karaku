@@ -36,6 +36,7 @@ import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.exception.KarakuPropertyNotFoundException;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.test.util.TestUriInterceptor;
 
 /**
  * Clases de persistencia para los test, sus anotaciones no se heredan.
@@ -146,8 +147,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	/**
-	 * Retorna la lista de paquetes que serán exploradas por esta
-	 * configuración.
+	 * Retorna la lista de paquetes que serán exploradas por esta configuración.
 	 * <p>
 	 * Por defecto utiliza la propiedad <code>base-package-hibernate</code> del
 	 * archivo de propiedades.
@@ -162,9 +162,9 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	/**
-	 * Retorna la lista de paquetes que serán exploradas por esta
-	 * configuración. Si este método no retorna <code>null</code>, entonces el
-	 * método {@link #getBasePackageToScan()} es omitido.
+	 * Retorna la lista de paquetes que serán exploradas por esta configuración.
+	 * Si este método no retorna <code>null</code>, entonces el método
+	 * {@link #getBasePackageToScan()} es omitido.
 	 * <p>
 	 * Por defecto retorna null.
 	 * </p>
@@ -284,7 +284,7 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	@Bean
 	UriInterceptor uriInterceptor() {
 
-		return new UriInterceptor();
+		return new TestUriInterceptor();
 	}
 
 	@Bean

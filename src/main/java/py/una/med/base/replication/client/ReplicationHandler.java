@@ -206,9 +206,11 @@ public class ReplicationHandler {
 				Shareable entity = converter.toEntity(dto);
 				merge(ri, entity);
 			} catch (EntityNotFoundException enf) {
-				log.warn(
-						"Can't get entity from uri, skipping entity with uri {}",
+				log.warn("Can't get entity from uri, entity with uri {}",
 						dto.getUri());
+				throw new KarakuRuntimeException("Can't replicate entity "
+						+ obj.getClass().getSimpleName() + " uri = "
+						+ dto.getUri(), enf);
 			} catch (Exception e) {
 				log.warn("Can't replicate entity with name {} and uri {}", obj
 						.getClass().getSimpleName(), dto.getUri());

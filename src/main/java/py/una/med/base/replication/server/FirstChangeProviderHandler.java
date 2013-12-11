@@ -4,6 +4,7 @@
  */
 package py.una.med.base.replication.server;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import py.una.med.base.util.StringUtils;
 
 /**
  * 
@@ -60,14 +62,38 @@ public class FirstChangeProviderHandler {
 						+ clazz.getName());
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	/**
+	 * Retorna todas las entidades con un identificador {@link Bundle#ZERO_ID}.
+	 * 
+	 * @param clazz
+	 *            clase a verificar
+	 * @return cambios
+	 */
 	public <T> Bundle<T> getAll(Class<?> clazz) {
 
+		return getAll(clazz, Bundle.ZERO_ID);
+	}
+
+	/**
+	 * Retorna el grupo de cambios con ultima modificacion el parámetro pasado.
+	 * 
+	 * @param clazz
+	 * @param id
+	 * @return
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <T> Bundle<T> getAll(Class<?> clazz, String id) {
+
+		notNull(clazz, "Can't get bundle of null class");
+		String currentId = id;
+		if (StringUtils.isInvalid(id)) {
+			currentId = Bundle.ZERO_ID;
+		}
 		FirstChangeProvider fcp = getChangeProvider(clazz);
 		Collection s = fcp.getChanges(clazz);
 		Bundle<T> bundle = new Bundle<T>();
 		for (Object o : s) {
-			bundle.add((T) o, Bundle.ZERO_ID);
+			bundle.add((T) o, currentId);
 		}
 		return bundle;
 	}
