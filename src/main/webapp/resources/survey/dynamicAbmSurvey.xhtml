@@ -26,6 +26,10 @@
 	<rich:panel header="#{msg['ABM_SURVEY_HEADER']}" switchType="client">
 
 		<h:form>
+			<h:commandButton
+				value="#{cc.attrs.controller.getValueButtonCancel()}"
+				action="#{cc.attrs.controller.doCancel()}" immediate="true" />
+				
 			<rich:panel header="#{msg['ABM_SURVEY_HEADER_BLOCK']}" id="pheader">
 				<h:outputText value="#{msg['ABM_SURVEY_HEADER_DATE']}" />
 				<rich:calendar value="#{cc.attrs.controller.bean.fechaRealizacion}"
@@ -56,7 +60,7 @@
 				rendered="#{not cc.attrs.controller.new and not cc.attrs.controller.view}" />
 			<h:commandButton
 				value="#{cc.attrs.controller.getValueButtonCancel()}"
-				action="#{cc.attrs.controller.doCancel()}" immediate="true"/>
+				action="#{cc.attrs.controller.doCancel()}" immediate="true" />
 			<a4j:log mode="popup"></a4j:log>
 		</h:form>
 	</rich:panel>
