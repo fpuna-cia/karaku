@@ -396,8 +396,6 @@ public final class DateClauses {
 
 		Calendar epoch = Calendar.getInstance();
 		epoch.setTimeInMillis(EPOCH_MILISECONDS);
-		// epoch.set(Calendar.YEAR, 1970);
-		// epoch.set(Calendar.DAY_OF_YEAR, 1);
 		return epoch;
 	}
 

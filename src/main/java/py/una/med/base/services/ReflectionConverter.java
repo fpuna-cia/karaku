@@ -123,7 +123,6 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 	 * @param field
 	 * @throws IllegalAccessException
 	 */
-	@SuppressWarnings({ RAWTYPES, UNCHECKED })
 	private void mapField(final Object source, final Class<?> targetClass,
 			final int depth, final boolean dtoToEntity, final Object bean,
 			Field field) throws IllegalAccessException {

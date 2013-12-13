@@ -15,8 +15,8 @@ import py.una.med.base.util.UniqueHelper.UniqueRestrintion;
 public class UniqueConstraintException extends Exception {
 
 	private static final long serialVersionUID = 4209534069171968008L;
-	private List<String> fields;
-	private String uniqueConstraintName;
+	private final List<String> fields;
+	private final String uniqueConstraintName;
 
 	/**
 	 * Construye una excepción a partir de los datos valiosos del

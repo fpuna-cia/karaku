@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -65,7 +66,9 @@ public class WatcherHandler {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> Operation redirect(Operation operation, Class<T> clazz, T dc) {
+	@Nonnull
+	public <T> Operation redirect(@Nonnull Operation operation, Class<T> clazz,
+			T dc) {
 
 		Set<Watcher<?>> watchers = getWatchers(clazz);
 

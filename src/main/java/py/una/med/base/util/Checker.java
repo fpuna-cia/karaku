@@ -3,6 +3,8 @@
  */
 package py.una.med.base.util;
 
+import javax.annotation.Nonnull;
+
 /**
  * 
  * @author Arturo Volpe
@@ -27,11 +29,13 @@ public final class Checker {
 	 * @param object
 	 *            objeto a verificar
 	 */
+	@Nonnull
 	public static <T> T notNull(T object) {
 
 		return notNull(object, "Object not null is not allowed");
 	}
 
+	@Nonnull
 	public static <T> T notNull(T object, String message, Object ... arguments) {
 
 		if (object == null) {
@@ -40,6 +44,7 @@ public final class Checker {
 		return object;
 	}
 
+	@Nonnull
 	public static <T extends CharSequence> T notValid(T string, String message,
 			Object ... arguments) {
 

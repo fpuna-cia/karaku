@@ -12,12 +12,12 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Clase utilitaria para manipulación de Listas.
- *
+ * 
  * @author Arturo Volpe
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 08/03/2013
- *
+ * 
  */
 public final class ListHelper {
 
@@ -34,7 +34,7 @@ public final class ListHelper {
 	 * al cual se le pueden agregar cosas, al contrario que asList que retorna
 	 * un AbstractList que no puede ser modificado.
 	 * </p>
-	 *
+	 * 
 	 * @param items
 	 *            array no nulo de elementos
 	 * @return {@link ArrayList} conteniendo los elementos no nulos pasados.
@@ -52,7 +52,7 @@ public final class ListHelper {
 
 	/**
 	 * Este método convierte una colección de elementos en un vector.
-	 *
+	 * 
 	 * @param collection
 	 *            colección a convertir
 	 * @param clazz
@@ -64,7 +64,7 @@ public final class ListHelper {
 	public static <T> T[] asArray(Class<T> clazz, Collection<T> collection) {
 
 		if (!hasElements(collection)) {
-			return null;
+			return (T[]) Array.newInstance(clazz, 0);
 		}
 		T[] result = (T[]) Array.newInstance(clazz, collection.size());
 		return collection.toArray(result);
@@ -73,7 +73,7 @@ public final class ListHelper {
 
 	/**
 	 * Este método convierte una colección de elementos en un vector.
-	 *
+	 * 
 	 * <p>
 	 * Se supone que todos los elementos son del tipo T, si no todos son del
 	 * mismo tipo, entonces utilizar el método
@@ -82,17 +82,17 @@ public final class ListHelper {
 	 * <p>
 	 * Este método infiere el tipo según cual sea su primer elemento.
 	 * </p>
-	 *
+	 * 
 	 * @param collection
 	 * @return vector de elementos
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T[] asArray(Collection<T> collection) {
 
-		if (!hasElements(collection)) {
-			return null;
-		}
 		Class<T> clazz = (Class<T>) collection.iterator().next().getClass();
+		if (!hasElements(collection)) {
+			return (T[]) Array.newInstance(clazz, 0);
+		}
 		T[] result = (T[]) Array.newInstance(clazz, collection.size());
 		return collection.toArray(result);
 
@@ -104,7 +104,7 @@ public final class ListHelper {
 	 * Este método es null-safe, es decir hasElements(null) retorna
 	 * <code>false</code>
 	 * </p>
-	 *
+	 * 
 	 * @param collection
 	 *            lista de elementos, puede ser <code>null</code>
 	 * @return <code>true</code> si la lista tiene elementos, <code>false</code>

@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
+import javax.annotation.Nonnull;
 
 /**
  * 
@@ -21,6 +22,7 @@ public class Bundle<T> implements Iterable<Change<T>> {
 	/**
 	 * Identificador utilizado cuando no se conoce el estado.
 	 */
+	@Nonnull
 	public static final String ZERO_ID = "ZERO";
 
 	/**
@@ -50,14 +52,15 @@ public class Bundle<T> implements Iterable<Change<T>> {
 		this.lastId = lastId;
 	}
 
+	@Nonnull
 	public String getLastId() {
 
 		Change<T> c = changes.peekLast();
 		if (c == null) {
-			if (lastId == null) {
-				return Bundle.ZERO_ID;
-			} else {
+			if (lastId != null) {
 				return lastId;
+			} else {
+				return Bundle.ZERO_ID;
 			}
 		}
 		return c.getId();
@@ -79,11 +82,9 @@ public class Bundle<T> implements Iterable<Change<T>> {
 		return changes.iterator();
 	}
 
-	public Change<T> add(T entity, String id) {
+	public Change<T> add(@Nonnull T entity, @Nonnull String id) {
 
-		Change<T> nC = new Change<T>();
-		nC.setEntity(entity);
-		nC.setId(id);
+		Change<T> nC = new Change<T>(entity, id);
 		changes.add(nC);
 		return nC;
 	}

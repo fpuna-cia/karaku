@@ -703,6 +703,6 @@ public class ExportReport {
 			params.put("pageThe", I18nHelper.getMessage("BASE_REPORT_PAGE_THE"));
 		}
 		return params;
-	};
+	}
 
 }

@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 import py.una.med.base.dao.where.Or;
 
 /**
- *
- *
+ * 
+ * 
  * @author Diego Acuña
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 12/03/2013
- *
+ * 
  */
 @Component
 public final class OrExpressionHelper extends BaseClauseHelper<Or> {
@@ -34,7 +34,7 @@ public final class OrExpressionHelper extends BaseClauseHelper<Or> {
 
 		List<Criterion> criterions = helper.getCriterions(
 				Arrays.asList(clause.getClauses()), criteria, aliases);
-		if (criterions.size() == 0) {
+		if (criterions.isEmpty()) {
 			return null;
 		}
 		if (criterions.size() == 1) {

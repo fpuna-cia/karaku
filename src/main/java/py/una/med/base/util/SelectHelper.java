@@ -69,7 +69,7 @@ public final class SelectHelper {
 		while (items.hasNext()) {
 			SelectItem item = items.next();
 			if (item instanceof SelectItemGroup) {
-				SelectItem subitems[] = ((SelectItemGroup) item)
+				SelectItem[] subitems = ((SelectItemGroup) item)
 						.getSelectItems();
 				if (!isEmpty(subitems)) {
 					Iterator<SelectItem> iSubItems = Arrays.asList(subitems)

@@ -42,6 +42,7 @@ public class SelectTest extends BaseTestWithDatabase {
 	@ComponentScan(basePackageClasses = TestDaoLayers.class)
 	static class ContextConfiguration extends TransactionTestConfiguration {
 
+		@Override
 		public Class<?>[] getEntityClasses() {
 
 			return TestUtils.getReferencedClasses(TestEntity.class);

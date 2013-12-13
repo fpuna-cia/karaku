@@ -105,9 +105,9 @@ public class ReplicationProviderTest extends BaseTestWithDatabase {
 	@Test
 	public void testEventRegistration() throws Exception {
 
+		final String id = Bundle.ZERO_ID;
 		assertThat("SQL created entities are not registered",
-				rp.getChanges(ReplicatedEntity.class, Bundle.ZERO_ID).size(),
-				is(5));
+				rp.getChanges(ReplicatedEntity.class, id).size(), is(5));
 
 		// /////////////////////////////////////////
 		// Se descarto la idea de retornar un delta.

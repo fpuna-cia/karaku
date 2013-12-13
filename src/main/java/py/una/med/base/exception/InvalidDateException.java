@@ -10,7 +10,7 @@ public class InvalidDateException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	private String field;
+	private final String field;
 
 	public InvalidDateException(String field) {
 

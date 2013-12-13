@@ -6,7 +6,9 @@ package py.una.med.base.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import javax.annotation.Nonnull;
 import org.springframework.util.ReflectionUtils;
+import py.una.med.base.exception.KarakuRuntimeException;
 
 /**
  * Provee funcionalidades básicas para utilizar Reflection.
@@ -33,11 +35,27 @@ public final class KarakuReflectionUtils {
 	 * @return clase paramétrica.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Class<T> getParameterizedClass(Object leaf, int index) {
+	@Nonnull
+	public static <T> Class<T> getParameterizedClass(@Nonnull Object leaf,
+			int index) {
 
 		ParameterizedType type = (ParameterizedType) leaf.getClass()
 				.getGenericSuperclass();
-		return ((Class<T>) type.getActualTypeArguments()[index]);
+
+		if ((type.getActualTypeArguments().length <= index)) {
+			throw new KarakuRuntimeException(
+					"Cant get the parameterizedClass of claas "
+							+ leaf.getClass().getName());
+		}
+		Class<T> clazz = ((Class<T>) type.getActualTypeArguments()[index]);
+		if (clazz != null) {
+			return clazz;
+		} else {
+			// no va a pasar.
+			throw new KarakuRuntimeException(
+					"Cant get the parameterizedClass of claas "
+							+ leaf.getClass().getName());
+		}
 	}
 
 	/**
@@ -56,7 +74,7 @@ public final class KarakuReflectionUtils {
 	 * @return {@link Field} encontrado, <code>null</code> si no encuentra
 	 *         ninguno.
 	 */
-	public static Field findField(Class<?> base, String ... names) {
+	public static Field findField(@Nonnull Class<?> base, String ... names) {
 
 		Field f = null;
 		for (String s : names) {

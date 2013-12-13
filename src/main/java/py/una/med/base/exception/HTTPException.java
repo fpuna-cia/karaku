@@ -11,8 +11,8 @@ public class HTTPException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	private String code;
-	private String shortDesciption;
+	private final String code;
+	private final String shortDesciption;
 
 	/**
 	 * 

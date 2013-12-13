@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
@@ -21,8 +20,16 @@ import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.PagingHelper;
 import py.una.med.base.util.SelectHelper;
 
+/**
+ * 
+ * 
+ * @deprecated utilizar {@link SIGHAdvancedController}
+ * @author Arturo Volpe
+ * @since 2.2.8
+ * @version 1.0 Dec 12, 2013
+ * 
+ */
 @Controller
-@ManagedBean
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 @Deprecated
 public abstract class BaseController<T, K extends Serializable> implements
@@ -262,7 +269,7 @@ public abstract class BaseController<T, K extends Serializable> implements
 
 		createFacesMessage(FacesMessage.SEVERITY_INFO, "MESSAGE_SAVE_SUCESS");
 		postCreate();
-	};
+	}
 
 	@Override
 	public void preCreate() {
@@ -355,7 +362,7 @@ public abstract class BaseController<T, K extends Serializable> implements
 
 		mode = Mode.VIEW;
 		log.info("pre View llamado");
-	};
+	}
 
 	public void clearFilters() {
 

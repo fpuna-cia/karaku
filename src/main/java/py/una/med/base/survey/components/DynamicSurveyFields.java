@@ -89,7 +89,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	public void addField(DynamicSurveyFieldOption element) {
 
 		this.fields[element.getField().getIndex() - 1] = element;
-	};
+	}
 
 	/**
 	 * Valida los campos para cada pregunta.

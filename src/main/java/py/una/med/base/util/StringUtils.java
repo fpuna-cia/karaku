@@ -146,7 +146,7 @@ public final class StringUtils {
 		if (strings == null) {
 			return "";
 		}
-		if (strings.size() == 0) {
+		if (strings.isEmpty()) {
 			return "";
 		}
 		return join(separator, 0, strings.size() - 1,
@@ -311,7 +311,7 @@ public final class StringUtils {
 	 */
 	public static String pluralize(final Collection<String> terms) {
 
-		if ((terms == null) || (terms.size() == 0)) {
+		if ((terms == null) || (terms.isEmpty())) {
 			return null;
 		}
 		StringBuilder buf = new StringBuilder();
@@ -339,7 +339,7 @@ public final class StringUtils {
 	public static String pluralize(String separator,
 			final Collection<String> terms) {
 
-		if ((terms == null) || (terms.size() == 0)) {
+		if ((terms == null) || (terms.isEmpty())) {
 			return null;
 		}
 		StringBuilder buf = new StringBuilder();

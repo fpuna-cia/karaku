@@ -10,6 +10,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static py.una.med.base.util.Checker.notNull;
+import javax.annotation.Nonnull;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -121,11 +123,13 @@ public class EnversReplicationProviderTest extends BaseTest {
 	@Test
 	public void testGetAll() throws Exception {
 
+		String zero_id = notNull(Bundle.ZERO_ID);
+
 		String previusId;
 		Bundle<ReplicatedEntity> bun;
 
 		begin();
-		bun = getBundle(Bundle.ZERO_ID);
+		bun = getBundle(zero_id);
 		previusId = bun.getLastId();
 		assertThat(bun.size(), is(5));
 		commit();
@@ -162,7 +166,7 @@ public class EnversReplicationProviderTest extends BaseTest {
 		commit();
 
 		begin();
-		bun = getBundle(Bundle.ZERO_ID);
+		bun = getBundle(zero_id);
 		previusId = bun.getLastId();
 		assertThat(bun.size(), is(6));
 		ReplicatedEntity fromEnvers = null;
@@ -201,7 +205,7 @@ public class EnversReplicationProviderTest extends BaseTest {
 		transaction.commit();
 	}
 
-	private Bundle<ReplicatedEntity> getBundle(String change) {
+	private Bundle<ReplicatedEntity> getBundle(@Nonnull String change) {
 
 		return provider.getChanges(ReplicatedEntity.class, change);
 	}

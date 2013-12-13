@@ -38,7 +38,7 @@ public class SIGHBaseReportSimple implements ISIGHBaseReportSimple {
 			return logic.getAll(where, null);
 		}
 		return logic.getAll(null);
-	};
+	}
 
 	@Override
 	public <T> void generateReport(Map<String, Object> params, String type,

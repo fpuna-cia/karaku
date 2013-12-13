@@ -3,6 +3,7 @@
  */
 package py.una.med.base.services;
 
+import javax.annotation.Nonnull;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
@@ -64,8 +65,9 @@ public interface Converter<E extends Shareable, T extends DTO> {
 	 *            entidad a ser convertida
 	 * @param depth
 	 *            máximo nivel de anidación de relaciones a convertir
-	 * @return objeto listo para ser enviado por la red.
+	 * @return objeto listo para ser enviado por la red, nunca <code>null</code>
 	 */
+	@Nonnull
 	T toDTO(E entity, int depth);
 
 	/**
@@ -84,8 +86,9 @@ public interface Converter<E extends Shareable, T extends DTO> {
 	 * </p>
 	 * 
 	 * @param dto
-	 * @return
+	 * @return entidad del sistema, nunca <code>null</code>
 	 */
+	@Nonnull
 	E toEntity(T dto) throws EntityNotFoundException;
 
 	/**

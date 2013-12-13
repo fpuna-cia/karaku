@@ -25,7 +25,7 @@ public abstract class AbstractStep extends Field implements Step {
 			toolBar = new ToolBar();
 		}
 		return toolBar;
-	};
+	}
 
 	/**
 	 * @param toolBar

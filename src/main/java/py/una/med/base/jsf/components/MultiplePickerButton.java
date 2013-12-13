@@ -17,14 +17,15 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ComponentSystemEvent;
 import org.richfaces.component.UIExtendedDataTable;
 import py.una.med.base.dynamic.forms.MultiplePickerField;
+import py.una.med.base.util.ListHelper;
 
 /**
- *
+ * 
  * @author Jorge Ramírez
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 Jun 25, 2013
- *
+ * 
  */
 @FacesComponent(value = "multiplePickerButton")
 public final class MultiplePickerButton extends UINamingContainer {
@@ -71,7 +72,7 @@ public final class MultiplePickerButton extends UINamingContainer {
 
 		List<?> values = mpb.getValues();
 		setSelectedItems((List<Object>) values);
-		if ((values == null) || (values.size() == 0)) {
+		if (ListHelper.hasElements(values)) {
 			return "";
 		}
 		List<Object> newSelected = new ArrayList<Object>(values.size());

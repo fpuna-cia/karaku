@@ -49,7 +49,7 @@ SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
 			}
 		}
 		return aRet;
-	};
+	}
 
 	/**
 	 * Retorna la {@link Class} a la que este controller representa.

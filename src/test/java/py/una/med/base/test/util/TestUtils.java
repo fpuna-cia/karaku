@@ -24,11 +24,11 @@ import py.una.med.base.test.test.util.layers.TestEntity;
 
 /**
  * Provee utilidades para los test.
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Sep 10, 2013
- *
+ * 
  */
 public class TestUtils {
 
@@ -36,7 +36,7 @@ public class TestUtils {
 
 	/**
 	 * Retorna un vector de elementos a partir de una lista de los mismos.
-	 *
+	 * 
 	 * @param elements
 	 *            de clase T
 	 * @return T[]
@@ -48,7 +48,7 @@ public class TestUtils {
 
 	/**
 	 * Retorna un vector de clases a partir de una lista de los mismos.
-	 *
+	 * 
 	 * @param elements
 	 *            del tipo Class
 	 * @return Class<?>[]
@@ -60,7 +60,7 @@ public class TestUtils {
 
 	/**
 	 * Retorna la lista de entidades relacionadas a una base.
-	 *
+	 * 
 	 * @param base
 	 *            entidad base
 	 * @return array con todas las entidades que se pueden acceder desde base.
@@ -82,10 +82,10 @@ public class TestUtils {
 
 	/**
 	 * Verificación de orden de una lista.
-	 *
+	 * 
 	 * Determinan si una lista tiene las descripciones pasadas en el orden
 	 * adecuado.
-	 *
+	 * 
 	 * @param list
 	 *            lista de entidades
 	 * @param descriptions
@@ -102,13 +102,13 @@ public class TestUtils {
 
 	/**
 	 * Determina si dos colecciones son iguales.
-	 *
+	 * 
 	 * <p>
 	 * Este método es similar a {@link java.util.AbstractList#equals(Object)}
 	 * solamente que realiza una comparación de longitud para ser más rapido.
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @param l1
 	 *            colección ejemplo
 	 * @param l2
@@ -120,14 +120,11 @@ public class TestUtils {
 	public static <T> boolean comparareCollections(Collection<T> l1,
 			Collection<T> l2) {
 
-		if ((l1 == null) && (l2 != null)) {
-			return false;
-		}
-		if ((l2 == null) && (l1 != null)) {
-			return false;
-		}
 		if ((l1 == null) && (l2 == null)) {
 			return true;
+		}
+		if ((l1 == null) || (l2 == null)) {
+			return false;
 		}
 		if (l1.size() != l2.size()) {
 			return false;
@@ -137,15 +134,16 @@ public class TestUtils {
 		while (e1.hasNext() && e2.hasNext()) {
 			T o1 = e1.next();
 			T o2 = e2.next();
-			if (!(o1 == null ? o2 == null : o1.equals(o2)))
+			if (!(o1 == null ? o2 == null : o1.equals(o2))) {
 				return false;
+			}
 		}
 		return !(e1.hasNext() || e2.hasNext());
 	}
 
 	/**
 	 * Retorna la lista de entidades relacionadas a una base.
-	 *
+	 * 
 	 * @param base
 	 *            entidad base
 	 * @return array con todas las entidades que se pueden acceder desde base.
@@ -202,11 +200,11 @@ public class TestUtils {
 	/**
 	 * Retorna el path de un recurso que existe, es hermano de la clase pasada o
 	 * es un path absoluto.
-	 *
+	 * 
 	 * <p>
 	 * Si no existe se lanza una excepción.
 	 * </p>
-	 *
+	 * 
 	 * @param source
 	 *            Clase de dondese invoca
 	 * @param fileName
@@ -224,7 +222,7 @@ public class TestUtils {
 	/**
 	 * Retorna un recurso, que se supone esta en la misma ubicación que la
 	 * clase.
-	 *
+	 * 
 	 * @param source
 	 *            Clase de dondese invoca
 	 * @param fileName

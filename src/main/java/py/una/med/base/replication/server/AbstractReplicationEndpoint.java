@@ -7,6 +7,7 @@ package py.una.med.base.replication.server;
 import static py.una.med.base.util.Checker.notValid;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.replication.DTO;
@@ -110,7 +111,9 @@ import py.una.med.base.util.KarakuReflectionUtils;
  */
 public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 
+	@Nonnull
 	private Class<E> clazzEntity;
+	@Nonnull
 	private Class<T> clazzDTO;
 
 	@Autowired
@@ -151,18 +154,18 @@ public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 	 */
 	public Bundle<T> getChanges(String lastId) {
 
-		notValid(lastId, "Can not get changes of invalid lastid");
+		String id = notValid(lastId, "Can not get changes of invalid lastid");
 
-		Bundle<E> changes = replicationProvider.getChanges(clazzEntity, lastId);
+		Bundle<E> changes = replicationProvider.getChanges(clazzEntity, id);
 
 		Bundle<T> changesConverted = new Bundle<T>(changes.getLastId());
 
-		if (changes != null) {
-			for (Change<E> change : changes) {
-
-				changesConverted.add(converter.toDTO(change.getEntity(), 0),
-						change.getId());
+		for (Change<E> change : changes) {
+			if (change == null) {
+				continue;
 			}
+			changesConverted.add(converter.toDTO(change.getEntity(), 0),
+					change.getId());
 		}
 
 		return changesConverted;

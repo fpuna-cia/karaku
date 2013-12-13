@@ -9,6 +9,14 @@ import javax.persistence.Id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @deprecated Utiilzar {@link SIGHConverterV2}
+ * @author Arturo Volpe
+ * @since 2.2.8
+ * @version 1.0 Dec 12, 2013
+ * 
+ */
 @Deprecated
 public class SIGHConverter<T, K extends Serializable> implements Converter {
 
@@ -36,12 +44,7 @@ public class SIGHConverter<T, K extends Serializable> implements Converter {
 			return "";
 		}
 
-		try {
-			return getIdValue(object).toString();
-		} catch (Exception e) {
-			log.error("Error al obtener el Id", e);
-		}
-		return null;
+		return getIdValue(object).toString();
 	}
 
 	private Object getIdValue(final Object obj) {
@@ -60,5 +63,5 @@ public class SIGHConverter<T, K extends Serializable> implements Converter {
 			log.error("Error al obtener el Id", ex);
 			return null;
 		}
-	};
+	}
 }

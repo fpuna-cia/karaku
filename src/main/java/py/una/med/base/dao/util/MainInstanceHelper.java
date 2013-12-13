@@ -1,6 +1,6 @@
 /*
  * @MainInstanceHelper.java 1.0 Feb 13, 2013
- *
+ * 
  * Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.dao.util;
@@ -28,18 +28,19 @@ import org.springframework.util.ReflectionUtils;
 import py.una.med.base.dao.annotations.MainInstance;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.log.Log;
+import py.una.med.base.util.ListHelper;
 
 /**
- *
+ * 
  * Clase que se encarga de crear los proxies para manejar las anotaciones
  * MainInstance, además en caso de que el {@link FetchType} sea
  * {@link FetchType#EAGER} modifica la consulta para que los resultados sena
  * Traídos y luego los parsea para agregar al objeto.
- *
+ * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 13, 2013
- *
+ * 
  */
 @Component
 @SuppressWarnings("unchecked")
@@ -61,7 +62,7 @@ public class MainInstanceHelper {
 		query.setParameter("value", principal.value());
 		query.setParameter("mainEntity", parent);
 		List<Object> list = query.list();
-		if ((list == null) || (list.size() == 0)) {
+		if ((list == null) || (list.isEmpty())) {
 			return null;
 		}
 		if (list.size() > 1) {
@@ -79,7 +80,7 @@ public class MainInstanceHelper {
 	 * <i>Notese que no se limita la cantidad de resultados, esto es para
 	 * realizar otros controles, como que no se lanzen excepciones cuando hay
 	 * mas de un atributo principal</i>
-	 *
+	 * 
 	 * @param entity
 	 *            Entidad raiz
 	 * @param principal
@@ -109,8 +110,8 @@ public class MainInstanceHelper {
 	 * depende exclusivamente de la capacidad del método {@link T#hashCode()}
 	 * para realizar su propósito de retornar elementos no duplicados.
 	 * </p>
-	 *
-	 *
+	 * 
+	 * 
 	 * @param session
 	 *            Session, a la cual se ata el proxy, mientras este viva el
 	 *            proxy funciona
@@ -137,7 +138,7 @@ public class MainInstanceHelper {
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		}
 
-		if ((fields != null) && (fields.size() != 0)) {
+		if (ListHelper.hasElements(fields)) {
 			aRet = applyMainInstance(criteria, alias, where, fields);
 		} else {
 			aRet = criteria.list();
@@ -192,7 +193,7 @@ public class MainInstanceHelper {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param criteria
 	 * @param fields
 	 *            lista de fields que tienen la anotación {@link MainInstance},
@@ -239,7 +240,7 @@ public class MainInstanceHelper {
 	/**
 	 * Dado <b>un</b> objeto, agrega el proxy que tiene sentido mientras dure la
 	 * session
-	 *
+	 * 
 	 * @param entity
 	 *            entidad a aplicar los proxies
 	 * @param session
@@ -271,7 +272,7 @@ public class MainInstanceHelper {
 	 * Método que agrega los proxy's para el {@link FetchType#LAZY}, para
 	 * agregar otro tipo de fetch utilice
 	 * {@link MainInstanceHelper#configureAndReturnList(Session, Criteria, Class)}
-	 *
+	 * 
 	 * @param entities
 	 * @param session
 	 * @throws IllegalAccessException
@@ -285,7 +286,7 @@ public class MainInstanceHelper {
 			throws IllegalAccessException, NoSuchMethodException,
 			InstantiationException, InvocationTargetException {
 
-		if ((entities == null) || (entities.size() == 0)) {
+		if ((entities == null) || (entities.isEmpty())) {
 			return;
 		}
 		Class<?> clazz = entities.get(0).getClass();

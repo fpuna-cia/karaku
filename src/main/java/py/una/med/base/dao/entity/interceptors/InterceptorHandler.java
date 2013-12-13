@@ -4,6 +4,7 @@
  */
 package py.una.med.base.dao.entity.interceptors;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import javax.persistence.Transient;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -68,19 +70,20 @@ public class InterceptorHandler implements InitializingBean {
 
 	}
 
-	public void intercept(final Operation op, final Object bean) {
+	public void intercept(@Nonnull final Operation op, final Object bean) {
 
 		ReflectionUtils.doWithFields(bean.getClass(), new FieldCallback() {
 
 			@Override
 			public void doWith(Field field) throws IllegalAccessException {
 
-				InterceptorHandler.this.intercept(op, field, bean);
+				InterceptorHandler.this.intercept(op, notNull(field), bean);
 			}
 		});
 	}
 
-	public void intercept(Operation op, Field field, Object bean) {
+	public void intercept(@Nonnull Operation op, @Nonnull Field field,
+			@Nonnull Object bean) {
 
 		field.setAccessible(true);
 		Class<?> type = field.getType();

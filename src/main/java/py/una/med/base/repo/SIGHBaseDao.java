@@ -3,6 +3,7 @@ package py.una.med.base.repo;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import javax.annotation.Nonnull;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import org.hibernate.SessionFactory;
@@ -19,6 +20,10 @@ public class SIGHBaseDao<T, K extends Serializable> extends BaseDAOImpl<T, K>
 	@Log
 	private Logger log;
 
+	private Method prePersist;
+	private Method preUpdate;
+	private boolean metodoscargados;
+
 	@Override
 	@Autowired
 	public void setSessionFactory(final SessionFactory sessionFactory) {
@@ -27,22 +32,20 @@ public class SIGHBaseDao<T, K extends Serializable> extends BaseDAOImpl<T, K>
 	}
 
 	@Override
-	public T update(T entity) {
+	@Nonnull
+	public T update(@Nonnull T entity) {
 
 		this.doPreUpdate(entity);
-		return super.add(entity);
+		return super.update(entity);
 	}
 
 	@Override
-	public T add(T entity) {
+	@Nonnull
+	public T add(@Nonnull T entity) {
 
 		this.doPrePersist(entity);
 		return super.add(entity);
-	};
-
-	private Method prePersist;
-	private Method preUpdate;
-	private boolean metodoscargados;
+	}
 
 	public Method getPrePersist() {
 

@@ -5,6 +5,14 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 import py.una.med.base.business.ISIGHBaseLogic;
 
+/**
+ * 
+ * @deprecated Utilizar {@link ISIGHAdvancedController}
+ * @author Arturo Volpe
+ * @since 2.2.8
+ * @version 1.0 Dec 12, 2013
+ * 
+ */
 @Deprecated
 public interface IBaseController<T, ID extends Serializable> {
 

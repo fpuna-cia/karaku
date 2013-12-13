@@ -27,20 +27,13 @@ public final class AndExpressionHelper extends BaseClauseHelper<And> {
 	@Autowired
 	private RestrictionHelper helper;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * py.una.med.base.dao.helper.BaseClauseHelper#getCriterion(org.hibernate
-	 * .Criteria, py.una.med.base.dao.where.Clause, java.util.Map)
-	 */
 	@Override
 	public Criterion getCriterion(Criteria criteria, And clause,
 			Map<String, String> aliases) {
 
 		List<Criterion> criterions = helper.getCriterions(
 				Arrays.asList(clause.getClauses()), criteria, aliases);
-		if (criterions.size() == 0) {
+		if (criterions.isEmpty()) {
 			return null;
 		}
 		if (criterions.size() == 1) {

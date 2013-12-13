@@ -98,7 +98,7 @@ public abstract class SIGHBaseLogic<T, K extends Serializable> implements
 			log.error("Error al obtener el Id", ex);
 			return null;
 		}
-	};
+	}
 
 	@Override
 	public T getNewInstance() {

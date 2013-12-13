@@ -45,9 +45,10 @@ public class ReplicationResponseHandler {
 	@SuppressWarnings("rawtypes")
 	private Collection getItems(Object response) {
 
-		notNull(response, "Cant get changes from null response");
-		Field f = KarakuReflectionUtils.findField(response.getClass(),
-				CHANGE_FIELDS);
+		Object respuesta = notNull(response,
+				"Cant get changes from null response");
+		Class<?> clazz = notNull(respuesta.getClass());
+		Field f = KarakuReflectionUtils.findField(clazz, CHANGE_FIELDS);
 
 		if (f == null) {
 			f = ReflectionUtils
@@ -74,9 +75,9 @@ public class ReplicationResponseHandler {
 	private String getLastId(Object response) {
 
 		notNull(response, "Cant get id from null response");
+		Class<?> clazz = notNull(response.getClass());
 
-		Field f = KarakuReflectionUtils.findField(response.getClass(),
-				ID_FIELDS);
+		Field f = KarakuReflectionUtils.findField(clazz, ID_FIELDS);
 
 		notNull(f, "Cant get the id field, please use the @ReplicationId "
 				+ "annotation, or create a field with name %s, see %s",

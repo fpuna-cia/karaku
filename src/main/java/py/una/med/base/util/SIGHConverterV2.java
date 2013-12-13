@@ -24,22 +24,11 @@ public class SIGHConverterV2 implements Converter {
 	public String getAsString(FacesContext context, UIComponent component,
 			Object object) {
 
-		if (context == null) {
-			throw new IllegalArgumentException("context");
-		}
-		if (component == null) {
-			throw new IllegalArgumentException("component");
-		}
 		if (object == null) {
 			return "";
 		}
 
-		try {
-			return getIdValue(object).toString();
-		} catch (Exception e) {
-			log.error("Error al obtener el Id", e);
-		}
-		return null;
+		return getIdValue(object).toString();
 	}
 
 	private Object getIdValue(Object obj) {
@@ -58,5 +47,5 @@ public class SIGHConverterV2 implements Converter {
 			log.error("Error al obtener el Id", ex);
 			return null;
 		}
-	};
+	}
 }

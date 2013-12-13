@@ -26,7 +26,7 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
 public class MenuWSCaller {
 
 	@Autowired
-	private WSCaller WSCaller;
+	private WSCaller wSCaller;
 
 	/**
 	 * @param request
@@ -37,7 +37,7 @@ public class MenuWSCaller {
 	public void call(MenuRequest request, Info info,
 			final WSCallBack<List<Menu>> callback) {
 
-		WSCaller.call(request, info, new WSCallBack<MenuResponse>() {
+		wSCaller.call(request, info, new WSCallBack<MenuResponse>() {
 
 			@Override
 			public void onFailure(KarakuException exception) {

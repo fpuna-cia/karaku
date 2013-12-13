@@ -97,7 +97,7 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 			List<String> listOrder) {
 
 		return null;
-	};
+	}
 
 	@Deprecated
 	@Override

@@ -25,7 +25,7 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
 
 /**
  * Component que provee las funcionalidades para consumir y mostrar menús.
- *
+ * 
  * <p>
  * Funciones de este componente:
  * <ol>
@@ -33,14 +33,19 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
  * <li>Unir menús ya construidos</li>
  * </ol>
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 21, 2013
- *
+ * 
  */
 @Component
 public class WSMenuProvider extends AbstractMenuProvider {
+
+	/**
+	 * 
+	 */
+	private static final String LOCAL_MENU_KEY = "LOCAL";
 
 	/**
 	 *
@@ -81,12 +86,11 @@ public class WSMenuProvider extends AbstractMenuProvider {
 	void postConstruct() {
 
 		// Vér mejor forma de conseguir la cantidad
-		// numberOfMenus = provider.getInfoByTag(MENU_TAG).size();
 		currentCount = 0;
 		menu = new ArrayList<Menu>();
 		List<Menu> local = menuServerLogic.getCurrentSystemMenu();
 		menu.addAll(local);
-		getMenus().put("LOCAL", local);
+		getMenus().put(LOCAL_MENU_KEY, local);
 		isDirty = true;
 	}
 
@@ -196,7 +200,7 @@ public class WSMenuProvider extends AbstractMenuProvider {
 	@Override
 	public List<Menu> getLocalMenu() {
 
-		return getMenus().get("LOCAL");
+		return getMenus().get(LOCAL_MENU_KEY);
 	}
 
 }

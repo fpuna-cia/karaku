@@ -107,8 +107,6 @@ public class MenuBean {
 	private UIComponent getMultipleMenu(Menu menu) {
 
 		UIPanelMenuGroup menuGroup = SIGHComponentFactory.getMenuGroup();
-		// menuGroup.setId(menu.getId());
-		// menuGroup.setName(menu.getId());
 		menuGroup.setLabel(menu.getName());
 
 		for (Menu children : menu.getItems()) {

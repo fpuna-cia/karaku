@@ -79,5 +79,5 @@ public class KarakuConverter implements Converter {
 			log.error("Error al obtener el Id", ex);
 			return null;
 		}
-	};
+	}
 }

@@ -3,7 +3,8 @@
  */
 package py.una.med.base.replication.server;
 
-import org.apache.commons.lang3.Validate;
+import static py.una.med.base.util.Checker.notValid;
+import javax.annotation.Nonnull;
 
 /**
  * 
@@ -14,12 +15,24 @@ import org.apache.commons.lang3.Validate;
  */
 public class Change<T> {
 
+	@Nonnull
 	private String id;
+	@Nonnull
 	private T entity;
+
+	/**
+	 * 
+	 */
+	public Change(@Nonnull T entity, @Nonnull String identifier) {
+
+		this.entity = entity;
+		this.id = identifier;
+	}
 
 	/**
 	 * @return entity
 	 */
+	@Nonnull
 	public T getEntity() {
 
 		return entity;
@@ -28,6 +41,7 @@ public class Change<T> {
 	/**
 	 * @return id
 	 */
+	@Nonnull
 	public String getId() {
 
 		return id;
@@ -37,7 +51,7 @@ public class Change<T> {
 	 * @param entity
 	 *            entity para setear
 	 */
-	void setEntity(T entity) {
+	void setEntity(@Nonnull T entity) {
 
 		this.entity = entity;
 	}
@@ -46,10 +60,8 @@ public class Change<T> {
 	 * @param id
 	 *            id para setear
 	 */
-	void setId(String id) {
+	void setId(@Nonnull String id) {
 
-		Validate.notEmpty(id, "Id of a change can not be null");
-		this.id = id;
+		this.id = notValid(id, "Id of a change can not be null");
 	}
-
 }

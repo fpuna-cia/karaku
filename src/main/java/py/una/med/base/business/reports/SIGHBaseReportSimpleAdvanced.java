@@ -46,7 +46,7 @@ public abstract class SIGHBaseReportSimpleAdvanced<T> implements
 			return logic.getAll(where, null);
 		}
 		return logic.getAll(null);
-	};
+	}
 
 	@Override
 	public List<String> getColumnsDataSource() {

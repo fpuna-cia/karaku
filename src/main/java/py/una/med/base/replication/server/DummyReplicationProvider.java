@@ -4,7 +4,7 @@
  */
 package py.una.med.base.replication.server;
 
-import org.apache.poi.ss.formula.eval.NotImplementedException;
+import javax.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.replication.Shareable;
@@ -14,8 +14,7 @@ import py.una.med.base.replication.Shareable;
  * se solicita un cambio.
  * 
  * <p>
- * Solo funciona cuando el id del cambio es {@link Bundle#ZERO_ID}, en caso
- * contrario lanza una {@link NotImplementedException}
+ * Solo funciona cuando el id del cambio es {@link Bundle#ZERO_ID}.
  * </p>
  * 
  * @author Arturo Volpe
@@ -29,8 +28,9 @@ public class DummyReplicationProvider implements ReplicationProvider {
 	private FirstChangeProviderHandler firstChangeProviderHandler;
 
 	@Override
+	@Nonnull
 	@Transactional(readOnly = true)
-	public <T extends Shareable> Bundle<T> getChanges(Class<T> clazz,
+	public <T extends Shareable> Bundle<T> getChanges(@Nonnull Class<T> clazz,
 			String lastId) {
 
 		return firstChangeProviderHandler.getAll(clazz);

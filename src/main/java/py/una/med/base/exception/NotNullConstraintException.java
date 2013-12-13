@@ -10,7 +10,7 @@ public class NotNullConstraintException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	private String column;
+	private final String column;
 
 	public NotNullConstraintException(String column) {
 

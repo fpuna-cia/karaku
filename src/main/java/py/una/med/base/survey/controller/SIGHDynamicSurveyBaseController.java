@@ -87,7 +87,7 @@ public abstract class SIGHDynamicSurveyBaseController implements
 		/**
 		 * Poner el tema de las respuestas para cada bloque
 		 */
-		if (tipoBloque.getDescripcion().equals("GRILLA")) {
+		if ("GRILLA".equals(tipoBloque.getDescripcion())) {
 			return buildResponseGrill(getResponseBlock(bloque),
 					new DynamicSurveyDataTable(questions, blocks.size()));
 		} else {
@@ -146,13 +146,13 @@ public abstract class SIGHDynamicSurveyBaseController implements
 					bloque.getTipoBloque(), bloque));
 		}
 		// Obtenemos los datos precargados del servicio de importar persona
-		if (blocks.get(0) instanceof DynamicSurveyFields && isNew()) {
+		if ((blocks.get(0) instanceof DynamicSurveyFields) && isNew()) {
 			log.debug("Obtiene los datos actuales de la persona..");
 			getDetailsPerson((DynamicSurveyFields) blocks.get(0));
 
 		}
 
-		if (blocks.get(10) instanceof DynamicSurveyFields && isNew()) {
+		if ((blocks.get(10) instanceof DynamicSurveyFields) && isNew()) {
 			log.debug("Obtiene los datos actuales de la solicitud..");
 			getDetailsDiagnostico((DynamicSurveyFields) blocks.get(10));
 
@@ -293,11 +293,11 @@ public abstract class SIGHDynamicSurveyBaseController implements
 
 				List<OpcionRespuesta> listResponse = getResponseSelected(
 						(Long) detalle[3], ordenPregunta);
-				if (field.getType().equals("CHECK")) {
+				if ("CHECK".equals(field.getType())) {
 					field.setManyOptions(listResponse);
 
 				} else {
-					if (field.getType().equals("RADIO")) {
+					if ("RADIO".equals(field.getType())) {
 						field.setOneOption(listResponse.get(0));
 					}
 				}
@@ -369,7 +369,7 @@ public abstract class SIGHDynamicSurveyBaseController implements
 							.getDetailsRespuestasSelected(encuestaDetalle
 									.getId());
 
-					if (listResponse.size() > 0) {
+					if (!listResponse.isEmpty()) {
 						encuestaDetalle.setOpcionRespuesta(listResponse);
 						List<OpcionRespuesta> result = new ArrayList<OpcionRespuesta>();
 
@@ -428,7 +428,7 @@ public abstract class SIGHDynamicSurveyBaseController implements
 				for (DynamicSurveyRow row : fields.getRows()) {
 					for (int i = 0; i < row.getCells().length; i++) {
 						// Solo almaceno los valores ingresados
-						if (!row.getCell(i).getValue().equals("")) {
+						if (!"".equals(row.getCell(i).getValue())) {
 							EncuestaDetalle detalle = new EncuestaDetalle();
 							detalle.setEncuesta(getBean());
 							detalle.setNumeroFila(numberRow);
@@ -469,8 +469,8 @@ public abstract class SIGHDynamicSurveyBaseController implements
 						}
 
 					}
-					if (field.getOneOption() != null
-							&& field.getOneOption().getDescripcion() != null) {
+					if ((field.getOneOption() != null)
+							&& (field.getOneOption().getDescripcion() != null)) {
 
 						EncuestaDetalleOpcionRespuesta detalleOpcionRespuesta = new EncuestaDetalleOpcionRespuesta();
 						detalleOpcionRespuesta.setOpcionRespuesta(field
@@ -479,8 +479,8 @@ public abstract class SIGHDynamicSurveyBaseController implements
 						detallesOpcionRespuesta.add(detalleOpcionRespuesta);
 						detalle.addDetalleOpcionRespuesta(detalleOpcionRespuesta);
 					}
-					if (detalle.getRespuesta() != null
-							|| detalle.getOpcionRespuesta() != null) {
+					if ((detalle.getRespuesta() != null)
+							|| (detalle.getOpcionRespuesta() != null)) {
 						getBean().addDetalle(detalle);
 					}
 					index++;
@@ -602,19 +602,19 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	public boolean isNew() {
 
 		return mode == Mode.NEW;
-	};
+	}
 
 	@Override
 	public boolean isView() {
 
 		return mode == Mode.VIEW;
-	};
+	}
 
 	@Override
 	public boolean isDelete() {
 
 		return mode == Mode.DELETE;
-	};
+	}
 
 	public String getValueButtonCancel() {
 

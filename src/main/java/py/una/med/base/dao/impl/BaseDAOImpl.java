@@ -5,18 +5,20 @@
  */
 package py.una.med.base.dao.impl;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.ObjectNotFoundException;
@@ -45,6 +47,7 @@ import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.log.Log;
+import py.una.med.base.util.KarakuReflectionUtils;
 
 /**
  * Clase que implementa la interfaz {@link BaseDAO} utilizando {@link Session},
@@ -95,32 +98,34 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	@Override
-	public T add(final T entity) {
+	@Nonnull
+	public T add(@Nonnull final T entity) {
 
-		return doIt(Operation.CREATE, entity);
+		return notNull(doIt(Operation.CREATE, entity));
 	}
 
 	@SuppressWarnings(UNCHECKED)
 	@Override
-	public void remove(final K id) {
+	public void remove(@NotNull final K id) {
 
-		T o = (T) this.getSession().load(this.getClassOfT(), id);
-		remove(o);
+		T o = (T) this.getSession().get(this.getClassOfT(), id);
+		remove(notNull(o));
 	}
 
 	@Override
-	public T update(final T entity) {
+	@Nonnull
+	public T update(@Nonnull final T entity) {
 
-		return doIt(Operation.UPDATE, entity);
+		return notNull(doIt(Operation.UPDATE, entity));
 	}
 
 	@Override
-	public void remove(final T entity) {
+	public void remove(@Nonnull final T entity) {
 
 		doIt(Operation.DELETE, entity);
 	}
 
-	private T doIt(Operation op, T entity) {
+	private T doIt(@Nonnull Operation op, @Nonnull T entity) {
 
 		Operation origin = op;
 		Operation real = watcherHandler.redirect(origin, getClassOfT(), entity);
@@ -144,7 +149,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 		T entidad = (T) this.getSession().merge(entity);
 		this.getSession().flush();
-		this.copyID(entidad, entity);
+		this.setId(entity, getIdValue(entidad));
 		return entidad;
 	}
 
@@ -302,7 +307,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		isp.setOffset(0);
 
 		List<T> result = this.getAll(where, isp);
-		if ((result == null) || (result.size() == 0)) {
+		if ((result == null) || (result.isEmpty())) {
 			return null;
 		}
 		if (result.size() == 1) {
@@ -318,20 +323,17 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	public T getById(final K id) {
 
 		try {
-			return (T) this.getSession().get(this.getClassOfT(), id);
+			return (T) this.getSession().get(getClassOfT(), id);
 		} catch (ObjectNotFoundException onfe) {
 			return null;
 		}
 	}
 
 	@Override
-	@SuppressWarnings(UNCHECKED)
 	public Class<T> getClassOfT() {
 
 		if (this.clazz == null) {
-			ParameterizedType type = (ParameterizedType) this.getClass()
-					.getGenericSuperclass();
-			this.clazz = (Class<T>) type.getActualTypeArguments()[0];
+			clazz = KarakuReflectionUtils.getParameterizedClass(this, 0);
 		}
 		return this.clazz;
 	}
@@ -407,7 +409,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		} else {
 			return t.name();
 		}
-	};
+	}
 
 	/**
 	 * Asigna un sessionFactory para ser usado de ahora en mas para obtener
@@ -447,16 +449,15 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		}
 		this.log.error("Error al obtener el Id", ex);
 		return null;
-	};
+	}
 
-	private void copyID(final T src, final T dst) {
+	private void setId(final T dst, final K key) {
 
 		Exception ex = null;
 		try {
-			Method get = this.getClassOfT().getMethod("getId");
 			Method set = this.getClassOfT().getMethod("setId", Long.class);
-			if ((get != null) && (set != null)) {
-				set.invoke(dst, get.invoke(src, (Object[]) null));
+			if (set != null) {
+				set.invoke(dst, key);
 				return;
 			}
 		} catch (Exception nsme) {
@@ -466,7 +467,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 			for (Field field : this.getClassOfT().getDeclaredFields()) {
 				if (field.isAnnotationPresent(Id.class)) {
 					field.setAccessible(true);
-					field.set(dst, field.get(src));
+					field.set(dst, key);
 					field.setAccessible(false);
 					return;
 				}
@@ -475,7 +476,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 			ex = exe;
 		}
 		if (ex != null) {
-			this.log.error("Error al copiar el Id (not found)", ex);
+			this.log.error("Error al asignar el Id (not found)", ex);
 		}
 	}
 

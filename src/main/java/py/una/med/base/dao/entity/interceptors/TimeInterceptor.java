@@ -48,7 +48,7 @@ public class TimeInterceptor extends AbstractInterceptor {
 	public boolean interceptable(Operation op, Field field, Object bean) {
 
 		return op != Operation.DELETE;
-	};
+	}
 
 	@Override
 	public void intercept(Operation op, Field f, Object bean) {

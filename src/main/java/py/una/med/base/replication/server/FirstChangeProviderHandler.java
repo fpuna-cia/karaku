@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,7 +70,8 @@ public class FirstChangeProviderHandler {
 	 *            clase a verificar
 	 * @return cambios
 	 */
-	public <T> Bundle<T> getAll(Class<?> clazz) {
+	@Nonnull
+	public <T> Bundle<T> getAll(@Nonnull Class<?> clazz) {
 
 		return getAll(clazz, Bundle.ZERO_ID);
 	}
@@ -82,7 +84,8 @@ public class FirstChangeProviderHandler {
 	 * @return
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <T> Bundle<T> getAll(Class<?> clazz, String id) {
+	@Nonnull
+	public <T> Bundle<T> getAll(@Nonnull Class<?> clazz, @Nonnull String id) {
 
 		notNull(clazz, "Can't get bundle of null class");
 		String currentId = id;
@@ -93,6 +96,9 @@ public class FirstChangeProviderHandler {
 		Collection s = fcp.getChanges(clazz);
 		Bundle<T> bundle = new Bundle<T>();
 		for (Object o : s) {
+			if (o == null) {
+				continue;
+			}
 			bundle.add((T) o, currentId);
 		}
 		return bundle;

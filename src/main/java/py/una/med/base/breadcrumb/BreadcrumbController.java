@@ -93,28 +93,23 @@ public class BreadcrumbController {
 
 		String message = "";
 		switch (actualController.getMode()) {
-			case LIST: {
+			case LIST:
 				return "";
-			}
-			case EDIT: {
+			case EDIT:
 				message = "BREADCRUM_EDIT";
 				break;
-			}
-			case VIEW: {
+			case VIEW:
 				message = "BREADCRUM_VIEW";
 				break;
-			}
-			case DELETE: {
+			case DELETE:
 				message = "BREADCRUM_DELETE";
 				break;
-			}
-			case NEW: {
+			case NEW:
 				message = "BREADCRUM_CREATE";
 				break;
-			}
-			default: {
+			default:
 				message = "BREADCRUM_UNKNOWN";
-			}
+				break;
 		}
 		return I18nHelper.getMessage(message);
 	}

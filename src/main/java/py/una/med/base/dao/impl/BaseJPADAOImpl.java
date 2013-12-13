@@ -2,6 +2,7 @@ package py.una.med.base.dao.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -61,7 +62,7 @@ public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 
 	public List<T> getAllByExample(T example, SearchParam params) {
 
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override

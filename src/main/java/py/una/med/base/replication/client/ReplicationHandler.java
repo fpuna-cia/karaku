@@ -94,7 +94,7 @@ public class ReplicationHandler {
 	private boolean skiped = false;
 
 	@PostConstruct
-	void getThis() {
+	private void getThis() {
 
 		replicationHandler = applicationContext
 				.getBean(ReplicationHandler.class);
@@ -292,5 +292,5 @@ public class ReplicationHandler {
 
 		notNull(ri, "Can't get entity from null Replicationinfo");
 		return ri.getEntityClazz().getSimpleName();
-	};
+	}
 }

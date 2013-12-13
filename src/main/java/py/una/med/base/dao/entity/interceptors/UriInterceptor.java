@@ -3,8 +3,10 @@
  */
 package py.una.med.base.dao.entity.interceptors;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang3.Validate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -51,9 +53,7 @@ public class UriInterceptor extends AbstractInterceptor {
 	@Override
 	public void intercept(Operation op, Field field, Object bean) {
 
-		URI uri = field.getAnnotation(URI.class);
-
-		Validate.validState(uri != null,
+		URI uri = notNull(field.getAnnotation(URI.class),
 				"Intercept a field without uri in UriInterceptor");
 
 		String baseUri = Validate.notNull(uri.baseUri(),
@@ -81,14 +81,12 @@ public class UriInterceptor extends AbstractInterceptor {
 		return getNextSequence(uri.sequenceName());
 	}
 
-	private String byUniqueField(Field f, Object bean, URI uri) {
+	private String byUniqueField(Field f, @Nonnull Object bean, URI uri) {
 
-		Validate.validState(StringUtils.isValid(uri.field()),
+		String field = notNull(uri.field(),
 				"URI with type Field without atribute name %s", f.getName());
 
-		Object fieldValue = getFieldValueOfBean(bean, uri.field());
-
-		Validate.validState(fieldValue != null,
+		Object fieldValue = notNull(getFieldValueOfBean(bean, field),
 				"The unique field %s, is null or empty", f.getName());
 
 		Validate.validState(StringUtils.isValid(fieldValue.toString()),

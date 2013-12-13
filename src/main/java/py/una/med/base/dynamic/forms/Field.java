@@ -23,7 +23,7 @@ public abstract class Field {
 
 	private static int idCounter = 0;
 
-	private final ELHelper elHelper = ELHelper.INSTANCE;
+	private static final ELHelper elHelper = ELHelper.INSTANCE;
 
 	/**
 	 * Construye un nuevo field con un id generado

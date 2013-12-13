@@ -6,6 +6,7 @@ package py.una.med.base.replication.server;
 
 import static py.una.med.base.util.Checker.notNull;
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.envers.AuditReader;
@@ -70,7 +71,7 @@ public class EnversReplicationProvider implements ReplicationProvider {
 	 * 
 	 */
 	@Override
-	public <T extends Shareable> Bundle<T> getChanges(Class<T> clazz,
+	public <T extends Shareable> Bundle<T> getChanges(@Nonnull Class<T> clazz,
 			String lastId) {
 
 		notNull(clazz, "Can't get changes of null entity");
@@ -112,8 +113,10 @@ public class EnversReplicationProvider implements ReplicationProvider {
 
 		Bundle<T> bundle = new Bundle<T>(lastId);
 		for (Object[] o : entities) {
-
-			bundle.add((T) o[0], getId(o[1]));
+			if (o == null) {
+				continue;
+			}
+			bundle.add((T) notNull(o[0]), notNull(getId(o[1])));
 		}
 		return bundle;
 	}
@@ -163,7 +166,8 @@ public class EnversReplicationProvider implements ReplicationProvider {
 		return number;
 	}
 
-	private <T extends Shareable> Bundle<T> getAll(Class<T> clazz) {
+	@Nonnull
+	private <T extends Shareable> Bundle<T> getAll(@Nonnull Class<T> clazz) {
 
 		AuditReader reader = AuditReaderFactory.get(getSession());
 		Number prior = (Number) reader.createQuery()
@@ -178,7 +182,7 @@ public class EnversReplicationProvider implements ReplicationProvider {
 		} else {
 			lastId = String.valueOf(prior);
 		}
-		return firstChangeProviderHandler.getAll(clazz, lastId);
+		return firstChangeProviderHandler.getAll(clazz, notNull(lastId));
 
 	}
 
