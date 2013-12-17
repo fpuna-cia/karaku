@@ -1,16 +1,17 @@
-/**
+/*
  * @SIGHBaseReportController 1.0 12/03/13. Sistema Integral de Gestion
- *                           Hospitalaria
+ * Hospitalaria
  */
 package py.una.med.base.controller.reports;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.springframework.beans.factory.annotation.Autowired;
+import py.una.med.base.util.FormatProvider;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.SIGHConverterV2;
@@ -45,6 +46,8 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 	private List<String> orderSelected;
 
 	private String typeExport;
+	@Autowired
+	private transient FormatProvider fp;
 
 	/**
 	 * Genera la lista de ordenamiento disponible, solo es necesaria en algunos
@@ -81,11 +84,8 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 
 				} else {
 					value = entry.getValue().toString();
-					if (entry.getValue().getClass().getName() == Date.class
-							.getName()) {
-						SimpleDateFormat sdf = new SimpleDateFormat(
-								"dd-MM-yyyy");
-						value = sdf.format(entry.getValue()).toString();
+					if (entry.getValue() instanceof Date) {
+						value = fp.asDate((Date) entry.getValue());
 					} else {
 						value = entry.getValue().toString();
 					}
