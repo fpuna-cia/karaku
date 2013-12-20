@@ -29,20 +29,20 @@ import py.una.med.base.util.StringUtils;
 
 /**
  * Component que provee las funcionalidades para proveer menús.
- *
+ * 
  * <p>
  * Funciones de esta clase:
  * <ol>
  * <li>Obtener el menú del sistema actual, ver {@link #getCurrentSystemMenu()}</li>
  * <li>Construir un menú dado, ver {@link #configMenu(Menu)}</li>
- *
+ * 
  * </ol>
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 17, 2013
- *
+ * 
  */
 @Component
 public class MenuServerLogic {
@@ -60,12 +60,12 @@ public class MenuServerLogic {
 
 	/**
 	 * Recibe un menú y lo construye.
-	 *
+	 * 
 	 * <p>
 	 * Se dice que un menú configurado es aquel que ya esta ordenado, todas sus
 	 * cadenas están internacionalizadas y su URL es absoluta.
 	 * </p>
-	 *
+	 * 
 	 * @param m
 	 *            menú a configurar
 	 * @return menú ya configurado (misma instancia que el pasado como
@@ -79,7 +79,7 @@ public class MenuServerLogic {
 
 	/**
 	 * Retorna el menú del sistema.
-	 *
+	 * 
 	 * @return Menú del sistema actual
 	 */
 	public List<Menu> getCurrentSystemMenu() {
@@ -150,7 +150,7 @@ public class MenuServerLogic {
 			menu.setOrder(Integer.MAX_VALUE);
 		}
 		if (StringUtils.isValid(menu.getName())) {
-			menu.setName(helper.getString(menu.getName()));
+			menu.setName(helper.getString(menu.getName().trim()));
 		}
 		if (menu.getUrl() != null) {
 			String pre = util.get("application.host");
