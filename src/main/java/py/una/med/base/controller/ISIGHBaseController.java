@@ -7,21 +7,13 @@ package py.una.med.base.controller;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import javax.faces.component.UIColumn;
-import javax.faces.component.UIInput;
-import javax.faces.component.UIOutput;
 import javax.faces.model.SelectItem;
-import org.springframework.stereotype.Component;
 import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.dao.BaseDAO;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.reports.Column;
 import py.una.med.base.security.HasDefaultPermissions;
-import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.PagingHelper;
-import py.una.med.base.util.SelectHelper;
 
 /**
  * Interface que define el controlador básico para ser utilizado por una página

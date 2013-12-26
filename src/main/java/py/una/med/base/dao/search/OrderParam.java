@@ -3,6 +3,8 @@
  */
 package py.una.med.base.dao.search;
 
+import javax.annotation.Nonnull;
+
 /**
  * Clase que representa una ordenacion de una consulta
  * 
@@ -14,6 +16,7 @@ public class OrderParam {
 
 	private boolean asc;
 
+	@Nonnull
 	private String columnName;
 
 	/**
@@ -24,7 +27,7 @@ public class OrderParam {
 	 * @param asc
 	 * @param columnName
 	 */
-	public OrderParam(boolean asc, String columnName) {
+	public OrderParam(boolean asc, @Nonnull String columnName) {
 
 		super();
 		this.asc = asc;
@@ -58,6 +61,7 @@ public class OrderParam {
 	 * 
 	 * @return
 	 */
+	@Nonnull
 	public String getColumnName() {
 
 		return columnName;
@@ -68,7 +72,7 @@ public class OrderParam {
 	 * 
 	 * @param columnName
 	 */
-	public void setColumnName(String columnName) {
+	public void setColumnName(@Nonnull String columnName) {
 
 		this.columnName = columnName;
 	}

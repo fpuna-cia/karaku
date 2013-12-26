@@ -4,6 +4,7 @@
 package py.una.med.base.dao.helper;
 
 import java.util.Map;
+import javax.annotation.Nonnull;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -27,8 +28,8 @@ import py.una.med.base.dao.where.Between;
 public final class BetweenExpressionHelper extends BaseClauseHelper<Between> {
 
 	@Override
-	public Criterion getCriterion(Criteria criteria, Between clause,
-			Map<String, String> aliases) {
+	public Criterion getCriterion(Criteria criteria, @Nonnull Between clause,
+			@Nonnull Map<String, String> aliases) {
 
 		String aliasWithProperty = configureAlias(criteria, clause.getPath(),
 				aliases);

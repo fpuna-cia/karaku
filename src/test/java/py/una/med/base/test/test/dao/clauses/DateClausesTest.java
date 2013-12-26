@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.where.Clause;
 import py.una.med.base.dao.where.DateClauses;
-import py.una.med.base.dao.where.ILike;
 import py.una.med.base.test.test.util.layers.ITestDAO;
 import py.una.med.base.test.util.transaction.SQLFiles;
 

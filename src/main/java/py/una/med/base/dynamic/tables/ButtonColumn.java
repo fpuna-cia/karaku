@@ -6,7 +6,6 @@ package py.una.med.base.dynamic.tables;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlCommandButton;
 import py.una.med.base.dynamic.forms.Button;
 
 /**
@@ -40,11 +39,6 @@ public class ButtonColumn extends SimpleHeaderColumn {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.tables.Column#build()
-	 */
 	@Override
 	public void build() {
 

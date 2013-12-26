@@ -3,6 +3,7 @@
  */
 package py.una.med.base.dao.where;
 
+import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
@@ -16,8 +17,8 @@ import org.hibernate.criterion.Restrictions;
  */
 public class Lt implements Clause {
 
-	private final Object value;
-	private final String path;
+	@Nonnull private final Object value;
+	@Nonnull private final String path;
 
 	@Override
 	public Criterion getCriterion() {
@@ -25,17 +26,19 @@ public class Lt implements Clause {
 		return Restrictions.lt(this.path, this.value);
 	}
 
-	public Lt(String path, Object value) {
+	public Lt(@Nonnull String path, @Nonnull Object value) {
 
 		this.path = path;
 		this.value = value;
 	}
 
+	@Nonnull
 	public Object getValue() {
 
 		return this.value;
 	}
 
+	@Nonnull
 	public String getPath() {
 
 		return this.path;

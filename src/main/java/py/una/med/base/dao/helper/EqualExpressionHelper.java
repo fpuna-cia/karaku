@@ -5,6 +5,7 @@
 package py.una.med.base.dao.helper;
 
 import java.util.Map;
+import javax.annotation.Nonnull;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -22,8 +23,8 @@ import py.una.med.base.dao.where.Equal;
 public class EqualExpressionHelper extends BaseClauseHelper<Equal> {
 
 	@Override
-	public Criterion getCriterion(Criteria criteria, Equal clause,
-			Map<String, String> aliases) {
+	public Criterion getCriterion(@Nonnull Criteria criteria,
+			@Nonnull Equal clause, @Nonnull Map<String, String> aliases) {
 
 		String aliasWithProperty = configureAlias(criteria, clause.getPath(),
 				aliases);

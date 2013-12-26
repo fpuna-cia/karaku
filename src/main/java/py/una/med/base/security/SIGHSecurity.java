@@ -9,7 +9,6 @@ import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-import py.una.med.base.controller.ISIGHBaseController;
 import py.una.med.base.log.Log;
 import py.una.med.base.util.StringUtils;
 

@@ -3,20 +3,22 @@
  */
 package py.una.med.base.dao.restrictions;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.where.Clause;
 
 /**
  * Clase que representa las restricciones para la busqueda.
- *
+ * 
  * <p>
  * Todo lo que corresponde al parámetro Where. <i>Notese que se puede utilizar
  * un ejemplo y Clauses para filtrar la Consulta</i>
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @param <T>
  *            Entidad
@@ -28,7 +30,7 @@ public class Where<T> {
 	/**
 	 * Construye un nuevo {@link Where} y lo retorna, la intención de este
 	 * método, es facilitar la craeción de consultas en una sintaxis Fluent-like
-	 *
+	 * 
 	 * @return {@link Where}, nunca <code>null</code>
 	 */
 	public static <T> Where<T> get() {
@@ -47,7 +49,7 @@ public class Where<T> {
 	/**
 	 * Setea una entidad para ser utilizada como ejemplo, al hacer esto todas
 	 * las columnas del ejemplo seran utilizadas para filtrar la consulta.
-	 *
+	 * 
 	 * @param example
 	 *            entidad a ser usada como ejemplo
 	 */
@@ -60,7 +62,7 @@ public class Where<T> {
 	 * Al igual que {@link Where#setExample(EntityExample)}, solo que recibe un
 	 * {@link EntityExample}, el cual tiene mas atributos, y se pueden filtrar
 	 * los atributos a ser utilizados como filtros
-	 *
+	 * 
 	 * @param example
 	 *            ejemplo de entidad para usar de filtro
 	 */
@@ -72,7 +74,7 @@ public class Where<T> {
 	/**
 	 * Retorna el {@link EntityExample} que se utiliza actualemnte para filtrar
 	 * la consulta.
-	 *
+	 * 
 	 * @return {@link EntityExample}
 	 */
 	public EntityExample<T> getExample() {
@@ -83,7 +85,7 @@ public class Where<T> {
 	/**
 	 * Utilize {@link Where#addClause(Clause)} y
 	 * {@link py.una.med.base.dao.where.Clauses} para generar restricciones.
-	 *
+	 * 
 	 * @param crit
 	 *            para agregar.
 	 * @deprecated utilizar {@link #addClause(Clause...)}
@@ -106,7 +108,7 @@ public class Where<T> {
 	 * Si se desea que se agregen como <code>or</code>, ver
 	 * {@link py.una.med.base.dao.where.Or}
 	 * </p>
-	 *
+	 * 
 	 * @param clauses
 	 *            {@link Clause} a ser añadidas, ningún elemento puede ser
 	 *            <code>null</code>
@@ -117,18 +119,15 @@ public class Where<T> {
 		if (this.criterions == null) {
 			this.criterions = new ArrayList<Criterion>(1);
 		}
-		if (this.clauses == null) {
-			this.clauses = new ArrayList<Clause>(1);
-		}
 		for (Clause clause : clauses) {
-			this.clauses.add(clause);
+			this.getClauses().add(clause);
 		}
 		return this;
 	}
 
 	/**
 	 * Retorna la lista de criterios que se utilizan actualmente en la consulta
-	 *
+	 * 
 	 * @return Criterias utilizadas
 	 * @deprecated Use {@link Where#getClauses()} para mantener la independencia
 	 *             del motor
@@ -142,12 +141,16 @@ public class Where<T> {
 	/**
 	 * Retorna la lista de {@link Clause} que se utiliza actualmente para
 	 * filtrar la consulta
-	 *
+	 * 
 	 * @return {@link Clause}'s utilizados
 	 */
+	@Nonnull
 	public List<Clause> getClauses() {
 
-		return this.clauses;
+		if (clauses == null) {
+			clauses = new ArrayList<Clause>(1);
+		}
+		return notNull(clauses);
 	}
 
 	/**
@@ -155,26 +158,26 @@ public class Where<T> {
 	 * de otros.
 	 * <p>
 	 * Esto ocurre cuando se hacen joins del tipo:
-	 *
+	 * 
 	 * <pre>
 	 * select * from Pais p
 	 * 	join p.departamento d
 	 * 	join d.ciudad c
-	 *
+	 * 
 	 * where c.descripcion like 'San%'
-	 *
+	 * 
 	 * </pre>
-	 *
+	 * 
 	 * Si existe un país con varias ciudades cuyo nombre empiece con
 	 * <code>San</code>, entonces ese país será retornado varias veces.
 	 * </p>
-	 *
+	 * 
 	 * <p>
 	 * Este valor es por defecto <code>false</code> (para mantener
 	 * compatibilidad), si se desea que los resultados sean únicos, utilizar
 	 * {@link #makeDistinct()}
 	 * </p>
-	 *
+	 * 
 	 * @return distinct <code>true</code> si no puede repetir,
 	 *         <code>false</code> si los resultados son distintos.
 	 */
@@ -188,22 +191,22 @@ public class Where<T> {
 	 * repetidos.
 	 * <p>
 	 * Convierte la consulta:
-	 *
+	 * 
 	 * <pre>
 	 * select * from Pais p join p.departamento d
 	 * 	join d.ciudad c  where c.descripcion like 'San%'
 	 * </pre>
-	 *
+	 * 
 	 * en:
-	 *
+	 * 
 	 * <pre>
 	 * select distinct(*) from Pais p join p.departamento d
 	 * 	join d.ciudad c  where c.descripcion like 'San%'
 	 * </pre>
-	 *
-	 *
+	 * 
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @see #isDistinct()
 	 * @return this
 	 */

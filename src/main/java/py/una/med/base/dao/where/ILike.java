@@ -1,20 +1,41 @@
 package py.una.med.base.dao.where;
 
+import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 public class ILike implements Clause {
 
+	@Nonnull
 	private String path;
-	private Object value;
-	private MatchMode mode = MatchMode.CONTAIN;
 
+	@Nonnull
+	private Object value;
+
+	@Nonnull
+	private MatchMode mode;
+
+	public ILike(@Nonnull String path, @Nonnull Object value) {
+
+		this(path, value, MatchMode.CONTAIN);
+	}
+
+	public ILike(@Nonnull String path, @Nonnull Object value,
+			@Nonnull MatchMode mode) {
+
+		super();
+		this.path = path;
+		this.value = value;
+		this.mode = mode;
+	}
+
+	@Nonnull
 	public String getPath() {
 
 		return path;
 	}
 
-	public void setPath(String path) {
+	public void setPath(@Nonnull String path) {
 
 		this.path = path;
 	}
@@ -24,7 +45,7 @@ public class ILike implements Clause {
 		return value;
 	}
 
-	public void setValue(Object value) {
+	public void setValue(@Nonnull Object value) {
 
 		this.value = value;
 	}
@@ -36,7 +57,7 @@ public class ILike implements Clause {
 				.getMatchMode());
 	}
 
-	public void setMode(MatchMode mode) {
+	public void setMode(@Nonnull MatchMode mode) {
 
 		this.mode = mode;
 	}
@@ -46,18 +67,4 @@ public class ILike implements Clause {
 		return mode;
 	}
 
-	public ILike(String path, Object value) {
-
-		super();
-		this.path = path;
-		this.value = value;
-	}
-
-	public ILike(String path, Object value, MatchMode mode) {
-
-		super();
-		this.path = path;
-		this.value = value;
-		this.mode = mode;
-	}
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import javassist.util.proxy.MethodHandler;
 import javassist.util.proxy.ProxyFactory;
+import javax.annotation.Nonnull;
 import javax.persistence.FetchType;
 import javax.persistence.NonUniqueResultException;
 import org.hibernate.Criteria;
@@ -124,8 +125,8 @@ public class MainInstanceHelper {
 	 * @throws IllegalAccessException
 	 * @throws Exception
 	 */
-
-	public <T> List<T> configureAndReturnList(final Session session,
+	@Nonnull
+	public <T> List<T> configureAndReturnList(@Nonnull final Session session,
 			final Criteria criteria, final Class<T> clase,
 			final Map<String, String> alias, final Where<T> where)
 			throws IllegalAccessException {
@@ -142,6 +143,10 @@ public class MainInstanceHelper {
 			aRet = applyMainInstance(criteria, alias, where, fields);
 		} else {
 			aRet = criteria.list();
+		}
+
+		if (aRet == null) {
+			return new ArrayList<T>(0);
 		}
 
 		try {
@@ -282,11 +287,12 @@ public class MainInstanceHelper {
 	 * @throws NoSuchMethodException
 	 * @throws Exception
 	 */
-	public void helpList(final List<?> entities, final Session session)
-			throws IllegalAccessException, NoSuchMethodException,
-			InstantiationException, InvocationTargetException {
+	public void helpList(@Nonnull final List<?> entities,
+			@Nonnull final Session session) throws IllegalAccessException,
+			NoSuchMethodException, InstantiationException,
+			InvocationTargetException {
 
-		if ((entities == null) || (entities.isEmpty())) {
+		if (!ListHelper.hasElements(entities)) {
 			return;
 		}
 		Class<?> clazz = entities.get(0).getClass();

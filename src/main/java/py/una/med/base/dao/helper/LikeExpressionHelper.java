@@ -5,6 +5,7 @@
 package py.una.med.base.dao.helper;
 
 import java.util.Map;
+import javax.annotation.Nonnull;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -23,16 +24,9 @@ import py.una.med.base.dao.where.ILike;
 @Component
 public class LikeExpressionHelper extends BaseClauseHelper<ILike> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * py.una.med.base.dao.helper.BaseClauseHelper#getCriterion(org.hibernate
-	 * .Criteria, py.una.med.base.dao.where.Clause, java.util.Map)
-	 */
 	@Override
-	public Criterion getCriterion(Criteria criteria, ILike clause,
-			Map<String, String> aliases) {
+	public Criterion getCriterion(@Nonnull Criteria criteria,
+			@Nonnull ILike clause, @Nonnull Map<String, String> aliases) {
 
 		String aliasWithProperty = configureAlias(criteria, clause.getPath(),
 				aliases);

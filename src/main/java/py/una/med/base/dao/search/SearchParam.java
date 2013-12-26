@@ -3,7 +3,9 @@
  */
 package py.una.med.base.dao.search;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.util.List;
+import javax.annotation.Nonnull;
 import py.una.med.base.util.ListHelper;
 
 public class SearchParam implements ISearchParam {
@@ -13,7 +15,8 @@ public class SearchParam implements ISearchParam {
 	private List<OrderParam> orders;
 
 	@Override
-	public ISearchParam addOrder(OrderParam orderParam) {
+	@Nonnull
+	public ISearchParam addOrder(@Nonnull OrderParam orderParam) {
 
 		if (getOrders() == null) {
 			setOrders(ListHelper.getAsList(orderParam));
@@ -24,7 +27,7 @@ public class SearchParam implements ISearchParam {
 	}
 
 	@Override
-	public ISearchParam addOrder(String columnName, boolean asc) {
+	public ISearchParam addOrder(@Nonnull String columnName, boolean asc) {
 
 		return addOrder(new OrderParam(asc, columnName));
 	}
@@ -32,7 +35,7 @@ public class SearchParam implements ISearchParam {
 	@Override
 	public ISearchParam addOrder(String columnName) {
 
-		return addOrder(new OrderParam(true, columnName));
+		return addOrder(new OrderParam(true, notNull(columnName)));
 	}
 
 	@Override

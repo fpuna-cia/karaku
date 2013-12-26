@@ -7,7 +7,6 @@ package py.una.med.base.replication.client;
 import static py.una.med.base.util.Checker.notNull;
 import java.util.Collection;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.tuple.Pair;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -89,15 +88,11 @@ public class ReplicationHandler {
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	private ReplicationHandler replicationHandler;
-
 	private boolean skiped = false;
 
-	@PostConstruct
-	private void getThis() {
+	private ReplicationHandler getThis() {
 
-		replicationHandler = applicationContext
-				.getBean(ReplicationHandler.class);
+		return applicationContext.getBean(ReplicationHandler.class);
 	}
 
 	/**
@@ -131,7 +126,7 @@ public class ReplicationHandler {
 		beginLocalThread();
 		for (ReplicationInfo ri : toReplicate) {
 			try {
-				replicationHandler.doSync(ri);
+				getThis().doSync(ri);
 			} catch (Exception e) {
 				log.warn("Can't sync entity {}", ri.getEntityClassName(), e);
 			}

@@ -3,6 +3,7 @@
  */
 package py.una.med.base.dao.where;
 
+import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
@@ -16,7 +17,9 @@ import org.hibernate.criterion.Restrictions;
  */
 public class Gt implements Clause {
 
+	@Nonnull
 	private final Object value;
+	@Nonnull
 	private final String path;
 
 	@Override
@@ -25,17 +28,19 @@ public class Gt implements Clause {
 		return Restrictions.gt(this.path, this.value);
 	}
 
-	public Gt(String path, Object value) {
+	public Gt(@Nonnull String path, @Nonnull Object value) {
 
 		this.path = path;
 		this.value = value;
 	}
 
+	@Nonnull
 	public Object getValue() {
 
 		return this.value;
 	}
 
+	@Nonnull
 	public String getPath() {
 
 		return this.path;

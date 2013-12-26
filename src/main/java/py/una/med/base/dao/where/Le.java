@@ -1,5 +1,6 @@
 package py.una.med.base.dao.where;
 
+import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
@@ -13,7 +14,9 @@ import org.hibernate.criterion.Restrictions;
  */
 public class Le implements Clause {
 
+	@Nonnull
 	private Object value;
+	@Nonnull
 	private String path;
 
 	@Override
@@ -22,17 +25,19 @@ public class Le implements Clause {
 		return Restrictions.le(this.path, this.value);
 	}
 
-	public Le(String path, Object value) {
+	public Le(@Nonnull String path, @Nonnull Object value) {
 
 		this.path = path;
 		this.value = value;
 	}
 
+	@Nonnull
 	public Object getValue() {
 
 		return value;
 	}
 
+	@Nonnull
 	public String getPath() {
 
 		return path;

@@ -1,7 +1,7 @@
 package py.una.med.base.dao.search;
 
 import java.util.List;
-import py.una.med.base.dao.BaseDAO;
+import javax.annotation.Nonnull;
 
 /**
  * Interfaz que define parámetros de búsqueda que afecten las clausulas ORDER
@@ -59,6 +59,7 @@ public interface ISearchParam {
 	 *            numero que representa el limite de filas a ser retornadas,
 	 *            null si no hay limite
 	 */
+	@Nonnull
 	ISearchParam setLimit(Integer limit);
 
 	/**
@@ -71,7 +72,8 @@ public interface ISearchParam {
 	 * 
 	 * @return this
 	 */
-	ISearchParam addOrder(OrderParam orderParam);
+	@Nonnull
+	ISearchParam addOrder(@Nonnull OrderParam orderParam);
 
 	/**
 	 * Define un orden a la consulta.
@@ -93,7 +95,8 @@ public interface ISearchParam {
 	 *            <code>false</code> si es descendente.
 	 * @return this
 	 */
-	ISearchParam addOrder(String columnName, boolean asc);
+	@Nonnull
+	ISearchParam addOrder(@Nonnull String columnName, boolean asc);
 
 	/**
 	 * Define un orden a la consulta.
@@ -112,5 +115,6 @@ public interface ISearchParam {
 	 *            <code>pais.descripcion</code>
 	 * @return this
 	 */
+	@Nonnull
 	ISearchParam addOrder(String columnName);
 }

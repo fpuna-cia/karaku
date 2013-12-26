@@ -7,14 +7,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.dao.where.Clause;
 import py.una.med.base.dao.where.Clauses;
 import py.una.med.base.dao.where.MatchMode;
-import py.una.med.base.dao.where.NumberLike;
 import py.una.med.base.test.test.util.layers.ITestDAO;
-import py.una.med.base.test.test.util.layers.TestChild;
-import py.una.med.base.test.test.util.layers.TestEntity;
-import py.una.med.base.test.test.util.layers.TestGrandChild;
 
 /**
  * Clases de prueba para la {@link Clause} {@link NumberLike}

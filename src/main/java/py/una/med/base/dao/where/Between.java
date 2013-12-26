@@ -3,6 +3,7 @@
  */
 package py.una.med.base.dao.where;
 
+import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
 
 /**
@@ -14,8 +15,11 @@ import org.hibernate.criterion.Criterion;
  */
 public class Between implements Clause {
 
+	@Nonnull
 	private final String path;
+	@Nonnull
 	private final Object begin;
+	@Nonnull
 	private final Object end;
 
 	/**
@@ -23,7 +27,8 @@ public class Between implements Clause {
 	 * @param begin
 	 * @param end
 	 */
-	public Between(String path, Object begin, Object end) {
+	public Between(@Nonnull String path, @Nonnull Object begin,
+			@Nonnull Object end) {
 
 		super();
 		this.path = path;
@@ -43,6 +48,7 @@ public class Between implements Clause {
 	/**
 	 * @return path
 	 */
+	@Nonnull
 	public String getPath() {
 
 		return path;
@@ -51,6 +57,7 @@ public class Between implements Clause {
 	/**
 	 * @return end
 	 */
+	@Nonnull
 	public Object getEnd() {
 
 		return end;
@@ -59,6 +66,7 @@ public class Between implements Clause {
 	/**
 	 * @return begin
 	 */
+	@Nonnull
 	public Object getBegin() {
 
 		return begin;

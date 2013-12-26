@@ -4,6 +4,7 @@
  */
 package py.una.med.base.util;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.model.DisplayName;
 
 /**
- *
+ * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 25, 2013
- *
+ * 
  */
 public class SIGHListHelper<T, K extends Serializable> implements
 		KarakuListHelperProvider<T> {
@@ -203,7 +204,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	/**
 	 * Método que debe ser implementado en la clase que desea definir alguna
 	 * configuración especial en la obtención de valores desde la base de datos
-	 *
+	 * 
 	 * <p>
 	 * La implementación por defecto, intenta ordenar por (si no puede ordenar
 	 * por un atributo, pasa al siguiente):
@@ -212,7 +213,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	 * <li>id</li>
 	 * </ol>
 	 * </p>
-	 *
+	 * 
 	 * @see #DEFAULT_SORT_COLUMNS
 	 * @param sp
 	 *            parámetro de búsqueda definido en el paginHelper y a ser
@@ -223,9 +224,12 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		for (String s : DEFAULT_SORT_COLUMNS) {
 			try {
 				this.logic.getDao().getClassOfT().getDeclaredField(s);
-				sp.addOrder(s, true);
+				sp.addOrder(notNull(s), true);
 				return;
-			} catch (Exception e) {
+			} catch (SecurityException e) {
+				LOG.trace("Column: {} not found in table: {}", s, logic
+						.getDao().getTableName());
+			} catch (NoSuchFieldException e) {
 				LOG.trace("Column: {} not found in table: {}", s, logic
 						.getDao().getTableName());
 			}

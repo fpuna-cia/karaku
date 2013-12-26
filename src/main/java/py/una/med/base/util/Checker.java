@@ -44,8 +44,44 @@ public final class Checker {
 		return object;
 	}
 
+	/**
+	 * @deprecated use {@link #isValid(CharSequence, String, Object...)}
+	 * @param string
+	 * @param message
+	 * @param arguments
+	 * @return
+	 */
 	@Nonnull
+	@Deprecated
 	public static <T extends CharSequence> T notValid(T string, String message,
+			Object ... arguments) {
+
+		if ((string == null) || StringUtils.isInvalid(string.toString())) {
+			throw new IllegalArgumentException(format(message, arguments));
+		}
+		return string;
+	}
+
+	/**
+	 * Verifica que una cadena sea válida.
+	 * <p>
+	 * Dentro de este contexto, válida significa que no sea nula y que tenga al
+	 * menos un carácter distinto a un espacio vacío.
+	 * </p>
+	 * 
+	 * @param string
+	 *            cadena a verificar
+	 * @param message
+	 *            mensaje, con <code>%s</code> como <i>wildcard</i> para los
+	 *            argumentos.
+	 * @param arguments
+	 *            argumentos para formatear la cadena
+	 * @return la cadena validada.
+	 * @throws IllegalArgumentException
+	 *             si la cadena no es válida
+	 */
+	@Nonnull
+	public static <T extends CharSequence> T isValid(T string, String message,
 			Object ... arguments) {
 
 		if ((string == null) || StringUtils.isInvalid(string.toString())) {

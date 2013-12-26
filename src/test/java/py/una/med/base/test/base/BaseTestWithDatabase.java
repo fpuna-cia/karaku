@@ -3,21 +3,10 @@
  */
 package py.una.med.base.test.base;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.dao.BaseDAO;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
 import py.una.med.base.test.util.transaction.DatabasePopulatorExecutionListener;
 import py.una.med.base.test.util.transaction.SQLFiles;
 

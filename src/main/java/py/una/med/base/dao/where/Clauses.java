@@ -3,10 +3,9 @@
  */
 package py.una.med.base.dao.where;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.util.List;
-import py.una.med.base.dao.helper.AndExpressionHelper;
-import py.una.med.base.dao.helper.OrExpressionHelper;
-import py.una.med.base.dao.restrictions.Where;
+import javax.annotation.Nonnull;
 
 /**
  * Clase que sirve de punto de acceso común para todas las clauses que son
@@ -43,7 +42,8 @@ public final class Clauses {
 	 * @return {@link ILike}
 	 * @see #numberLike(String, Number, MatchMode)
 	 */
-	public static Clause iLike(final String path, final Object object) {
+	public static Clause iLike(@Nonnull final String path,
+			@Nonnull final Object object) {
 
 		return Clauses.iLike(path, object, MatchMode.CONTAIN);
 	}
@@ -69,8 +69,8 @@ public final class Clauses {
 	 * @return {@link ILike}
 	 * @see #numberLike(String, Number, MatchMode)
 	 */
-	public static Clause iLike(final String path, final Object object,
-			final MatchMode matchMode) {
+	public static Clause iLike(@Nonnull final String path,
+			@Nonnull final Object object, @Nonnull final MatchMode matchMode) {
 
 		return new ILike(path, object, matchMode);
 	}
@@ -94,7 +94,8 @@ public final class Clauses {
 	 * @return {@link NumberLike}
 	 * @see #numberLike(String, Number, MatchMode)
 	 */
-	public static Clause numberLike(final String path, final String number) {
+	public static Clause numberLike(@Nonnull final String path,
+			@Nonnull final String number) {
 
 		return Clauses.numberLike(path, number, MatchMode.CONTAIN);
 	}
@@ -118,7 +119,8 @@ public final class Clauses {
 	 * @return {@link NumberLike}
 	 * @see #numberLike(String, Number, MatchMode)
 	 */
-	public static Clause numberLike(final String path, final Number number) {
+	public static Clause numberLike(@Nonnull final String path,
+			@Nonnull final Number number) {
 
 		return Clauses.numberLike(path, number, MatchMode.CONTAIN);
 	}
@@ -145,8 +147,8 @@ public final class Clauses {
 	 * @return {@link NumberLike}
 	 * @see #numberLike(String, Number, MatchMode)
 	 */
-	public static Clause numberLike(final String path, final String number,
-			final MatchMode matchMode) {
+	public static Clause numberLike(@Nonnull final String path,
+			@Nonnull final String number, @Nonnull final MatchMode matchMode) {
 
 		return new NumberLike(path, number, matchMode);
 	}
@@ -173,13 +175,10 @@ public final class Clauses {
 	 * @return {@link NumberLike}
 	 * @see #numberLike(String, String, MatchMode)
 	 */
-	public static Clause numberLike(final String path, final Number number,
-			final MatchMode matchMode) {
+	public static Clause numberLike(@Nonnull final String path,
+			@Nonnull final Number number, @Nonnull final MatchMode matchMode) {
 
-		if (number == null) {
-			throw new IllegalArgumentException("Number can't be null");
-		}
-		return Clauses.numberLike(path, number.toString(), matchMode);
+		return Clauses.numberLike(path, notNull(number.toString()), matchMode);
 	}
 
 	/**
@@ -251,7 +250,7 @@ public final class Clauses {
 	 * Retorna unas {@link Clause} que es la negación de la pasada como
 	 * parámetro.
 	 * <p>
-	 * Si la {@link Claus1e} X retorna n de los N elementos de un conjunto ,
+	 * Si la {@link Clause} X retorna n de los N elementos de un conjunto ,
 	 * entonces la {@link Clause} {@link Not} retornada por este método,
 	 * retornará los N - n elementos no retornados por la consulta sin negar.
 	 * </p>
@@ -326,7 +325,7 @@ public final class Clauses {
 	 *            referencia con la cual se desea comparar.
 	 * @return {@link Equal}.
 	 */
-	public static Clause eq(String path, Object value) {
+	public static Clause eq(@Nonnull String path, @Nonnull Object value) {
 
 		return new Equal(path, value);
 	}
@@ -351,7 +350,7 @@ public final class Clauses {
 	 *            objeto con la cual se desea comparar.
 	 * @return {@link Ge}.
 	 */
-	public static Clause ge(String path, Object value) {
+	public static Clause ge(@Nonnull String path, @Nonnull Object value) {
 
 		return new Ge(path, value);
 	}
@@ -376,7 +375,7 @@ public final class Clauses {
 	 *            objeto con la cual se desea comparar.
 	 * @return {@link Gt}.
 	 */
-	public static Clause gt(String path, Object value) {
+	public static Clause gt(@Nonnull String path, @Nonnull Object value) {
 
 		return new Gt(path, value);
 	}
@@ -401,7 +400,7 @@ public final class Clauses {
 	 *            objeto con la cual se desea comparar.
 	 * @return {@link Le}.
 	 */
-	public static Clause le(String path, Object value) {
+	public static Clause le(@Nonnull String path, @Nonnull Object value) {
 
 		return new Le(path, value);
 	}
@@ -426,7 +425,7 @@ public final class Clauses {
 	 *            objeto con la cual se desea comparar.
 	 * @return {@link Lt}.
 	 */
-	public static Clause lt(String path, Object value) {
+	public static Clause lt(@Nonnull String path, @Nonnull Object value) {
 
 		return new Lt(path, value);
 	}
@@ -452,7 +451,8 @@ public final class Clauses {
 	 *            hasta
 	 * @return Clause para comparar fechas
 	 */
-	public static Clause between(String path, Object first, Object last) {
+	public static Clause between(@Nonnull String path, @Nonnull Object first,
+			@Nonnull Object last) {
 
 		return new Between(path, first, last);
 	}

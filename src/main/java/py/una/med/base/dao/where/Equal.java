@@ -3,9 +3,9 @@
  */
 package py.una.med.base.dao.where;
 
+import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
 
 /**
  * Implementación de la cláusula SQL <code>=</code>. La implementación es un
@@ -19,7 +19,10 @@ import org.hibernate.criterion.SimpleExpression;
  */
 public class Equal implements Clause {
 
+	@Nonnull
 	private Object value;
+
+	@Nonnull
 	private String path;
 
 	/**
@@ -47,18 +50,22 @@ public class Equal implements Clause {
 	 * @param path
 	 * @param value
 	 */
-	public Equal(String path, Object value) {
+	public Equal(@Nonnull String path, @Nonnull Object value) {
 
 		super();
 		this.value = value;
 		this.path = path;
 	}
 
+	@Nonnull
 	public String getPath() {
+
 		return path;
 	}
 
+	@Nonnull
 	public Object getValue() {
+
 		return value;
 	}
 }

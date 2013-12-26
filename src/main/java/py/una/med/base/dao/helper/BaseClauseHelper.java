@@ -4,11 +4,12 @@
  */
 package py.una.med.base.dao.helper;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import py.una.med.base.dao.where.Clause;
@@ -59,8 +60,8 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	 *            lista de alias
 	 * @return {@link Criterion} formado con los alias.
 	 */
-	public abstract Criterion getCriterion(Criteria criteria, T clause,
-			Map<String, String> aliases);
+	public abstract Criterion getCriterion(@Nonnull Criteria criteria,
+			@Nonnull T clause, @Nonnull Map<String, String> aliases);
 
 	/**
 	 * Retorna la restricción de esta Cláusula, si hace falta agrega los alias
@@ -79,8 +80,8 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	 * @return {@link Criterion} formado con los alias.
 	 */
 	@SuppressWarnings("unchecked")
-	Criterion getCriterion(Criteria criteria, Clause clause,
-			Map<String, String> aliases, boolean typeSafe) {
+	Criterion getCriterion(@Nonnull Criteria criteria, @Nonnull Clause clause,
+			@Nonnull Map<String, String> aliases, boolean typeSafe) {
 
 		return getCriterion(criteria, (T) clause, aliases);
 	}
@@ -104,13 +105,11 @@ public abstract class BaseClauseHelper<T extends Clause> {
 	 * @return alias configurado (y agregado si {@link Criteria} no es
 	 *         <code>null</code>);
 	 */
+	@Nonnull
 	public static String configureAlias(@Nullable Criteria criteria,
-			@NotNull String property, @NotNull final Map<String, String> aliases) {
+			@Nonnull String property, @Nonnull final Map<String, String> aliases) {
 
 		// TODO mover a algo parecido a un AliasHelper
-		if (aliases == null) {
-			throw new IllegalArgumentException("Aliases can not be null");
-		}
 		if (!property.contains(PROPERTY_SEPARATOR)) {
 
 			return property;
@@ -119,7 +118,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 		String[] partes = property.split(PROPERTY_SEPARATOR_REGEX);
 
 		if (partes.length == 1) {
-			return partes[0];
+			return notNull(partes[0]);
 		}
 
 		StringBuilder sbAlias;
@@ -146,7 +145,7 @@ public abstract class BaseClauseHelper<T extends Clause> {
 		}
 
 		sbAlias.append(PROPERTY_SEPARATOR).append(partes[partes.length - 1]);
-		return sbAlias.toString();
+		return notNull(sbAlias.toString());
 	}
 
 	/**

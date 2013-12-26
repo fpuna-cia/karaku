@@ -450,11 +450,17 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	public void configureSearchParam(ISearchParam sp) {
 
 		for (String s : DEFAULT_SORT_COLUMNS) {
+			if (s == null) {
+				continue;
+			}
 			try {
 				this.getBaseLogic().getDao().getClassOfT().getDeclaredField(s);
 				sp.addOrder(s, true);
 				return;
-			} catch (Exception e) {
+			} catch (NoSuchFieldException e) {
+				this.log.trace("Column: {} not found in controller: {}", s,
+						this);
+			} catch (SecurityException e) {
 				this.log.trace("Column: {} not found in controller: {}", s,
 						this);
 			}
@@ -818,13 +824,13 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@Override
 	public String getDeletePermission() {
 
-		return this.getDefaultPermission();
+		return this.getEditPermission();
 	}
 
 	@Override
 	public String getCreatePermission() {
 
-		return this.getDefaultPermission();
+		return this.getEditPermission();
 	}
 
 	@Override

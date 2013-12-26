@@ -48,6 +48,7 @@ import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.log.Log;
 import py.una.med.base.util.KarakuReflectionUtils;
+import py.una.med.base.util.ListHelper;
 
 /**
  * Clase que implementa la interfaz {@link BaseDAO} utilizando {@link Session},
@@ -177,7 +178,9 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	 * @param example
 	 * @return
 	 */
-	private Criteria configureExample(final Criteria criteria, final T example) {
+	@Nonnull
+	private Criteria configureExample(@Nonnull final Criteria criteria,
+			final T example) {
 
 		if (example == null) {
 			return criteria;
@@ -207,6 +210,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	@Override
+	@Nonnull
 	public List<T> getAll(final Where<T> where, final ISearchParam params) {
 
 		Map<String, String> alias = new HashMap<String, String>();
@@ -223,7 +227,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	protected Criteria generateWhere(final Where<T> where,
-			final Map<String, String> alias) {
+			@Nonnull final Map<String, String> alias) {
 
 		Criteria criteria = this.getCriteria();
 		if (where != null) {
@@ -231,6 +235,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 			if ((example != null) && (example.getEntity() != null)) {
 				Example ejemplo = Example.create(example.getEntity());
 				ejemplo.enableLike(example.getMatchMode().getMatchMode());
+				ejemplo.setEscapeCharacter('\\');
 				if (example.isIgnoreCase()) {
 					ejemplo.ignoreCase();
 				}
@@ -251,7 +256,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	protected void configureParams(final ISearchParam params,
-			final Criteria criteria, Map<String, String> alias) {
+			final Criteria criteria, @Nonnull Map<String, String> alias) {
 
 		if (params != null) {
 			if (params.getOrders() != null) {
@@ -307,7 +312,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		isp.setOffset(0);
 
 		List<T> result = this.getAll(where, isp);
-		if ((result == null) || (result.isEmpty())) {
+		if (!ListHelper.hasElements(result)) {
 			return null;
 		}
 		if (result.size() == 1) {
@@ -330,12 +335,13 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	@Override
+	@Nonnull
 	public Class<T> getClassOfT() {
 
-		if (this.clazz == null) {
+		if (clazz == null) {
 			clazz = KarakuReflectionUtils.getParameterizedClass(this, 0);
 		}
-		return this.clazz;
+		return notNull(clazz);
 	}
 
 	@Override
@@ -370,11 +376,12 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		return this.getCount(where);
 	}
 
+	@Nonnull
 	private Criteria getCriteria() {
 
 		Criteria criteria = this.getSession()
 				.createCriteria(this.getClassOfT());
-		return criteria;
+		return notNull(criteria, "can't create criteria");
 	}
 
 	/**
@@ -384,9 +391,11 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	 * 
 	 * @return {@link Session} del contexto actual
 	 */
+	@Nonnull
 	public Session getSession() {
 
-		return this.getSessionFactory().getCurrentSession();
+		return notNull(this.getSessionFactory().getCurrentSession(),
+				"Cant get session");
 	}
 
 	/**
@@ -502,7 +511,9 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		if (select != null) {
 			ProjectionList projections = Projections.projectionList();
 			for (String column : select.getAttributes()) {
-
+				if (column == null) {
+					continue;
+				}
 				String property = BaseClauseHelper.configureAlias(criteria,
 						column, alias);
 

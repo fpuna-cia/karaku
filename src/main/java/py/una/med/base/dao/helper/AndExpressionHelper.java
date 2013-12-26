@@ -3,9 +3,11 @@
  */
 package py.una.med.base.dao.helper;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -28,11 +30,11 @@ public final class AndExpressionHelper extends BaseClauseHelper<And> {
 	private RestrictionHelper helper;
 
 	@Override
-	public Criterion getCriterion(Criteria criteria, And clause,
-			Map<String, String> aliases) {
+	public Criterion getCriterion(@Nonnull Criteria criteria,
+			@Nonnull And clause, @Nonnull Map<String, String> aliases) {
 
 		List<Criterion> criterions = helper.getCriterions(
-				Arrays.asList(clause.getClauses()), criteria, aliases);
+				notNull(Arrays.asList(clause.getClauses())), criteria, aliases);
 		if (criterions.isEmpty()) {
 			return null;
 		}
@@ -40,7 +42,8 @@ public final class AndExpressionHelper extends BaseClauseHelper<And> {
 			return criterions.get(0);
 		}
 
-		Criterion toRet = Restrictions.and(criterions.get(0), criterions.get(1));
+		Criterion toRet = Restrictions
+				.and(criterions.get(0), criterions.get(1));
 		for (int i = 2; i < criterions.size(); i++) {
 			toRet = Restrictions.and(toRet, criterions.get(i));
 		}

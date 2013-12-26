@@ -30,7 +30,7 @@ import py.una.med.base.util.StringUtils;
 public class UriInterceptor extends AbstractInterceptor {
 
 	@Autowired
-	SessionFactory factory;
+	private SessionFactory factory;
 
 	@Override
 	public Class<?>[] getObservedTypes() {
@@ -65,7 +65,7 @@ public class UriInterceptor extends AbstractInterceptor {
 				finalUri = byUniqueField(field, bean, uri);
 				break;
 			case SEQUENCE:
-				finalUri = bySequence(field, bean, uri);
+				finalUri = bySequence(field, uri);
 				break;
 		}
 
@@ -73,7 +73,7 @@ public class UriInterceptor extends AbstractInterceptor {
 
 	}
 
-	private String bySequence(Field f, Object bean, URI uri) {
+	private String bySequence(Field f, URI uri) {
 
 		Validate.validState(StringUtils.isValid(uri.sequenceName()),
 				"URI with type Sequence without sequence name %s", f.getName());

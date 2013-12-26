@@ -1,5 +1,6 @@
 package py.una.med.base.dao.where;
 
+import javax.annotation.Nonnull;
 import org.hibernate.Criteria;
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
@@ -42,10 +43,11 @@ import py.una.med.base.dao.where.MatchMode;
  */
 public class NumberLike implements Criterion, Clause {
 
+	@Nonnull
 	private String propiedad;
-
+	@Nonnull
 	private String valor;
-
+	@Nonnull
 	private MatchMode matchMode;
 
 	/**
@@ -54,7 +56,7 @@ public class NumberLike implements Criterion, Clause {
 	 * 
 	 * @param propiedad
 	 */
-	public void setPropiedad(String propiedad) {
+	public void setPropiedad(@Nonnull String propiedad) {
 
 		this.propiedad = propiedad;
 	}
@@ -64,6 +66,7 @@ public class NumberLike implements Criterion, Clause {
 	 * 
 	 * @return path al atributo
 	 */
+	@Nonnull
 	public String getPropiedad() {
 
 		return propiedad;
@@ -88,7 +91,8 @@ public class NumberLike implements Criterion, Clause {
 	 * @param matchMode
 	 *            por el cual se buscará la subcadena
 	 */
-	public NumberLike(String propiedad, String valor, MatchMode matchMode) {
+	public NumberLike(@Nonnull String propiedad, @Nonnull String valor,
+			@Nonnull MatchMode matchMode) {
 
 		super();
 		this.matchMode = matchMode;
@@ -110,7 +114,7 @@ public class NumberLike implements Criterion, Clause {
 	 * @param valor
 	 *            numero con el cual se comparará
 	 */
-	public NumberLike(String propiedad, String valor) {
+	public NumberLike(@Nonnull String propiedad, @Nonnull String valor) {
 
 		this(propiedad, valor, MatchMode.CONTAIN);
 	}

@@ -4,7 +4,7 @@
  */
 package py.una.med.base.replication.server;
 
-import static py.una.med.base.util.Checker.notValid;
+import static py.una.med.base.util.Checker.isValid;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
@@ -154,7 +154,7 @@ public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 	 */
 	public Bundle<T> getChanges(String lastId) {
 
-		String id = notValid(lastId, "Can not get changes of invalid lastid");
+		String id = isValid(lastId, "Can not get changes of invalid lastid");
 
 		Bundle<E> changes = replicationProvider.getChanges(clazzEntity, id);
 

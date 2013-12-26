@@ -67,12 +67,12 @@ public class WatcherHandler {
 	 */
 	@SuppressWarnings("unchecked")
 	@Nonnull
-	public <T> Operation redirect(@Nonnull Operation operation, Class<T> clazz,
-			T dc) {
+	public <T> Operation redirect(@Nonnull Operation operation,
+			@Nonnull Class<T> clazz, @Nonnull T dc) {
 
-		Set<Watcher<?>> watchers = getWatchers(clazz);
+		Set<Watcher<?>> clazzwatchers = getWatchers(clazz);
 
-		for (Watcher<?> watcher : watchers) {
+		for (Watcher<?> watcher : clazzwatchers) {
 			Watcher<T> wath = (Watcher<T>) watcher;
 			Operation nOp = wath.redirect(operation, dc);
 			if (!nOp.equals(operation)) {

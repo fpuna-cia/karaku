@@ -5,7 +5,6 @@ package py.una.med.base.controller;
 
 import java.io.IOException;
 import java.util.Date;
-import javax.faces.application.ProjectStage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +103,7 @@ public class MenuController {
 	 * Retorna true si la aplicación esta en estado de desarrollo y false si
 	 * esta en otro estado.
 	 * 
-	 * @see ProjectStage
+	 * @see javax.faces.application.ProjectStage
 	 * @return true si es develop, false en otro caso
 	 */
 	public boolean isDevelop() {

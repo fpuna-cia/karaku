@@ -32,6 +32,10 @@ import py.una.med.base.util.ControllerHelper;
 public abstract class SIGHBaseReportDetail<T> implements
 		ISIGHBaseReportDetail<T> {
 
+	/**
+	 * 
+	 */
+	private static final String ERROR_MESSAGE = "Can't generate report";
 	private static final String BASE_REPORT_CREATE_FAILURE = "BASE_REPORT_CREATE_FAILURE";
 	private static final String BASE_REPORT_CREATE_SUCCESS = "BASE_REPORT_CREATE_SUCCESS";
 	@Log
@@ -78,7 +82,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
-			log.warn("Can't generate report", e);
+			log.warn(ERROR_MESSAGE, e);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
@@ -96,7 +100,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
-			log.warn("Can't generate report", e);
+			log.warn(ERROR_MESSAGE, e);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
@@ -113,7 +117,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
-			log.warn("Can't generate report", e);
+			log.warn(ERROR_MESSAGE, e);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}
@@ -131,7 +135,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
-			log.warn("Can't generate report", e);
+			log.warn(ERROR_MESSAGE, e);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}

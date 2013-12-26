@@ -8,6 +8,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -39,6 +40,7 @@ public final class ListHelper {
 	 *            array no nulo de elementos
 	 * @return {@link ArrayList} conteniendo los elementos no nulos pasados.
 	 */
+	@Nonnull
 	public static <T> List<T> getAsList(@NotNull T ... items) {
 
 		ArrayList<T> aRet = new ArrayList<T>(items.length);

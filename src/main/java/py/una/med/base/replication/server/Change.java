@@ -3,7 +3,7 @@
  */
 package py.una.med.base.replication.server;
 
-import static py.una.med.base.util.Checker.notValid;
+import static py.una.med.base.util.Checker.isValid;
 import javax.annotation.Nonnull;
 
 /**
@@ -62,6 +62,6 @@ public class Change<T> {
 	 */
 	void setId(@Nonnull String id) {
 
-		this.id = notValid(id, "Id of a change can not be null");
+		this.id = isValid(id, "Id of a change can not be null");
 	}
 }

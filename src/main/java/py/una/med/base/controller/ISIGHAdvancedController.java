@@ -4,8 +4,6 @@
 package py.una.med.base.controller;
 
 import java.io.Serializable;
-import py.una.med.base.exception.UniqueConstraintException;
-import py.una.med.base.model.Unique;
 
 /**
  * Interfaz que define las funcionalidades de un controllador avanzado

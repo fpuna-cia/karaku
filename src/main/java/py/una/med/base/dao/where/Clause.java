@@ -4,10 +4,6 @@
 package py.una.med.base.dao.where;
 
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.stereotype.Component;
-import py.una.med.base.dao.helper.BaseClauseHelper;
-import py.una.med.base.dao.helper.RestrictionHelper;
 
 /**
  * Interfaz base para todas las cláusulas soportadas por Karaku, una cláusula

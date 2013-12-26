@@ -5,6 +5,7 @@
 package py.una.med.base.dao.helper;
 
 import java.util.Map;
+import javax.annotation.Nonnull;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -23,8 +24,8 @@ import py.una.med.base.dao.where.Gt;
 public class GtExpressionHelper extends BaseClauseHelper<Gt> {
 
 	@Override
-	public Criterion getCriterion(Criteria criteria, Gt gt,
-			Map<String, String> aliases) {
+	public Criterion getCriterion(@Nonnull Criteria criteria, @Nonnull Gt gt,
+			@Nonnull Map<String, String> aliases) {
 
 		String aliasWithProperty = configureAlias(criteria, gt.getPath(),
 				aliases);
