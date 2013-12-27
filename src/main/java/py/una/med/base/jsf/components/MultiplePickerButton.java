@@ -14,7 +14,6 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.UINamingContainer;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ComponentSystemEvent;
 import org.richfaces.component.UIExtendedDataTable;
 import py.una.med.base.dynamic.forms.MultiplePickerField;
 import py.una.med.base.util.ListHelper;
@@ -76,7 +75,9 @@ public final class MultiplePickerButton extends UINamingContainer {
 			return "";
 		}
 		List<Object> newSelected = new ArrayList<Object>(values.size());
-		checkedItems = getCheckedItems();
+		if (getCheckedItems() != null) {
+			checkedItems = getCheckedItems();
+		}
 
 		for (int i = 0; i < values.size(); i++) {
 			newSelected.add(values.get(i));
@@ -101,13 +102,6 @@ public final class MultiplePickerButton extends UINamingContainer {
 	}
 
 	/**
-	 *
-	 **/
-	public void preRenderDataTable(ComponentSystemEvent event) {
-
-	}
-
-	/**
 	 * Handler llamado cuando se hace click en el checkbox ubicado en el header,
 	 * ocasionando que todos los elementos se seleccionen o ninguno se
 	 * seleccione.
@@ -116,8 +110,9 @@ public final class MultiplePickerButton extends UINamingContainer {
 	public void onCheckboxHeaderClicked(final AjaxBehaviorEvent event) {
 
 		setSelectAllChecked(!isSelectAllChecked());
-
-		checkedItems = getCheckedItems();
+		if (getCheckedItems() != null) {
+			checkedItems = getCheckedItems();
+		}
 		if (checkedItems == null) {
 			checkedItems = new HashMap<Object, Boolean>();
 		}
@@ -278,6 +273,7 @@ public final class MultiplePickerButton extends UINamingContainer {
 
 		this.checkedItems = checkedItems;
 		put(CHECKED_ITEMS, checkedItems);
+
 	}
 
 	public void setSelectedItemsTemp(List<Object> selectedItemsTemp) {
