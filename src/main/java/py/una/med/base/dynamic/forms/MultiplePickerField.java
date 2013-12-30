@@ -100,6 +100,9 @@ public class MultiplePickerField<T> extends LabelField {
 
 	public List<T> getValues() {
 
+		if (values == null) {
+			return Collections.emptyList();
+		}
 		return values;
 	}
 
