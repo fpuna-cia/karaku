@@ -12,6 +12,7 @@ import static py.una.med.base.util.DateUtils.cloneCalendar;
 import static py.una.med.base.util.DateUtils.cloneDate;
 import static py.una.med.base.util.DateUtils.isAfterOrEqual;
 import static py.una.med.base.util.DateUtils.isBeforeOrEqual;
+import static py.una.med.base.util.DateUtils.isBefore;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.Test;
@@ -96,5 +97,20 @@ public class DateUtilsTest extends BaseTest {
 		assertTrue(isAfterOrEqual(null, new Date()));
 		assertTrue(isAfterOrEqual(null, null));
 		assertFalse(isAfterOrEqual(dAfter, new Date()));
+	}
+
+	@Test
+	public void testBefore() throws Exception {
+
+		Calendar before = Calendar.getInstance();
+		before.add(Calendar.MINUTE, -1);
+		Date dBefore = before.getTime();
+
+		assertTrue(isBefore(dBefore, new Date()));
+		assertFalse(isBefore(dBefore, dBefore));
+		assertFalse(isBefore(null, new Date()));
+		assertTrue(isBefore(new Date(), null));
+		assertFalse(isBefore(null, null));
+		assertFalse(isBefore(new Date(), dBefore));
 	}
 }

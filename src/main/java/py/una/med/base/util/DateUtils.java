@@ -57,7 +57,7 @@ public final class DateUtils {
 	}
 
 	/**
-	 * Determina si una fecha ocurrio antes que otra.
+	 * Determina si una fecha ocurrio antes que otra o si ambas son iguales.
 	 * 
 	 * <ol>
 	 * <li>Si ambas fechas son <code>null</code> o iguales, entonces retorna
@@ -94,7 +94,42 @@ public final class DateUtils {
 	}
 
 	/**
-	 * Determina si una fecha ocurrio antes que otra.
+	 * Determina si una fecha es anterior a otra.
+	 * 
+	 * <ol>
+	 * <li>Si ambas fechas son <code>null</code> o iguales entonces retorna
+	 * <code>false</code></li>
+	 * <li>Si la fecha <code>before</code> es <code>null</code>, retorna
+	 * <code>false</code></li>
+	 * <li>Si la fecha <code>after</code> es <code>null</code> retorna
+	 * <code>true</code></li>
+	 * <li>Si <code>before</code> ocurrió antes que <code>after</code> retorna
+	 * <code>true</code></li>
+	 * 
+	 * 
+	 * @param before
+	 *            primera fecha, nulable.
+	 * @param after
+	 *            fecha después, nulable
+	 * @return condiciones especificadas arriba.
+	 */
+	public static boolean isBefore(@Nullable Date before, @Nullable Date after) {
+
+		if ((before == null) && (after == null)) {
+			return false;
+		}
+		if (before == null) {
+			return false;
+		}
+
+		if (after == null) {
+			return true;
+		}
+		return before.before(after);
+	}
+
+	/**
+	 * Determina si una fecha ocurrio despúes que otra o si ambas son iguales.
 	 * 
 	 * <ol>
 	 * <li>Si ambas fechas son <code>null</code> o iguales, entonces retorna
@@ -129,4 +164,5 @@ public final class DateUtils {
 		}
 		return before.before(after) || before.equals(after);
 	}
+
 }
