@@ -101,7 +101,15 @@ public class ReplicationLogic implements IReplicationLogic {
 		Where<ReplicationInfo> where = Where.get();
 		where.addClause(Clauses.eq("active", true));
 
-		List<ReplicationInfo> loaded = dao.getAll(where, getSearchParam());
+		List<ReplicationInfo> loaded = null;
+
+		try{
+			//XXX: Averiguar porqué el SessionFactory es null al obtener el listado de replicaciones pendientes.
+			loaded = dao.getAll(where, getSearchParam());
+		}
+		catch (NullPointerException e) {
+			log.error("Fatal Error while retrieving Replications To Do!!");
+		}
 
 		if (loaded == null) {
 			return Collections.emptySet();
