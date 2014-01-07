@@ -1,4 +1,4 @@
-/**
+/*
  * @ControllerHelper 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
@@ -199,6 +199,8 @@ public class ControllerHelper {
 	}
 
 	/**
+	 * Emite un mensaje recibido como parámetro en el componente cuyo
+	 * identificador es recibido como parámetro.
 	 * 
 	 * @param severity
 	 *            Severidad {@link FacesMessage}
@@ -215,8 +217,7 @@ public class ControllerHelper {
 
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 
-		FacesMessage msg = new FacesMessage(severity, getMessage(summary),
-				detail);
+		FacesMessage msg = new FacesMessage(severity, summary, detail);
 		facesContext.addMessage(componentId, msg);
 	}
 

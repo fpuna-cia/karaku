@@ -8,11 +8,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+import static py.una.med.base.util.DateUtils.clearDate;
 import static py.una.med.base.util.DateUtils.cloneCalendar;
 import static py.una.med.base.util.DateUtils.cloneDate;
 import static py.una.med.base.util.DateUtils.isAfterOrEqual;
-import static py.una.med.base.util.DateUtils.isBeforeOrEqual;
 import static py.una.med.base.util.DateUtils.isBefore;
+import static py.una.med.base.util.DateUtils.isBeforeOrEqual;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.Test;
@@ -112,5 +113,26 @@ public class DateUtilsTest extends BaseTest {
 		assertTrue(isBefore(new Date(), null));
 		assertFalse(isBefore(null, null));
 		assertFalse(isBefore(new Date(), dBefore));
+	}
+
+	@Test
+	public void testClearDate() throws Exception {
+
+		Calendar dateClear = Calendar.getInstance();
+		dateClear.set(Calendar.HOUR_OF_DAY, 0);
+		dateClear.set(Calendar.MINUTE, 0);
+		dateClear.set(Calendar.SECOND, 0);
+		dateClear.set(Calendar.MILLISECOND, 0);
+
+		Calendar date = Calendar.getInstance();
+		date.set(Calendar.HOUR_OF_DAY, 12);
+		date.set(Calendar.MINUTE, 12);
+		date.set(Calendar.SECOND, 12);
+		date.set(Calendar.MILLISECOND, 12);
+
+		assertEquals(clearDate(date.getTime()), dateClear.getTime());
+		assertEquals(clearDate(Calendar.getInstance().getTime()),
+				dateClear.getTime());
+
 	}
 }

@@ -165,4 +165,31 @@ public final class DateUtils {
 		return before.before(after) || before.equals(after);
 	}
 
+	/**
+	 * Limpia la fecha recibida como parámetro, esto es sin horas, minutos,
+	 * segundos ni milisegundos.
+	 * <ol>
+	 * <li>Si la fecha es<code>null</code>, entonces retorna <code>null</code></li>
+	 * <li>Si la fecha no es <code>null</code>, retorna
+	 * <code>la fecha sin horas, minutos, segundos ni milisegundos.</code></li>
+	 * 
+	 * </ol>
+	 * 
+	 * @param date
+	 * @return condiciones especificadas arriba.
+	 */
+	public static Date clearDate(Date date) {
+
+		if (date == null) {
+			return null;
+		}
+		Calendar nuevo = Calendar.getInstance();
+		nuevo.setTime(date);
+		nuevo.set(Calendar.MILLISECOND, 0);
+		nuevo.set(Calendar.SECOND, 0);
+		nuevo.set(Calendar.MINUTE, 0);
+		nuevo.set(Calendar.HOUR_OF_DAY, 0);
+		return nuevo.getTime();
+	}
+
 }
