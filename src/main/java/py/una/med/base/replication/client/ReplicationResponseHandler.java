@@ -8,8 +8,9 @@ import static py.una.med.base.util.Checker.notNull;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
@@ -29,12 +30,17 @@ public class ReplicationResponseHandler {
 	private static final String[] CHANGE_FIELDS = { "entities", "data" };
 
 	/**
+	 * Retorna un par inmutable que consta del ultimo identificador como llave,
+	 * y la lista de cambios como valor.
+	 * 
 	 * @param t1
-	 * @return
+	 *            objeto retornado
+	 * @return pair, nunca <code>null</code>, que consta de la llave la ultima
+	 *         clave, y el valor la lista de cambios (no nula);
 	 */
 	public Pair<String, Collection<?>> getChanges(Object t1) {
 
-		return new MutablePair<String, Collection<?>>(getLastId(t1),
+		return new ImmutablePair<String, Collection<?>>(getLastId(t1),
 				getItems(t1));
 	}
 
@@ -62,9 +68,9 @@ public class ReplicationResponseHandler {
 		f.setAccessible(true);
 		Collection c = (Collection) ReflectionUtils.getField(f, response);
 
-		notNull(c, "Null collection is not allowed in a replication response, "
-				+ "please send a empty list. Response type: %s", response
-				.getClass().getSimpleName());
+		if (c == null) {
+			return Collections.EMPTY_LIST;
+		}
 		return c;
 	}
 
