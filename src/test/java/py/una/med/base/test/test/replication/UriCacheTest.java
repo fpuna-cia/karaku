@@ -11,9 +11,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -27,12 +24,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
-import py.una.med.base.replication.UriCache;
 import py.una.med.base.test.base.BaseTestWithDatabase;
 import py.una.med.base.test.configuration.TransactionTestConfiguration;
 import py.una.med.base.test.util.TestDateProvider;
+import py.una.med.base.test.util.TestUriCache;
 import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.util.DateProvider;
 
 /**
  * 
@@ -137,62 +133,6 @@ public class UriCacheTest extends BaseTestWithDatabase {
 
 		Entity2 e = cache.getByUri(Entity2.class, "asdklfjasdkl");
 		System.out.println(e.getId());
-	}
-
-	/**
-	 * Componente que hereda de {@link UriCache} para dar mejor soporte a test.
-	 * 
-	 * <p>
-	 * Se crea el método {@link #hasInCache(String)} para que se pueda verificar
-	 * fácilmente si se obtuvieron las referencias.
-	 * </p>
-	 * <p>
-	 * Y el método {@link #getEntityName(Class)} se sobreescribe para dar
-	 * soporte a clases anidadas como las que se utilizan en este test.
-	 * </p>
-	 * 
-	 * @author Arturo Volpe
-	 * @since 2.2.8
-	 * @version 1.0 Nov 27, 2013
-	 * 
-	 */
-	static class TestUriCache extends UriCache {
-
-		Map<String, Date> inserts = new HashMap<String, Date>();
-
-		@Autowired
-		private DateProvider dateProvider;
-
-		@Override
-		protected void addToCache(String uri, Object entity) {
-
-			super.addToCache(uri, entity);
-			inserts.put(uri, dateProvider.getNow());
-		}
-
-		public boolean hasBeenAddedNow(String uri) {
-
-			return inserts.get(uri).equals(dateProvider.getNow());
-		}
-
-		public boolean hasInCache(String uri) {
-
-			return getMap().containsKey(uri);
-		}
-
-		public int getCount() {
-
-			return getMap().size();
-		}
-
-		/**
-		 * Se sobreescribe para dar soporte a clases nestedas.
-		 */
-		@Override
-		protected String getEntityName(Class<?> clazz) {
-
-			return "UriCacheTest$" + super.getEntityName(clazz);
-		}
 	}
 
 	@Entity
