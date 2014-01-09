@@ -15,7 +15,7 @@ import py.una.med.base.security.SIGHUserService;
 
 /**
  * Clase que provee autenticación para usuarios.
- *
+ * 
  * <p>
  * Esta pensada para ser usada con un
  * {@link org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint}
@@ -32,12 +32,12 @@ import py.una.med.base.security.SIGHUserService;
  * {@link #additionalAuthenticationChecks(UserDetails, UsernamePasswordAuthenticationToken)}
  * se cargan los permisos necesarios para que pueda navegar.
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Aug 6, 2013
  * @see UserDetails
- *
+ * 
  */
 public class KarakuWSAuthenticationProvider extends
 		AbstractUserDetailsAuthenticationProvider implements
@@ -63,9 +63,8 @@ public class KarakuWSAuthenticationProvider extends
 			SIGHUserDetails user = new SIGHUserDetails();
 			user.setUserName(username);
 			return user;
-		} else {
-			throw new UsernameNotFoundException(username);
 		}
+		throw new UsernameNotFoundException(username);
 	}
 
 }

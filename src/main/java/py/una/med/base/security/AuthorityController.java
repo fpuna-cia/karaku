@@ -3,6 +3,8 @@
  */
 package py.una.med.base.security;
 
+import static py.una.med.base.util.Checker.notNull;
+import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,14 +14,14 @@ import py.una.med.base.util.StringUtils;
 
 /**
  * Controller que se encarga de verificar permisos.
- *
- *
+ * 
+ * 
  * TODO cambiar a AuthorityService
- *
+ * 
  * @author Arturo Volpe
  * @version 1.1
  * @since 1.0
- *
+ * 
  */
 @Service
 public class AuthorityController {
@@ -37,7 +39,7 @@ public class AuthorityController {
 	 * {@link SIGHUserGrantedAuthority}), compara el permiso que da cada una de
 	 * esas autoridades con el permiso solicitado, si no tiene el permiso
 	 * retorna falso, y loguea un mensaje de error
-	 *
+	 * 
 	 * @param rol
 	 *            a probar
 	 * @return true si tiene permiso, false en otro caso
@@ -49,17 +51,19 @@ public class AuthorityController {
 
 	/**
 	 * Retorna el usuario que actualmente esta autenticado en el sistema.
-	 *
+	 * 
 	 * @return {@link String} representando el nombre del usuario.
 	 */
+	@Nonnull
 	public String getUsername() {
 
-		return SecurityContextHolder.getContext().getAuthentication().getName();
+		return notNull(SecurityContextHolder.getContext().getAuthentication()
+				.getName(), "Can't get the current username");
 	}
 
 	/**
 	 * Retorna el usuario que actualmente esta autenticado en el sistema.
-	 *
+	 * 
 	 * @return {@link String} representando el nombre del usuario.
 	 * @see #getUsername()
 	 */
@@ -73,7 +77,7 @@ public class AuthorityController {
 	 * lo que permite a clases que no están en el mismo alcance (
 	 * {@link WebApplicationContext#SCOPE_SESSION}) puedan realizar controles de
 	 * permisos.
-	 *
+	 * 
 	 * @param rol
 	 *            nombre del permiso.
 	 * @return <code>true</code> si se encuentra el permiso, <code>false</code>

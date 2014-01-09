@@ -4,6 +4,7 @@
 package py.una.med.base.services.client;
 
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
@@ -44,7 +45,7 @@ public interface WSInformationProvider {
 	 * @param internalTag
 	 * @return {@link Info} que contiene los detalles del servicio
 	 */
-	List<Info> getInfoByTag(String internalTag);
+	List<Info> getInfoByTag(@Nonnull String internalTag);
 
 	/**
 	 * PlaceHolder utilizado para manipular datos de servicios

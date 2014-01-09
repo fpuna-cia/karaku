@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,7 @@ public class WSMenuProvider extends AbstractMenuProvider {
 	private int numberOfMenus;
 	private int currentCount;
 
+	@Nonnull
 	public static final String MENU_TAG = "WS_MENU";
 
 	/**

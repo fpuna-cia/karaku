@@ -95,17 +95,16 @@ public class KarakuWSClientConfiguration {
 
 		if (properties.getBoolean(KarakuPersistence.KARAKU_JPA_ENABLED, true)) {
 			return new EntityURLProvider();
-		} else {
-			String url = properties.get("karaku.menu.json_urls", "urls.json");
-			InputStream is;
-			if (url.startsWith("/")) {
-				is = new FileInputStream(url);
-			} else {
-				is = new ClassPathResource(properties.get(
-						"karaku.menu.json_urls", "urls.json")).getInputStream();
-			}
-			return new JsonURLProvider(is);
 		}
+		String url = properties.get("karaku.menu.json_urls", "urls.json");
+		InputStream is;
+		if (url.startsWith("/")) {
+			is = new FileInputStream(url);
+		} else {
+			is = new ClassPathResource(properties.get("karaku.menu.json_urls",
+					"urls.json")).getInputStream();
+		}
+		return new JsonURLProvider(is);
 	}
 
 	/**

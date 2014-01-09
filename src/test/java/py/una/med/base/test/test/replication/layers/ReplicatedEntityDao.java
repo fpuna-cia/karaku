@@ -3,7 +3,7 @@
  */
 package py.una.med.base.test.test.replication.layers;
 
-import static py.una.med.base.util.Checker.notNull;
+import javax.annotation.Nonnull;
 import org.hibernate.Session;
 import py.una.med.base.repo.SIGHBaseDao;
 
@@ -25,13 +25,14 @@ public class ReplicatedEntityDao extends SIGHBaseDao<ReplicatedEntity, Long> {
 	}
 
 	@Override
-	public Session getSession() {
+	public @Nonnull
+	Session getSession() {
 
-		if (session == null) {
-			return super.getSession();
-		} else {
-			return notNull(session);
+		Session toRet = session;
+		if (toRet == null) {
+			toRet = super.getSession();
 		}
+		return toRet;
 	}
 
 }

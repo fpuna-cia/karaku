@@ -135,6 +135,28 @@ public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 
 	}
 
+	/**
+	 * Crea una nueva instancia, recuperando información acerca de la entidad y
+	 * su DTO (para obtener converters).
+	 * 
+	 * <p>
+	 * Initialize puede ser false, si no se desea que se obtenga por reflexión
+	 * los tipos parameterizados, si se utiliza este camino, se debe invocar a
+	 * {@link #setClazzDTO(Class)} y {@link #setClazzEntity(Class)} para que el
+	 * componente se mantenga consistente.
+	 * </p>
+	 * <p>
+	 * Es útil utilizar este método con <code>false</code> para poder hacer que
+	 * el componente mismo sea transaccional.
+	 * </p>
+	 */
+	public AbstractReplicationEndpoint(@Nonnull Class<E> entity,
+			@Nonnull Class<T> dto) {
+
+		clazzEntity = entity;
+		clazzDTO = dto;
+	}
+
 	@PostConstruct
 	void postConstruct() {
 
@@ -186,4 +208,5 @@ public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 		}
 		return toRet;
 	}
+
 }

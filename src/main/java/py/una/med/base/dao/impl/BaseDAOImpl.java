@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
@@ -250,8 +251,12 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 				}
 				this.configureExample(criteria, example.getEntity());
 			}
+			for (String s : where.getFetchs()) {
+				criteria.setFetchMode(s, FetchMode.JOIN);
+			}
+			helper.applyClauses(criteria, where, alias);
 		}
-		this.helper.applyClauses(criteria, where, alias);
+
 		return criteria;
 	}
 

@@ -192,9 +192,8 @@ public class KarakuPersistence {
 		if (this.enabled) {
 			return new HibernateTransactionManager(this.sessionFactory()
 					.getObject());
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**

@@ -52,11 +52,10 @@ public class ServiceUtil {
 
 		if (date == null) {
 			return null;
-		} else {
-			GregorianCalendar gc = new GregorianCalendar();
-			gc.setTimeInMillis(date.getTime());
-			return df.newXMLGregorianCalendar(gc);
 		}
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTimeInMillis(date.getTime());
+		return df.newXMLGregorianCalendar(gc);
 	}
 
 	/**
@@ -72,8 +71,7 @@ public class ServiceUtil {
 
 		if (xgc == null) {
 			return null;
-		} else {
-			return xgc.toGregorianCalendar().getTime();
 		}
+		return xgc.toGregorianCalendar().getTime();
 	}
 }

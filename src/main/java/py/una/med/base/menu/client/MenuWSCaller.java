@@ -16,11 +16,11 @@ import py.una.med.base.services.client.WSCaller;
 import py.una.med.base.services.client.WSInformationProvider.Info;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 18, 2013
- *
+ * 
  */
 @Component
 public class MenuWSCaller {
@@ -61,8 +61,7 @@ public class MenuWSCaller {
 		if ("true".equalsIgnoreCase(response.getSkipRoot())
 				|| "true".equalsIgnoreCase(response.getMenu().getSkipThis())) {
 			return response.getMenu().getItems();
-		} else {
-			return Arrays.asList(response.getMenu());
 		}
+		return Arrays.asList(response.getMenu());
 	}
 }

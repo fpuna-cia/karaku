@@ -211,10 +211,9 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 				// TODO ver la forma de propagar
 				throw new KarakuRuntimeException("Can't convert", enf);
 			}
-		} else {
-			return getConverter(fromClass, toClass).toDTO((Shareable) object,
-					depth);
 		}
+		return getConverter(fromClass, toClass)
+				.toDTO((Shareable) object, depth);
 	}
 
 	@SuppressWarnings(RAWTYPES)
@@ -231,5 +230,5 @@ public abstract class ReflectionConverter<E extends Shareable, T extends DTO>
 	}
 
 	public abstract <Y extends Shareable, O extends DTO> Converter<Y, O> getConverter(
-			Class<Y> entityClass, Class<O> dtoClass);
+			Class<Y> entity, Class<O> dto);
 }

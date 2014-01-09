@@ -5,6 +5,7 @@ package py.una.med.base.dao.restrictions;
 
 import static py.una.med.base.util.Checker.notNull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
@@ -43,6 +44,8 @@ public class Where<T> {
 	private List<Clause> clauses;
 
 	private EntityExample<T> example;
+
+	private List<String> fetchJoin;
 
 	private boolean distinct;
 
@@ -109,17 +112,18 @@ public class Where<T> {
 	 * {@link py.una.med.base.dao.where.Or}
 	 * </p>
 	 * 
-	 * @param clauses
+	 * @param newClauses
 	 *            {@link Clause} a ser añadidas, ningún elemento puede ser
 	 *            <code>null</code>
 	 * @return this
 	 */
-	public Where<T> addClause(Clause ... clauses) {
+	@Nonnull
+	public Where<T> addClause(@Nonnull Clause ... newClauses) {
 
 		if (this.criterions == null) {
 			this.criterions = new ArrayList<Criterion>(1);
 		}
-		for (Clause clause : clauses) {
+		for (Clause clause : newClauses) {
 			this.getClauses().add(clause);
 		}
 		return this;
@@ -214,5 +218,53 @@ public class Where<T> {
 
 		this.distinct = true;
 		return this;
+	}
+
+	/**
+	 * Modifica el <i>fetchmode</i> definido en la entidad para un atributo en
+	 * particular.
+	 * 
+	 * <p>
+	 * El FetchMode es la manera de realizar la consulta a la base de datos del
+	 * elemento en particular, al utilizar este método, el atributo será cargado
+	 * de manera inmediata, es decir no será un proxy.
+	 * </p>
+	 * <p>
+	 * <b>Notar que cuando se realiza el <i>fetch</i> de una relación que apunta
+	 * a varias otras entidades (uno a muchos, muchos a muchos), solamente se
+	 * puede especificar un atributo para realizar el fetch</b>. Esta es una
+	 * limitación de SQL, no de Karaku, ni de Hibernate, pues, al traer una
+	 * relación, se realiza un JOIN, y en vez de retornar un registro por
+	 * entidad, se retorna N registros por entidad (una por cada entidad
+	 * relacionada), y realizar la consulta para dos subgrupos no es posible.
+	 * </p>
+	 * 
+	 * @param property
+	 *            propiedad para ser obtenida.
+	 * @return this,
+	 */
+	@Nonnull
+	public Where<T> fetch(@Nonnull String property) {
+
+		if (fetchJoin == null) {
+			fetchJoin = new ArrayList<String>(1);
+		}
+		fetchJoin.add(property);
+		return this;
+	}
+
+	/**
+	 * Lista de los atributos que deben ser cargados en manera Eager.
+	 * 
+	 * @return fetchJoin, nunca <code>null</code>
+	 */
+	@Nonnull
+	public List<String> getFetchs() {
+
+		List<String> toRet = fetchJoin;
+		while (toRet == null) {
+			toRet = Collections.emptyList();
+		}
+		return toRet;
 	}
 }

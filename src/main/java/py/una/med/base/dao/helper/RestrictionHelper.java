@@ -90,21 +90,19 @@ public class RestrictionHelper implements ApplicationContextAware {
 	 */
 	@SuppressWarnings("deprecation")
 	public Criteria applyClauses(@Nonnull final Criteria criteria,
-			final Where<?> where, @Nonnull final Map<String, String> alias) {
+			@Nonnull final Where<?> where,
+			@Nonnull final Map<String, String> alias) {
 
 		Map<String, String> aliaz = alias;
 
-		if ((where == null)
-				|| (!ListHelper.hasElements(where.getCriterions()) && !ListHelper
-						.hasElements(where.getClauses()))) {
+		if (!ListHelper.hasElements(where.getCriterions())
+				&& !ListHelper.hasElements(where.getClauses())) {
 			return criteria;
 		}
-		if (where.getClauses() != null) {
-			List<Criterion> criterions = this.getCriterions(where.getClauses(),
-					criteria, aliaz);
-			for (Criterion c : criterions) {
-				criteria.add(c);
-			}
+		List<Criterion> criterions = this.getCriterions(where.getClauses(),
+				criteria, aliaz);
+		for (Criterion c : criterions) {
+			criteria.add(c);
 		}
 		return criteria;
 	}

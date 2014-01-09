@@ -9,7 +9,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
+import org.hibernate.Hibernate;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +19,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import py.una.med.base.dao.BaseDAO;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.where.Clauses;
+import py.una.med.base.repo.SIGHBaseDao;
 import py.una.med.base.test.base.BaseTestWithDatabase;
 import py.una.med.base.test.configuration.TransactionTestConfiguration;
 import py.una.med.base.test.test.util.layers.ITestDAO;
@@ -32,11 +36,11 @@ import py.una.med.base.test.util.transaction.SQLFiles;
 /**
  * Test de integración de {@link Where} del {@link SIGHBaseDao}. Ver el archivo
  * WhereTest.SQL
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Sep 10, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class WhereTest extends BaseTestWithDatabase {
@@ -76,12 +80,12 @@ public class WhereTest extends BaseTestWithDatabase {
 
 	/**
 	 * Prueba la función de contar con tres métodos:
-	 *
+	 * 
 	 * <ol>
 	 * <li>{@link #byDescription(String)}</li>
 	 * <li>{@link #byDescriptionOfChild(String)}</li>
 	 * <li>{@link #byDescriptionOfGrandChild(String)}</li>
-	 *
+	 * 
 	 * </ol>
 	 */
 	@Test
@@ -112,7 +116,7 @@ public class WhereTest extends BaseTestWithDatabase {
 
 	/**
 	 * Prueba si se puede crear un registro
-	 *
+	 * 
 	 * <p>
 	 * Podemos ver que una manera mas fácil de probar seria crear el registro y
 	 * llamar a {@link BaseDAO#getCount()}, pero esto esta conceptualmente mal
@@ -135,8 +139,6 @@ public class WhereTest extends BaseTestWithDatabase {
 		assertNotNull(saved.getId());
 		assertEquals(saved, te);
 
-		// assertThat(saved, is(logic.getAll(byDescription(description), null)
-		// .get(0)));
 	}
 
 	/**
@@ -180,10 +182,24 @@ public class WhereTest extends BaseTestWithDatabase {
 
 	}
 
+	@Test
+	public void whereFetchTest() {
+
+		Where<TestEntity> where;
+		TestEntity te;
+
+		where = Where.get();
+		where.addClause(Clauses.eq("id", 1L));
+		where.fetch("testChild.grandChilds");
+		te = dao.getAll(where, null).get(0);
+		assertTrue(Hibernate.isInitialized(te.getTestChild().getGrandChilds()));
+
+	}
+
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestGrandChild}
-	 *
+	 * 
 	 * @return {@link Where}
 	 */
 	private Where<TestEntity> byDescriptionOfGrandChild(String description) {
@@ -197,7 +213,7 @@ public class WhereTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestChild}
-	 *
+	 * 
 	 * @return {@link Where}
 	 */
 	private Where<TestEntity> byDescriptionOfChild(String description) {
@@ -211,7 +227,7 @@ public class WhereTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestEntity}
-	 *
+	 * 
 	 * @return {@link Where}
 	 */
 	private Where<TestEntity> byDescription(String description) {

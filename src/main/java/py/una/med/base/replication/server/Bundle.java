@@ -55,15 +55,18 @@ public class Bundle<T> implements Iterable<Change<T>> {
 	@Nonnull
 	public String getLastId() {
 
+		String last = lastId;
 		Change<T> c = changes.peekLast();
-		if (c == null) {
-			if (lastId != null) {
-				return lastId;
-			} else {
-				return Bundle.ZERO_ID;
-			}
+
+		if (c != null) {
+			last = c.getId();
 		}
-		return c.getId();
+
+		if (last == null) {
+			last = Bundle.ZERO_ID;
+		}
+
+		return last;
 	}
 
 	/**
@@ -90,8 +93,12 @@ public class Bundle<T> implements Iterable<Change<T>> {
 	}
 
 	/**
-	 * @return
+	 * Retorna un {@link Set} que contiene todas las entidades que sufrieron
+	 * cambios.
+	 * 
+	 * @return set de entidades, nunca <code>null</code>.
 	 */
+	@Nonnull
 	public Set<T> getEntities() {
 
 		Set<T> set = new HashSet<T>(size());

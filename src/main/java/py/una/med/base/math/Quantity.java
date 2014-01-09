@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 /**
  * Representa un valor numérico con precisión limitada.
- *
+ * 
  * <p>
  * Clase central para las operaciones matemáticas. Es decir, solamente las
  * operaciones que se ejecutan con esta clase son probadas y se puede garantizar
@@ -18,12 +18,12 @@ import java.math.BigDecimal;
  * Es inmutable y provee redondeo paso por paso, es decir, cada operación de
  * esta clase retorna un objeto ya redondeado y nuevo.
  * </p>
- *
+ * 
  * @see MathContextProvider
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 8, 2013
- *
+ * 
  */
 public class Quantity extends Number implements Comparable<Quantity>,
 		Serializable {
@@ -48,12 +48,12 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Nueva cantidad con el valor del parámetro.
-	 *
+	 * 
 	 * <p>
 	 * Este constructor automáticamente redondea el decimal para adecuarlo a la
 	 * precisión definida en al aplicación
 	 * </p>
-	 *
+	 * 
 	 * @param bigDecimalValue
 	 *            {@link BigDecimal} de donde se quita el valor.
 	 */
@@ -68,12 +68,12 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Nueva cantidad con el valor del parámetro.
-	 *
+	 * 
 	 * <p>
 	 * Este constructor automáticamente redondea el numero en punto flotante
 	 * para adecuarlo a la precisión definida en al aplicación
 	 * </p>
-	 *
+	 * 
 	 * @param doubleValue
 	 *            {@link Double} de donde se quita el valor.
 	 */
@@ -84,12 +84,12 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Nueva cantidad con el valor del parámetro.
-	 *
+	 * 
 	 * <p>
 	 * Este constructor automáticamente redondea el numero entero para adecuarlo
 	 * a la precisión definida en al aplicación.
 	 * </p>
-	 *
+	 * 
 	 * @param intvalue
 	 *            {@link Integer} de donde se quita el valor.
 	 */
@@ -100,12 +100,12 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Nueva cantidad con el valor del parámetro.
-	 *
+	 * 
 	 * <p>
 	 * Este constructor automáticamente redondea el numero largo para adecuarlo
 	 * a la precisión definida en al aplicación.
 	 * </p>
-	 *
+	 * 
 	 * @param intvalue
 	 *            {@link Long} de donde se quita el valor.
 	 */
@@ -116,19 +116,19 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Nueva cantidad con el valor parseado del parámetro.
-	 *
+	 * 
 	 * <p>
 	 * Este método realizar parsea la cadena para obtener la cantidad, acepta
 	 * una cantidad variada de formas de cadenas, <b>y es el constructor que
 	 * debe ser preferido para esta clase</b>.
 	 * </p>
-	 *
+	 * 
 	 * <p>
 	 * <i>Para detalles de las cadenas que pueden ser pasadas, ver
 	 * {@link BigDecimal#BigDecimal(String)}<i> ya que este constructor
 	 * simplemente es un wrapper del citado.
 	 * </p>
-	 *
+	 * 
 	 * @see BigDecimal#BigDecimal(String)
 	 * @param string
 	 *            cadena a parsear
@@ -148,7 +148,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 	 * <p>
 	 * Se considera a 0 como positivo
 	 * </p>
-	 *
+	 * 
 	 * @return <code>this</code> si ya es positiva, nueva cantidad con el signo
 	 *         cambiado en caso contrario.
 	 */
@@ -156,19 +156,18 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 		if (getWrapped().signum() < 0) {
 			return new Quantity(getWrapped().abs());
-		} else {
-			return this;
 		}
+		return this;
 	}
 
 	/**
 	 * Retorna una cantidad aumentada cuyo valor es this + toSum.
-	 *
+	 * 
 	 * <p>
 	 * A diferencia del método {@link BigDecimal#add(BigDecimal)}, este método
 	 * siempre retorna la misma precisión y escala.
 	 * </p>
-	 *
+	 * 
 	 * @param toSum
 	 *            cantidad a sumar
 	 * @return {@link Quantity} cuyo valor es: this + toSum
@@ -180,7 +179,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Retorna un {@link BigDecimal} con el mismo valor que esta cantidad.
-	 *
+	 * 
 	 * @return {@link BigDecimal} con el mismo valor que la cantidad.
 	 */
 	public BigDecimal bigDecimalValue() {
@@ -197,7 +196,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Compara dos cantidades.
-	 *
+	 * 
 	 * <p>
 	 * Retorna:
 	 * <ol>
@@ -206,7 +205,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 	 * <li>{@literal >} a 0: si es mayor a otherQuantity</li>
 	 * </ol>
 	 * </p>
-	 *
+	 * 
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -217,7 +216,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Retorna una cantidad cuyo valor es <code>this/bigDecimal</code>.
-	 *
+	 * 
 	 * @param bigDecimal
 	 *            factor por el cual dividir
 	 * @return nueva instancia con el valor <code>this/bigDecimal</code>
@@ -231,7 +230,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Retorna una cantidad cuyo valor es <code>this/integer</code>.
-	 *
+	 * 
 	 * @param integer
 	 *            factor por el cual dividir
 	 * @return nueva instancia con el valor <code>this/bigDecimal</code>
@@ -244,7 +243,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Retorna una cantidad cuyo valor es <code>this/integer</code>.
-	 *
+	 * 
 	 * @param integer
 	 *            factor por el cual dividir
 	 * @return nueva instancia con el valor <code>this/quantity</code>
@@ -265,7 +264,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see BigDecimal#equals(Object)
 	 */
 	@Override
@@ -316,26 +315,26 @@ public class Quantity extends Number implements Comparable<Quantity>,
 	 * <p>
 	 * Se considera a 0 como negativo
 	 * </p>
-	 *
+	 * 
 	 * @return <code>this</code> si ya es negativa, nueva cantidad con el signo
 	 *         cambiado en caso contrario.
 	 */
 	public Quantity negate() {
 
-		if (getWrapped().signum() > 0)
+		if (getWrapped().signum() > 0) {
 			return new Quantity(getWrapped().negate());
-		else
-			return this;
+		}
+		return this;
 	}
 
 	/**
 	 * Retorna una cantidad aumentada cuyo valor es this - toSum.
-	 *
+	 * 
 	 * <p>
 	 * A diferencia del método {@link BigDecimal#subtract(BigDecimal)}, este
 	 * método siempre retorna la misma precisión y escala.
 	 * </p>
-	 *
+	 * 
 	 * @param toSubstract
 	 *            cantidad a restar
 	 * @return {@link Quantity} cuyo valor es: this - toSum
@@ -347,7 +346,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Retorna una cantidad cuyo valor es <code>this * bigDecimal</code>.
-	 *
+	 * 
 	 * @param other
 	 *            factor por el cual multiplicar
 	 * @return nueva instancia con el valor <code>this * bigDecimal</code>
@@ -360,12 +359,12 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Retorna una cantidad cuyo valor es <code>this * integer</code>.
-	 *
+	 * 
 	 * @param integer
 	 *            factor por el cual multiplicar
 	 * @return nueva instancia con el valor <code>this * integer</code>
 	 * @see #times(BigDecimal)
-	 *
+	 * 
 	 */
 	public Quantity times(int integer) {
 
@@ -374,12 +373,12 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * Retorna una cantidad cuyo valor es <code>this * quantity</code>.
-	 *
+	 * 
 	 * @param quantity
 	 *            factor por el cual multiplicar
 	 * @return nueva instancia con el valor <code>this * quantity</code>
 	 * @see #times(BigDecimal)
-	 *
+	 * 
 	 */
 	public Quantity times(Quantity quantity) {
 
@@ -388,7 +387,7 @@ public class Quantity extends Number implements Comparable<Quantity>,
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @see BigDecimal#toString()
 	 */
 	@Override

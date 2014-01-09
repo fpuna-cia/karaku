@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,16 +53,14 @@ public class ReplicationLogic implements IReplicationLogic {
 		List<ReplicationInfo> ri = dao.getAll(where, null);
 		if (ri == null) {
 			return Collections.emptySet();
-		} else {
-			return loadClass(ri);
 		}
+		return loadClass(ri);
 	}
 
 	@Override
-	public ReplicationInfo getByClass(Class<?> clazz) {
+	public ReplicationInfo getByClass(@Nonnull Class<?> clazz) {
 
-		String clazzName = notNull(clazz, "Cant get info of null class")
-				.getName();
+		String clazzName = notNull(clazz.getName());
 
 		Where<ReplicationInfo> where = Where.get();
 		where.addClause(Clauses.eq("entityClassName", clazzName));
@@ -148,7 +147,7 @@ public class ReplicationLogic implements IReplicationLogic {
 	 */
 	@Override
 	@Transactional(readOnly = false)
-	public void notifyReplication(Class<?> clazz, String id) {
+	public void notifyReplication(@Nonnull Class<?> clazz, String id) {
 
 		ReplicationInfo info = getByClass(clazz);
 
@@ -164,7 +163,7 @@ public class ReplicationLogic implements IReplicationLogic {
 	 * @param i
 	 */
 	@Override
-	public ReplicationInfo updateSyncTime(Class<?> class1, int i) {
+	public ReplicationInfo updateSyncTime(@Nonnull Class<?> class1, int i) {
 
 		ReplicationInfo info = getByClass(class1);
 

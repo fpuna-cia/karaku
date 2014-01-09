@@ -22,11 +22,11 @@ import py.una.med.base.security.AuthorityController;
 
 /**
  * Clase que implementa la creación del menu de la aplicación.
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Feb 20, 2013
- *
+ * 
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
@@ -45,7 +45,7 @@ public class MenuBean {
 
 	/**
 	 * Configura y retorna un menu
-	 *
+	 * 
 	 * @return Menu entero de la aplicación
 	 */
 	public UIPanelMenu getMenu() {
@@ -69,7 +69,7 @@ public class MenuBean {
 	/**
 	 * Si se llama a esta funcion algo esta mal, se utiliza solamente para que
 	 * "menu" sea una atributo de menuBean
-	 *
+	 * 
 	 * @param obj
 	 */
 	public void setMenu(UIPanelMenu menupanel) {
@@ -99,9 +99,8 @@ public class MenuBean {
 
 		if ((menu.getItems() == null) || (menu.getItems().isEmpty())) {
 			return getSingleMenu(menu);
-		} else {
-			return getMultipleMenu(menu);
 		}
+		return getMultipleMenu(menu);
 	}
 
 	private UIComponent getMultipleMenu(Menu menu) {

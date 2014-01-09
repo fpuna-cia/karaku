@@ -142,9 +142,15 @@ public class ReplicationHandler {
 	@Transactional
 	public void doSync(ReplicationInfo ri) {
 
-		updateLocalThread(ri);
-		String lastId = replicate(ri);
-		logic.notifyReplication(ri.getEntityClazz(), lastId);
+		Class<?> classToNotify = ri.getEntityClazz();
+		if (classToNotify != null) {
+			updateLocalThread(ri);
+			String lastId = replicate(ri);
+			logic.notifyReplication(classToNotify, lastId);
+		} else {
+			throw new KarakuRuntimeException(
+					"Can't sync a Replication info not loaded id:" + ri.getId());
+		}
 	}
 
 	private void updateLocalThread(ReplicationInfo ri) {
