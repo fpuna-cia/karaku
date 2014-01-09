@@ -27,6 +27,15 @@ public final class NumberLikeExpressionHelper extends
 		BaseClauseHelper<NumberLike> {
 
 	/**
+	 * Esta implementación retorna una copia del {@link NumberLike} pasado con
+	 * el alias configurado correctamente.
+	 * 
+	 * <p>
+	 * Se retorna una copia del {@link NumberLike} pues si se modifica el
+	 * {@link NumberLike} original para que contenga el alias correcto, las
+	 * siguientes invocaciones a este método retornarían una version corrupta de
+	 * la claúsula. Este método debe ser idempotente.
+	 * </p>
 	 * {@inheritDoc}
 	 * 
 	 */
@@ -36,8 +45,8 @@ public final class NumberLikeExpressionHelper extends
 
 		String aliasWithProperty = configureAlias(criteria,
 				clause.getPropiedad(), aliases);
-		clause.setPropiedad(aliasWithProperty);
-		return clause;
+		return new NumberLike(aliasWithProperty, clause.getValor(),
+				clause.getMatchMode());
 
 	}
 

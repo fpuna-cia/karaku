@@ -9,8 +9,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.dialect.H2Dialect;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.engine.spi.TypedValue;
-import py.una.med.base.dao.where.Clause;
-import py.una.med.base.dao.where.MatchMode;
 
 /**
  * Clase que representa una condición de Where para hacer búsqueda en similitud
@@ -46,9 +44,9 @@ public class NumberLike implements Criterion, Clause {
 	@Nonnull
 	private String propiedad;
 	@Nonnull
-	private String valor;
+	private final String valor;
 	@Nonnull
-	private MatchMode matchMode;
+	private final MatchMode matchMode;
 
 	/**
 	 * Define la propiedad por la cual se buscara, la propiedad, es el path a un
@@ -159,6 +157,16 @@ public class NumberLike implements Criterion, Clause {
 	public Criterion getCriterion() {
 
 		return this;
+	}
+
+	public String getValor() {
+
+		return valor;
+	}
+
+	public MatchMode getMatchMode() {
+
+		return matchMode;
 	}
 
 }
