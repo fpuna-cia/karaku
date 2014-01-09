@@ -5,11 +5,15 @@
 package py.una.med.base.test.test.math;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.adapter.QuantityAdapter;
+
+import py.una.med.base.math.NumberAdapter;
 import py.una.med.base.math.Quantity;
 import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
@@ -22,38 +26,45 @@ import py.una.med.base.test.configuration.BaseTestConfiguration;
  * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-public class QuantityAdapterTest extends BaseTest {
+public class NumberAdapterTest extends BaseTest {
 
 	@Configuration
 	static class ContextConfiguration extends BaseTestConfiguration {
 
+		@Bean
+		NumberAdapter numberAdapter() {
+			return NumberAdapter.INSTANCE;
+		}
 	}
+
+	@Autowired
+	private NumberAdapter numberAdapter;
 
 	@Test
 	public void marshal() {
 
-		assertEquals("1", QuantityAdapter.marshal(Quantity.ONE));
-		assertEquals("0", QuantityAdapter.marshal(Quantity.ZERO));
-		assertEquals("1,12", QuantityAdapter.marshal(new Quantity("1.1234")));
-		assertEquals("-1", QuantityAdapter.marshal(Quantity.ONE.negate()));
+		assertEquals("1", numberAdapter.marshal(Quantity.ONE));
+		assertEquals("0", numberAdapter.marshal(Quantity.ZERO));
+		assertEquals("1,12", numberAdapter.marshal(new Quantity("1.1234")));
+		assertEquals("-1", numberAdapter.marshal(Quantity.ONE.negate()));
 	}
 
 	@Test
 	public void unMarshal() {
 
-		assertEquals(Quantity.ONE, QuantityAdapter.unmarshal("1"));
-		assertEquals(Quantity.TWO, QuantityAdapter.unmarshal("00000000000002"));
-		assertEquals(Quantity.ONE, QuantityAdapter.unmarshal("1,000012345"));
+		assertEquals(Quantity.ONE, numberAdapter.unmarshal("1"));
+		assertEquals(Quantity.TWO, numberAdapter.unmarshal("00000000000002"));
+		assertEquals(Quantity.ONE, numberAdapter.unmarshal("1,000012345"));
 		assertEquals(new Quantity("1000258.7"),
-				QuantityAdapter.unmarshal("1.000.258,7"));
-		assertEquals(Quantity.TWO, QuantityAdapter.unmarshal("1,99999"));
-		assertEquals(Quantity.ONE.negate(), QuantityAdapter.unmarshal("-1"));
+				numberAdapter.unmarshal("1.000.258,7"));
+		assertEquals(Quantity.TWO, numberAdapter.unmarshal("1,99999"));
+		assertEquals(Quantity.ONE.negate(), numberAdapter.unmarshal("-1"));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgumentException() throws Exception {
 
-		QuantityAdapter.unmarshal("No Number");
+		numberAdapter.unmarshal("No Number");
 
 	}
 }

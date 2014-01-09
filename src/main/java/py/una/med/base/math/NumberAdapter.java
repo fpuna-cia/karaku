@@ -1,32 +1,24 @@
-package py.una.med.base.adapter;
+package py.una.med.base.math;
 
 import java.text.ParseException;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.math.NumberAdapter;
-import py.una.med.base.math.Quantity;
 import py.una.med.base.util.FormatProvider;
 
 /**
- * 
- * Adapter para convertir el elemento base:Number a un {@link Quantity} y de un
- * {@link Quantity} a su representación en cadena.
- * 
+ *
+ *
  * @author Arturo Volpe
- * @since 2.2.8
- * @version 1.0 Oct 14, 2013
- * @deprecated usar {@link NumberAdapter}
+ * @since 2.3.0
+ * @version 1.0 Dec 27, 2013
+ *
  */
-@Deprecated
-public final class QuantityAdapter {
+public class NumberAdapter extends XmlAdapter<String, Quantity> {
 
 	@Autowired
 	private FormatProvider fp;
 
-	public static final QuantityAdapter INSTANCE = new QuantityAdapter();
-
-	private QuantityAdapter() {
-
-	}
+	public static final NumberAdapter INSTANCE = new NumberAdapter();
 
 	/**
 	 * Convierte un BigDecimal a un elemento base:Number.
@@ -35,7 +27,7 @@ public final class QuantityAdapter {
 	 *            BigDecimal a convertir a un base:Number.
 	 * @return Cadena en base:Number
 	 */
-	public static String marshal(final Quantity numero) {
+	public String marshal(final Quantity numero) {
 
 		return INSTANCE.fp.asNumber(numero);
 	}
@@ -48,7 +40,7 @@ public final class QuantityAdapter {
 	 * @return una nueva cantidad con el decimal especificado en un mismo
 	 *         formato que {@link java.math.BigDecimal#BigDecimal(String)}.
 	 */
-	public static Quantity unmarshal(final String decimal) {
+	public Quantity unmarshal(final String decimal) {
 
 		try {
 			return INSTANCE.fp.parseLongQuantity(decimal);

@@ -4,5 +4,8 @@
  * 
  * @author Uriel González
  * 
+ *         TODO borrar este paquete.
+ * 
  */
+@java.lang.Deprecated
 package py.una.med.base.adapter;
