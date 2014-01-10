@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Date;
 import java.util.regex.Pattern;
+import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ import py.una.med.base.log.Log;
  * genérico.</li>
  * </ul>
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 19, 2013
@@ -68,7 +69,7 @@ public class SearchHelper {
 	/**
 	 * Método auxiliar a {@link #getClause(Class, String, String)} que crea un
 	 * nuevo {@link Where} y lo retorna con la {@link Clause} agregada.
-	 *
+	 * 
 	 * @param root
 	 *            raíz de la búsqueda el atributo, no debe ser <code>null</code>
 	 * @param property
@@ -96,33 +97,33 @@ public class SearchHelper {
 	 * <p>
 	 * Ver la descripción de esta clase ( {@link SearchHelper} )
 	 * </p>
-	 *
+	 * 
 	 * <h3>Ejemplos</h3> Estos ejemplos utilizan las entidades de Test, y son
 	 * extraidos de los Test, para verlos en funcionamiento, ir a los Test.
-	 *
+	 * 
 	 * <pre>
 	 * getClause(TestEntity.class, &quot;testChild.description&quot;, &quot;COSTO&quot;)
 	 * </pre>
-	 *
+	 * 
 	 * Es lo mismo que utilizar:
-	 *
+	 * 
 	 * <pre>
 	 * Clauses.ilike("testChild.description", "COSTO", {@link MatchMode#CONTAIN})
 	 * </pre>
-	 *
+	 * 
 	 * Cambiando solamente el path, el {@link Clause} generado cambia
 	 * drásticamente:
-	 *
+	 * 
 	 * <pre>
 	 * getClause(TestEntity.class, &quot;testChild.fecha&quot;, &quot;13-11-2013&quot;)
 	 * </pre>
-	 *
+	 * 
 	 * Es lo mismo que utilizar:
-	 *
+	 * 
 	 * <pre>
 	 * dateClauses.between("testChild.fecha", "13-11-2013", "13-11-2013", <code>true</code>);
 	 * </pre>
-	 *
+	 * 
 	 * @param root
 	 *            raíz de la búsqueda el atributo, no debe ser <code>null</code>
 	 * @param property
@@ -133,10 +134,10 @@ public class SearchHelper {
 	 *            propiedad, cada valor es tratado por separado.
 	 * @return {@link Clause} correspondiente a la propiedad.
 	 */
-	public <T> Clause getClause(@NotNull Class<T> root,
-			@NotNull String property, String value) {
+	public <T> Clause getClause(@Nonnull Class<T> root,
+			@Nonnull String property, String value) {
 
-		if ((property == null) || "".equals(property)) {
+		if ("".equals(property)) {
 			throw new IllegalArgumentException("Property can't be empty");
 		}
 
@@ -145,9 +146,8 @@ public class SearchHelper {
 			// Si es una colección, se utiliza una técnica de mejor
 			// esfuerzo.
 			return Clauses.iLike(property, value, MatchMode.CONTAIN);
-		} else {
-			return this.getFilter(fi, property, value);
 		}
+		return this.getFilter(fi, property, value);
 	}
 
 	/**
@@ -155,49 +155,49 @@ public class SearchHelper {
 	 * (con un formato separado por puntos).
 	 * <p>
 	 * Por ejemplo, si invocamos de la siguiente manera:
-	 *
+	 * 
 	 * <pre>
 	 * 	class Pais {
 	 * 		...
 	 * 		Set{@literal <}Departamento> departamentos;
-	 *
+	 * 
 	 * 		...
 	 * 	}
-	 *
+	 * 
 	 * 	class Departamento {
 	 * 		...
 	 * 		Set{@literal <}Ciudad> ciudades;
-	 *
+	 * 
 	 * 		Set etnias;
-	 *
+	 * 
 	 * 		Pais pais;
 	 * 		...
 	 * 	}
-	 *
+	 * 
 	 * 	class Ciudad {
 	 * 		...
-	 *
+	 * 
 	 * 		Departamento departamento;
 	 * 		...
 	 * 	}
-	 *
+	 * 
 	 * 1. Y invocamos de la siguiente manera:
-	 *
+	 * 
 	 * 	fi = getFieldInfo(Ciudad.class, "departamento.pais");
 	 * 	fi.getField() ==> Pais.class
 	 * 	fi.isCollection() == > <code>false</code>
-	 *
+	 * 
 	 * 2. El siguiente ejemplo, es cuando se encuentra una {@link Collection}
-	 *
+	 * 
 	 * 	fi = getFieldInfo(Ciudad.class, "departamento.etnias");
 	 * 	fi.getField() ==> Etnia.class
 	 * 	fi.isCollection() == > <code>true</code>
 	 * </pre>
-	 *
+	 * 
 	 * <p>
 	 * TODO ver para meter en una clase de utilidad
 	 * </p>
-	 *
+	 * 
 	 * @param root
 	 *            {@link Class} que sirve de base para buscar la propiedad
 	 * @param property
@@ -231,7 +231,7 @@ public class SearchHelper {
 							.getCollectionFieldType(toRet);
 				}
 				// TODO add expansion if found a @Display in the last field
-				// Ejemplo: pais.departamento, puede seguir siendo expltoado
+				// Ejemplo: pais.departamento, puede seguir siendo explotado
 				// si departamento tiene un DisplayName
 			}
 			return new FieldInfo(toRet, collectionFound);
@@ -243,7 +243,7 @@ public class SearchHelper {
 
 	/**
 	 * Retorna el filtro simple.
-	 *
+	 * 
 	 * @param where
 	 *            {@link Where}, no puede ser <code>null</code>
 	 * @param fi
@@ -314,11 +314,11 @@ public class SearchHelper {
 	/**
 	 * Clase auxiliar para {@link #getField()} que se utiliza para obtener
 	 * información valiosa a partir de un {@link Field}.
-	 *
+	 * 
 	 * @author Arturo Volpe
 	 * @since 1.0
 	 * @version 1.0 Sep 26, 2013
-	 *
+	 * 
 	 */
 	public static class FieldInfo {
 
@@ -329,7 +329,7 @@ public class SearchHelper {
 		/**
 		 * Crea un nuevo field, que no es una colección con el {@link Field}
 		 * dado.
-		 *
+		 * 
 		 * @param f
 		 *            {@link Field} del cual se presenta la información
 		 */
@@ -341,7 +341,7 @@ public class SearchHelper {
 		/**
 		 * Crea un nuevo field, que es o no una colección (depende de
 		 * {@link #isCollection()} con el {@link Field} dado.
-		 *
+		 * 
 		 * @param f
 		 *            {@link Field} del cual se presenta la información
 		 * @param isCollection
@@ -358,7 +358,7 @@ public class SearchHelper {
 		 * que {@link #isCollection()} sea <code>true</code>, este método
 		 * retorna el primer {@link Field} que es asignable desde una
 		 * {@link Collection}.
-		 *
+		 * 
 		 * @return field asociado.
 		 */
 		public Field getField() {
@@ -368,7 +368,7 @@ public class SearchHelper {
 
 		/**
 		 * Verifica si la información se asocia a una {@link Collection}.
-		 *
+		 * 
 		 * @return isCollection <code>false</code> si no es una colección y
 		 *         <code>true</code> en caso contrario.
 		 */

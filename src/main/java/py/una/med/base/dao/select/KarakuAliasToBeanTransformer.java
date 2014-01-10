@@ -8,7 +8,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.property.ChainedPropertyAccessor;
@@ -16,47 +19,44 @@ import org.hibernate.property.PropertyAccessor;
 import org.hibernate.property.PropertyAccessorFactory;
 import org.hibernate.property.Setter;
 import org.hibernate.transform.AliasToBeanResultTransformer;
-import org.hibernate.transform.DistinctResultTransformer;
 import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.util.ReflectionUtils;
+import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.util.ListHelper;
 
 /**
  * Simple Transformer que expande el {@link AliasToBeanResultTransformer} para
  * soportar relaciones.
- *
+ * 
  * <p>
  * La diferencia es que un alias del tipo: 'pais.id', no era soportado, entonces
  * lo que se hace es, si se encuentra un alias de ese tipo, se crea una
  * instancia del padre (pais) si la misma no existe, y se setea el id.
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 13, 2013
- *
+ * 
  */
 public class KarakuAliasToBeanTransformer<T> extends
 		AliasToBeanResultTransformer {
 
-	/**
-	 *
-	 */
+	private static final String UNCHECKED = "unchecked";
 	private static final String RAWTYPES = "rawtypes";
 	private final Class<T> resultClass;
 	private boolean isInitialized;
 	private String[] aliases;
 	private Setter[] setters;
-	private final boolean distinct;
 
 	/**
 	 * @param resultClass
 	 */
-	public KarakuAliasToBeanTransformer(Class<T> resultClass, boolean distinct) {
+	public KarakuAliasToBeanTransformer(Class<T> resultClass) {
 
 		super(resultClass);
 		this.resultClass = resultClass;
-		this.distinct = distinct;
 	}
 
 	/**
@@ -65,19 +65,19 @@ public class KarakuAliasToBeanTransformer<T> extends
 	private static final long serialVersionUID = 8185588266275147013L;
 
 	@Override
-	public Object transformTuple(Object[] tuple, String[] aliases) {
+	public Object transformTuple(Object[] tuple, String[] realAlias) {
 
 		T toRet;
 		try {
 			if (!isInitialized) {
-				initialize(aliases);
+				initialize(realAlias);
 			} else {
-				check(aliases);
+				check(realAlias);
 			}
-
+			resetNestedSetter();
 			toRet = resultClass.newInstance();
 
-			for (int i = 0; i < aliases.length; i++) {
+			for (int i = 0; i < realAlias.length; i++) {
 				// Diferencia con AliasToBeanResultTransformer
 
 				// -------------------------------------------
@@ -96,27 +96,109 @@ public class KarakuAliasToBeanTransformer<T> extends
 		return toRet;
 	}
 
-	@SuppressWarnings(RAWTYPES)
+	/**
+	 * Comunica que se ha cambiado de bean, para que los {@link NestedSetter},
+	 * creen una nueva instancia en vez de reutilizarla actual.
+	 */
+	private void resetNestedSetter() {
+
+		NestedObjectHolder noh = new NestedObjectHolder();
+		for (Setter s : setters) {
+			if (s instanceof NestedSetter) {
+				NestedSetter nSetter = (NestedSetter) s;
+				nSetter.setHolder(noh);
+			}
+		}
+	}
+
+	/**
+	 * It's Always distinct.
+	 */
+	@SuppressWarnings({ RAWTYPES, UNCHECKED })
 	@Override
 	public List transformList(List list) {
 
-		if (distinct) {
-			return DistinctResultTransformer.INSTANCE.transformList(list);
+		if (!ListHelper.hasElements(list)) {
+			return list;
 		}
-		return list;
+
+		HashMap<Identity, Object> objects = new HashMap<Identity, Object>(
+				list.size());
+		List toRet = new ArrayList();
+		for (Object o : list) {
+			if (o == null) {
+				continue;
+			}
+			Identity neI = new Identity(o);
+			if (objects.containsKey(neI)) {
+				handleDuplicate(objects.get(neI), o, aliases);
+			} else {
+				objects.put(neI, o);
+				toRet.add(o);
+			}
+		}
+		return toRet;
 	}
 
-	private void initialize(String[] aliases) {
+	/**
+	 * 
+	 * @param primary
+	 * @param duplicated
+	 * @param currentAlias
+	 */
+	private void handleDuplicate(Object primary, Object duplicated,
+			String[] currentAlias) {
+
+		for (Setter s : setters) {
+			if (s instanceof NestedSetter) {
+				NestedSetter ns = (NestedSetter) s;
+				ns.join(primary, duplicated);
+			}
+		}
+	}
+
+	/**
+	 * Helper class para distinguir elementos repetidos.
+	 * 
+	 * @author Arturo Volpe
+	 * @since 1.0
+	 * @version 1.0 Jan 10, 2014
+	 * 
+	 */
+	private static class Identity {
+
+		BaseEntity e;
+
+		public Identity(@Nonnull Object o) {
+
+			e = (BaseEntity) o;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+
+			Identity other = (Identity) obj;
+			return e.getId().equals(other.e.getId());
+		}
+
+		@Override
+		public int hashCode() {
+
+			return e.getId().hashCode();
+		}
+	}
+
+	private void initialize(String[] newAlias) {
 
 		PropertyAccessor propertyAccessor = new ChainedPropertyAccessor(
 				new PropertyAccessor[] {
 						PropertyAccessorFactory.getPropertyAccessor(
 								resultClass, null),
 						PropertyAccessorFactory.getPropertyAccessor("field") });
-		this.aliases = new String[aliases.length];
-		setters = new Setter[aliases.length];
-		for (int i = 0; i < aliases.length; i++) {
-			String alias = aliases[i];
+		this.aliases = new String[newAlias.length];
+		setters = new Setter[newAlias.length];
+		for (int i = 0; i < newAlias.length; i++) {
+			String alias = newAlias[i];
 			if (alias != null) {
 				this.aliases[i] = alias;
 				// Diferencia con AliasToBeanResultTransformer
@@ -136,14 +218,52 @@ public class KarakuAliasToBeanTransformer<T> extends
 		isInitialized = true;
 	}
 
-	private void check(String[] aliases) {
+	private void check(String[] aliasesToCheck) {
 
-		if (!Arrays.equals(aliases, this.aliases)) {
+		if (!Arrays.equals(aliasesToCheck, this.aliases)) {
 			throw new IllegalStateException(
 					"aliases are different from what is cached; aliases="
-							+ Arrays.asList(aliases) + " cached="
+							+ Arrays.asList(aliasesToCheck) + " cached="
 							+ Arrays.asList(this.aliases));
 		}
+	}
+
+	/**
+	 * Almacena objetos creados entre NestedSetter de una misma consulta.
+	 * 
+	 * @author Arturo Volpe
+	 * @since 1.0
+	 * @version 1.0 Jan 9, 2014
+	 * 
+	 */
+	private static class NestedObjectHolder {
+
+		/**
+		 * Par de path, currentObject
+		 */
+		private HashMap<String, Object> created = new HashMap<String, Object>();
+
+		/**
+		 * Define si tiene o no un objeto almacenado.
+		 * 
+		 * @param path
+		 * @return
+		 */
+		public boolean has(String path) {
+
+			return created.containsKey(path);
+		}
+
+		public Object get(String path) {
+
+			return created.get(path);
+		}
+
+		public void set(String path, Object object) {
+
+			created.put(path, object);
+		}
+
 	}
 
 	private static class NestedSetter implements Setter {
@@ -152,12 +272,14 @@ public class KarakuAliasToBeanTransformer<T> extends
 		 *
 		 */
 		private static final long serialVersionUID = -3494109024315529035L;
-		private final String path;
 		private final Class<?> root;
+		private NestedObjectHolder nestedObjectHandler;
+		private String[] properties;
+		private boolean hasCollection = false;
 
 		/**
 		 * Setter para propiedades anidadas.
-		 *
+		 * 
 		 * @param root
 		 *            clase raíz (tipicamente la entidad)
 		 * @param property
@@ -166,13 +288,30 @@ public class KarakuAliasToBeanTransformer<T> extends
 		public NestedSetter(Class<?> root, String property) {
 
 			this.root = root;
-			path = property;
+			properties = property.split("\\.");
+		}
+
+		/**
+		 * @param noh
+		 */
+		public void setHolder(NestedObjectHolder noh) {
+
+			this.nestedObjectHandler = noh;
 		}
 
 		/**
 		 * <p>
 		 * TODO cachear todo!
+		 * <p>
+		 * Los problemas que existen son:
 		 * </p>
+		 * <ol>
+		 * <li>No se puede almacenar solamente el ultimo setter, pues hay que
+		 * obtener el objeto al que seatear</li>
+		 * <li>Entre el path puede existir una colección, y esa colección puede
+		 * no existir</li>
+		 * </ol>
+		 * </p> <br>
 		 * {@inheritDoc}
 		 */
 		@SuppressWarnings(RAWTYPES)
@@ -180,20 +319,19 @@ public class KarakuAliasToBeanTransformer<T> extends
 		public void set(Object target, Object value,
 				SessionFactoryImplementor factory) {
 
-			String[] properties = path.split("\\.");
-
 			Object current = target;
 			Class currentClass = root;
 			Field currentField = null;
+			StringBuilder sb = new StringBuilder();
 
 			/*
 			 * Cuando termine este for, en current estara el objeto para setear
-			 * la propiedad y en currentclass la clase del mismo, por eso es -2,
+			 * la propiedad y en currentclass la clase del mismo, por eso es -1,
 			 * no hace falta el ultimo por que ahi sucede el trabajo real.
 			 */
 			for (int i = 0; i < (properties.length - 1); i++) {
-
 				String currentProperty = properties[i];
+				sb.append(currentProperty).append('.');
 				// obtengo el field
 
 				currentField = getField(currentClass, currentProperty);
@@ -203,9 +341,10 @@ public class KarakuAliasToBeanTransformer<T> extends
 
 				// si es una lista veo que hacer
 				if (List.class.isAssignableFrom(currentClass)) {
-					// si es una coleccion ver que hacer con current (setearle
-					// una lista o algo así)
-					current = handleList(currentField, current);
+					hasCollection = true;
+					// si es una coleccion ver que hacer con current
+					current = handleList(currentField, current,
+							currentProperty.toString());
 					// al ser una colección, el tipo no es el mismo que el field
 					currentClass = current.getClass();
 				} else {
@@ -219,6 +358,53 @@ public class KarakuAliasToBeanTransformer<T> extends
 					properties[properties.length - 1]);
 			set(currentField, current, value);
 
+		}
+
+		/**
+		 * Une las colecciones de dos objetos repetidos.
+		 * 
+		 * @param original
+		 *            objeto cuyas listas se llenaran
+		 * @param duplicate
+		 *            objetos de donde se quita información.
+		 */
+		@SuppressWarnings({ UNCHECKED, RAWTYPES })
+		public void join(Object original, Object duplicate) {
+
+			if (!hasCollection) {
+				return;
+			}
+
+			Class currentClass = root;
+			Object currentOriginal = original;
+			Object currentDuplicate = duplicate;
+			for (int i = 0; i < (properties.length - 1); i++) {
+				String currentProperty = properties[i];
+				// obtengo el field
+
+				Field currentField = getField(currentClass, currentProperty);
+				currentClass = currentField.getType();
+
+				// si es una lista las uno
+				if (Collection.class.isAssignableFrom(currentClass)) {
+					// si es una coleccion ver que hacer con current
+					currentField.setAccessible(true);
+					try {
+						Collection toAdd = (Collection) currentField
+								.get(currentDuplicate);
+						Collection originalCol = (Collection) currentField
+								.get(currentOriginal);
+						originalCol.addAll(toAdd);
+						toAdd.clear();
+					} catch (Exception e) {
+						throw new KarakuRuntimeException(e);
+					}
+					// only works for one collection in the path.
+					return;
+				}
+				currentOriginal = get(currentField, currentOriginal);
+				currentDuplicate = get(currentField, currentDuplicate);
+			}
 		}
 
 		/**
@@ -249,8 +435,9 @@ public class KarakuAliasToBeanTransformer<T> extends
 			}
 		}
 
-		@SuppressWarnings({ RAWTYPES, "unchecked" })
-		private Object handleList(Field field, Object current) {
+		@SuppressWarnings({ RAWTYPES, UNCHECKED })
+		private Object handleList(Field field, Object current,
+				String currentPath) {
 
 			try {
 				field.setAccessible(true);
@@ -259,12 +446,18 @@ public class KarakuAliasToBeanTransformer<T> extends
 					newList = new ArrayList();
 					field.set(current, newList);
 				}
-				Class cClass = GenericCollectionTypeResolver
-						.getCollectionFieldType(field);
 
+				Object toRet;
 				List list = (List) newList;
-				Object toRet = cClass.newInstance();
-				list.add(toRet);
+				if (!nestedObjectHandler.has(currentPath)) {
+					Class cClass = GenericCollectionTypeResolver
+							.getCollectionFieldType(field);
+					toRet = cClass.newInstance();
+					list.add(toRet);
+					nestedObjectHandler.set(currentPath, toRet);
+				} else {
+					toRet = nestedObjectHandler.get(currentPath);
+				}
 
 				field.setAccessible(false);
 				return toRet;
@@ -310,8 +503,6 @@ public class KarakuAliasToBeanTransformer<T> extends
 		 */
 		@Override
 		public String getMethodName() {
-
-			String[] properties = path.split("\\.");
 
 			return "get" + properties[properties.length - 1];
 		}

@@ -9,6 +9,7 @@ import static py.una.med.base.util.Checker.notNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ import py.una.med.base.dao.select.KarakuAliasToBeanTransformer;
 import py.una.med.base.dao.select.Select;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.dao.util.MainInstanceHelper;
+import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.log.Log;
 import py.una.med.base.util.KarakuReflectionUtils;
@@ -420,9 +422,8 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		Table t = clase.getAnnotation(Table.class);
 		if (t == null) {
 			return clase.getSimpleName().toLowerCase();
-		} else {
-			return t.name();
 		}
+		return t.name();
 	}
 
 	/**
@@ -505,16 +506,27 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 	@SuppressWarnings(UNCHECKED)
 	@Override
+	@Nonnull
 	public List<T> get(Select select, Where<T> where, ISearchParam params) {
 
+		if (!BaseEntity.class.isAssignableFrom(getClassOfT())) {
+			throw new UnsupportedOperationException(
+					"Only works with baseEntity");
+		}
+
+		ISearchParam isp = params != null ? params : new SearchParam();
+		isp.addOrder("id");
 		Map<String, String> alias = new HashMap<String, String>();
 		Criteria criteria = this.generateWhere(where, alias);
-		configureParams(params, criteria, alias);
+		configureParams(isp, criteria, alias);
 
-		boolean isDistinct = where != null ? where.isDistinct() : false;
+		if (where != null && !where.isDistinct()) {
+			log.debug("Making a not distinct query with Select, it's allways distinct");
+		}
 
 		if (select != null) {
 			ProjectionList projections = Projections.projectionList();
+			select.addAttribute("id");
 			for (String column : select.getAttributes()) {
 				if (column == null) {
 					continue;
@@ -527,9 +539,13 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 			}
 			criteria.setProjection(projections);
 			criteria.setResultTransformer(new KarakuAliasToBeanTransformer<T>(
-					getClassOfT(), isDistinct));
+					getClassOfT()));
 		}
 
-		return criteria.list();
+		List<T> toRet = criteria.list();
+		if (toRet == null) {
+			return new ArrayList<T>();
+		}
+		return toRet;
 	}
 }
