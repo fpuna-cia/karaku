@@ -21,7 +21,7 @@
 	<composite:attribute name="idListEntities" default="idListEntities"
 		displayName="id de la tabla de entidades (dataTable), el nombre de la variable de esta tabla es dataTable" />
 	<composite:attribute name="urlColumns" required="true" />
-	<composite:attribute name="urlSearchForm" required="true" />
+	<composite:attribute name="urlSearchForm" />
 	<composite:facet name="extraButtons" />
 	<composite:attribute name="deleteButtonName" />
 	<composite:attribute name="editButtonName" />
@@ -72,7 +72,7 @@
 					render="pgSearch"
 					actionListener="#{cc.attrs.controller.preSearch()}" execute="@this"
 					oncomplete="#{rich:component('puSearch')}.show()"
-					rendered="#{cc.attrs.withAdvancedSearch}" />
+					rendered="#{not empty cc.attrs.urlSearchForm}" />
 				<a4j:commandButton value="#{msg['LIST_CLEAR']}"
 					action="#{cc.attrs.controller.clearFilters}"
 					render="@form,#{cc.attrs.idListEntities}, #{cc.attrs.controller.messageIdName} idPagingPanel"
@@ -134,7 +134,7 @@
 		</h:panelGrid>
 	</h:form>
 	<c:if
-		test="#{cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+		test="#{not empty cc.attrs.urlSearchForm and cc.attrs.withAdvancedSearch and authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 		<sigh:popup title="#{msg['BASE_FORM_SEARCH']}" popupId="puSearch">
 			<sigh:karakuSkipRequired>
 				<h:form>
