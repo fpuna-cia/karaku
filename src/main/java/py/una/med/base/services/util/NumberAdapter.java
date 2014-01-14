@@ -1,8 +1,9 @@
-package py.una.med.base.math;
+package py.una.med.base.services.util;
 
 import java.text.ParseException;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import py.una.med.base.math.Quantity;
 import py.una.med.base.util.FormatProvider;
 
 /**

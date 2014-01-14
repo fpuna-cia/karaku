@@ -5,7 +5,6 @@ package py.una.med.base.controller;
 
 import java.io.IOException;
 import java.util.Date;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +26,6 @@ import py.una.med.base.util.Util;
  * 
  */
 @Controller
-@ManagedBean
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class MenuController {
 

@@ -9,21 +9,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
-import py.una.med.base.adapter.QuantityAdapter;
 import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.log.LogPostProcessor;
 import py.una.med.base.math.MathContextProvider;
+import py.una.med.base.services.util.NumberAdapter;
 import py.una.med.base.test.util.TestI18nHelper;
 import py.una.med.base.test.util.TestPropertiesUtil;
 import py.una.med.base.util.FormatProvider;
 import py.una.med.base.util.I18nHelper;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Aug 19, 2013
- *
+ * 
  */
 @Configuration
 @Profile(BaseTestConfiguration.TEST_PROFILE)
@@ -68,9 +68,9 @@ public class BaseTestConfiguration {
 	}
 
 	@Bean
-	QuantityAdapter quantityAdapter() {
+	NumberAdapter quantityAdapter() {
 
-		return QuantityAdapter.INSTANCE;
+		return NumberAdapter.INSTANCE;
 	}
 
 	@Bean

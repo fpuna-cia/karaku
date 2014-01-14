@@ -14,18 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import py.una.med.base.adapter.QuantityAdapter;
 import py.una.med.base.math.MathContextProvider;
+import py.una.med.base.services.util.NumberAdapter;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.Util;
 
 /**
  * Clase de configuración de la aplicación.
- *
+ * 
  * @author Arturo Volpe
  * @since 1.1
  * @version 1.0
- *
+ * 
  */
 @Configuration
 public class SIGHConfiguration {
@@ -77,7 +77,7 @@ public class SIGHConfiguration {
 	 * Define un scope de conversación de acceso para el uso de apache
 	 * orchestra, esta cadena se configura, además, en el archivo
 	 * applicationContext-orchestra.xml
-	 *
+	 * 
 	 * <p>
 	 * Para que un {@link org.springframework.stereotype.Component} que forme
 	 * parte de este contexto continue con vida, es suficiente con que exista,
@@ -104,7 +104,7 @@ public class SIGHConfiguration {
 	 * <p>
 	 * Las mismas se definen en {@link #CONFIG_LOCATION}.
 	 * </p>
-	 *
+	 * 
 	 * @return {@link PropertiesUtil} base de karaku.
 	 * @see PropertiesUtil
 	 */
@@ -127,7 +127,7 @@ public class SIGHConfiguration {
 	/**
 	 * Crea un {@link Map} que contiene las cadenas de internacionalización
 	 * actuales.
-	 *
+	 * 
 	 * @return Bean para internacionalización.
 	 */
 	@Bean(name = "msg")
@@ -148,7 +148,7 @@ public class SIGHConfiguration {
 	/**
 	 * Retorna true si la aplicacion esta en estado de desarrollo y false si
 	 * esta en otro estado.
-	 *
+	 * 
 	 * @see ProjectStage
 	 * @return true si es develop, false en otro caso
 	 */
@@ -166,7 +166,7 @@ public class SIGHConfiguration {
 
 	/**
 	 * Retorna true si el entorno actual de ejecucion es de Debug
-	 *
+	 * 
 	 * @return true si se esta debugeando, false si se esta ejecutando
 	 *         normalmente
 	 */
@@ -177,9 +177,9 @@ public class SIGHConfiguration {
 	}
 
 	@Bean
-	QuantityAdapter quantityAdapter() {
+	NumberAdapter quantityAdapter() {
 
-		return QuantityAdapter.INSTANCE;
+		return NumberAdapter.INSTANCE;
 	}
 
 }
