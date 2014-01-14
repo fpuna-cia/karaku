@@ -10,7 +10,7 @@
 
 	<aop:aspectj-autoproxy />
 	<bean class="py.una.med.base.audit.SIGHAudit" id="auditBase" />
-	<bean class="py.una.med.base.entityFilter.SIGHEntityFilterHandler" id="filterHandler" />
+	<bean class="py.una.med.base.dao.filter.SIGHEntityFilterHandler" id="filterHandler" />
 	<bean class="py.una.med.base.security.SIGHSecurity" id="security" />
 	<aop:config>
 		<aop:aspect id="auditBaseAspect" ref="auditBase">
