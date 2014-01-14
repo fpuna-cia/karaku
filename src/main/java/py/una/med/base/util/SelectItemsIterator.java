@@ -1,8 +1,8 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
- *
+ * 
  * Copyright (c) 1997-2010 Oracle and/or its affiliates. All rights reserved.
- *
+ * 
  * The contents of this file are subject to the terms of either the GNU General
  * Public License Version 2 only ("GPL") or the Common Development and
  * Distribution License("CDDL") (collectively, the "License"). You may not use
@@ -10,18 +10,18 @@
  * License at https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html or
  * packager/legal/LICENSE.txt. See the License for the specific language
  * governing permissions and limitations under the License.
- *
+ * 
  * When distributing the software, include this License Header Notice in each
  * file and include the License file at packager/legal/LICENSE.txt.
- *
+ * 
  * GPL Classpath Exception: Oracle designates this particular file as subject to
  * the "Classpath" exception as provided by Oracle in the GPL Version 2 section
  * of the License file that accompanied this code.
- *
+ * 
  * Modifications: If applicable, add the following below the License Header,
  * with the fields enclosed by brackets [] replaced by your own identifying
  * information: "Portions Copyright [year] [name of copyright owner]"
- *
+ * 
  * Contributor(s): If you wish your version of this file to be governed by only
  * the CDDL or only the GPL Version 2, indicate your decision by adding
  * "[Contributor] elects to include this software in this distribution under the
@@ -32,7 +32,6 @@
  * and therefore, elected the GPL Version 2 license, then the option applies
  * only if the new code is made subject to such option by the copyright holder.
  */
-
 package py.una.med.base.util;
 
 import java.io.IOException;
@@ -56,7 +55,7 @@ import javax.faces.model.SelectItem;
  * parent {@link javax.faces.component.UISelectMany} or
  * {@link javax.faces.component.UISelectOne}.
  * </p>
- *
+ * 
  * // RELEASE_PENDING (rlubke,driscoll) performanc review
  */
 final class SelectItemsIterator implements Iterator<SelectItem> {
@@ -72,7 +71,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	 * <p>
 	 * Construct an iterator instance for the specified parent component.
 	 * </p>
-	 *
+	 * 
 	 * @param ctx
 	 *            the {@link FacesContext} for the current request
 	 * @param parent
@@ -126,7 +125,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 
 		if (items != null) {
 			if (items.hasNext()) {
-				return (true);
+				return true;
 			} else {
 				items = null;
 			}
@@ -148,7 +147,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	 * <p>
 	 * Return the next element in the iteration.
 	 * </p>
-	 *
+	 * 
 	 * @throws NoSuchElementException
 	 *             if there are no more elements
 	 */
@@ -159,7 +158,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 			throw new NoSuchElementException();
 		}
 		if (items != null) {
-			return (items.next());
+			return items.next();
 		}
 		return next();
 
@@ -246,7 +245,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	/**
 	 * Update the <code>singleItemIterator</code> with the provided
 	 * <code>item</code>
-	 *
+	 * 
 	 * @param item
 	 *            the {@link SelectItem} to expose as an Iterator
 	 */
@@ -306,7 +305,9 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 
 		}
 
-	} // END SingleElementIterator
+	}
+
+	// END SingleElementIterator
 
 	/**
 	 * Iterates over a <code>Map</code> of values exposing each entry as a
@@ -344,8 +345,8 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 			Map.Entry entry = (Map.Entry) iterator.next();
 			Object key = entry.getKey();
 			Object value = entry.getValue();
-			item.setLabel(((key != null) ? key.toString() : value.toString()));
-			item.setValue(((value != null) ? value : ""));
+			item.setLabel((key != null) ? key.toString() : value.toString());
+			item.setValue((value != null) ? value : "");
 			return item;
 
 		}
@@ -357,7 +358,9 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 
 		}
 
-	} // END MapIterator
+	}
+
+	// END MapIterator
 
 	/**
 	 * <p>
@@ -441,7 +444,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 			/**
 			 * Updates the <code>SelectItem</code> properties based on the
 			 * current value.
-			 *
+			 * 
 			 * @param ctx
 			 *            the {@link FacesContext} for the current request
 			 * @param value
@@ -464,19 +467,19 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 					Object itemDisabledResult = attrs.get(ITEM_DISABLED);
 					Object noSelectionOptionResult = attrs
 							.get(NO_SELECTION_OPTION);
-					setValue(((itemValueResult != null) ? itemValueResult
-							: value));
-					setLabel(((itemLabelResult != null) ? itemLabelResult
-							.toString() : value.toString()));
-					setDescription(((itemDescriptionResult != null) ? itemDescriptionResult
-							.toString() : null));
-					setEscape(((itemEscapedResult != null) ? Boolean
-							.valueOf(itemEscapedResult.toString()) : false));
-					setDisabled(((itemDisabledResult != null) ? Boolean
-							.valueOf(itemDisabledResult.toString()) : false));
-					setNoSelectionOption(((noSelectionOptionResult != null) ? Boolean
+					setValue((itemValueResult != null) ? itemValueResult
+							: value);
+					setLabel((itemLabelResult != null) ? itemLabelResult
+							.toString() : value.toString());
+					setDescription((itemDescriptionResult != null) ? itemDescriptionResult
+							.toString() : null);
+					setEscape((itemEscapedResult != null) ? Boolean
+							.valueOf(itemEscapedResult.toString()) : false);
+					setDisabled((itemDisabledResult != null) ? Boolean
+							.valueOf(itemDisabledResult.toString()) : false);
+					setNoSelectionOption((noSelectionOptionResult != null) ? Boolean
 							.valueOf(noSelectionOptionResult.toString())
-							: false));
+							: false);
 				} finally {
 					if (var != null) {
 						if (oldVarValue != null) {
@@ -509,14 +512,17 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 
 			}
 
-		} // END GenericObjectSelectItem
+		}
+		// END GenericObjectSelectItem
 
-	} // END GenericObjectSelectItemIterator
+	}
+
+	// END GenericObjectSelectItemIterator
 
 	/**
 	 * Handles arrays of <code>SelectItem</code>s, generic Objects, or
 	 * combintations of both.
-	 *
+	 * 
 	 * A single <code>GenericObjectSelectItem</code> will be leverage for any
 	 * non-<code>SelectItem</code> objects encountered.
 	 */
@@ -545,7 +551,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 		@Override
 		public boolean hasNext() {
 
-			return (index < count);
+			return index < count;
 
 		}
 
@@ -571,12 +577,14 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 			throw new UnsupportedOperationException();
 		}
 
-	} // END ArrayIterator
+	}
+
+	// END ArrayIterator
 
 	/**
 	 * Handles Collections of <code>SelectItem</code>s, generic Objects, or
 	 * combintations of both.
-	 *
+	 * 
 	 * A single <code>GenericObjectSelectItem</code> will be leverage for any
 	 * non-<code>SelectItem</code> objects encountered.
 	 */
@@ -625,6 +633,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 
 		}
 
-	} // END CollectionItemIterator
+	}
+	// END CollectionItemIterator
 
 }

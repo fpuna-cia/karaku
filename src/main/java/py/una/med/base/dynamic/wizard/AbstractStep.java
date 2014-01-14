@@ -47,4 +47,10 @@ public abstract class AbstractStep extends Field implements Step {
 
 		this.description = description;
 	}
+
+	@Override
+	public void initialize() {
+
+		// ninguna acción por defecto
+	}
 }

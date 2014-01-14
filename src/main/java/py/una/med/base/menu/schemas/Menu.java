@@ -16,15 +16,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * <p>
  * Java class for Menu complex type.
- *
+ * 
  * <p>
  * The following schema fragment specifies the expected content contained within
  * this class.
- *
+ * 
  * <pre>
  * &lt;complexType name="Menu">
  *   &lt;complexContent>
@@ -53,8 +54,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- *
- *
+ * 
+ * 
  */
 @XmlRootElement(name = "menu")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -80,9 +81,9 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Gets the value of the id property.
-	 *
+	 * 
 	 * @return possible object is {@link String }
-	 *
+	 * 
 	 */
 	public String getId() {
 
@@ -91,10 +92,10 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Sets the value of the id property.
-	 *
+	 * 
 	 * @param value
 	 *            allowed object is {@link String }
-	 *
+	 * 
 	 */
 	public void setId(String value) {
 
@@ -103,9 +104,9 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Gets the value of the name property.
-	 *
+	 * 
 	 * @return possible object is {@link String }
-	 *
+	 * 
 	 */
 	public String getName() {
 
@@ -114,10 +115,10 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Sets the value of the name property.
-	 *
+	 * 
 	 * @param value
 	 *            allowed object is {@link String }
-	 *
+	 * 
 	 */
 	public void setName(String value) {
 
@@ -126,9 +127,9 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Gets the value of the url property.
-	 *
+	 * 
 	 * @return possible object is {@link String }
-	 *
+	 * 
 	 */
 	public String getUrl() {
 
@@ -137,10 +138,10 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Sets the value of the url property.
-	 *
+	 * 
 	 * @param value
 	 *            allowed object is {@link String }
-	 *
+	 * 
 	 */
 	public void setUrl(String value) {
 
@@ -149,9 +150,9 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Gets the value of the permissions property.
-	 *
+	 * 
 	 * @return possible object is {@link String }
-	 *
+	 * 
 	 */
 	public String getPermission() {
 
@@ -160,10 +161,10 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Sets the value of the permissions property.
-	 *
+	 * 
 	 * @param value
 	 *            allowed object is {@link String }
-	 *
+	 * 
 	 */
 	public void setPermission(String value) {
 
@@ -172,9 +173,9 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Gets the value of the enabled property.
-	 *
+	 * 
 	 * @return possible object is {@link String }
-	 *
+	 * 
 	 */
 	public String getEnabled() {
 
@@ -183,10 +184,10 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Sets the value of the enabled property.
-	 *
+	 * 
 	 * @param value
 	 *            allowed object is {@link String }
-	 *
+	 * 
 	 */
 	public void setEnabled(String value) {
 
@@ -195,7 +196,7 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Gets the value of the order property.
-	 *
+	 * 
 	 */
 	public int getOrder() {
 
@@ -204,7 +205,7 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Sets the value of the order property.
-	 *
+	 * 
 	 */
 	public void setOrder(int value) {
 
@@ -213,9 +214,9 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Gets the value of the items property.
-	 *
+	 * 
 	 * @return possible object is {@link Menu.Items }
-	 *
+	 * 
 	 */
 	public List<Menu> getItems() {
 
@@ -233,10 +234,10 @@ public final class Menu implements Comparable<Menu> {
 
 	/**
 	 * Sets the value of the items property.
-	 *
+	 * 
 	 * @param value
 	 *            allowed object is {@link Menu.Items }
-	 *
+	 * 
 	 */
 	public void setItems(List<Menu> value) {
 
@@ -247,11 +248,11 @@ public final class Menu implements Comparable<Menu> {
 	/**
 	 * <p>
 	 * Java class for anonymous complex type.
-	 *
+	 * 
 	 * <p>
 	 * The following schema fragment specifies the expected content contained
 	 * within this class.
-	 *
+	 * 
 	 * <pre>
 	 * &lt;complexType>
 	 *   &lt;complexContent>
@@ -263,8 +264,8 @@ public final class Menu implements Comparable<Menu> {
 	 *   &lt;/complexContent>
 	 * &lt;/complexType>
 	 * </pre>
-	 *
-	 *
+	 * 
+	 * 
 	 */
 	@XmlAccessorType(XmlAccessType.FIELD)
 	@XmlType(name = "", propOrder = { "menu" })
@@ -274,25 +275,25 @@ public final class Menu implements Comparable<Menu> {
 
 		/**
 		 * Gets the value of the menu property.
-		 *
+		 * 
 		 * <p>
 		 * This accessor method returns a reference to the live list, not a
 		 * snapshot. Therefore any modification you make to the returned list
 		 * will be present inside the JAXB object. This is why there is not a
 		 * <CODE>set</CODE> method for the menu property.
-		 *
+		 * 
 		 * <p>
 		 * For example, to add a new item, do as follows:
-		 *
+		 * 
 		 * <pre>
 		 * getMenu().add(newItem);
 		 * </pre>
-		 *
-		 *
+		 * 
+		 * 
 		 * <p>
 		 * Objects of the following type(s) are allowed in the list {@link Menu }
-		 *
-		 *
+		 * 
+		 * 
 		 */
 		public List<Menu> getMenu() {
 
@@ -344,41 +345,22 @@ public final class Menu implements Comparable<Menu> {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (this == obj)
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
 			return true;
-		if (obj == null)
+		}
+		if (obj.getClass() != getClass()) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Menu other = (Menu) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (items == null) {
-			if (other.items != null)
-				return false;
-		} else if (!items.equals(other.items))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (order != other.order)
-			return false;
-		if (permission == null) {
-			if (other.permission != null)
-				return false;
-		} else if (!permission.equals(other.permission))
-			return false;
-		if (url == null) {
-			if (other.url != null)
-				return false;
-		} else if (!url.equals(other.url))
-			return false;
-		return true;
+		}
+		Menu rhs = (Menu) obj;
+		return new EqualsBuilder().appendSuper(super.equals(obj))
+				.append(id, rhs.id).append(items, rhs.items)
+				.append(name, rhs.name).append(order, rhs.order)
+				.append(permission, rhs.permission).append(url, rhs.url)
+				.isEquals();
+
 	}
 
 	/**

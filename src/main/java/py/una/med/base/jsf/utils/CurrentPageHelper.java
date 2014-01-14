@@ -16,11 +16,11 @@ import py.una.med.base.menu.schemas.Menu;
 /**
  * Componente que se encarga de proveer funcionalidades básicas para la
  * manipulación de la vista actual.
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Aug 23, 2013
- *
+ * 
  */
 @Component
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.INTERFACES)
@@ -61,6 +61,7 @@ public class CurrentPageHelper implements ICurrentpageHelper {
 	@Override
 	public void setBind(HtmlOutputText input) {
 
+		// Es vacío por que lo utiliza para inicializar al objeto
 	}
 
 	/**

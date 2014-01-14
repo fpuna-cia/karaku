@@ -47,6 +47,9 @@ import py.una.med.base.util.StringUtils;
 public abstract class SIGHBaseController<T, K extends Serializable> implements
 		ISIGHBaseController<T, K> {
 
+	private static final String REPORT_SELECTION_KEY = "selectionFilters";
+	private static final String COLUMN_NOT_FOUND_IN_ENTITY_MESSAGE = "Column: {} not found in entity: {}";
+
 	/**
 	 * Vector que contiene las columnas por las que se intentará ordenar.
 	 */
@@ -314,14 +317,13 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	public Map<String, Object> getParamsFilter(Map<String, Object> paramsReport) {
 
 		if (this.example != null) {
-			paramsReport.put("selectionFilters",
+			paramsReport.put(REPORT_SELECTION_KEY,
 					EntitySerializer.serialize(this.getExample()));
 			return paramsReport;
 		}
-		if ((this.getFilterValue() != null)
-				&& !this.getFilterValue().equals("")) {
-			paramsReport.put("selectionFilters", this.getFilterOption() + ": "
-					+ this.getFilterValue());
+		if (StringUtils.isValid(getFilterValue())) {
+			paramsReport.put(REPORT_SELECTION_KEY, this.getFilterOption()
+					+ ": " + this.getFilterValue());
 			return paramsReport;
 		}
 		return paramsReport;
@@ -457,12 +459,10 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 				this.getBaseLogic().getDao().getClassOfT().getDeclaredField(s);
 				sp.addOrder(s, true);
 				return;
-			} catch (NoSuchFieldException e) {
-				this.log.trace("Column: {} not found in controller: {}", s,
-						this);
 			} catch (SecurityException e) {
-				this.log.trace("Column: {} not found in controller: {}", s,
-						this);
+				log.trace(COLUMN_NOT_FOUND_IN_ENTITY_MESSAGE, s, e);
+			} catch (NoSuchFieldException e) {
+				log.trace(COLUMN_NOT_FOUND_IN_ENTITY_MESSAGE, s, e);
 			}
 		}
 		throw new KarakuRuntimeException(
@@ -678,7 +678,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 			this.mode = Mode.VIEW;
 		}
 
-		if ((this.mode == Mode.VIEW) || (this.mode == Mode.DELETE)) {
+		if (this.mode == Mode.VIEW || this.mode == Mode.DELETE) {
 			return false;
 		}
 		return true;

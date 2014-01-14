@@ -37,6 +37,11 @@ import py.una.med.base.services.client.WSInformationProvider;
 public class KarakuWSClientConfiguration {
 
 	/**
+	 * 
+	 */
+	private static final String WRONG_VERSION_OF_WS_MESSAGE = "Wrong version of WS dependencies, please check your pom";
+
+	/**
 	 *
 	 */
 	private static final String DEFAULT_PACKAGES_TO_SCAN_EXPRESSION = "[\\w\\.]*services\\.schemas";
@@ -63,7 +68,7 @@ public class KarakuWSClientConfiguration {
 	@Bean
 	public WebServiceTemplate webServiceTemplate() {
 
-		if (properties.get(KARAKU_WS_CLIENT_ENABLED).equals("false")) {
+		if (!properties.getBoolean(KARAKU_WS_CLIENT_ENABLED, true)) {
 			return null;
 		}
 
@@ -73,9 +78,7 @@ public class KarakuWSClientConfiguration {
 			wst.setUnmarshaller(getJaxb2Marshaller());
 			return wst;
 		} catch (Exception e) {
-			throw new KarakuRuntimeException(
-					"Wrong version of WS dependencies, please check your pom",
-					e);
+			throw new KarakuRuntimeException(WRONG_VERSION_OF_WS_MESSAGE, e);
 		}
 
 	}
@@ -151,10 +154,9 @@ public class KarakuWSClientConfiguration {
 		return getJaxb2Marshaller();
 	}
 
-	// @SuppressWarnings("unchecked")
 	private Jaxb2Marshaller getJaxb2Marshaller() {
 
-		if (!(properties.get(KARAKU_WS_CLIENT_ENABLED).equals("true"))) {
+		if (!properties.getBoolean(KARAKU_WS_CLIENT_ENABLED, false)) {
 			return null;
 		}
 		Pattern pattern = Pattern.compile(properties.get(
@@ -219,9 +221,7 @@ public class KarakuWSClientConfiguration {
 							+ "please, check your pom and add the ws (oxm) dependencies",
 					e);
 		} catch (Exception e) {
-			throw new KarakuRuntimeException(
-					"Wrong version of WS dependencies, please check your pom",
-					e);
+			throw new KarakuRuntimeException(WRONG_VERSION_OF_WS_MESSAGE, e);
 		}
 	}
 

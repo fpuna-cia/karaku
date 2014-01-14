@@ -34,37 +34,36 @@ public class SIGHRevisionListener implements RevisionListener {
 
 	private boolean processReplicationChange(SIGHRevisionEntity revisionEntity) {
 
-		try {
-			notNull(ReplicationContextHolder.getContext());
-			revisionEntity.setUsername(ReplicationContextHolder.getContext()
-					.getReplicationUser());
-			return true;
-		} catch (IllegalArgumentException iae) {
+		if (ReplicationContextHolder.getContext() == null) {
 			revisionEntity.setUsername(null);
 			return false;
 		}
+		revisionEntity.setUsername(ReplicationContextHolder.getContext()
+				.getReplicationUser());
+		return true;
 
 	}
 
 	private boolean processJSFChange(SIGHRevisionEntity sre) {
 
-		try {
-			notNull(SecurityContextHolder.getContext());
-			notNull(SecurityContextHolder.getContext().getAuthentication());
-
-			String userName = SecurityContextHolder.getContext()
-					.getAuthentication().getName();
-			sre.setUsername(userName);
-
-			String ip = ((ServletRequestAttributes) RequestContextHolder
-					.currentRequestAttributes()).getRequest().getRemoteAddr();
-			sre.setIp(ip);
-			return true;
-		} catch (IllegalArgumentException iae) {
+		if (SecurityContextHolder.getContext() == null
+				|| SecurityContextHolder.getContext().getAuthentication() == null) {
 			sre.setUsername(null);
 			sre.setIp(null);
 			return false;
 		}
+		
+		notNull(SecurityContextHolder.getContext());
+		notNull(SecurityContextHolder.getContext().getAuthentication());
+
+		String userName = SecurityContextHolder.getContext()
+				.getAuthentication().getName();
+		sre.setUsername(userName);
+
+		String ip = ((ServletRequestAttributes) RequestContextHolder
+				.currentRequestAttributes()).getRequest().getRemoteAddr();
+		sre.setIp(ip);
+		return true;
 
 	}
 

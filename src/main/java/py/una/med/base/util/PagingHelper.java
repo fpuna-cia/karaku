@@ -9,12 +9,12 @@ import py.una.med.base.dao.search.SearchParam;
 
 /**
  * Clase que se encarga de la paginación de las tablas
- *
+ * 
  * @author Arturo Volpe
  * @author Uriel Gonzalez
  * @since 1.0
  * @version 1.3 30/07/2013
- *
+ * 
  */
 public class PagingHelper {
 
@@ -26,11 +26,11 @@ public class PagingHelper {
 	/**
 	 * Interfaz que se utiliza para capturar los eventos de cambios que sufre
 	 * este paginador.
-	 *
+	 * 
 	 * @author Arturo Volpe Torres
 	 * @since 1.0
 	 * @version 1.0 Jul 30, 2013
-	 *
+	 * 
 	 */
 	public interface ChangeListener {
 
@@ -40,7 +40,7 @@ public class PagingHelper {
 		 * llamado {@link PagingHelper#setPage(int)} pasando
 		 * {@link PagingHelper#getPage()} no invocara este evento. <br />
 		 * Notar que si se lanza una excepción, no se cambiara de página.
-		 *
+		 * 
 		 * @param thizz
 		 *            paginador
 		 * @param previousPage
@@ -61,7 +61,7 @@ public class PagingHelper {
 	 * Inicializa un nueva instancia, el punto de entrada de esta clase es
 	 * {@link #calculate(py.una.med.base.business.ISIGHBaseLogic, py.una.med.base.dao.restrictions.Where)}
 	 * , y para obtener los resultados utilizar {@link #getISearchparam()}
-	 *
+	 * 
 	 * @param rowsForPage
 	 *            cantidad de filas por página
 	 */
@@ -72,7 +72,7 @@ public class PagingHelper {
 
 	/**
 	 * Retorna un {@link ISearchParam} configurado con la paginación actual
-	 *
+	 * 
 	 * @return
 	 */
 	public ISearchParam getISearchparam() {
@@ -88,7 +88,7 @@ public class PagingHelper {
 	 */
 	public void next() {
 
-		if ((page + 1) > getMaxPage(currentCount)) {
+		if (page + 1 > getMaxPage(currentCount)) {
 			return;
 		}
 
@@ -101,7 +101,7 @@ public class PagingHelper {
 	 */
 	public void last() {
 
-		if (page == (getMaxPage() - 1)) {
+		if (page == getMaxPage() - 1) {
 			return;
 		}
 
@@ -137,7 +137,7 @@ public class PagingHelper {
 
 	/**
 	 * Retorna la página actual, es un valor entre 1 y MAX
-	 *
+	 * 
 	 * @return página actual
 	 */
 	public int getPage() {
@@ -164,15 +164,15 @@ public class PagingHelper {
 
 	/**
 	 * Retorna
-	 *
+	 * 
 	 * @return
 	 */
 	public String getFormattedPage() {
 
-		Long firstRecord = Long.valueOf((page * rowsForPage) + 1);
-		Long limit = Long.valueOf((page * rowsForPage) + rowsForPage);
+		Long firstRecord = Long.valueOf(page * rowsForPage + 1);
+		Long limit = Long.valueOf(page * rowsForPage + rowsForPage);
 
-		if ((page + 1) == getMaxPage(currentCount)) {
+		if (page + 1 == getMaxPage(currentCount)) {
 			limit = currentCount;
 		}
 
@@ -186,7 +186,7 @@ public class PagingHelper {
 
 	/**
 	 * Retorna la máxima página permitida actualmente.
-	 *
+	 * 
 	 * @return {@link Integer} que representa la última página que puede ser
 	 *         visible
 	 */
@@ -203,7 +203,7 @@ public class PagingHelper {
 		double rowForPage = rowsForPage;
 		int maxPage = (int) (count / rowsForPage);
 
-		if ((total / rowForPage) > maxPage) {
+		if (total / rowForPage > maxPage) {
 			maxPage++;
 		}
 
@@ -212,18 +212,18 @@ public class PagingHelper {
 
 	/**
 	 * Verifica si se puede avanzar una página
-	 *
+	 * 
 	 * @return <code>true</code> si se puede avanzar <code>false</code> en caso
 	 *         contrario
 	 */
 	public boolean hasNext() {
 
-		return ((page + 1) != getMaxPage(currentCount));
+		return page + 1 != getMaxPage(currentCount);
 	}
 
 	/**
 	 * Verifica si se puede volver atrás una página
-	 *
+	 * 
 	 * @return <code>true</code> si no es la primera página, y
 	 *         <code>false</code> si es la primera página
 	 */
@@ -236,11 +236,11 @@ public class PagingHelper {
 	 * Actualiza los valores de la paginación, este método es el punto de
 	 * entrada del {@link PagingHelper}, se debe llamar primero a este método
 	 * para que se calculen los limites de la consulta
-	 *
+	 * 
 	 * <br>
 	 * Si la página actual es mayor a la máxima página con la configuración
 	 * actual, se vuelve a 0
-	 *
+	 * 
 	 * @param dao
 	 *            dao del caso de uso
 	 * @param where
@@ -257,7 +257,7 @@ public class PagingHelper {
 
 	/**
 	 * Retorna el numero de la primera página a la que puede ir.
-	 *
+	 * 
 	 * @return {@link Integer} que representa la primera página
 	 */
 	public int getMinPage() {
@@ -270,7 +270,7 @@ public class PagingHelper {
 	 * diferencia de {@link #getPage()} en que esta va de 1 a
 	 * {@link #getMaxPage()}, y {@link #getPage()} va de 0 a
 	 * {@link #getMaxPage()} - 1
-	 *
+	 * 
 	 * @return Integer que representa la página actual
 	 */
 	public Integer getReadablePage() {
@@ -282,7 +282,7 @@ public class PagingHelper {
 	 * Asigna un número legible para un humano (típicamente desde interfaz), al
 	 * llamar a este método con el parametro '1', se mueve a la primera pagina,
 	 * que para {@link #getPage()} es 0.
-	 *
+	 * 
 	 * @see #getReadablePage()
 	 * @param page
 	 *            entero entre 1 y {@link #getMaxPage()}

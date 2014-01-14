@@ -21,16 +21,6 @@ public class DynamicFormStep extends AbstractStep implements Step {
 		dynamicForm = form;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.wizard.Step#initialize()
-	 */
-	@Override
-	public void initialize() {
-
-	}
-
 	/**
 	 * @return dynamicForm
 	 */
@@ -39,11 +29,6 @@ public class DynamicFormStep extends AbstractStep implements Step {
 		return dynamicForm;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#disable()
-	 */
 	@Override
 	public boolean disable() {
 
@@ -51,11 +36,6 @@ public class DynamicFormStep extends AbstractStep implements Step {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#enable()
-	 */
 	@Override
 	public boolean enable() {
 

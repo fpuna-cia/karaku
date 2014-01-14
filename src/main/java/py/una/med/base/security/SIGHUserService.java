@@ -4,6 +4,7 @@
 package py.una.med.base.security;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import javax.naming.Context;
@@ -16,6 +17,8 @@ import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,7 +29,7 @@ import py.una.med.base.configuration.PropertiesUtil;
 /**
  * Esta clase implementa UserDetailsService, permite recuperar datos del
  * usuario.
- *
+ * 
  * @author Uriel González
  * @author Arturo Volpe
  * @version 1.2, 08/08/13
@@ -34,18 +37,21 @@ import py.una.med.base.configuration.PropertiesUtil;
  */
 public class SIGHUserService implements UserDetailsService {
 
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SIGHUserService.class);
+
 	@Autowired
 	private PropertiesUtil propertiesUtil;
 
 	/**
 	 * Patrón por defecto para buscar usuarios en el LDAP. Valor por defecto: <br />
-	 *
+	 * 
 	 * <pre>
 	 * {@code
 	 * 		uid=UUU,ou=users,dc=med,dc=una,dc=py
 	 * }
 	 * </pre>
-	 *
+	 * 
 	 */
 	public static final String USER_PATTERN_DEFAULT = "uid=UUU,ou=users,dc=med,dc=una,dc=py";
 
@@ -53,7 +59,7 @@ public class SIGHUserService implements UserDetailsService {
 	 * Clave del archivo de propiedades que se utiliza para obtener la ubicación
 	 * del servidor Ldap. <br />
 	 * Debe de ser un número IP o un nombre de la página.
-	 *
+	 * 
 	 */
 	private static final String LDAP_SERVER_KEY = "ldap.server.host";
 
@@ -72,7 +78,7 @@ public class SIGHUserService implements UserDetailsService {
 	/**
 	 * Key del archivo de propiedades (cambiantes o no) donde se almacena el
 	 * patrón para buscar en el ldap.
-	 *
+	 * 
 	 * @see #USER_PATTERN_DEFAULT
 	 */
 	public static final String USER_PATTERN_KEY = "ldap.user.pattern";
@@ -89,7 +95,7 @@ public class SIGHUserService implements UserDetailsService {
 
 	/**
 	 * Localiza al usuario basándose en el nombre del usuario.
-	 *
+	 * 
 	 * @param username
 	 *            el nombre del usuario que identifica al usuario cuyos datos se
 	 *            requiere.
@@ -143,13 +149,14 @@ public class SIGHUserService implements UserDetailsService {
 
 			return listaRoles;
 		} catch (NamingException e) {
-			return null;
+			LOG.warn("Can't create Ldap Context", e);
+			return Collections.emptyList();
 		}
 	}
 
 	/**
 	 * Carga los permisos a un usuario.
-	 *
+	 * 
 	 * @param user
 	 *            {@link SIGHUserDetails} donde se agregan los usuarios.
 	 * @return {@link SIGHUserDetails} con los permisos cargados.
@@ -169,7 +176,7 @@ public class SIGHUserService implements UserDetailsService {
 	 * Los parámetros de este método deben estar correctamente configurados para
 	 * realizar la llamada, si desea llamar utilizando solamente el DN, ver
 	 * {@link #checkAuthenthicationByUID(String, String)}
-	 *
+	 * 
 	 * @param username
 	 *            usuario con el formato necesario para realizar la consulta.
 	 * @param password
@@ -182,6 +189,7 @@ public class SIGHUserService implements UserDetailsService {
 			getInitialDirContext(username, password).close();
 			return true;
 		} catch (NamingException ne) {
+			LOG.trace("User don't have rights", ne);
 			return false;
 		}
 	}
@@ -204,7 +212,7 @@ public class SIGHUserService implements UserDetailsService {
 	 * válidos. <br />
 	 * Que un usuario sea válido implica que se puede acceder al LDAP con las
 	 * credenciales proveídas. <br />
-	 *
+	 * 
 	 * @param username
 	 *            usuario del ldap (uid).
 	 * @param password

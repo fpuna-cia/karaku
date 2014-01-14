@@ -47,10 +47,7 @@ public class ReplicationLogic implements IReplicationLogic {
 	@Override
 	public Set<ReplicationInfo> getActiveReplications() {
 
-		Where<ReplicationInfo> where = Where.get();
-		where.addClause(Clauses.eq("active", true));
-
-		List<ReplicationInfo> ri = dao.getAll(where, null);
+		List<ReplicationInfo> ri = dao.getAll(getBaseWhere(), null);
 		if (ri == null) {
 			return Collections.emptySet();
 		}
@@ -97,18 +94,8 @@ public class ReplicationLogic implements IReplicationLogic {
 	@Transactional
 	public Set<ReplicationInfo> getReplicationsToDo() {
 
-		Where<ReplicationInfo> where = Where.get();
-		where.addClause(Clauses.eq("active", true));
-
-		List<ReplicationInfo> loaded = null;
-
-		try{
-			//XXX: Averiguar porqué el SessionFactory es null al obtener el listado de replicaciones pendientes.
-			loaded = dao.getAll(where, getSearchParam());
-		}
-		catch (NullPointerException e) {
-			log.error("Fatal Error while retrieving Replications To Do!!");
-		}
+		List<ReplicationInfo> loaded = dao.getAll(getBaseWhere(),
+				getSearchParam());
 
 		if (loaded == null) {
 			return Collections.emptySet();
@@ -125,6 +112,16 @@ public class ReplicationLogic implements IReplicationLogic {
 		}
 
 		return toRet;
+	}
+
+	/**
+	 * @return
+	 */
+	private Where<ReplicationInfo> getBaseWhere() {
+
+		Where<ReplicationInfo> where = Where.get();
+		where.addClause(Clauses.eq("active", true));
+		return where;
 	}
 
 	private Calendar getNextSync(ReplicationInfo ri) {

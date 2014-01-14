@@ -7,12 +7,17 @@ package py.una.med.base.controller;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import javax.faces.component.UIInput;
+import javax.faces.component.UIOutput;
 import javax.faces.model.SelectItem;
 import py.una.med.base.business.ISIGHBaseLogic;
+import py.una.med.base.dao.BaseDAO;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
+import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.reports.Column;
 import py.una.med.base.security.HasDefaultPermissions;
+import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.PagingHelper;
 
 /**
@@ -76,7 +81,7 @@ import py.una.med.base.util.PagingHelper;
  * @see ISIGHEmbeddableController ISIGHEmbeddableController interfaz que define
  *      el detalle de un caso de uso complejo
  */
-public interface ISIGHBaseController<T, ID extends Serializable> extends
+public interface ISIGHBaseController<T, K extends Serializable> extends
 		HasDefaultPermissions {
 
 	/**
@@ -262,7 +267,7 @@ public interface ISIGHBaseController<T, ID extends Serializable> extends
 	 * 
 	 * @return lógica del caso de uso
 	 */
-	ISIGHBaseLogic<T, ID> getBaseLogic();
+	ISIGHBaseLogic<T, K> getBaseLogic();
 
 	/**
 	 * Retorna el bean que esta siendo actualmente manipulado.

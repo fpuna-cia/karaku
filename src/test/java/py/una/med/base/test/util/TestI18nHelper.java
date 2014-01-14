@@ -70,7 +70,7 @@ public class TestI18nHelper extends I18nHelper {
 		ArrayList<ResourceBundle> bundles = new ArrayList<ResourceBundle>(
 				bundlesLocation.size());
 		for (String bundle : bundlesLocation) {
-			if (bundle.equals("")) {
+			if ("".equals(bundle)) {
 				continue;
 			}
 			bundle = bundle.substring(3);

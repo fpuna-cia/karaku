@@ -231,6 +231,8 @@ public class PickerField<T> extends LabelField {
 
 	public void setCode(final String code) {
 
+		// el codigo no importa, se utiliza solamente para respetar la
+		// convencion.
 	}
 
 	/**
@@ -358,6 +360,7 @@ public class PickerField<T> extends LabelField {
 
 	public void emptyMethod() {
 
+		// utilizado para representar una acción nula
 	}
 
 	/**

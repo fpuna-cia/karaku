@@ -32,6 +32,10 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		KarakuListHelperProvider<T> {
 
 	/**
+	 * 
+	 */
+	private static final String COLUMN_NOT_FOUND_IN_ENTITY_MESSAGE = "Column: {} not found.";
+	/**
 	 * Vector que contiene las columnas por las que se intentará ordenar.
 	 */
 	private static final String[] DEFAULT_SORT_COLUMNS = { "descripcion", "id" };
@@ -227,11 +231,9 @@ public class SIGHListHelper<T, K extends Serializable> implements
 				sp.addOrder(notNull(s), true);
 				return;
 			} catch (SecurityException e) {
-				LOG.trace("Column: {} not found in table: {}", s, logic
-						.getDao().getTableName());
+				LOG.trace(COLUMN_NOT_FOUND_IN_ENTITY_MESSAGE, s, e);
 			} catch (NoSuchFieldException e) {
-				LOG.trace("Column: {} not found in table: {}", s, logic
-						.getDao().getTableName());
+				LOG.trace(COLUMN_NOT_FOUND_IN_ENTITY_MESSAGE, s, e);
 			}
 		}
 		throw new KarakuRuntimeException(

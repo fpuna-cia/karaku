@@ -22,26 +22,30 @@ import org.springframework.stereotype.Component;
 
 /**
  * Clase que provee funcionalidades para el uso de expresiones
- *
+ * 
  * @author Arturo Volpe Torres
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.3.2 25/07/2013
- *
+ * 
  */
 @Component
 public class ELHelper {
 
+	/**
+	 * 
+	 */
+	private static final String CAN_NOT_FIND_THE_FIELD_OF_THE_EXPRESSION = "Can not find the field of the expression: {}";
 	public static final ELHelper INSTANCE = new ELHelper();
 	private static final String ACTION_METHOD = "#{CONTROLLER.METHOD}";
 
 	/**
 	 * Dada una expresión del tipo:<br />
-	 *
+	 * 
 	 * <pre>
 	 * 		#{controller.bean.field}
 	 * </pre>
-	 *
+	 * 
 	 * Determina tres grupos, de la siguiente forma
 	 * <table>
 	 * <tr>
@@ -65,7 +69,7 @@ public class ELHelper {
 	 * <br />
 	 * <br />
 	 * Reemplazando por ejemplo con $1$3 obtenemos la expresion:
-	 *
+	 * 
 	 * <pre>
 	 * #{controller.bean}
 	 * </pre>
@@ -73,11 +77,11 @@ public class ELHelper {
 	public static final String EXTRACT_FIELD_FROM_EXPRESSION_REGEX = "(#\\{.*)\\.(.*)(\\})";
 	private static Pattern pattern;
 
-	private static final Logger log = LoggerFactory.getLogger(ELHelper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ELHelper.class);
 
 	/**
 	 * Crea una expression que se utiliza para representar el tipo
-	 *
+	 * 
 	 * @param expression
 	 * @param type
 	 * @return value expression con la expression pasada que retorna el type
@@ -113,7 +117,7 @@ public class ELHelper {
 	/**
 	 * Este método debe retornar un String que se usara para el mapa de
 	 * navegación, retornar null o "" para refrescar la página
-	 *
+	 * 
 	 * @param controller
 	 * @param action
 	 * @return
@@ -127,7 +131,7 @@ public class ELHelper {
 
 	/**
 	 * Crea un método con el formato #{CONTROLLER.ACTION}
-	 *
+	 * 
 	 * @param controller
 	 * @param action
 	 * @return
@@ -140,7 +144,7 @@ public class ELHelper {
 
 	/**
 	 * Este método genera la expresion para invocar a un metodo utilizando ajax.
-	 *
+	 * 
 	 * @param controller
 	 * @param action
 	 * @return
@@ -185,16 +189,16 @@ public class ELHelper {
 
 	/**
 	 * Dada una expresión del tipo
-	 *
+	 * 
 	 * <pre>
 	 * 		#{controller.bean.field}
 	 * </pre>
-	 *
+	 * 
 	 * Retorna el {@link Field} donde se almacenara el campo field, notar que es
 	 * a nivel de {@link Field}, es decir, requiere que el getter y el setter,
 	 * tengan el mismo nombre (getField, setField), no sirve para campos que no
 	 * cumplan esta condicion.
-	 *
+	 * 
 	 * @param beanExpression
 	 *            expresión con el formato de
 	 *            {@link #EXTRACT_FIELD_FROM_EXPRESSION_REGEX}
@@ -222,8 +226,8 @@ public class ELHelper {
 				// Utilizar la expresión regular
 				// (#\{.*)\.([a-zA-Z]*|[a-zA-Z]*\[[a-zA-Z\.]*\])(\})
 				// See http://www.regexplanet.com/advanced/java/index.html
-				log.info("Can not find the field of the expression: "
-						+ beanExpression);
+				LOG.info(CAN_NOT_FIND_THE_FIELD_OF_THE_EXPRESSION,
+						beanExpression, el);
 				return null;
 			}
 			if (bean != null) {
@@ -232,10 +236,13 @@ public class ELHelper {
 					f = bean.getClass().getDeclaredField(field);
 				} catch (Exception e) {
 					try {
+						LOG.trace(
+								"Can't get field by reflection, trying using proxies",
+								e);
 						f = getFieldForce(field, bean.getClass());
 					} catch (Exception e2) {
-						log.info("Can not find the field of the expression: "
-								+ beanExpression);
+						LOG.debug(CAN_NOT_FIND_THE_FIELD_OF_THE_EXPRESSION,
+								beanExpression, e2);
 						return null;
 					}
 				}

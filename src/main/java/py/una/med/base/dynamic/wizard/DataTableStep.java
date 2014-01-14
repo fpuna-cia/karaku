@@ -21,21 +21,6 @@ public class DataTableStep extends AbstractStep implements Step {
 		this.bind = table;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.wizard.Step#initialize()
-	 */
-	@Override
-	public void initialize() {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#disable()
-	 */
 	@Override
 	public boolean disable() {
 
@@ -47,11 +32,6 @@ public class DataTableStep extends AbstractStep implements Step {
 		return bind;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#enable()
-	 */
 	@Override
 	public boolean enable() {
 

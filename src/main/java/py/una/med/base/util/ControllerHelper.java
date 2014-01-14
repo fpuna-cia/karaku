@@ -441,32 +441,30 @@ public class ControllerHelper {
 			if (component instanceof HtmlSelectOneMenu) {
 				HtmlSelectOneMenu com = (HtmlSelectOneMenu) component;
 				Object newValue = com.getSubmittedValue();
-				if (newValue == null) {
-					continue;
+				if (newValue != null) {
+					ValueExpression value = com
+							.getValueExpression(EL_VALUE_PROPERTY);
+					// Si tiene un converter definido, entonces utilizamos ese
+					// converter para obtener el valor
+					if (!(com.getConverter() == null)) {
+						newValue = com.getConverter().getAsObject(context, com,
+								newValue.toString());
+					}
+					value.setValue(elContext, newValue);
 				}
-				ValueExpression value = com
-						.getValueExpression(EL_VALUE_PROPERTY);
-				// Si tiene un converter definido, entonces utilizamos ese
-				// converter para obtener el valor
-				if (!(com.getConverter() == null)) {
-					newValue = com.getConverter().getAsObject(context, com,
-							newValue.toString());
-				}
-				value.setValue(elContext, newValue);
-				continue;
+
 			}
 			if (component instanceof UICalendar) {
 				UICalendar com = (UICalendar) component;
 				Object newValue = com.getSubmittedValue();
-				if (newValue == null) {
-					continue;
+				if (newValue != null) {
+					ValueExpression value = com
+							.getValueExpression(EL_VALUE_PROPERTY);
+					newValue = getConverter().getAsObject(context, component,
+							newValue.toString());
+					value.setValue(elContext, newValue);
 				}
 
-				ValueExpression value = com
-						.getValueExpression(EL_VALUE_PROPERTY);
-				newValue = getConverter().getAsObject(context, component,
-						newValue.toString());
-				value.setValue(elContext, newValue);
 			}
 			if (component instanceof UIInput
 					&& !(component instanceof UICalendar)) {

@@ -1,6 +1,7 @@
 package py.una.med.base.services.client;
 
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -82,7 +83,14 @@ public class JsonURLProvider implements WSInformationProvider {
 
 			try {
 				InputStream is = stream;
-				h = mapper.readValue(is, new TypeReference<Holder>() {});
+				h = mapper.readValue(is, new TypeReference<Holder>() {
+
+					@Override
+					public Type getType() {
+
+						return Holder.class;
+					}
+				});
 				is.close();
 			} catch (Exception e) {
 				log.warn("No se puede leer el archivo de Url's de Menu", e);

@@ -13,12 +13,12 @@ import java.io.Serializable;
  * @version 1.0 Feb 18, 2013
  * @param <T>
  *            entidad
- * @param <ID>
+ * @param <K>
  *            clase del id de la entidad
  * 
  */
-public interface ISIGHAdvancedController<T, ID extends Serializable> extends
-		ISIGHBaseController<T, ID> {
+public interface ISIGHAdvancedController<T, K extends Serializable> extends
+		ISIGHBaseController<T, K> {
 
 	/**
 	 * Método que se utiliza para capturar excepciones, manejarlas y mostrar
@@ -29,8 +29,9 @@ public interface ISIGHAdvancedController<T, ID extends Serializable> extends
 	 * </p>
 	 * Puede recibir cualquier excepción, pero las reconocidas son:
 	 * <ol>
-	 * <li> {@link UniqueConstraintException}: excepciones que se lanzan cuando
-	 * se un atributo con la anotación {@link Unique} duplciado.</li>
+	 * <li> {@link py.una.med.base.exception.UniqueConstraintException}:
+	 * excepciones que se lanzan cuando se un atributo con la anotación
+	 * {@link py.una.med.base.model.Unique} duplicado.</li>
 	 * </ol>
 	 * <p>
 	 * </p>

@@ -17,8 +17,8 @@ import py.una.med.base.util.SIGHConverterV2;
  * @version 1.0 24/07/2013
  * 
  */
-public interface ISIGHCheckListController<T, ID extends Serializable> extends
-		ISIGHAdvancedController<T, ID> {
+public interface ISIGHCheckListController<T, K extends Serializable> extends
+		ISIGHAdvancedController<T, K> {
 
 	Collection<T> getSelected();
 

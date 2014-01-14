@@ -70,21 +70,6 @@ public class FaceletsStep extends AbstractStep {
 		return path;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.wizard.Step#initialize()
-	 */
-	@Override
-	public void initialize() {
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#disable()
-	 */
 	@Override
 	public boolean disable() {
 
@@ -92,11 +77,6 @@ public class FaceletsStep extends AbstractStep {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#enable()
-	 */
 	@Override
 	public boolean enable() {
 

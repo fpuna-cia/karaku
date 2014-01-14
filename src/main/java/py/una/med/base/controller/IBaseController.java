@@ -14,7 +14,7 @@ import py.una.med.base.business.ISIGHBaseLogic;
  * 
  */
 @Deprecated
-public interface IBaseController<T, ID extends Serializable> {
+public interface IBaseController<T, K extends Serializable> {
 
 	String doCancel();
 
@@ -26,7 +26,7 @@ public interface IBaseController<T, ID extends Serializable> {
 
 	void doSearch();
 
-	ISIGHBaseLogic<T, ID> getBaseLogic();
+	ISIGHBaseLogic<T, K> getBaseLogic();
 
 	List<String> getBaseSearchItems();
 

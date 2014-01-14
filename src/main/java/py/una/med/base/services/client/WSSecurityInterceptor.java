@@ -4,10 +4,8 @@
  */
 package py.una.med.base.services.client;
 
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
-import javax.xml.transform.TransformerException;
 import org.apache.commons.lang3.CharEncoding;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
@@ -120,8 +118,7 @@ public class WSSecurityInterceptor {
 		return new WebServiceMessageCallback() {
 
 			@Override
-			public void doWithMessage(WebServiceMessage message)
-					throws IOException, TransformerException {
+			public void doWithMessage(WebServiceMessage message) {
 
 				addSecurity(user, pass, message);
 			}

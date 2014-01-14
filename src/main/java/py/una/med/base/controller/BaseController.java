@@ -19,6 +19,7 @@ import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.PagingHelper;
 import py.una.med.base.util.SelectHelper;
+import py.una.med.base.util.StringUtils;
 
 /**
  * 
@@ -162,7 +163,7 @@ public abstract class BaseController<T, K extends Serializable> implements
 		if (getExample() != null) {
 			return getByExample(getExample(), sp);
 		}
-		if ((filterValue != null) && !filterValue.equals("")) {
+		if (StringUtils.isValid(filterValue)) {
 			return getBySimpleFilter(getFilterValue(), sp);
 		}
 		return getAllEntities(sp);

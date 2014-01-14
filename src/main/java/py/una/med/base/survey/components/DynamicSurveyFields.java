@@ -132,18 +132,12 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	 */
 	public Boolean isRequiredField(int index) {
 
-		if (getQuestions().get(index).getObligatoria().equals("SI")) {
-			return true;
-		}
-		return false;
+		return getQuestions().get(index).isObligatoria();
 	}
 
 	public Boolean isEditableField(int index) {
 
-		if (getQuestions().get(index).getEditable().equals("SI")) {
-			return true;
-		}
-		return false;
+		return getQuestions().get(index).isEditable();
 	}
 
 	public int getFieldsNumber() {

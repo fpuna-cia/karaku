@@ -67,6 +67,8 @@ public class UriInterceptor extends AbstractInterceptor {
 			case SEQUENCE:
 				finalUri = bySequence(field, uri);
 				break;
+			default:
+				throw new IllegalArgumentException();
 		}
 
 		ReflectionUtils.setField(field, bean, baseUri + finalUri);

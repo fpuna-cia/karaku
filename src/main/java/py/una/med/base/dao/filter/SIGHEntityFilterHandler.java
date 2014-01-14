@@ -1,4 +1,4 @@
-package py.una.med.base.entityFilter;
+package py.una.med.base.dao.filter;
 
 import javax.annotation.PostConstruct;
 import org.aspectj.lang.JoinPoint;

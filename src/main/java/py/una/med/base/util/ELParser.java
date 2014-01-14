@@ -121,7 +121,7 @@ public final class ELParser {
 
 		String columnName = expression.substring(2, expression.length() - 1);
 		String format = columnName.substring(0, 4);
-		if (format.equals("item")) {
+		if ("item".equals(format)) {
 			columnName = columnName.substring(5, columnName.length());
 			return columnName;
 		}

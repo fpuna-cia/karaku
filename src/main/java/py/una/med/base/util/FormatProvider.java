@@ -15,9 +15,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import py.una.med.base.math.Quantity;
 
@@ -36,10 +37,10 @@ import py.una.med.base.math.Quantity;
  * <li> {@link Component}: {@literal @}Autowire {@link FormatProvider} fp;</li>
  * <li> {@link javax.faces.component.FacesComponent}:
  * Util.getSpringBeanByJSFContext(context, FormatProvider.class)</li>
- *
+ * 
  * </ol>
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Sep 10, 2013
@@ -48,6 +49,9 @@ import py.una.med.base.math.Quantity;
 @Component(value = FormatProvider.FORMAT_PROVIDER_NAME)
 public class FormatProvider {
 
+	private static final Logger LOG = LoggerFactory
+			.getLogger(FormatProvider.class);
+	private static final String CANT_PARSE_NULL_QUANTITY = "Cant parse null quantity";
 
 	/**
 	 * Nombre de este bean, se reduce el nombre para disminuir la verbosidad
@@ -56,13 +60,13 @@ public class FormatProvider {
 	public static final String FORMAT_PROVIDER_NAME = "fp";
 
 	/**
-	 *
+	 * 
 	 * Formato de las fechas en el sistema. Este formato incluye el año
 	 * completo, y esta separado por guiones.
 	 * <p>
 	 * Si se desea que se formateen hora y minutos ver {@link #DATETIME_FORMAT}
 	 * </p>
-	 *
+	 * 
 	 * @see #DATE_SHORT_FORMAT
 	 */
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
@@ -74,7 +78,7 @@ public class FormatProvider {
 	 * Si se desea que se formateen hora y los minutos, ver
 	 * {@link #DATETIME_SHORT_FORMAT}
 	 * </p>
-	 *
+	 * 
 	 * @see #DATE_FORMAT
 	 */
 	public static final String DATE_SHORT_FORMAT = "dd-MM-yy";
@@ -82,7 +86,7 @@ public class FormatProvider {
 	/**
 	 * Formato de las fechas que representan horas y minutos, no incluye los
 	 * segundos.
-	 *
+	 * 
 	 */
 	public static final String TIME_FORMAT = "HH:mm";
 
@@ -91,8 +95,8 @@ public class FormatProvider {
 	 * <p>
 	 * Este formato incluye el año completo separado por guiones.
 	 * </p>
-	 *
-	 *
+	 * 
+	 * 
 	 * @see #DATE_SHORT_FORMAT
 	 */
 	public static final String DATETIME_FORMAT = "dd-MM-yyyy HH:mm";
@@ -127,7 +131,7 @@ public class FormatProvider {
 	 * <code>""</code> si se le pasa como parámetro <code>null</code>.
 	 * </p>
 	 */
-	public static final String LONG_NUMBER_FORMAT = "###,###,###,###,###,###,###,###,###,###,##0.##";
+	public static final String LONG_NUMBER_FORMAT = NUMBER_FORMAT;
 
 	/**
 	 * Formato para las monedas. Se compone de una cantidad variable de numeros
@@ -155,9 +159,8 @@ public class FormatProvider {
 				DATE_SHORT_FORMAT));
 		this.formats.put(TIME_FORMAT, new SimpleDateFormat(TIME_FORMAT));
 		this.formats
-		.put(DATETIME_FORMAT, new SimpleDateFormat(DATETIME_FORMAT));
+				.put(DATETIME_FORMAT, new SimpleDateFormat(DATETIME_FORMAT));
 		this.formats.put(DATETIME_SHORT_FORMAT, new SimpleDateFormat(
-
 				DATETIME_SHORT_FORMAT));
 		for (SimpleDateFormat sdf : this.formats.values()) {
 			sdf.setLenient(false);
@@ -171,14 +174,14 @@ public class FormatProvider {
 	 * reducido. Si es el caso en que se deben mostrar horas y minutos, se debe
 	 * usar {@link #asShortDateTime(Date)} o {@link #asTime(Date)}.
 	 * </p>
-	 *
+	 * 
 	 * <pre>
 	 * 	Dado:
 	 * 		Date = 11-11-2013 22:15:00
 	 * 	Retorna
 	 * 		11-11-13
 	 * </pre>
-	 *
+	 * 
 	 * @param date
 	 *            fecha que se desea parsear.
 	 * @return cadena con el formato {@value #DATE_SHORT_FORMAT}, retorna
@@ -193,7 +196,7 @@ public class FormatProvider {
 	 * Parsea una fecha con el formato {@link #DATE_SHORT_FORMAT}.
 	 * <p>
 	 * Ejemplo de uso:
-	 *
+	 * 
 	 * <pre>
 	 * 	fp.parseShortDate("11-11-13")
 	 * Retorna:
@@ -201,9 +204,9 @@ public class FormatProvider {
 	 * 		Fecha:	11-11-2013
 	 * 		Hora:	00:00:00:00
 	 * </pre>
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @param string
 	 *            cadena con el formato {@value #DATE_SHORT_FORMAT}
 	 * @return {@link Date} correspondiente
@@ -222,14 +225,14 @@ public class FormatProvider {
 	 * reducido. Si es el caso en que se deben mostrar horas y minutos, se debe
 	 * usar {@link #asDateTime(Date)} o {@link #asTime(Date)}.
 	 * </p>
-	 *
+	 * 
 	 * <pre>
 	 * 	Dado:
 	 * 		Date = 11-11-2013 22:15:00
 	 * 	Retorna
 	 * 		11-11-2013
 	 * </pre>
-	 *
+	 * 
 	 * @param date
 	 *            fecha que se desea parsear.
 	 * @return cadena con el formato {@value #DATE_FORMAT}, retorna
@@ -245,7 +248,7 @@ public class FormatProvider {
 	 * Parsea una fecha con el formato {@link #DATE_FORMAT}.
 	 * <p>
 	 * Ejemplo de uso:
-	 *
+	 * 
 	 * <pre>
 	 * 	fp.parseShortDate("11-11-2013")
 	 * Retorna:
@@ -253,9 +256,9 @@ public class FormatProvider {
 	 * 		Fecha:	11-11-2013
 	 * 		Hora:	00:00:00:00
 	 * </pre>
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @param string
 	 *            cadena con el formato {@value #DATE_FORMAT}
 	 * @return {@link Date} correspondiente
@@ -273,14 +276,14 @@ public class FormatProvider {
 	 * Este formato debe ser usado cuando al fecha no es importante, solo la
 	 * hora y los minutos.
 	 * </p>
-	 *
+	 * 
 	 * <pre>
 	 * 	Dado:
 	 * 		Date = 11-11-2013 22:15:00
 	 * 	Retorna
 	 * 		22:15
 	 * </pre>
-	 *
+	 * 
 	 * @param date
 	 *            fecha que se desea parsear.
 	 * @return cadena con el formato {@value #TIME_FORMAT}, retorna
@@ -296,7 +299,7 @@ public class FormatProvider {
 	 * Parsea una fecha con el formato {@link #TIME_FORMAT}.
 	 * <p>
 	 * Ejemplo de uso:
-	 *
+	 * 
 	 * <pre>
 	 * 	fp.parseShortDate("15:30")
 	 * Retorna:
@@ -304,9 +307,9 @@ public class FormatProvider {
 	 * 		Fecha:	01-01-1970
 	 * 		Hora:	15:39:00:00
 	 * </pre>
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @param string
 	 *            cadena con el formato {@value #DATE_FORMAT}
 	 * @return {@link Date} correspondiente
@@ -324,14 +327,14 @@ public class FormatProvider {
 	 * Este formato debe ser usado cuando al fecha no es importante, solo la
 	 * hora y los minutos.
 	 * </p>
-	 *
+	 * 
 	 * <pre>
 	 * 	Dado:
 	 * 		Date = 11-11-2013 22:15:00
 	 * 	Retorna
 	 * 		11-11-2013 22:15
 	 * </pre>
-	 *
+	 * 
 	 * @param date
 	 *            fecha que se desea parsear.
 	 * @return cadena con el formato {@value #DATETIME_FORMAT}, retorna
@@ -346,7 +349,7 @@ public class FormatProvider {
 	 * Parsea una fecha con el formato {@link #DATETIME_FORMAT}.
 	 * <p>
 	 * Ejemplo de uso:
-	 *
+	 * 
 	 * <pre>
 	 * 	fp.parseShortDate("2013-11-11 15:39")
 	 * Retorna:
@@ -354,9 +357,9 @@ public class FormatProvider {
 	 * 		Fecha:	11-11-2013
 	 * 		Hora:	15:39:00:00
 	 * </pre>
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @param string
 	 *            cadena con el formato {@value #DATE_FORMAT}
 	 * @return {@link Date} correspondiente
@@ -374,14 +377,14 @@ public class FormatProvider {
 	 * Este formato debe ser usado cuando al fecha no es importante, solo la
 	 * hora y los minutos.
 	 * </p>
-	 *
+	 * 
 	 * <pre>
 	 * 	Dado:
 	 * 		Date = 11-11-13 22:15:00
 	 * 	Retorna
 	 * 		11-11-13 22:15
 	 * </pre>
-	 *
+	 * 
 	 * @param date
 	 *            fecha que se desea parsear.
 	 * @return cadena con el formato {@value #DATETIME_SHORT_FORMAT}, retorna
@@ -396,7 +399,7 @@ public class FormatProvider {
 	 * Parsea una fecha con el formato {@link #DATETIME_SHORT_FORMAT}.
 	 * <p>
 	 * Ejemplo de uso:
-	 *
+	 * 
 	 * <pre>
 	 * 	fp.parseShortDate("13-11-11 15:39")
 	 * Retorna:
@@ -404,9 +407,9 @@ public class FormatProvider {
 	 * 		Fecha:	11-11-2013
 	 * 		Hora:	15:39:00:00
 	 * </pre>
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @param string
 	 *            cadena con el formato {@value #DATETIME_SHORT_FORMAT}
 	 * @return {@link Date} correspondiente
@@ -421,9 +424,9 @@ public class FormatProvider {
 
 	/**
 	 * Parsea un número con el formato estandar.
-	 *
+	 * 
 	 * <p>
-	 *
+	 * 
 	 * <table>
 	 * <tr>
 	 * <td><b>Numero</b></td>
@@ -467,7 +470,7 @@ public class FormatProvider {
 	 * </tr>
 	 * </table>
 	 * </p>
-	 *
+	 * 
 	 * @param bd
 	 *            {@link BigDecimal} a convertir.
 	 * @return cadena formateada, segun los ejemplos anteriores
@@ -475,7 +478,7 @@ public class FormatProvider {
 	public String asNumber(@NotNull BigDecimal bd) {
 
 		if (bd == null) {
-			throw new IllegalArgumentException("Cant parse null BigIntegers");
+			throw new IllegalArgumentException(CANT_PARSE_NULL_QUANTITY);
 		}
 		return this.getNumberFormat(NUMBER_FORMAT).format(bd);
 
@@ -483,9 +486,9 @@ public class FormatProvider {
 
 	/**
 	 * Parsea un número con el formato estandar.
-	 *
+	 * 
 	 * <p>
-	 *
+	 * 
 	 * <table>
 	 * <tr>
 	 * <td><b>Numero</b></td>
@@ -530,7 +533,7 @@ public class FormatProvider {
 	 * bd
 	 * </table>
 	 * </p>
-	 *
+	 * 
 	 * @param bd
 	 *            {@link BigDecimal} a convertir.
 	 * @return cadena formateada, segun los ejemplos anteriores
@@ -538,7 +541,7 @@ public class FormatProvider {
 	public String asNumber(@NotNull Quantity bd) {
 
 		if (bd == null) {
-			throw new IllegalArgumentException("Cant parse null BigIntegers");
+			throw new IllegalArgumentException(CANT_PARSE_NULL_QUANTITY);
 		}
 		return this.getNumberFormat(NUMBER_FORMAT).format(bd);
 
@@ -546,7 +549,7 @@ public class FormatProvider {
 
 	public Quantity parseQuantity(String number) throws ParseException {
 
-		if ((number == null) || EMPTY_STRING.equals(number)) {
+		if (number == null || EMPTY_STRING.equals(number)) {
 			return null;
 		}
 		return new Quantity(getNumberFormat(NUMBER_FORMAT).parse(number)
@@ -556,7 +559,7 @@ public class FormatProvider {
 	public String asLongNumber(@NotNull Quantity bd) {
 
 		if (bd == null) {
-			throw new IllegalArgumentException("Cant parse null BigIntegers");
+			throw new IllegalArgumentException(CANT_PARSE_NULL_QUANTITY);
 		}
 		return this.getNumberFormat(LONG_NUMBER_FORMAT).format(bd);
 
@@ -564,7 +567,7 @@ public class FormatProvider {
 
 	public Quantity parseLongQuantity(String number) throws ParseException {
 
-		if ((number == null) || EMPTY_STRING.equals(number)) {
+		if (number == null || EMPTY_STRING.equals(number)) {
 			return null;
 		}
 
@@ -574,7 +577,7 @@ public class FormatProvider {
 
 	/**
 	 * Parsea una cadena con el formato pasado.
-	 *
+	 * 
 	 * @param date
 	 *            fecha a serializar
 	 * @param format
@@ -591,7 +594,7 @@ public class FormatProvider {
 
 	/**
 	 * Formatea una fecha con el formato dado
-	 *
+	 * 
 	 * @param string
 	 *            cadena a formatear
 	 * @param format
@@ -603,7 +606,7 @@ public class FormatProvider {
 	protected synchronized Date stringToDate(String string, String format)
 			throws ParseException {
 
-		if ((string == null) || EMPTY_STRING.equals(string)) {
+		if (string == null || EMPTY_STRING.equals(string)) {
 			return null;
 		}
 		SimpleDateFormat sdf = this.getFormat(format);
@@ -627,7 +630,7 @@ public class FormatProvider {
 
 	/**
 	 * Provee un formato
-	 *
+	 * 
 	 * @param format
 	 * @return
 	 */
@@ -666,7 +669,7 @@ public class FormatProvider {
 	/**
 	 * Verifica si una fecha tiene el formato correspondiente a
 	 * {@link #DATE_FORMAT}.
-	 *
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -679,6 +682,7 @@ public class FormatProvider {
 			this.parseDate(date);
 			return true;
 		} catch (ParseException pe) {
+			LOG.trace("Can' parse date:", pe);
 			return false;
 		}
 	}

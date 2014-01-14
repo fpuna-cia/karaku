@@ -63,7 +63,7 @@ public class MainInstanceHelper {
 		query.setParameter("value", principal.value());
 		query.setParameter("mainEntity", parent);
 		List<Object> list = query.list();
-		if ((list == null) || (list.isEmpty())) {
+		if (list == null || list.isEmpty()) {
 			return null;
 		}
 		if (list.size() > 1) {
@@ -135,7 +135,7 @@ public class MainInstanceHelper {
 				.getMainInstanceFields(clase);
 		List<T> aRet;
 
-		if ((where != null) && where.isDistinct()) {
+		if (where != null && where.isDistinct()) {
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		}
 
@@ -172,7 +172,7 @@ public class MainInstanceHelper {
 
 		List<T> aRet;
 		Collection<T> toBuild;
-		if ((where != null) && where.isDistinct()) {
+		if (where != null && where.isDistinct()) {
 			toBuild = new LinkedHashSet<T>();
 		} else {
 			toBuild = new ArrayList<T>();
@@ -257,8 +257,8 @@ public class MainInstanceHelper {
 	 * @throws NoSuchMethodException
 	 */
 	public void help(final Object entity, final Session session)
-			throws IllegalAccessException, NoSuchMethodException,
-			InstantiationException, InvocationTargetException {
+			throws NoSuchMethodException, InstantiationException,
+			IllegalAccessException, InvocationTargetException {
 
 		if (entity == null) {
 			return;

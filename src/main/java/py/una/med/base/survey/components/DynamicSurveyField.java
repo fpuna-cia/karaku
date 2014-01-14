@@ -11,11 +11,11 @@ import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
 /**
  * Esta clase representa un Field, o mejor dicho un InputText con validaciones
  * de required y size MAX.
- *
+ * 
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 05/06/2013
- *
+ * 
  */
 public final class DynamicSurveyField {
 
@@ -52,7 +52,7 @@ public final class DynamicSurveyField {
 		/**
 		 * Esto se hace para que se pueda validar, no necesariamente la
 		 * propiedad {@link #validate} es un campo real.
-		 *
+		 * 
 		 * @return
 		 */
 		@AssertTrue(message = "Se ha exedido la longitud maxima")
@@ -109,7 +109,7 @@ public final class DynamicSurveyField {
 
 		/*
 		 * (non-Javadoc)
-		 *
+		 * 
 		 * @see py.una.med.base.survey.DynamicSurveyField.SurveyField#getMax()
 		 */
 		@Override
@@ -194,14 +194,14 @@ public final class DynamicSurveyField {
 
 	/**
 	 * Construye un Field a ser utilizado dentro del formulario
-	 *
+	 * 
 	 * @param columna
 	 *            Field a representar
 	 * @return Field requerido o no de acuerdo a si es obligatoria o no.
 	 */
 	public static SurveyField fieldFactory(EncuestaPlantillaPregunta columna) {
 
-		if (columna.getObligatoria().equals("SI")) {
+		if ("SI".equals(columna.getObligatoria())) {
 			return new DynamicSurveyField.Required(columna.getOrden(),
 					columna.getLongitudRespuesta());
 

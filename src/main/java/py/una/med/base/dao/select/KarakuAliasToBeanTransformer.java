@@ -4,6 +4,7 @@
  */
 package py.una.med.base.dao.select;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Nonnull;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
@@ -43,6 +45,10 @@ import py.una.med.base.util.ListHelper;
 public class KarakuAliasToBeanTransformer<T> extends
 		AliasToBeanResultTransformer {
 
+	/**
+	 * 
+	 */
+	private static final String COULD_NOT_INSTANTIATE_RESULTCLASS = "Could not instantiate resultclass: ";
 	private static final String UNCHECKED = "unchecked";
 	private static final String RAWTYPES = "rawtypes";
 	private final Class<T> resultClass;
@@ -86,10 +92,10 @@ public class KarakuAliasToBeanTransformer<T> extends
 				}
 			}
 		} catch (InstantiationException e) {
-			throw new HibernateException("Could not instantiate resultclass: "
+			throw new HibernateException(COULD_NOT_INSTANTIATE_RESULTCLASS
 					+ resultClass.getName(), e);
 		} catch (IllegalAccessException e) {
-			throw new HibernateException("Could not instantiate resultclass: "
+			throw new HibernateException(COULD_NOT_INSTANTIATE_RESULTCLASS
 					+ resultClass.getName(), e);
 		}
 
@@ -131,7 +137,7 @@ public class KarakuAliasToBeanTransformer<T> extends
 			}
 			Identity neI = new Identity(o);
 			if (objects.containsKey(neI)) {
-				handleDuplicate(objects.get(neI), o, aliases);
+				handleDuplicate(objects.get(neI), o);
 			} else {
 				objects.put(neI, o);
 				toRet.add(o);
@@ -146,8 +152,7 @@ public class KarakuAliasToBeanTransformer<T> extends
 	 * @param duplicated
 	 * @param currentAlias
 	 */
-	private void handleDuplicate(Object primary, Object duplicated,
-			String[] currentAlias) {
+	private void handleDuplicate(Object primary, Object duplicated) {
 
 		for (Setter s : setters) {
 			if (s instanceof NestedSetter) {
@@ -177,8 +182,11 @@ public class KarakuAliasToBeanTransformer<T> extends
 		@Override
 		public boolean equals(Object obj) {
 
-			Identity other = (Identity) obj;
-			return e.getId().equals(other.e.getId());
+			if (!(obj instanceof Identity)) {
+				Identity other = (Identity) obj;
+				return e.getId().equals(other.e.getId());
+			}
+			return false;
 		}
 
 		@Override
@@ -236,12 +244,13 @@ public class KarakuAliasToBeanTransformer<T> extends
 	 * @version 1.0 Jan 9, 2014
 	 * 
 	 */
-	private static class NestedObjectHolder {
+	private static class NestedObjectHolder implements Serializable {
 
+		private static final long serialVersionUID = -8862245221089607348L;
 		/**
 		 * Par de path, currentObject
 		 */
-		private HashMap<String, Object> created = new HashMap<String, Object>();
+		private Map<String, Object> created = new HashMap<String, Object>();
 
 		/**
 		 * Define si tiene o no un objeto almacenado.
@@ -268,9 +277,6 @@ public class KarakuAliasToBeanTransformer<T> extends
 
 	private static class NestedSetter implements Setter {
 
-		/**
-		 *
-		 */
 		private static final long serialVersionUID = -3494109024315529035L;
 		private final Class<?> root;
 		private NestedObjectHolder nestedObjectHandler;
@@ -343,8 +349,7 @@ public class KarakuAliasToBeanTransformer<T> extends
 				if (List.class.isAssignableFrom(currentClass)) {
 					hasCollection = true;
 					// si es una coleccion ver que hacer con current
-					current = handleList(currentField, current,
-							currentProperty.toString());
+					current = handleList(currentField, current, sb.toString());
 					// al ser una colección, el tipo no es el mismo que el field
 					currentClass = current.getClass();
 				} else {

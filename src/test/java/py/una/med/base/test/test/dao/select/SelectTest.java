@@ -46,7 +46,7 @@ public class SelectTest extends BaseTestWithDatabase {
 		public Class<?>[] getEntityClasses() {
 
 			return TestUtils.getReferencedClasses(TestEntity.class);
-		};
+		}
 
 	}
 

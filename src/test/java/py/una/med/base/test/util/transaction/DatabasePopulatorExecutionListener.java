@@ -209,7 +209,7 @@ public class DatabasePopulatorExecutionListener extends
 			if (path.equals(SQLFiles.NONE)) {
 				continue;
 			}
-			if (path.equals(SQLFiles.DEFAULT) || path.equals("")) {
+			if (path.equals(SQLFiles.DEFAULT) || "".equals(path)) {
 				path = getSQLFile(testContext.getTestClass().getName());
 			}
 			if (files.contains(file)) {

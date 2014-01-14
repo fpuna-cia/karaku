@@ -53,7 +53,7 @@ public class SIGHCustomJasperDataSource extends JRAbstractBeanDataSource {
 				return null;
 			}
 		}
-		Object[] columnas = ((Object[]) objects.get(row));
+		Object[] columnas = (Object[]) objects.get(row);
 		if (columnas.length <= column) {
 			column++;
 			return null;

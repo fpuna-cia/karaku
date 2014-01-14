@@ -8,14 +8,12 @@ package py.una.med.base.dao.impl;
 import static py.una.med.base.util.Checker.notNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,6 +29,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.engine.spi.SessionImplementor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.BaseDAO;
@@ -190,12 +189,10 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		}
 		try {
 			for (final Field f : example.getClass().getDeclaredFields()) {
-				if ((f.getAnnotation(OneToOne.class) == null)
-						&& (f.getAnnotation(ManyToOne.class) == null)) {
-					continue;
-				}
 				f.setAccessible(true);
-				if (f.get(example) == null) {
+				if (((f.getAnnotation(OneToOne.class) == null) && (f
+						.getAnnotation(ManyToOne.class) == null))
+						|| f.get(example) == null) {
 					continue;
 				}
 				criteria.add(Restrictions.eq(f.getName(), f.get(example)));
@@ -337,6 +334,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		try {
 			return (T) this.getSession().get(getClassOfT(), id);
 		} catch (ObjectNotFoundException onfe) {
+			log.trace("Can't find entity with id {}", id, onfe);
 			return null;
 		}
 	}
@@ -440,59 +438,14 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@SuppressWarnings(UNCHECKED)
 	private K getIdValue(final T obj) {
 
-		Exception ex;
-		try {
-			if (this.getClassOfT().getMethod("getId") != null) {
-				return ((K) obj.getClass().getMethod("getId")
-						.invoke(obj, (Object[]) null));
-			}
-		} catch (Exception nsme) {
-			ex = nsme;
-		}
-		try {
-			for (Field field : obj.getClass().getDeclaredFields()) {
-				if (field.isAnnotationPresent(Id.class)) {
-					field.setAccessible(true);
-					K data = (K) field.get(obj);
-					field.setAccessible(false);
-					return data;
-				}
-			}
-			return null;
-		} catch (Exception exe) {
-			ex = exe;
-		}
-		this.log.error("Error al obtener el Id", ex);
-		return null;
+		return (K) getSessionFactory().getClassMetadata(getClassOfT())
+				.getIdentifier(obj, (SessionImplementor) getSession());
 	}
 
 	private void setId(final T dst, final K key) {
 
-		Exception ex = null;
-		try {
-			Method set = this.getClassOfT().getMethod("setId", Long.class);
-			if (set != null) {
-				set.invoke(dst, key);
-				return;
-			}
-		} catch (Exception nsme) {
-			ex = nsme;
-		}
-		try {
-			for (Field field : this.getClassOfT().getDeclaredFields()) {
-				if (field.isAnnotationPresent(Id.class)) {
-					field.setAccessible(true);
-					field.set(dst, key);
-					field.setAccessible(false);
-					return;
-				}
-			}
-		} catch (Exception exe) {
-			ex = exe;
-		}
-		if (ex != null) {
-			this.log.error("Error al asignar el Id (not found)", ex);
-		}
+		getSessionFactory().getClassMetadata(getClassOfT()).setIdentifier(dst,
+				key, (SessionImplementor) getSession());
 	}
 
 	/**

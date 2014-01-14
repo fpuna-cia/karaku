@@ -42,12 +42,12 @@ public final class KarakuReflectionUtils {
 		ParameterizedType type = (ParameterizedType) leaf.getClass()
 				.getGenericSuperclass();
 
-		if ((type.getActualTypeArguments().length <= index)) {
+		if (type.getActualTypeArguments().length <= index) {
 			throw new KarakuRuntimeException(
 					"Cant get the parameterizedClass of claas "
 							+ leaf.getClass().getName());
 		}
-		Class<T> clazz = ((Class<T>) type.getActualTypeArguments()[index]);
+		Class<T> clazz = (Class<T>) type.getActualTypeArguments()[index];
 		if (clazz != null) {
 			return clazz;
 		} else {

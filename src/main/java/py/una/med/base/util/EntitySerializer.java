@@ -50,8 +50,8 @@ public final class EntitySerializer {
 			key = I18nHelper.getName(displayName);
 		}
 
-		if (!key.equals("serialVersionUID") && (value != null)
-				&& !value.equals("")) {
+		if (!"serialVersionUID".equals(key) && (value != null)
+				&& !"".equals(value)) {
 			return Serializer.contruct(sb, key, value.toString());
 		}
 		return sb;

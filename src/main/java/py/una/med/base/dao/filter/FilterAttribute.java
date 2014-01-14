@@ -1,4 +1,4 @@
-package py.una.med.base.entityFilter;
+package py.una.med.base.dao.filter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

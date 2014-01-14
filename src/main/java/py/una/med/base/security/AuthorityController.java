@@ -26,7 +26,7 @@ import py.una.med.base.util.StringUtils;
 @Service
 public class AuthorityController {
 
-	private static final Logger log = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(AuthorityController.class);
 
 	/**
@@ -86,7 +86,7 @@ public class AuthorityController {
 	public static boolean hasRoleStatic(String rol) {
 
 		if (StringUtils.isInvalid(rol)) {
-			log.trace("Checking a invalid rol ({})", rol);
+			LOG.trace("Checking a invalid rol ({})", rol);
 		}
 		return ((SIGHUserDetails) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).hasRole(rol);

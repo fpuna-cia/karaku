@@ -5,7 +5,7 @@
 
 package py.una.med.base.business.reports;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +13,7 @@ import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +28,11 @@ import ar.com.fdvs.dj.domain.DynamicReport;
 /**
  * Clase que implementa las funcionalidades basicas necesarias para generar
  * reportes complejos
- *
+ * 
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.1 12/03/2013
- *
+ * 
  */
 @Service
 @Transactional
@@ -44,7 +45,7 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	@Override
 	public ISIGHBaseLogic<T, ?> getBaseLogic() {
 
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
@@ -89,16 +90,20 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	@Override
 	public List<Column> getColumnsReport() {
 
-		return new ArrayList<Column>();
+		return Collections.emptyList();
 	}
 
 	@Override
 	public List<?> getList(Map<String, Object> listFilters,
 			List<String> listOrder) {
 
-		return null;
+		return Collections.emptyList();
 	}
 
+	/**
+	 * @deprecated user
+	 *             {@link #generateReport(boolean, boolean, Map, String, Map, List)}
+	 */
 	@Deprecated
 	@Override
 	public void generateReport(boolean dataSource, Map<String, Object> params,
@@ -161,7 +166,7 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 
 	/**
 	 * Se utiliza para REPORTES ESTÁTICOS
-	 *
+	 * 
 	 * @param blocks
 	 * @param params
 	 * @return
@@ -182,7 +187,7 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	/**
 	 * Se utiliza para setear como parametro una lista de datasources, esto se
 	 * aplica para subreportes concatenados
-	 *
+	 * 
 	 * @param blocks
 	 * @param params
 	 * @return

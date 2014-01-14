@@ -9,6 +9,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import py.una.med.base.math.Quantity;
 import py.una.med.base.util.FormatProvider;
 import py.una.med.base.util.StringUtils;
@@ -26,6 +28,9 @@ import py.una.med.base.util.Util;
 @FacesConverter(forClass = Quantity.class)
 public class QuantityConverter implements Converter {
 
+	private static final Logger LOG = LoggerFactory
+			.getLogger(QuantityConverter.class);
+
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
@@ -36,7 +41,7 @@ public class QuantityConverter implements Converter {
 		try {
 			return getFormatProvider(context).parseQuantity(value);
 		} catch (ParseException e) {
-
+			LOG.trace("Can't parse quantity: ", value, e);
 			return null;
 		}
 	}

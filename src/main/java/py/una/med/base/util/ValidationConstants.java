@@ -25,33 +25,33 @@ public final class ValidationConstants {
 		// No-op
 	}
 
-	private static final String lc_grave = "áéíóú";
-	private static final String uc_grave = "ÁÉÍÓÚ";
-	private static final String grave = lc_grave + uc_grave;
+	private static final String LC_GRAVE = "áéíóú";
+	private static final String UC_GRAVE = "ÁÉÍÓÚ";
+	private static final String GRAVE = LC_GRAVE + UC_GRAVE;
 
-	private static final String lc_nasal = "ãẽĩõũỹäëïöüÿâêîôûŷ";
-	private static final String uc_nasal = "ÃẼĨÕŨỸÄËÏÖÜŸÂÊÎÔÛŶ";
-	private static final String nasal = lc_nasal + uc_nasal;
+	private static final String LC_NASAL = "ãẽĩõũỹäëïöüÿâêîôûŷ";
+	private static final String UC_NASAL = "ÃẼĨÕŨỸÄËÏÖÜŸÂÊÎÔÛŶ";
+	private static final String NASAL = LC_NASAL + UC_NASAL;
 
-	private static final String special = "\"¿?¡!\\(\\),\\.=\\+\\-\\_\\*\\$&%\\/\\\\";
+	private static final String SPECIAL = "\"¿?¡!\\(\\),\\.=\\+\\-\\_\\*\\$&%\\/\\\\";
 
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní (incluído el ')
 	 * tanto en mayúsculas o minúsculas
 	 */
 	public static final String GN_WORDS = SPANISH_LETTERS_WITH_SINGLE_QUOTE
-			+ grave + nasal + END;
+			+ GRAVE + NASAL + END;
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní (incluído el ')
 	 * sólo en mayúsculas, de ahí el sufijo UC (UpperCase)
 	 */
-	public static final String GN_WORDS_UC = "[A-Z'Ñ" + uc_grave + uc_nasal
+	public static final String GN_WORDS_UC = "[A-Z'Ñ" + UC_GRAVE + UC_NASAL
 			+ END;
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní (incluído el ')
 	 * sólo en minúsculas, de ahí el sufijo LC (LowerCase)
 	 */
-	public static final String GN_WORDS_LC = "[A-Z'Ñ" + lc_grave + lc_nasal
+	public static final String GN_WORDS_LC = "[A-Z'Ñ" + LC_GRAVE + LC_NASAL
 			+ END;
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní (incluído el ')
@@ -60,34 +60,34 @@ public final class ValidationConstants {
 	 * 
 	 */
 	public static final String GN_WORDS_SPE = SPANISH_LETTERS_WITH_SINGLE_QUOTE
-			+ grave + nasal + special + END;
+			+ GRAVE + NASAL + SPECIAL + END;
 
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas
 	 */
-	public static final String WORDS = SPANISH_LETTERS + grave + END;
+	public static final String WORDS = SPANISH_LETTERS + GRAVE + END;
 
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas sin espacios
 	 */
-	public static final String WORD = SPANISH_LETTERS + grave + "]*";
+	public static final String WORD = SPANISH_LETTERS + GRAVE + "]*";
 	/**
 	 * Expresión que admite caracteres del castellano sólo en mayúsculas
 	 */
-	public static final String WORDS_UC = "[A-ZÑ" + uc_grave + END;
+	public static final String WORDS_UC = "[A-ZÑ" + UC_GRAVE + END;
 	/**
 	 * Expresión que admite caracteres del castellano sólo en minúsculas
 	 */
-	public static final String WORDS_LC = "[A-ZÑ" + lc_grave + END;
+	public static final String WORDS_LC = "[A-ZÑ" + LC_GRAVE + END;
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas además de caracteres especiales como por ejemplo [
 	 * <code>, . + - * $ / \</code>]
 	 * 
 	 */
-	public static final String WORDS_SPE = SPANISH_LETTERS + grave + special
+	public static final String WORDS_SPE = SPANISH_LETTERS + GRAVE + SPECIAL
 			+ END;
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
@@ -95,7 +95,7 @@ public final class ValidationConstants {
 	 * [ <code>, . + - * $ / \</code>]
 	 * 
 	 */
-	public static final String WORD_SPE = SPANISH_LETTERS + grave + special
+	public static final String WORD_SPE = SPANISH_LETTERS + GRAVE + SPECIAL
 			+ "]*";
 
 	/**
@@ -112,13 +112,13 @@ public final class ValidationConstants {
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas además de dígitos
 	 */
-	public static final String ALPHANUMERIC = "[a-zA-Z0-9ñÑ" + grave + END;
+	public static final String ALPHANUMERIC = "[a-zA-Z0-9ñÑ" + GRAVE + END;
 
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas además de dígitos, espacio en blanco y guiones medios.
 	 */
-	public static final String ALPHANUMERIC_HYPHEN = "[a-zA-Z0-9ñÑ" + grave
+	public static final String ALPHANUMERIC_HYPHEN = "[a-zA-Z0-9ñÑ" + GRAVE
 			+ " \\-]*";
 
 	/**
@@ -127,25 +127,25 @@ public final class ValidationConstants {
 	 * <code>, . + - * $ / \</code>]
 	 * 
 	 */
-	public static final String ALPHANUMERIC_SPE = "[a-zA-Z0-9ñÑ" + grave
-			+ special + END;
+	public static final String ALPHANUMERIC_SPE = "[a-zA-Z0-9ñÑ" + GRAVE
+			+ SPECIAL + END;
 
 	/**
 	 * Expresión que admite caracteres del castellano en mayúsculas además de
 	 * dígitos
 	 */
-	public static final String ALPHANUMERIC_UC = "[A-Z0-9Ñ" + uc_grave + END;
+	public static final String ALPHANUMERIC_UC = "[A-Z0-9Ñ" + UC_GRAVE + END;
 
 	/**
 	 * Expresión que admite caracteres del castellano en mayúsculas además de
 	 * dígitos y caracteres especiales como por ejemplo [
 	 * <code>, . + - * $ / \</code>]
 	 */
-	public static final String ALPHANUMERIC_UC_SPE = "[A-Z0-9Ñ" + uc_grave
-			+ special + END;
+	public static final String ALPHANUMERIC_UC_SPE = "[A-Z0-9Ñ" + UC_GRAVE
+			+ SPECIAL + END;
 
-	public static final String GN_WORDS_SPE_DIG = "[a-zA-Z0-9'ñÑ" + grave
-			+ nasal + special + END;
+	public static final String GN_WORDS_SPE_DIG = "[a-zA-Z0-9'ñÑ" + GRAVE
+			+ NASAL + SPECIAL + END;
 
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní tanto en
@@ -153,8 +153,8 @@ public final class ValidationConstants {
 	 * por ejemplo [ <code>, . + - * $ / \</code>]
 	 * 
 	 */
-	public static final String GN_ALPHANUMERIC_SPE = "[a-zA-Z'0-9ñÑ" + grave
-			+ special + nasal + END;
+	public static final String GN_ALPHANUMERIC_SPE = "[a-zA-Z'0-9ñÑ" + GRAVE
+			+ SPECIAL + NASAL + END;
 
 	/**
 	 * Expresión regular para validar cadenas que representan URL's, en su forma

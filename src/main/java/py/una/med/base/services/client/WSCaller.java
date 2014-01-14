@@ -110,6 +110,8 @@ import py.una.med.base.services.client.WSInformationProvider.Info;
 @Component
 public class WSCaller {
 
+	private static final String REQUEST_CAN_NOT_BE_NULL = "Request can not be null";
+
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -154,7 +156,7 @@ public class WSCaller {
 	public <T> void call(@NotNull T request, @NotNull WSCallBack<?> callback) {
 
 		if (request == null) {
-			throw new IllegalArgumentException("Request can not be null");
+			throw new IllegalArgumentException(REQUEST_CAN_NOT_BE_NULL);
 		}
 		Info info = provider.getInfoByReturnType(request.getClass());
 		call(request, info, callback);
@@ -187,7 +189,7 @@ public class WSCaller {
 			@NotNull WSCallBack<K> callback) {
 
 		if (request == null) {
-			throw new IllegalArgumentException("Request can not be null");
+			throw new IllegalArgumentException(REQUEST_CAN_NOT_BE_NULL);
 		}
 		Info info = provider.getInfoByReturnType(request.getClass());
 		call(request, info, callback);
@@ -233,6 +235,7 @@ public class WSCaller {
 					log.debug("Web service call ended");
 					callBack.onSucess(toRet);
 				} catch (Exception e) {
+					log.trace("Error in ws", e);
 					callBack.onFailure(new KarakuException(e));
 				}
 			}

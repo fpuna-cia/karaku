@@ -5,6 +5,7 @@
 package py.una.med.base.controller.reports;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.LabelProvider;
 import py.una.med.base.util.SIGHConverterV2;
 import py.una.med.base.util.Serializer;
+import py.una.med.base.util.StringUtils;
 
 /**
  * 
@@ -53,11 +55,13 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 	 * Genera la lista de ordenamiento disponible, solo es necesaria en algunos
 	 * casos de uso, en los cuales debe ser sobreescrito y retornar la lista de
 	 * ordenes disponibles.
+	 * 
+	 * @return lista no nula de columnas.
 	 */
 	@Override
 	public List<String> getBaseOrderOptions() {
 
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
@@ -75,8 +79,7 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 		StringBuilder sb = new StringBuilder();
 
 		for (Entry<String, Object> entry : filterOptions.entrySet()) {
-
-			if ((entry.getValue() != null) && !entry.getValue().equals("")) {
+			if (StringUtils.isValid(entry.getValue())) {
 				String value;
 				if (labels != null && labels.get(entry.getKey()) != null) {
 					value = labels.get(entry.getKey()).getAsString(
@@ -89,10 +92,10 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 					} else {
 						value = entry.getValue().toString();
 					}
-					if (value.equals("true")) {
+					if ("true".equals(value)) {
 						value = "SI";
 					} else {
-						if (value.equals("false")) {
+						if ("false".equals(value)) {
 							value = "NO";
 						}
 					}

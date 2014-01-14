@@ -64,6 +64,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
+			log.warn("Can't create report", e);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_FAILURE);
 		}

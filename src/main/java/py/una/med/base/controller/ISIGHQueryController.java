@@ -16,8 +16,8 @@ import py.una.med.base.util.SIGHConverterV2;
  * @version 1.0 02/08/2013
  * 
  */
-public interface ISIGHQueryController<T, ID extends Serializable> extends
-		ISIGHAdvancedController<T, ID> {
+public interface ISIGHQueryController<T, K extends Serializable> extends
+		ISIGHAdvancedController<T, K> {
 
 	Map<String, Object> getFilterOptions();
 

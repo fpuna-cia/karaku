@@ -88,14 +88,14 @@ public class DynamicSurveyFieldOption {
 	 */
 	public void enableCheckText() {
 
-		if (type.equals("RADIO") && oneOption != null) {
-			if (oneOption.getCompletar().equals("SI")) {
+		if ("RADIO".equals(type) && oneOption != null) {
+			if ("SI".equals(oneOption.getCompletar())) {
 				this.setVisibilityCheckText(true);
 			}
 		} else {
-			if (type.equals("CHECK")) {
+			if ("CHECK".equals(type)) {
 				for (OpcionRespuesta option : getManyOptions()) {
-					if (option.getCompletar().equals("SI")) {
+					if ("SI".equals(option.getCompletar())) {
 						this.setVisibilityCheckText(true);
 					}
 				}

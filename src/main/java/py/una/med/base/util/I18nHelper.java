@@ -83,7 +83,7 @@ public class I18nHelper {
 		}
 		bundles = new ArrayList<ResourceBundle>(bundlesLocation.size());
 		for (String bundle : bundlesLocation) {
-			if (bundle.equals("")) {
+			if ("".equals(bundle)) {
 				continue;
 			}
 			ResourceBundle toAdd = ResourceBundle

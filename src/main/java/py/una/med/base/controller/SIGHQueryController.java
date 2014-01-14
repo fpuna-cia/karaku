@@ -5,24 +5,27 @@
 package py.una.med.base.controller;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import py.una.med.base.controller.reports.SIGHBaseReportController;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.LabelProvider;
-import py.una.med.base.util.SIGHConverterV2;
 import py.una.med.base.util.Serializer;
+import py.una.med.base.util.StringUtils;
 
 /**
  * 
  * @author Osmar Vianconi
  * @since 1.0
  * @version 1.0 02/08/2013
- * 
+ * @deprecated usar {@link SIGHBaseReportController}
  */
+@Deprecated
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class SIGHQueryController<T, K extends Serializable> extends
 		SIGHAdvancedController<T, K> implements ISIGHQueryController<T, K> {
@@ -51,17 +54,11 @@ public abstract class SIGHQueryController<T, K extends Serializable> extends
 	@Override
 	public List<String> getBaseOrderOptions() {
 
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
 	public abstract void generateQuery();
-
-	@Override
-	public SIGHConverterV2 getConverter() {
-
-		return new SIGHConverterV2();
-	}
 
 	@Override
 	public Map<String, Object> getFilterQuery(Map<String, Object> paramsQuery) {
@@ -69,8 +66,7 @@ public abstract class SIGHQueryController<T, K extends Serializable> extends
 		StringBuilder sb = new StringBuilder();
 
 		for (Entry<String, Object> entry : filterOptions.entrySet()) {
-
-			if (entry.getValue() != null && !entry.getValue().equals("")) {
+			if (StringUtils.isValid(entry.getValue())) {
 				String value;
 				if (labels.get(entry.getKey()) != null) {
 					value = labels.get(entry.getKey()).getAsString(
@@ -78,10 +74,10 @@ public abstract class SIGHQueryController<T, K extends Serializable> extends
 
 				} else {
 					value = entry.getValue().toString();
-					if (value.equals("true")) {
+					if ("true".equals(value)) {
 						value = "SI";
 					} else {
-						if (value.equals("false")) {
+						if ("false".equals(value)) {
 							value = "NO";
 						}
 					}

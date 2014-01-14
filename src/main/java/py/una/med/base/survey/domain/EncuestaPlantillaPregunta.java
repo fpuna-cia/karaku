@@ -82,6 +82,7 @@ public class EncuestaPlantillaPregunta extends BaseEntity implements
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 
 		this.id = id;
@@ -160,6 +161,38 @@ public class EncuestaPlantillaPregunta extends BaseEntity implements
 	public String getEditable() {
 
 		return editable;
+	}
+
+	/**
+	 * Define si una pregunta es editable.
+	 * 
+	 * <p>
+	 * Ciertas preguntas no son editables, por ejemplo algunas que se cargan con
+	 * datos de un servicio o aquellas que no pueden cambiar.
+	 * </p>
+	 * 
+	 * @return <code>true</code> si es editable, <code>false</code> en caso
+	 *         contrario.
+	 */
+	public boolean isEditable() {
+
+		return "SI".equals(editable);
+	}
+
+	/**
+	 * Define si una pregunta es obligatoria o no.
+	 * 
+	 * <p>
+	 * Ciertas preguntas son obligatorias, por ejemplo el nombre en una encuesta
+	 * no anonima..
+	 * </p>
+	 * 
+	 * @return <code>true</code> si es obligatoria, <code>false</code> en caso
+	 *         contrario.
+	 */
+	public boolean isObligatoria() {
+
+		return "SI".equals(obligatoria);
 	}
 
 	public void setEditable(String editable) {

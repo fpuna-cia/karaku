@@ -94,7 +94,7 @@ public class QuantityTypeDescriptor extends AbstractTypeDescriptor<Quantity> {
 			return new Quantity(new BigDecimal((BigInteger) value));
 		}
 		if (Number.class.isInstance(value)) {
-			return new Quantity((((Number) value).doubleValue()));
+			return new Quantity(((Number) value).doubleValue());
 		}
 		throw unknownWrap(value.getClass());
 	}
