@@ -37,6 +37,7 @@ import py.una.med.base.test.test.replication.layers.ReplicatedEntity;
 import py.una.med.base.test.test.replication.layers.ReplicatedEntityDao;
 import py.una.med.base.test.test.replication.layers.ReplicatedEntityResponse;
 import py.una.med.base.test.util.TestDateProvider;
+import py.una.med.base.test.util.TestPropertiesUtil;
 import py.una.med.base.test.util.TestUtils;
 import py.una.med.base.test.util.transaction.SQLFiles;
 import py.una.med.base.util.DateProvider;
@@ -145,10 +146,13 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 
 	@Autowired
 	private WSTemplate template;
+	@Autowired
+	TestPropertiesUtil propertiesUtil;
 
 	@Test
 	public void testDoSync() throws Exception {
 
+		propertiesUtil.put(ReplicationHandler.REPLICATION_ENABLED, "true");
 		ReplicatedEntity re1 = new ReplicatedEntity();
 		re1.setDescription("DESC1");
 		re1.setUri("re1");

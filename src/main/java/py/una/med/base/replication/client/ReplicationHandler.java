@@ -54,7 +54,7 @@ public class ReplicationHandler {
 	/**
 	 * Define si la repliación esta activa o no.
 	 */
-	private static final String REPLICATION_ENABLED = "karaku.replication.enabled";
+	public static final String REPLICATION_ENABLED = "karaku.replication.enabled";
 
 	private static final long CALL_DELAY = 60000;
 
