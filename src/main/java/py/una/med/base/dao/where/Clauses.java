@@ -6,6 +6,8 @@ package py.una.med.base.dao.where;
 import static py.una.med.base.util.Checker.notNull;
 import java.util.List;
 import javax.annotation.Nonnull;
+import py.una.med.base.dao.helper.AndExpressionHelper;
+import py.una.med.base.dao.helper.OrExpressionHelper;
 
 /**
  * Clase que sirve de punto de acceso común para todas las clauses que son
@@ -487,5 +489,29 @@ public final class Clauses {
 		}
 
 		return new And(clauses);
+	}
+
+	/**
+	 * {@link Clause} que se utiliza para aplicar una expresion regular a un
+	 * atributo de una entidad.
+	 * 
+	 * <p>
+	 * Esta cláusula genera un sql similar a :
+	 * 
+	 * <pre>
+	 * 	where <i>path</i>.costo	<b>~</b> (expresion regular)
+	 * </pre>
+	 * 
+	 * </p>
+	 * 
+	 * @param path
+	 *            ubicación del atributo en formato HQL.
+	 * @param value
+	 *            definicion de la expresion regular.
+	 * @return {@link Regex}.
+	 */
+	public static Clause regex(@Nonnull String path, @Nonnull Object value) {
+
+		return new Regex(path, value);
 	}
 }

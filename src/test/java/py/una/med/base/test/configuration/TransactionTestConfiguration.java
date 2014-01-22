@@ -31,6 +31,7 @@ import py.una.med.base.dao.helper.LikeExpressionHelper;
 import py.una.med.base.dao.helper.NotExpressionHelper;
 import py.una.med.base.dao.helper.NumberLikeExpressionHelper;
 import py.una.med.base.dao.helper.OrExpressionHelper;
+import py.una.med.base.dao.helper.RegexExpressionHelper;
 import py.una.med.base.dao.helper.RestrictionHelper;
 import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.dao.where.DateClauses;
@@ -147,7 +148,8 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	/**
-	 * Retorna la lista de paquetes que serán exploradas por esta configuración.
+	 * Retorna la lista de paquetes que serán exploradas por esta
+	 * configuración.
 	 * <p>
 	 * Por defecto utiliza la propiedad <code>base-package-hibernate</code> del
 	 * archivo de propiedades.
@@ -162,9 +164,9 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	}
 
 	/**
-	 * Retorna la lista de paquetes que serán exploradas por esta configuración.
-	 * Si este método no retorna <code>null</code>, entonces el método
-	 * {@link #getBasePackageToScan()} es omitido.
+	 * Retorna la lista de paquetes que serán exploradas por esta
+	 * configuración. Si este método no retorna <code>null</code>, entonces el
+	 * método {@link #getBasePackageToScan()} es omitido.
 	 * <p>
 	 * Por defecto retorna null.
 	 * </p>
@@ -243,6 +245,12 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	BetweenExpressionHelper betweenExpressionHelper() {
 
 		return new BetweenExpressionHelper();
+	}
+
+	@Bean
+	RegexExpressionHelper helper() {
+
+		return new RegexExpressionHelper();
 	}
 
 	@Bean
