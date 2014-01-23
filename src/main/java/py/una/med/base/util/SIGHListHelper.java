@@ -17,6 +17,7 @@ import py.una.med.base.business.ISIGHBaseLogic;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.search.SearchHelper;
+import py.una.med.base.dao.select.Select;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.model.DisplayName;
@@ -52,6 +53,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	private Class<T> clazz;
 	private static final Logger LOG = LoggerFactory
 			.getLogger(SIGHListHelper.class);
+	private String[] columnsList;
 
 	public SIGHListHelper(Class<T> clazz, ISIGHBaseLogic<T, K> logic) {
 
@@ -95,7 +97,45 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		this.helper.udpateCount(totalSize);
 		ISearchParam isp = this.helper.getISearchparam();
 		this.configureSearchParams(isp);
-		return this.logic.getAll(where, isp);
+
+		return buildQuery(where, isp);
+	}
+
+	private List<T> buildQuery(Where<T> where, ISearchParam isp) {
+
+		Select select = buildSelect();
+		if (select != null) {
+			return this.logic.get(select, where, isp);
+		} else {
+			return this.logic.getAll(where, isp);
+		}
+
+	}
+
+	/**
+	 * Construye el select en el caso de que se haya definido las columnas
+	 * especificas que se desean traer de la base de datos. Si no se definieron
+	 * las columnas, retorna null de manera a considerar todas las columnas de
+	 * la entidad.
+	 * 
+	 * @return
+	 */
+	public Select buildSelect() {
+
+		if (getColumnsList() == null) {
+			return null;
+		}
+		return Select.build(getColumnsList());
+	}
+
+	public void setColumnsList(String ... attributes) {
+
+		columnsList = attributes;
+	}
+
+	private String[] getColumnsList() {
+
+		return columnsList;
 	}
 
 	/**

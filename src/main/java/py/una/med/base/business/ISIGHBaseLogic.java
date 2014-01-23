@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
+import py.una.med.base.dao.select.Select;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.repo.ISIGHBaseDao;
 
@@ -159,5 +160,69 @@ public interface ISIGHBaseLogic<T, K extends Serializable> {
 	Long getCount();
 
 	T getById(K id);
+
+	/**
+	 * Lista de entidades proyectadas de acuerdo a un {@link Select}
+	 * condicionadas por un {@link Where} y limitadas por un
+	 * {@link ISearchParam}.
+	 * 
+	 * <p>
+	 * La diferencia principal con {@link #getAll(Where, ISearchParam)} es que
+	 * no retorna todas las columnas, si bien retorna una entidad, la misma
+	 * tiene -en las columnas no traídas- el valor <code>null</code>.
+	 * </p>
+	 * <p>
+	 * Por ejemplo, para hacer la consulta HQL:
+	 * 
+	 * <pre>
+	 * select c.id, c.descripcion
+	 * 	from Ciudad c join c.pais
+	 * 	where p.descripcion = 'Paraguay'
+	 * 	limit 10
+	 * 	order by c.id
+	 * 
+	 * </pre>
+	 * 
+	 * Se puede utilizar el código:
+	 * 
+	 * <pre>
+	 * dao.get(
+	 * 	Select.columns(&quot;id&quot;, &quot;descripcion&quot;),
+	 * 	new Where().addClause(Clauses.eq("pais.descripcion", 'Paraguay'),
+	 * 	new SearchParam().addOrder("id").setLimit(10);
+	 * 
+	 * );
+	 * </pre>
+	 * 
+	 * Y pasará el siguiente test:
+	 * 
+	 * <pre>
+	 * {@literal @}Test
+	 * public void test() {
+	 * 	list = dao.getIdAndDescription();
+	 * 	for (Entidad e : list) {
+	 * 		assertNotNull(e.getId());
+	 * 		assertNotNull(e.getDescripcion());
+	 * 		assertNull(e.<b>getPais</b>());
+	 * 		assertNull(e.get<b>CualquierOtroCampo()</b>));
+	 * 	}
+	 * }
+	 * </pre>
+	 * 
+	 * Todos los atributos son opcionales )
+	 * 
+	 * @param select
+	 *            select para limitar la cantidad de columnas, o
+	 *            <code>null</code> si se desean todas.
+	 * @param where
+	 *            condicionador de la consulta o <code>null</code> si no se
+	 *            aplican restricciones.
+	 * @param params
+	 *            parámetros de orden, offset y limites o <code>null</code> si
+	 *            se desean todas.
+	 * @return Lista de entidades, nunca <code>null</code>, si no hay entidades,
+	 *         retorna una lista vacía.
+	 */
+	List<T> get(Select select, Where<T> where, ISearchParam params);
 
 }

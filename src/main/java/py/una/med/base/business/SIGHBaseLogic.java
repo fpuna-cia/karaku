@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.ISearchParam;
+import py.una.med.base.dao.select.Select;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.replication.Shareable;
 
@@ -78,6 +79,12 @@ public abstract class SIGHBaseLogic<T, K extends Serializable> implements
 	public void remove(T entity) {
 
 		getDao().remove(entity);
+	}
+
+	@Override
+	public List<T> get(Select select, Where<T> where, ISearchParam params) {
+
+		return getDao().get(select, where, params);
 	}
 
 	@Override
