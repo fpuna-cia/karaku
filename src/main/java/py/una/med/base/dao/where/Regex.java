@@ -55,7 +55,6 @@ public class Regex implements Clause, Criterion {
 	 * {@inheritDoc}
 	 */
 	@Override
-	@Deprecated
 	public Criterion getCriterion() {
 
 		return null;
