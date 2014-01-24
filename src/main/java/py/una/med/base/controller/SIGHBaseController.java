@@ -863,16 +863,16 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 		String header;
 		switch (this.getMode()) {
 			case EDIT:
-				header = "BASE_FORM_EDIT_HEADER";
+				header = getHeaderTextEdit();
 				break;
 			case VIEW:
-				header = "BASE_FORM_VIEW_HEADER";
+				header = getHeaderTextView();
 				break;
 			case DELETE:
-				header = "BASE_FORM_DELETE_HEADER";
+				header = getHeaderTextDelete();
 				break;
 			case NEW:
-				header = "BASE_FORM_NEW_HEADER";
+				header = getHeaderTextNew();
 				break;
 			default:
 				header = "BREADCRUM_UNKNOWN";
@@ -881,11 +881,85 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 		Menu actual = this.currentPageHelper.getCurrentMenu();
 		if (actual == null) {
-			return I18nHelper.getMessage(header);
+			return getMessage(header);
 		} else {
-			return I18nHelper.getMessage(header) + " " + actual.getName();
+			if (StringUtils.isValid(header)) {
+				header = getMessage(header);
+			}
+			return header + " " + actual.getName();
 		}
 
+	}
+
+	/**
+	 * Retorna el key de internacionalización de la cadena a visualizar en el
+	 * panel del formulario al momento de crear una entidad .
+	 * 
+	 * @return "Creando"(key de internacionalización) ,luego dicha cadena será
+	 *         internacionalizada y concatenada con el nombre de la entidad en
+	 *         cuestion, supongamos que estamos creando un tipo de autorización,
+	 *         la cadena retornada será "Creando" y en {@link getHeaderText} se
+	 *         transformará a "Creando tipo de Autorización".
+	 * 
+	 * 
+	 */
+	public String getHeaderTextNew() {
+
+		return "BASE_FORM_NEW_HEADER";
+	}
+
+	/**
+	 * Retorna el key de internacionalización de la cadena a visualizar en el
+	 * panel del formulario al momento de crear una entidad .
+	 * 
+	 * @return "Editando" (key de internacionalización) ,luego dicha cadena será
+	 *         internacionalizada y concatenada con el nombre de la entidad en
+	 *         cuestion, supongamos que estamos editando un tipo de
+	 *         autorización, la cadena retornada será "Creando" y en
+	 *         {@link getHeaderText} se transformará a
+	 *         "Editando tipo de Autorización".
+	 * 
+	 * 
+	 */
+	public String getHeaderTextEdit() {
+
+		return "BASE_FORM_EDIT_HEADER";
+	}
+
+	/**
+	 * Retorna el key de internacionalización de la cadena a visualizar en el
+	 * panel del formulario al momento de crear una entidad .
+	 * 
+	 * @return "Eliminando" (key de internacionalización) ,luego dicha cadena
+	 *         será internacionalizada y concatenada con el nombre de la entidad
+	 *         en cuestion, supongamos que estamos eliminando un tipo de
+	 *         autorización, la cadena retornada será "Eliminando" y en
+	 *         {@link getHeaderText} se transformará a
+	 *         "Eliminando tipo de Autorización".
+	 * 
+	 * 
+	 */
+	public String getHeaderTextDelete() {
+
+		return "BASE_FORM_DELETE_HEADER";
+	}
+
+	/**
+	 * Retorna el key de internacionalización de la cadena a visualizar en el
+	 * panel del formulario al momento de visualizar una entidad .
+	 * 
+	 * @return "Visualizando" (key de internacionalización) ,luego dicha cadena
+	 *         será internacionalizada y concatenada con el nombre de la entidad
+	 *         en cuestion, supongamos que estamos visualizando un tipo de
+	 *         autorización, la cadena retornada será "Visualizando" y en
+	 *         {@link getHeaderText} se transformará a
+	 *         "Visualizando tipo de Autorización".
+	 * 
+	 * 
+	 */
+	public String getHeaderTextView() {
+
+		return "BASE_FORM_VIEW_HEADER";
 	}
 
 	@Override
