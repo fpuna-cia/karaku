@@ -45,9 +45,11 @@ public final class DynamicUtils {
 	/**
 	 * Ubicacion del template base dentro de la aplicacion.
 	 */
-	private static final String FILE_PORTRAIT_LOCATION = "report/base/PageBaseReportPortrait.jrxml";
+	private static final String FILE_PORTRAIT_CRITERIA_LOCATION = "report/base/PortraitWithCriteria.jrxml";
+	private static final String FILE_PORTRAIT_LOCATION = "report/base/Portrait.jrxml";
 	private static final String FILE_LOCATION = "report/";
-	private static final String FILE_LANDSCAPE_LOCATION = "report/base/PageBaseReportLandscape.jrxml";
+	private static final String FILE_LANDSCAPE_CRITERIA_LOCATION = "report/base/LandscapeWithCriteria.jrxml";
+	private static final String FILE_LANDSCAPE_LOCATION = "report/base/Landscape.jrxml";
 	private static final String NOT_DATA = "BASE_REPORT_NOT_DATA";
 	private static final int BIG = 12;
 	private static final int WIDTH_SEPARATOR = 10;
@@ -71,12 +73,18 @@ public final class DynamicUtils {
 	 * Crea una estructura de reporte vertical configurada con las
 	 * características generales.
 	 * 
+	 * @param criteria
+	 *            <li><b><code>true</code></b> Sí se desea que el reporte tenga
+	 *            la sección de criterios. <li><b><code>false</code></b> Caso
+	 *            contrario.
+	 * 
+	 * 
 	 * @return Reporte con las configuraciones generales
 	 */
-	public FastReportBuilder newInstancePortrait() {
+	public FastReportBuilder newInstancePortrait(boolean criteria) {
 
 		FastReportBuilder structReport = this.newInstance();
-		this.setTemplatePortrait(structReport);
+		this.setTemplatePortrait(structReport, criteria);
 		return structReport;
 	}
 
@@ -84,18 +92,23 @@ public final class DynamicUtils {
 	 * Crea una estructura de reporte horizontal configurada con las
 	 * características generales.
 	 * 
+	 * @param criteria
+	 *            <li><b><code>true</code></b> Sí se desea que el reporte tenga
+	 *            la sección de criterios. <li><b><code>false</code></b> Caso
+	 *            contrario.
 	 * @return Reporte con las configuraciones generales
 	 */
-	public FastReportBuilder newInstanceLandScape() {
+	public FastReportBuilder newInstanceLandScape(boolean criteria) {
 
 		FastReportBuilder structReport = this.newInstance();
-		this.setTemplateLandScape(structReport);
+		this.setTemplateLandScape(structReport, criteria);
 		return structReport;
 	}
 
 	/**
 	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template
-	 * base para la configuracion general. Se utiliza para los reportes simples.
+	 * base (con la sección de criterios)para la configuracion general. Se
+	 * utiliza para los reportes simples.
 	 * 
 	 * @param columns
 	 *            Lista de columnas -> [header, field], que deben ser generadas
@@ -108,17 +121,17 @@ public final class DynamicUtils {
 	public <T> DynamicReport buildReportSimple(List<Column> columns,
 			Class<T> clazz) throws ReportException {
 
-		FastReportBuilder structReport = this.newInstancePortrait();
+		FastReportBuilder structReport = this.newInstancePortrait(true);
 		this.buildColumnHeader(structReport, columns, clazz);
 
 		return structReport.build();
 	}
 
 	/**
-	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template
-	 * base para la configuracion general. Se utiliza para los reportes simples,
-	 * cuya grilla no define los atributos fisicos de la entidad, sino son
-	 * atributos transformados.
+	 * Método que crea un reporte dinámico(en memoria), utilizando el template
+	 * base (con la sección de criterios) para la configuracion general. Se
+	 * utiliza para los reportes simples, cuya grilla no define los atributos
+	 * fisicos de la entidad, sino son atributos transformados.
 	 * 
 	 * @param columns
 	 *            Lista de columnas -> [header, field] que deben ser generadas
@@ -129,7 +142,7 @@ public final class DynamicUtils {
 	public <T> DynamicReport buildReportSimple(List<Column> columns)
 			throws ReportException {
 
-		FastReportBuilder structReport = this.newInstancePortrait();
+		FastReportBuilder structReport = this.newInstancePortrait(true);
 		this.buildColumnHeader(structReport, columns);
 
 		return structReport.build();
@@ -148,7 +161,8 @@ public final class DynamicUtils {
 	public <T> DynamicReport buidReportFields(List<SIGHReportBlock> blocks)
 			throws ReportException {
 
-		FastReportBuilder structReport = this.newInstancePortrait();
+		FastReportBuilder structReport = this.newInstancePortrait(true);
+		structReport.setAllowDetailSplit(false);
 
 		this.addBlocks(structReport, blocks);
 
@@ -158,7 +172,7 @@ public final class DynamicUtils {
 	public <T> DynamicReport buidReportBlockGrid(
 			List<SIGHReportBlockGrid> blocks) throws ReportException {
 
-		FastReportBuilder structReport = this.newInstancePortrait();
+		FastReportBuilder structReport = this.newInstancePortrait(true);
 
 		this.addBlocksGrid(structReport, blocks);
 
@@ -172,6 +186,11 @@ public final class DynamicUtils {
 	 * columnas horizontales y al final del reporte posee una serie de firmas
 	 * (se aplica a los reportes que necesitan ser firmados).
 	 * 
+	 * @param criteria
+	 *            <li><b><code>true</code></b> Sí se desea que el reporte tenga
+	 *            la sección de criterios. <li><b><code>false</code></b> Caso
+	 *            contrario.
+	 * 
 	 * @param blocks
 	 *            bloques del reporte que son solo del tipo field, es decir que
 	 *            posee columnas horizontales(label,value)
@@ -182,10 +201,11 @@ public final class DynamicUtils {
 	 * @return
 	 * @throws ReportException
 	 */
-	public <T> DynamicReport buidReportFields(List<SIGHReportBlock> blocks,
-			List<SIGHReportBlockSign> signs) throws ReportException {
+	public <T> DynamicReport buidReportFields(boolean criteria,
+			List<SIGHReportBlock> blocks, List<SIGHReportBlockSign> signs)
+			throws ReportException {
 
-		FastReportBuilder structReport = this.newInstancePortrait();
+		FastReportBuilder structReport = this.newInstancePortrait(criteria);
 
 		this.addBlocks(structReport, blocks);
 		this.addBlocksSign(structReport, signs);
@@ -203,17 +223,22 @@ public final class DynamicUtils {
 	 *            generar el reporte.
 	 * @param align
 	 *            Alineacion con la cual se desea visualizar el reporte
+	 * @param criteria
+	 *            <li><b><code>true</code></b> Sí se desea que el reporte tenga
+	 *            la sección de criterios. <li><b><code>false</code></b> Caso
+	 *            contrario.
 	 * @param clazz
 	 *            Clase de la entidad sobre la cual se desea realizar el reporte
 	 * @return Reporte dinamico estructurado listo para ser generado
 	 * @throws ReportException
 	 */
 	public <T> DynamicReport buildReportDetail(SIGHReportDetails report,
-			Align align, Class<T> clazz) throws ReportException {
+			Align align, boolean criteria, Class<T> clazz)
+			throws ReportException {
 
 		FastReportBuilder structReportHead = this.newInstance();
 
-		this.setAlignReport(structReportHead, align);
+		this.setAlignReport(structReportHead, align, criteria);
 
 		this.buildColumnHeader(structReportHead, report.getColumns(), clazz);
 
@@ -374,7 +399,7 @@ public final class DynamicUtils {
 	public DynamicReport builReportCrossTab(DJCrosstab crosstab)
 			throws ClassNotFoundException {
 
-		FastReportBuilder structReport = this.newInstanceLandScape();
+		FastReportBuilder structReport = this.newInstanceLandScape(true);
 
 		structReport.addHeaderCrosstab(crosstab).setUseFullPageWidth(true);
 
@@ -601,7 +626,11 @@ public final class DynamicUtils {
 			List<SIGHReportBlock> blocks) throws ReportException {
 
 		for (SIGHReportBlock block : blocks) {
-			this.buildBlock(structReport, block);
+			if (block instanceof SIGHReportBlockField) {
+				this.buildBlock(structReport, (SIGHReportBlockField) block);
+			} else {
+				this.buildBlockGrid(structReport, (SIGHReportBlockGrid) block);
+			}
 		}
 
 		return structReport;
@@ -650,7 +679,7 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 	public FastReportBuilder buildBlock(FastReportBuilder structReportHead,
-			SIGHReportBlock block) throws ReportException {
+			SIGHReportBlockField block) throws ReportException {
 
 		FastReportBuilder structBlockReport = new FastReportBuilder();
 		structBlockReport.setDefaultStyles(
@@ -663,6 +692,8 @@ public final class DynamicUtils {
 		try {
 
 			structBlockReport.setTitle(block.getTitle());
+			structBlockReport.setTopMargin(0);
+			structBlockReport.setBottomMargin(0);
 			structBlockReport.setHeaderHeight(0);
 			structBlockReport.addColumn("", "label", String.class,
 					block.getWidthLabel());
@@ -694,6 +725,8 @@ public final class DynamicUtils {
 				this.getStyleColumnHeader(), getStyleColumnDetail());
 
 		structBlockReport.setTitle(block.getTitle());
+		structBlockReport.setTopMargin(0);
+		structBlockReport.setBottomMargin(0);
 		this.addColumn(structBlockReport, block.getColumns());
 
 		Subreport subReport = new SubReportBuilder()
@@ -729,6 +762,7 @@ public final class DynamicUtils {
 				this.getStyleColumnHeaderTransparentUnderlineTop(), null);
 
 		structBlockReport.setUseFullPageWidth(true);
+		structBlockReport.setTopMargin(0);
 		this.setWhenNotDataEmpty(structBlockReport);
 
 		try {
@@ -929,13 +963,27 @@ public final class DynamicUtils {
 		return structReport;
 	}
 
+	/**
+	 * Configura el template del reporte de acuerdo a la alineación y sección de
+	 * criterios.
+	 * 
+	 * @param report
+	 *            Reporte que se desea configurar.
+	 * @param align
+	 *            Alineación del reporte: <li>Horizontal <li>Vertical
+	 * @param criteria
+	 *            <li><b><code>true</code></b> Sí se desea que el reporte tenga
+	 *            la sección de criterios. <li><b><code>false</code></b> Caso
+	 *            contrario.
+	 * @return
+	 */
 	public FastReportBuilder setAlignReport(FastReportBuilder report,
-			Align align) {
+			Align align, boolean criteria) {
 
 		if (align.equals(Align.HORIZONTAL)) {
-			this.setTemplateLandScape(report);
+			this.setTemplateLandScape(report, criteria);
 		} else {
-			this.setTemplatePortrait(report);
+			this.setTemplatePortrait(report, criteria);
 
 		}
 		return report;
@@ -948,9 +996,17 @@ public final class DynamicUtils {
 	 * @param report
 	 * @return
 	 */
-	public FastReportBuilder setTemplatePortrait(FastReportBuilder report) {
+	public FastReportBuilder setTemplatePortrait(FastReportBuilder report,
+			boolean criteria) {
 
-		report.setTemplateFile(FILE_PORTRAIT_LOCATION, true, false, true, true);
+		if (criteria) {
+			report.setTemplateFile(FILE_PORTRAIT_CRITERIA_LOCATION, true,
+					false, true, true);
+		} else {
+			report.setTemplateFile(FILE_PORTRAIT_LOCATION, true, false, true,
+					true);
+		}
+
 		return report;
 	}
 
@@ -960,9 +1016,16 @@ public final class DynamicUtils {
 	 * @param report
 	 * @return
 	 */
-	public FastReportBuilder setTemplateLandScape(FastReportBuilder report) {
+	public FastReportBuilder setTemplateLandScape(FastReportBuilder report,
+			boolean criteria) {
 
-		report.setTemplateFile(FILE_LANDSCAPE_LOCATION, true, false, true, true);
+		if (criteria) {
+			report.setTemplateFile(FILE_LANDSCAPE_CRITERIA_LOCATION, true,
+					false, true, true);
+		} else {
+			report.setTemplateFile(FILE_LANDSCAPE_LOCATION, true, false, true,
+					true);
+		}
 		return report;
 	}
 

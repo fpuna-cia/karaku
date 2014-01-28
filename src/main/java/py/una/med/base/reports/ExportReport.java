@@ -21,10 +21,10 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import py.una.med.base.exception.ReportException;
-import py.una.med.base.util.I18nHelper;
+import py.una.med.base.security.AuthorityController;
+import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.Util;
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
@@ -52,6 +52,12 @@ public class ExportReport {
 
 	@Autowired
 	private DynamicUtils dynamicUtils;
+
+	@Autowired
+	private ControllerHelper helper;
+
+	@Autowired
+	private AuthorityController authorityController;
 
 	/**
 	 * * Metodo que compila un archivo .jrxml<br>
@@ -153,38 +159,17 @@ public class ExportReport {
 	 * @throws ReportException
 	 */
 	public <T> void exportDetailReport(SIGHReportDetails report, Align align,
-			Class<T> clazz, JRDataSource dataSource,
+			boolean criteria, Class<T> clazz, JRDataSource dataSource,
 			Map<String, Object> params, String type) throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
-			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					dynamicUtils.buildReportDetail(report, align, clazz),
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(dynamicUtils
+					.buildReportDetail(report, align, criteria, clazz),
 					new ClassicLayoutManager(), dataSource,
 					getDetailsReport(params));
 
 			generate(getServletResponse(), jasperPrint, params, type);
-
-		} catch (JRException e) {
-			throw new ReportException(e);
-		} catch (IOException e) {
-			throw new ReportException(e);
-		}
-	}
-
-	public <T> void exportDetailReport(HttpServletResponse httpServletResponse,
-			SIGHReportDetails report, Align align, Class<T> clazz,
-			JRDataSource dataSource, Map<String, Object> params, String type)
-			throws ReportException {
-
-		JasperPrint jasperPrint;
-		try {
-			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					dynamicUtils.buildReportDetail(report, align, clazz),
-					new ClassicLayoutManager(), dataSource,
-					getDetailsReport(params));
-
-			generate(httpServletResponse, jasperPrint, params, type);
 
 		} catch (JRException e) {
 			throw new ReportException(e);
@@ -503,14 +488,14 @@ public class ExportReport {
 	 * @return reporte generado
 	 * @throws ReportException
 	 */
-	public <T> void exportReportFields(List<SIGHReportBlock> blocks,
-			List<SIGHReportBlockSign> signs, Map<String, Object> params,
-			String type) throws ReportException {
+	public <T> void exportReportFields(boolean criteria,
+			List<SIGHReportBlock> blocks, List<SIGHReportBlockSign> signs,
+			Map<String, Object> params, String type) throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					dynamicUtils.buidReportFields(blocks, signs),
+					dynamicUtils.buidReportFields(criteria, blocks, signs),
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
@@ -530,7 +515,7 @@ public class ExportReport {
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					dynamicUtils.buidReportFields(blocks, signs),
+					dynamicUtils.buidReportFields(true, blocks, signs),
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
@@ -688,21 +673,29 @@ public class ExportReport {
 
 			params.put("logo", imagePath.getInputStream());
 			params.put("nombreInstitucion",
-					I18nHelper.getMessage("BASE_REPORT_NAME_INSTITUTION"));
+					getMessage("BASE_REPORT_NAME_INSTITUTION"));
 			params.put("nombreEstablecimiento",
-					I18nHelper.getMessage("BASE_REPORT_NAME_ESTABLISHMENT"));
-			params.put("date", I18nHelper.getMessage("BASE_REPORT_DATE"));
-			params.put("time", I18nHelper.getMessage("BASE_REPORT_TIME"));
+					getMessage("BASE_REPORT_NAME_ESTABLISHMENT"));
+			params.put("date", getMessage("BASE_REPORT_DATE"));
+			params.put("time", getMessage("BASE_REPORT_TIME"));
 			params.put("selectionCriteria",
-					I18nHelper.getMessage("BASE_REPORT_SELECTION_CRITERIA"));
-			params.put("user", I18nHelper.getMessage("BASE_REPORT_USER"));
-			params.put("userName", SecurityContextHolder.getContext()
-					.getAuthentication().getName());
+					getMessage("BASE_REPORT_SELECTION_CRITERIA"));
+			params.put("user", getMessage("BASE_REPORT_USER"));
+			params.put("userName", getUserName());
 			params.put("nameSystem", util.getNameSystem());
-			params.put("page", I18nHelper.getMessage("BASE_REPORT_PAGE"));
-			params.put("pageThe", I18nHelper.getMessage("BASE_REPORT_PAGE_THE"));
+			params.put("page", getMessage("BASE_REPORT_PAGE"));
+			params.put("pageThe", getMessage("BASE_REPORT_PAGE_THE"));
 		}
 		return params;
 	}
 
+	private String getMessage(String key) {
+
+		return helper.getMessage(key);
+	}
+
+	private String getUserName() {
+
+		return authorityController.getUsername();
+	}
 }

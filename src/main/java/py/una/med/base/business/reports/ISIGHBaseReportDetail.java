@@ -136,4 +136,13 @@ public interface ISIGHBaseReportDetail<T> {
 			List<SIGHReportBlockSign> signs, Map<String, Object> params,
 			String type);
 
+	/**
+	 * Define si la sección de parámetros debe ser visible o no.
+	 * 
+	 * 
+	 * @return <b><code>true</code></b> Por defecto dicha sección debe
+	 *         visualizarse
+	 */
+	boolean withCriteriaVisible();
+
 }

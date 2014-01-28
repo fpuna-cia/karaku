@@ -53,14 +53,20 @@ public abstract class SIGHBaseReportDetail<T> implements
 	public abstract List<?> getDetails(T bean);
 
 	@Override
+	public boolean withCriteriaVisible() {
+
+		return true;
+	}
+
+	@Override
 	public void generateReport(SIGHReportDetails report, Align align,
 			Map<String, Object> params, String type, T bean, Class<?> clazz) {
 
 		try {
 			JRDataSource datasource = new JRBeanCollectionDataSource(
 					getDetails(bean));
-			exportReport.exportDetailReport(report, align, clazz, datasource,
-					params, type);
+			exportReport.exportDetailReport(report, align,
+					withCriteriaVisible(), clazz, datasource, params, type);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
@@ -131,8 +137,8 @@ public abstract class SIGHBaseReportDetail<T> implements
 			String type) {
 
 		try {
-			exportReport.exportReportFields(blocks, signs,
-					setDataSources(blocks, params), type);
+			exportReport.exportReportFields(withCriteriaVisible(), blocks,
+					signs, setDataSources(blocks, params), type);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);
 		} catch (Exception e) {
@@ -150,5 +156,17 @@ public abstract class SIGHBaseReportDetail<T> implements
 			params.put(block.getNameDataSource(), block.getDataSource());
 		}
 		return params;
+	}
+
+	/**
+	 * Retorna una cadena internacionalizada dada la llave.
+	 * 
+	 * @param code
+	 *            clave del archivo de internacionalización
+	 * @return cadena internacionalizada
+	 */
+	public String getMessage(String code) {
+
+		return this.controllerHelper.getMessage(code);
 	}
 }
