@@ -6,52 +6,16 @@ import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import py.una.med.base.util.ListHelper;
 
-public final class SIGHReportBlockGrid {
+public final class SIGHReportBlockGrid extends SIGHReportBlock {
 
-	private String title;
-	// origen de los datos
-	private String nameDataSource;
-	private JRDataSource dataSource;
 	private List<Column> columns;
 
 	public SIGHReportBlockGrid(String title, String nameDataSource,
 			List<Column> columns, List<?> listElement) {
 
-		super();
-		this.title = title;
-		this.nameDataSource = nameDataSource;
-		this.dataSource = buildDataSource(columns, listElement);
+		super(title, nameDataSource);
+		setDataSource(buildDataSource(columns, listElement));
 
-	}
-
-	public String getTitle() {
-
-		return title;
-	}
-
-	public void setTitle(String title) {
-
-		this.title = title;
-	}
-
-	public String getNameDataSource() {
-
-		return nameDataSource;
-	}
-
-	public void setNameDataSource(String nameDataSource) {
-
-		this.nameDataSource = nameDataSource;
-	}
-
-	public JRDataSource getDataSource() {
-
-		return dataSource;
-	}
-
-	public void setDataSource(JRDataSource dataSource) {
-
-		this.dataSource = dataSource;
 	}
 
 	public JRDataSource buildDataSource(List<Column> columns,
