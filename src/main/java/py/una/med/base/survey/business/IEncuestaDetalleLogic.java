@@ -30,7 +30,8 @@ public interface IEncuestaDetalleLogic extends
 	 * @param encuesta
 	 * @return lista de respuestas
 	 */
-	List<?> getRespuestas(Encuesta encuesta, EncuestaPlantillaBloque block);
+	List<EncuestaDetalle> getRespuestas(Encuesta encuesta,
+			EncuestaPlantillaBloque block);
 
 	/**
 	 * @param encuestaDetalle

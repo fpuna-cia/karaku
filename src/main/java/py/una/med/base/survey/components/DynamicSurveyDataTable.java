@@ -25,7 +25,7 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 	private List<DynamicSurveyRow> rows;
 	private int rowsNumber = 0;
 	private int columnsNumber = 0;
-	public static final int ROWS_FOR_TABLE = 8;
+	public static final int ROWS_FOR_TABLE = 50;
 	public static final String TYPE = "py.una.med.base.survey.components.DynamicSurveyDataTable";
 	private String globalMessage = "";
 

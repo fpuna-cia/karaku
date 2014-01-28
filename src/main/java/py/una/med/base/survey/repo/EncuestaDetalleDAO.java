@@ -5,12 +5,15 @@ package py.una.med.base.survey.repo;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import py.una.med.base.dao.restrictions.Where;
+import py.una.med.base.dao.search.OrderParam;
+import py.una.med.base.dao.search.SearchParam;
+import py.una.med.base.dao.select.Select;
+import py.una.med.base.dao.where.Clauses;
 import py.una.med.base.repo.SIGHBaseDao;
 import py.una.med.base.survey.domain.Encuesta;
 import py.una.med.base.survey.domain.EncuestaDetalle;
@@ -20,12 +23,12 @@ import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
 import py.una.med.base.survey.domain.OpcionRespuesta;
 
 /**
- *
- *
+ * 
+ * 
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 29/05/2013
- *
+ * 
  */
 @Repository
 public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
@@ -36,19 +39,20 @@ public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
 	private IEncuestaDetalleOpcionRespuestaDAO encuestaDetalleOpcionRespuestaDAO;
 
 	@Override
-	public List<?> getRespuestas(Encuesta encuesta,
+	public List<EncuestaDetalle> getRespuestas(Encuesta encuesta,
 			EncuestaPlantillaBloque block) {
 
-		String select = "select ed.pregunta.orden, ed.numeroFila, ed.respuesta, ed.id";
-		String from = " from EncuestaDetalle ed ";
-		String where = " where ed.encuesta=:encuesta"
-				+ " and ed.pregunta.bloque=:bloque";
-		String order = " order by ed.numeroFila, ed.pregunta.orden";
-		Query query = getSession().createQuery(
-				select.concat(from).concat(where).concat(order));
-		query.setParameter("encuesta", encuesta);
-		query.setParameter("bloque", block);
-		return query.list();
+		String orden = "pregunta.orden";
+		String fila = "numeroFila";
+		Where<EncuestaDetalle> where = Where.get();
+		where.addClause(Clauses.eq("encuesta", encuesta));
+		where.addClause(Clauses.eq("pregunta.bloque", block));
+
+		Select select = Select.build(orden, fila, "respuesta");
+		SearchParam params = new SearchParam();
+		params.addOrder(new OrderParam(true, fila));
+		params.addOrder(new OrderParam(true, orden));
+		return get(select, where, params);
 	}
 
 	@Override

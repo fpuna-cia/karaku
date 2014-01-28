@@ -210,4 +210,24 @@ public class EncuestaPlantillaPregunta extends BaseEntity implements
 		this.opcionRespuesta = opcionRespuesta;
 	}
 
+	/**
+	 * Verifica si el tipo de objeto de la pregunta es un Ckeck.
+	 * 
+	 * @return
+	 */
+	public boolean isCheck() {
+
+		return "CHECK".equals(getTipoObjeto().getNombre());
+	}
+
+	/**
+	 * Verifica si el tipo de objeto de la pregunta es un SelectOneRadio.
+	 * 
+	 * @return
+	 */
+	public boolean isRadio() {
+
+		return "RADIO".equals(getTipoObjeto().getNombre());
+	}
+
 }

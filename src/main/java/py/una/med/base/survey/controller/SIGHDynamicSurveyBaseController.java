@@ -221,8 +221,8 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	 *            bloque que almacenara las respuestas y las representara en el
 	 *            dataTable
 	 */
-	public DynamicSurveyDataTable buildResponseGrill(List<?> responseBlock,
-			DynamicSurveyDataTable block) {
+	public DynamicSurveyDataTable buildResponseGrill(
+			List<EncuestaDetalle> responseBlock, DynamicSurveyDataTable block) {
 
 		List<DynamicSurveyRow> registros = new ArrayList<DynamicSurveyRow>();
 
@@ -233,13 +233,12 @@ public abstract class SIGHDynamicSurveyBaseController implements
 
 		int ordenPregunta = 0;
 		if (responseBlock != null) {
-			for (Object respuesta : responseBlock) {
+			for (EncuestaDetalle detalle : responseBlock) {
 
-				Object[] detalle = (Object[]) respuesta;
-				ordenPregunta = (Integer) detalle[0];
-				if (nroFila != (Integer) detalle[1]) {
+				ordenPregunta = detalle.getPregunta().getOrden();
+				if (nroFila != detalle.getNumeroFila()) {
 					registros.add(row);
-					nroFila = (Integer) detalle[1];
+					nroFila = detalle.getNumeroFila();
 					row = new DynamicSurveyRow(block.getId(), nroFila,
 							columnsNumber);
 
@@ -249,8 +248,8 @@ public abstract class SIGHDynamicSurveyBaseController implements
 						.getQuestion(ordenPregunta));
 
 				cell.setIndex(ordenPregunta);
-				if (detalle[2] != null) {
-					cell.setValue(detalle[2].toString());
+				if (detalle.getRespuesta() != null) {
+					cell.setValue(detalle.getRespuesta());
 				} else {
 					cell.setValue("");
 				}
@@ -271,28 +270,28 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	 * @param block
 	 * @return
 	 */
-	public DynamicSurveyFields buildResponseFields(List<?> responseBlock,
-			DynamicSurveyFields block) {
+	public DynamicSurveyFields buildResponseFields(
+			List<EncuestaDetalle> responseBlock, DynamicSurveyFields block) {
 
 		int ordenPregunta = 0;
 		if (responseBlock != null) {
-			for (Object respuesta : responseBlock) {
-				Object[] detalle = (Object[]) respuesta;
-				ordenPregunta = (Integer) detalle[0];
+			for (EncuestaDetalle detalle : responseBlock) {
+
+				ordenPregunta = detalle.getPregunta().getOrden();
 				DynamicSurveyFieldOption field = new DynamicSurveyFieldOption(
 						block.getTypeField(ordenPregunta - 1));
 				SurveyField cell = DynamicSurveyField.fieldFactory(block
 						.getQuestion(ordenPregunta));
 
 				cell.setIndex(ordenPregunta);
-				if (detalle[2] != null) {
-					cell.setValue(detalle[2].toString());
+				if (detalle.getRespuesta() != null) {
+					cell.setValue(detalle.getRespuesta());
 				}
 				// Obtenemos las respuestas que estan asociadas a un/os
 				// detalle/s
 
 				List<OpcionRespuesta> listResponse = getResponseSelected(
-						(Long) detalle[3], ordenPregunta);
+						detalle.getId(), ordenPregunta);
 				if ("CHECK".equals(field.getType())) {
 					field.setManyOptions(listResponse);
 
@@ -319,7 +318,8 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	 * @return Lista de respuestas relacionadas al bloque recibido como
 	 *         parametro.
 	 */
-	public List<?> getResponseBlock(EncuestaPlantillaBloque encuestaBloque) {
+	public List<EncuestaDetalle> getResponseBlock(
+			EncuestaPlantillaBloque encuestaBloque) {
 
 		if (getPreloaded() != null) {
 			if (getPreloaded().getId() != null) {
@@ -333,20 +333,16 @@ public abstract class SIGHDynamicSurveyBaseController implements
 		}
 	}
 
-	private List<?> getResponseBlockMemory(
+	private List<EncuestaDetalle> getResponseBlockMemory(
 			EncuestaPlantillaBloque encuestaBloque) {
 
 		List<EncuestaDetalle> list = getPreloaded().getDetalles();
-		List<Object[]> result = new ArrayList<Object[]>();
+		List<EncuestaDetalle> result = new ArrayList<EncuestaDetalle>();
 		for (EncuestaDetalle detalle : list) {
 			if (detalle.getPregunta().getBloque().getId()
 					.equals(encuestaBloque.getId())) {
-				Object[] temp = new Object[4];
-				temp[0] = detalle.getPregunta().getOrden();
-				temp[1] = detalle.getNumeroFila();
-				temp[2] = detalle.getRespuesta();
-				temp[3] = null;
-				result.add(temp);
+
+				result.add(detalle);
 			}
 		}
 		return result;

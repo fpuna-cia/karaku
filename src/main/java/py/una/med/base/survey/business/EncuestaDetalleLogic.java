@@ -44,7 +44,7 @@ public class EncuestaDetalleLogic extends SIGHBaseLogic<EncuestaDetalle, Long>
 	 * encuesta en particular
 	 */
 	@Override
-	public List<?> getRespuestas(Encuesta encuesta,
+	public List<EncuestaDetalle> getRespuestas(Encuesta encuesta,
 			EncuestaPlantillaBloque block) {
 
 		return dao.getRespuestas(encuesta, block);

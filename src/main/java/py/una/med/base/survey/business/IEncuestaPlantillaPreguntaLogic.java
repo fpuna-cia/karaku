@@ -22,4 +22,13 @@ public interface IEncuestaPlantillaPreguntaLogic extends
 
 	List<EncuestaPlantillaPregunta> getQuestionsByBlock(
 			EncuestaPlantillaBloque block);
+
+	/**
+	 * Retorna la cantidad de preguntas que posee un determinado bloque.
+	 * 
+	 * @param id
+	 *            Identificador del bloque
+	 * @return Cantidad de preguntas
+	 */
+	Long getCantPreguntas(long id);
 }

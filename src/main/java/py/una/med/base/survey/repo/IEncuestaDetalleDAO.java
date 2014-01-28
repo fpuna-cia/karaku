@@ -23,7 +23,8 @@ import py.una.med.base.survey.domain.OpcionRespuesta;
 public interface IEncuestaDetalleDAO extends
 		ISIGHBaseDao<EncuestaDetalle, Long> {
 
-	List<?> getRespuestas(Encuesta encuesta, EncuestaPlantillaBloque block);
+	List<EncuestaDetalle> getRespuestas(Encuesta encuesta,
+			EncuestaPlantillaBloque block);
 
 	/**
 	 * @param encuestaDetalle
