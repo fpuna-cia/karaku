@@ -169,7 +169,7 @@ public class KarakuPersistence {
 		try {
 			props.put("hibernate.dialect",
 					this.properties.get("hibernate.dialect"));
-			props.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
+			props.put("hibernate.temp.use_jdbc_metadata_defaults", STRING_FALSE);
 			props.put("hibernate.hbm2ddl.auto",
 					this.properties.get("hibernate.hbm2ddl.auto", "validate"));
 			props.put("hibernate.show_sql",

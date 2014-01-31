@@ -114,6 +114,32 @@ public final class ListHelper {
 	 */
 	public static boolean hasElements(Collection<?> collection) {
 
-		return !((collection == null) || collection.isEmpty());
+		return !(collection == null || collection.isEmpty());
+	}
+
+	/**
+	 * Verifica si un array tiene un determinado elemento.
+	 * 
+	 * <p>
+	 * Para ello realiza un recorrido lineal sobre el array y compara cada
+	 * elemento utilizadno {@link Object#equals(Object)}
+	 * </p>
+	 * 
+	 * @param array
+	 *            vector de elementos
+	 * @param v
+	 *            elemento a verificar
+	 * @return <code>true</code> si lo contiene, <code>false</code> en caso
+	 *         contrario.
+	 */
+	public static <T> boolean contains(@Nonnull final T[] array, final T v) {
+
+		for (final T e : array) {
+			if (e == v || v != null && v.equals(e)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

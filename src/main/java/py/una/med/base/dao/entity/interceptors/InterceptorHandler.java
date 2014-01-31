@@ -8,12 +8,15 @@ import static py.una.med.base.util.Checker.notNull;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nonnull;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
@@ -23,6 +26,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.log.Log;
+import py.una.med.base.util.ListHelper;
 
 /**
  * 
@@ -70,6 +74,28 @@ public class InterceptorHandler implements InitializingBean {
 
 	}
 
+	/**
+	 * Intercepta un bean especifico.
+	 * 
+	 * <p>
+	 * Intercepta todos los campos de un objeto, buscando aquellos que tengan
+	 * algún interceptor definido.
+	 * </p>
+	 * <p>
+	 * Reglas:
+	 * <ol>
+	 * <li>Si el item es un atributo normal, invocar a su respectivo
+	 * interceptor.
+	 * </p>
+	 * <li>Si es una colección, y tiene tiene la anotación {@link OneToMany}, y
+	 * su {@link CascadeType} es {@link CascadeType#ALL}, entonces se propaga la
+	 * intercepción a los miembros de la colección. </p>
+	 * 
+	 * @param op
+	 *            Operación actual.
+	 * @param bean
+	 *            objeto que esta siendo interceptado.
+	 */
 	public void intercept(@Nonnull final Operation op, final Object bean) {
 
 		ReflectionUtils.doWithFields(bean.getClass(), new FieldCallback() {
@@ -82,9 +108,45 @@ public class InterceptorHandler implements InitializingBean {
 		});
 	}
 
-	public void intercept(@Nonnull Operation op, @Nonnull Field field,
+	/**
+	 * Intercepta un atributo de un bean especifico.
+	 * 
+	 * <p>
+	 * Reglas:
+	 * <ol>
+	 * <li>Si el item es un atributo normal, invocar a su respectivo
+	 * interceptor.
+	 * </p>
+	 * <li>Si es una colección, y tiene tiene la anotación {@link OneToMany}, y
+	 * su {@link CascadeType} es {@link CascadeType#ALL}, entonces se propaga la
+	 * intercepción a los miembros de la colección. </p>
+	 * 
+	 * @param op
+	 *            Operación actual.
+	 * @param field
+	 *            campo sobre el cual se esta ejecutando.
+	 * @param bean
+	 *            objeto que esta siendo interceptado.
+	 */
+	private void intercept(@Nonnull Operation op, @Nonnull Field field,
 			@Nonnull Object bean) {
 
+		if (field.getAnnotation(OneToMany.class) != null) {
+			OneToMany otm = field.getAnnotation(OneToMany.class);
+			CascadeType[] cascade = otm.cascade();
+			if (cascade != null
+					&& ListHelper.contains(cascade, CascadeType.ALL)) {
+				field.setAccessible(true);
+				Collection<?> c = (Collection<?>) ReflectionUtils.getField(
+						field, bean);
+				if (ListHelper.hasElements(c)) {
+					for (Object o : c) {
+						this.intercept(op, o);
+					}
+				}
+			}
+			return;
+		}
 		field.setAccessible(true);
 		Class<?> type = field.getType();
 

@@ -9,6 +9,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.util.ReflectionUtils;
 import py.una.med.base.dao.entity.Operation;
 import py.una.med.base.dao.entity.interceptors.AbstractInterceptor;
 import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
@@ -23,11 +28,11 @@ import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 14, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class InterceptorHandlerTest extends BaseTest {
@@ -59,13 +64,17 @@ public class InterceptorHandlerTest extends BaseTest {
 	}
 
 	@Test
-	public void testSerialization() {
+	public void testInterceptor() {
 
 		String noUp = "nOuP";
 
 		TestEntity cst = new TestEntity(noUp);
 		cst.setTransientNoSerializable(noUp);
 		cst.setTransientSerializable(noUp);
+		cst.setInterceptable(noUp);
+
+		cst.setTextChild("a");
+
 		TestEntity.ESTATICA = noUp;
 
 		this.interceptorHandler.intercept(Operation.CREATE, cst);
@@ -73,6 +82,8 @@ public class InterceptorHandlerTest extends BaseTest {
 		assertEquals(cst.getTransientNoSerializable(), noUp);
 		assertEquals(cst.getTransientSerializable(), noUp);
 		assertEquals(cst.getEsFinal(), noUp);
+		assertEquals(cst.getInterceptable(), "NOUP");
+		assertEquals(cst.getTextChild(), "A");
 		assertEquals(TestEntity.ESTATICA, noUp);
 
 	}
@@ -96,11 +107,14 @@ public class InterceptorHandlerTest extends BaseTest {
 		public void intercept(Operation op, Field f, Object bean) {
 
 			assertEquals("interceptable", f.getName());
+
+			ReflectionUtils.setField(f, bean,
+					((String) ReflectionUtils.getField(f, bean)).toUpperCase());
 		}
 
 	}
 
-	static class TestEntity {
+	public static class TestEntity {
 
 		private String interceptable;
 
@@ -112,6 +126,16 @@ public class InterceptorHandlerTest extends BaseTest {
 		private final String esFinal;
 
 		public static String ESTATICA;
+
+		@OneToMany(cascade = CascadeType.ALL)
+		private List<TestChild> childs = new ArrayList<InterceptorHandlerTest.TestChild>() {
+
+			private static final long serialVersionUID = 1L;
+
+			{
+				add(new TestChild());
+			}
+		};
 
 		/**
 		 * @param noup
@@ -182,5 +206,37 @@ public class InterceptorHandlerTest extends BaseTest {
 			this.interceptable = interceptable;
 		}
 
+		public void setTextChild(String interceptable) {
+
+			childs.get(0).setInterceptable(interceptable);
+		}
+
+		public String getTextChild() {
+
+			return childs.get(0).getInterceptable();
+		}
+
+	}
+
+	public static class TestChild {
+
+		String interceptable;
+
+		/**
+		 * @param interceptable
+		 *            interceptable para setear
+		 */
+		public void setInterceptable(String interceptable) {
+
+			this.interceptable = interceptable;
+		}
+
+		/**
+		 * @return interceptable
+		 */
+		public String getInterceptable() {
+
+			return interceptable;
+		}
 	}
 }
