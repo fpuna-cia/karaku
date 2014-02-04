@@ -209,4 +209,19 @@ public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 		return toRet;
 	}
 
+	/**
+	 * Converter de entidad a DTO.
+	 * 
+	 * <p>
+	 * El converter definido para convertir desde {@link #clazzEntity} a
+	 * {@link #clazzDTO}, necesario para el envio por servicios.
+	 * </p>
+	 * 
+	 * @return converter, nunca <code>null</code>.
+	 */
+	public Converter<E, T> getConverter() {
+
+		return converter;
+	}
+
 }

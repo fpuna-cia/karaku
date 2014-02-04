@@ -182,7 +182,7 @@ public class KarakuAliasToBeanTransformer<T> extends
 		@Override
 		public boolean equals(Object obj) {
 
-			if (!(obj instanceof Identity)) {
+			if (obj instanceof Identity) {
 				Identity other = (Identity) obj;
 				return e.getId().equals(other.e.getId());
 			}
@@ -335,7 +335,7 @@ public class KarakuAliasToBeanTransformer<T> extends
 			 * la propiedad y en currentclass la clase del mismo, por eso es -1,
 			 * no hace falta el ultimo por que ahi sucede el trabajo real.
 			 */
-			for (int i = 0; i < (properties.length - 1); i++) {
+			for (int i = 0; i < properties.length - 1; i++) {
 				String currentProperty = properties[i];
 				sb.append(currentProperty).append('.');
 				// obtengo el field
@@ -383,7 +383,7 @@ public class KarakuAliasToBeanTransformer<T> extends
 			Class currentClass = root;
 			Object currentOriginal = original;
 			Object currentDuplicate = duplicate;
-			for (int i = 0; i < (properties.length - 1); i++) {
+			for (int i = 0; i < properties.length - 1; i++) {
 				String currentProperty = properties[i];
 				// obtengo el field
 
