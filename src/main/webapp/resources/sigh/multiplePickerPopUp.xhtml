@@ -11,95 +11,22 @@
 		<cc:attribute name="pickerField"
 			type="py.una.med.base.dynamic.forms.MultiplePickerField"
 			required="true" />
+		<cc:attribute name="enableSelectColumn" default="false" />
 		<cc:attribute name="popUpHeader" required="true" />
 		<cc:attribute name="width" default="700" />
 		<cc:attribute name="height" default="400" />
-		<cc:attribute name="basicFilterID"
-			default="multiplePickerBasicFilterID" />
-		<cc:attribute name="getItemKey" required="true"
-			method-signature="java.lang.Object f(java.lang.Object)" />
-		<cc:attribute name="setValues" required="true"
-			method-signature="void f(java.util.List)" />
-		<cc:attribute name="enableSelectColumn" default="false" />
-		<cc:attribute name="onlyPreviousSelected" default="false" />
-		<cc:attribute name="reRenderRegionId" default="" />
 	</cc:interface>
 	<cc:implementation>
 
 		<sigh:popup title="#{cc.attrs.popUpHeader}"
 			popupId="#{cc.attrs.pickerField.popupID}" width="#{cc.attrs.width}"
 			height="#{cc.attrs.height}">
-			<h:outputLabel value="#{cc.init()}" id="initPicker"/>
-			<h:outputLabel value="#{cc.clear()}" id="clearPicker"/>
-			<rich:messages ajaxRendered="true" showDetail="true"
-				id="globalMessageIdName" globalOnly="true" />
+
+			<sigh:dataTableCheckBox listSelectField="#{cc.attrs.pickerField}"
+				enableSelectColumn="#{cc.attrs.enableSelectColumn}"
+				id="pepitobailador" />
+
 			<h:form id="dataTblForm">
-				<h:panelGrid columns="1" style="width: 100% !important;">
-					<rich:panel header="#{msg['LIST_ENTITYTABLE_HEADER']}"
-						switchType="client">
-						<h:form>
-							<sigh:basicFilter2 id="#{cc.attrs.basicFilterID}"
-								simpleFilter="#{cc.attrs.pickerField.listHelper.simpleFilter}"
-								searchRender="dataTblForm"
-								filterOptions="#{cc.attrs.pickerField.listHelper.filterOptions}">
-							</sigh:basicFilter2>
-						</h:form>
-						<h:panelGroup>
-
-							<rich:extendedDataTable
-								value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
-								binding="#{cc.dataTable}" rows="15" selectionMode="none"
-								id="#{cc.attrs.pickerField.dataTableID}">
-
-								<ui:param name="itemKey"
-									value="#{cc.attrs.pickerField.getItemKey(item)}" />
-
-								<rich:column
-									rendered="#{not cc.attrs.pickerField.buttonDisabled}">
-									<f:facet name="header">
-
-										<h:outputText
-											value="#{msg['MULTIPLE_PICKER_SELECCIONAR_HEADER']}"
-											style="margin-right: 3px;" />
-										<h:selectBooleanCheckbox value="#{cc.selectAllChecked}"
-											disabled="#{cc.attrs.enableSelectColumn}">
-											<a4j:ajax listener="#{cc.onCheckboxHeaderClicked}"
-												render="#{cc.attrs.pickerField.dataTableID} pickerResult"
-												execute="@this" immediate="true" />
-										</h:selectBooleanCheckbox>
-
-									</f:facet>
-
-									<h:selectBooleanCheckbox value="#{cc.checkedItems[itemKey]}"
-										style="margin-left: 80px; margin-top: 5px;"
-										disabled="#{cc.attrs.enableSelectColumn}">
-										<a4j:ajax listener="#{cc.onItemCheckboxClicked}"
-											render="#{cc.attrs.pickerField.dataTableID} pickerResult"
-											execute="@this" immediate="true" />
-									</h:selectBooleanCheckbox>
-
-								</rich:column>
-
-								<ui:include src="#{cc.attrs.pickerField.urlColumns}" />
-							</rich:extendedDataTable>
-
-						</h:panelGroup>
-					</rich:panel>
-
-					<h:panelGrid columns="3" width="100%"
-						columnClasses="list_button_class,list_pagin_class">
-						<div style="float: right;">
-							<sigh:navigation style="float:right;"
-								helper="#{cc.attrs.pickerField.listHelper.helper}"
-								idPanel="idPagingPanel"
-								render="#{cc.attrs.pickerField.dataTableID}" />
-						</div>
-					</h:panelGrid>
-
-				</h:panelGrid>
-				<h:outputText
-					value="#{cc.attrs.pickerField.getFormatedSelectedOptions(cc.selectedItemsTemp)}"
-					id="pickerResult" />
 				<a4j:commandButton
 					actionListener="#{cc.attrs.pickerField.changeValueListener()}"
 					value="#{msg['BASE_LIST_ACCEPT']}" immediate="true"
@@ -109,14 +36,12 @@
 				</a4j:commandButton>
 
 				<a4j:commandButton value="#{msg['BASE_FORM_CANCEL']}"
-					immediate="true" action="#{cc.clear()}"
+					immediate="true" action="#{cc.clear}"
 					oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.hide(); return false;"
-					render="pickerResult #{cc.attrs.pickerField.id}">
+					render="itemSelected #{cc.attrs.pickerField.id}">
 				</a4j:commandButton>
 
 			</h:form>
 		</sigh:popup>
-
-		<a4j:log mode="popup"></a4j:log>
 	</cc:implementation>
 </ui:composition>

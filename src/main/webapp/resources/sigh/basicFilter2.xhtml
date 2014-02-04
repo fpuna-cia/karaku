@@ -20,11 +20,11 @@
 	<rich:messages globalOnly="false"></rich:messages>
 	<h:panelGrid columns="8">
 
-		<h:outputLabel value="Filtro: " />
+		<h:outputLabel value="#{msg['SEARCH_FILTER']}" style="text-transform:none" />
 		<h:inputText id="filterValue" value="#{cc.attrs.simpleFilter.value}"
 			style="width:200px" />
 		<rich:messages for="filterValue" styleClass="form_error" />
-		<h:outputLabel value="Atributo:" />
+		<h:outputLabel value="#{msg['SEARCH_ATTRIBUTE']}" style="text-transform:none" />
 		<h:selectOneMenu id="filterOption"
 			value="#{cc.attrs.simpleFilter.option}" style="width:200px"
 			converter="oldStringConverter">
