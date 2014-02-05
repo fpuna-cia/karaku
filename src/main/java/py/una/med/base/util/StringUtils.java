@@ -1,9 +1,11 @@
 package py.una.med.base.util;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Provee funcionalidades básicas para todas las cadenas del sistema
@@ -94,7 +96,7 @@ public final class StringUtils {
 	 */
 	public static boolean isValid(String ... strings) {
 
-		if ((strings == null) || (strings.length == 0)) {
+		if (strings == null || strings.length == 0) {
 			return false;
 		}
 
@@ -129,23 +131,30 @@ public final class StringUtils {
 	 * @param strings
 	 *            lista de palabras a unir
 	 * @return una simple cadena compuesta de las demás cadenas separadas por un
-	 *         separador. <code>null</code> si no hay ninguna cadena.
+	 *         separador. <code>""</code> si no hay ninguna cadena.
 	 */
 	public static String join(final String separator, final String ... strings) {
 
-		if (separator == null) {
-			throw new IllegalArgumentException("Separator can't be null");
-		}
-		if (strings == null) {
+		return join(separator, false, strings);
+	}
+
+	/**
+	 * Une un grupo de palabras con un separador.
+	 * 
+	 * @param separator
+	 *            cadena que servira de pegamento entre las demás cadenas
+	 * @param strings
+	 *            lista de palabras a unir
+	 * @return una simple cadena compuesta de las demás cadenas separadas por un
+	 *         separador. <code>""</code> si no hay ninguna cadena.
+	 */
+	public static String join(final String separator, boolean skipInvaild,
+			final String ... strings) {
+
+		if (!checkParams(separator, strings)) {
 			return "";
 		}
-		if (strings.length == 0) {
-			return "";
-		}
-		if (strings.length == 1) {
-			return strings[0];
-		}
-		return join(separator, 0, strings.length - 1, strings);
+		return join(separator, 0, strings.length - 1, skipInvaild, strings);
 	}
 
 	/**
@@ -156,18 +165,12 @@ public final class StringUtils {
 	 * @param strings
 	 *            lista de palabras a unir
 	 * @return una simple cadena compuesta de las demás cadenas separadas por un
-	 *         separador. <code>null</code> si no hay ninguna cadena.
+	 *         separador. <code>""</code> si no hay ninguna cadena.
 	 */
 	public static String join(final String separator,
 			final Collection<String> strings) {
 
-		if (separator == null) {
-			throw new IllegalArgumentException("Separator can't be null");
-		}
-		if (strings == null) {
-			return "";
-		}
-		if (strings.isEmpty()) {
+		if (!checkParams(separator, strings)) {
 			return "";
 		}
 		return join(separator, 0, strings.size() - 1,
@@ -186,20 +189,35 @@ public final class StringUtils {
 	 * @param end
 	 *            ultimo elemento a unir
 	 * @return una simple cadena compuesta de las demás cadenas separadas por un
-	 *         separador. <code>null</code> si no hay ninguna cadena.
+	 *         separador. <code>""</code> si no hay ninguna cadena.
 	 */
 	public static String join(final String separator, final int start,
 			final int end, final String ... strings) {
 
-		if (separator == null) {
-			throw new IllegalArgumentException("Separator can't be null");
-		}
-		if (strings == null) {
-			return "";
-		}
-		if (strings.length == 0) {
-			return null;
-		}
+		return join(separator, start, end, false, strings);
+	}
+
+	/**
+	 * Une un grupo de palabras con un separador.
+	 * 
+	 * @param separator
+	 *            cadena que servirá de pegamento entre las demas cadenas
+	 * @param strings
+	 *            lista de palabras a unir
+	 * @param start
+	 *            primer elemento a unir
+	 * @param end
+	 *            ultimo elemento a unir
+	 * @param skipInvalid
+	 *            permite omitir las cadenas nulas en la lista de cadenas
+	 * @return una simple cadena compuesta de las demás cadenas separadas por un
+	 *         separador. <code>""</code> si no hay ninguna cadena.
+	 */
+	public static String join(final String separator, final int start,
+			final int end, boolean skipInvalid, final String ... strings) {
+
+		checkParams(separator, strings);
+
 		if (strings.length == 1) {
 			return strings[0];
 		}
@@ -207,12 +225,43 @@ public final class StringUtils {
 		int to = Math.min(end, strings.length - 1);
 		StringBuilder sb = new StringBuilder();
 		for (int i = begin; i <= to; i++) {
+			if (skipInvalid && isInvalid(strings[i])) {
+				continue;
+			}
 			sb.append(strings[i]);
 			if (i < to) {
 				sb.append(separator);
 			}
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * @param separator
+	 * @param strings
+	 */
+	private static boolean checkParams(final String separator,
+			final String ... strings) {
+
+		notNull(separator, "Separator can't be null");
+		if (ArrayUtils.isEmpty(strings)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @param separator
+	 * @param strings
+	 */
+	private static boolean checkParams(final String separator,
+			final Collection<String> strings) {
+
+		notNull(separator, "Separator can't be null");
+		if (!ListHelper.hasElements(strings)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -305,7 +354,7 @@ public final class StringUtils {
 
 	private static boolean is(char first, char ... c) {
 
-		if ((c == null) || (c.length < 1)) {
+		if (c == null || c.length < 1) {
 			return true;
 		}
 		if (c.length < 1) {
@@ -332,14 +381,14 @@ public final class StringUtils {
 	 */
 	public static String pluralize(final Collection<String> terms) {
 
-		if ((terms == null) || (terms.isEmpty())) {
+		if (terms == null || terms.isEmpty()) {
 			return null;
 		}
 		StringBuilder buf = new StringBuilder();
 		String[] array = terms.toArray(new String[terms.size()]);
 		for (int i = 0; i < terms.size(); i++) {
 			buf.append(pluralize(array[i]));
-			if ((i + 1) != terms.size()) {
+			if (i + 1 != terms.size()) {
 				buf.append(" ");
 			}
 		}
@@ -360,14 +409,14 @@ public final class StringUtils {
 	public static String pluralize(String separator,
 			final Collection<String> terms) {
 
-		if ((terms == null) || (terms.isEmpty())) {
+		if (terms == null || terms.isEmpty()) {
 			return null;
 		}
 		StringBuilder buf = new StringBuilder();
 		String[] array = terms.toArray(new String[terms.size()]);
 		for (int i = 0; i < terms.size(); i++) {
 			buf.append(pluralize(array[i]));
-			if ((i + 1) != terms.size()) {
+			if (i + 1 != terms.size()) {
 				buf.append(separator);
 			}
 		}

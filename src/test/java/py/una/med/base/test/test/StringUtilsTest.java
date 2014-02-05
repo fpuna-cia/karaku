@@ -19,11 +19,11 @@ import py.una.med.base.test.util.TestUtils;
 import py.una.med.base.util.StringUtils;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 19, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class StringUtilsTest extends BaseTest {
@@ -45,6 +45,13 @@ public class StringUtilsTest extends BaseTest {
 		assertFalse(StringUtils.isValid(" a ", NULL));
 		assertFalse(StringUtils.isValid(" a ", " "));
 		assertTrue(StringUtils.isValid(" a ", " b "));
+
+		assertFalse(StringUtils.isValid((Object) null));
+		assertTrue(StringUtils.isValid((Object) "z"));
+		assertTrue(StringUtils.isValid(new Object()));
+
+		assertFalse(StringUtils.isValid((String[]) null));
+		assertFalse(StringUtils.isValid(new String[] {}));
 	}
 
 	@Test
@@ -59,6 +66,7 @@ public class StringUtilsTest extends BaseTest {
 	@Test
 	public void testJoin() {
 
+		assertEquals(StringUtils.join(",", "hola"), "hola");
 		assertEquals(StringUtils.join(",", "hola", "chau"), "hola,chau");
 		assertEquals(StringUtils.join("'''", "hola", "chau"), "hola'''chau");
 		assertEquals(StringUtils.join(" ", "hola", "chau"), "hola chau");
@@ -77,6 +85,15 @@ public class StringUtilsTest extends BaseTest {
 				"hola'''chau");
 		assertEquals(StringUtils.join(" ", 0, 2, "hola", "chau", "ches"),
 				"hola chau ches");
+
+		assertEquals(StringUtils.join(" ", 0, 2, true, "hola", null, "ches"),
+				"hola ches");
+
+		assertEquals(StringUtils.join(" ", 0, 2, true), "");
+
+		cadenas.clear();
+
+		assertEquals(StringUtils.join(" ", cadenas), "");
 
 	}
 
