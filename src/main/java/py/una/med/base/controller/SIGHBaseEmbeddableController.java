@@ -61,7 +61,10 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 	@Override
 	public String getHeaderPath() {
 
-		return mainController.getHeaderPath();
+		if (isEmbedded) {
+			return mainController.getHeaderPath();
+		}
+		return "";
 	}
 
 	@Override
@@ -214,14 +217,17 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 
 	}
 
+	
 	@Override
 	@HasRole(SIGHSecurity.DEFAULT)
 	public void doSearch() {
 
-		controllerHelper.updateModel(getMessageIdName() + "_pgSearch");
-
-		setExample(getBean());
-		reloadEntities();
+		if (isEmbedded) {
+			controllerHelper.updateModel(getMessageIdName() + "_pgSearch");
+			setExample(getBean());
+			reloadEntities();
+		}
+		super.doSearch();
 	}
 
 	@Override

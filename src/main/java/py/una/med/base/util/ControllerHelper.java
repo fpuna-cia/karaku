@@ -18,9 +18,9 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIInput;
+import javax.faces.component.UISelectOne;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlOutputText;
-import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.DateTimeConverter;
 import org.hibernate.exception.ConstraintViolationException;
@@ -438,23 +438,19 @@ public class ControllerHelper {
 
 			UIComponent component = iter.next();
 			// Si es un valor submiteable, o INPUTEaBLE
-			if (component instanceof HtmlSelectOneMenu) {
-				HtmlSelectOneMenu com = (HtmlSelectOneMenu) component;
+			if (component instanceof UISelectOne) {
+				UISelectOne com = (UISelectOne) component;
 				Object newValue = com.getSubmittedValue();
-				if (newValue != null) {
-					ValueExpression value = com
-							.getValueExpression(EL_VALUE_PROPERTY);
+				ValueExpression value = com
+						.getValueExpression(EL_VALUE_PROPERTY);
+				if (newValue != null && com.getConverter() != null) {
 					// Si tiene un converter definido, entonces utilizamos ese
 					// converter para obtener el valor
-					if (!(com.getConverter() == null)) {
-						newValue = com.getConverter().getAsObject(context, com,
-								newValue.toString());
-					}
-					value.setValue(elContext, newValue);
+					newValue = com.getConverter().getAsObject(context, com,
+							newValue.toString());
 				}
-
-			}
-			if (component instanceof UICalendar) {
+				value.setValue(elContext, newValue);
+			} else if (component instanceof UICalendar) {
 				UICalendar com = (UICalendar) component;
 				Object newValue = com.getSubmittedValue();
 				if (newValue != null) {
@@ -462,11 +458,11 @@ public class ControllerHelper {
 							.getValueExpression(EL_VALUE_PROPERTY);
 					newValue = getConverter().getAsObject(context, component,
 							newValue.toString());
+
 					value.setValue(elContext, newValue);
 				}
 
-			}
-			if (component instanceof UIInput
+			} else if (component instanceof UIInput
 					&& !(component instanceof UICalendar)) {
 				UIInput com = (UIInput) component;
 				Object newValue = com.getSubmittedValue();
