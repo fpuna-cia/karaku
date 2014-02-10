@@ -73,6 +73,21 @@ public final class DynamicUtils {
 	 * Crea una estructura de reporte vertical configurada con las
 	 * características generales.
 	 * 
+	 * <p>
+	 * Este reporte tendra la sección de criterios
+	 * </p>
+	 * 
+	 * @return Reporte con las configuraciones generales
+	 */
+	public FastReportBuilder newInstancePortrait() {
+
+		return this.newInstancePortrait(true);
+	}
+
+	/**
+	 * Crea una estructura de reporte vertical configurada con las
+	 * características generales.
+	 * 
 	 * @param criteria
 	 *            <li><b><code>true</code></b> Sí se desea que el reporte tenga
 	 *            la sección de criterios. <li><b><code>false</code></b> Caso
