@@ -5,6 +5,7 @@
 package py.una.med.base.test.test.dao.clauses;
 
 import static org.junit.Assert.assertNotNull;
+import javax.annotation.Nonnull;
 import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ import py.una.med.base.test.util.transaction.SQLFiles;
 /**
  * Clase que se utiliza para facilitar la realización de test de los diferentes
  * tipos de {@link Clause}
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 13, 2013
- *
+ * 
  */
 @SQLFiles("WhereTest")
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
@@ -96,9 +97,10 @@ public class BaseClauseTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestGrandChild}
-	 *
+	 * 
 	 * @return {@link Where}
 	 */
+	@Nonnull
 	String g(String property) {
 
 		return "testChild.grandChilds." + property;
@@ -107,9 +109,10 @@ public class BaseClauseTest extends BaseTestWithDatabase {
 	/**
 	 * Retorna un {@link Where} que busca por la descripción de
 	 * {@link TestChild}
-	 *
+	 * 
 	 * @return {@link Where}
 	 */
+	@Nonnull
 	String c(String property) {
 
 		return "testChild." + property;

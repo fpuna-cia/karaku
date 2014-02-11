@@ -327,7 +327,7 @@ public final class Clauses {
 	 *            referencia con la cual se desea comparar.
 	 * @return {@link Equal}.
 	 */
-	public static Clause eq(@Nonnull String path, @Nonnull Object value) {
+	public static Clause eq(@Nonnull String path, Object value) {
 
 		return new Equal(path, value);
 	}

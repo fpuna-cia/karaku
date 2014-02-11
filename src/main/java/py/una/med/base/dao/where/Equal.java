@@ -8,10 +8,9 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 /**
- * Implementación de la cláusula SQL <code>=</code>. La implementación es un
- * wrapper de la clase {@link SimpleExpression} obtenida mediante
- * {@link Restrictions#eq(String, Object)}.
+ * Implementación de la cláusula SQL <code>=</code>.
  * 
+ * @see Clauses#eq(String, Object)
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Jul 8, 2013
@@ -19,11 +18,10 @@ import org.hibernate.criterion.Restrictions;
  */
 public class Equal implements Clause {
 
-	@Nonnull
-	private Object value;
+	private final Object value;
 
 	@Nonnull
-	private String path;
+	private final String path;
 
 	/**
 	 * Retorna un {@link Criterion} configurado para implementar la
@@ -50,7 +48,7 @@ public class Equal implements Clause {
 	 * @param path
 	 * @param value
 	 */
-	public Equal(@Nonnull String path, @Nonnull Object value) {
+	public Equal(@Nonnull String path, Object value) {
 
 		super();
 		this.value = value;
@@ -63,7 +61,6 @@ public class Equal implements Clause {
 		return path;
 	}
 
-	@Nonnull
 	public Object getValue() {
 
 		return value;

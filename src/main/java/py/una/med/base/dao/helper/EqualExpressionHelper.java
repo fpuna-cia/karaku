@@ -28,6 +28,9 @@ public class EqualExpressionHelper extends BaseClauseHelper<Equal> {
 
 		String aliasWithProperty = configureAlias(criteria, clause.getPath(),
 				aliases);
+		if (clause.getValue() == null) {
+			return Restrictions.isNull(aliasWithProperty);
+		}
 		return Restrictions.eq(aliasWithProperty, clause.getValue());
 
 	}
