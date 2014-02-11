@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,7 +140,7 @@ public class InterceptorHandler implements InitializingBean {
 				field.setAccessible(true);
 				Collection<?> c = (Collection<?>) ReflectionUtils.getField(
 						field, bean);
-				if (ListHelper.hasElements(c)) {
+				if (Hibernate.isInitialized(c) && ListHelper.hasElements(c)) {
 					for (Object o : c) {
 						this.intercept(op, o);
 					}
