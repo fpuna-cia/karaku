@@ -85,7 +85,7 @@ public class ControllerHelper {
 	public void createGlobalFacesMessage(final Severity severity,
 			final String summary, final String detail) {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
+		FacesContext facesContext = getContext();
 		String mensaje = !"".equals(detail) ? getMessage(detail) : "";
 		String sum = !"".equals(summary) ? getMessage(summary) : "";
 
@@ -110,7 +110,7 @@ public class ControllerHelper {
 	public void createGlobalFacesMessage(final Severity severity,
 			final String summary) {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
+		FacesContext facesContext = getContext();
 		String sum = !"".equals(summary) ? getMessage(summary) : "";
 
 		FacesMessage msg = new FacesMessage(severity, sum, "");
@@ -134,7 +134,7 @@ public class ControllerHelper {
 	public void createGlobalFacesMessageSimple(final Severity severity,
 			final String summary) {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
+		FacesContext facesContext = getContext();
 		String sum = !"".equals(summary) ? summary : "";
 
 		FacesMessage msg = new FacesMessage(severity, sum, "");
@@ -191,11 +191,9 @@ public class ControllerHelper {
 	public void createFacesMessage(final Severity severity,
 			final String summary, final String detail, final String componentId) {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-
 		FacesMessage msg = new FacesMessage(severity, getMessage(summary),
 				getMessage(detail));
-		facesContext.addMessage(componentId, msg);
+		getContext().addMessage(componentId, msg);
 	}
 
 	/**
@@ -215,10 +213,16 @@ public class ControllerHelper {
 	public void createFacesMessageSimple(final Severity severity,
 			final String summary, final String detail, final String componentId) {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-
 		FacesMessage msg = new FacesMessage(severity, summary, detail);
-		facesContext.addMessage(componentId, msg);
+		getContext().addMessage(componentId, msg);
+	}
+
+	/**
+	 * @return
+	 */
+	protected FacesContext getContext() {
+
+		return FacesContext.getCurrentInstance();
 	}
 
 	/**
@@ -236,15 +240,12 @@ public class ControllerHelper {
 	 */
 	public String getClientId(final String id) {
 
-		FacesContext context = FacesContext.getCurrentInstance();
-		UIViewRoot root = context.getViewRoot();
-
-		UIComponent c = findComponent(root, id);
+		UIComponent c = findComponent(id);
 		if (c == null) {
 			throw new IllegalArgumentException(
 					"NO se encontro comoponente con id " + id);
 		}
-		return c.getClientId(context);
+		return c.getClientId(getContext());
 	}
 
 	/**
@@ -257,7 +258,7 @@ public class ControllerHelper {
 	 */
 	public UIComponent findComponent(final String id) {
 
-		FacesContext context = FacesContext.getCurrentInstance();
+		FacesContext context = getContext();
 		UIViewRoot root = context.getViewRoot();
 
 		return findComponent(root, id);
@@ -299,7 +300,7 @@ public class ControllerHelper {
 
 		MethodExpression methodExpression = null;
 		try {
-			FacesContext fc = FacesContext.getCurrentInstance();
+			FacesContext fc = getContext();
 			ExpressionFactory factory = fc.getApplication()
 					.getExpressionFactory();
 			methodExpression = factory.createMethodExpression(
@@ -431,8 +432,8 @@ public class ControllerHelper {
 
 	private void updateModel(UIComponent formulario) {
 
-		FacesContext context = FacesContext.getCurrentInstance();
-		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+		FacesContext context = getContext();
+		ELContext elContext = getContext().getELContext();
 		Iterator<UIComponent> iter = formulario.getFacetsAndChildren();
 		while (iter.hasNext()) {
 

@@ -13,34 +13,80 @@ import py.una.med.base.util.I18nHelper;
 
 /**
  * 
+ * Controlador que maneja la validación de rangos de fechas, compara dos fechas
+ * y verifica que estas esten dentro de un rango significativo.
+ * 
+ * <p>
+ * Cuenta con dos funciones
+ * 
+ * {@link #onChangeDateAfter(AjaxBehaviorEvent)}
+ * {@link #onChangeDateBefore(AjaxBehaviorEvent)} para realizar la validación
+ * del rango.
+ * </p>
+ * 
+ * <p>
+ * Para agregar las variables al Map{@literal <}String, Object> se debe utilizar
+ * {@link #DATE_BEFORE}, para la fecha anterior {@link #DATE_AFTER}, para la
+ * fecha posterior.
+ * </p>
+ * 
+ * <p>
+ * Los identificadores de los componentes de fecha deben ser <b>fecha_hasta</b>
+ * y <b>fecha_desde</b>.
+ * </p>
+ * 
+ * <h3>Ejemplo</h3>
+ * 
+ * <p>
+ * Incluir lo siguiente en el archivo de fields de reportes
+ * </p>
+ * 
+ * <pre>
+ * 	&lt;h:outputText value="#{msg['ENTREGA_ARTICULO_REPORT_FECHA_DESDE']}" />
+ * 	&lt;rich:calendar id="<b>fecha_desde</b>"
+ * 		value="#{controller.filterOptions['ENTREGA_ARTICULO_REPORT_FECHA_DESDE']}"
+ * 		datePattern="#{fp.dateFormat}" enableManualInput="true"
+ * 		required="true">
+ * 		&lt;a4j:ajax event="change" listener="<b>#{controller.onChangeDateBefore}</b>"
+ * 			render="fecha_desde" />
+ * 	&lt;/rich:calendar>
+ * 	&lt;rich:message for="fecha_desde" />
+ * 
+ * 	&lt;h:outputText value="#{msg['ENTREGA_ARTICULO_REPORT_FECHA_HASTA']}" />
+ * 	&lt;rich:calendar id="<b>fecha_hasta</b>"
+ * 		value="#{controller.filterOptions['ENTREGA_ARTICULO_REPORT_FECHA_HASTA']}"
+ * 		datePattern="#{fp.dateFormat}" enableManualInput="true"
+ * 		required="true">
+ * 		&lt;a4j:ajax event="change" listener="<b>#{controller.onChangeDateAfter}</b>"
+ * 			render="fecha_hasta" />
+ * 	&lt;/rich:calendar>
+ * 	&lt;rich:message for="fecha_hasta" />
+ * </pre>
+ * 
+ * <p>
+ * Donde <b>controller</b> debe ser modificado por el nombre del controlador
+ * </p>
  * 
  * @author Abrahan Fretes
  * @since 1.0
  * @version 1.0 29/01/2014S
  * 
- *          Controlador que maneja la validación de rangos de fechas, compara
- *          dos fechas y verifica que estas esten dentro de un rango
- *          significativo. Cuenta con dos funciones
- * 
- *          - onChangeDateAfter(AjaxBehaviorEvent event -
- *          onChangeDateAfter(AjaxBehaviorEvent event)
- * 
- *          Para agregar las varaibles al Map<String, Object> se debe utilizar
- * 
- *          REPORT_FECHA_DESDE, para la fecha anterior REPORT_FECHA_HASTA, para
- *          la fecha posterior
- * 
- * 
  */
-
 public abstract class SIGHRangeReportController<T, K extends Serializable>
 		extends SIGHBaseReportController<T, K> implements
 		ISIGHRangeReportController {
 
-	private static final String DATE_BEFORE = "REPORT_FECHA_DESDE";
-	private static final String DATE_AFTER = "REPORT_FECHA_HASTA";
+	/**
+	 * Define una fecha desde la cual se generará el reporte.
+	 */
+	public static final String DATE_BEFORE = "REPORT_FECHA_DESDE";
 
-	private static final String MESSAGE_AFTER = "REPORT_MESSAGE_DESDE";
+	/**
+	 * Define una fecha limite para incluir registros en el reporte a generar.
+	 */
+	public static final String DATE_AFTER = "REPORT_FECHA_HASTA";
+
+	private static final String MESSAGE_AFTER = "REPORT_MESSAGE_AFTER";
 	private static final String MESSAGE_BEFORE = "REPORT_MESSAGE_BEFORE";
 	private static final String FECHA = "FECHA";
 
@@ -54,7 +100,17 @@ public abstract class SIGHRangeReportController<T, K extends Serializable>
 	private I18nHelper i18nHelper;
 
 	/**
-	 * Validación del Rango de fechas
+	 * Validación del Rango de fechas.
+	 * 
+	 * <p>
+	 * Considera válida una fecha posterior, si la fecha anterior es nula, o la
+	 * fecha posterior ocurrio despues
+	 * </p>
+	 * 
+	 * <p>
+	 * Genera un mensaje de error en el componente en el caso de que la fecha no
+	 * sea posterior
+	 * </p>
 	 **/
 	@Override
 	public void onChangeDateBefore(AjaxBehaviorEvent event) {
@@ -74,6 +130,19 @@ public abstract class SIGHRangeReportController<T, K extends Serializable>
 		}
 	}
 
+	/**
+	 * Validación del Rango de fechas.
+	 * 
+	 * <p>
+	 * Considera válida una fecha posterior, si la fecha anterior es nula, o la
+	 * fecha posterior ocurrio despues
+	 * </p>
+	 * 
+	 * <p>
+	 * Genera un mensaje de error en el componente en el caso de que la fecha no
+	 * sea posterior
+	 * </p>
+	 **/
 	@Override
 	public void onChangeDateAfter(AjaxBehaviorEvent event) {
 
@@ -94,7 +163,7 @@ public abstract class SIGHRangeReportController<T, K extends Serializable>
 
 	private String createMessageDate(Date date, String msg) {
 
-		String message = i18nHelper.getString(msg);
-		return message.replaceAll(FECHA, formatProvider.asDate(date));
+		return i18nHelper.getString(msg).replaceAll(FECHA,
+				formatProvider.asDate(date));
 	}
 }
