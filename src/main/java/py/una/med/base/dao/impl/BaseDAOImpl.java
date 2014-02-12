@@ -190,8 +190,8 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		try {
 			for (final Field f : example.getClass().getDeclaredFields()) {
 				f.setAccessible(true);
-				if (((f.getAnnotation(OneToOne.class) == null) && (f
-						.getAnnotation(ManyToOne.class) == null))
+				if (f.getAnnotation(OneToOne.class) == null
+						&& f.getAnnotation(ManyToOne.class) == null
 						|| f.get(example) == null) {
 					continue;
 				}
@@ -227,12 +227,11 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	}
 
 	protected Criteria generateWhere(final Where<T> where,
-			@Nonnull final Map<String, String> alias) {
+			@Nonnull final Map<String, String> alias, Criteria criteria) {
 
-		Criteria criteria = this.getCriteria();
 		if (where != null) {
 			EntityExample<T> example = where.getExample();
-			if ((example != null) && (example.getEntity() != null)) {
+			if (example != null && example.getEntity() != null) {
 				Example ejemplo = Example.create(example.getEntity());
 				ejemplo.enableLike(example.getMatchMode().getMatchMode());
 				ejemplo.setEscapeCharacter('\\');
@@ -257,6 +256,12 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		}
 
 		return criteria;
+	}
+
+	protected Criteria generateWhere(final Where<T> where,
+			@Nonnull final Map<String, String> alias) {
+
+		return generateWhere(where, alias, getCriteria());
 	}
 
 	protected void configureParams(final ISearchParam params,
@@ -354,7 +359,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 		HashMap<String, String> alias = new HashMap<String, String>();
 		Criteria criteria = this.generateWhere(where, alias);
-		if ((where != null) && where.isDistinct()) {
+		if (where != null && where.isDistinct()) {
 			criteria.setProjection(Projections.countDistinct("id"));
 		} else {
 			criteria.setProjection(Projections.rowCount());
@@ -469,9 +474,8 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 
 		ISearchParam isp = params != null ? params : new SearchParam();
 		isp.addOrder("id");
+		Criteria criteria = getCriteria();
 		Map<String, String> alias = new HashMap<String, String>();
-		Criteria criteria = this.generateWhere(where, alias);
-		configureParams(isp, criteria, alias);
 
 		if (where != null && !where.isDistinct()) {
 			log.debug("Making a not distinct query with Select, it's allways distinct");
@@ -480,20 +484,23 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 		if (select != null) {
 			ProjectionList projections = Projections.projectionList();
 			select.addAttribute("id");
-			for (String column : select.getAttributes()) {
-				if (column == null) {
+			for (String projection : select.getAttributes()) {
+				if (projection == null) {
 					continue;
 				}
 				String property = BaseClauseHelper.configureAlias(criteria,
-						column, alias);
+						projection, alias);
 
-				projections.add(Projections.property(property), column);
+				projections.add(Projections.property(property), projection);
 
 			}
 			criteria.setProjection(projections);
 			criteria.setResultTransformer(new KarakuAliasToBeanTransformer<T>(
 					getClassOfT()));
 		}
+
+		generateWhere(where, alias, criteria);
+		configureParams(isp, criteria, alias);
 
 		List<T> toRet = criteria.list();
 		if (toRet == null) {

@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
@@ -325,6 +327,10 @@ public class KarakuAliasToBeanTransformer<T> extends
 		public void set(Object target, Object value,
 				SessionFactoryImplementor factory) {
 
+			if (value == null) {
+				return;
+			}
+
 			Object current = target;
 			Class currentClass = root;
 			Field currentField = null;
@@ -346,10 +352,11 @@ public class KarakuAliasToBeanTransformer<T> extends
 				currentClass = currentField.getType();
 
 				// si es una lista veo que hacer
-				if (List.class.isAssignableFrom(currentClass)) {
+				if (Collection.class.isAssignableFrom(currentClass)) {
 					hasCollection = true;
 					// si es una coleccion ver que hacer con current
-					current = handleList(currentField, current, sb.toString());
+					current = handleCollection(currentClass, currentField,
+							current, sb.toString());
 					// al ser una colección, el tipo no es el mismo que el field
 					currentClass = current.getClass();
 				} else {
@@ -441,19 +448,19 @@ public class KarakuAliasToBeanTransformer<T> extends
 		}
 
 		@SuppressWarnings({ RAWTYPES, UNCHECKED })
-		private Object handleList(Field field, Object current,
-				String currentPath) {
+		private Object handleCollection(Class currentClass, Field field,
+				Object current, String currentPath) {
 
 			try {
 				field.setAccessible(true);
 				Object newList = field.get(current);
 				if (newList == null) {
-					newList = new ArrayList();
+					newList = getNew(currentClass);
 					field.set(current, newList);
 				}
 
 				Object toRet;
-				List list = (List) newList;
+				Collection list = (Collection) newList;
 				if (!nestedObjectHandler.has(currentPath)) {
 					Class cClass = GenericCollectionTypeResolver
 							.getCollectionFieldType(field);
@@ -470,6 +477,23 @@ public class KarakuAliasToBeanTransformer<T> extends
 				throw new KarakuRuntimeException(e);
 			}
 
+		}
+
+		/**
+		 * @param currentClass
+		 * @return
+		 */
+		@SuppressWarnings("rawtypes")
+		private Object getNew(Class currentClass) {
+
+			if (List.class.isAssignableFrom(currentClass)) {
+				return new ArrayList();
+			}
+			if (Set.class.isAssignableFrom(currentClass)) {
+				return new HashSet();
+			}
+			throw new UnsupportedOperationException(
+					"Can't handle collection of type:" + currentClass.getName());
 		}
 
 		/**
