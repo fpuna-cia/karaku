@@ -19,6 +19,7 @@ import org.ajax4jsf.component.behavior.MethodExpressionAjaxBehaviorListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
 
 /**
  * Clase que provee funcionalidades para el uso de expresiones
@@ -252,8 +253,7 @@ public class ELHelper {
 		return null;
 	}
 
-	private static Field getFieldForce(String name, Class<?> clazz)
-			throws NoSuchFieldException {
+	private static Field getFieldForce(String name, Class<?> clazz) {
 
 		if (clazz.getName().toUpperCase().contains("CGLIB")) {
 			return getFieldFromCGEnhancedClass(name, clazz);
@@ -262,11 +262,10 @@ public class ELHelper {
 		return null;
 	}
 
-	private static Field getFieldFromCGEnhancedClass(String name, Class<?> clazz)
-			throws NoSuchFieldException {
+	private static Field getFieldFromCGEnhancedClass(String name, Class<?> clazz) {
 
 		Class<?> real = clazz.getSuperclass();
-		return real.getDeclaredField(name);
+		return ReflectionUtils.findField(real, name);
 	}
 
 	private static synchronized Pattern getPattern() {

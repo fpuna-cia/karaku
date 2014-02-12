@@ -4,6 +4,7 @@
 
 package py.una.med.base.util;
 
+import javax.annotation.Nonnull;
 import py.una.med.base.dao.search.ISearchParam;
 import py.una.med.base.dao.search.SearchParam;
 
@@ -17,11 +18,6 @@ import py.una.med.base.dao.search.SearchParam;
  * 
  */
 public class PagingHelper {
-
-	/**
-	 *
-	 */
-	private static final int DEFAULT_ROWS_FOR_PAGE = 10;
 
 	/**
 	 * Interfaz que se utiliza para capturar los eventos de cambios que sufre
@@ -44,14 +40,16 @@ public class PagingHelper {
 		 * @param thizz
 		 *            paginador
 		 * @param previousPage
-		 *            página anterior
+		 *            página anterior, va de 0 a
+		 *            {@link PagingHelper#getMaxPage()} - 1
 		 * @param currentPage
-		 *            página a la que se muda.
+		 *            página a la que se muda, va de 0 a
+		 *            {@link PagingHelper#getMaxPage()} - 1
 		 */
 		void onChange(PagingHelper thizz, int previousPage, int currentPage);
 	}
 
-	private int rowsForPage = DEFAULT_ROWS_FOR_PAGE;
+	private int rowsForPage;
 	private int page = 0;
 	private Long currentCount;
 
@@ -75,6 +73,7 @@ public class PagingHelper {
 	 * 
 	 * @return
 	 */
+	@Nonnull
 	public ISearchParam getISearchparam() {
 
 		SearchParam sp = new SearchParam();
@@ -88,7 +87,7 @@ public class PagingHelper {
 	 */
 	public void next() {
 
-		if (page + 1 > getMaxPage(currentCount)) {
+		if (!hasNext()) {
 			return;
 		}
 
@@ -101,12 +100,12 @@ public class PagingHelper {
 	 */
 	public void last() {
 
-		if (page == getMaxPage() - 1) {
+		if (page >= getMaxPage()) {
 			return;
 		}
 
-		launch(page, getMaxPage() - 1);
-		this.page = getMaxPage() - 1;
+		launch(page, getMaxPage());
+		this.page = getMaxPage();
 
 	}
 
@@ -128,28 +127,19 @@ public class PagingHelper {
 	 */
 	public void previous() {
 
-		if (page > 0) {
-			launch(page, page - 1);
-			this.page--;
+		if (!hasPrevious()) {
+			return;
 		}
+		launch(page, page - 1);
+		this.page--;
 
 	}
 
-	/**
-	 * Retorna la página actual, es un valor entre 1 y MAX
-	 * 
-	 * @return página actual
-	 */
-	public int getPage() {
-
-		return page;
-	}
-
-	public void setPage(int page) {
+	private void setPage(int page) {
 
 		int nextPage = page;
-		if (nextPage >= getMaxPage()) {
-			nextPage = getMaxPage() - 1;
+		if (nextPage > getMaxPage()) {
+			nextPage = getMaxPage();
 		}
 		if (nextPage < 0) {
 			nextPage = 0;
@@ -163,25 +153,15 @@ public class PagingHelper {
 	}
 
 	/**
-	 * Retorna
+	 * Retorna la máxima página permitida actualmente para ser leída por un ser
+	 * humano (va de 1 a N).
 	 * 
-	 * @return
+	 * @return {@link Integer} que representa la última página que puede ser
+	 *         visible
 	 */
-	public String getFormattedPage() {
+	public int getMaxReadablePage() {
 
-		Long firstRecord = Long.valueOf(page * rowsForPage + 1);
-		Long limit = Long.valueOf(page * rowsForPage + rowsForPage);
-
-		if (page + 1 == getMaxPage(currentCount)) {
-			limit = currentCount;
-		}
-
-		if (currentCount == 0) {
-			limit = 0L;
-			firstRecord = 0L;
-		}
-
-		return String.format("%d - %d de %d", firstRecord, limit, currentCount);
+		return getMaxPage(currentCount) + 1;
 	}
 
 	/**
@@ -190,7 +170,7 @@ public class PagingHelper {
 	 * @return {@link Integer} que representa la última página que puede ser
 	 *         visible
 	 */
-	public int getMaxPage() {
+	private int getMaxPage() {
 
 		return getMaxPage(currentCount);
 	}
@@ -207,7 +187,7 @@ public class PagingHelper {
 			maxPage++;
 		}
 
-		return maxPage;
+		return maxPage - 1;
 	}
 
 	/**
@@ -218,7 +198,7 @@ public class PagingHelper {
 	 */
 	public boolean hasNext() {
 
-		return page + 1 != getMaxPage(currentCount);
+		return page != getMaxPage(currentCount);
 	}
 
 	/**
@@ -250,7 +230,7 @@ public class PagingHelper {
 
 		currentCount = count;
 
-		if (page > getMaxPage(currentCount)) {
+		if (page >= getMaxPage(currentCount)) {
 			first();
 		}
 	}
@@ -260,7 +240,7 @@ public class PagingHelper {
 	 * 
 	 * @return {@link Integer} que representa la primera página
 	 */
-	public int getMinPage() {
+	public int getMinReadablePage() {
 
 		return 1;
 	}

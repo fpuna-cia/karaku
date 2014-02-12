@@ -28,19 +28,19 @@
 				action="#{cc.attrs.helper.previous()}"
 				disabled="#{not cc.attrs.helper.hasPrevious()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
-			<rich:inputNumberSpinner minValue="#{cc.attrs.helper.minPage}"
-				id="ins" maxValue="#{cc.attrs.helper.maxPage}"
-				disabled="#{cc.attrs.helper.minPage eq cc.attrs.helper.maxPage}"
+			<rich:inputNumberSpinner minValue="#{cc.attrs.helper.minReadablePage}"
+				id="ins" maxValue="#{cc.attrs.helper.maxReadablePage}"
+				disabled="#{cc.attrs.helper.minReadablePage eq cc.attrs.helper.maxReadablePage}"
 				value="#{cc.attrs.helper.readablePage}"
 				onkeypress="if ((event.which || event.keyCode) == 13) { submitInput(#{rich:element('ins')}.firstChild.value); return false; }">
 				<a4j:ajax event="valueChange"
 					render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 				<a4j:jsFunction name="submitInput"
 					render="#{cc.attrs.render}, #{cc.attrs.idPanel}">
-					<a4j:param name="page" assignTo="#{cc.attrs.helper.readablePage}"></a4j:param>
+					<a4j:param name="page" assignTo="#{cc.attrs.helper.readablePage}" />
 				</a4j:jsFunction>
 			</rich:inputNumberSpinner>
-			de #{cc.attrs.helper.maxPage}
+			de #{cc.attrs.helper.maxReadablePage}
 			<a4j:commandButton value="&gt;" action="#{cc.attrs.helper.next()}"
 				disabled="#{not cc.attrs.helper.hasNext()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
