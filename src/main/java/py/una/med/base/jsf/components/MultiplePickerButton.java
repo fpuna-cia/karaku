@@ -8,6 +8,8 @@ import java.util.Iterator;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UINamingContainer;
+import py.una.med.base.dynamic.forms.ListSelectField;
+import py.una.med.base.dynamic.forms.ListSelectField.ValuesChangeListener;
 
 /**
  * 
@@ -20,12 +22,30 @@ import javax.faces.component.UINamingContainer;
 @FacesComponent(value = "multiplePickerButton")
 public final class MultiplePickerButton extends UINamingContainer {
 
-	public String clear() {
+	public String cancel() {
 
-		DataTableCheckBox nested = (DataTableCheckBox) find("pepitobailador",
-				this);
-		nested.clear();
+		getDataTableCheckBox().clear();
 		return "";
+
+	}
+
+	/**
+	 * Updatea los valores seleccionados en el {@link ListSelectField} e invoca
+	 * al {@link ValuesChangeListener} del mismo.
+	 */
+	public void updateValues() {
+
+		DataTableCheckBox nested = getDataTableCheckBox();
+		nested.updatePickerValues();
+		nested.getSelectField().changeValueListener();
+
+	}
+
+	private DataTableCheckBox getDataTableCheckBox() {
+
+		DataTableCheckBox nested = (DataTableCheckBox) find(
+				"dataTableCheckBox", this);
+		return nested;
 	}
 
 	/**
@@ -51,4 +71,5 @@ public final class MultiplePickerButton extends UINamingContainer {
 		}
 		return null;
 	}
+
 }

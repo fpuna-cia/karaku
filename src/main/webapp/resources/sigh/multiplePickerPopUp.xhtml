@@ -24,11 +24,11 @@
 
 			<sigh:dataTableCheckBox listSelectField="#{cc.attrs.pickerField}"
 				enableSelectColumn="#{cc.attrs.enableSelectColumn}"
-				id="pepitobailador" />
+				id="dataTableCheckBox" />
 
 			<h:form id="dataTblForm">
 				<a4j:commandButton
-					actionListener="#{cc.attrs.pickerField.changeValueListener()}"
+					action="#{cc.updateValues}"
 					value="#{msg['BASE_LIST_ACCEPT']}" immediate="true"
 					style="margin-right: 5px !important;"
 					render="#{cc.attrs.pickerField.id} #{cc.attrs.reRenderRegionId}"
@@ -36,9 +36,9 @@
 				</a4j:commandButton>
 
 				<a4j:commandButton value="#{msg['BASE_FORM_CANCEL']}"
-					immediate="true" action="#{cc.clear}"
+					immediate="true" action="#{cc.cancel}"
 					oncomplete="#{rich:component(cc.attrs.pickerField.popupID)}.hide(); return false;"
-					render="itemSelected #{cc.attrs.pickerField.id}">
+					render="itemSelected #{cc.attrs.pickerField.id} ">
 				</a4j:commandButton>
 
 			</h:form>

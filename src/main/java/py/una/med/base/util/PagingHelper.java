@@ -230,7 +230,7 @@ public class PagingHelper {
 
 		currentCount = count;
 
-		if (page >= getMaxPage(currentCount)) {
+		if (page > getMaxPage(currentCount)) {
 			first();
 		}
 	}

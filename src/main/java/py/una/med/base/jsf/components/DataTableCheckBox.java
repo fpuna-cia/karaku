@@ -12,10 +12,12 @@ import javax.el.ELContext;
 import javax.el.MethodExpression;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UINamingContainer;
+import javax.faces.component.UISelectBoolean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.richfaces.component.UIExtendedDataTable;
 import py.una.med.base.dynamic.forms.ListSelectField;
+import py.una.med.base.util.Checker;
 import py.una.med.base.util.ListHelper;
 
 /**
@@ -27,46 +29,28 @@ import py.una.med.base.util.ListHelper;
  * 
  */
 @FacesComponent(value = "dataTableCheckBox")
-public final class DataTableCheckBox extends UINamingContainer {
+public class DataTableCheckBox extends UINamingContainer {
 
+	private static final int ROWS_PER_PAGE = 5;
 	private static final String UNCHECKED = "unchecked";
 	private static final String RAWTYPES = "rawtypes";
-	private static final String GET_ITEM_KEY_METHOD = "getItemKey";
 	private static final String CHECKED_ITEMS = "checkedItems";
 	private static final String SELECTED_ITEMS_TEMP = "selectedItemsTemp";
 	private static final String SELECTED_ITEMS = "selectedItems";
-	private static final String SELECT_ALL_CHECKED = "selectAllChecked";
 	private static final String SET_VALUES_METHOD = "setValues";
 
 	private UIExtendedDataTable dataTable;
-	private Map<Object, Boolean> checkedItems;
-	private List<Object> selectedItemsTemp;
-	private List<Object> selectedItems;
-
-	@SuppressWarnings(RAWTYPES)
-	private ListSelectField listSelectField;
 
 	public String getValueAttribute() {
 
 		return "listSelectField";
 	}
 
-	public DataTableCheckBox() {
-
-		super();
-		setCheckedItems(new HashMap<Object, Boolean>());
-		setSelectedItemsTemp(new ArrayList<Object>());
-		setSelectedItems(new ArrayList<Object>());
-		setSelectAllChecked(false);
-	}
-
 	@SuppressWarnings(UNCHECKED)
 	public String init() {
 
 		@SuppressWarnings(RAWTYPES)
-		ListSelectField mpb = (ListSelectField) getAttributes().get(
-				getValueAttribute());
-		listSelectField = mpb;
+		ListSelectField mpb = getSelectField();
 
 		List<?> values = mpb.getValues();
 		setSelectedItems((List<Object>) values);
@@ -74,19 +58,14 @@ public final class DataTableCheckBox extends UINamingContainer {
 			return "";
 		}
 		List<Object> newSelected = new ArrayList<Object>(values.size());
-		if (getCheckedItems() != null) {
-			checkedItems = getCheckedItems();
-		}
 
 		for (int i = 0; i < values.size(); i++) {
 			newSelected.add(values.get(i));
-			checkedItems.put(mpb.getItemKey(values.get(i)), true);
-			selectedItemsTemp.add(values.get(i));
+			getCheckedItems().put(mpb.getItemKey(values.get(i)), true);
+			getSelectedItemsTemp().add(values.get(i));
 
 		}
 
-		setCheckedItems(checkedItems);
-		updateCheckboxHeader(mpb.getListHelper().getEntities());
 		return "";
 	}
 
@@ -105,102 +84,81 @@ public final class DataTableCheckBox extends UINamingContainer {
 	 * ocasionando que todos los elementos se seleccionen o ninguno se
 	 * seleccione.
 	 **/
-	@SuppressWarnings(UNCHECKED)
 	public void onCheckboxHeaderClicked(final AjaxBehaviorEvent event) {
 
-		setSelectAllChecked(!isSelectAllChecked());
-		if (getCheckedItems() != null) {
-			checkedItems = getCheckedItems();
-		}
-		if (checkedItems == null) {
-			checkedItems = new HashMap<Object, Boolean>();
-		}
-		List<Object> items = (List<Object>) dataTable.getValue();
+		boolean isCheckHeader = (Boolean) ((UISelectBoolean) event
+				.getComponent()).getSubmittedValue();
 
-		for (Object item : items) {
+		for (Object item : getSelectField().getListHelper().getEntities()) {
 			Object key = getItemKey(item);
-			checkedItems.put(key, isSelectAllChecked());
-			updateSelectedItems(item, checkedItems.get(key));
-		}
-		if (!isSelectAllChecked()) {
-			setSelectedItemsTemp(new ArrayList<Object>());
-		} else {
-			setSelectedItemsTemp(items);
-			@SuppressWarnings(RAWTYPES)
-			ListSelectField mpb = (ListSelectField) getAttributes().get(
-					getValueAttribute());
-			listSelectField = mpb;
-			mpb.setValues(items);
+			getCheckedItems().put(key, isCheckHeader);
+			updateSelectedItems(item, isCheckHeader);
 		}
 
-		setCheckedItems(checkedItems);
+		flush();
+
+	}
+
+	@SuppressWarnings("rawtypes")
+	public ListSelectField getSelectField() {
+
+		return (ListSelectField) getAttributes().get(getValueAttribute());
 	}
 
 	/**
 	 *
 	 **/
-	@SuppressWarnings(UNCHECKED)
 	public void onItemCheckboxClicked(final AjaxBehaviorEvent event) {
 
-		if (getCheckedItems() != null) {
-			checkedItems = getCheckedItems();
-		}
 		Object selected = dataTable.getRowData();
 		Object key = getItemKey(selected);
 
-		Boolean checked = checkedItems.get(key);
-		checkedItems.put(key, checked == null ? true : !checked);
+		Boolean checked = getCheckedItems().get(key);
+		getCheckedItems().put(key, checked == null ? true : !checked);
 
-		updateSelectedItems(selected, checkedItems.get(key));
-		setCheckedItems(checkedItems);
-		updateCheckboxHeader((List<Object>) dataTable.getValue());
+		updateSelectedItems(selected, getCheckedItems().get(key));
+
+		flush();
 	}
 
-	public void updateCheckboxHeader(List<?> allValues) {
+	public void setValidCheckboxHeader(boolean bol) {
 
-		for (Object item : allValues) {
+		/**
+		 * Este seter es requerido para representar la selección del check de la
+		 * cabecera de la lista de elementos.
+		 */
+	}
+
+	public boolean isValidCheckboxHeader() {
+
+		for (Object item : getSelectField().getListHelper().getEntities()) {
 			Object key = getItemKey(item);
-			if ((checkedItems.get(key) == null) || !getCheckedItems().get(key)) {
-				setSelectAllChecked(false);
-				return;
+			if ((getCheckedItems().get(key) == null)
+					|| !getCheckedItems().get(key)) {
+				return false;
 			}
 		}
-		setSelectAllChecked(true);
+		return true;
 	}
 
 	private Object getItemKey(Object item) {
 
-		if (listSelectField != null) {
-			return listSelectField.getItemKey(item);
-		} else {
-			FacesContext ctx = FacesContext.getCurrentInstance();
-			ELContext elCtx = ctx.getELContext();
-			MethodExpression me = (MethodExpression) getAttributes().get(
-					GET_ITEM_KEY_METHOD);
-			Object[] params = new Object[1];
-			params[0] = item;
-			return me.invoke(elCtx, params);
-		}
+		Checker.notNull(item, "Please, set a 'listSelectField' to the picker");
+		return getSelectField().getItemKey(item);
 	}
 
 	/**
 	 * Actualiza la lista de elementos seleccionados
 	 **/
-	public void updateSelectedItems(Object item, boolean add) {
+	private void updateSelectedItems(Object item, boolean add) {
 
-		selectedItemsTemp = getSelectedItemsTemp();
-		if (selectedItemsTemp == null) {
-			selectedItemsTemp = new ArrayList<Object>();
-		}
-		if (add) {
-			selectedItemsTemp.add(item);
+		if (!add) {
+			getSelectedItemsTemp().remove(item);
 		} else {
-			selectedItemsTemp.remove(item);
+			if (!getSelectedItemsTemp().contains(item)) {
+				getSelectedItemsTemp().add(item);
+			}
 		}
-
-		setSelectedItemsTemp(selectedItemsTemp);
-		updatePickerValues(selectedItemsTemp);
-
 	}
 
 	/**
@@ -209,28 +167,16 @@ public final class DataTableCheckBox extends UINamingContainer {
 	 * seleccionados los vuelve a setear para que la accion de seleccion
 	 * cancelada no tenga efecto .
 	 **/
-	@SuppressWarnings(UNCHECKED)
 	public String clear() {
 
-		@SuppressWarnings(RAWTYPES)
-		ListSelectField mpb = (ListSelectField) getAttributes().get(
-				getValueAttribute());
-		listSelectField = mpb;
+		getCheckedItems().clear();
+		getSelectedItemsTemp().clear();
 
-		checkedItems.clear();
-		selectedItemsTemp.clear();
-
-		if (selectedItems != null) {
-			for (int i = 0; i < selectedItems.size(); i++) {
-				checkedItems.put(mpb.getItemKey(selectedItems.get(i)), true);
-				selectedItemsTemp.add(selectedItems.get(i));
-			}
+		for (Object o : getSelectedItems()) {
+			getCheckedItems().put(getSelectField().getItemKey(o), true);
+			updateSelectedItems(o, true);
 		}
-
-		setCheckedItems(checkedItems);
-		updateCheckboxHeader(mpb.getListHelper().getEntities());
-		mpb.setValues(selectedItems);
-		setSelectedItemsTemp(selectedItems);
+		flush();
 		return "";
 
 	}
@@ -248,52 +194,64 @@ public final class DataTableCheckBox extends UINamingContainer {
 	@SuppressWarnings(UNCHECKED)
 	public Map<Object, Boolean> getCheckedItems() {
 
-		return (Map<Object, Boolean>) get(CHECKED_ITEMS);
+		Map<Object, Boolean> toRet = (Map<Object, Boolean>) get(CHECKED_ITEMS);
+
+		if (toRet == null) {
+			toRet = new HashMap<Object, Boolean>(ROWS_PER_PAGE);
+			setCheckedItems(toRet);
+		}
+
+		return toRet;
 	}
 
 	@SuppressWarnings(UNCHECKED)
 	public List<Object> getSelectedItemsTemp() {
 
-		return (List<Object>) get(SELECTED_ITEMS_TEMP);
-	}
+		List<Object> itemsTemp = (List<Object>) get(SELECTED_ITEMS_TEMP);
+		if (itemsTemp == null) {
+			itemsTemp = new ArrayList<Object>(ROWS_PER_PAGE);
+			setSelectedItemsTemp(itemsTemp);
+		}
 
-	public boolean isSelectAllChecked() {
-
-		return (Boolean) get(SELECT_ALL_CHECKED);
-	}
-
-	public void setSelectAllChecked(boolean selectAllChecked) {
-
-		put(SELECT_ALL_CHECKED, selectAllChecked);
+		return itemsTemp;
 	}
 
 	public void setCheckedItems(Map<Object, Boolean> checkedItems) {
 
-		this.checkedItems = checkedItems;
 		put(CHECKED_ITEMS, checkedItems);
 
 	}
 
 	public void setSelectedItemsTemp(List<Object> selectedItemsTemp) {
 
-		this.selectedItemsTemp = selectedItemsTemp;
 		put(SELECTED_ITEMS_TEMP, selectedItemsTemp);
 	}
 
 	@SuppressWarnings(UNCHECKED)
 	public List<Object> getSelectedItems() {
 
-		return (List<Object>) get(SELECTED_ITEMS);
+		List<Object> items = (List<Object>) get(SELECTED_ITEMS);
+		if (items == null) {
+			items = new ArrayList<Object>(ROWS_PER_PAGE);
+			// cambiar por el total de elementos.
+			setSelectedItems(items);
+		}
+
+		return items;
 	}
 
 	public void setSelectedItems(List<Object> selectedItems) {
 
-		this.selectedItems = selectedItems;
 		put(SELECTED_ITEMS, selectedItems);
 	}
 
-	private void updatePickerValues(List<Object> items) {
+	/**
+	 * Setea los valores seleccionados en el pickerField
+	 */
+	public void updatePickerValues() {
 
+		List<Object> items = getSelectedItemsTemp();
+		setSelectedItems(items);
 		FacesContext ctx = FacesContext.getCurrentInstance();
 		ELContext elCtx = ctx.getELContext();
 		MethodExpression me = (MethodExpression) getAttributes().get(
@@ -301,6 +259,13 @@ public final class DataTableCheckBox extends UINamingContainer {
 		Object[] params = new Object[1];
 		params[0] = items;
 		me.invoke(elCtx, params);
+	}
+
+	private void flush() {
+
+		setCheckedItems(getCheckedItems());
+		setSelectedItemsTemp(getSelectedItemsTemp());
+		setSelectedItems(getSelectedItems());
 	}
 
 }

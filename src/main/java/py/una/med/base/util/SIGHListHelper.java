@@ -21,6 +21,8 @@ import py.una.med.base.dao.select.Select;
 import py.una.med.base.dao.util.EntityExample;
 import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.model.DisplayName;
+import py.una.med.base.util.PagingHelper.ChangeListener;
+import py.una.med.base.util.SimpleFilter.ChangeListenerSimpleFilter;
 
 /**
  * 
@@ -54,10 +56,11 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	private static final Logger LOG = LoggerFactory
 			.getLogger(SIGHListHelper.class);
 	private String[] columnsList;
+	private List<T> entities;
 
 	public SIGHListHelper(Class<T> clazz, ISIGHBaseLogic<T, K> logic) {
 
-		this(clazz, new SimpleFilter(), logic);
+		this(clazz, null, logic);
 	}
 
 	public SIGHListHelper(Class<T> clazz, SimpleFilter simpleFilter,
@@ -66,7 +69,6 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		this.clazz = clazz;
 		this.simpleFilter = simpleFilter;
 		this.logic = logic;
-		this.helper = new PagingHelper(ROWS_FOR_PAGE);
 	}
 
 	/**
@@ -90,15 +92,29 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	@Override
 	public List<T> getEntities() {
 
-		LOG.debug("Get entities of {} ", this.getClass());
-		Where<T> where = this.getFilters(this.clazz, this.example,
-				this.simpleFilter);
-		Long totalSize = this.logic.getCount(where);
-		this.helper.udpateCount(totalSize);
-		ISearchParam isp = this.helper.getISearchparam();
-		this.configureSearchParams(isp);
+		if (this.entities == null) {
+			LOG.debug("Get entities of {} ", this.getClass());
+			Where<T> where = this.getFilters(this.clazz, this.example,
+					this.simpleFilter);
+			Long totalSize = this.logic.getCount(where);
+			getHelper().udpateCount(totalSize);
+			ISearchParam isp = this.helper.getISearchparam();
+			this.configureSearchParams(isp);
 
-		return buildQuery(where, isp);
+			this.entities = buildQuery(where, isp);
+		}
+		return this.entities;
+	}
+
+	public void setEntities(List<T> entities) {
+
+		this.entities = entities;
+	}
+
+	private void reloadEntities() {
+
+		LOG.debug("Reset entities", this.getClass());
+		this.entities = null;
 	}
 
 	private List<T> buildQuery(Where<T> where, ISearchParam isp) {
@@ -196,6 +212,22 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	@Override
 	public SimpleFilter getSimpleFilter() {
 
+		if (simpleFilter == null) {
+			simpleFilter = new SimpleFilter();
+
+			simpleFilter.setChangeListener(new ChangeListenerSimpleFilter() {
+
+				@Override
+				public void onChange(SimpleFilter thizz, String value,
+						String option) {
+
+					reloadEntities();
+				}
+
+			});
+
+		}
+
 		return this.simpleFilter;
 	}
 
@@ -218,6 +250,19 @@ public class SIGHListHelper<T, K extends Serializable> implements
 
 	@Override
 	public PagingHelper getHelper() {
+
+		if (this.helper == null) {
+			this.helper = new PagingHelper(ROWS_FOR_PAGE);
+			this.helper.setChangeListener(new ChangeListener() {
+
+				@Override
+				public void onChange(PagingHelper thizz, int previousPage,
+						int currentPage) {
+
+					reloadEntities();
+				}
+			});
+		}
 
 		return this.helper;
 	}

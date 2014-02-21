@@ -17,14 +17,16 @@
 	<composite:facet name="extraButtons" />
 </composite:interface>
 <composite:implementation>
-	<rich:messages globalOnly="false"></rich:messages>
+	<rich:messages globalOnly="false" />
 	<h:panelGrid columns="8">
 
-		<h:outputLabel value="#{msg['SEARCH_FILTER']}" style="text-transform:none" />
+		<h:outputLabel value="#{msg['SEARCH_FILTER']}"
+			style="text-transform:none" />
 		<h:inputText id="filterValue" value="#{cc.attrs.simpleFilter.value}"
 			style="width:200px" />
 		<rich:messages for="filterValue" styleClass="form_error" />
-		<h:outputLabel value="#{msg['SEARCH_ATTRIBUTE']}" style="text-transform:none" />
+		<h:outputLabel value="#{msg['SEARCH_ATTRIBUTE']}"
+			style="text-transform:none" />
 		<h:selectOneMenu id="filterOption"
 			value="#{cc.attrs.simpleFilter.option}" style="width:200px"
 			converter="oldStringConverter">
@@ -36,10 +38,11 @@
 
 		<a4j:commandButton value="#{msg['BASE_SEARCH_SIMPLE_SEARCH']}"
 			execute="filterValue filterOption"
-			render="@form #{cc.attrs.searchRender}" />
+			render="@form #{cc.attrs.searchRender}"
+			action="#{cc.attrs.simpleFilter.changeValueListener}" />
 		<a4j:commandButton value="#{msg['LIST_CLEAR']}"
 			render="#{cc.attrs.searchRender} @form" immediate="true"
-			action="#{cc.attrs.simpleFilter.clear}" />
+			action="#{cc.attrs.simpleFilter.clear}" execute="@this" />
 	</h:panelGrid>
 </composite:implementation>
 </html>

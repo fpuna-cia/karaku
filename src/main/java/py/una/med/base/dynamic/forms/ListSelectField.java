@@ -192,9 +192,12 @@ public class ListSelectField<T> extends LabelField {
 		this.valuesChangeListener = listener;
 	}
 
+	/**
+	 * Limpia la lista de elementos seleccionados.
+	 */
 	public void clear() {
 
-		values = Collections.<T> emptyList();
+		setValues(Collections.<T> emptyList());
 
 	}
 

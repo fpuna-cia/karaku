@@ -9,8 +9,7 @@
 	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
 	<cc:interface componentType="dataTableCheckBox">
 		<cc:attribute name="listSelectField"
-			type="py.una.med.base.dynamic.forms.ListSelectField"
-			required="true" />
+			type="py.una.med.base.dynamic.forms.ListSelectField" required="true" />
 		<cc:attribute name="width" default="700" />
 		<cc:attribute name="height" default="400" />
 		<cc:attribute name="basicFilterID"
@@ -29,7 +28,7 @@
 	<cc:implementation>
 		<h:outputLabel value="#{cc.init()}" id="initPicker" />
 		<h:outputLabel value="#{cc.clear()}" id="clearPicker" />
-		
+
 		<h:form id="formulario1">
 			<h:panelGroup id="pgFilter">
 				<sigh:basicFilter2 id="#{cc.attrs.basicFilterID}"
@@ -55,7 +54,7 @@
 							<h:outputText
 								value="#{msg['MULTIPLE_PICKER_SELECCIONAR_HEADER']}"
 								style="margin-right: 3px;text-transform:none" />
-							<h:selectBooleanCheckbox value="#{cc.selectAllChecked}"
+							<h:selectBooleanCheckbox value="#{cc.validCheckboxHeader}"
 								disabled="#{cc.attrs.enableSelectColumn}">
 								<a4j:ajax listener="#{cc.onCheckboxHeaderClicked}"
 									render="#{cc.attrs.listSelectField.dataTableID} itemSelected"

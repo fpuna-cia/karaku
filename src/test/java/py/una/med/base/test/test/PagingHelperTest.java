@@ -126,6 +126,15 @@ public class PagingHelperTest {
 		assertFalse(pg.hasPrevious());
 		assertEquals(1, pg.getMinReadablePage());
 		assertEquals(2, pg.getMaxReadablePage());
+
+		pg = new PagingHelper(5);
+
+		pg.udpateCount(6L);
+
+		pg.next();
+
+		pg.udpateCount(6L);
+		assertEquals(i(2), pg.getReadablePage());
 	}
 
 	@Test
