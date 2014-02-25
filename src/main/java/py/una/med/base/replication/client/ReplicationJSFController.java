@@ -46,9 +46,6 @@ import py.una.med.base.util.StringUtils;
 public class ReplicationJSFController extends
 		SIGHAdvancedController<ReplicationInfo, Long> {
 
-	/**
-	 * 
-	 */
 	private static final String BASE_PACKAGE_FOR_SCAN = "py.una.med";
 	public static final int ROWS_FOR_PAGE = 100;
 	@Autowired

@@ -14,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -65,6 +66,12 @@ public class UriCacheTest extends BaseTestWithDatabase {
 
 	}
 
+	@Before
+	public void clearCache() {
+
+		cache.clearCache();
+	}
+
 	@Autowired
 	private TestUriCache cache;
 
@@ -74,7 +81,6 @@ public class UriCacheTest extends BaseTestWithDatabase {
 	@Test
 	public void testAddToCache() throws Exception {
 
-		cache.clearCache();
 		// MINUTE 0
 		assertFalse(cache.hasInCache("entity/1"));
 		Entity1 e = cache.getByUri(Entity1.class, "entity/1");
@@ -120,6 +126,19 @@ public class UriCacheTest extends BaseTestWithDatabase {
 		assertEquals(0, cache.getCount());
 		assertNotNull(cache.getByUri(Entity2.class, "entity/2/2").getId());
 		assertTrue(cache.hasBeenAddedNow("entity/2/2"));
+	}
+
+	@Test
+	public void testLoadTable() throws Exception {
+
+		assertFalse(cache.hasInCache("entity/1"));
+		assertFalse(cache.hasInCache("entity/2"));
+
+		cache.loadTable(Entity1.class);
+
+		assertTrue(cache.hasInCache("entity/1"));
+		assertTrue(cache.hasInCache("entity/2"));
+
 	}
 
 	@Test(expected = RuntimeException.class)

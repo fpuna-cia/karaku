@@ -1,7 +1,5 @@
 /*
- * @TestUriCache.java 1.0 Jan 7, 2014
- * Sistema Integral de Gestion Hospitalaria
- * 
+ * @TestUriCache.java 1.0 Jan 7, 2014 Sistema Integral de Gestion Hospitalaria
  */
 package py.una.med.base.test.util;
 
@@ -58,12 +56,4 @@ public class TestUriCache extends UriCache {
 		return getMap().size();
 	}
 
-	/**
-	 * Se sobreescribe para dar soporte a clases nestedas.
-	 */
-	@Override
-	protected String getEntityName(Class<?> clazz) {
-
-		return "UriCacheTest$" + super.getEntityName(clazz);
-	}
 }

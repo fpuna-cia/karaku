@@ -5,7 +5,9 @@ package py.una.med.base.replication;
 
 import static py.una.med.base.util.Checker.notNull;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.Validate;
 import org.hibernate.Query;
@@ -49,6 +51,9 @@ public class UriCache {
 		cache = context.getBean(UriCache.class);
 	}
 
+	/**
+	 * Elimina todos los objetos de la cache.
+	 */
 	public void clearCache() {
 
 		map = null;
@@ -76,14 +81,49 @@ public class UriCache {
 	 * @throws EntityNotFoundException
 	 *             cuando la entidad no es encontrada.
 	 */
-	@SuppressWarnings("unchecked")
 	public <T extends BaseEntity & Shareable> T getByUri(Class<T> clazz,
 			String uri) throws EntityNotFoundException {
+
+		T toRet = getByUriOrNull(clazz, uri);
+		if (toRet == null) {
+			throw new EntityNotFoundException(uri, getEntityName(clazz));
+		}
+		return toRet;
+	}
+
+	/**
+	 * Retorna una instancia basada en su URI.
+	 * 
+	 * <p>
+	 * Se encarga de buscar en la base de datos una entidad del tipo pasado que
+	 * tenga la uri especificada.
+	 * </p>
+	 * <p>
+	 * <b>Notar además, que la entidad retornada nunca tiene algún atributo
+	 * adicional a su identificador</b>, el único uso que se le debe dar a la
+	 * entidad recuperada es el de referencia a otra tabla.
+	 * </p>
+	 * 
+	 * @param clazz
+	 *            clase del objeto que se busca
+	 * @param uri
+	 *            identificador único del objeto
+	 * @return entidad obtenida, nunca <code>null</code>
+	 * @throws EntityNotFoundException
+	 *             cuando la entidad no es encontrada.
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends BaseEntity & Shareable> T getByUriOrNull(Class<T> clazz,
+			String uri) {
 
 		notNull(clazz, "Can't get entity by null clazz");
 		notNull(uri, "Can't get entity with null uri");
 		if (!getMap().containsKey(uri)) {
-			addToCache(uri, cache.getEntityByUri(clazz, uri));
+			Object toAdd = cache.getEntityByUri(clazz, uri);
+			if (toAdd == null) {
+				return null;
+			}
+			addToCache(uri, toAdd);
 		}
 		Object toRet = map.get(uri);
 		Validate.validState(toRet.getClass().equals(clazz),
@@ -91,9 +131,40 @@ public class UriCache {
 		return (T) toRet;
 	}
 
+	/**
+	 * Agrega una entidad a la cache actual.
+	 * 
+	 * 
+	 * @param uri
+	 *            identificador de la entidad
+	 * @param entity
+	 *            entidad a agregar
+	 * 
+	 */
 	protected void addToCache(String uri, Object entity) {
 
 		getMap().put(uri, entity);
+	}
+
+	/**
+	 * Carga todas las filas de una entidad para su posterior acceso eficiente.
+	 * 
+	 * <p>
+	 * Esto es un simple <code>select * from entity</code>, tener especial
+	 * cuidado con tablas muy grandes.
+	 * </p>
+	 * 
+	 * @param entity
+	 *            entidad a ser cacheada.
+	 */
+	public void loadTable(@Nonnull Class<? extends Shareable> entity) {
+
+		List<?> currentAll = factory.getCurrentSession().createCriteria(entity)
+				.list();
+		for (Object object : currentAll) {
+			Shareable s = (Shareable) object;
+			addToCache(s.getUri(), object);
+		}
 	}
 
 	/**
@@ -111,7 +182,7 @@ public class UriCache {
 
 	@Transactional
 	protected <T extends BaseEntity & Shareable> T getEntityByUri(
-			Class<T> clazz, String uri) throws EntityNotFoundException {
+			Class<T> clazz, String uri) {
 
 		Session s = factory.getCurrentSession();
 
@@ -122,7 +193,7 @@ public class UriCache {
 
 		Long l = (Long) q.uniqueResult();
 		if (l == null) {
-			throw new EntityNotFoundException(uri, getEntityName(clazz));
+			return null;
 		}
 
 		try {
@@ -140,6 +211,6 @@ public class UriCache {
 
 	protected String getEntityName(Class<?> clazz) {
 
-		return clazz.getSimpleName();
+		return clazz.getName();
 	}
 }

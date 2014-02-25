@@ -6,7 +6,9 @@ package py.una.med.base.replication.client;
 
 import static py.una.med.base.util.Checker.notNull;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang3.tuple.Pair;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -26,12 +28,14 @@ import py.una.med.base.log.Log;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.EntityNotFoundException;
 import py.una.med.base.replication.Shareable;
+import py.una.med.base.replication.UriCache;
 import py.una.med.base.replication.client.ReplicationContextHolder.ReplicationContext;
 import py.una.med.base.services.Converter;
 import py.una.med.base.services.ConverterProvider;
 import py.una.med.base.services.client.WSEndpoint;
 import py.una.med.base.services.client.WSSecurityInterceptor;
 import py.una.med.base.util.Checker;
+import py.una.med.base.util.ListHelper;
 
 /**
  * Servicio que se encarga de sincronizar las entidades periodicamente.
@@ -56,6 +60,8 @@ public class ReplicationHandler {
 	 */
 	public static final String REPLICATION_ENABLED = "karaku.replication.enabled";
 
+	public static final String LOGGER_NAME = "karaku.replication";
+
 	private static final long CALL_DELAY = 60000;
 
 	@Autowired
@@ -64,7 +70,7 @@ public class ReplicationHandler {
 	@Autowired
 	private PropertiesUtil util;
 
-	@Log
+	@Log(name = LOGGER_NAME)
 	private Logger log;
 
 	@Autowired
@@ -87,6 +93,9 @@ public class ReplicationHandler {
 
 	@Autowired
 	private ApplicationContext applicationContext;
+
+	@Autowired
+	private UriCache uriCache;
 
 	private boolean skiped = false;
 
@@ -143,14 +152,11 @@ public class ReplicationHandler {
 	public void doSync(ReplicationInfo ri) {
 
 		Class<?> classToNotify = ri.getEntityClazz();
-		if (classToNotify != null) {
-			updateLocalThread(ri);
-			String lastId = replicate(ri);
-			logic.notifyReplication(classToNotify, lastId);
-		} else {
-			throw new KarakuRuntimeException(
-					"Can't sync a Replication info not loaded id:" + ri.getId());
-		}
+		notNull(classToNotify,
+				"Can't sync a Replication info not loaded id: %s", ri.getId());
+		updateLocalThread(ri);
+		String lastId = replicate(ri);
+		logic.notifyReplication(classToNotify, lastId);
 	}
 
 	private void updateLocalThread(ReplicationInfo ri) {
@@ -171,6 +177,7 @@ public class ReplicationHandler {
 	private void resetLocalThread() {
 
 		ReplicationContextHolder.setContext(null);
+		uriCache.clearCache();
 	}
 
 	private String replicate(ReplicationInfo ri) {
@@ -201,9 +208,16 @@ public class ReplicationHandler {
 		Converter converter = converterProvider.getConverter(
 				ri.getEntityClazz(), ri.getDaoClazz());
 
+		handleCacheAll(converter);
+
+		int i = 0;
 		for (Object obj : items) {
 			DTO dto = (DTO) obj;
+			i++;
 			try {
+				log.info("Process {}: {}/{} ({}%)",
+						new Object[] { ri.getEntityClassName(), i,
+								items.size(), i * 100 / items.size() });
 				Shareable entity = converter.toEntity(dto);
 				merge(ri, entity);
 			} catch (EntityNotFoundException enf) {
@@ -222,6 +236,25 @@ public class ReplicationHandler {
 		}
 
 		return newLastId;
+	}
+
+	/**
+	 * @param converter
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void handleCacheAll(@Nonnull Converter converter) {
+
+		if (converter.getClass().isAnnotationPresent(CacheAll.class)) {
+			CacheAll ca = converter.getClass().getAnnotation(CacheAll.class);
+
+			Class<Shareable>[] toCache = ca.value() != null ? ca.value()
+					: ListHelper.asArray(Class.class,
+							Collections.singleton(converter.getEntityType()));
+			for (Class<Shareable> currentClass : toCache) {
+				log.info("Caching: {} ", currentClass);
+				uriCache.loadTable(currentClass);
+			}
+		}
 	}
 
 	/**
@@ -267,6 +300,12 @@ public class ReplicationHandler {
 	private Long getPersistedIdByUri(Session s, ReplicationInfo ri, String uri) {
 
 		try {
+
+			BaseEntity cached = uriCache.getByUriOrNull(
+					checkAndCast(ri.getEntityClazz()), uri);
+			if (cached != null) {
+				return cached.getId();
+			}
 			String query = "select id from " + getEntityName(ri)
 					+ " where uri = :uri";
 			Query q = s.createQuery(query);
@@ -282,6 +321,19 @@ public class ReplicationHandler {
 							.getSimpleName()), sge);
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T extends BaseEntity & Shareable> Class<T> checkAndCast(
+			Class<?> param) {
+
+		if (Shareable.class.isAssignableFrom(param)
+				&& BaseEntity.class.isAssignableFrom(param)) {
+			return (Class<T>) param;
+		}
+		throw new KarakuRuntimeException(
+				"Can't sync a not BaseEntity and Not Shareable entity: "
+						+ param.getName());
 	}
 
 	/**

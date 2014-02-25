@@ -41,7 +41,7 @@ public class ReplicationLogic implements IReplicationLogic {
 	@Autowired
 	private DateProvider dateProvider;
 
-	@Log
+	@Log(name = ReplicationHandler.LOGGER_NAME)
 	private Logger log;
 
 	@Override

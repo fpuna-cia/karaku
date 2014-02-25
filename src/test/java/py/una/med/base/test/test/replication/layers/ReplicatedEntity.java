@@ -17,6 +17,7 @@ import py.una.med.base.dao.entity.annotations.URI.Type;
 import py.una.med.base.domain.BaseEntity;
 import py.una.med.base.replication.DTO;
 import py.una.med.base.replication.Shareable;
+import py.una.med.base.replication.client.CacheAll;
 
 /**
  * Entidad para los test de replicación.
@@ -30,6 +31,7 @@ import py.una.med.base.replication.Shareable;
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "description"),
 		@UniqueConstraint(columnNames = "uri") })
+@CacheAll
 public class ReplicatedEntity extends BaseEntity implements DTO, Shareable {
 
 	/**
@@ -181,7 +183,7 @@ public class ReplicatedEntity extends BaseEntity implements DTO, Shareable {
 
 		if (obj instanceof ReplicatedEntity) {
 			ReplicatedEntity oth = (ReplicatedEntity) obj;
-			if ((uri == null) && (oth.uri == null)) {
+			if (uri == null && oth.uri == null) {
 				return true;
 			}
 			return uri.equals(oth.uri) && description.equals(oth.description);

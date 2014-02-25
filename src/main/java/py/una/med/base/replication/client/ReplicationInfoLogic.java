@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.una.med.base.business.SIGHBaseLogic;
 import py.una.med.base.replication.server.Bundle;
-import py.una.med.base.repo.ISIGHBaseDao;
 
 /**
  * 
@@ -26,8 +25,9 @@ public class ReplicationInfoLogic extends SIGHBaseLogic<ReplicationInfo, Long> {
 	private ReplicationInfoDao dao;
 
 	static final int DEFAULT_INTERVAL = 5;
+
 	@Override
-	public ISIGHBaseDao<ReplicationInfo, Long> getDao() {
+	public ReplicationInfoDao getDao() {
 
 		return dao;
 	}
