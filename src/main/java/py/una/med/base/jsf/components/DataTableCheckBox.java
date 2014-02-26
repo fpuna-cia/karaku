@@ -261,6 +261,12 @@ public class DataTableCheckBox extends UINamingContainer {
 		me.invoke(elCtx, params);
 	}
 
+	@Override
+	public void processUpdates(FacesContext context) {
+
+		updatePickerValues();
+		super.processUpdates(context);
+	}
 	private void flush() {
 
 		setCheckedItems(getCheckedItems());
