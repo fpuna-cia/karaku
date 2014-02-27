@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
@@ -34,7 +33,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	/**
 	 * Ubicacion del archivo donde se almacena la información sensible.
 	 */
-	private static final String ANOTHER_KEY = "karaku.changing.properties";
+	public static final String ANOTHER_KEY = "karaku.changing.properties";
 
 	@Override
 	protected void processProperties(
@@ -42,9 +41,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 			final Properties props) {
 
 		super.processProperties(beanFactory, mergeProperties(props));
-		if (propertiesMap == null) {
-			propertiesMap = new HashMap<String, String>();
-		}
+		propertiesMap = new HashMap<String, String>();
 		for (Object key : props.keySet()) {
 			String keyStr = key.toString();
 
@@ -80,9 +77,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 
 		for (Entry<Object, Object> entry : properties.entrySet()) {
 			Object value = entry.getValue();
-			if (entry.getValue() instanceof String) {
-				value = ((String) value).trim();
-			}
+			value = ((String) value).trim();
 			main.put(entry.getKey(), value);
 		}
 		return main;
@@ -190,7 +185,6 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	 */
 	public static PropertiesUtil getCurrentFromJSF() {
 
-		return Util.getSpringBeanByJSFContext(
-				FacesContext.getCurrentInstance(), PropertiesUtil.class);
+		return Util.getSpringBeanByJSFContext(null, PropertiesUtil.class);
 	}
 }
