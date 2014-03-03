@@ -62,7 +62,6 @@ public class PickerField<T> extends LabelField {
 	public PickerField() {
 
 		super();
-		this.codeInput = SIGHComponentFactory.getHtmlInputText();
 		this.popupID = getId() + "popup";
 		dataTableID = popupID + "datatable";
 
@@ -346,6 +345,11 @@ public class PickerField<T> extends LabelField {
 	 * @return codeInput
 	 */
 	public HtmlInputText getCodeInput() {
+
+		if (codeInput == null) {
+			codeInput = SIGHComponentFactory.getHtmlInputText();
+
+		}
 
 		return codeInput;
 	}
