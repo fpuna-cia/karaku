@@ -9,16 +9,20 @@ package py.una.med.base.reports;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import py.una.med.base.exception.ReportException;
+import py.una.med.base.math.Quantity;
 import py.una.med.base.reports.SIGHReportBlockSign.Sign;
 import py.una.med.base.reports.SIGHReportDetails.Detail;
 import py.una.med.base.util.I18nHelper;
 import ar.com.fdvs.dj.core.DJConstants;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
+import ar.com.fdvs.dj.domain.CustomExpression;
 import ar.com.fdvs.dj.domain.DJCrosstab;
 import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.Style;
@@ -1057,6 +1061,35 @@ public final class DynamicUtils {
 
 		report.setTemplateFile(FILE_LOCATION + path, true, false, true, true);
 		return report;
+	}
+
+	/**
+	 * Método que genera una expresión para hacer la conversión del tipo de dato
+	 * {@link Quantity} a {@link Bigdecimal}
+	 * 
+	 * @param value
+	 *            Field del dataSource que se desea convertir.
+	 * @return
+	 */
+	public CustomExpression getQuantityCustomExpression(final String value) {
+
+		return new CustomExpression() {
+
+			private static final long serialVersionUID = 2200118849765160960L;
+
+			@SuppressWarnings("rawtypes")
+			@Override
+			public Object evaluate(Map fields, Map variables, Map parameters) {
+
+				return ((Quantity) fields.get(value)).bigDecimalValue();
+			}
+
+			@Override
+			public String getClassName() {
+
+				return BigDecimal.class.getName();
+			}
+		};
 	}
 
 }
