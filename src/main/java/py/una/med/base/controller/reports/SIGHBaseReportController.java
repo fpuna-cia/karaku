@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
+import py.una.med.base.util.ControllerHelper;
 import py.una.med.base.util.FormatProvider;
 import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.LabelProvider;
@@ -50,6 +51,8 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 	private String typeExport;
 	@Autowired
 	private transient FormatProvider fp;
+	@Autowired
+	protected ControllerHelper controllerHelper;
 
 	/**
 	 * Genera la lista de ordenamiento disponible, solo es necesaria en algunos
@@ -176,6 +179,18 @@ public abstract class SIGHBaseReportController<T, K extends Serializable>
 	public String getDefaultPermission() {
 
 		return "SIGH";
+	}
+
+	/**
+	 * Retorna una cadena internacionalizada dada la llave.
+	 * 
+	 * @param code
+	 *            clave del archivo de internacionalización
+	 * @return cadena internacionalizada
+	 */
+	public String getMessage(String code) {
+
+		return this.controllerHelper.getMessage(code);
 	}
 
 }

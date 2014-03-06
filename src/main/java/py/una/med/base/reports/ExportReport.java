@@ -47,7 +47,7 @@ public class ExportReport {
 	private static final String MEDIA_TYPE_EXCEL = "application/vnd.ms-excel";
 	private static final String MEDIA_TYPE_PDF = "application/pdf";
 
-	@Autowired
+	@Autowired(required = false)
 	private Util util;
 
 	@Autowired
@@ -586,7 +586,7 @@ public class ExportReport {
 		}
 	}
 
-	private HttpServletResponse getServletResponse() {
+	protected HttpServletResponse getServletResponse() {
 
 		return (HttpServletResponse) FacesContext.getCurrentInstance()
 				.getExternalContext().getResponse();
@@ -682,11 +682,16 @@ public class ExportReport {
 					getMessage("BASE_REPORT_SELECTION_CRITERIA"));
 			params.put("user", getMessage("BASE_REPORT_USER"));
 			params.put("userName", getUserName());
-			params.put("nameSystem", util.getNameSystem());
+			params.put("nameSystem", getNameSystem());
 			params.put("page", getMessage("BASE_REPORT_PAGE"));
 			params.put("pageThe", getMessage("BASE_REPORT_PAGE_THE"));
 		}
 		return params;
+	}
+
+	protected String getNameSystem() {
+
+		return util.getNameSystem();
 	}
 
 	private String getMessage(String key) {
@@ -694,7 +699,7 @@ public class ExportReport {
 		return helper.getMessage(key);
 	}
 
-	private String getUserName() {
+	protected String getUserName() {
 
 		return authorityController.getUsername();
 	}

@@ -11,8 +11,10 @@ import py.una.med.base.breadcrumb.BreadcrumbController;
 import py.una.med.base.business.reports.SIGHBaseReportSimple;
 import py.una.med.base.dao.search.SearchHelper;
 import py.una.med.base.jsf.utils.ICurrentpageHelper;
+import py.una.med.base.reports.DynamicUtils;
 import py.una.med.base.security.AuthorityController;
 import py.una.med.base.test.util.TestControllerHelper;
+import py.una.med.base.test.util.TestExportReport;
 import py.una.med.base.util.DateProvider;
 import py.una.med.base.util.UniqueHelper;
 
@@ -31,6 +33,18 @@ public class ControllerTestConfiguration extends BaseTestConfiguration {
 	TestControllerHelper controllerHelper() {
 
 		return new TestControllerHelper();
+	}
+
+	@Bean
+	TestExportReport exportReport() {
+
+		return new TestExportReport();
+	}
+
+	@Bean
+	public DynamicUtils dynamicUtils() {
+
+		return new DynamicUtils();
 	}
 
 	@Bean
@@ -71,7 +85,7 @@ public class ControllerTestConfiguration extends BaseTestConfiguration {
 
 	@Bean
 	public DateProvider dateProvider() {
-	
+
 		return new DateProvider();
 	}
 
