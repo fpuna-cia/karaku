@@ -20,8 +20,8 @@ import py.una.med.base.services.server.WebServiceDefinition;
  * @version 1.0 Oct 18, 2013
  * 
  */
-@WebServiceDefinition(xsds = { "/META-INF/schemas/karaku/menu/menu.xsd",
-		"/META-INF/schemas/karaku/menu/menuMessages.xsd" })
+@WebServiceDefinition(xsds = { "/META-INF/schemas/menu/menu.xsd",
+		"/META-INF/schemas/menu/menuMessages.xsd" })
 public class MenuServiceEndpoint {
 
 	public static final String TARGET_NAMESPACE = "http://sigh.med.una.py/2013/schemas/base";

@@ -21,11 +21,11 @@ import py.una.med.base.test.base.BaseTest;
 import py.una.med.base.test.configuration.BaseTestConfiguration;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 18, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class RegisterServicesTest extends BaseTest {
@@ -73,7 +73,7 @@ public class RegisterServicesTest extends BaseTest {
 	}
 
 	@Component
-	@WebServiceDefinition(xsds = { "/META-INF/schemas/karaku/menu/menu.xsd" })
+	@WebServiceDefinition(xsds = { "/META-INF/schemas/menu/menu.xsd" })
 	public static class TestEndPoint {
 
 		@Autowired(required = true)

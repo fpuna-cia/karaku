@@ -208,6 +208,12 @@ public class ELHelper {
 	 */
 	public static Field getFieldByExpression(String beanExpression) {
 
+		// abre y cierra un paréntesis, se utiliza para definir si utiliza algún
+		// método.
+		if (beanExpression.indexOf('(') != -1
+				&& beanExpression.indexOf(')') != -1) {
+			return null;
+		}
 		FacesContext context = FacesContext.getCurrentInstance();
 		Matcher ma = getPattern().matcher(beanExpression);
 		if (ma.matches()) {

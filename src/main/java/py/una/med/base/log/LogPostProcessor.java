@@ -7,6 +7,7 @@ package py.una.med.base.log;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -28,7 +29,7 @@ import py.una.med.base.exception.KarakuRuntimeException;
  * {@link #postProcessBeforeInitialization(Object, String)} el objeto recibido
  * ya es un proxy de CGLib
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Sep 13, 2013
@@ -43,11 +44,11 @@ public class LogPostProcessor implements BeanPostProcessor {
 	/**
 	 * Revisa todos los métodos o campos que tengan la anotación {@link Log} y
 	 * le asigna el valor el Log del bean en cuestión.
-	 *
+	 * 
 	 * <br />
-	 *
+	 * 
 	 * {@inheritDoc}
-	 *
+	 * 
 	 * @param bean
 	 *            bean a procesar
 	 * @param beanName
@@ -65,9 +66,11 @@ public class LogPostProcessor implements BeanPostProcessor {
 			@Override
 			public void doWith(Field field) throws IllegalAccessException {
 
-				ReflectionUtils.makeAccessible(field);
-				Log log = field.getAnnotation(Log.class);
-				field.set(bean, getLogger(bean, log));
+				if (!Modifier.isFinal(field.getModifiers())) {
+					field.setAccessible(true);
+					Log log = field.getAnnotation(Log.class);
+					field.set(bean, getLogger(bean, log));
+				}
 			}
 
 		}, new FieldFilter() {
@@ -88,7 +91,7 @@ public class LogPostProcessor implements BeanPostProcessor {
 				try {
 					method.invoke(bean, getLogger(bean, log));
 				} catch (InvocationTargetException e) {
-					LOGGER.warn("Error extractict proxy object",
+					LOGGER.warn("Error extracting proxy object",
 							new KarakuRuntimeException(
 									"Can not set logger for: "
 											+ bean.getClass().getName(), e));
@@ -110,7 +113,7 @@ public class LogPostProcessor implements BeanPostProcessor {
 
 	/**
 	 * Esta implementación no hace ninguna acción.
-	 *
+	 * 
 	 * @param bean
 	 *            bean a procesar
 	 * @param beanName
@@ -129,7 +132,7 @@ public class LogPostProcessor implements BeanPostProcessor {
 	/**
 	 * Recupera el {@link Logger} del {@link LoggerFactory} a través del nombre
 	 * del log definido en la anotación o por el nombre de la clase.
-	 *
+	 * 
 	 * @param bean
 	 * @param log
 	 * @return {@link Logger}, nunca <code>null</code>.
@@ -137,7 +140,7 @@ public class LogPostProcessor implements BeanPostProcessor {
 	private Logger getLogger(final Object bean, Log log) {
 
 		Logger logger;
-		if ((log.name() == null) || "".equals(log.name().trim())) {
+		if (log.name() == null || "".equals(log.name().trim())) {
 			logger = LoggerFactory.getLogger(bean.getClass());
 		} else {
 			logger = LoggerFactory.getLogger(log.name().trim());

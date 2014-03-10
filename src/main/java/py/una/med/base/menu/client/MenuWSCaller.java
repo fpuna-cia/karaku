@@ -40,7 +40,7 @@ public class MenuWSCaller {
 		wSCaller.call(request, info, new WSCallBack<MenuResponse>() {
 
 			@Override
-			public void onFailure(KarakuException exception) {
+			public void onFailure(Exception exception) {
 
 				callback.onFailure(exception);
 			}

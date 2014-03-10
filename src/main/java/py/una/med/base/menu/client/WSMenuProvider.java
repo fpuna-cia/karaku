@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import py.una.med.base.exception.KarakuException;
 import py.una.med.base.log.Log;
 import py.una.med.base.menu.schemas.Menu;
 import py.una.med.base.menu.schemas.MenuRequest;
@@ -189,7 +188,7 @@ public class WSMenuProvider extends AbstractMenuProvider {
 		}
 
 		@Override
-		public void onFailure(KarakuException exception) {
+		public void onFailure(Exception exception) {
 
 			logger.debug("Menu from url {} can not be found: {}",
 					info.getUrl(), exception.getMessage());

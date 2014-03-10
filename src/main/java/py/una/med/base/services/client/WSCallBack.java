@@ -82,5 +82,5 @@ public interface WSCallBack<T> {
 	 * @param exception
 	 *            lanzada al invocar al servicio.
 	 */
-	void onFailure(KarakuException exception);
+	void onFailure(Exception exception);
 }

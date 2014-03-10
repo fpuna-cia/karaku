@@ -1,5 +1,7 @@
 package py.una.med.base.exception;
 
+import javax.xml.ws.WebFault;
+
 /**
  * Describe una excepcion que ocurre durante el procesamiento de solicitudes
  * HTTP
@@ -7,7 +9,8 @@ package py.una.med.base.exception;
  * @author Uriel Gonzalez
  * 
  */
-public class HTTPException extends Exception {
+@WebFault
+public class HTTPException extends KarakuRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,13 +24,14 @@ public class HTTPException extends Exception {
 	 */
 	public HTTPException(String code, String shortDescription) {
 
+		super(shortDescription);
 		this.code = code;
 		this.shortDesciption = shortDescription;
 	}
 
 	public HTTPException(String code, String shortDescription, Throwable cause) {
 
-		super(cause);
+		super(shortDescription, cause);
 		this.code = code;
 		this.shortDesciption = shortDescription;
 	}

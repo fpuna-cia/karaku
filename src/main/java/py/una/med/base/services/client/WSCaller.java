@@ -227,16 +227,17 @@ public class WSCaller {
 			public void run() {
 
 				try {
-					log.debug("Calling WebService with uri {}", info.getUrl());
+					log.trace("Calling WebService with uri {}", info.getUrl());
 					WebServiceMessageCallback wsmc = interceptor
 							.getWebServiceMessageCallback(info);
+
 					T toRet = (T) template.marshalSendAndReceive(info.getUrl(),
 							request, wsmc);
-					log.debug("Web service call ended");
+					log.trace("Web service call ended");
 					callBack.onSucess(toRet);
 				} catch (Exception e) {
-					log.trace("Error in ws", e);
-					callBack.onFailure(new KarakuException(e));
+					log.debug("Error in ws", e);
+					callBack.onFailure(e);
 				}
 			}
 		});
