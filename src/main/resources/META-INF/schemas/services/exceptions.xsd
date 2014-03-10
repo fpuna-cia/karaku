@@ -1,0 +1,18 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://sigh.med.una.py/2013/schemas/base"
+	targetNamespace="http://sigh.med.una.py/2013/schemas/base"
+	elementFormDefault="unqualified">
+
+
+	<!-- Debería llamarse HttpExcepcion -->
+	<xs:element name="HTTPException">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="code" type="xs:string" minOccurs="1" />
+				<xs:element name="summary" type="xs:string" minOccurs="1" />
+				<xs:element name="description" type="xs:string"
+					minOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

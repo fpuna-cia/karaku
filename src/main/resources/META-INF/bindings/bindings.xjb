@@ -1,12 +1,14 @@
 <jaxb:bindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:base="http://sigh.med.una.py/2013/schemas/base"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:base="http://sigh.med.una.py/2013/schemas/base"
 	jaxb:version="2.1">
 
-	<jaxb:bindings schemaLocation="../schemas/base/menuItem.xsd">
+	<jaxb:bindings schemaLocation="../schemas/services/exceptions.xsd">
 		<jaxb:schemaBindings>
-			<jaxb:package name="py.una.med.base.menu.schemas" />
+			<jaxb:package name="py.una.med.base.services.schemas" />
+			<jaxb:nameXmlTransform>
+				<jaxb:elementName suffix="DTO" />
+			</jaxb:nameXmlTransform>
 		</jaxb:schemaBindings>
 	</jaxb:bindings>
-	
+
 </jaxb:bindings>
