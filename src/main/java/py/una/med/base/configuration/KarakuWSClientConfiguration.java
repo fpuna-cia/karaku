@@ -21,9 +21,9 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import py.una.med.base.exception.KarakuRuntimeException;
 import py.una.med.base.services.client.EntityURLProvider;
 import py.una.med.base.services.client.JsonURLProvider;
+import py.una.med.base.services.client.KarakuFaultMessageResolver;
 import py.una.med.base.services.client.WSInformationProvider;
 
 /**
@@ -35,11 +35,6 @@ import py.una.med.base.services.client.WSInformationProvider;
  */
 @Configuration
 public class KarakuWSClientConfiguration {
-
-	/**
-	 * 
-	 */
-	private static final String WRONG_VERSION_OF_WS_MESSAGE = "Wrong version of WS dependencies, please check your pom";
 
 	/**
 	 *
@@ -72,14 +67,12 @@ public class KarakuWSClientConfiguration {
 			return null;
 		}
 
-		try {
-			WebServiceTemplate wst = new WebServiceTemplate();
-			wst.setMarshaller(getJaxb2Marshaller());
-			wst.setUnmarshaller(getJaxb2Marshaller());
-			return wst;
-		} catch (Exception e) {
-			throw new KarakuRuntimeException(WRONG_VERSION_OF_WS_MESSAGE, e);
-		}
+		final WebServiceTemplate wst = new WebServiceTemplate();
+		Jaxb2Marshaller marshaller = getJaxb2Marshaller();
+		wst.setMarshaller(marshaller);
+		wst.setUnmarshaller(marshaller);
+		wst.setFaultMessageResolver(new KarakuFaultMessageResolver(marshaller));
+		return wst;
 
 	}
 
@@ -168,7 +161,7 @@ public class KarakuWSClientConfiguration {
 		for (Package pa : packages) {
 			Matcher matcher = pattern.matcher(pa.getName());
 			if (matcher.matches()) {
-				log.info("Found a package to add to the marshaller: "
+				log.trace("Found a package to add to the marshaller: "
 						+ pa.getName());
 				packagesFound.add(pa.getName());
 			}
@@ -206,23 +199,11 @@ public class KarakuWSClientConfiguration {
 	 */
 	private Jaxb2Marshaller instanciateMarshaller(List<String> packagesFound) {
 
-		try {
-
-			Class<?> clazz = Class
-					.forName("org.springframework.oxm.jaxb.Jaxb2Marshaller");
-			Object o = clazz.newInstance();
-			String[] clases = packagesFound.toArray(new String[0]);
-			clazz.getMethod("setPackagesToScan", String[].class).invoke(o,
-					(Object) clases);
-			return (Jaxb2Marshaller) o;
-		} catch (ClassNotFoundException e) {
-			throw new KarakuRuntimeException(
-					"Can not find the Jaxb2Marshaller base class in the classpath, "
-							+ "please, check your pom and add the ws (oxm) dependencies",
-					e);
-		} catch (Exception e) {
-			throw new KarakuRuntimeException(WRONG_VERSION_OF_WS_MESSAGE, e);
-		}
+		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		String[] packages = packagesFound.toArray(new String[0]);
+		log.info("Add packages to the marshaller {}: ",
+				new Object[] { packages });
+		marshaller.setPackagesToScan(packages);
+		return marshaller;
 	}
-
 }
