@@ -1,6 +1,7 @@
 package py.una.med.base.exception;
 
 import java.util.List;
+import py.una.med.base.util.ListHelper;
 import py.una.med.base.util.UniqueHelper.UniqueRestrintion;
 
 /**
@@ -17,6 +18,7 @@ public class UniqueConstraintException extends Exception {
 	private static final long serialVersionUID = 4209534069171968008L;
 	private final List<String> fields;
 	private final String uniqueConstraintName;
+	private static final String UNIQUECONSTRAINTVIOLATED = "Unique constraint violated";
 
 	/**
 	 * Construye una excepción a partir de los datos valiosos del
@@ -26,9 +28,18 @@ public class UniqueConstraintException extends Exception {
 	 */
 	public UniqueConstraintException(final UniqueRestrintion item) {
 
-		super("Unique constraint violated " + item.getUniqueConstraintName());
+		super(UNIQUECONSTRAINTVIOLATED + item.getUniqueConstraintName());
 		fields = item.getFields();
 		uniqueConstraintName = item.getUniqueConstraintName();
+	}
+
+	public UniqueConstraintException(final String restriction,
+			final String ... uniqueFields) {
+
+		super(UNIQUECONSTRAINTVIOLATED + restriction);
+		this.fields = ListHelper.getAsList(uniqueFields);
+		uniqueConstraintName = restriction;
+
 	}
 
 	/**
