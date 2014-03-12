@@ -4,6 +4,7 @@
  */
 package py.una.med.base.test.configuration;
 
+import javax.el.ValueExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +16,7 @@ import py.una.med.base.reports.DynamicUtils;
 import py.una.med.base.security.AuthorityController;
 import py.una.med.base.test.util.TestControllerHelper;
 import py.una.med.base.test.util.TestExportReport;
-import py.una.med.base.util.DateProvider;
+import py.una.med.base.util.ELHelper;
 import py.una.med.base.util.UniqueHelper;
 
 /**
@@ -35,6 +36,29 @@ public class ControllerTestConfiguration extends BaseTestConfiguration {
 		return new TestControllerHelper();
 	}
 
+	/**
+	 * Retorna un {@link ELHelper} dummy.
+	 * 
+	 * <p>
+	 * Esto permite la creación de pickers en test
+	 * </p>
+	 * 
+	 * @return dummy {@link ELHelper}
+	 */
+	@Bean
+	ELHelper elHelper() {
+
+		return new ELHelper() {
+
+			@Override
+			public ValueExpression makeValueExpression(String expression,
+					Class<?> type) {
+
+				return null;
+			}
+		};
+	}
+
 	@Bean
 	TestExportReport exportReport() {
 
@@ -42,51 +66,45 @@ public class ControllerTestConfiguration extends BaseTestConfiguration {
 	}
 
 	@Bean
-	public DynamicUtils dynamicUtils() {
+	DynamicUtils dynamicUtils() {
 
 		return new DynamicUtils();
 	}
 
 	@Bean
-	UniqueHelper object() {
+	UniqueHelper uniqueHelper() {
 
 		return new UniqueHelper();
 	}
 
 	@Bean
-	public BreadcrumbController breadCrumbController() {
+	BreadcrumbController breadCrumbController() {
 
 		return null;
 	}
 
 	@Bean
-	public ICurrentpageHelper currentpageHelper() {
+	ICurrentpageHelper currentpageHelper() {
 
 		return null;
 	}
 
 	@Bean
-	public SIGHBaseReportSimple baseReportSimple() {
+	SIGHBaseReportSimple baseReportSimple() {
 
 		return null;
 	}
 
 	@Bean
-	public SearchHelper searchHelper() {
+	SearchHelper searchHelper() {
 
 		return null;
 	}
 
 	@Bean
-	public AuthorityController authorityController() {
+	AuthorityController authorityController() {
 
 		return null;
-	}
-
-	@Bean
-	public DateProvider dateProvider() {
-
-		return new DateProvider();
 	}
 
 }

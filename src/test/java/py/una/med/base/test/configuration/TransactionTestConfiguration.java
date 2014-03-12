@@ -37,7 +37,9 @@ import py.una.med.base.dao.util.MainInstanceHelper;
 import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.exception.KarakuPropertyNotFoundException;
 import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.med.base.test.util.TestDateProvider;
 import py.una.med.base.test.util.TestUriInterceptor;
+import py.una.med.base.util.DateProvider;
 
 /**
  * Clases de persistencia para los test, sus anotaciones no se heredan.
@@ -257,6 +259,12 @@ public class TransactionTestConfiguration extends BaseTestConfiguration {
 	DateClauses dateClauses() {
 
 		return new DateClauses();
+	}
+
+	@Bean
+	DateProvider dateProvider() {
+
+		return new TestDateProvider();
 	}
 
 	@Bean
