@@ -37,7 +37,7 @@
 			</h:inputText>
 			<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"
 				action="#{cc.attrs.chooseButtonAction}"
-				oncomplete="#{cc.attrs.chooseButtonOnComplete}"
+				onclick="#{cc.attrs.chooseButtonOnComplete}"
 				render="#{cc.attrs.chooseButtonRender}"
 				value="#{cc.attrs.valueButtonChoose}" immediate="true" />
 			<h:outputLabel value="#{cc.attrs.resultValue}"
