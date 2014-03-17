@@ -93,17 +93,23 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	public List<T> getEntities() {
 
 		if (this.entities == null) {
-			LOG.debug("Get entities of {} ", this.getClass());
-			Where<T> where = this.getFilters(this.clazz, this.example,
-					this.simpleFilter);
-			Long totalSize = this.logic.getCount(where);
-			getHelper().udpateCount(totalSize);
-			ISearchParam isp = this.helper.getISearchparam();
-			this.configureSearchParams(isp);
-
-			this.entities = buildQuery(where, isp);
+			loadEntities();
 		}
 		return this.entities;
+
+	}
+
+	protected void loadEntities() {
+
+		LOG.debug("Get entities of {} ", this.getClass());
+		Where<T> where = this.getFilters(this.clazz, this.example,
+				this.simpleFilter);
+		Long totalSize = this.logic.getCount(where);
+		getHelper().udpateCount(totalSize);
+		ISearchParam isp = this.helper.getISearchparam();
+		this.configureSearchParams(isp);
+
+		this.entities = buildQuery(where, isp);
 	}
 
 	public void setEntities(List<T> entities) {
@@ -117,15 +123,20 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		this.entities = null;
 	}
 
-	private List<T> buildQuery(Where<T> where, ISearchParam isp) {
+	protected List<T> buildQuery(Where<T> where, ISearchParam isp) {
 
-		Select select = buildSelect();
+		return loadDataFromDataBase(where, isp, buildSelect());
+
+	}
+
+	protected List<T> loadDataFromDataBase(Where<T> where, ISearchParam isp,
+			Select select) {
+
 		if (select != null) {
 			return this.logic.get(select, where, isp);
 		} else {
 			return this.logic.getAll(where, isp);
 		}
-
 	}
 
 	/**
