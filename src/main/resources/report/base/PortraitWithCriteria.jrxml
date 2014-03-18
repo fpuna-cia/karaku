@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="templateBaseReport" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1fc5b2f-35c5-4de4-94f1-3dabab710020">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="340"/>
+	<property name="ireport.x" value="155"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="nombreInstitucion" class="java.lang.String"/>
 	<parameter name="nombreEstablecimiento" class="java.lang.String"/>
@@ -46,7 +46,7 @@
 				<textFieldExpression><![CDATA[$P{subtitle1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH:mm" isBlankWhenNull="false">
-				<reportElement uuid="05567970-962e-49c5-9cca-63b4f823bab4" x="541" y="62" width="31" height="20"/>
+				<reportElement uuid="05567970-962e-49c5-9cca-63b4f823bab4" x="536" y="62" width="36" height="20"/>
 				<box>
 					<bottomPen lineWidth="0.75"/>
 					<rightPen lineWidth="0.75"/>
@@ -82,7 +82,7 @@
 				<textFieldExpression><![CDATA[$P{subtitle2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e2f7787d-f8e8-479b-a082-e7b8c6171fd5" x="425" y="62" width="116" height="20"/>
+				<reportElement uuid="e2f7787d-f8e8-479b-a082-e7b8c6171fd5" x="425" y="62" width="111" height="20"/>
 				<box>
 					<bottomPen lineWidth="0.75"/>
 				</box>
