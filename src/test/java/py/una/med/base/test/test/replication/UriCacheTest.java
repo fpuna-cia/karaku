@@ -58,12 +58,6 @@ public class UriCacheTest extends BaseTestWithDatabase {
 					Entity3.class);
 		}
 
-		@Bean
-		TestDateProvider dateProvider() {
-
-			return new TestDateProvider();
-		}
-
 	}
 
 	@Before

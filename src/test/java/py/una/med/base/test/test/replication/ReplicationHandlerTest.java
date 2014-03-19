@@ -44,7 +44,6 @@ import py.una.med.base.test.util.TestPropertiesUtil;
 import py.una.med.base.test.util.TestUriCache;
 import py.una.med.base.test.util.TestUtils;
 import py.una.med.base.test.util.transaction.SQLFiles;
-import py.una.med.base.util.DateProvider;
 
 /**
  * 
@@ -72,12 +71,6 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 		ReplicationHandler replicationHandler() {
 
 			return new ReplicationHandler();
-		}
-
-		@Bean
-		DateProvider dateProvider() {
-
-			return new TestDateProvider();
 		}
 
 		@Bean

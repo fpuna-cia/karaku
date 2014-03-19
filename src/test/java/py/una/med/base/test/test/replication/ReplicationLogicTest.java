@@ -65,12 +65,6 @@ public class ReplicationLogicTest extends BaseTestWithDatabase {
 			return TestUtils.getReferencedClasses(ReplicationInfo.class);
 		}
 
-		@Bean
-		TestDateProvider dateProvider() {
-
-			return new TestDateProvider();
-		}
-
 	}
 
 	@Autowired
