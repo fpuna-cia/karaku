@@ -70,6 +70,13 @@ public final class ValidationConstants {
 
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
+	 * minúsculas
+	 */
+	public static final String WORDS_DOT = SPANISH_LETTERS + GRAVE + "\\."
+			+ END;
+
+	/**
+	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas sin espacios
 	 */
 	public static final String WORD = SPANISH_LETTERS + GRAVE + "]*";
