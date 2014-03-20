@@ -10,7 +10,10 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.NavigableSet;
 import java.util.TreeSet;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -113,16 +116,20 @@ public class MenuServerLogic {
 
 		// Este hashSet se usa como un queue, solamente que es deseable que no
 		// tenga valores repetidos
-		TreeSet<Menu> toSort = new TreeSet<Menu>();
+		NavigableSet<Menu> toSort = new TreeSet<Menu>();
+		Map<Menu, Menu> parents = new HashMap<Menu, Menu>();
 		toSort.add(menu);
 		Menu next;
 		while (!toSort.isEmpty()) {
 
 			next = toSort.pollFirst();
-			handleMenu(next);
+			handleMenu(next, parents.get(next));
 			if (ListHelper.hasElements(next.getItems())) {
 				sortInMemory(next.getItems());
 				toSort.addAll(next.getItems());
+				for (Menu m : next.getItems()) {
+					parents.put(m, next);
+				}
 			}
 		}
 	}
@@ -141,7 +148,7 @@ public class MenuServerLogic {
 	 * Este método se ejecuta una sola vez por item en el menú. El orden no esta
 	 * asegurado.
 	 */
-	private void handleMenu(Menu menu) {
+	private void handleMenu(Menu menu, Menu parent) {
 
 		if (skip(menu)) {
 			return;
@@ -159,6 +166,10 @@ public class MenuServerLogic {
 				pre += "/";
 			}
 			menu.setUrl(pre + url);
+		}
+
+		if (parent != null) {
+			menu.setId(parent.getId() + "_" + menu.getId());
 		}
 	}
 }
