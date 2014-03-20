@@ -47,20 +47,8 @@ public final class DynamicSurveyField {
 		private String id;
 
 		private final int max;
+
 		private boolean validate;
-
-		/**
-		 * Esto se hace para que se pueda validar, no necesariamente la
-		 * propiedad {@link #validate} es un campo real.
-		 * 
-		 * @return
-		 */
-		@AssertTrue(message = "Se ha exedido la longitud maxima")
-		public boolean isValidate() {
-
-			validate = value.length() <= max;
-			return validate;
-		}
 
 		public NotRequired(int index, int max) {
 
@@ -68,6 +56,19 @@ public final class DynamicSurveyField {
 			this.max = max;
 			this.index = index;
 			this.id = "_cell_" + index;
+		}
+
+		/**
+		 * Esto se hace para que se pueda validar, no necesariamente la
+		 * propiedad {@link #validate} es un campo real.
+		 * 
+		 * @return
+		 */
+		@AssertTrue(message = "Se ha excedido la longitud maxima")
+		public boolean isValidate() {
+
+			validate = value == null || value.length() <= max;
+			return validate;
 		}
 
 		@Override
@@ -107,11 +108,6 @@ public final class DynamicSurveyField {
 
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see py.una.med.base.survey.DynamicSurveyField.SurveyField#getMax()
-		 */
 		@Override
 		public int getMax() {
 
@@ -129,14 +125,8 @@ public final class DynamicSurveyField {
 		private String id;
 
 		private final int max;
+
 		private boolean validate;
-
-		@AssertTrue(message = "Se ha exedido la longitud maxima")
-		public boolean isValidate() {
-
-			validate = value.length() <= max;
-			return validate;
-		}
 
 		public Required(int index, int max) {
 
@@ -144,6 +134,13 @@ public final class DynamicSurveyField {
 			this.index = index;
 			this.max = max;
 			this.id = "_cell_" + index;
+		}
+
+		@AssertTrue(message = "Se ha excedido la longitud maxima")
+		public boolean isValidate() {
+
+			validate = value == null || value.length() <= max;
+			return validate;
 		}
 
 		@Override
