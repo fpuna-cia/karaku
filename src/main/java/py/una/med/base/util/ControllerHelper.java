@@ -477,6 +477,11 @@ public class ControllerHelper {
 						newValue = Quantity.ZERO;
 					}
 				}
+
+				if (newValue instanceof String
+						&& !StringUtils.isValid(newValue)) {
+					newValue = null;
+				}
 				value.setValue(elContext, newValue);
 			}
 			updateModel(component);
