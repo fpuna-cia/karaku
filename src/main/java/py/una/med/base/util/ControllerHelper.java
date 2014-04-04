@@ -7,6 +7,7 @@ package py.una.med.base.util;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
@@ -31,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import py.una.med.base.math.Quantity;
 import py.una.med.base.reports.Column;
 
 /**
@@ -459,7 +461,6 @@ public class ControllerHelper {
 							.getValueExpression(EL_VALUE_PROPERTY);
 					newValue = getConverter().getAsObject(context, component,
 							newValue.toString());
-
 					value.setValue(elContext, newValue);
 				}
 
@@ -469,7 +470,13 @@ public class ControllerHelper {
 				Object newValue = com.getSubmittedValue();
 				ValueExpression value = com
 						.getValueExpression(EL_VALUE_PROPERTY);
-
+				if (value.getType(elContext).equals(Quantity.class)) {
+					if (StringUtils.isValid(newValue)) {
+						newValue = new Quantity((String) newValue);
+					} else {
+						newValue = Quantity.ZERO;
+					}
+				}
 				value.setValue(elContext, newValue);
 			}
 			updateModel(component);
@@ -480,6 +487,7 @@ public class ControllerHelper {
 
 		DateTimeConverter converter = new DateTimeConverter();
 		converter.setPattern(FormatProvider.DATE_FORMAT);
+		converter.setTimeZone(TimeZone.getDefault());
 		return converter;
 	}
 
