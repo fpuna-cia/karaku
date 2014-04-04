@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import py.una.med.base.breadcrumb.BreadcrumbController;
 import py.una.med.base.business.reports.SIGHBaseReportSimple;
 import py.una.med.base.dao.search.SearchHelper;
+import py.una.med.base.dao.where.DateClauses;
 import py.una.med.base.jsf.utils.ICurrentpageHelper;
 import py.una.med.base.reports.DynamicUtils;
 import py.una.med.base.security.AuthorityController;
@@ -98,13 +99,19 @@ public class ControllerTestConfiguration extends BaseTestConfiguration {
 	@Bean
 	SearchHelper searchHelper() {
 
-		return null;
+		return new SearchHelper();
 	}
 
 	@Bean
 	AuthorityController authorityController() {
 
 		return null;
+	}
+
+	@Bean
+	public DateClauses dc() {
+
+		return new DateClauses();
 	}
 
 }
