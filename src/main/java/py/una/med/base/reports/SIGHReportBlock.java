@@ -33,6 +33,13 @@ public class SIGHReportBlock {
 
 	}
 
+	public SIGHReportBlock(String title) {
+
+		super();
+		this.title = title;
+
+	}
+
 	public String getTitle() {
 
 		return title;

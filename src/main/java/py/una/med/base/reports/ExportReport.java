@@ -390,13 +390,14 @@ public class ExportReport {
 	 * @return reporte generado
 	 * @throws ReportException
 	 */
-	public <T> void exportReportFields(List<SIGHReportBlock> blocks,
+	public <T> void exportReportBlock(boolean criteria,
+			List<SIGHReportBlock> blocks,
 			Map<String, Object> params, String type) throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					dynamicUtils.buidReportFields(blocks),
+					dynamicUtils.buildReportBlock(criteria, blocks),
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
@@ -409,14 +410,15 @@ public class ExportReport {
 		}
 	}
 
-	public <T> void exportReportFields(HttpServletResponse httpServletResponse,
+	public <T> void exportReportFields(boolean criteria,
+			HttpServletResponse httpServletResponse,
 			List<SIGHReportBlock> blocks, Map<String, Object> params,
 			String type) throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					dynamicUtils.buidReportFields(blocks),
+					dynamicUtils.buildReportBlock(criteria, blocks),
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 

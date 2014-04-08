@@ -168,19 +168,19 @@ public final class DynamicUtils {
 	}
 
 	/**
-	 * Construye un reporte dinamico(maestro), el cual posee una lista de
-	 * bloques, donde cada bloque es una lista de fields.
+	 * Construye un reporte dinamico, el cual posee una lista de bloques, donde
+	 * cada bloque es una lista de fields o una grilla de elementos.
 	 * 
 	 * @param blocks
-	 *            bloques del reporte que son solo del tipo field, es decir que
-	 *            posee columnas horizontales(label,value)
+	 *            bloques del reporte.
 	 * @return reporte dinamico con bloques del tipo fields
 	 * @throws ReportException
 	 */
-	public <T> DynamicReport buidReportFields(List<SIGHReportBlock> blocks)
-			throws ReportException {
 
-		FastReportBuilder structReport = this.newInstancePortrait(true);
+	public <T> DynamicReport buildReportBlock(boolean criteria,
+			List<SIGHReportBlock> blocks) throws ReportException {
+
+		FastReportBuilder structReport = this.newInstancePortrait(criteria);
 		structReport.setAllowDetailSplit(false);
 
 		this.addBlocks(structReport, blocks);
