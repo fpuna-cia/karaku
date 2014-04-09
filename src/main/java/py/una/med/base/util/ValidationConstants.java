@@ -116,6 +116,12 @@ public final class ValidationConstants {
 	public static final String DIGITS_HYPHEN = "[0-9\\-]*";
 
 	/**
+	 * Expresión que admite una cadena arbitraria de dígitos separados por punto
+	 * que no puede comenzar ni terminar con punto
+	 */
+	public static final String DIGITS_POINT = "([0-9]+(\\.[0-9]+)+[0-9]+)?";
+
+	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas además de dígitos
 	 */
