@@ -102,12 +102,11 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	protected void loadEntities() {
 
 		LOG.debug("Get entities of {} ", this.getClass());
-		Where<T> where = this.getFilters(this.clazz, this.example,
-				this.simpleFilter);
+		Where<T> where = getFilters(this.clazz, this.example, simpleFilter);
 		Long totalSize = this.logic.getCount(where);
 		getHelper().udpateCount(totalSize);
 		ISearchParam isp = this.helper.getISearchparam();
-		this.configureSearchParams(isp);
+		configureSearchParams(isp);
 
 		this.entities = buildQuery(where, isp);
 	}
@@ -117,7 +116,8 @@ public class SIGHListHelper<T, K extends Serializable> implements
 		this.entities = entities;
 	}
 
-	private void reloadEntities() {
+	@Override
+	public void reloadEntities() {
 
 		LOG.debug("Reset entities", this.getClass());
 		this.entities = null;
@@ -181,7 +181,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	public Where<T> getFilters(Class<T> clazz, EntityExample<T> entityExample,
 			SimpleFilter simpleFilter) {
 
-		Where<T> where = this.getBaseWhere();
+		Where<T> where = getBaseWhere();
 
 		if (where == null) {
 			where = new Where<T>();

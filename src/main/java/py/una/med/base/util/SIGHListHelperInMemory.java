@@ -54,6 +54,12 @@ public class SIGHListHelperInMemory<T> implements KarakuListHelperProvider<T> {
 		return toShow.subList(from, to);
 	}
 
+	@Override
+	public void reloadEntities() {
+
+		// nada que hacer, la lista esta en memoria.
+	}
+
 	/**
 	 * Realiza el filtro de elementos.
 	 * 

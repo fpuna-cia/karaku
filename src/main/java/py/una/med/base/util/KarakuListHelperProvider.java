@@ -22,4 +22,10 @@ public interface KarakuListHelperProvider<T> {
 
 	PagingHelper getHelper();
 
+	/**
+	 * Notifica que la lista de elementos ha cambiado y debe ser recargada.
+	 * 
+	 */
+	void reloadEntities();
+
 }
