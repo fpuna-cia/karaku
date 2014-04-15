@@ -801,7 +801,10 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@Override
 	public void setFilterValue(String filterValue) {
 
-		this.filterValue = filterValue.toUpperCase();
+		if (StringUtils.isValid(filterValue)) {
+			this.filterValue = filterValue.toUpperCase();
+		}
+		this.filterValue = null;
 	}
 
 	/**
