@@ -226,6 +226,7 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 			controllerHelper.updateModel(getMessageIdName() + "_pgSearch");
 			setExample(getBean());
 			reloadEntities();
+			return;
 		}
 		super.doSearch();
 	}
