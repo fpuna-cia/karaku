@@ -803,6 +803,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 		if (StringUtils.isValid(filterValue)) {
 			this.filterValue = filterValue.toUpperCase();
+			return;
 		}
 		this.filterValue = null;
 	}
