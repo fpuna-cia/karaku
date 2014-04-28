@@ -137,7 +137,6 @@ public class FormatProvider {
 	 * Formato para las monedas. Se compone de una cantidad variable de numeros
 	 * a la izquierda, y a lo sumo dos a la derecha.
 	 */
-
 	public static final String MONEY_FORMAT = "###,###,###,###,###,###,###,###,###,###,##0";
 
 	private Map<String, SimpleDateFormat> formats;
@@ -695,5 +694,16 @@ public class FormatProvider {
 	public String getDateTimeFormat() {
 
 		return DATETIME_FORMAT;
+	}
+
+	/**
+	 * Formato de las monedas.
+	 * 
+	 * @see #MONEY_FORMAT
+	 * @return {@value #MONEY_FORMAT}
+	 */
+	public String getMoneyFormat() {
+
+		return MONEY_FORMAT;
 	}
 }
