@@ -47,8 +47,8 @@ public class SIGHListHelperInMemory<T> implements KarakuListHelperProvider<T> {
 		ISearchParam isp = getHelper().getISearchparam();
 		int from = isp.getOffset();
 		int to = isp.getOffset() + isp.getLimit();
-		if (to > listMemory.size()) {
-			to = listMemory.size();
+		if (to > toShow.size()) {
+			to = toShow.size();
 		}
 
 		return toShow.subList(from, to);
