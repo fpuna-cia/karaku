@@ -40,6 +40,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
+import py.una.pol.karaku.configuration.PropertiesUtil;
 import py.una.pol.karaku.controller.KarakuAdvancedController;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.where.Clauses;
@@ -64,10 +65,16 @@ import py.una.pol.karaku.util.StringUtils;
 public class ReplicationJSFController extends
 		KarakuAdvancedController<ReplicationInfo, Long> {
 
+	private static final String DEFAULT_PERMISSION_KEY = "karaku.admin.permission";
 	private static final String BASE_PACKAGE_FOR_SCAN = "py.una.med";
 	public static final int ROWS_FOR_PAGE = 100;
+	private static final String DEFAULT_PERMISSION_VALUE = "KARAKU_MAIN";
+
 	@Autowired
 	private ReplicationInfoLogic logic;
+
+	@Autowired
+	private PropertiesUtil util;
 
 	@Autowired
 	private ControllerHelper helper;
@@ -75,7 +82,7 @@ public class ReplicationJSFController extends
 	@Autowired
 	private WSEndpointLogic endpointLogic;
 	private List<SelectItem> endpoints;
-	private Reflections reflections;
+	private final Reflections reflections;
 	private Set<SelectItem> entitiesC;
 	private Set<SelectItem> responseC;
 	private Set<SelectItem> requestC;
@@ -91,6 +98,12 @@ public class ReplicationJSFController extends
 	public IKarakuBaseLogic<ReplicationInfo, Long> getBaseLogic() {
 
 		return logic;
+	}
+
+	@Override
+	public String getDefaultPermission() {
+
+		return util.get(DEFAULT_PERMISSION_KEY, DEFAULT_PERMISSION_VALUE);
 	}
 
 	@Override

@@ -7,62 +7,69 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:k="http://java.sun.com/jsf/composite/karakucc"
+	xmlns:karaku="http://www.pol.una.py/jsf/karaku"
 	template="/views/templates/header.xhtml">
+
 	<ui:define name="content">
+		<karaku:security
+			hasPermission="#{propertyPlaceholder.get('karaku.admin.permission','KARAKU_MAIN')}">
+			<rich:panel header="Variables">
+				<h:outputLabel value="Project stage:" />
+				<h:outputText value="#{facesContext.application.projectStage}" />
+			</rich:panel>
 
-		<rich:panel header="Variables">
-			<h:outputLabel value="Project stage:" />
-			<h:outputText value="#{facesContext.application.projectStage}" />
-		</rich:panel>
+			<rich:panel header="Management">
+				<h:form>
+					<h:panelGrid columns="2">
+						<h:outputLabel value="URL Management" />
+						<h:commandButton value="Manager"
+							action="ws_client_manager/list.xhtml" />
+						<h:outputLabel value="Replication Management" />
+						<h:commandButton value="Manager" action="replication/list.xhtml" />
+					</h:panelGrid>
+				</h:form>
+			</rich:panel>
 
-		<rich:panel header="Management">
-			<h:form>
+
+			<rich:collapsiblePanel switchType="client" header="Menu Status"
+				id="menu_status">
+
 				<h:panelGrid columns="2">
-					<h:outputLabel value="URL Management" />
-					<h:commandButton value="Manager" action="ws_client_manager/list.xhtml" />
-					<h:outputLabel value="Replication Management" />
-					<h:commandButton value="Manager" action="replication/list.xhtml" />
+					<h:outputLabel value="Number of current menu" />
+					<h:outputLabel value="#{WSMenuProvider.menu.size()}" />
+					<h:outputLabel value="Current WSMenuProvider object" />
+					<h:outputLabel value="#{WSMenuProvider}" />
 				</h:panelGrid>
-			</h:form>
-		</rich:panel>
+				<h:form>
+					<h:panelGrid columns="2">
+						<h:commandButton render="menu_status" value="doSync"
+							action="#{WSMenuProvider.call()}" />
+						<a4j:commandButton render="menu_status" value="Refresh" />
+					</h:panelGrid>
+				</h:form>
+			</rich:collapsiblePanel>
 
-
-		<rich:collapsiblePanel switchType="client" header="Menu Status"
-			id="menu_status">
-
-			<h:panelGrid columns="2">
-				<h:outputLabel value="Number of current menu" />
-				<h:outputLabel value="#{WSMenuProvider.menu.size()}" />
-				<h:outputLabel value="Current WSMenuProvider object" />
-				<h:outputLabel value="#{WSMenuProvider}" />
-			</h:panelGrid>
-			<h:form>
-				<h:panelGrid columns="2">
-					<h:commandButton render="menu_status" value="doSync"
-						action="#{WSMenuProvider.call()}" />
-					<a4j:commandButton render="menu_status" value="Refresh" />
-				</h:panelGrid>
-			</h:form>
-		</rich:collapsiblePanel>
-
-		<rich:collapsiblePanel switchType="client" header="Security TEST"
-			expanded="false">
-			<h:form>
-				<rich:panel header="RuntimeException">
-					<h:commandButton action="#{menuController.throwRuntimeException}"
-						value="RunTime exception" />
-					<a4j:commandButton action="#{menuController.throwRuntimeException}"
-						value="Ajax runtime exception" />
-				</rich:panel>
-				<rich:panel header="AccesssDeniedException">
-					<h:commandButton
-						action="#{menuController.throwAccessDeniedException}"
-						value="Normal access denied" />
-					<a4j:commandButton
-						action="#{menuController.throwAccessDeniedException}"
-						value="Ajax access denied" />
-				</rich:panel>
-			</h:form>
-		</rich:collapsiblePanel>
+			<rich:collapsiblePanel switchType="client" header="Security TEST"
+				expanded="false">
+				<h:form>
+					<rich:panel header="RuntimeException">
+						<h:commandButton action="#{menuController.throwRuntimeException}"
+							value="RunTime exception" />
+						<a4j:commandButton
+							action="#{menuController.throwRuntimeException}"
+							value="Ajax runtime exception" />
+					</rich:panel>
+					<rich:panel header="AccesssDeniedException">
+						<h:commandButton
+							action="#{menuController.throwAccessDeniedException}"
+							value="Normal access denied" />
+						<a4j:commandButton
+							action="#{menuController.throwAccessDeniedException}"
+							value="Ajax access denied" />
+					</rich:panel>
+				</h:form>
+			</rich:collapsiblePanel>
+		</karaku:security>
 	</ui:define>
+
 </ui:composition>
