@@ -4,11 +4,14 @@
  */
 package py.una.med.base.dynamic.forms;
 
+import javax.annotation.Nonnull;
 import javax.faces.application.Application;
+import javax.faces.component.UIComponent;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutcomeTargetLink;
@@ -26,6 +29,8 @@ import org.richfaces.component.UIPanelMenuGroup;
 import org.richfaces.component.UIPanelMenuItem;
 import org.richfaces.component.behavior.ComponentControlBehavior;
 import org.richfaces.component.behavior.ToggleControl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -34,8 +39,11 @@ import org.richfaces.component.behavior.ToggleControl;
  * @version 1.0 Feb 21, 2013
  * 
  */
-
 public final class SIGHComponentFactory {
+
+	private static final String JAVAX_FACES_TEXT = "javax.faces.Text";
+	private static final Logger LOG = LoggerFactory
+			.getLogger(SIGHComponentFactory.class);
 
 	private SIGHComponentFactory() {
 
@@ -44,49 +52,32 @@ public final class SIGHComponentFactory {
 
 	public static HtmlSelectOneMenu getNewSelectOneMenu() {
 
-		return (HtmlSelectOneMenu) getApplication().createComponent(
-				getContext(), HtmlSelectOneMenu.COMPONENT_TYPE,
-				"javax.faces.Menu");
-	}
-
-	/**
-	 * @return
-	 */
-	private static FacesContext getContext() {
-
-		return FacesContext.getCurrentInstance();
+		return getComponent(HtmlSelectOneMenu.class,
+				HtmlSelectOneMenu.COMPONENT_TYPE, "java.faces.Menu");
 	}
 
 	public static UINamingContainer getUiNamingContainer() {
 
-		return (UINamingContainer) getApplication().createComponent(
-				getContext(), UINamingContainer.COMPONENT_TYPE, null);
+		return getComponent(UINamingContainer.class,
+				UINamingContainer.COMPONENT_TYPE, null);
 	}
 
 	public static HtmlInputText getHtmlInputText() {
 
-		return (HtmlInputText) getApplication().createComponent(getContext(),
-				HtmlInputText.COMPONENT_TYPE, "javax.faces.Text");
+		return getComponent(HtmlInputText.class, HtmlInputText.COMPONENT_TYPE,
+				JAVAX_FACES_TEXT);
 	}
 
 	public static HtmlOutputText getHtmlOutputText() {
 
-		return (HtmlOutputText) getApplication().createComponent(getContext(),
-				HtmlOutputText.COMPONENT_TYPE, "javax.faces.Text");
+		return getComponent(HtmlOutputText.class,
+				HtmlOutputText.COMPONENT_TYPE, JAVAX_FACES_TEXT);
 	}
 
 	public static UICalendar getCalendar() {
 
-		return (UICalendar) getApplication().createComponent(getContext(),
-				UICalendar.COMPONENT_TYPE, "org.richfaces.CalendarRenderer");
-	}
-
-	/**
-	 * @return
-	 */
-	private static Application getApplication() {
-
-		return getContext().getApplication();
+		return getComponent(UICalendar.class, UICalendar.COMPONENT_TYPE,
+				"org.richfaces.CalendarRenderer");
 	}
 
 	/**
@@ -94,8 +85,8 @@ public final class SIGHComponentFactory {
 	 */
 	public static UISelectItem getNewSelectItem() {
 
-		return (UISelectItem) getApplication().createComponent(getContext(),
-				UISelectItem.COMPONENT_TYPE, null);
+		return getComponent(UISelectItem.class, UISelectItem.COMPONENT_TYPE,
+				null);
 	}
 
 	/**
@@ -104,8 +95,8 @@ public final class SIGHComponentFactory {
 	 */
 	public static UISelectItems getNewSelectItems() {
 
-		return (UISelectItems) getApplication().createComponent(getContext(),
-				UISelectItems.COMPONENT_TYPE, null);
+		return getComponent(UISelectItems.class, UISelectItems.COMPONENT_TYPE,
+				null);
 	}
 
 	/**
@@ -113,81 +104,75 @@ public final class SIGHComponentFactory {
 	 */
 	public static HtmlInputText getNewTextField() {
 
-		return (HtmlInputText) getApplication().createComponent(getContext(),
-				HtmlInputText.COMPONENT_TYPE, "javax.faces.Text");
+		return getComponent(HtmlInputText.class, HtmlInputText.COMPONENT_TYPE,
+				JAVAX_FACES_TEXT);
 	}
 
 	public static UICommandButton getAjaxCommandButton() {
 
-		return (UICommandButton) getApplication().createComponent(getContext(),
+		return getComponent(UICommandButton.class,
 				UICommandButton.COMPONENT_TYPE,
 				"org.richfaces.CommandButtonRenderer");
 	}
 
 	public static HtmlSelectOneRadio getHtmlSelectOneRadio() {
 
-		return (HtmlSelectOneRadio) getApplication().createComponent(
-				getContext(), HtmlSelectOneRadio.COMPONENT_TYPE,
-				"javax.faces.Menu");
+		return getComponent(HtmlSelectOneRadio.class,
+				HtmlSelectOneRadio.COMPONENT_TYPE, "javax.faces.Menu");
 	}
 
 	public static HtmlCommandButton getCommandButton() {
 
-		return (HtmlCommandButton) getApplication().createComponent(
-				getContext(), HtmlCommandButton.COMPONENT_TYPE,
-				"javax.faces.Button");
+		return getComponent(HtmlCommandButton.class,
+				HtmlCommandButton.COMPONENT_TYPE, "javax.faces.Button");
 	}
 
 	public static UICommandLink getAjaxCommandLink() {
 
-		return (UICommandLink) getApplication().createComponent(getContext(),
-				UICommandLink.COMPONENT_TYPE,
+		return getComponent(UICommandLink.class, UICommandLink.COMPONENT_TYPE,
 				"org.richfaces.CommandLinkRenderer");
 	}
 
 	public static UIColumn getRichColumn() {
 
-		return (UIColumn) getApplication().createComponent(
-				UIColumn.COMPONENT_TYPE);
+		return getComponent(UIColumn.class, UIColumn.COMPONENT_TYPE, null);
 	}
 
 	public static UIExtendedDataTable getDataTable() {
 
-		return (UIExtendedDataTable) getApplication().createComponent(
-				UIExtendedDataTable.COMPONENT_TYPE);
+		return getComponent(UIExtendedDataTable.class,
+				UIExtendedDataTable.COMPONENT_TYPE, null);
 	}
 
 	public static UIPanelMenuGroup getMenuGroup() {
 
-		return (UIPanelMenuGroup) getApplication().createComponent(
-				getContext(), UIPanelMenuGroup.COMPONENT_TYPE,
+		return getComponent(UIPanelMenuGroup.class,
+				UIPanelMenuGroup.COMPONENT_TYPE,
 				"org.richfaces.PanelMenuGroupRenderer");
 	}
 
 	public static UIPanelMenuItem getMenuItem() {
 
-		return (UIPanelMenuItem) getApplication().createComponent(getContext(),
+		return getComponent(UIPanelMenuItem.class,
 				UIPanelMenuItem.COMPONENT_TYPE,
 				"org.richfaces.PanelMenuItemRenderer");
 	}
 
 	public static UIPanelMenu getMenu() {
 
-		return (UIPanelMenu) getApplication().createComponent(getContext(),
-				UIPanelMenu.COMPONENT_TYPE, "org.richfaces.PanelMenuRenderer");
+		return getComponent(UIPanelMenu.class, UIPanelMenu.COMPONENT_TYPE,
+				"org.richfaces.PanelMenuRenderer");
 	}
 
 	public static HtmlOutcomeTargetLink getLink() {
 
-		return (HtmlOutcomeTargetLink) getApplication().createComponent(
-				getContext(), HtmlOutcomeTargetLink.COMPONENT_TYPE,
-				"javax.faces.Link");
+		return getComponent(HtmlOutcomeTargetLink.class,
+				HtmlOutcomeTargetLink.COMPONENT_TYPE, "javax.faces.Link");
 	}
 
 	public static AjaxBehavior getAjaxBehavior() {
 
-		return (AjaxBehavior) getApplication().createBehavior(
-				AjaxBehavior.BEHAVIOR_ID);
+		return getBehaviour(AjaxBehavior.class, AjaxBehavior.BEHAVIOR_ID);
 	}
 
 	/**
@@ -204,8 +189,11 @@ public final class SIGHComponentFactory {
 	 */
 	public static ToggleControl getToogleControl(String id, String action) {
 
-		ToggleControl control = (ToggleControl) getApplication()
-				.createBehavior(ToggleControl.BEHAVIOR_ID);
+		if (id == null) {
+			return getToogleControl(action);
+		}
+		ToggleControl control = getBehaviour(ToggleControl.class,
+				ToggleControl.BEHAVIOR_ID);
 		control.setTargetPanel(id);
 		control.setTargetItem(action);
 		return control;
@@ -223,8 +211,8 @@ public final class SIGHComponentFactory {
 	 */
 	public static ToggleControl getToogleControl(String action) {
 
-		ToggleControl control = (ToggleControl) getApplication()
-				.createBehavior(ToggleControl.BEHAVIOR_ID);
+		ToggleControl control = getBehaviour(ToggleControl.class,
+				ToggleControl.BEHAVIOR_ID);
 		control.setTargetItem(action);
 
 		return control;
@@ -233,10 +221,77 @@ public final class SIGHComponentFactory {
 	public static ComponentControlBehavior getComponentControl(String target,
 			String operation) {
 
-		ComponentControlBehavior behavior = (ComponentControlBehavior) getApplication()
-				.createBehavior(ComponentControlBehavior.BEHAVIOR_ID);
+		ComponentControlBehavior behavior = getBehaviour(
+				ComponentControlBehavior.class,
+				ComponentControlBehavior.BEHAVIOR_ID);
 		behavior.setOperation(operation);
 		behavior.setTarget(target);
 		return behavior;
+	}
+
+	/**
+	 * Crea un componente dado su clase.
+	 * 
+	 * <p>
+	 * Se verifica que {@link #getContext()} no sea nulo, pues si se nulo se
+	 * debe crear una clase sin renderer, esto se aplica a los test
+	 * </p>
+	 * 
+	 * @param clazz
+	 *            clase a crear
+	 * @param type
+	 *            tipo del objeto
+	 * @param renderer
+	 *            el renderer
+	 * @return objeto completamente inicializado, nunca <code>null</code>
+	 */
+	@SuppressWarnings("unchecked")
+	@Nonnull
+	private static <T extends UIComponent> T getComponent(Class<T> clazz,
+			String type, String renderer) {
+
+		if (getContext() == null) {
+			return createSimpleClass(clazz);
+		}
+		return (T) getApplication().createComponent(getContext(), type,
+				renderer);
+	}
+
+	/**
+	 * @param clazz
+	 * @return
+	 */
+	private static <T> T createSimpleClass(Class<T> clazz) {
+
+		try {
+			return clazz.newInstance();
+		} catch (Exception e) {
+			LOG.warn("Can't create component", e);
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Nonnull
+	private static <T extends ClientBehavior> T getBehaviour(Class<T> clazz,
+			String id) {
+
+		if (getContext() == null) {
+			return createSimpleClass(clazz);
+		}
+		return (T) getApplication().createBehavior(id);
+	}
+
+	private static Application getApplication() {
+
+		return getContext().getApplication();
+	}
+
+	/**
+	 * @return
+	 */
+	private static FacesContext getContext() {
+
+		return FacesContext.getCurrentInstance();
 	}
 }

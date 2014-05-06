@@ -4,9 +4,7 @@
 package py.una.med.base.dynamic.forms;
 
 import javax.el.ValueExpression;
-import javax.faces.application.Application;
 import javax.faces.component.html.HtmlInputText;
-import javax.faces.context.FacesContext;
 import py.una.med.base.util.I18nHelper;
 
 /**
@@ -18,23 +16,20 @@ import py.una.med.base.util.I18nHelper;
  */
 public class TextField extends LabelField {
 
+	/**
+	 * Tipo de este componente
+	 */
+	private static final String TYPE = "py.una.med.base.dynamic.forms.TextField";
+
 	private HtmlInputText bind;
 
 	public TextField() {
 
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		Application application = facesContext.getApplication();
-		bind = (HtmlInputText) application.createComponent(facesContext,
-				HtmlInputText.COMPONENT_TYPE, "javax.faces.Text");
+		bind = SIGHComponentFactory.getHtmlInputText();
 		bind.setId(getId());
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#setId(java.lang.String)
-	 */
 	@Override
 	public void setId(String id) {
 
@@ -53,39 +48,21 @@ public class TextField extends LabelField {
 		return bind.getMaxlength();
 	}
 
-	/**
-	 * @return
-	 * @see javax.faces.component.UIInput#isRequired()
-	 */
 	public boolean isRequired() {
 
 		return bind.isRequired();
 	}
 
-	/**
-	 * 
-	 * @param message
-	 *            key del archivo de internacionalizacion
-	 * @see javax.faces.component.UIInput#setRequiredMessage(java.lang.String)
-	 */
 	public void setRequiredMessage(String key) {
 
 		bind.setRequiredMessage(I18nHelper.getMessage(key));
 	}
 
-	/**
-	 * @param required
-	 * @see javax.faces.component.UIInput#setRequired(boolean)
-	 */
 	public void setRequired(boolean required) {
 
 		bind.setRequired(required);
 	}
 
-	/**
-	 * @return
-	 * @see javax.faces.component.UIInput#getRequiredMessage()
-	 */
 	public String getRequiredMessage() {
 
 		return bind.getRequiredMessage();
@@ -105,16 +82,6 @@ public class TextField extends LabelField {
 		bind.setMaxlength(maxlength);
 	}
 
-	/**
-	 * Tipo de este componente
-	 */
-	private static final String TYPE = "py.una.med.base.dynamic.forms.TextField";
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see py.una.med.base.forms.dynamic.Field#getType()
-	 */
 	@Override
 	public String getType() {
 
