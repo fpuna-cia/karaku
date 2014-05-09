@@ -190,15 +190,15 @@ public class SIGHListHelper<T, K extends Serializable> implements
 			where.setExample(entityExample);
 			return where;
 		}
-		if (!StringUtils.isValid(simpleFilter.getOption(),
-				simpleFilter.getValue())) {
+		if (!StringUtils.isValid(getSimpleFilter().getOption(),
+				getSimpleFilter().getValue())) {
 			return where;
 		}
 		SearchHelper sh = Util.getSpringBeanByJSFContext(null,
 				SearchHelper.class);
-		String path = this.getField(clazz, simpleFilter.getOption());
+		String path = this.getField(clazz, getSimpleFilter().getOption());
 
-		where.addClause(sh.getClause(clazz, path, simpleFilter.getValue()));
+		where.addClause(sh.getClause(clazz, path, getSimpleFilter().getValue()));
 		return where;
 	}
 
