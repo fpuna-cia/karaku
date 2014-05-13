@@ -33,7 +33,7 @@ public final class ValidationConstants {
 	private static final String UC_NASAL = "ÃẼĨÕŨỸÄËÏÖÜŸÂÊÎÔÛŶ";
 	private static final String NASAL = LC_NASAL + UC_NASAL;
 
-	private static final String SPECIAL = "\"¿?¡!\\(\\),\\.=\\+\\-\\_\\*\\$&%\\/\\\\";
+	private static final String SPECIAL = "\"¿?¡!\\(\\),\\.=\\+\\-\\_\\*\\$&%\\/\\\\º";
 
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní (incluído el ')
