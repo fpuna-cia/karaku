@@ -20,11 +20,6 @@ public final class ValidationConstants {
 	private static final String SPANISH_LETTERS_WITH_SINGLE_QUOTE = "[a-zA-Z'ñÑ";
 	private static final String END = " ]*";
 
-	private ValidationConstants() {
-
-		// No-op
-	}
-
 	private static final String LC_GRAVE = "áéíóú";
 	private static final String UC_GRAVE = "ÁÉÍÓÚ";
 	private static final String GRAVE = LC_GRAVE + UC_GRAVE;
@@ -181,4 +176,9 @@ public final class ValidationConstants {
 	 * </ol>
 	 */
 	public static final String URL = "^(https?|ftp|file|HTTPS?|FTP|FILE)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+
+	private ValidationConstants() {
+
+		// No-op
+	}
 }
