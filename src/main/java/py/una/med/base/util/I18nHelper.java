@@ -165,7 +165,7 @@ public class I18nHelper {
 	 */
 	public boolean compare(String key, String value) {
 
-		return getMessage(key).equals(value);
+		return getString(key).equals(value);
 	}
 
 	/**

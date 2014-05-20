@@ -3,6 +3,7 @@
  */
 package py.una.med.base.util;
 
+import java.util.List;
 import javax.annotation.Nonnull;
 
 /**
@@ -45,6 +46,50 @@ public final class Checker {
 	}
 
 	/**
+	 * Chequea que una lista no posea elementos.
+	 * 
+	 * @param list
+	 *            lista a examinar
+	 * @param message
+	 *            mensaje, con <code>%s</code> como <i>wildcard</i> para los
+	 *            argumentos.
+	 * @param arguments
+	 *            argumentos para formatear la cadena
+	 * @return la misma lista
+	 */
+	public static <T> List<T> isEmpty(List<T> list, String message,
+			Object ... arguments) {
+
+		if (ListHelper.hasElements(list)) {
+			throw new IllegalArgumentException(format(message, arguments));
+		}
+		return list;
+	}
+
+	/**
+	 * Chequea si una lista posee elementos.
+	 * 
+	 * @param list
+	 *            lista a verificar
+	 * @param message
+	 *            mensaje, con <code>%s</code> como <i>wildcard</i> para los
+	 *            argumentos.
+	 * @param arguments
+	 *            argumentos para formatear la cadena
+	 * @throws IllegalArgumentException
+	 *             si la cadena no es válida
+	 * @return la lista pasada
+	 */
+	public static <T> List<T> isNotEmpty(List<T> list, String message,
+			Object ... arguments) {
+
+		if (!ListHelper.hasElements(list)) {
+			throw new IllegalArgumentException(format(message, arguments));
+		}
+		return list;
+	}
+
+	/**
 	 * @deprecated use {@link #isValid(CharSequence, String, Object...)}
 	 * @param string
 	 * @param message
@@ -56,7 +101,7 @@ public final class Checker {
 	public static <T extends CharSequence> T notValid(T string, String message,
 			Object ... arguments) {
 
-		if ((string == null) || StringUtils.isInvalid(string.toString())) {
+		if (string == null || StringUtils.isInvalid(string.toString())) {
 			throw new IllegalArgumentException(format(message, arguments));
 		}
 		return string;
@@ -84,7 +129,7 @@ public final class Checker {
 	public static <T extends CharSequence> T isValid(T string, String message,
 			Object ... arguments) {
 
-		if ((string == null) || StringUtils.isInvalid(string.toString())) {
+		if (string == null || StringUtils.isInvalid(string.toString())) {
 			throw new IllegalArgumentException(format(message, arguments));
 		}
 		return string;
