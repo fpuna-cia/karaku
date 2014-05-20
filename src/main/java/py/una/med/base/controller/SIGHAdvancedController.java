@@ -29,7 +29,14 @@ import py.una.med.base.util.StringUtils;
  * @version 1.4 07/02/2013
  */
 public abstract class SIGHAdvancedController<T, K extends Serializable> extends
-SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
+		SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
+
+	private static final String DELETE_FAILURE = "BASE_ABM_DELETE_FAILURE";
+	private static final String EDIT_FAILURE = "BASE_ABM_EDIT_FAILURE";
+	private static final String CREATE_FAILURE = "BASE_ABM_CREATE_FAILURE";
+	private static final String CREATE_SUCCESS = "BASE_ABM_CREATE_SUCCESS";
+	private static final String EDIT_SUCCESS = "BASE_ABM_EDIT_SUCCESS";
+	private static final String DELETE_SUCCESS = "BASE_ABM_DELETE_SUCCESS";
 
 	@Autowired
 	private ControllerHelper helper;
@@ -134,24 +141,48 @@ SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
 		try {
 			delete(getBean());
 			reloadEntities();
+			helper.createGlobalFacesMessageSimple(FacesMessage.SEVERITY_INFO,
+					getMessageDeleteSuccess());
 			return postDelete();
 		} catch (Exception e) {
-			e = helper.convertException(e, getClazz());
-			if (!handleException(e)) {
-				log.warn("doCreate failed", e);
-				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						"BASE_ABM_DELETE_FAILURE");
+			Exception converted = helper.convertException(e, getClazz());
+			if (!handleException(converted)) {
+				log.warn("doDelete failed", converted);
+				helper.createGlobalFacesMessageSimple(
+						FacesMessage.SEVERITY_WARN, getMessageDeleteFailure());
 			}
 			return "";
 		}
 	}
 
+	/**
+	 * Método que se encarga de invocar a la lógica y de eliminar el bean
+	 * actual.
+	 * <p>
+	 * Es un método de conveniencia para reescribir solamente las partes
+	 * relevantes a la eliminacióñ de la entidad y omitir detalles como la
+	 * generación de mensajes y manejo de excepciones.
+	 * </p>
+	 * <p>
+	 * Cualquier excepción lanzada aquí será manejada en
+	 * {@link #handleException(Exception)}.
+	 * </p>
+	 * <p>
+	 * Si el caso de uso dicta que se deben eliminar mas de una entidad, se
+	 * recomienda que en este método se llame a la lógica y que sea ella la
+	 * encargada de realizar la operación, retornando el elemento relevante para
+	 * mostrar al usuario. Se recomienda el uso de la lógica pues aquí no se
+	 * pueden realizar transacciones.
+	 * </p>
+	 * 
+	 * @param entity
+	 *            entidad a actualizar
+	 * @return T entidad actualizada.
+	 */
 	protected void delete(final T entity) {
 
 		log.info("Delete llamado");
 		getBaseLogic().remove(entity);
-		helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
-				"BASE_ABM_DELETE_SUCCESS");
 	}
 
 	@Override
@@ -161,18 +192,90 @@ SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
 		try {
 			edit(getBean());
 			reloadEntities();
-			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
-					"BASE_ABM_EDIT_SUCCESS");
+			helper.createGlobalFacesMessageSimple(FacesMessage.SEVERITY_INFO,
+					getMessageEditSuccess());
 			return postEdit();
 		} catch (Exception e) {
-			e = helper.convertException(e, getClazz());
-			if (!handleException(e)) {
-				log.warn("doCreate failed", e);
-				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						"BASE_ABM_EDIT_FAILURE", e.getMessage());
+			Exception converted = helper.convertException(e, getClazz());
+			if (!handleException(converted)) {
+				log.warn("doEdit failed", converted);
+				helper.createGlobalFacesMessageSimple(
+						FacesMessage.SEVERITY_WARN, getMessageEditFailure());
 			}
 			return "";
 		}
+	}
+
+	/***
+	 * Retorna el mensaje a ser visualizado cuando un registro es creado con
+	 * éxito.
+	 * 
+	 * @return Mensaje internacionalizado.
+	 */
+	protected String getMessageCreateSuccess() {
+
+		return getMessage(CREATE_SUCCESS);
+
+	}
+
+	/***
+	 * Retorna el mensaje a ser visualizado cuando un registro no es creado con
+	 * éxito.
+	 * 
+	 * @return Mensaje internacionalizado.
+	 */
+	protected String getMessageCreateFailure() {
+
+		return getMessage(CREATE_FAILURE);
+
+	}
+
+	/***
+	 * Retorna el mensaje a ser visualizado cuando un registro es editado con
+	 * éxito.
+	 * 
+	 * @return Mensaje internacionalizado.
+	 */
+	protected String getMessageEditSuccess() {
+
+		return getMessage(EDIT_SUCCESS);
+
+	}
+
+	/***
+	 * Retorna el mensaje a ser visualizado cuando un registro no es editado con
+	 * éxito.
+	 * 
+	 * @return Mensaje internacionalizado.
+	 */
+	protected String getMessageEditFailure() {
+
+		return getMessage(EDIT_FAILURE);
+
+	}
+
+	/***
+	 * Retorna el mensaje a ser visualizado cuando un registro es eliminado con
+	 * éxito.
+	 * 
+	 * @return Mensaje internacionalizado.
+	 */
+	protected String getMessageDeleteSuccess() {
+
+		return getMessage(DELETE_SUCCESS);
+
+	}
+
+	/***
+	 * Retorna el mensaje a ser visualizado cuando un registro no es eliminado
+	 * con éxito.
+	 * 
+	 * @return Mensaje internacionalizado.
+	 */
+	protected String getMessageDeleteFailure() {
+
+		return getMessage(DELETE_FAILURE);
+
 	}
 
 	/**
@@ -224,15 +327,15 @@ SIGHBaseController<T, K> implements ISIGHAdvancedController<T, K> {
 		try {
 			setBean(create(getBean()));
 			reloadEntities();
-			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
-					"BASE_ABM_CREATE_SUCCESS");
+			helper.createGlobalFacesMessageSimple(FacesMessage.SEVERITY_INFO,
+					getMessageCreateSuccess());
 			return postCreate();
 		} catch (Exception e) {
-			e = helper.convertException(e, getClazz());
-			if (!handleException(e)) {
-				log.warn("doCreate failed", e);
-				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						"BASE_ABM_CREATE_FAILURE", e.getMessage());
+			Exception converted = helper.convertException(e, getClazz());
+			if (!handleException(converted)) {
+				log.warn("doCreate failed", converted);
+				helper.createGlobalFacesMessageSimple(
+						FacesMessage.SEVERITY_WARN, getMessageCreateFailure());
 			}
 			return "";
 		}
