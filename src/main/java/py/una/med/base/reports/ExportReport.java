@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -113,6 +114,14 @@ public class ExportReport {
 		} catch (IOException e) {
 			throw new ReportException(e);
 		}
+	}
+
+	public void blank(Align align, boolean criteria,
+			Map<String, Object> params, String type) throws ReportException {
+
+		exportAvancedReport(dynamicUtils.getInstanceByAlign(align, criteria)
+				.build(), new DRDataSource(), params, type);
+
 	}
 
 	public void exportAvancedReport(HttpServletResponse httpServletResponse,
@@ -387,14 +396,34 @@ public class ExportReport {
 	 * @return reporte generado
 	 * @throws ReportException
 	 */
-	public <T> void exportReportBlock(boolean criteria,
-			List<SIGHReportBlock> blocks,
-			Map<String, Object> params, String type) throws ReportException {
+	public <T> void exportReportBlock(Align align, boolean criteria,
+			List<SIGHReportBlock> blocks, Map<String, Object> params,
+			String type) throws ReportException {
 
 		JasperPrint jasperPrint;
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					dynamicUtils.buildReportBlock(criteria, blocks),
+					dynamicUtils.buildReportBlock(align, criteria, blocks),
+					new ClassicLayoutManager(), new JREmptyDataSource(),
+					getDetailsReport(params));
+
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportReportBlock(boolean criteria,
+			List<SIGHReportBlock> blocks, Map<String, Object> params,
+			String type) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(dynamicUtils
+					.buildReportBlock(Align.VERTICAL, criteria, blocks),
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
@@ -414,8 +443,8 @@ public class ExportReport {
 
 		JasperPrint jasperPrint;
 		try {
-			jasperPrint = DynamicJasperHelper.generateJasperPrint(
-					dynamicUtils.buildReportBlock(criteria, blocks),
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(dynamicUtils
+					.buildReportBlock(Align.VERTICAL, criteria, blocks),
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 

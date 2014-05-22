@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import py.una.med.base.reports.Align;
 import py.una.med.base.reports.SIGHReportBlock;
 import py.una.med.base.reports.SIGHReportBlockField;
 
@@ -27,12 +28,16 @@ public final class ReportBuilder {
 
 	private Map<String, Object> params;
 	private String type;
+	private boolean sectionCriteria;
+	private Align align;
 
 	public ReportBuilder(String title, String type) {
 
 		this.params = new HashMap<String, Object>();
 		// Agrega el título del reporte en la los parámetros.
 		this.addParam("titleReport", getMessage(title));
+		this.sectionCriteria = false;
+		this.setAlign(Align.VERTICAL);
 		this.type = type;
 	}
 
@@ -58,6 +63,19 @@ public final class ReportBuilder {
 		}
 		this.details.add(block);
 		return this;
+	}
+
+	/**
+	 * Agrega un bloque al reporte.
+	 * 
+	 * Cada bloque se considera como un subreporte.
+	 * 
+	 * @param block
+	 * @return
+	 */
+	public ReportBuilder addBlock(SIGHReportBlock block) {
+
+		return this.addDetail(block);
 	}
 
 	public List<SIGHReportBlock> getDetails() {
@@ -98,7 +116,15 @@ public final class ReportBuilder {
 		return this;
 	}
 
-	public List<SIGHReportBlock> getBlocks() {
+	/**
+	 * Retorna los bloques del reporte master-detail.
+	 * 
+	 * Donde el primer bloque representa la cabecera y los demás cada uno de los
+	 * detalles asociados.
+	 * 
+	 * @return Lista de bloques del reporte del tipo master-detail.
+	 */
+	public List<SIGHReportBlock> getBlocksMasterDetail() {
 
 		List<SIGHReportBlock> blocks = new ArrayList<SIGHReportBlock>();
 		blocks.add(master);
@@ -106,8 +132,38 @@ public final class ReportBuilder {
 		return blocks;
 	}
 
+	/**
+	 * Retorna los bloques asociados al reporte.
+	 * 
+	 * @return Lista de bloques del reporte.
+	 */
+	public List<SIGHReportBlock> getBlocks() {
+
+		return details;
+	}
+
 	private static String getMessage(String key) {
 
 		return I18nHelper.getSingleton().getString(key);
+	}
+
+	public boolean isSectionCriteria() {
+
+		return sectionCriteria;
+	}
+
+	public void setSectionCriteria(boolean sectionCriteria) {
+
+		this.sectionCriteria = sectionCriteria;
+	}
+
+	public Align getAlign() {
+
+		return align;
+	}
+
+	public void setAlign(Align align) {
+
+		this.align = align;
 	}
 }

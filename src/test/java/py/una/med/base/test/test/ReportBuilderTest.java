@@ -80,7 +80,7 @@ public class ReportBuilderTest extends BaseTest {
 		builder.setMaster(getBlockField());
 		builder.addDetail(getBlockGrid());
 
-		List<SIGHReportBlock> blocks = builder.getBlocks();
+		List<SIGHReportBlock> blocks = builder.getBlocksMasterDetail();
 
 		assertEquals(2, blocks.size());
 

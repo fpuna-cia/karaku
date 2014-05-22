@@ -123,7 +123,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 			Map<String, Object> params, String type) {
 
 		try {
-			exportReport.exportReportBlock(false, blocks,
+			exportReport.exportReportBlock(Align.VERTICAL, false, blocks,
 					setDataSources(blocks, params), type);
 			controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_INFO, BASE_REPORT_CREATE_SUCCESS);

@@ -122,6 +122,7 @@ public final class DynamicUtils {
 		FastReportBuilder structReport = this.newInstance();
 		this.setTemplateLandScape(structReport, criteria);
 		return structReport;
+
 	}
 
 	/**
@@ -176,6 +177,17 @@ public final class DynamicUtils {
 	 * @return reporte dinamico con bloques del tipo fields
 	 * @throws ReportException
 	 */
+
+	public <T> DynamicReport buildReportBlock(Align align, boolean criteria,
+			List<SIGHReportBlock> blocks) throws ReportException {
+
+		FastReportBuilder structReport = getInstanceByAlign(align, criteria);
+		structReport.setAllowDetailSplit(false);
+
+		this.addBlocks(structReport, blocks);
+
+		return structReport.build();
+	}
 
 	public <T> DynamicReport buildReportBlock(boolean criteria,
 			List<SIGHReportBlock> blocks) throws ReportException {
@@ -746,6 +758,7 @@ public final class DynamicUtils {
 		structBlockReport.setTitle(block.getTitle());
 		structBlockReport.setTopMargin(0);
 		structBlockReport.setBottomMargin(0);
+
 		this.addColumn(structBlockReport, block.getColumns());
 
 		Subreport subReport = new SubReportBuilder()
@@ -1090,6 +1103,16 @@ public final class DynamicUtils {
 				return BigDecimal.class.getName();
 			}
 		};
+	}
+
+	public FastReportBuilder getInstanceByAlign(Align align, boolean criteria) {
+
+		if (align.equals(align.HORIZONTAL)) {
+
+			return newInstanceLandScape(criteria);
+		} else {
+			return newInstancePortrait(criteria);
+		}
 	}
 
 }
