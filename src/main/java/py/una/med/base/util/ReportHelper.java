@@ -52,10 +52,38 @@ public class ReportHelper {
 			// Configuramos el dataSource de cada bloque en los parámetros del
 			// reporte.
 			Map<String, Object> params = setDataSources(
-					reportBuilder.getBlocks(), reportBuilder.getParams());
+					reportBuilder.getBlocksMasterDetail(),
+					reportBuilder.getParams());
 
-			exportReport.exportReportBlock(false, reportBuilder.getBlocks(),
-					params, reportBuilder.getType());
+			exportReport.exportReportBlock(reportBuilder.getAlign(),
+					reportBuilder.isSectionCriteria(),
+					reportBuilder.getBlocksMasterDetail(), params,
+					reportBuilder.getType());
+		} catch (ReportException e) {
+			log.warn("Can not create report master detail", e);
+		}
+
+	}
+
+	public void generateReportBlocks(ReportBuilder reportBuilder) {
+
+		try {
+			if (reportBuilder.getBlocks() == null) {
+				exportReport.blank(reportBuilder.getAlign(),
+						reportBuilder.isSectionCriteria(),
+						reportBuilder.getParams(), reportBuilder.getType());
+			} else {
+				// Configuramos el dataSource de cada bloque en los parámetros
+				// del
+				// reporte.
+				Map<String, Object> params = setDataSources(
+						reportBuilder.getBlocks(), reportBuilder.getParams());
+
+				exportReport.exportReportBlock(reportBuilder.getAlign(),
+						reportBuilder.isSectionCriteria(),
+						reportBuilder.getBlocks(), params,
+						reportBuilder.getType());
+			}
 		} catch (ReportException e) {
 			log.warn("Can not create report master detail", e);
 		}

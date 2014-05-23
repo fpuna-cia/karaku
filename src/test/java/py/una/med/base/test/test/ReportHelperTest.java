@@ -56,11 +56,32 @@ public class ReportHelperTest extends BaseTest {
 		reportHelper.generateMasterDetail(builder);
 	}
 
+	@Test
+	public void testgenerateReportBlocks() throws Exception {
+
+		ReportBuilder builder = new ReportBuilder(
+				"Reporte que contiene una lista de bloques", "pdf");
+		builder.addBlock(getBlockDetail());
+		builder.addBlock(getBlockDetail());
+		builder.addBlock(getBlockDetail());
+		builder.addBlock(getBlockDetail());
+
+		reportHelper.generateReportBlocks(builder);
+	}
+
+	@Test
+	public void testgenerateReportBlocksBlank() throws Exception {
+
+		ReportBuilder builder = new ReportBuilder("Reporte sin bloques", "pdf");
+
+		reportHelper.generateReportBlocks(builder);
+	}
+
 	protected SIGHReportBlockGrid getBlockDetail() {
 
 		List<Column> columns = new ArrayList<Column>();
 		columns.add(new Column("Operadora", "operadora"));
-		columns.add(new Column("Número", "numero"));
+		columns.add(new Column("Numero", "numero"));
 
 		SIGHReportBlockGrid block2 = new SIGHReportBlockGrid("Teléfonos",
 				"tel_paciente", columns, getData());
