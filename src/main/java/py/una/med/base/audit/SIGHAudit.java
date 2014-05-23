@@ -14,14 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import py.una.med.base.business.IAuditLogic;
 import py.una.med.base.domain.AuditTrail;
 import py.una.med.base.domain.AuditTrailDetail;
 import py.una.med.base.log.Log;
+import py.una.med.base.security.AuthorityController;
+import py.una.med.base.util.Util;
 
 /**
  * Servicio que se encarga de capturar el {@link JoinPoint} de auditoría y
@@ -35,6 +34,12 @@ import py.una.med.base.log.Log;
  */
 @Service
 public class SIGHAudit {
+
+	@Autowired
+	private AuthorityController authorityController;
+
+	@Autowired
+	private Util util;
 
 	@Log
 	private Logger log;
@@ -64,29 +69,36 @@ public class SIGHAudit {
 	 */
 	public void doAudit(JoinPoint joinPoint, Audit annotation) {
 
+		doAudit(annotation, joinPoint.getSignature().toShortString(),
+				joinPoint.getTarget(), joinPoint.getArgs());
+	}
+
+	/**
+	 * @param annotation
+	 * @param methodSignature
+	 * @param target
+	 * @param gS
+	 */
+	public void doAudit(Audit annotation, String methodSignature,
+			Object target, Object[] params) {
+
 		AuditTrail auditTrail = new AuditTrail();
 
 		List<AuditTrailDetail> details = new ArrayList<AuditTrailDetail>();
-		auditTrail.setMethodSignature(joinPoint.getSignature().toShortString());
+		auditTrail.setMethodSignature(methodSignature);
 
-		String ip = ((ServletRequestAttributes) RequestContextHolder
-				.currentRequestAttributes()).getRequest().getRemoteAddr();
-		auditTrail.setIp(ip);
+		auditTrail.setIp(util.getIpAdress());
 
-		String userName = SecurityContextHolder.getContext()
-				.getAuthentication().getName();
-		auditTrail.setUsername(userName);
+		auditTrail.setUsername(authorityController.getUsername());
 
 		String[] toAudit = annotation.toAudit();
 		String[] paramsToAudit = annotation.paramsToAudit();
-		Object object = joinPoint.getTarget();
-		Object[] params = joinPoint.getArgs();
 		ExpressionParser parser = new SpelExpressionParser();
 		if (toAudit != null) {
 			for (String string : toAudit) {
 				Expression exp = parser.parseExpression(string);
 
-				Object value = exp.getValue(object);
+				Object value = exp.getValue(target);
 				AuditTrailDetail detail = new AuditTrailDetail();
 				detail.setHeader(auditTrail);
 				detail.setValue((Serializable) value);
@@ -116,6 +128,7 @@ public class SIGHAudit {
 			}
 		}
 		logic.saveAudit(auditTrail, details);
+
 	}
 
 }
