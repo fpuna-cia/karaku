@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.med.base.dao.restrictions.Where;
 import py.una.med.base.dao.search.SearchHelper;
+import py.una.med.base.exception.UniqueConstraintException;
 import py.una.med.base.model.DisplayName;
 import py.una.med.base.security.HasRole;
 import py.una.med.base.security.SIGHSecurity;
@@ -140,16 +141,17 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 		try {
 			delete(getBean());
+			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
+					DELETE_SUCCESS);
 			reloadEntities();
 			helper.createGlobalFacesMessageSimple(FacesMessage.SEVERITY_INFO,
 					getMessageDeleteSuccess());
 			return postDelete();
 		} catch (Exception e) {
-			Exception converted = helper.convertException(e, getClazz());
-			if (!handleException(converted)) {
-				log.warn("doDelete failed", converted);
-				helper.createGlobalFacesMessageSimple(
-						FacesMessage.SEVERITY_WARN, getMessageDeleteFailure());
+			if (!handleException(helper.convertException(e, getClazz()))) {
+				log.warn("doCreate failed", e);
+				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
+						DELETE_FAILURE);
 			}
 			return "";
 		}
@@ -196,11 +198,10 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 					getMessageEditSuccess());
 			return postEdit();
 		} catch (Exception e) {
-			Exception converted = helper.convertException(e, getClazz());
-			if (!handleException(converted)) {
-				log.warn("doEdit failed", converted);
-				helper.createGlobalFacesMessageSimple(
-						FacesMessage.SEVERITY_WARN, getMessageEditFailure());
+			if (!handleException(helper.convertException(e, getClazz()))) {
+				log.warn("doEdit failed", e);
+				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
+						EDIT_FAILURE, e.getMessage());
 			}
 			return "";
 		}
@@ -331,11 +332,10 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 					getMessageCreateSuccess());
 			return postCreate();
 		} catch (Exception e) {
-			Exception converted = helper.convertException(e, getClazz());
-			if (!handleException(converted)) {
-				log.warn("doCreate failed", converted);
-				helper.createGlobalFacesMessageSimple(
-						FacesMessage.SEVERITY_WARN, getMessageCreateFailure());
+			if (!handleException(helper.convertException(e, getClazz()))) {
+				log.warn("doCreate failed", e);
+				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
+						CREATE_FAILURE, e.getMessage());
 			}
 			return "";
 		}
@@ -344,13 +344,32 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Implementación por defecto siempre retorna <code>false</code>, para que
-	 * {@link #doCreate()} lance un mensaje genérico.
+	 * Esta implementación captura las excepciones del tipo
+	 * {@link UniqueConstraintException} y intenta generar un mensaje de error
+	 * pertinente.
 	 * </p>
+	 * 
 	 */
 	@Override
 	public boolean handleException(final Exception e) {
 
+		if (e instanceof UniqueConstraintException) {
+			UniqueConstraintException unique = (UniqueConstraintException) e;
+			if (unique.getFields().size() == 1) {
+				String field = unique.getFields().get(0);
+				controllerHelper.addWarnMessage(field,
+						getMessage("FIELD_DUPLICATE"),
+						getMessage("FIELD_DUPLICATE_DETAIL"));
+			}
+			if (unique.getFields().size() > 1) {
+				controllerHelper.addGlobalWarnMessage(
+						getMessage("FIELDS_DUPLICATED"),
+						getMessage("FIELDS_DUPLICATED_DETAIL", unique
+								.getFields().toArray()));
+			}
+			return true;
+
+		}
 		return false;
 	}
 
