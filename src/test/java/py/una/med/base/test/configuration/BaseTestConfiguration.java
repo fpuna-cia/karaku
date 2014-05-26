@@ -4,12 +4,10 @@
  */
 package py.una.med.base.test.configuration;
 
-import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
-import py.una.med.base.configuration.SIGHConfiguration;
 import py.una.med.base.log.LogPostProcessor;
 import py.una.med.base.math.MathContextProvider;
 import py.una.med.base.services.util.NumberAdapter;
@@ -76,10 +74,7 @@ public class BaseTestConfiguration {
 	@Bean
 	I18nHelper i18nHelper() {
 
-		TestI18nHelper i18nHelper = new TestI18nHelper();
-		String value = properties.get(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
-		i18nHelper.initializeBundles(Arrays.asList(value.split("\\s+")));
-		return i18nHelper;
+		return new TestI18nHelper();
 	}
 
 }

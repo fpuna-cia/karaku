@@ -24,7 +24,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import py.una.med.base.exception.ReportException;
 import py.una.med.base.security.AuthorityController;
-import py.una.med.base.util.ControllerHelper;
+import py.una.med.base.util.I18nHelper;
 import py.una.med.base.util.Util;
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
@@ -52,9 +52,6 @@ public class ExportReport {
 
 	@Autowired
 	private DynamicUtils dynamicUtils;
-
-	@Autowired
-	private ControllerHelper helper;
 
 	@Autowired
 	private AuthorityController authorityController;
@@ -698,7 +695,7 @@ public class ExportReport {
 
 	private String getMessage(String key) {
 
-		return helper.getMessage(key);
+		return I18nHelper.getSingleton().getString(key);
 	}
 
 	protected String getUserName() {

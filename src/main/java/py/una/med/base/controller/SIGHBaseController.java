@@ -47,6 +47,8 @@ import py.una.med.base.util.StringUtils;
 public abstract class SIGHBaseController<T, K extends Serializable> implements
 		ISIGHBaseController<T, K> {
 
+	private static final String LIST_XHTML = "list.xhtml";
+	private static final String ABM_XHTML = "abm.xhtml";
 	private static final String REPORT_SELECTION_KEY = "selectionFilters";
 	private static final String COLUMN_NOT_FOUND_IN_ENTITY_MESSAGE = "Column: {} not found in entity: {}";
 
@@ -59,6 +61,9 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 	@Autowired
 	private ICurrentpageHelper currentPageHelper;
+
+	@Autowired
+	private BreadcrumbController breadController;
 
 	private static final int ROWS_FOR_PAGE = 10;
 
@@ -203,7 +208,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 					"MESSAGE_DELETE_SUCCESS");
 			return this.goList();
 		} catch (Exception e) {
-			log.warn("Cant create entity {}", e);
+			log.warn("Cant delete entity {}", e);
 			this.controllerHelper.createGlobalFacesMessage(
 					FacesMessage.SEVERITY_ERROR, "", e.getMessage());
 			return "";
@@ -292,15 +297,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@Override
 	public Where<T> getWhereReport() {
 
-		if (this.getExample() != null) {
-			Where<T> where = new Where<T>();
-			where.setExample(this.getExample());
-			return where;
-		}
-		if (StringUtils.isValid(this.getFilterOption(), this.getFilterValue())) {
-			return this.getSimpleFilters();
-		}
-		return new Where<T>();
+		return getBaseWhere();
 	}
 
 	/**
@@ -333,7 +330,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@Override
 	public void generateReport(String type) {
 
-		HashMap<String, Object> paramsReport = new HashMap<String, Object>();
+		Map<String, Object> paramsReport = new HashMap<String, Object>();
 		paramsReport.put("titleReport", this.getHeaderReport());
 		Class<T> clazz = this.getBaseLogic().getDao().getClassOfT();
 		try {
@@ -513,11 +510,13 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	 * 
 	 * @param code
 	 *            clave del archivo de internacionalización
+	 * @param params
+	 *            parámetros.
 	 * @return cadena internacionalizada
 	 */
-	public String getMessage(String code) {
+	public String getMessage(final String code, final Object ... params) {
 
-		return this.controllerHelper.getMessage(code);
+		return i18nHelper.getString(code, params);
 	}
 
 	/**
@@ -617,19 +616,19 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@Override
 	public String goDelete() {
 
-		return "abm.xhtml";
+		return ABM_XHTML;
 	}
 
 	@Override
 	public String goEdit() {
 
-		return "abm.xhtml";
+		return ABM_XHTML;
 	}
 
 	@Override
 	public String goList() {
 
-		return "list.xhtml";
+		return LIST_XHTML;
 	}
 
 	@Override
@@ -641,7 +640,7 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 	@Override
 	public String goView() {
 
-		return "abm.xhtml";
+		return ABM_XHTML;
 	}
 
 	@Override
@@ -682,6 +681,18 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Define si actualmente se esta en una búsqueda simple.
+	 * 
+	 * @return <code>true</code> si los filtros son adecuados y
+	 *         <code>false</code> en caso contrario
+	 */
+	protected boolean isSimpleSearch() {
+
+		return StringUtils.isValid(getFilterOption(), getFilterValue())
+				&& !isSearch();
 	}
 
 	@Override
@@ -852,14 +863,10 @@ public abstract class SIGHBaseController<T, K extends Serializable> implements
 
 		if (this.getMode().equals(Mode.VIEW)) {
 			return this.getMessage("BASE_FORM_CANCEL_VIEW");
-		} else {
-			return this.getMessage("BASE_FORM_CANCEL");
 		}
+		return this.getMessage("BASE_FORM_CANCEL");
 
 	}
-
-	@Autowired
-	private BreadcrumbController breadController;
 
 	@Override
 	public String getHeaderText() {

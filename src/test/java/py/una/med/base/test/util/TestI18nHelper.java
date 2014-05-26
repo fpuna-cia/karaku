@@ -7,77 +7,58 @@ package py.una.med.base.test.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import py.una.med.base.util.I18nHelper;
 
 /**
  * Archivo de test Para I18nHelper.
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 17, 2013
- *
+ * 
  */
 public class TestI18nHelper extends I18nHelper {
 
-	/**
-	 *
-	 */
-	public TestI18nHelper() {
-
-		setSingleton(this);
-	}
-
-	private HashMap<String, String> aditionals;
+	private HashMap<String, String> extraKeys;
 
 	public void addString(String key, String value) {
 
-		if (aditionals == null) {
-			aditionals = new HashMap<String, String>();
+		if (extraKeys == null) {
+			extraKeys = new HashMap<String, String>();
 		}
 
-		aditionals.put(key, value);
+		extraKeys.put(key, value);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public String getString(String key) {
+	protected String getStringOrNull(String key) {
 
-		if ((aditionals != null) && aditionals.containsKey(key)) {
-			return aditionals.get(key);
+		if (extraKeys != null && extraKeys.containsKey(key)) {
+			return extraKeys.get(key);
 		}
-		return super.getString(key);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected Locale getLocale() {
-
-		return new Locale("es", "PY");
+		return super.getStringOrNull(key);
 	}
 
 	@Override
-	public synchronized void initializeBundles(List<String> bundlesLocation) {
+	protected synchronized void initializeBundles(List<String> bundlesLocation) {
 
 		if (getBundles() != null) {
 			return;
 		}
-		ArrayList<ResourceBundle> bundles = new ArrayList<ResourceBundle>(
-				bundlesLocation.size());
+		List<String> realNames = new ArrayList<String>(bundlesLocation.size());
 		for (String bundle : bundlesLocation) {
-			if ("".equals(bundle)) {
-				continue;
-			}
-			bundle = bundle.substring(3);
-			ResourceBundle toAdd = ResourceBundle
-					.getBundle(bundle, getLocale());
-			bundles.add(toAdd);
+			realNames.add(bundle.substring(3));
 		}
-		setBundles(bundles);
+		super.initializeBundles(realNames);
+	}
+
+	@Override
+	@Autowired
+	protected void setContext(ApplicationContext context) {
+
+		super.setContext(context);
+		setWeakSingleton(null);
 	}
 }

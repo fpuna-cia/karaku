@@ -19,6 +19,7 @@ import py.una.med.base.reports.SIGHReportBlock;
 import py.una.med.base.reports.SIGHReportBlockSign;
 import py.una.med.base.reports.SIGHReportDetails;
 import py.una.med.base.util.ControllerHelper;
+import py.una.med.base.util.I18nHelper;
 
 /**
  * Clase que implementa el servicio para reportes del tipo cabecera-detalle. Se
@@ -45,6 +46,9 @@ public abstract class SIGHBaseReportDetail<T> implements
 
 	@Autowired
 	private ControllerHelper controllerHelper;
+
+	@Autowired
+	private I18nHelper i18nHelper;
 
 	@Override
 	public abstract ISIGHBaseLogic<T, ?> getBaseLogic();
@@ -167,6 +171,6 @@ public abstract class SIGHBaseReportDetail<T> implements
 	 */
 	public String getMessage(String code) {
 
-		return this.controllerHelper.getMessage(code);
+		return i18nHelper.getString(code);
 	}
 }

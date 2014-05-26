@@ -3,65 +3,109 @@
  */
 package py.una.med.base.util;
 
+import static py.una.med.base.util.Checker.notNull;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotNull;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import py.una.med.base.configuration.PropertiesUtil;
 import py.una.med.base.configuration.SIGHConfiguration;
+import py.una.med.base.log.Log;
 import py.una.med.base.model.DisplayName;
 
 /**
  * Clase que sirve como punto de acceso único para la internacionalizacion.
- *
+ * 
+ * <p>
+ * Versión 3 le agrega cadenas parametrizadas, ver
+ * {@link #getString(String, Object...)}
+ * </p>
+ * 
  * @author Arturo Volpe
  * @since 1.0
- * @version 2.1
+ * @version 3
  */
 public class I18nHelper {
 
-	public static final Logger LOG = LoggerFactory.getLogger(I18nHelper.class);
+	private static List<ResourceBundle> bundles;
+
+	private static WeakReference<I18nHelper> weakSingleton;
+
+	@Log
+	private Logger log;
+
+	private static ApplicationContext context;
 
 	@Autowired
 	private PropertiesUtil util;
 
 	/**
-	 *
+	 * @param context
+	 *            context para setear
 	 */
-	public I18nHelper() {
+	@Autowired
+	protected void setContext(ApplicationContext context) {
 
-		setSingleton(this);
+		setStaticContext(context);
+	}
+
+	/**
+	 * @return weakSingleton
+	 */
+	public static WeakReference<I18nHelper> getWeakSingleton() {
+
+		return weakSingleton;
+	}
+
+	/**
+	 * @param weakSingleton
+	 *            weakSingleton para setear
+	 */
+	protected static void setWeakSingleton(
+			WeakReference<I18nHelper> weakSingleton) {
+
+		I18nHelper.weakSingleton = weakSingleton;
 	}
 
 	@PostConstruct
 	public void initialize() {
 
 		String value = util.get(SIGHConfiguration.LANGUAGE_BUNDLES_KEY);
+		getSingleton().initializeBundles(Arrays.asList(value.split("\\s+")));
+	}
 
-		i18nHelper.initializeBundles(Arrays.asList(value.split("\\s+")));
+	private static void setStaticContext(ApplicationContext newContext) {
+
+		context = newContext;
 	}
 
 	/**
-	 *
-	 * XXX Este atributo no es final para que pueda ser reemplazado por otra
-	 * implementación, por ejemplo en los test.
+	 * Retorna el {@link I18nHelper} que actualmente esta siendo utilizado por
+	 * la aplicación.
+	 * 
+	 * @return
 	 */
-	private static I18nHelper i18nHelper;
-
 	public static I18nHelper getSingleton() {
 
-		return i18nHelper;
-	}
+		if (weakSingleton != null) {
+			return weakSingleton.get();
+		}
 
-	protected static void setSingleton(I18nHelper newSingleton) {
-
-		i18nHelper = newSingleton;
+		synchronized (I18nHelper.class) {
+			if (weakSingleton == null) {
+				weakSingleton = new WeakReference<I18nHelper>(
+						context.getBean(I18nHelper.class));
+			}
+		}
+		return weakSingleton.get();
 	}
 
 	protected Locale getLocale() {
@@ -69,18 +113,16 @@ public class I18nHelper {
 		return new Locale("es", "PY");
 	}
 
-	private static List<ResourceBundle> bundles;
-
 	protected static List<ResourceBundle> getBundles() {
 
 		return bundles;
 	}
 
-	public synchronized void initializeBundles(List<String> bundlesLocation) {
+	protected synchronized void initializeBundles(List<String> bundlesLocation) {
 
-		if (bundles != null) {
-			return;
-		}
+		notNull(bundlesLocation,
+				"Can't initialize bundles without bundles paths");
+
 		bundles = new ArrayList<ResourceBundle>(bundlesLocation.size());
 		for (String bundle : bundlesLocation) {
 			if ("".equals(bundle)) {
@@ -94,6 +136,16 @@ public class I18nHelper {
 
 	private String findInBundles(String key) {
 
+		String toRet = getStringOrNull(key);
+		if (toRet != null) {
+			return toRet;
+		}
+		log.warn("String not found in current bundles {}", key);
+		return key + "&&&";
+	}
+
+	protected String getStringOrNull(String key) {
+
 		if (bundles == null) {
 			initialize();
 		}
@@ -104,58 +156,90 @@ public class I18nHelper {
 				return bundle.getString(key);
 			}
 		}
-		LOG.warn("String not found in current bundles {}", key,
-				new KeyNotFoundException(key));
-		return key + "&&&";
+		return null;
 	}
 
 	/**
-	 * Retorna la cadena internacionalizada de la llave pasada, busca en todos
-	 * los archivos de internacionalizacion definidos en el karaku.properties.
-	 *
+	 * Retorna la cadena internacionalizada de la llave pasada.
+	 * 
+	 * <p>
+	 * Si la cadena pasada es:
+	 * 
+	 * <pre>
+	 * 	KEY = El auto con chapa {} fue creado correctamente a las {} horas.
+	 * </pre>
+	 * 
+	 * Se muestran diferentes invocaciones con diferentes resultados:
+	 * 
+	 * <pre>
+	 * 	getString("KEY", "ADB 333", "15:00") 
+	 * 	=>	El auto con chapa ADB 333 fue creado correctamente a las 15:00 horas
+	 * 
+	 * 	getString("KEY")
+	 * 	=>	El auto con chapa {} fue creado correctamente a las {} horas.
+	 * 
+	 * 	getString("KEY", "123 CCC")
+	 * 	=>	El auto con chapa 123 CCC fue creado correctamente a las {} horas.
+	 * 
+	 * </pre>
+	 * 
+	 * </p>
+	 * 
+	 * <p>
+	 * La obtención de las cadenas internacionalizadas se define en
+	 * {@link #initializeBundles(List)}, el cual recibe una lista de nombres de
+	 * archivos con cadenas de internacionalización, las mismas se defien en
+	 * <code>karaku.properties</code>.
+	 * </p>
+	 * 
 	 * @param key
 	 *            llave del archivo de internacionalizacion
+	 * @param arguments
+	 *            (since 3.0) argumentos de la cadena parametrizada.
 	 * @return cadena internacionalizad de acuerdo al locale actual
 	 */
-	public String getString(String key) {
+	public String getString(String key, Object ... arguments) {
 
-		return findInBundles(key);
+		return format(findInBundles(key), arguments);
 	}
 
 	/**
 	 * Retorna la cadena internacionalizada de la llave pasada, busca en todos
 	 * los archivos de internacionalizacion definidos en el karaku.properties.
-	 *
+	 * 
 	 * @param key
 	 *            llave del archivo de internacionalizacion
 	 * @return cadena internacionalizad de acuerdo al locale actual
+	 * @see #getString(String, Object...)
 	 */
 	public static String getMessage(String key) {
 
-		return i18nHelper.findInBundles(key);
+		return getSingleton().getString(key);
 	}
 
 	/**
 	 * Invoca al método {@link #getMessage(String)} por cada cadena pasada, y lo
 	 * agrega a una lista.
-	 *
+	 * 
 	 * @param keys
 	 *            claves del archivo de internacionalización
 	 * @return lista con los valores internacionalizados.
 	 */
-	public List<String> convertStrings(@NotNull String ... keys) {
+	public List<String> convertStrings(String string, String ... keys) {
 
-		assert keys != null;
-		ArrayList<String> convert = new ArrayList<String>(keys.length);
-		for (String s : keys) {
-			convert.add(getMessage(s));
+		List<String> convert = new ArrayList<String>();
+		convert.add(getString(string));
+		if (!ArrayUtils.isEmpty(keys)) {
+			for (String s : keys) {
+				convert.add(getString(s));
+			}
 		}
 		return convert;
 	}
 
 	/**
 	 * Compara una clave con un valor internacionalizado.
-	 *
+	 * 
 	 * @param key
 	 *            clave del archivo
 	 * @param value
@@ -170,7 +254,7 @@ public class I18nHelper {
 
 	/**
 	 * Retorna el valor internacionalizado de una anotación {@link DisplayName}.
-	 *
+	 * 
 	 * @param displayName
 	 *            anotación
 	 * @return "" si es <code>null</code> o esta vacía, en otro caso del valor
@@ -181,15 +265,41 @@ public class I18nHelper {
 		if (displayName == null) {
 			return "";
 		}
-		if ("".equals(displayName.toString())) {
+		if (StringUtils.isInvalid(displayName.key())) {
 			return "";
 		}
+		String key = displayName.key();
+		char startWith = key.charAt(0);
+		char endWith = key.charAt(key.length() - 1);
+
+		if (startWith != '{' && endWith != '}') {
+			return getMessage(key);
+		}
+
 		return getMessage(displayName.key().substring(1,
 				displayName.key().length() - 1));
 	}
 
-	protected static void setBundles(List<ResourceBundle> bundles) {
+	protected String format(@Nonnull String base, Object[] arguments) {
 
-		I18nHelper.bundles = bundles;
+		if (ArrayUtils.isEmpty(arguments)) {
+			return base;
+		}
+
+		StringBuilder builder = new StringBuilder();
+		int templateStart = 0;
+		int i = 0;
+		while (i < arguments.length) {
+			int placeholderStart = base.indexOf("{}", templateStart);
+			if (placeholderStart == -1) {
+				break;
+			}
+			builder.append(base.substring(templateStart, placeholderStart));
+			builder.append(arguments[i++]);
+			templateStart = placeholderStart + 2;
+		}
+		builder.append(base.substring(templateStart));
+
+		return builder.toString();
 	}
 }

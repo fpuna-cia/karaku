@@ -4,11 +4,12 @@
 
 package py.una.med.base.util;
 
+import static py.una.med.base.util.Checker.notNull;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
-import javax.annotation.PostConstruct;
+import javax.annotation.Nonnull;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.MethodExpression;
@@ -28,12 +29,11 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UIColumn;
 import org.richfaces.component.UIExtendedDataTable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import py.una.med.base.math.Quantity;
 import py.una.med.base.reports.Column;
+import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Clase que implementa funcionalidades generales para la manipulacion de
@@ -42,27 +42,18 @@ import py.una.med.base.reports.Column;
  * 
  * @author Arturo Volpe
  * @author Nathalia Ochoa
- * @since 1.1 08/02/2013
+ * @since 2.0 08/02/2013
  * @version 2.0 19/02/2013
  */
 @Component
 public class ControllerHelper {
 
+	private static final String NULL_SEVERITY_IS_NOT_ALLOWED = "Null severity is not allowed";
+	private static final String EMPTY_STRING = "";
 	private static final String EL_VALUE_PROPERTY = "value";
-
-	private Logger log;
 
 	@Autowired
 	private UniqueHelper uniqueHelper;
-
-	/**
-	 * Construye el controller
-	 */
-	@PostConstruct
-	public void init() {
-
-		log = LoggerFactory.getLogger(ControllerHelper.class);
-	}
 
 	@Autowired
 	private I18nHelper i18nHelper;
@@ -85,14 +76,10 @@ public class ControllerHelper {
 	 *            detalle del mensaje
 	 */
 	public void createGlobalFacesMessage(final Severity severity,
-			final String summary, final String detail) {
+			@Nonnull final String summary, @Nonnull final String detail) {
 
-		FacesContext facesContext = getContext();
-		String mensaje = !"".equals(detail) ? getMessage(detail) : "";
-		String sum = !"".equals(summary) ? getMessage(summary) : "";
-
-		FacesMessage msg = new FacesMessage(severity, sum, mensaje);
-		facesContext.addMessage(null, msg);
+		createGlobalSimpleMessage(severity, getString(notNull(summary)),
+				getString(notNull(detail)));
 	}
 
 	/**
@@ -112,11 +99,7 @@ public class ControllerHelper {
 	public void createGlobalFacesMessage(final Severity severity,
 			final String summary) {
 
-		FacesContext facesContext = getContext();
-		String sum = !"".equals(summary) ? getMessage(summary) : "";
-
-		FacesMessage msg = new FacesMessage(severity, sum, "");
-		facesContext.addMessage(null, msg);
+		createGlobalSimpleMessage(severity, getString(summary), null);
 	}
 
 	/**
@@ -136,11 +119,32 @@ public class ControllerHelper {
 	public void createGlobalFacesMessageSimple(final Severity severity,
 			final String summary) {
 
-		FacesContext facesContext = getContext();
-		String sum = !"".equals(summary) ? summary : "";
+		createGlobalSimpleMessage(severity, summary, null);
+	}
 
-		FacesMessage msg = new FacesMessage(severity, sum, "");
-		facesContext.addMessage(null, msg);
+	/**
+	 * Crea un mensaje global, que será mostrado en lugares como
+	 * &lt;rich:messages ajaxRendered="true" showDetail="true"
+	 * globalOnly="true">
+	 * <p>
+	 * El parámetro GlobalOnly permite que solo se muestren este tipo de
+	 * mensajes, en caso contrario se mostraran todos los mensajes
+	 * </p>
+	 * 
+	 * @param severity
+	 *            grado de severidad {@link FacesMessage}
+	 * @param summary
+	 *            mensaje
+	 */
+	public void createGlobalSimpleMessage(@Nonnull final Severity severity,
+			final String summary, final String detail) {
+
+		notNull(severity, NULL_SEVERITY_IS_NOT_ALLOWED);
+
+		String sum = summary == null ? EMPTY_STRING : summary;
+		String det = detail == null ? EMPTY_STRING : summary;
+
+		createFacesMessageSimple(severity, sum, det, null);
 	}
 
 	/**
@@ -149,32 +153,13 @@ public class ControllerHelper {
 	 * 
 	 * @param code
 	 *            llave del mensaje
+	 * @deprecated utilizar el {@link I18nHelper}
 	 * @return cadena internacionalizada
 	 */
+	@Deprecated
 	public String getMessage(final String code) {
 
-		if (code == null) {
-			log.info("Buscando cadena con llave null");
-			return getDegeneratedString("null");
-		}
-		if ("".equals(code)) {
-			log.info("Buscando cadena con llave vacia");
-			return getDegeneratedString("empty");
-		}
 		return i18nHelper.getString(code);
-	}
-
-	/**
-	 * Dada una cadena la retorna degenerada.
-	 * 
-	 * @param code
-	 *            cadena a deformar
-	 * @return Cadena degenerada, con el formato &&&&&code&&&&&
-	 */
-	public String getDegeneratedString(final String code) {
-
-		log.info("Crear cadena para: " + code);
-		return "&&&&&" + code + "&&&&&";
 	}
 
 	/**
@@ -193,14 +178,16 @@ public class ControllerHelper {
 	public void createFacesMessage(final Severity severity,
 			final String summary, final String detail, final String componentId) {
 
-		FacesMessage msg = new FacesMessage(severity, getMessage(summary),
-				getMessage(detail));
-		getContext().addMessage(componentId, msg);
+		createFacesMessageSimple(severity, getString(summary),
+				getString(detail), componentId); //
 	}
 
 	/**
 	 * Emite un mensaje recibido como parámetro en el componente cuyo
 	 * identificador es recibido como parámetro.
+	 * 
+	 * <p>
+	 * Desde la version
 	 * 
 	 * @param severity
 	 *            Severidad {@link FacesMessage}
@@ -212,19 +199,104 @@ public class ControllerHelper {
 	 *            Nombre del componente,
 	 *            {@link ControllerHelper#getClientId(String)}
 	 */
-	public void createFacesMessageSimple(final Severity severity,
+	public void createFacesMessageSimple(@Nonnull final Severity severity,
 			final String summary, final String detail, final String componentId) {
 
-		FacesMessage msg = new FacesMessage(severity, summary, detail);
-		getContext().addMessage(componentId, msg);
+		notNull(severity, NULL_SEVERITY_IS_NOT_ALLOWED);
+
+		addMessage(severity, summary, detail, componentId);
 	}
 
 	/**
-	 * @return
+	 * Agrega un mensaje con severidad <b>info</b> e internacionalizado.
+	 * 
+	 * @param summary
+	 *            cadena del archivo de internacionalización del sumario del
+	 *            mensaje
+	 * @param params
+	 *            parametros del mensaje.
 	 */
-	protected FacesContext getContext() {
+	public void addInfoMessage(@Nonnull final String summary,
+			final Object ... params) {
 
-		return FacesContext.getCurrentInstance();
+		addMessage(FacesMessage.SEVERITY_INFO,
+				i18nHelper.getString(summary, params), null, null);
+	}
+
+	/**
+	 * Agrega un mensaje con severidad warn a un componente.
+	 * 
+	 * @see I18nHelper#getString(String, Object...)
+	 * @param id
+	 *            identificador del componente (puede ser id de cliente o no).
+	 * @param summary
+	 *            sumario del mensaje
+	 * @param detail
+	 *            detalle
+	 */
+	public void addWarnMessage(@Nonnull final String id,
+			@Nonnull final String summary, final String detail) {
+
+		addMessage(FacesMessage.SEVERITY_WARN, summary, detail, id);
+	}
+
+	/**
+	 * Agrega un mensaje con severidad <b>warn</b> e internacionalizado
+	 * 
+	 * @param summary
+	 * @param params
+	 */
+	public void addGlobalWarnMessage(@Nonnull final String summary,
+			final String detail) {
+
+		addMessage(FacesMessage.SEVERITY_WARN, summary, detail, null);
+	}
+
+	/**
+	 * Agrega un mensaje con severidad <b>warn</b>.
+	 * 
+	 * <p>
+	 * Las cadenas pasadas ya deben estar internacionalizadas
+	 * </p>
+	 * 
+	 * @param summary
+	 * @param params
+	 */
+	public void addSimpleGlobalWarnMessage(@Nonnull final String summary,
+			final String detail) {
+
+		addMessage(FacesMessage.SEVERITY_WARN, summary, detail, null);
+	}
+
+	/**
+	 * Agrega un nuevo mensaje, busca el ID si el mismo no es un id compuesto.
+	 * 
+	 * <h3>Consideraciones:</h3>
+	 * <p>
+	 * <b>El id ya puede ser del cliente</b> en este caso se realiza una
+	 * verifiacion si posee el separador <code>:</code>, si es así entonces
+	 * utiliza directamente el parámetro. En el caso de que sea un client id y
+	 * no tenga <code>:</code> se realiza una búsqueda innecesaria.
+	 * </p>
+	 * <p>
+	 * <b>Si el id es <code>null</code></b> entonces se crea un mensaje global
+	 * </p>
+	 * 
+	 * @param severity
+	 * @param summary
+	 * @param detail
+	 * @param id
+	 * @since 2.0
+	 */
+	private void addMessage(FacesMessage.Severity severity, String summary,
+			String detail, String id) {
+
+		String realId = id;
+		if (realId != null && realId.indexOf(':') == -1) {
+			realId = getClientId(id);
+		}
+		getContext().addMessage(realId,
+				new FacesMessage(severity, summary, detail));
 	}
 
 	/**
@@ -267,24 +339,6 @@ public class ControllerHelper {
 	}
 
 	/**
-	 * Finds component with the given id
-	 */
-	private UIComponent findComponent(final UIComponent c, final String id) {
-
-		if (id.equals(c.getId())) {
-			return c;
-		}
-		Iterator<UIComponent> kids = c.getFacetsAndChildren();
-		while (kids.hasNext()) {
-			UIComponent found = findComponent(kids.next(), id);
-			if (found != null) {
-				return found;
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Retorna una EL expression correspondiente a un metodo.
 	 * 
 	 * @param valueExpression
@@ -317,18 +371,6 @@ public class ControllerHelper {
 	}
 
 	/**
-	 * Muestra una excepción con severidad de error
-	 * 
-	 * @param e
-	 *            excepción a mostrar.
-	 */
-	public void showException(final Exception e) {
-
-		createGlobalFacesMessage(FacesMessage.SEVERITY_ERROR, "",
-				e.getMessage());
-	}
-
-	/**
 	 * Escanea el archivo columns.xhtml donde se definen las columnas
 	 * visualizadas en la grilla, y retorna las mismas.
 	 * 
@@ -337,31 +379,44 @@ public class ControllerHelper {
 	public List<Column> getColumns() {
 
 		String id = "idListEntities";
-		LinkedList<Column> columns = new LinkedList<Column>();
+		List<Column> columns = new LinkedList<Column>();
 		UIExtendedDataTable table = (UIExtendedDataTable) findComponent(id);
 
 		for (UIComponent ui : table.getChildren()) {
 			if (ui instanceof UIColumn) {
-				ValueExpression expressionHeader = ((HtmlOutputText) ((UIColumn) ui)
-						.getHeader()).getValueExpression(EL_VALUE_PROPERTY);
-
-				String header = ELParser.getHeaderColumn(expressionHeader
-						.getExpressionString());
-
-				for (UIComponent children : ui.getChildren()) {
-					if (children instanceof HtmlOutputText) {
-						HtmlOutputText text = (HtmlOutputText) children;
-						ValueExpression expression = text
-								.getValueExpression(EL_VALUE_PROPERTY);
-
-						String field = ELParser.getFieldByExpression(expression
-								.getExpressionString());
-						columns.add(new Column(header, field));
-					}
+				Column toAdd = buildColumn(ui);
+				if (toAdd != null) {
+					columns.add(buildColumn(ui));
 				}
 			}
 		}
 		return columns;
+	}
+
+	/**
+	 * @param columns
+	 * @param ui
+	 */
+	private Column buildColumn(UIComponent ui) {
+
+		ValueExpression expressionHeader = ((HtmlOutputText) ((UIColumn) ui)
+				.getHeader()).getValueExpression(EL_VALUE_PROPERTY);
+
+		String header = ELParser.getHeaderColumn(expressionHeader
+				.getExpressionString());
+
+		for (UIComponent children : ui.getChildren()) {
+			if (children instanceof HtmlOutputText) {
+				HtmlOutputText text = (HtmlOutputText) children;
+				ValueExpression expression = text
+						.getValueExpression(EL_VALUE_PROPERTY);
+
+				String field = ELParser.getFieldByExpression(expression
+						.getExpressionString());
+				return new Column(header, field);
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -496,4 +551,47 @@ public class ControllerHelper {
 		return converter;
 	}
 
+	@VisibleForTesting
+	protected String getRealId(String id) {
+
+		if (id.indexOf(':') != -1) {
+			return getClientId(id);
+		}
+		return id;
+	}
+
+	/**
+	 * Finds component with the given id
+	 */
+	@VisibleForTesting
+	protected UIComponent findComponent(final UIComponent c, final String id) {
+
+		if (id.equals(c.getId())) {
+			return c;
+		}
+		Iterator<UIComponent> kids = c.getFacetsAndChildren();
+		while (kids.hasNext()) {
+			UIComponent found = findComponent(kids.next(), id);
+			if (found != null) {
+				return found;
+			}
+		}
+		return null;
+	}
+
+	private String getString(final String code) {
+
+		return i18nHelper.getString(code);
+	}
+
+	/**
+	 * Retorna el contexto.
+	 * 
+	 * @return
+	 */
+	@VisibleForTesting
+	protected FacesContext getContext() {
+
+		return FacesContext.getCurrentInstance();
+	}
 }
