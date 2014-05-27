@@ -141,8 +141,6 @@ public abstract class SIGHAdvancedController<T, K extends Serializable> extends
 
 		try {
 			delete(getBean());
-			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
-					DELETE_SUCCESS);
 			reloadEntities();
 			helper.createGlobalFacesMessageSimple(FacesMessage.SEVERITY_INFO,
 					getMessageDeleteSuccess());
