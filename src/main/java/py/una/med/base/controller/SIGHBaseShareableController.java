@@ -32,7 +32,7 @@ public abstract class SIGHBaseShareableController<T extends Shareable> extends
 	public Where<T> getBaseWhere() {
 
 		return super.getBaseWhere().addClause(
-				Clauses.eq(FIELD_ACTIVO, Shareable.YES));
+				Clauses.eq(getActivoFieldName(), Shareable.YES));
 	}
 
 	/**
@@ -47,7 +47,7 @@ public abstract class SIGHBaseShareableController<T extends Shareable> extends
 	public Where<T> getWhereReport() {
 
 		return super.getWhereReport().addClause(
-				Clauses.eq(FIELD_ACTIVO, Shareable.YES));
+				Clauses.eq(getActivoFieldName(), Shareable.YES));
 	}
 
 	/**
@@ -58,9 +58,19 @@ public abstract class SIGHBaseShareableController<T extends Shareable> extends
 	protected <Z> Where<Z> getOnlyActivosWhere() {
 
 		Where<Z> where = Where.get();
-		where.addClause(Clauses.eq(FIELD_ACTIVO, Shareable.YES));
+		where.addClause(Clauses.eq(getActivoFieldName(), Shareable.YES));
 		return where;
 
+	}
+
+	/**
+	 * Devuelve el nombre del campo que indica si la entidad está activa.
+	 * 
+	 * @return nombre del campo activo
+	 */
+	protected String getActivoFieldName() {
+
+		return FIELD_ACTIVO;
 	}
 
 }
