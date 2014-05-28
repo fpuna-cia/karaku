@@ -67,10 +67,11 @@ public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
 	}
 
 	@Override
-	public List<OpcionRespuesta> getRespuestasSelected(long encuestaDetalle) {
+	public List<OpcionRespuesta> getRespuestasSelected(
+			EncuestaDetalle encuestaDetalle) {
 
 		EncuestaDetalleOpcionRespuesta example = new EncuestaDetalleOpcionRespuesta();
-		example.setEncuestaDetalle(getById(encuestaDetalle));
+		example.setEncuestaDetalle(encuestaDetalle);
 		Where<EncuestaDetalleOpcionRespuesta> where = new Where<EncuestaDetalleOpcionRespuesta>();
 		where.setExample(example);
 		List<OpcionRespuesta> list = new ArrayList<OpcionRespuesta>();
@@ -83,10 +84,10 @@ public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
 
 	@Override
 	public List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
-			long encuestaDetalle) {
+			EncuestaDetalle encuestaDetalle) {
 
 		EncuestaDetalleOpcionRespuesta example = new EncuestaDetalleOpcionRespuesta();
-		example.setEncuestaDetalle(getById(encuestaDetalle));
+		example.setEncuestaDetalle(encuestaDetalle);
 		Where<EncuestaDetalleOpcionRespuesta> where = new Where<EncuestaDetalleOpcionRespuesta>();
 		where.setExample(example);
 

@@ -51,7 +51,8 @@ public class EncuestaDetalleLogic extends SIGHBaseLogic<EncuestaDetalle, Long>
 	}
 
 	@Override
-	public List<OpcionRespuesta> getRespuestasSelected(long encuestaDetalle) {
+	public List<OpcionRespuesta> getRespuestasSelected(
+			EncuestaDetalle encuestaDetalle) {
 
 		return dao.getRespuestasSelected(encuestaDetalle);
 	}
@@ -64,7 +65,7 @@ public class EncuestaDetalleLogic extends SIGHBaseLogic<EncuestaDetalle, Long>
 	 */
 	@Override
 	public List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
-			long encuestaDetalle) {
+			EncuestaDetalle encuestaDetalle) {
 
 		return dao.getDetailsRespuestasSelected(encuestaDetalle);
 	}

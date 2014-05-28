@@ -129,4 +129,14 @@ public class EncuestaDetalle extends BaseEntity implements Serializable {
 		this.opcionRespuesta = opcionRespuesta;
 	}
 
+	/**
+	 * Obtiene el numero de orden de la pregunta asociada.
+	 * 
+	 * @return
+	 */
+	public Integer getNumeroPregunta() {
+
+		return getPregunta().getOrden();
+	}
+
 }

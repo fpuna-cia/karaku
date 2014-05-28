@@ -33,14 +33,10 @@ public class EncuestaLogic extends SIGHBaseLogic<Encuesta, Long> implements
 		return dao;
 	}
 
-	/* (non-Javadoc)
-	 * @see py.una.med.base.business.SIGHBaseLogic#remove(java.lang.Object)
-	 */
 	@Override
 	@Transactional(readOnly = false)
 	public void remove(Encuesta entity) {
-	
-		
+
 		getDao().remove(entity.getId());
 	}
 }

@@ -4,7 +4,6 @@
 package py.una.med.base.survey.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -21,15 +20,17 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.envers.Audited;
+import py.una.med.base.dao.entity.annotations.Time;
+import py.una.med.base.dao.entity.annotations.Time.Type;
 import py.una.med.base.domain.BaseEntity;
 
 /**
- *
- *
+ * 
+ * 
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 29/05/2013
- *
+ * 
  */
 @Entity
 @Audited
@@ -45,6 +46,7 @@ public class Encuesta extends BaseEntity implements Serializable {
 
 	@NotNull
 	@Column(name = "fecha_realizacion")
+	@Time(type = Type.DATETIME)
 	private Date fechaRealizacion;
 
 	@NotNull
@@ -106,13 +108,5 @@ public class Encuesta extends BaseEntity implements Serializable {
 	public void setDetalles(List<EncuestaDetalle> detalles) {
 
 		this.detalles = detalles;
-	}
-
-	public void addDetalle(EncuestaDetalle detalle) {
-
-		if (this.detalles == null) {
-			this.detalles = new ArrayList<EncuestaDetalle>();
-		}
-		this.detalles.add(detalle);
 	}
 }

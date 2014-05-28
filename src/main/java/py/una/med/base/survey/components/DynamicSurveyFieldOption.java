@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import py.una.med.base.survey.components.DynamicSurveyField.SurveyField;
 import py.una.med.base.survey.domain.OpcionRespuesta;
+import py.una.med.base.util.ListHelper;
 
 /**
  * 
@@ -38,6 +39,22 @@ public class DynamicSurveyFieldOption {
 	public List<OpcionRespuesta> getManyOptions() {
 
 		return manyOptions;
+	}
+
+	/**
+	 * Verifica si el componente tiene asociadas varias respuestas.
+	 * 
+	 * <p>
+	 * {@link #manyOptions} representa la lista de respuestas seleccionadas para
+	 * un SelectManyCheckBox, entonces este método verifica si el componente
+	 * posee al menos una respuesta seleccionada.
+	 * 
+	 * @return<code><b></code> Si posee al menos una respuesta. <br>
+	 *                         <code>false</code> Caso contrario
+	 */
+	public boolean isManyOptionResponse() {
+
+		return ListHelper.hasElements(getManyOptions());
 	}
 
 	public void setManyOptions(List<OpcionRespuesta> options) {
@@ -72,6 +89,18 @@ public class DynamicSurveyFieldOption {
 		enableCheckText();
 	}
 
+	/**
+	 * Verifica si el componente posee una respueta asociada y si la misma tiene
+	 * una descripción.
+	 * 
+	 * @return
+	 */
+	public boolean isOneOptionResponse() {
+
+		return getOneOption() != null
+				&& getOneOption().getDescripcion() != null;
+	}
+
 	public boolean getVisibilityCheckText() {
 
 		return visibilityCheckText;
@@ -88,19 +117,19 @@ public class DynamicSurveyFieldOption {
 	 */
 	public void enableCheckText() {
 
-		if ("RADIO".equals(type) && oneOption != null) {
-			if ("SI".equals(oneOption.getCompletar())) {
-				this.setVisibilityCheckText(true);
-			}
-		} else {
-			if ("CHECK".equals(type)) {
-				for (OpcionRespuesta option : getManyOptions()) {
-					if ("SI".equals(option.getCompletar())) {
-						this.setVisibilityCheckText(true);
-					}
+		if (isCheck()) {
+			for (OpcionRespuesta option : getManyOptions()) {
+				if (option.isCompletar()) {
+					this.setVisibilityCheckText(true);
 				}
 			}
+		} else {
+			if (getOneOption() != null && getOneOption().isCompletar()) {
+				this.setVisibilityCheckText(true);
+
+			}
 		}
+
 	}
 
 	public String getType() {
@@ -111,6 +140,36 @@ public class DynamicSurveyFieldOption {
 	public void setType(String type) {
 
 		this.type = type;
+	}
+
+	/**
+	 * Verifica si el field es un SelectCheckManyOption.
+	 * 
+	 * @return
+	 */
+	public boolean isCheck() {
+
+		return "CHECK".equals(getType());
+	}
+
+	/**
+	 * Verifica si el field es un SelectOneRadio.
+	 * 
+	 * @return
+	 */
+	public boolean isRadio() {
+
+		return "RADIO".equals(getType());
+	}
+
+	/**
+	 * Verifica si el field es un SelectOneMenu.
+	 * 
+	 * @return
+	 */
+	public boolean isCombo() {
+
+		return "COMBO".equals(getType());
 	}
 
 }

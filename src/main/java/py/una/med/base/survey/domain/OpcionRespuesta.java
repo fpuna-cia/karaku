@@ -3,7 +3,6 @@
  */
 package py.una.med.base.survey.domain;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +28,7 @@ import py.una.med.base.domain.BaseEntity;
 @Audited
 @Table(name = "opcion_respuesta")
 @SequenceGenerator(name = "OPCION_RESPUESTA_SEQ", sequenceName = "opcion_respuesta_id_seq")
-public class OpcionRespuesta extends BaseEntity implements Serializable {
+public class OpcionRespuesta extends BaseEntity {
 
 	/**
 	 * 
@@ -105,6 +104,16 @@ public class OpcionRespuesta extends BaseEntity implements Serializable {
 	public void setPregunta(EncuestaPlantillaPregunta pregunta) {
 
 		this.pregunta = pregunta;
+	}
+
+	/**
+	 * Retorna true si la opcion permite un texto asociado.
+	 * 
+	 * @return
+	 */
+	public boolean isCompletar() {
+
+		return "SI".equals(getCompletar());
 	}
 
 }

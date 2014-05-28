@@ -30,14 +30,14 @@ public interface IEncuestaDetalleDAO extends
 	 * @param encuestaDetalle
 	 * @return
 	 */
-	List<OpcionRespuesta> getRespuestasSelected(long encuestaDetalle);
+	List<OpcionRespuesta> getRespuestasSelected(EncuestaDetalle encuestaDetalle);
 
 	/**
 	 * @param encuestaDetalle
 	 * @return
 	 */
 	List<EncuestaDetalleOpcionRespuesta> getDetailsRespuestasSelected(
-			long encuestaDetalle);
+			EncuestaDetalle encuestaDetalle);
 
 	EncuestaDetalle getEncuestaDetalleByPreguntaEncuesta(Encuesta encuesta,
 			EncuestaPlantillaPregunta pregunta);
