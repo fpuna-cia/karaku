@@ -29,7 +29,7 @@
 			<h:commandButton
 				value="#{cc.attrs.controller.getValueButtonCancel()}"
 				action="#{cc.attrs.controller.doCancel()}" immediate="true" />
-				
+
 			<rich:panel header="#{msg['ABM_SURVEY_HEADER_BLOCK']}" id="pheader">
 				<h:outputText value="#{msg['ABM_SURVEY_HEADER_DATE']}" />
 				<rich:calendar value="#{cc.attrs.controller.bean.fechaRealizacion}"
@@ -54,14 +54,16 @@
 
 			<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"
 				action="#{cc.attrs.controller.doCreate()}"
-				rendered="#{not cc.attrs.controller.view and not cc.attrs.controller.delete}" />
+				rendered="#{cc.attrs.controller.isNew()}" />
+			<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"
+				action="#{cc.attrs.controller.doEdit()}"
+				rendered="#{cc.attrs.controller.isEdit()}" />
 			<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_DELETE']}"
 				action="#{cc.attrs.controller.doDelete()}"
-				rendered="#{not cc.attrs.controller.new and not cc.attrs.controller.view}" />
+				rendered="#{cc.attrs.controller.isDelete()}" />
 			<h:commandButton
 				value="#{cc.attrs.controller.getValueButtonCancel()}"
 				action="#{cc.attrs.controller.doCancel()}" immediate="true" />
-			<a4j:log mode="popup"></a4j:log>
 		</h:form>
 	</rich:panel>
 </composite:implementation>
