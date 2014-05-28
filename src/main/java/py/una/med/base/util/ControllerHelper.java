@@ -142,7 +142,7 @@ public class ControllerHelper {
 		notNull(severity, NULL_SEVERITY_IS_NOT_ALLOWED);
 
 		String sum = summary == null ? EMPTY_STRING : summary;
-		String det = detail == null ? EMPTY_STRING : summary;
+		String det = detail == null ? EMPTY_STRING : detail;
 
 		createFacesMessageSimple(severity, sum, det, null);
 	}
