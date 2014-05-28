@@ -11,7 +11,8 @@ import py.una.med.base.util.I18nHelper;
 import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
 
 /**
- * Clase utilizada para el diseño de bloques de un determinado reporte.
+ * Clase utilizada para el diseño de bloques del tipo grilla para un determinado
+ * reporte.
  * 
  * @author Nathalia Ochoa
  * @since 1.0
@@ -37,6 +38,23 @@ public final class GridBlockBuilder {
 	public GridBlockBuilder(String title) {
 
 		this.reportTitle = getMessage(title);
+		this.columns = new ArrayList<Column>();
+	}
+
+	/**
+	 * 
+	 * @param title
+	 * @param i18n
+	 *            true si se desea internacionalizar el título del bloque
+	 */
+	public GridBlockBuilder(String title, boolean i18n) {
+
+		if (i18n) {
+			reportTitle = getMessage(title);
+		} else {
+			reportTitle = title;
+		}
+
 		this.columns = new ArrayList<Column>();
 	}
 
@@ -96,6 +114,16 @@ public final class GridBlockBuilder {
 	public GridBlockBuilder addColumn(String title, String field) {
 
 		this.columns.add(new Column(getMessage(title), field));
+		return this;
+	}
+
+	public GridBlockBuilder addColumn(String title, boolean i18n, String field) {
+
+		if (i18n) {
+			this.columns.add(new Column(getMessage(title), field));
+		} else {
+			this.columns.add(new Column(title, field));
+		}
 		return this;
 	}
 

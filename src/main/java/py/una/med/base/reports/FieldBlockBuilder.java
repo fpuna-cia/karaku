@@ -44,6 +44,24 @@ public final class FieldBlockBuilder {
 		this.fields = new ArrayList<Field>();
 	}
 
+	/**
+	 * 
+	 * @param title
+	 * @param i18n
+	 *            true si se desea internacionalizar el título del bloque
+	 */
+	public FieldBlockBuilder(String title, boolean i18n) {
+
+		if (i18n) {
+			this.title = getMessage(title);
+
+		} else {
+			this.title = title;
+
+		}
+		this.fields = new ArrayList<Field>();
+	}
+
 	public String getTitle() {
 
 		return title;
@@ -127,10 +145,26 @@ public final class FieldBlockBuilder {
 				"No se puede crear un block con fields nulos");
 	}
 
+	public List<Field> getFields() {
+
+		return fields;
+	}
+
 	public FieldBlockBuilder addField(String label, String value) {
 
 		this.fields.add(new Field(getLabelFied(label), value));
 		return this;
+	}
+
+	public FieldBlockBuilder addField(String label, boolean i18n, String value) {
+
+		if (i18n) {
+			return addField(label, value);
+		} else {
+			this.fields
+					.add(new Field(StringUtils.join(": ", label, ""), value));
+			return this;
+		}
 	}
 
 	/**

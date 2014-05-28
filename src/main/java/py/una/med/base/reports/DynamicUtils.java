@@ -657,10 +657,19 @@ public final class DynamicUtils {
 			List<SIGHReportBlock> blocks) throws ReportException {
 
 		for (SIGHReportBlock block : blocks) {
+			// Si es un bloque de fields
 			if (block instanceof SIGHReportBlockField) {
 				this.buildBlock(structReport, (SIGHReportBlockField) block);
 			} else {
-				this.buildBlockGrid(structReport, (SIGHReportBlockGrid) block);
+				// Si es un bloque de firmas
+				if (block instanceof SIGHReportBlockSign) {
+					this.buildBlockSign(structReport,
+							(SIGHReportBlockSign) block);
+				} else {
+					// Si es un bloque de grillas
+					this.buildBlockGrid(structReport,
+							(SIGHReportBlockGrid) block);
+				}
 			}
 		}
 

@@ -13,13 +13,13 @@ import java.util.List;
  * @version 1.0 24/07/2013
  * 
  */
-public class SIGHReportBlockSign {
+public class SIGHReportBlockSign extends SIGHReportBlock {
 
 	private List<Sign> signs;
 
 	public SIGHReportBlockSign(List<Sign> signs) {
 
-		super();
+		super("");
 		this.signs = signs;
 	}
 
