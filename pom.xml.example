@@ -4,56 +4,56 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>py.una.med</groupId>
-	<artifactId>SIGHBase</artifactId>
+	<artifactId>SIGHproject</artifactId>
 	<packaging>war</packaging>
-	<version>2.3.8</version>
-
-	<name>Sistema Integral de Gestion Hospitalaria - SYSTEM_NAME</name>
-
+	<!-- Version -->
+	<!-- Karaku Base: 2.3.9 -->
+	<!-- Sistema: 2.3.9 -->
+	<version>2.3.9</version>
+	<name>Sistema Integral de Gestion Hospitalaria - project</name>
+	<description>
+		Sistema encargado de la administracion de project.
+	</description>
 	<properties>
-		<!-- Spring version -->
+
+		<!-- Nombre del sistema -->
+		<final.name>SAS</final.name>
+		<jsf.project.stage>Development</jsf.project.stage>
+
+
+		<!-- Encoding -->
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>ISO-8859-1</project.reporting.outputEncoding>
+
+		<!-- Dependencias de Spring -->
 		<version.spring>3.1.1.RELEASE</version.spring>
 		<version.hibernate>4.1.0.Final</version.hibernate>
-
-		<!-- Spring Third Party dependencies -->
 		<version.aopalliance>1.0</version.aopalliance>
-
-		<!-- Third Party dependencies -->
 		<version.standard.taglibs>1.1.2</version.standard.taglibs>
-
-		<!-- JBoss AS plugin for deployment -->
+		<version.spring.security>3.1.2.RELEASE</version.spring.security>
+		<version.cglib>2.2</version.cglib>
+		<version.junit>4.11</version.junit>
+		<version.org.richfaces.bom>4.2.2.Final</version.org.richfaces.bom>
+		<version.sl4j>1.6.1</version.sl4j>
+		<version.logback>0.9.26</version.logback>
+		<version.org.liquibase>2.0.5</version.org.liquibase>
+		<version.postgresql.driver>9.1-901.jdbc4</version.postgresql.driver>
+		<version.h2.driver>1.3.165</version.h2.driver>
 		<version.jboss.as.maven.plugin>7.1.1.Final</version.jboss.as.maven.plugin>
+		<version.maven-javadoc-plugin>2.9.1</version.maven-javadoc-plugin>
+		<version.build-helper-maven-plugin>1.8</version.build-helper-maven-plugin>
+		<version.maven-resources-plugin>2.5</version.maven-resources-plugin>
+		<version.maven-war-plugin>2.3</version.maven-war-plugin>
+		<version.maven-compiler-plugin>2.4</version.maven-compiler-plugin>
+		<version.jaxb2-maven-plugin>1.5</version.jaxb2-maven-plugin>
 
-		<org.richfaces.bom.version>4.2.2.Final</org.richfaces.bom.version>
-
-		<slf4j.version>1.6.1</slf4j.version>
-		<logback.version>0.9.26</logback.version>
-		<org.liquibase.version>2.0.5</org.liquibase.version>
 
 	</properties>
 
 
-	<repositories>
-		<repository>
-			<id>fdvsolution.public</id>
-			<url>http://archiva.fdvs.com.ar/repository/public1/</url>
-		</repository>
-	</repositories>
-
 	<dependencyManagement>
 
 		<dependencies>
-			<!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any 
-				dependencies from org.jboss.spec will have their version defined by this 
-				BOM -->
-			<!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
-				of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
-				of artifacts. We use this here so that we always get the correct versions 
-				of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can read this 
-				as the JBoss stack of the Java EE Web Profile 6 APIs), and we use version 
-				3.0.0.Final which is the latest release of the stack. You can actually use 
-				this stack with any version of JBoss AS that implements Java EE 6, not just 
-				JBoss AS 7! -->
 			<dependency>
 				<groupId>org.jboss.spec</groupId>
 				<artifactId>jboss-javaee-web-6.0</artifactId>
@@ -62,7 +62,6 @@
 				<scope>import</scope>
 			</dependency>
 
-			<!-- Spring dependencies -->
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
@@ -144,7 +143,6 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
 				<version>${version.spring}</version>
-				<scope>test</scope>
 				<exclusions>
 					<exclusion>
 						<groupId>commons-logging</groupId>
@@ -209,7 +207,6 @@
 				</exclusions>
 			</dependency>
 
-			<!-- Third Party dependencies -->
 			<dependency>
 				<groupId>aopalliance</groupId>
 				<artifactId>aopalliance</artifactId>
@@ -225,7 +222,7 @@
 			<dependency>
 				<groupId>org.richfaces</groupId>
 				<artifactId>richfaces-bom</artifactId>
-				<version>${org.richfaces.bom.version}</version>
+				<version>${version.org.richfaces.bom}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -236,25 +233,29 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${version.postgresql.driver}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>el-api</artifactId>
 			<version>2.2</version>
 		</dependency>
-		<!-- H2 para los test -->
+
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>1.3.165</version>
+			<version>${version.h2.driver}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<version>${version.sl4j}</version>
 		</dependency>
-		<!-- Import the JPA API using the provided scope It is included in JBoss 
-			AS 7 / EAP 6 -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -265,9 +266,6 @@
 			<artifactId>hibernate-envers</artifactId>
 			<version>${version.hibernate}</version>
 		</dependency>
-		<!-- JSR-303 (Bean Validation) Implementation -->
-		<!-- Provides portable constraints such as @Email -->
-		<!-- Hibernate Validator is shipped in JBoss AS 7 -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -281,8 +279,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Annotation processor that raising compilation errors whenever constraint 
-			annotations are incorrectly used. -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator-annotation-processor</artifactId>
@@ -307,8 +303,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- Import Spring dependencies, these are either from community or versions 
-			certified in WFK2 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
@@ -340,7 +334,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -364,7 +357,6 @@
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
-		<!-- Other community dependencies -->
 		<dependency>
 			<groupId>aopalliance</groupId>
 			<artifactId>aopalliance</artifactId>
@@ -374,49 +366,22 @@
 			<artifactId>standard</artifactId>
 		</dependency>
 
-		<!-- Needed for running tests (you may also use TestNG) -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>${version.junit}</version>
 			<scope>test</scope>
 		</dependency>
-
-
-		<!-- Add cglib for the MemberDaoTest -->
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib-nodep</artifactId>
-			<version>2.2</version>
-			<scope>test</scope>
-		</dependency>
-
-
-		<!-- Add JSON dependency, specified in jboss-deployment-structure.xml -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>1.9.3</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
-			<version>1.9.3</version>
-			<scope>provided</scope>
-		</dependency>
-
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
+			<version>${version.sl4j}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
+			<version>${version.logback}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>slf4j-api</artifactId>
@@ -427,31 +392,30 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>${logback.version}</version>
+			<version>${version.logback}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-access</artifactId>
-			<version>${logback.version}</version>
+			<version>${version.logback}</version>
 		</dependency>
-		<!-- SEGURIDAD -->
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>3.1.2.RELEASE</version>
+			<version>${version.spring.security}</version>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>3.1.2.RELEASE</version>
+			<version>${version.spring.security}</version>
 			<optional>false</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>3.1.2.RELEASE</version>
+			<version>${version.spring.security}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -468,23 +432,18 @@
 		</dependency>
 
 
-		<!-- Import the JSF API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.faces</groupId>
 			<artifactId>jboss-jsf-api_2.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Import the Servlet API, we use provided scope as the API is included 
-			in JBoss AS 7 -->
 		<dependency>
 			<groupId>org.jboss.spec.javax.servlet</groupId>
 			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Import the RichFaces core library -->
 		<dependency>
 			<groupId>org.richfaces.core</groupId>
 			<artifactId>richfaces-core-impl</artifactId>
@@ -495,7 +454,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- Import the RichFaces components -->
+
 		<dependency>
 			<groupId>org.richfaces.ui</groupId>
 			<artifactId>richfaces-components-ui</artifactId>
@@ -504,10 +463,16 @@
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
-			<version>2.2</version>
+			<version>${version.cglib}</version>
 		</dependency>
 
-		<!-- JASPER DEPENDENCIES -->
+		<dependency>
+			<groupId>org.richfaces.cdk</groupId>
+			<artifactId>annotations</artifactId>
+			<scope>provided</scope>
+			<version>${version.org.richfaces.bom}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
@@ -537,9 +502,13 @@
 					<artifactId>bcmail-jdk14</artifactId>
 					<groupId>org.bouncycastle</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>com.lowagie</artifactId>
+					<groupId>itext</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- Dynamic Jasper dependency -->
+
 		<dependency>
 			<groupId>ar.com.fdvs</groupId>
 			<artifactId>DynamicJasper</artifactId>
@@ -551,27 +520,31 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>ar.com.fdvs</groupId>
 			<artifactId>DynamicJasper-core-fonts</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<!-- /Dynamic Jasper dependency -->
+
 		<dependency>
 			<groupId>net.sourceforge.dynamicreports</groupId>
 			<artifactId>dynamicreports-core</artifactId>
 			<version>3.1.1</version>
 		</dependency>
+
 		<dependency>
 			<groupId>net.sourceforge.dynamicreports</groupId>
 			<artifactId>dynamicreports-adhoc</artifactId>
 			<version>3.1.1</version>
 		</dependency>
+
 		<dependency>
 			<groupId>net.sourceforge.dynamicreports</groupId>
 			<artifactId>dynamicreports-googlecharts</artifactId>
 			<version>3.1.1</version>
 		</dependency>
+
 		<dependency>
 			<groupId>commons-digester</groupId>
 			<artifactId>commons-digester</artifactId>
@@ -579,6 +552,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -586,6 +560,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -593,100 +568,236 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports-fonts</artifactId>
 			<version>4.0.0</version>
 		</dependency>
-		<!-- -->
-		<!-- ADUTIT -->
+
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>1.6.9</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.6.9</version>
 		</dependency>
-		<!-- -->
-
 
 		<dependency>
 			<groupId>org.apache.myfaces.orchestra</groupId>
 			<artifactId>myfaces-orchestra-core20</artifactId>
 			<version>1.5</version>
 		</dependency>
-		
-		<!-- db migration tool -->
+
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>${org.liquibase.version}</version>
+			<version>${version.org.liquibase}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+			<version>2.1.3.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-test</artifactId>
+			<version>2.1.3.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ws.xmlschema</groupId>
+			<artifactId>xmlschema-core</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.9-RC1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.4.5</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
-		<finalName>Farmacia</finalName>
+		<finalName>${final.name}</finalName>
 
-		<sourceDirectory>base/src/main/java</sourceDirectory>
-		<testSourceDirectory>base/src/test/java</testSourceDirectory>
+		<!-- Source base -->
+		<sourceDirectory>karaku/src/main/java</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>karaku/src/main/resources/</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<!-- Test base -->
+		<testSourceDirectory>karaku/src/test/java</testSourceDirectory>
+		<testResources>
+			<testResource>
+				<directory>karaku/src/test/resources/</directory>
+				<filtering>true</filtering>
+			</testResource>
+			<!-- To include SQL files -->
+			<testResource>
+				<directory>karaku/src/test/java/</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
 
 		<filters>
-			<filter>base/src/main/database/liquibase.properties</filter>
+			<filter>project/src/main/resources/karaku.properties</filter>
+			<filter>karaku/src/main/database/liquibase.properties</filter>
 		</filters>
-
 
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${version.build-helper-maven-plugin}</version>
+				<configuration>
+					<encoding>ISO-8859-1</encoding>
+				</configuration>
 				<executions>
 					<execution>
+						<id>add-source</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>add-source</goal>
 						</goals>
 						<configuration>
 							<sources>
-								<source>farmacia/src/main/java</source>
-								<source>farmacia/src/test/java</source>
-								<source>stock/src/main/java</source>
-								<source>stock/src/test/java</source>
-								<source>configuracion/src/main/java</source>
-								<source>configuracion/src/test/java</source>
-								<source>identificacion/src/main/java</source>
-								<source>identificacion/src/test/java</source>
+								<source>project/src/main/java</source>
+
 							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-test-source</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>project/src/test/java</source>
+							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-resource</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>project/src/main/resources/</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-test-resource</id>
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>add-test-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>project/src/test/resources/</directory>
+									<filtering>true</filtering>
+								</resource>
+								<resource>
+									<directory>project/src/test/java/</directory>
+									<filtering>true</filtering>
+									<excludes>
+										<exclude>**/*.java</exclude>
+									</excludes>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Force Java 6 -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.4</version>
+				<version>${version.maven-compiler-plugin}</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<!-- Deployent on AS from console -->
-			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>${version.jboss.as.maven.plugin}</version>
-			</plugin>
-			<!-- Surefire plugin before 2.9 version is buggy -->
+
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12</version>
+				<executions>
+					<execution>
+						<id>unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>${maven.test.skip}</skip>
+							<argLine>${argLine}</argLine>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.5.10.201208310627</version>
+				<configuration>
+					<skip>${maven.test.skip}</skip>
+					<destFile>${basedir}/target/jacoco.exec</destFile>
+					<dataFile>${basedir}/target/jacoco.exec</dataFile>
+					<output>file</output>
+					<append>true</append>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>${version.maven-resources-plugin}</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -694,13 +805,16 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-					</execution>
-				</executions>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>${version.jboss.as.maven.plugin}</version>
+				<configuration>
+					<hostname>${jboss.host}</hostname>
+					<port>${jboss.port}</port>
+					<username>${jboss.user}</username>
+					<password>${jboss.pass}</password>
+					<packaging>war</packaging>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -711,24 +825,32 @@
 						<phase>validate</phase>
 						<configuration>
 							<target>
+								<tempfile property="temp.file.en" suffix=".properties"
+									prefix="validation" deleteonexit="true" destdir="${java.io.tmpdir}" />
+								<tempfile property="temp.file.es" suffix=".properties"
+									prefix="validation" deleteonexit="true" destdir="${java.io.tmpdir}" />
 								<echo message="Concatenando Validationmessages.properties" />
-								<concat destfile="tmp/validation/ValidationMessages.properties"
-									append="true">
-									<filelist dir="base/src/main/resources/language/validation"
-										files="base.properties" />
-									<filelist dir="farmacia/src/main/resources/language/validation"
-										files="farmacia.properties" />
+								<concat destfile="${temp.file.en}" append="false"
+									encoding="ISO-8859-1" fixlastline="true">
+									<filelist dir="karaku/src/main/resources/language/validation"
+										files="karaku.properties" />
+									<filelist dir="project/src/main/resources/language/validation"
+										files="project.properties" />
 								</concat>
 								<echo message="Finalizando creacion de ValidationMessages.properties" />
 								<echo message="Concatenando Validationmessages_es_PY.properties" />
-								<concat destfile="tmp/validation/ValidationMessages_es_PY.properties"
-									append="true">
-									<filelist dir="base/src/main/resources/language/validation"
-										files="base_es_PY.properties" />
-									<filelist dir="farmacia/src/main/resources/language/validation"
-										files="farmacia_es_PY.properties" />
+								<concat destfile="${temp.file.es}" append="false"
+									encoding="ISO-8859-1" fixlastline="true">
+									<filelist dir="karaku/src/main/resources/language/validation"
+										files="karaku_es_PY.properties" />
+									<filelist dir="project/src/main/resources/language/validation"
+										files="project_es_PY.properties" />
 								</concat>
 								<echo message="Finalizando creacion de ValidationMessages.properties" />
+								<copy file="${temp.file.en}"
+									tofile="${java.io.tmpdir}/sas/v/ValidationMessages.properties" />
+								<copy file="${temp.file.es}"
+									tofile="${java.io.tmpdir}/sas/v/ValidationMessages_es_PY.properties" />
 							</target>
 						</configuration>
 						<goals>
@@ -739,60 +861,53 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
+				<version>${version.maven-war-plugin}</version>
 				<configuration>
-<!-- 					<webappDirectory>base/src/main/webapp</webappDirectory> -->
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<webResources>
 						<resource>
-							<directory>base/src/main/webapp/WEB-INF</directory>
+							<directory>karaku/src/main/webapp/WEB-INF</directory>
 							<targetPath>WEB-INF</targetPath>
 							<excludes>
-								<exclude>base/src/main/webapp/META-INF/classes</exclude>
+								<exclude>karaku/src/main/webapp/META-INF/classes</exclude>
 							</excludes>
 						</resource>
 						<resource>
-							<directory>base/src/main/webapp/resources</directory>
+							<directory>project/src/main/webapp/WEB-INF</directory>
+							<targetPath>WEB-INF</targetPath>
+							<filtering>true</filtering>
+						</resource>
+						<resource>
+							<directory>project/src/main/webapp/views</directory>
+							<targetPath>views</targetPath>
+						</resource>
+						<resource>
+							<directory>karaku/src/main/webapp/resources</directory>
 							<targetPath>resources</targetPath>
 						</resource>
 						<resource>
-							<directory>base/src/main/resources</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-						</resource>
-						<resource>
-							<directory>farmacia/src/main/resources</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-						</resource>
-						<resource>
-							<directory>stock/src/main/resources</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-						</resource>
-						<resource>
-							<directory>configuracion/src/main/resources</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-						</resource>
-						<resource>
-							<directory>identificacion/src/main/resources</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-						</resource>
-						<resource>
-							<directory>base/src/main/webapp/views</directory>
+							<directory>karaku/src/main/webapp/views</directory>
 							<targetPath>views</targetPath>
 						</resource>
 						<resource>
-							<directory>farmacia/src/main/webapp/views</directory>
+							<directory>configuracion/src/main/webapp/views</directory>
 							<targetPath>views</targetPath>
 						</resource>
 						<resource>
-							<directory>stock/src/main/webapp/views</directory>
-							<targetPath>views</targetPath>
+							<directory>${java.io.tmpdir}/sas/v/</directory>
+							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
-						<!-- DATABASE -->
 						<resource>
-							<directory>base/src/main/database/</directory>
-							<targetPath>WEB-INF/classes/database/base</targetPath>
+							<directory>karaku/src/main/database/</directory>
+							<targetPath>WEB-INF/classes/database/karaku</targetPath>
 							<filtering>true</filtering>
 						</resource>
+						<resource>
+							<directory>project/src/main/database/</directory>
+							<targetPath>WEB-INF/classes/database/project</targetPath>
+							<filtering>true</filtering>
+						</resource>
+
 					</webResources>
 					<archive>
 						<manifestEntries>
@@ -809,6 +924,19 @@
 					</archive>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${version.maven-javadoc-plugin}</version>
+				<configuration>
+					<nohelp>true</nohelp>
+					<charset>ISO-8859-1</charset>
+					<encoding>ISO-8859-1</encoding>
+					<sourceEncoding>UTF-8</sourceEncoding>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
 </project>

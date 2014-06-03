@@ -1,39 +1,65 @@
-application.homePage = faces/views/index.xhtml
-application.appUrlPlaceHolder = SIGH
-
-jboss.entity.manager.factory.jndi.name = java:jboss/base/persistence/sigh
+#Utilizado en los menús distribuidos
+application.appUrlPlaceHolder = PROJECTNAME 
+application.baseName = Nombre del proyecto
+application.appName = Nombre del modulo
 
 # Driver de la base de datos
 karaku.jpa.driverName = org.postgresql.Driver
-karaku.jpa.enabled = true
-karaku.liquibase.enabled = false
 
+# Permite habilitar o deshabilitar JPA
+karaku.jpa.enabled = false
+
+# Permite definir si se utilzirá o no Liquibase
+karaku.liquibase.enabled = true
+
+# Configuración de HIBERNATE
 hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
 hibernate.show_sql = true
 hibernate.format_sql = false
 hibernate.hbm2ddl.auto = validate
 hibernate.envers.schema = audit
-base-package-hibernate = py.una.med.*
 
-#Archivo donde se almacena informaciÃ³n cambiante, las propiedades 
-#dentro de este archivo se mezclan con las principales, y pueden
-#ser utilizadas dentro de la definiciÃ³n de cualquier bean
-karaku.changing.properties = /etc/SIGH.properties
+# Paquetes donde se encuentran las interfaces
+# Los requeridos por karaku son:
+# * py.una.pol.karaku.model: para envers.
+# * py.una.pol.karaku.domail: para auditoría mediate @Audit.
+# * py.una.pol.karaku.services.client: para el gestor de URLs de karaku.
+# * py.una.pol.karaku.replication.client: para el gestor de replicación.
+#
+# Normalmente las entidades se almacenan en "py.una.project.domain"
+base-package-hibernate = py.una.pol.karaku.model py.una.pol.karaku.domain py.una.pol.karaku.services.client py.una.pol.karaku.replication.client py.una.med.project.domain 
 
-#lista separada por espacios de bundles
-language_bundles = ../language.properties.base ../language.properties.configuracion ../language.properties.identificacion ../language.properties.farmacia
-menu_location =  menu/configuracion.xml menu/identificacion.xml menu/farmacia.xml menu/base.xml
+#Archivo donde se almacena informacion cambiante, las propiedades 
+#dentro de este archivo se mexclan con las principales, y pueden
+#ser utilizadas dentro de la definicion de cualquier bean
+karaku.changing.properties = /etc/sigh/project.properties
 
-liquibase.changelog-file = classpath:database/base/db-changelog.xml
+# Permiso básico necesario para utilizar el sistema.
+# Cualquier usuario que no tenga este permiso será rechazado
+karaku.security.basic = SAS
+
+# Lista separada por espacios de bundles
+# Las propiedades de karaku se encuentran en "language.properties.karaku", y
+# si se agregan más archivos de propiedades separar los directorios con puntos.
+language_bundles = 	../language.properties.karaku \
+					../language.properties.project
+					
+# Ubicación del menu (karaku no tiene menú base)
+karaku.menu.location =  menu/project.xml
+
+# Ubicación del db-changelog individual de cada sistema
+liquibase.changelog-file = classpath:database/project/db-changelog.xml
+
+# Soporte para invocación de servicios SOAP.
+karaku.ws.client.enabled = true
+
+# Para menú distribuido se necesita "py.una.med.karaku.menu.schemas"
+karaku.ws.client.packages_to_scan.with_spaces = py.una.pol.karaku.menu.schemas
 
 
-# ExpresiÃ³n regular que define aquellos paquetes que serÃ¡n escaneados en
-# busca de Clases que puedan ser serializadas (marshal) o deserializadas 
-# (unmarshal) por JAXB  .
-# En este caso busca todos los paquetes que terminan con 'ws.schema'
-# No siempre es posible obtener todos los paquetes, es posible
-# que algunos no sean detectados en tiempo de inicio (esto se debe a que
-# algunos paquetes no son cargados hasta ser necesarios).
-# true para habilitar, cualquier otro para des-habilitar
-#karaku.ws.client.enabled = false
-#karaku.ws.client.packages_to_scan = [\\w\\.]*services\\.schemas
+
+# Se debe usar una base de datos embebida o utilizar la base de datos
+# definida en hibernate.database.url
+# notar que son requeridos tambien el user y el password
+test.hibernate.use_embedded = true
+test.hibernate.dialect = org.hibernate.dialect.H2Dialect
