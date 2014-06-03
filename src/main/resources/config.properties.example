@@ -1,59 +1,58 @@
-#Por defecto este archivo debe ir en /etc/SIGH[Sistema].properties,
-#este valor es definido por el archivo karaku.properties, en la llave:
-#karaku.changing.properties, la cual es especial para los valores que
-#pueden cambiar entre ejecucion y ejecucion.
+# Este archivo define las propiedades que pueden cambiar entre deploys.
+# Idealmente esta en un path externo, dentro del sistema operativo, por
+# ejemplo en:
+#
+# 			/etc/project/module.properties
+#
+#
+# Este valor es definido por el archivo karaku.properties, en la llave:
+# `karaku.changing.properties`, la cual es especial para los valores que
+# pueden cambiar entre ejecuciones (base de datos, servidores de logeo, 
+# etc).
 
-#Este valor es cambiante, pues depende de como se deploye en el servidor,
-#lo cual esta atado al nombre del war que lo contiene, para ejecuciones
-#de maven, el war siempre se llama [Abreviatura del sistema], mas especificamente,
-tiene el #nombre definido en <final.name>. Cuando esto se deploya por eclipse, 
-#normalmente tiene el nombre del proyecto, el cual depende del nombre
-#de la carpeta, y de la manera en la que se importe el proyecto.
-#Atender ademas que esta tiene que ser una URL accesible desde el servidor
-#cas, osea si el servidor cas no se encuentra en la misma maquina que el
-#servidor JBOSS, no servira la direccion usada como ejemplo.
-application.host = http://localhost:8080/SIGHSistema
 
-#Ubicacion del servidor de autenticacion, esto es cambiante pues aqui
-#debe ir la URL para acceder al servidor, y depende de la red, incluso
-#si esta en la misma maquina se puede poner localhost:PORT, tener en 
-#cuenta que el sistema solo funciona (ACTUALMENTE) con http.
-cas.server.host = http://10.1.5.81:8181
+# Este valor es cambiante, pues depende de como se deploye en el servidor,
+# lo cual esta atado al nombre del war que lo contiene, para ejecuciones
+# de maven, el war siempre se llama SAS, mas especificamente,tiene el 
+# nombre definido en <final.name>. Cuando esto se deploya por eclipse, 
+# normalmente tiene el nombre del proyecto, el cual depende del nombre
+# de la carpeta, y de la manera en la que se importe el proyecto.
+# Atender ademas que esta tiene que ser una URL accesible desde el servidor
+# cas, osea si el servidor cas no se encuentra en la misma maquina que el
+# servidor JBOSS, no servira la direccion usada como ejemplo.
+application.host = http://localhost:8080/PROJECT_NAME
 
-#Ubicacion del servidor LDAP, para acceso de los roles de cada usuario,
-#mismas consideraciones que para el servidor de ldap
-ldap.server.host = ldap://10.1.5.81:389
+# Ubicacion del servidor de autenticacion, esto es cambiante pues aqui
+# debe ir la URL para acceder al servidor, y depende de la red, incluso
+# si esta en la misma maquina se puede poner localhost:PORT, tener en 
+# cuenta que el sistema solo funciona (ACTUALMENTE) con http.
+cas.server.host = http://devel-cia01.pol.una.py:8181
 
-#El dominio para autenticar usuarios, esto depende unicamente de la 
-#configuracion del servidor Ldap
+# Ubicacion del servidor LDAP, para acceso de los roles de cada usuario,
+# mismas consideraciones que para el servidor de ldap
+ldap.server.host = ldap://devel-cia01.pol.una.py:389
+
+# El dominio para autenticar usuarios, esto depende unicamente de la 
+# configuracion del servidor Ldap
 ldap.DN = dc=med,dc=una,dc=py
 
-#Usuario maestro que se utilizara para autenticar otros usuarios.
+# Usuario maestro que se utilizara para autenticar otros usuarios.
 ldap.user = uid=Cas,ou=users,dc=med,dc=una,dc=py
 
-#Password del usuario definido anteriormente
+# Password del usuario definido anteriormente
 ldap.user.password = cas
 
-#Cadena para buscar usuarios en el LDAP, se reemplaza UUU cno el nombre del usuario
-ldap.user.pattern = uid=UUU,ou=users,dc=med,dc=una,dc=py
+# Cadena de conexion a la base de datos, puede cambiar entre
+# ejecuciones.
+database.url = jdbc:postgresql://localhost:5432/project
 
-#Cadena de conexion a la base de datos, puede cambiar entre
-#ejecuciones.
-database.url = jdbc:postgresql://localhost:5432/[BaseDatos]
-
-#Usuario de la base de datos
+# Usuario de la base de datos
 database.user = postgres
 
-#Passoword del usuario anterior
-database.password = confidential
+# Passoword del usuario anterior
+database.password = postgres
 
-# Fragmento de la URL de los distintos sistemas. Estos valores son cambiantes ya que dependen
-# del valor para la clave application.host de cada uno de los sistemas.
-conf.urlFragment = SIGHConfiguracion
-idp.urlFragment = SIGHIdentificacion
-saf.urlFragment =  SIGHFarmacia
-sigh.urlFragment = SIGH
-
-# URL a la pagina principal del sistema SIGH. Notar que la primera parte de la URL
-# debe corresponderse con sigh.urlFragment 
+# URL a la pagina principal del sistema. 
+# Si el sistema es independiente, y tiene su propia página principal, 
+# se puede asignar la misma, o en el web.xml (se recomienda el web.xml) 
 application.homePage = /SIGH/faces/views/index.xhtml

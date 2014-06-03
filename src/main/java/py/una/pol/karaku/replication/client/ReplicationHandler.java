@@ -121,7 +121,8 @@ public class ReplicationHandler {
 	@Scheduled(fixedDelay = CALL_DELAY)
 	public synchronized void doSync() {
 
-		if (!util.getBoolean(REPLICATION_ENABLED, true)) {
+		if (!isEnabled()) {
+			// Eliminar de la cola
 			return;
 		}
 
@@ -141,6 +142,15 @@ public class ReplicationHandler {
 			}
 		}
 		resetLocalThread();
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isEnabled() {
+
+		return util.getBoolean(REPLICATION_ENABLED, true)
+				&& util.getBoolean("karaku.ws.client.enabled", false);
 	}
 
 	/**

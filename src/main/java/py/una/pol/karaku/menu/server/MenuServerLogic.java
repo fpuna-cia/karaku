@@ -160,7 +160,7 @@ public class MenuServerLogic {
 			menu.setName(helper.getString(menu.getName().trim()));
 		}
 		if (menu.getUrl() != null) {
-			String pre = util.get("application.host");
+			String pre = util.get("application.host", "");
 			String url = menu.getUrl().trim();
 			if (!pre.endsWith("/") && !url.startsWith("/")) {
 				pre += "/";

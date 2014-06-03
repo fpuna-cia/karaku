@@ -6,9 +6,13 @@ package py.una.pol.karaku.test.test.menu;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.xml.bind.JAXBException;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -17,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.menu.client.AbstractMenuProvider;
 import py.una.pol.karaku.menu.client.MenuHelper;
@@ -28,11 +33,11 @@ import py.una.pol.karaku.test.util.TestI18nHelper;
 import py.una.pol.karaku.test.util.TestPropertiesUtil;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 17, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class MenuTest extends BaseTest {
@@ -125,9 +130,22 @@ public class MenuTest extends BaseTest {
 	@Test
 	public void getMenuTest() {
 
-		Menu m = menuServerLogic.getCurrentSystemMenu().get(0);
-		assertNotNull(m.getItems());
-		assertFalse(m.getOrder() == 0);
+		try {
+			Menu m = menuServerLogic.getCurrentSystemMenu().get(0);
+			assertNotNull(m.getItems());
+			assertFalse(m.getOrder() == 0);
+		} catch (KarakuRuntimeException kre) {
+			if (kre.getCause() instanceof FileNotFoundException) {
+				fail("El menu del sistema actual no existe");
+			}
+			if (kre.getCause() instanceof JAXBException) {
+				fail("El menu del sistema esta mal formateado");
+			}
+			if (kre.getCause() instanceof UnsupportedEncodingException) {
+				fail("El menu del sistema tiene un encoding incorrecto");
+			}
+
+		}
 	}
 
 	@Test

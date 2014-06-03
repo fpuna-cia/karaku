@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import py.una.pol.karaku.configuration.PropertiesUtil;
 import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.menu.schemas.Menu;
 import py.una.pol.karaku.menu.schemas.MenuRequest;
@@ -67,6 +68,9 @@ public class WSMenuProvider extends AbstractMenuProvider {
 	@Autowired
 	private MenuWSCaller caller;
 
+	@Autowired
+	private PropertiesUtil properties;
+
 	private List<Menu> menu;
 
 	private Map<String, List<Menu>> menus;
@@ -98,6 +102,10 @@ public class WSMenuProvider extends AbstractMenuProvider {
 	@Scheduled(fixedDelay = CALL_DELAY)
 	public void call() {
 
+		if (!isEnabled()) {
+			// Eliminar de la cola de peticiones
+			return;
+		}
 		logger.trace("[BEGIN] Start scheduled task for menu sync");
 		List<Info> providers = provider.getInfoByTag(MENU_TAG);
 		numberOfMenus = providers.size();
@@ -202,6 +210,20 @@ public class WSMenuProvider extends AbstractMenuProvider {
 	public List<Menu> getLocalMenu() {
 
 		return getMenus().get(LOCAL_MENU_KEY);
+	}
+
+	/**
+	 * Define si esta habilitado el soporte para menús distribuidos.
+	 * 
+	 * <p>
+	 * Si no esta habilitado el soporte a servicios no estara habilitado
+	 * </p>
+	 * 
+	 * @return
+	 */
+	private boolean isEnabled() {
+
+		return properties.getBoolean("karaku.ws.client.enabled", false);
 	}
 
 }

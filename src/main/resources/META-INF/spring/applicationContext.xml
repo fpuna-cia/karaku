@@ -19,7 +19,7 @@
 
 	<sws:annotation-driven />
 
-	<context:component-scan base-package="py.una.med.*" />
+	<context:component-scan base-package="py.una.*" />
 
 	<context:annotation-config />
 

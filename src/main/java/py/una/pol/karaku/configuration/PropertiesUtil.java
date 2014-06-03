@@ -56,7 +56,7 @@ public class PropertiesUtil extends PropertyPlaceholderConfigurer {
 	 * @param properties
 	 *            al que se le añadiran propiedades
 	 */
-	private Properties mergeProperties(Properties main) {
+	protected Properties mergeProperties(Properties main) {
 
 		String filePath = main.getProperty(ANOTHER_KEY, "config.properties");
 		Properties properties = new Properties();

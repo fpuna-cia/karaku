@@ -63,7 +63,7 @@ public class KarakuWSClientConfiguration {
 	@Bean
 	public WebServiceTemplate webServiceTemplate() {
 
-		if (!properties.getBoolean(KARAKU_WS_CLIENT_ENABLED, true)) {
+		if (!isEnabled()) {
 			return null;
 		}
 
@@ -89,6 +89,9 @@ public class KarakuWSClientConfiguration {
 	@Bean
 	WSInformationProvider wsInformationProvider() throws IOException {
 
+		if (!isEnabled()) {
+			return null;
+		}
 		if (properties.getBoolean(KarakuPersistence.KARAKU_JPA_ENABLED, true)) {
 			return new EntityURLProvider();
 		}
@@ -149,7 +152,7 @@ public class KarakuWSClientConfiguration {
 
 	private Jaxb2Marshaller getJaxb2Marshaller() {
 
-		if (!properties.getBoolean(KARAKU_WS_CLIENT_ENABLED, false)) {
+		if (!isEnabled()) {
 			return null;
 		}
 		Pattern pattern = Pattern.compile(properties.get(
@@ -170,6 +173,16 @@ public class KarakuWSClientConfiguration {
 		addSpecificPackages(packagesFound);
 
 		return instanciateMarshaller(packagesFound);
+	}
+
+	/**
+	 * Define si esta habilitado el soporte para web services.
+	 * 
+	 * @return
+	 */
+	private boolean isEnabled() {
+
+		return properties.getBoolean(KARAKU_WS_CLIENT_ENABLED, false);
 	}
 
 	/**
@@ -206,4 +219,5 @@ public class KarakuWSClientConfiguration {
 		marshaller.setPackagesToScan(packages);
 		return marshaller;
 	}
+
 }

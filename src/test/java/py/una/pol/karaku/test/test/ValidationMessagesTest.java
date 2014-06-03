@@ -14,30 +14,19 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 import org.springframework.util.ReflectionUtils.FieldFilter;
-import py.una.pol.karaku.test.base.BaseTest;
-import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 import py.una.pol.karaku.util.ValidationMessages;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 17, 2013
- *
+ * 
  */
-@ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-public class ValidationMessagesTest extends BaseTest {
-
-	@Configuration
-	static class ContextConfiguration extends BaseTestConfiguration {
-
-	}
+public class ValidationMessagesTest {
 
 	static HashSet<String> keys;
 
@@ -46,7 +35,7 @@ public class ValidationMessagesTest extends BaseTest {
 
 		Locale locale = new Locale("es", "PY");
 		ResourceBundle toAdd = ResourceBundle.getBundle(
-				"language.validation.base", locale);
+				"language.validation.karaku", locale);
 		Enumeration<String> en = toAdd.getKeys();
 		keys = new HashSet<String>();
 		while (en.hasMoreElements()) {
