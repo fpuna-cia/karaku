@@ -2,7 +2,7 @@
  * @MenuClientLogic.java 1.0 Oct 21, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.menu.client;
+package py.una.pol.karaku.menu.client;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,13 +15,13 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import py.una.med.base.log.Log;
-import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.menu.schemas.MenuRequest;
-import py.una.med.base.menu.server.MenuServerLogic;
-import py.una.med.base.services.client.WSCallBack;
-import py.una.med.base.services.client.WSInformationProvider;
-import py.una.med.base.services.client.WSInformationProvider.Info;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.menu.schemas.Menu;
+import py.una.pol.karaku.menu.schemas.MenuRequest;
+import py.una.pol.karaku.menu.server.MenuServerLogic;
+import py.una.pol.karaku.services.client.WSCallBack;
+import py.una.pol.karaku.services.client.WSInformationProvider;
+import py.una.pol.karaku.services.client.WSInformationProvider.Info;
 
 /**
  * Component que provee las funcionalidades para consumir y mostrar menús.

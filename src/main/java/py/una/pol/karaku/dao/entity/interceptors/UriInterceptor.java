@@ -1,9 +1,9 @@
 /*
  * @UriInterceptor.java 1.0 Nov 5, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.entity.interceptors;
+package py.una.pol.karaku.dao.entity.interceptors;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import javax.annotation.Nonnull;
@@ -13,9 +13,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.dao.entity.Operation;
-import py.una.med.base.dao.entity.annotations.URI;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.annotations.URI;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Intercepta los atributos con la anotación {@link URI} y genera

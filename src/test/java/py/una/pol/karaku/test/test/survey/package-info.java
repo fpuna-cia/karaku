@@ -8,4 +8,4 @@
  * @version 1.0 28/05/2014
  * 
  */
-package py.una.med.base.test.test.survey;
+package py.una.pol.karaku.test.test.survey;

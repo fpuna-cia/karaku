@@ -2,7 +2,7 @@
  * @SIGHBaseReportController 1.0 12/03/13. Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.controller.reports;
+package py.una.pol.karaku.controller.reports;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.FormatProvider;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.LabelProvider;
-import py.una.med.base.util.SIGHConverterV2;
-import py.una.med.base.util.Serializer;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.FormatProvider;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.LabelProvider;
+import py.una.pol.karaku.util.SIGHConverterV2;
+import py.una.pol.karaku.util.Serializer;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * 

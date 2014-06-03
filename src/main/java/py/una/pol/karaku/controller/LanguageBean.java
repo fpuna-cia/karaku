@@ -1,4 +1,4 @@
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.LinkedHashMap;

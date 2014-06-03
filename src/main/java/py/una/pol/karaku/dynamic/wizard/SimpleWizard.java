@@ -1,7 +1,7 @@
 /*
  * @SimpleWizard.java 1.0 May 29, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.wizard;
+package py.una.pol.karaku.dynamic.wizard;
 
 /**
  * Wizard que se compone de un conjunto de {@link Step}, provee funciones

@@ -1,7 +1,7 @@
 /*
  * @SGHUserService.java 1.0 10/12/12
  */
-package py.una.med.base.security;
+package py.una.pol.karaku.security;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +24,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import py.una.med.base.configuration.PropertiesUtil;
+import py.una.pol.karaku.configuration.PropertiesUtil;
 
 /**
  * Esta clase implementa UserDetailsService, permite recuperar datos del

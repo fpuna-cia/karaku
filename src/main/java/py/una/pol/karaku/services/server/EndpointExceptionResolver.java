@@ -1,4 +1,4 @@
-package py.una.med.base.services.server;
+package py.una.pol.karaku.services.server;
 
 import java.io.IOException;
 import javax.xml.namespace.QName;
@@ -12,8 +12,8 @@ import org.springframework.ws.server.endpoint.MethodEndpoint;
 import org.springframework.ws.soap.SoapFault;
 import org.springframework.ws.soap.SoapFaultDetail;
 import org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver;
-import py.una.med.base.exception.HTTPException;
-import py.una.med.base.services.schemas.HTTPExceptionDTO;
+import py.una.pol.karaku.exception.HTTPException;
+import py.una.pol.karaku.services.schemas.HTTPExceptionDTO;
 
 /**
  * Exception resolver para los endpoints. Permite personalizar la propiedad

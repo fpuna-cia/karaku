@@ -2,9 +2,9 @@
  * @ReplicationHandler.java 1.0 Nov 25, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.client;
+package py.una.pol.karaku.replication.client;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -21,21 +21,21 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.log.Log;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.EntityNotFoundException;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.replication.UriCache;
-import py.una.med.base.replication.client.ReplicationContextHolder.ReplicationContext;
-import py.una.med.base.services.Converter;
-import py.una.med.base.services.ConverterProvider;
-import py.una.med.base.services.client.WSEndpoint;
-import py.una.med.base.services.client.WSSecurityInterceptor;
-import py.una.med.base.util.Checker;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.EntityNotFoundException;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.replication.UriCache;
+import py.una.pol.karaku.replication.client.ReplicationContextHolder.ReplicationContext;
+import py.una.pol.karaku.services.Converter;
+import py.una.pol.karaku.services.ConverterProvider;
+import py.una.pol.karaku.services.client.WSEndpoint;
+import py.una.pol.karaku.services.client.WSSecurityInterceptor;
+import py.una.pol.karaku.util.Checker;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * Servicio que se encarga de sincronizar las entidades periodicamente.

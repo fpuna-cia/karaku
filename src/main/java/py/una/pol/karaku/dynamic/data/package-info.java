@@ -9,4 +9,4 @@
  * @version 1.0 Jun 24, 2013
  * 
  */
-package py.una.med.base.dynamic.data;
+package py.una.pol.karaku.dynamic.data;

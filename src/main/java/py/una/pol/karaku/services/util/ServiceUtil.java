@@ -2,7 +2,7 @@
  * @XMLGregorianCalendarConverter.java 1.0 Jun 19, 2013 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.services.util;
+package py.una.pol.karaku.services.util;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

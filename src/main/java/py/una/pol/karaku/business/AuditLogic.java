@@ -1,17 +1,17 @@
 /*
  * @AuditLogic 1.0 18/02/2013 Sistema integral de Gestion Hospitalaria
  */
-package py.una.med.base.business;
+package py.una.pol.karaku.business;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.domain.AuditTrail;
-import py.una.med.base.domain.AuditTrailDetail;
-import py.una.med.base.repo.IAuditTrailDao;
-import py.una.med.base.repo.IAuditTrailDetailDao;
-import py.una.med.base.repo.ISIGHBaseDao;
+import py.una.pol.karaku.domain.AuditTrail;
+import py.una.pol.karaku.domain.AuditTrailDetail;
+import py.una.pol.karaku.repo.IAuditTrailDao;
+import py.una.pol.karaku.repo.IAuditTrailDetailDao;
+import py.una.pol.karaku.repo.ISIGHBaseDao;
 
 /**
  * Clase que implementa la interfaz {@link IAuditLogic}

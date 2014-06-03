@@ -2,7 +2,7 @@
  * @DummyFirstChangeProvider.java 1.0 Dec 4, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.server;
+package py.una.pol.karaku.replication.server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.replication.Shareable;
+import py.una.pol.karaku.replication.Shareable;
 
 /**
  * 

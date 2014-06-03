@@ -2,7 +2,7 @@
  * @SIGHBaseReportSimple 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.business.reports;
+package py.una.pol.karaku.business.reports;
 
 import java.util.List;
 import java.util.Map;
@@ -10,11 +10,11 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.reports.Column;
-import py.una.med.base.reports.ExportReport;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.reports.Column;
+import py.una.pol.karaku.reports.ExportReport;
 
 /**
  * Servicio que implementa el servicio para reportes simples utilizados en los

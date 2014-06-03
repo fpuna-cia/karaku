@@ -1,7 +1,7 @@
 /*
  * @ComboBoxField.java 1.0 Feb 21, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +14,12 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 import javax.faces.model.SelectItem;
 import org.slf4j.LoggerFactory;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.LabelProvider;
-import py.una.med.base.util.LabelProvider.StringLabelProvider;
-import py.una.med.base.util.ListHelper;
-import py.una.med.base.util.SIGHConverterV2;
-import py.una.med.base.util.SelectHelper;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.LabelProvider;
+import py.una.pol.karaku.util.LabelProvider.StringLabelProvider;
+import py.una.pol.karaku.util.ListHelper;
+import py.una.pol.karaku.util.SIGHConverterV2;
+import py.una.pol.karaku.util.SelectHelper;
 
 /**
  *
@@ -39,7 +39,7 @@ public class ComboBoxField<T> extends LabelField {
 	/**
 	 * Tipo de este objeto
 	 */
-	public static final String TYPE = "py.una.med.base.dynamic.forms.ComboBoxField";
+	public static final String TYPE = "py.una.pol.karaku.dynamic.forms.ComboBoxField";
 
 	private SIGHConverterV2 converter;
 	private HtmlSelectOneMenu bind;
@@ -165,7 +165,7 @@ public class ComboBoxField<T> extends LabelField {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see py.una.med.base.forms.dynamic.Field#getType()
+	 * @see py.una.pol.karaku.forms.dynamic.Field#getType()
 	 */
 	@Override
 	public String getType() {

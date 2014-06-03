@@ -2,13 +2,13 @@
  * @DaoPagingDataSource.java 1.0 Jun 24, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dynamic.data;
+package py.una.pol.karaku.dynamic.data;
 
 import java.util.List;
-import py.una.med.base.dao.BaseDAO;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.search.SearchParam;
-import py.una.med.base.domain.BaseEntity;
+import py.una.pol.karaku.dao.BaseDAO;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.search.SearchParam;
+import py.una.pol.karaku.domain.BaseEntity;
 
 /**
  * 
@@ -34,7 +34,7 @@ public class DaoPagingDataSource<T extends BaseEntity> extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.data.PagingDataSource#getTotalCount()
+	 * @see py.una.pol.karaku.dynamic.data.PagingDataSource#getTotalCount()
 	 */
 	@Override
 	public Long getTotalCount() {
@@ -45,7 +45,7 @@ public class DaoPagingDataSource<T extends BaseEntity> extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.data.PagingDataSource#getItems()
+	 * @see py.una.pol.karaku.dynamic.data.PagingDataSource#getItems()
 	 */
 	@Override
 	public List<?> getItems() {
@@ -56,7 +56,7 @@ public class DaoPagingDataSource<T extends BaseEntity> extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.data.PagingDataSource#refresh()
+	 * @see py.una.pol.karaku.dynamic.data.PagingDataSource#refresh()
 	 */
 	@Override
 	public void refresh() {

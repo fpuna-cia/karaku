@@ -3,15 +3,15 @@
  *                         Hospitalaria
  */
 
-package py.una.med.base.business.reports;
+package py.una.pol.karaku.business.reports;
 
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.reports.Column;
-import py.una.med.base.reports.SIGHReportBlockGrid;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.reports.Column;
+import py.una.pol.karaku.reports.SIGHReportBlockGrid;
 import ar.com.fdvs.dj.domain.DynamicReport;
 
 /**

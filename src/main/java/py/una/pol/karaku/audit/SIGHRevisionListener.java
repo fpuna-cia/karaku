@@ -1,13 +1,13 @@
-package py.una.med.base.audit;
+package py.una.pol.karaku.audit;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import org.hibernate.envers.RevisionListener;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.model.SIGHRevisionEntity;
-import py.una.med.base.replication.client.ReplicationContextHolder;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.model.SIGHRevisionEntity;
+import py.una.pol.karaku.replication.client.ReplicationContextHolder;
 
 /**
  * Clase encargada de modificar los registros de auditoria para agregar el

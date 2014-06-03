@@ -2,7 +2,7 @@
  * @BaseTestEntity.java 1.0 Sep 13, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.util.layers;
+package py.una.pol.karaku.test.test.util.layers;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import py.una.med.base.domain.BaseEntity;
+import py.una.pol.karaku.domain.BaseEntity;
 
 /**
  * 
@@ -67,7 +67,7 @@ public class BaseTestEntity extends BaseEntity {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.domain.BaseEntity#getId()
+	 * @see py.una.pol.karaku.domain.BaseEntity#getId()
 	 */
 	@Override
 	public Long getId() {

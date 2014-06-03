@@ -2,7 +2,7 @@
  * @KarakuWSAuthenticationProvider.java 1.0 Aug 6, 2013 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.services.server;
+package py.una.pol.karaku.services.server;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,8 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import py.una.med.base.security.SIGHUserDetails;
-import py.una.med.base.security.SIGHUserService;
+import py.una.pol.karaku.security.SIGHUserDetails;
+import py.una.pol.karaku.security.SIGHUserService;
 
 /**
  * Clase que provee autenticación para usuarios.

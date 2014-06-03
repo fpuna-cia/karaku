@@ -1,7 +1,7 @@
 /*
  * @DateProvider.java 1.0 Nov 14, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.util.Calendar;
 import java.util.Date;

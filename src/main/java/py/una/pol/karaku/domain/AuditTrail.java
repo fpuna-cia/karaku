@@ -1,4 +1,4 @@
-package py.una.med.base.domain;
+package py.una.pol.karaku.domain;
 
 import java.io.Serializable;
 import java.util.List;

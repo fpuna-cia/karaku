@@ -2,7 +2,7 @@
  * @ValidationMessages.java 1.0 Oct 17, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 /**
  * Utilidad para acceder a los diferentes mensajes de validación.

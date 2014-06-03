@@ -1,15 +1,15 @@
 /*
  * @ReportBuilder.java 1.0 28/03/2014 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import py.una.med.base.reports.Align;
-import py.una.med.base.reports.SIGHReportBlock;
-import py.una.med.base.reports.SIGHReportBlockField;
+import py.una.pol.karaku.reports.Align;
+import py.una.pol.karaku.reports.SIGHReportBlock;
+import py.una.pol.karaku.reports.SIGHReportBlockField;
 
 /**
  * Clase utilizada para el diseño de reportes.

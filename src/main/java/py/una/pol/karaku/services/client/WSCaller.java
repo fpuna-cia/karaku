@@ -1,7 +1,7 @@
 /*
  * @WSCaller.java 1.0 Jun 11, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;
 
 import java.util.concurrent.Executor;
 import javax.validation.constraints.NotNull;
@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import py.una.med.base.exception.KarakuException;
-import py.una.med.base.services.client.WSInformationProvider.Info;
+import py.una.pol.karaku.exception.KarakuException;
+import py.una.pol.karaku.services.client.WSInformationProvider.Info;
 
 /**
  * <p>

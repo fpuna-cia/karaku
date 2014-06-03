@@ -1,4 +1,4 @@
-package py.una.med.base.dao.search;
+package py.una.pol.karaku.dao.search;
 
 import java.util.List;
 import javax.annotation.Nonnull;

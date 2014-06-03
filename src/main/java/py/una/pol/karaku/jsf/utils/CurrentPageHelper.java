@@ -1,7 +1,7 @@
 /*
  * @PageHelper.java 1.0 Aug 23, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.jsf.utils;
+package py.una.pol.karaku.jsf.utils;
 
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.menu.client.MenuHelper;
-import py.una.med.base.menu.schemas.Menu;
+import py.una.pol.karaku.menu.client.MenuHelper;
+import py.una.pol.karaku.menu.schemas.Menu;
 
 /**
  * Componente que se encarga de proveer funcionalidades básicas para la

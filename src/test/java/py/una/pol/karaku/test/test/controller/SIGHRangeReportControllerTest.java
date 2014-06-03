@@ -2,7 +2,7 @@
  * @SIGHRangeReportControllerTest.java 1.0 Feb 11, 2014 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.test.test.controller;
+package py.una.pol.karaku.test.test.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -19,10 +19,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.controller.reports.SIGHRangeReportController;
-import py.una.med.base.test.base.BaseControllerTest;
-import py.una.med.base.test.configuration.ControllerTestConfiguration;
-import py.una.med.base.test.test.util.layers.TestEntity;
+import py.una.pol.karaku.controller.reports.SIGHRangeReportController;
+import py.una.pol.karaku.test.base.BaseControllerTest;
+import py.una.pol.karaku.test.configuration.ControllerTestConfiguration;
+import py.una.pol.karaku.test.test.util.layers.TestEntity;
 
 /**
  * 

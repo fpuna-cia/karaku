@@ -2,9 +2,9 @@
  * @ControllerHelper 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,8 +31,8 @@ import org.richfaces.component.UIColumn;
 import org.richfaces.component.UIExtendedDataTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.math.Quantity;
-import py.una.med.base.reports.Column;
+import py.una.pol.karaku.math.Quantity;
+import py.una.pol.karaku.reports.Column;
 import com.google.common.annotations.VisibleForTesting;
 
 /**

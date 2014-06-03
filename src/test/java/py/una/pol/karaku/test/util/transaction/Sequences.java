@@ -1,7 +1,7 @@
 /*
  * @Sequences.java 1.0 Nov 1, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.util.transaction;
+package py.una.pol.karaku.test.util.transaction;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

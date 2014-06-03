@@ -1,7 +1,7 @@
 /*
  * @Log.java 1.0 Sep 13, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.log;
+package py.una.pol.karaku.log;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

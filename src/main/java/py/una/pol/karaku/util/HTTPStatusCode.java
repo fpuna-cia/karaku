@@ -1,4 +1,4 @@
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 /**
  * Lista de codigos de respuesta del HTTP. Estos codigos de estatus estan

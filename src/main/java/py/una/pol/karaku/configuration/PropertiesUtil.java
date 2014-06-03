@@ -1,7 +1,7 @@
 /**
  * @PropertiesUtil 1.0 25/03/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.configuration;
+package py.una.pol.karaku.configuration;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,10 +13,10 @@ import java.util.Properties;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
-import py.una.med.base.exception.KarakuPropertyNotFoundException;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.exception.KarakuWrongConfigurationFileException;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.exception.KarakuPropertyNotFoundException;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.KarakuWrongConfigurationFileException;
+import py.una.pol.karaku.util.Util;
 
 /**
  * PlaceHolder para el acceso programatico a las opciones de configuración del

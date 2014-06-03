@@ -1,7 +1,7 @@
-package py.una.med.base.services.util;
+package py.una.pol.karaku.services.util;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import py.una.med.base.math.Quantity;
+import py.una.pol.karaku.math.Quantity;
 
 /**
  * 

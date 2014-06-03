@@ -2,7 +2,7 @@
  * @BigDecimalInterceptor.java 1.0 Oct 3, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.dao.interceptors;
+package py.una.pol.karaku.test.test.dao.interceptors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -14,12 +14,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.dao.entity.Operation;
-import py.una.med.base.dao.entity.interceptors.BigDecimalInterceptor;
-import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.interceptors.BigDecimalInterceptor;
+import py.una.pol.karaku.dao.entity.interceptors.InterceptorHandler;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  *

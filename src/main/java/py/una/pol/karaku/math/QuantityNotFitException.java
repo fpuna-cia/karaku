@@ -2,9 +2,9 @@
  * @QuantityNotFitException.java 1.0 Oct 8, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.math;
+package py.una.pol.karaku.math;
 
-import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  * Conversión de tipos que reducen la precisión no se permiten.

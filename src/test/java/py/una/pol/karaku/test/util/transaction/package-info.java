@@ -8,4 +8,4 @@
  * @version 1.0 Sep 11, 2013
  * 
  */
-package py.una.med.base.test.util.transaction;
+package py.una.pol.karaku.test.util.transaction;

@@ -2,7 +2,7 @@
  * @SGHUserDetails.java 1.0 10/12/12
  */
 
-package py.una.med.base.security;
+package py.una.pol.karaku.security;
 
 import java.io.Serializable;
 import java.util.Collection;

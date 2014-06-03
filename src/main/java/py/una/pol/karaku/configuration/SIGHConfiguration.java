@@ -1,7 +1,7 @@
 /**
  * @SIGHConfiguration 1.0 25/03/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.configuration;
+package py.una.pol.karaku.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import py.una.med.base.math.MathContextProvider;
-import py.una.med.base.services.util.NumberAdapter;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.math.MathContextProvider;
+import py.una.pol.karaku.services.util.NumberAdapter;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.Util;
 
 /**
  * Clase de configuración de la aplicación.

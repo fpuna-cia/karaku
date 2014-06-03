@@ -1,4 +1,4 @@
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 /**
  * Define un formato para un objeto dado.

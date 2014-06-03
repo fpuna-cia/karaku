@@ -2,11 +2,11 @@
  * @DynamicSurveyField.java 1.0 05/06/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.survey.components;
+package py.una.pol.karaku.survey.components;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
-import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 
 /**
  * Esta clase representa un Field, o mejor dicho un InputText con validaciones

@@ -2,7 +2,7 @@
  * @SIGHStringConverter.java 1.0 Mar 15, 2013 Sistema Integral de Gestión
  * Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -40,7 +40,7 @@ public class SIGHStringConverter extends SIGHConverterV2 {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * py.una.med.base.util.SIGHConverterV2#getAsObject(javax.faces.context.
+	 * py.una.pol.karaku.util.SIGHConverterV2#getAsObject(javax.faces.context.
 	 * FacesContext, javax.faces.component.UIComponent, java.lang.String)
 	 */
 	@Override

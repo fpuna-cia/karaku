@@ -2,7 +2,7 @@
  * @KarakuConverter.java 1.0 Jun 6, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.jsf.converters;
+package py.una.pol.karaku.jsf.converters;
 
 import java.lang.reflect.Field;
 import javax.el.ValueExpression;
@@ -10,9 +10,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import py.una.med.base.dao.annotations.CaseSensitive;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.util.ELHelper;
+import py.una.pol.karaku.dao.annotations.CaseSensitive;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.util.ELHelper;
 
 /**
  * Es un {@link Converter} que sanitiza las entidades, para que la sanitización

@@ -1,4 +1,4 @@
-package py.una.med.base.exception;
+package py.una.pol.karaku.exception;
 
 import javax.xml.ws.WebFault;
 

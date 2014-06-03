@@ -1,8 +1,8 @@
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.util.List;
 import org.richfaces.event.ItemChangeEvent;
-import py.una.med.base.dao.restrictions.Where;
+import py.una.pol.karaku.dao.restrictions.Where;
 
 /**
  * 

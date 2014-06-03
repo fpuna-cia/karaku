@@ -2,16 +2,16 @@
  * @PagingHelperTest.java 1.0 Feb 12, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test;
+package py.una.pol.karaku.test.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.util.PagingHelper;
-import py.una.med.base.util.PagingHelper.ChangeListener;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.util.PagingHelper;
+import py.una.pol.karaku.util.PagingHelper.ChangeListener;
 
 /**
  * 

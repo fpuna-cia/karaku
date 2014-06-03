@@ -2,12 +2,12 @@
  * @ICurrentpageHelper.java 1.0 Oct 7, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.jsf.utils;
+package py.una.pol.karaku.jsf.utils;
 
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.event.FacesListener;
-import py.una.med.base.controller.MenuBean;
-import py.una.med.base.menu.schemas.Menu;
+import py.una.pol.karaku.controller.MenuBean;
+import py.una.pol.karaku.menu.schemas.Menu;
 
 /**
  *

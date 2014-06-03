@@ -1,7 +1,7 @@
 /**
  * @SIGHConfiguration 1.0 25/03/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.configuration;
+package py.una.pol.karaku.configuration;
 
 import java.util.Properties;
 import javax.sql.DataSource;
@@ -17,10 +17,10 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import py.una.med.base.dao.entity.types.QuantityCustomType;
-import py.una.med.base.exception.KarakuPropertyNotFoundException;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.math.Quantity;
+import py.una.pol.karaku.dao.entity.types.QuantityCustomType;
+import py.una.pol.karaku.exception.KarakuPropertyNotFoundException;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.math.Quantity;
 
 /**
  * Clase de configuración de la persistencia

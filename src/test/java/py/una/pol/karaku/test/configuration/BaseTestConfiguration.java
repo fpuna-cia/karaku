@@ -2,19 +2,19 @@
  * @TestConfiguration.java 1.0 Aug 19, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.configuration;
+package py.una.pol.karaku.test.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
-import py.una.med.base.log.LogPostProcessor;
-import py.una.med.base.math.MathContextProvider;
-import py.una.med.base.services.util.NumberAdapter;
-import py.una.med.base.test.util.TestI18nHelper;
-import py.una.med.base.test.util.TestPropertiesUtil;
-import py.una.med.base.util.FormatProvider;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.log.LogPostProcessor;
+import py.una.pol.karaku.math.MathContextProvider;
+import py.una.pol.karaku.services.util.NumberAdapter;
+import py.una.pol.karaku.test.util.TestI18nHelper;
+import py.una.pol.karaku.test.util.TestPropertiesUtil;
+import py.una.pol.karaku.util.FormatProvider;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * 

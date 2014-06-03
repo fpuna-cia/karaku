@@ -2,7 +2,7 @@
  * @MultiplePickerField.java 1.0 Jun 25, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import java.util.List;
 import javax.faces.event.ValueChangeListener;
@@ -41,7 +41,7 @@ public class MultiplePickerField<T> extends ListSelectField<T> {
 	@Override
 	public String getType() {
 
-		return "py.una.med.base.dynamic.forms.MultiplePickerField";
+		return "py.una.pol.karaku.dynamic.forms.MultiplePickerField";
 	}
 
 	public String getPopUpClientID() {

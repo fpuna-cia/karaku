@@ -1,17 +1,17 @@
 /*
  * @DateClauses.java 1.0 Sep 20, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.where;
+package py.una.pol.karaku.dao.where;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.util.FormatProvider;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.util.FormatProvider;
 
 /**
  * Factoría de {@link Clauses} para manipulación de fechas.

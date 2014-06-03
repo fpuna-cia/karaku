@@ -1,15 +1,15 @@
 /*
  * @ILikeTest.java 1.0 Sep 13, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.dao.clauses;
+package py.una.pol.karaku.test.test.dao.clauses;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.dao.where.MatchMode;
-import py.una.med.base.test.test.util.layers.ITestDAO;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.dao.where.MatchMode;
+import py.una.pol.karaku.test.test.util.layers.ITestDAO;
 
 /**
  * Clases de prueba para la {@link Clause} {@link NumberLike}

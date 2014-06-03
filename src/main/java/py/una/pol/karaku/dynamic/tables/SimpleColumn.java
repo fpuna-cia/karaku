@@ -1,12 +1,12 @@
 /*
  * @SimpleColumn.java 1.0 Mar 13, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.tables;
+package py.una.pol.karaku.dynamic.tables;
 
 import javax.el.ValueExpression;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
-import py.una.med.base.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
 
 /**
  * Columna que tiene como cabecera y cuerpo un {@link HtmlInputText}

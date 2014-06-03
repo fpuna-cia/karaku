@@ -4,7 +4,7 @@
  * @DynamicUtils 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
@@ -15,11 +15,11 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.math.Quantity;
-import py.una.med.base.reports.SIGHReportBlockSign.Sign;
-import py.una.med.base.reports.SIGHReportDetails.Detail;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.math.Quantity;
+import py.una.pol.karaku.reports.SIGHReportBlockSign.Sign;
+import py.una.pol.karaku.reports.SIGHReportDetails.Detail;
+import py.una.pol.karaku.util.I18nHelper;
 import ar.com.fdvs.dj.core.DJConstants;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.domain.CustomExpression;

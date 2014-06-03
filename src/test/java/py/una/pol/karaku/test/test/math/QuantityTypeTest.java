@@ -1,7 +1,7 @@
 /*
  * @MathTest.java 1.0 Sep 26, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.math;
+package py.una.pol.karaku.test.test.math;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -16,16 +16,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.SearchParam;
-import py.una.med.base.dao.where.Clause;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.math.Quantity;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.test.math.layers.EntityWithQuantity;
-import py.una.med.base.test.test.math.layers.EntityWithQuantityDAO;
-import py.una.med.base.test.test.math.layers.IEntityWithQuantityDAO;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.SearchParam;
+import py.una.pol.karaku.dao.where.Clause;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.math.Quantity;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.test.math.layers.EntityWithQuantity;
+import py.una.pol.karaku.test.test.math.layers.EntityWithQuantityDAO;
+import py.una.pol.karaku.test.test.math.layers.IEntityWithQuantityDAO;
 
 /**
  * 

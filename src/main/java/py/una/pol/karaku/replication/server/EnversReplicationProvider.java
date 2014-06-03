@@ -2,9 +2,9 @@
  * @ReplicationProvider.java 1.0 Nov 7, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.server;
+package py.una.pol.karaku.replication.server;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.List;
 import javax.annotation.Nonnull;
 import org.hibernate.Session;
@@ -17,10 +17,10 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.log.Log;
-import py.una.med.base.model.SIGHRevisionEntity;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.model.SIGHRevisionEntity;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * 

@@ -1,6 +1,6 @@
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

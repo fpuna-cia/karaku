@@ -1,4 +1,4 @@
-package py.una.med.base.dao.filter;
+package py.una.pol.karaku.dao.filter;
 
 import javax.annotation.PostConstruct;
 import org.aspectj.lang.JoinPoint;
@@ -9,7 +9,7 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Service;
-import py.una.med.base.util.ELParser;
+import py.una.pol.karaku.util.ELParser;
 
 /**
  * AOP para la creación activación automática de filtros hibernate

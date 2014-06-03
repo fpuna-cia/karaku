@@ -2,7 +2,7 @@
  * @EncuestaLogicTest.java 1.0 26/05/2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.survey;
+package py.una.pol.karaku.test.test.survey;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -13,22 +13,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.survey.business.EncuestaLogic;
-import py.una.med.base.survey.business.IEncuestaLogic;
-import py.una.med.base.survey.domain.Encuesta;
-import py.una.med.base.survey.domain.EncuestaDetalle;
-import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
-import py.una.med.base.survey.repo.EncuestaDAO;
-import py.una.med.base.survey.repo.EncuestaDetalleDAO;
-import py.una.med.base.survey.repo.EncuestaDetalleOpcionRespuestaDAO;
-import py.una.med.base.survey.repo.IEncuestaDAO;
-import py.una.med.base.survey.repo.IEncuestaDetalleDAO;
-import py.una.med.base.survey.repo.IEncuestaDetalleOpcionRespuestaDAO;
-import py.una.med.base.survey.repo.IOpcionRespuestaDAO;
-import py.una.med.base.survey.repo.OpcionRespuestaDAO;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.util.TestUtils;
+import py.una.pol.karaku.survey.business.EncuestaLogic;
+import py.una.pol.karaku.survey.business.IEncuestaLogic;
+import py.una.pol.karaku.survey.domain.Encuesta;
+import py.una.pol.karaku.survey.domain.EncuestaDetalle;
+import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
+import py.una.pol.karaku.survey.repo.EncuestaDAO;
+import py.una.pol.karaku.survey.repo.EncuestaDetalleDAO;
+import py.una.pol.karaku.survey.repo.EncuestaDetalleOpcionRespuestaDAO;
+import py.una.pol.karaku.survey.repo.IEncuestaDAO;
+import py.una.pol.karaku.survey.repo.IEncuestaDetalleDAO;
+import py.una.pol.karaku.survey.repo.IEncuestaDetalleOpcionRespuestaDAO;
+import py.una.pol.karaku.survey.repo.IOpcionRespuestaDAO;
+import py.una.pol.karaku.survey.repo.OpcionRespuestaDAO;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.util.TestUtils;
 
 /**
  * 

@@ -1,14 +1,14 @@
 /*
  * @SQLFiles.java 1.0 Sep 11, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.util.transaction;
+package py.una.pol.karaku.test.util.transaction;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  *

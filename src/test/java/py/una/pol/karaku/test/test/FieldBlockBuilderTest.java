@@ -2,7 +2,7 @@
  * @FieldBlockBuilderTest.java 1.0 28/05/2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test;
+package py.una.pol.karaku.test.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.reports.FieldBlockBuilder;
-import py.una.med.base.reports.SIGHReportBlockField;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
-import py.una.med.base.test.util.TestI18nHelper;
+import py.una.pol.karaku.reports.FieldBlockBuilder;
+import py.una.pol.karaku.reports.SIGHReportBlockField;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.util.TestI18nHelper;
 
 /**
  * Test del builder que construye bloques de reportes del tipo

@@ -1,7 +1,7 @@
 /*
  * Unique.java 1.0 19/02/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.model;
+package py.una.pol.karaku.model;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

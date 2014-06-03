@@ -3,14 +3,14 @@
  * 
  * @SIGHSecurity.java 1.0 Mar 14, 2013 Sistema Integral de Gestión Hospitalaria
  */
-package py.una.med.base.security;
+package py.una.pol.karaku.security;
 
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-import py.una.med.base.log.Log;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * <p>

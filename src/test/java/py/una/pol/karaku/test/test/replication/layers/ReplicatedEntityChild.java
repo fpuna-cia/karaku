@@ -2,7 +2,7 @@
  * @ReplicatedEntityChild.java 1.0 Nov 4, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.replication.layers;
+package py.una.pol.karaku.test.test.replication.layers;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import org.hibernate.envers.Audited;
-import py.una.med.base.replication.Shareable;
+import py.una.pol.karaku.replication.Shareable;
 
 /**
  * 

@@ -2,7 +2,7 @@
  * @DatabasePopulatorExecutionListener.java 1.0 Sep 11, 2013 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.test.util.transaction;
+package py.una.pol.karaku.test.util.transaction;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,10 +22,10 @@ import org.springframework.test.context.support.AbstractTestExecutionListener;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.test.util.DatabaseUtils;
-import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.test.util.DatabaseUtils;
+import py.una.pol.karaku.test.util.TestUtils;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * {@link AbstractTestExecutionListener} que se encarga de crear datos de prueba

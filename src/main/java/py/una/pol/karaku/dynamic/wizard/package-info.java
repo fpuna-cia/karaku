@@ -10,4 +10,4 @@
  * @version 1.0 May 29, 2013
  * 
  */
-package py.una.med.base.dynamic.wizard;
+package py.una.pol.karaku.dynamic.wizard;

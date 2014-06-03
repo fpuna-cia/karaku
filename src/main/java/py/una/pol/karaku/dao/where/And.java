@@ -1,7 +1,7 @@
 /*
  * @Where Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.where;
+package py.una.pol.karaku.dao.where;
 
 import org.hibernate.criterion.Criterion;
 
@@ -40,7 +40,7 @@ public class And implements Clause {
 	 *
 	 * @param clauses
 	 *            una o mas {@link Clause}.
-	 * @see py.una.med.base.dao.helper.AndExpressionHelper
+	 * @see py.una.pol.karaku.dao.helper.AndExpressionHelper
 	 */
 	public And(Clause ... clauses) {
 

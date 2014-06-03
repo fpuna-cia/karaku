@@ -2,7 +2,7 @@
  * @LogPostProcessor.java 1.0 Sep 13, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.log;
+package py.una.pol.karaku.log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +18,7 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 import org.springframework.util.ReflectionUtils.FieldFilter;
 import org.springframework.util.ReflectionUtils.MethodCallback;
 import org.springframework.util.ReflectionUtils.MethodFilter;
-import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  * {@link BeanPostProcessor} encargado de inyectar los {@link Logger} a través

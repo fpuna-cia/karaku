@@ -1,7 +1,7 @@
 /*
  * @UniqueHelper.java 1.0 19/02/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Component;
-import py.una.med.base.exception.UniqueConstraintException;
-import py.una.med.base.model.Unique;
+import py.una.pol.karaku.exception.UniqueConstraintException;
+import py.una.pol.karaku.model.Unique;
 
 /**
  * Componente que se utiliza para convertir Excepciones a excepciones del tipo

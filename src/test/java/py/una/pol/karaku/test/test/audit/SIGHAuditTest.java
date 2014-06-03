@@ -1,7 +1,7 @@
 /*
  * @SIGHAuditTest.java 1.0 04/04/2014 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.audit;
+package py.una.pol.karaku.test.test.audit;
 
 import static org.junit.Assert.assertEquals;
 import java.io.Serializable;
@@ -13,22 +13,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.audit.Audit;
-import py.una.med.base.audit.SIGHAudit;
-import py.una.med.base.business.AuditLogic;
-import py.una.med.base.business.IAuditLogic;
-import py.una.med.base.domain.AuditTrail;
-import py.una.med.base.domain.AuditTrailDetail;
-import py.una.med.base.repo.AuditTrailDao;
-import py.una.med.base.repo.AuditTrailDetailDao;
-import py.una.med.base.repo.IAuditTrailDao;
-import py.una.med.base.repo.IAuditTrailDetailDao;
-import py.una.med.base.security.AuthorityController;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.test.util.transaction.SQLFiles;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.audit.Audit;
+import py.una.pol.karaku.audit.SIGHAudit;
+import py.una.pol.karaku.business.AuditLogic;
+import py.una.pol.karaku.business.IAuditLogic;
+import py.una.pol.karaku.domain.AuditTrail;
+import py.una.pol.karaku.domain.AuditTrailDetail;
+import py.una.pol.karaku.repo.AuditTrailDao;
+import py.una.pol.karaku.repo.AuditTrailDetailDao;
+import py.una.pol.karaku.repo.IAuditTrailDao;
+import py.una.pol.karaku.repo.IAuditTrailDetailDao;
+import py.una.pol.karaku.security.AuthorityController;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.util.TestUtils;
+import py.una.pol.karaku.test.util.transaction.SQLFiles;
+import py.una.pol.karaku.util.Util;
 
 /**
  * 

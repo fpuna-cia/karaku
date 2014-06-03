@@ -1,12 +1,12 @@
 /*
  * @ExampleTest.java 1.0 Aug 19, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.base;
+package py.una.pol.karaku.test.base;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.test.util.TestControllerHelper;
-import py.una.med.base.test.util.TestI18nHelper;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.test.util.TestControllerHelper;
+import py.una.pol.karaku.test.util.TestI18nHelper;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * 

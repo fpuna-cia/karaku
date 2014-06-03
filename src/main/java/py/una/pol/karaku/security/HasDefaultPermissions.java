@@ -1,4 +1,4 @@
-package py.una.med.base.security;
+package py.una.pol.karaku.security;
 
 /**
  * Interfaz que define un mecanismo de manipulación automática de ciertos

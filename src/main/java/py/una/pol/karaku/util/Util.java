@@ -1,7 +1,7 @@
 /**
  * @Util.0 10/05/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -2,7 +2,7 @@
  * @UriTestInterceptor.java 1.0 Nov 5, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.dao.interceptors;
+package py.una.pol.karaku.test.test.dao.interceptors;
 
 import static org.junit.Assert.assertEquals;
 import javax.persistence.Entity;
@@ -12,16 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.dao.annotations.CaseSensitive;
-import py.una.med.base.dao.entity.Operation;
-import py.una.med.base.dao.entity.annotations.URI;
-import py.una.med.base.dao.entity.annotations.URI.Type;
-import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.test.util.transaction.SQLFiles;
-import py.una.med.base.test.util.transaction.Sequences;
+import py.una.pol.karaku.dao.annotations.CaseSensitive;
+import py.una.pol.karaku.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.annotations.URI;
+import py.una.pol.karaku.dao.entity.annotations.URI.Type;
+import py.una.pol.karaku.dao.entity.interceptors.InterceptorHandler;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.util.TestUtils;
+import py.una.pol.karaku.test.util.transaction.SQLFiles;
+import py.una.pol.karaku.test.util.transaction.Sequences;
 
 /**
  *

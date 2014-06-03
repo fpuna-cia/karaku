@@ -1,10 +1,10 @@
 /*
  * @SIGHAudit.java 1.0 Feb 15, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.audit;
+package py.una.pol.karaku.audit;
 
-import static py.una.med.base.util.ELParser.getParamNumber;
-import static py.una.med.base.util.ELParser.removeParamNumber;
+import static py.una.pol.karaku.util.ELParser.getParamNumber;
+import static py.una.pol.karaku.util.ELParser.removeParamNumber;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +15,12 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Service;
-import py.una.med.base.business.IAuditLogic;
-import py.una.med.base.domain.AuditTrail;
-import py.una.med.base.domain.AuditTrailDetail;
-import py.una.med.base.log.Log;
-import py.una.med.base.security.AuthorityController;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.business.IAuditLogic;
+import py.una.pol.karaku.domain.AuditTrail;
+import py.una.pol.karaku.domain.AuditTrailDetail;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.security.AuthorityController;
+import py.una.pol.karaku.util.Util;
 
 /**
  * Servicio que se encarga de capturar el {@link JoinPoint} de auditoría y

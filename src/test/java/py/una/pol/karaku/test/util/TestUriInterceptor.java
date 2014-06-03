@@ -2,10 +2,10 @@
  * @TestUriInterceptor.java 1.0 Dec 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import org.hibernate.Session;
-import py.una.med.base.dao.entity.interceptors.UriInterceptor;
+import py.una.pol.karaku.dao.entity.interceptors.UriInterceptor;
 
 /**
  * 

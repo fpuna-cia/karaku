@@ -1,7 +1,7 @@
 /*
  * @LogTest.java 1.0 Sep 11, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.log;
+package py.una.pol.karaku.test.test.log;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertNotNull;
@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.log.Log;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.status.Status;
 import ch.qos.logback.core.status.StatusManager;

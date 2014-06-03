@@ -1,7 +1,7 @@
 /*
  * @SkipRequired.java 1.0 12/09/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.jsf.utils;
+package py.una.pol.karaku.jsf.utils;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UINamingContainer;

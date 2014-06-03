@@ -1,4 +1,4 @@
-package py.una.med.base.dao.helper;
+package py.una.pol.karaku.dao.helper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,10 +13,10 @@ import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.where.Clause;
-import py.una.med.base.log.Log;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.where.Clause;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * Clase que sirve para interceptar restricciones que se agregan a un query, por

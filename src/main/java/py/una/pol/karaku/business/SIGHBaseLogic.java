@@ -1,4 +1,4 @@
-package py.una.med.base.business;
+package py.una.pol.karaku.business;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -8,11 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.select.Select;
-import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.replication.Shareable;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.select.Select;
+import py.una.pol.karaku.dao.util.EntityExample;
+import py.una.pol.karaku.replication.Shareable;
 
 /**
  * Clase que implementa {@link ISIGHBaseLogic} y que debe ser el punto base de
@@ -154,7 +154,7 @@ public abstract class SIGHBaseLogic<T, K extends Serializable> implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * py.una.med.base.business.ISIGHBaseLogic#getCount(py.una.med.base.dao.
+	 * py.una.pol.karaku.business.ISIGHBaseLogic#getCount(py.una.pol.karaku.dao.
 	 * restrictions.Where)
 	 */
 	@Override

@@ -2,13 +2,13 @@
  * @SimpleFilterTest.java 1.0 21/02/2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test;
+package py.una.pol.karaku.test.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
-import py.una.med.base.util.SimpleFilter;
-import py.una.med.base.util.SimpleFilter.ChangeListenerSimpleFilter;
+import py.una.pol.karaku.util.SimpleFilter;
+import py.una.pol.karaku.util.SimpleFilter.ChangeListenerSimpleFilter;
 
 /**
  * 

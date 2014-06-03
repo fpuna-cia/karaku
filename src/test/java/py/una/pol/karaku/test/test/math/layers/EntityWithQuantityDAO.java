@@ -2,9 +2,9 @@
  * @EntityWithQuantityDAO.java 1.0 Oct 9, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.math.layers;
+package py.una.pol.karaku.test.test.math.layers;
 
-import py.una.med.base.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.SIGHBaseDao;
 
 /**
  * 

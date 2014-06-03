@@ -2,7 +2,7 @@
  * @SIGHReportBlockFieldTest.java 1.0 Feb 11, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.reports;
+package py.una.pol.karaku.test.test.reports;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,8 +10,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import net.sf.jasperreports.engine.JRException;
 import org.junit.Test;
-import py.una.med.base.reports.SIGHReportBlockField;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.reports.SIGHReportBlockField;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * 

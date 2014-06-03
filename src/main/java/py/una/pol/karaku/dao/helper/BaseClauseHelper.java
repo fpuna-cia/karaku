@@ -2,9 +2,9 @@
  * @BaseClauseHelper.java 1.0 Sep 10, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dao.helper;
+package py.una.pol.karaku.dao.helper;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
@@ -12,8 +12,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
-import py.una.med.base.dao.where.Clause;
-import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.pol.karaku.dao.where.Clause;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  * Clase que sirve de base para los componentes que se utilizan para mapear una

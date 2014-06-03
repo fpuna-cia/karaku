@@ -1,7 +1,7 @@
 /*
  * @WebService.java 1.0 Oct 18, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.services.server;
+package py.una.pol.karaku.services.server;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

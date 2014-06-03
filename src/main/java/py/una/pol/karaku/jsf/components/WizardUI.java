@@ -1,7 +1,7 @@
 /*
  * @Wizard.java 1.0 May 30, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.jsf.components;
+package py.una.pol.karaku.jsf.components;
 
 import java.util.Collection;
 import javax.faces.component.FacesComponent;

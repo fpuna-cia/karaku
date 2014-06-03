@@ -1,7 +1,7 @@
 /*
  * @WatcherTest.java 1.0 Nov 4, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.replication;
+package py.una.pol.karaku.test.test.replication;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -14,18 +14,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import py.una.med.base.replication.ShareableWatcher;
-import py.una.med.base.replication.server.Bundle;
-import py.una.med.base.replication.server.DummyFirstChangeProvider;
-import py.una.med.base.replication.server.DummyReplicationProvider;
-import py.una.med.base.replication.server.FirstChangeProviderHandler;
-import py.una.med.base.replication.server.ReplicationProvider;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntity;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntityDao;
-import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.test.util.transaction.Sequences;
+import py.una.pol.karaku.replication.ShareableWatcher;
+import py.una.pol.karaku.replication.server.Bundle;
+import py.una.pol.karaku.replication.server.DummyFirstChangeProvider;
+import py.una.pol.karaku.replication.server.DummyReplicationProvider;
+import py.una.pol.karaku.replication.server.FirstChangeProviderHandler;
+import py.una.pol.karaku.replication.server.ReplicationProvider;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntity;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntityDao;
+import py.una.pol.karaku.test.util.TestUtils;
+import py.una.pol.karaku.test.util.transaction.Sequences;
 
 /**
  * 

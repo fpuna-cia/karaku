@@ -2,13 +2,13 @@
  * @SimpleHeaderColumn.java 1.0 Mar 13, 2013 Sistema Integral de Gestión
  * Hospitalaria
  */
-package py.una.med.base.dynamic.tables;
+package py.una.pol.karaku.dynamic.tables;
 
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
-import py.una.med.base.dynamic.forms.SIGHComponentFactory;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * Columna que tiene como cabecera un {@link HtmlInputText}

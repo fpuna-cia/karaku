@@ -8,4 +8,4 @@
  * @version 1.0 Oct 1, 2013
  *
  */
-package py.una.med.base.test.test.dao.interceptors;
+package py.una.pol.karaku.test.test.dao.interceptors;

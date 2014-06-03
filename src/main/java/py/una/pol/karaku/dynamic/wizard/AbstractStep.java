@@ -1,10 +1,10 @@
 /*
  * @AbstractStep.java 1.0 May 29, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.wizard;
+package py.una.pol.karaku.dynamic.wizard;
 
-import py.una.med.base.dynamic.forms.Field;
-import py.una.med.base.dynamic.forms.ToolBar;
+import py.una.pol.karaku.dynamic.forms.Field;
+import py.una.pol.karaku.dynamic.forms.ToolBar;
 
 /**
  * 

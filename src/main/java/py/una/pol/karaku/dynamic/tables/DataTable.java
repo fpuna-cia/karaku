@@ -1,16 +1,16 @@
 /*
  * @DataTable.java 1.0 Mar 11, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.tables;
+package py.una.pol.karaku.dynamic.tables;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.richfaces.component.UIExtendedDataTable;
 import org.richfaces.model.SelectionMode;
-import py.una.med.base.dynamic.data.AbstractPagingDataSource;
-import py.una.med.base.dynamic.forms.Field;
-import py.una.med.base.dynamic.forms.SIGHComponentFactory;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.dynamic.data.AbstractPagingDataSource;
+import py.una.pol.karaku.dynamic.forms.Field;
+import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Clase que representa una tabla, se asume durante la construcción de este

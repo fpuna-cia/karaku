@@ -2,13 +2,13 @@
  * @ConverterProvider.java 1.0 Nov 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services;
+package py.una.pol.karaku.services;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.Shareable;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.Shareable;
 
 /**
  * Proveedor de {@link Converter}.

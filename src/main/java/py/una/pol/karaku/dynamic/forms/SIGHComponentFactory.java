@@ -2,7 +2,7 @@
  * @SIGHComponentFactory.java 1.0 Feb 21, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import javax.annotation.Nonnull;
 import javax.faces.application.Application;

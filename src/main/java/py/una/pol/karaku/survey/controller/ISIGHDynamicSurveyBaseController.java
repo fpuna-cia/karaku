@@ -2,12 +2,12 @@
  * @ISIGHDynamicSurveyBaseController.java 1.0 03/06/13. Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.survey.controller;
+package py.una.pol.karaku.survey.controller;
 
 import java.util.List;
-import py.una.med.base.survey.components.DynamicSurveyBlock;
-import py.una.med.base.survey.domain.Encuesta;
-import py.una.med.base.survey.domain.EncuestaPlantilla;
+import py.una.pol.karaku.survey.components.DynamicSurveyBlock;
+import py.una.pol.karaku.survey.domain.Encuesta;
+import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
 
 /**
  * 

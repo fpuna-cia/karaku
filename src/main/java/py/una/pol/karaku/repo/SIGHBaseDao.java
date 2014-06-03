@@ -1,4 +1,4 @@
-package py.una.med.base.repo;
+package py.una.pol.karaku.repo;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -10,8 +10,8 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import py.una.med.base.dao.impl.BaseDAOImpl;
-import py.una.med.base.log.Log;
+import py.una.pol.karaku.dao.impl.BaseDAOImpl;
+import py.una.pol.karaku.log.Log;
 
 @Repository
 public class SIGHBaseDao<T, K extends Serializable> extends BaseDAOImpl<T, K>

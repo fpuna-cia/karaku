@@ -1,7 +1,7 @@
 /*
  * @TestWSCaller.java 1.0 Oct 21, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import static org.springframework.ws.test.server.RequestCreators.withPayload;
 import java.io.IOException;
@@ -13,9 +13,9 @@ import org.springframework.oxm.support.MarshallingSource;
 import org.springframework.ws.WebServiceMessage;
 import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.ResponseMatcher;
-import py.una.med.base.services.client.WSCallBack;
-import py.una.med.base.services.client.WSCaller;
-import py.una.med.base.services.client.WSInformationProvider.Info;
+import py.una.pol.karaku.services.client.WSCallBack;
+import py.una.pol.karaku.services.client.WSCaller;
+import py.una.pol.karaku.services.client.WSInformationProvider.Info;
 
 /**
  * {@link WSCaller} utilizado para fines de test.

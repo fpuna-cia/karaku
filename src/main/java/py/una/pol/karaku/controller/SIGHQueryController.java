@@ -2,7 +2,7 @@
  * @SIGHQueryController.java 1.0 02/08/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -10,13 +10,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import py.una.med.base.controller.reports.SIGHBaseReportController;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.LabelProvider;
-import py.una.med.base.util.Serializer;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.controller.reports.SIGHBaseReportController;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.LabelProvider;
+import py.una.pol.karaku.util.Serializer;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * 

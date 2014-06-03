@@ -1,7 +1,7 @@
 /**
  * @ReportException 1.0 10/05/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.exception;
+package py.una.pol.karaku.exception;
 
 /**
  * 

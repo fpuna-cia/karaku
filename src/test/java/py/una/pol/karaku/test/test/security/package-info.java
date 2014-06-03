@@ -9,4 +9,4 @@
  * @version 1.0 Oct 24, 2013
  *
  */
-package py.una.med.base.test.test.security;
+package py.una.pol.karaku.test.test.security;

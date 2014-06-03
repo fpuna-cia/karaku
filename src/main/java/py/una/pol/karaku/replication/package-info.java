@@ -8,4 +8,4 @@
  * @version 1.0 Nov 5, 2013
  *
  */
-package py.una.med.base.replication;
+package py.una.pol.karaku.replication;

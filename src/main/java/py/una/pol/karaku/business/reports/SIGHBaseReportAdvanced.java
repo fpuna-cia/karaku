@@ -3,7 +3,7 @@
  * Hospitalaria
  */
 
-package py.una.med.base.business.reports;
+package py.una.pol.karaku.business.reports;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -17,12 +17,12 @@ import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.reports.Column;
-import py.una.med.base.reports.ExportReport;
-import py.una.med.base.reports.SIGHReportBlockGrid;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.reports.Column;
+import py.una.pol.karaku.reports.ExportReport;
+import py.una.pol.karaku.reports.SIGHReportBlockGrid;
+import py.una.pol.karaku.util.ListHelper;
 import ar.com.fdvs.dj.domain.DynamicReport;
 
 /**

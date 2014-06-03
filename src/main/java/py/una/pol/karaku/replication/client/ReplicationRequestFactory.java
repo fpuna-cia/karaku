@@ -2,14 +2,14 @@
  * @ReplicationRequestFactory.java 1.0 Nov 26, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.client;
+package py.una.pol.karaku.replication.client;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.lang.reflect.Field;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.util.KarakuReflectionUtils;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.util.KarakuReflectionUtils;
 
 /**
  * 

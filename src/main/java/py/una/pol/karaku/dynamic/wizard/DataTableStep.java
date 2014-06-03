@@ -1,9 +1,9 @@
 /*
  * @DataGridStep.java 1.0 Jun 5, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.wizard;
+package py.una.pol.karaku.dynamic.wizard;
 
-import py.una.med.base.dynamic.tables.DataTable;
+import py.una.pol.karaku.dynamic.tables.DataTable;
 
 /**
  * 

@@ -1,11 +1,11 @@
 /*
  * @Select.java 1.0 Oct 13, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.select;
+package py.una.pol.karaku.dao.select;
 
 import java.util.HashSet;
 import java.util.Set;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Parte Select de una consulta, tícamente una proyección.

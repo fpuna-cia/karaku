@@ -2,9 +2,9 @@
  * @FirstChangeProviderHandler.java 1.0 Dec 4, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.server;
+package py.una.pol.karaku.replication.server;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * 

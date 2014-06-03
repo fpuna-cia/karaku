@@ -1,7 +1,7 @@
-package py.una.med.base.dynamic.tables;
+package py.una.pol.karaku.dynamic.tables;
 
 import org.richfaces.model.SelectionMode;
-import py.una.med.base.dynamic.data.AbstractPagingDataSource;
+import py.una.pol.karaku.dynamic.data.AbstractPagingDataSource;
 
 public final class TableBuilder {
 

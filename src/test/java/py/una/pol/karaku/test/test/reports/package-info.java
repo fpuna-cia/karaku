@@ -8,4 +8,4 @@
  * @version 1.0 Feb 11, 2014
  * 
  */
-package py.una.med.base.test.test.reports;
+package py.una.pol.karaku.test.test.reports;

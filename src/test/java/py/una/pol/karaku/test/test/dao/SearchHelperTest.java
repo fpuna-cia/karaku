@@ -2,7 +2,7 @@
  * @SearchHelperTest.java 1.0 Sep 19, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.dao;
+package py.una.pol.karaku.test.test.dao;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -16,18 +16,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.SearchHelper;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.dao.where.DateClauses;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.test.util.layers.ITestDAO;
-import py.una.med.base.test.test.util.layers.TestChild;
-import py.una.med.base.test.test.util.layers.TestDAO;
-import py.una.med.base.test.test.util.layers.TestEntity;
-import py.una.med.base.test.test.util.layers.TestGrandChild;
-import py.una.med.base.test.util.TestUtils;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.SearchHelper;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.dao.where.DateClauses;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.test.util.layers.ITestDAO;
+import py.una.pol.karaku.test.test.util.layers.TestChild;
+import py.una.pol.karaku.test.test.util.layers.TestDAO;
+import py.una.pol.karaku.test.test.util.layers.TestEntity;
+import py.una.pol.karaku.test.test.util.layers.TestGrandChild;
+import py.una.pol.karaku.test.util.TestUtils;
 
 /**
  * 

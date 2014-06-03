@@ -2,14 +2,14 @@
  * @ISIGHBaseReportSimple 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.business.reports;
+package py.una.pol.karaku.business.reports;
 
 import java.util.List;
 import java.util.Map;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.reports.Column;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.reports.Column;
 
 /**
  * Interface que define el servicio para reportes simples utilizados en los

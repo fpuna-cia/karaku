@@ -2,7 +2,7 @@
  * @RequiredPhaseListener.java 1.0 Jul 24, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.jsf.utils;
+package py.una.pol.karaku.jsf.utils;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -24,9 +24,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.dynamic.forms.PickerUpdater;
-import py.una.med.base.util.ELHelper;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.dynamic.forms.PickerUpdater;
+import py.una.pol.karaku.util.ELHelper;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * 

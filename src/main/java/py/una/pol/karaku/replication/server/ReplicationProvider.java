@@ -2,10 +2,10 @@
  * @ReplicationProvider.java 1.0 Nov 7, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.server;
+package py.una.pol.karaku.replication.server;
 
 import javax.annotation.Nonnull;
-import py.una.med.base.replication.Shareable;
+import py.una.pol.karaku.replication.Shareable;
 
 /**
  * 

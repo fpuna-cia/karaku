@@ -1,7 +1,7 @@
 /*
  * @UriCacheTest.java 1.0 Nov 27, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.replication;
+package py.una.pol.karaku.test.test.replication;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -22,14 +22,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.replication.EntityNotFoundException;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.util.TestDateProvider;
-import py.una.med.base.test.util.TestUriCache;
-import py.una.med.base.test.util.TestUtils;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.replication.EntityNotFoundException;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.util.TestDateProvider;
+import py.una.pol.karaku.test.util.TestUriCache;
+import py.una.pol.karaku.test.util.TestUtils;
 
 /**
  * 

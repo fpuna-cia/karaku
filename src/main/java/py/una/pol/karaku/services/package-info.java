@@ -10,4 +10,4 @@
  * @version 1.0 Jun 11, 2013
  * 
  */
-package py.una.med.base.services;
+package py.una.pol.karaku.services;

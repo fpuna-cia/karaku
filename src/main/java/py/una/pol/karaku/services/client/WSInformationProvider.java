@@ -1,7 +1,7 @@
 /*
  * @WSURLProvider.java 1.0 Jun 11, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;
 
 import java.util.List;
 import javax.annotation.Nonnull;

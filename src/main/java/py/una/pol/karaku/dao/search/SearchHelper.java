@@ -1,7 +1,7 @@
 /*
  * @SearchHelper.java 1.0 Sep 19, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.search;
+package py.una.pol.karaku.dao.search;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -14,14 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.where.Clause;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.dao.where.DateClauses;
-import py.una.med.base.dao.where.MatchMode;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.exception.NotDisplayNameException;
-import py.una.med.base.log.Log;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.where.Clause;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.dao.where.DateClauses;
+import py.una.pol.karaku.dao.where.MatchMode;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.NotDisplayNameException;
+import py.una.pol.karaku.log.Log;
 
 /**
  * Componente que sirve de ayuda al realizar búsquedas dinámicas sobre objetos.
@@ -41,11 +41,11 @@ import py.una.med.base.log.Log;
  * que heredan de number se buscan bajo los mismos criterios.</li>
  * <li> {@link Date}: utiliza una búsqueda por rango, donde la primera fecha, es
  * la fecha pasada en formato
- * {@link py.una.med.base.util.FormatProvider#DATE_FORMAT} o
- * {@link py.una.med.base.util.FormatProvider#DATETIME_SHORT_FORMAT}, utilizando
+ * {@link py.una.pol.karaku.util.FormatProvider#DATE_FORMAT} o
+ * {@link py.una.pol.karaku.util.FormatProvider#DATETIME_SHORT_FORMAT}, utilizando
  * el componente auxiliar {@link DateClauses}.</li>
  * <li>Si se detecta una {@link Collection} en el path a un atributo, se utiliza
- * un {@link py.una.med.base.dao.where.ILike} como técnica de mejor esfuerzo, no
+ * un {@link py.una.pol.karaku.dao.where.ILike} como técnica de mejor esfuerzo, no
  * se garantiza que el tipo de búsqueda es el correcto. Si la {@link Collection}
  * que se encuentra es una interfaz, entones <b>SI</b> se puede obtener su tipo
  * genérico.</li>

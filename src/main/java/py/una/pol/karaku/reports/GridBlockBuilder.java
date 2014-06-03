@@ -2,12 +2,12 @@
  * @ReportBlockBuilder.java 1.0 07/04/2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.jasperreports.engine.JRDataSource;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.util.I18nHelper;
 import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
 
 /**

@@ -2,7 +2,7 @@
  * @KarakuWSClientConfiguration.java 1.0 Jun 7, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.configuration;
+package py.una.pol.karaku.configuration;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,10 +21,10 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import py.una.med.base.services.client.EntityURLProvider;
-import py.una.med.base.services.client.JsonURLProvider;
-import py.una.med.base.services.client.KarakuFaultMessageResolver;
-import py.una.med.base.services.client.WSInformationProvider;
+import py.una.pol.karaku.services.client.EntityURLProvider;
+import py.una.pol.karaku.services.client.JsonURLProvider;
+import py.una.pol.karaku.services.client.KarakuFaultMessageResolver;
+import py.una.pol.karaku.services.client.WSInformationProvider;
 
 /**
  * 

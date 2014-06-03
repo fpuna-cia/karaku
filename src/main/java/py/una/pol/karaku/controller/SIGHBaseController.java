@@ -2,7 +2,7 @@
  * SIGHBaseController.java
  */
 
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -14,25 +14,25 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.breadcrumb.BreadcrumbController;
-import py.una.med.base.business.reports.SIGHBaseReportSimple;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.jsf.utils.ICurrentpageHelper;
-import py.una.med.base.log.Log;
-import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.reports.Column;
-import py.una.med.base.security.HasRole;
-import py.una.med.base.security.SIGHSecurity;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.EntitySerializer;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.PagingHelper;
-import py.una.med.base.util.PagingHelper.ChangeListener;
-import py.una.med.base.util.SelectHelper;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.breadcrumb.BreadcrumbController;
+import py.una.pol.karaku.business.reports.SIGHBaseReportSimple;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.jsf.utils.ICurrentpageHelper;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.menu.schemas.Menu;
+import py.una.pol.karaku.reports.Column;
+import py.una.pol.karaku.security.HasRole;
+import py.una.pol.karaku.security.SIGHSecurity;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.EntitySerializer;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.PagingHelper;
+import py.una.pol.karaku.util.PagingHelper.ChangeListener;
+import py.una.pol.karaku.util.SelectHelper;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Controlador base para todos los controladores del sistema, implementa las

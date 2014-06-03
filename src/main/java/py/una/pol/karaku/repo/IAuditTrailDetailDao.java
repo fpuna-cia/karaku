@@ -1,6 +1,6 @@
-package py.una.med.base.repo;
+package py.una.pol.karaku.repo;
 
-import py.una.med.base.domain.AuditTrailDetail;
+import py.una.pol.karaku.domain.AuditTrailDetail;
 
 public interface IAuditTrailDetailDao extends
 		ISIGHBaseDao<AuditTrailDetail, Long> {

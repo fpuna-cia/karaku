@@ -9,4 +9,4 @@
  *
  */
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://sigh.med.una.py/2013/schemas/test")
-package py.una.med.base.test.test.replication.layers;
+package py.una.pol.karaku.test.test.replication.layers;

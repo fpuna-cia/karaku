@@ -1,9 +1,9 @@
 /*
  * @Change.java 1.0 Nov 7, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.replication.server;
+package py.una.pol.karaku.replication.server;
 
-import static py.una.med.base.util.Checker.isValid;
+import static py.una.pol.karaku.util.Checker.isValid;
 import javax.annotation.Nonnull;
 
 /**

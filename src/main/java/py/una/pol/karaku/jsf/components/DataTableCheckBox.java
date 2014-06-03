@@ -2,7 +2,7 @@
  * @MultiplePickerButton.java 1.0 Jun 25, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.jsf.components;
+package py.una.pol.karaku.jsf.components;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,9 +16,9 @@ import javax.faces.component.UISelectBoolean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.richfaces.component.UIExtendedDataTable;
-import py.una.med.base.dynamic.forms.ListSelectField;
-import py.una.med.base.util.Checker;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.dynamic.forms.ListSelectField;
+import py.una.pol.karaku.util.Checker;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * 

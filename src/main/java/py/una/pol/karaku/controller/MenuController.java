@@ -1,7 +1,7 @@
 /**
  * @MenuController 1.0 21/02/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.IOException;
 import java.util.Date;
@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.security.HasRole;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.security.HasRole;
+import py.una.pol.karaku.util.Util;
 
 /**
  * Controlador que provee funcionalidades transversales para la aplicación, se
@@ -124,7 +124,7 @@ public class MenuController {
 	 * Retorna la fecha actual del sistema.
 	 * 
 	 * @return {@link Date} representando el momento actual
-	 * @see py.una.med.base.util.Util#getCurrentTime()
+	 * @see py.una.pol.karaku.util.Util#getCurrentTime()
 	 */
 	public Date getCurrentTime() {
 

@@ -1,7 +1,7 @@
 /**
  * @ELHelper.java 1.0 Feb 21, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.lang.reflect.Field;
 import java.util.regex.Matcher;

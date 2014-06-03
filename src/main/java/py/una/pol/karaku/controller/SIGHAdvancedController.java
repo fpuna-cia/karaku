@@ -1,4 +1,4 @@
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.SearchHelper;
-import py.una.med.base.exception.UniqueConstraintException;
-import py.una.med.base.model.DisplayName;
-import py.una.med.base.security.HasRole;
-import py.una.med.base.security.SIGHSecurity;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.SIGHConverterV2;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.SearchHelper;
+import py.una.pol.karaku.exception.UniqueConstraintException;
+import py.una.pol.karaku.model.DisplayName;
+import py.una.pol.karaku.security.HasRole;
+import py.una.pol.karaku.security.SIGHSecurity;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.SIGHConverterV2;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Controler que sirve de soporte para vistas avanzadas o mas genericas.

@@ -1,10 +1,10 @@
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.util.Collections;
 import java.util.List;
 import javax.faces.model.SelectItem;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
 
 /**
  * Lista de objetos en memoria con paginación.

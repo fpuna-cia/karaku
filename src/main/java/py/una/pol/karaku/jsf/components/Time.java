@@ -1,4 +1,4 @@
-package py.una.med.base.jsf.components;
+package py.una.pol.karaku.jsf.components;
 
 import java.util.Date;
 import javax.faces.component.FacesComponent;

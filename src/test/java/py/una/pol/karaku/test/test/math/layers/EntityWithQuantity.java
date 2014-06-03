@@ -2,14 +2,14 @@
  * @EntityWithQuantity.java 1.0 Oct 9, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.math.layers;
+package py.una.pol.karaku.test.test.math.layers;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import py.una.med.base.math.Quantity;
+import py.una.pol.karaku.math.Quantity;
 
 /**
  * @author Arturo Volpe

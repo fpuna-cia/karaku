@@ -5,11 +5,11 @@
 /**
  *
  * Anotaciones que se pueden aplicar a atributos de entidades, el
- * {@link py.una.med.base.dao.BaseDAO} se encarga de aplicarlas automáticamente.
+ * {@link py.una.pol.karaku.dao.BaseDAO} se encarga de aplicarlas automáticamente.
  *
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Feb 13, 2013
  *
  */
-package py.una.med.base.dao.annotations;
+package py.una.pol.karaku.dao.annotations;

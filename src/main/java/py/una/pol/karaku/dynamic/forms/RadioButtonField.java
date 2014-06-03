@@ -1,7 +1,7 @@
 /*
  * @RadioButtonField.java 1.0 Jun 03, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 /**
  * 
@@ -12,7 +12,7 @@ package py.una.med.base.dynamic.forms;
  */
 public class RadioButtonField<T> extends ComboBoxField<T> {
 
-	public static final String TYPE = "py.una.med.base.dynamic.forms.RadioButtonField";
+	public static final String TYPE = "py.una.pol.karaku.dynamic.forms.RadioButtonField";
 
 	public RadioButtonField() {
 

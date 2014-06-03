@@ -1,16 +1,16 @@
 /*
  * @Button.java 1.0 Mar 13, 2013 Sistema Integral de Gestión Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import javax.el.MethodExpression;
 import javax.el.ValueExpression;
 import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.event.ActionListener;
 import org.richfaces.component.UICommandButton;
-import py.una.med.base.dynamic.util.SIGHSetPropertyActionListener;
-import py.una.med.base.util.ELHelper;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.dynamic.util.SIGHSetPropertyActionListener;
+import py.una.pol.karaku.util.ELHelper;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Clase que representa un botón, es un Facade que facilita su creación a través
@@ -85,7 +85,7 @@ public class Button extends Field {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see py.una.med.base.dynamic.forms.Field#disable()
+	 * @see py.una.pol.karaku.dynamic.forms.Field#disable()
 	 */
 	@Override
 	public boolean disable() {
@@ -97,7 +97,7 @@ public class Button extends Field {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see py.una.med.base.dynamic.forms.Field#enable()
+	 * @see py.una.pol.karaku.dynamic.forms.Field#enable()
 	 */
 	@Override
 	public boolean enable() {
@@ -141,12 +141,12 @@ public class Button extends Field {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see py.una.med.base.dynamic.forms.Field#getType()
+	 * @see py.una.pol.karaku.dynamic.forms.Field#getType()
 	 */
 	@Override
 	public String getType() {
 
-		return "py.una.med.base.dynamic.forms.Button";
+		return "py.una.pol.karaku.dynamic.forms.Button";
 	}
 
 	/**

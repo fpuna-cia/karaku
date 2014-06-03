@@ -2,13 +2,13 @@
  * @DynamicSurveyFieldOption.java 1.0 13/06/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.survey.components;
+package py.una.pol.karaku.survey.components;
 
 import java.util.ArrayList;
 import java.util.List;
-import py.una.med.base.survey.components.DynamicSurveyField.SurveyField;
-import py.una.med.base.survey.domain.OpcionRespuesta;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.survey.components.DynamicSurveyField.SurveyField;
+import py.una.pol.karaku.survey.domain.OpcionRespuesta;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * 

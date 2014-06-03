@@ -1,7 +1,7 @@
 /*
  * Equal.java 1.0 08/07/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.where;
+package py.una.pol.karaku.dao.where;
 
 import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;

@@ -2,14 +2,14 @@
  * @SIGHSetPropertyActionListener.java 1.0 Mar 13, 2013 Sistema Integral de
  * Gestión Hospitalaria
  */
-package py.una.med.base.dynamic.util;
+package py.una.pol.karaku.dynamic.util;
 
 import javax.el.ValueExpression;
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
-import py.una.med.base.util.ELHelper;
+import py.una.pol.karaku.util.ELHelper;
 
 /**
  * Action Listener que se encarga de emular el comportamiento de

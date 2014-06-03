@@ -1,7 +1,7 @@
 /**
  * @ButtonField.java 1.1 08/05/2013. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import javax.el.ValueExpression;
 import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.context.FacesContext;
 import org.richfaces.component.UICommandButton;
-import py.una.med.base.util.ELHelper;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.util.ELHelper;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * Esta clase representa un boton ajax, el cual posee un textfield el cual puede
@@ -26,7 +26,7 @@ import py.una.med.base.util.ListHelper;
  */
 public class ButtonField extends TextField {
 
-	private static final String TYPE = "py.una.med.base.dynamic.forms.ButtonField";
+	private static final String TYPE = "py.una.pol.karaku.dynamic.forms.ButtonField";
 	private UICommandButton buttonBind;
 
 	private final AjaxBehavior ajaxBehavior;
@@ -50,7 +50,7 @@ public class ButtonField extends TextField {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.forms.TextField#setRequired(boolean)
+	 * @see py.una.pol.karaku.dynamic.forms.TextField#setRequired(boolean)
 	 */
 	@Override
 	public void setRequired(boolean required) {

@@ -2,9 +2,9 @@
  * @ReplicationJSFController.java 1.0 Nov 26, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.client;
+package py.una.pol.karaku.replication.client;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,19 +20,19 @@ import org.richfaces.component.UIExtendedDataTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.configuration.SIGHConfiguration;
-import py.una.med.base.controller.SIGHAdvancedController;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.services.client.WSEndpoint;
-import py.una.med.base.services.client.WSEndpointLogic;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.LabelProvider;
-import py.una.med.base.util.SelectHelper;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.configuration.SIGHConfiguration;
+import py.una.pol.karaku.controller.SIGHAdvancedController;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.services.client.WSEndpoint;
+import py.una.pol.karaku.services.client.WSEndpointLogic;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.LabelProvider;
+import py.una.pol.karaku.util.SelectHelper;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * 

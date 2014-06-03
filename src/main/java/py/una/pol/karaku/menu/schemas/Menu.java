@@ -7,7 +7,7 @@
 // Generated on: 2013.10.18 at 09:31:38 AM PYST
 //
 
-package py.una.med.base.menu.schemas;
+package py.una.pol.karaku.menu.schemas;
 
 import java.util.ArrayList;
 import java.util.List;

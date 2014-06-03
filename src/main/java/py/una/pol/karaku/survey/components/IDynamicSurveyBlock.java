@@ -2,7 +2,7 @@
  * @IDynamicSurveyBlock.java 1.0 04/06/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.survey.components;
+package py.una.pol.karaku.survey.components;
 
 import java.util.List;
 

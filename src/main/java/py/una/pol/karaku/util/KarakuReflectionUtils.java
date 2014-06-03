@@ -2,13 +2,13 @@
  * @KarakuReflectionUtils.java 1.0 Nov 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import javax.annotation.Nonnull;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  * Provee funcionalidades básicas para utilizar Reflection.

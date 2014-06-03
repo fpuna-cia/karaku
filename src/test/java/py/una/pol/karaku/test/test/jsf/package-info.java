@@ -9,4 +9,4 @@
  * @version 1.0 Sep 27, 2013
  * 
  */
-package py.una.med.base.test.test.jsf;
+package py.una.pol.karaku.test.test.jsf;

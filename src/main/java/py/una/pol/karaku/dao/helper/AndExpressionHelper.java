@@ -1,9 +1,9 @@
 /*
  * AndExpressionHelper.java 1.0 12/03/2013
  */
-package py.una.med.base.dao.helper;
+package py.una.pol.karaku.dao.helper;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +13,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.dao.where.And;
+import py.una.pol.karaku.dao.where.And;
 
 /**
  * 

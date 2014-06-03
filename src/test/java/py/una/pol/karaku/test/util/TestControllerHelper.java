@@ -2,7 +2,7 @@
  * @TestControllerHelper.java 1.0 Feb 11, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import java.util.Iterator;
 import javax.faces.application.Application;
@@ -16,7 +16,7 @@ import javax.faces.context.ResponseStream;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
 import org.richfaces.component.UICalendar;
-import py.una.med.base.util.ControllerHelper;
+import py.una.pol.karaku.util.ControllerHelper;
 
 /**
  * 

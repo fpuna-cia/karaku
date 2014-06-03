@@ -3,14 +3,14 @@
  *
  * Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.util;
+package py.una.pol.karaku.dao.util;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import py.una.med.base.dao.annotations.MainInstance;
+import py.una.pol.karaku.dao.annotations.MainInstance;
 
 /**
  * Clase auxiliar que manipula los field que tienen la anotación

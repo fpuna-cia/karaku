@@ -1,15 +1,15 @@
 /*
  * @ISIGHBaseLogic 1.4 18/02/2013 Sistema integral de Gestion Hospitalaria
  */
-package py.una.med.base.business;
+package py.una.pol.karaku.business;
 
 import java.io.Serializable;
 import java.util.List;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.select.Select;
-import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.repo.ISIGHBaseDao;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.select.Select;
+import py.una.pol.karaku.dao.util.EntityExample;
+import py.una.pol.karaku.repo.ISIGHBaseDao;
 
 /**
  * Intefaz que define las actividades basicas de la logica de negocio para todos

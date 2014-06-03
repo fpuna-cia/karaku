@@ -53,7 +53,7 @@
 	</bean>
 
 	<bean id="karakuWsAuthenticationProvider"
-		class="py.una.med.base.services.server.KarakuWSAuthenticationProvider" />
+		class="py.una.pol.karaku.services.server.KarakuWSAuthenticationProvider" />
 
 	<bean id="basicAuthenticationFilter"
 		class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
@@ -91,7 +91,7 @@
 		<property name="key" value="cas" />
 	</bean>
 
-	<bean id="allAuthenticatedUserService" class="py.una.med.base.security.SIGHUserService" />
+	<bean id="allAuthenticatedUserService" class="py.una.pol.karaku.security.SIGHUserService" />
 
 	<bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter" />
 

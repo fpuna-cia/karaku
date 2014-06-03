@@ -1,7 +1,7 @@
 /*
  * @EncuestaDetalleDAO 1.0 29/05/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.survey.repo;
+package py.una.pol.karaku.survey.repo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +9,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.OrderParam;
-import py.una.med.base.dao.search.SearchParam;
-import py.una.med.base.dao.select.Select;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.repo.SIGHBaseDao;
-import py.una.med.base.survey.domain.Encuesta;
-import py.una.med.base.survey.domain.EncuestaDetalle;
-import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
-import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
-import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
-import py.una.med.base.survey.domain.OpcionRespuesta;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.OrderParam;
+import py.una.pol.karaku.dao.search.SearchParam;
+import py.una.pol.karaku.dao.select.Select;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.survey.domain.Encuesta;
+import py.una.pol.karaku.survey.domain.EncuestaDetalle;
+import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
+import py.una.pol.karaku.survey.domain.OpcionRespuesta;
 
 /**
  * 

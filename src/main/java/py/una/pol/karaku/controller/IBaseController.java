@@ -1,9 +1,9 @@
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.model.SelectItem;
-import py.una.med.base.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
 
 /**
  * 

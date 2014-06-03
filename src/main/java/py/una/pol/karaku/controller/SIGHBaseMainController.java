@@ -1,7 +1,7 @@
 /*
  * @SIGHBaseMainController.java 1.0
  */
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,11 +10,11 @@ import org.apache.myfaces.orchestra.conversation.Conversation;
 import org.richfaces.event.ItemChangeEvent;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.log.Log;
-import py.una.med.base.security.AuthorityController;
-import py.una.med.base.security.HasRole;
-import py.una.med.base.security.SIGHSecurity;
-import py.una.med.base.util.ControllerHelper;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.security.AuthorityController;
+import py.una.pol.karaku.security.HasRole;
+import py.una.pol.karaku.security.SIGHSecurity;
+import py.una.pol.karaku.util.ControllerHelper;
 
 /**
  * 

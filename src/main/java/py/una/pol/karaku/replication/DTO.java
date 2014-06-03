@@ -1,7 +1,7 @@
 /*
  * @Shareable.java 1.0 Nov 5, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.replication;
+package py.una.pol.karaku.replication;
 
 /**
  * Determina un objeto válido para la replicación.
@@ -43,7 +43,7 @@ public interface DTO {
 	 * </p>
 	 * 
 	 * @return cadena única
-	 * @see py.una.med.base.dao.entity.annotations.URI
+	 * @see py.una.pol.karaku.dao.entity.annotations.URI
 	 */
 	String getUri();
 

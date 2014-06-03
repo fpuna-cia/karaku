@@ -1,7 +1,7 @@
 /*
  * @SIGHExceptionHandlerFactory.java 1.0 07/01/13
  */
-package py.una.med.base.exception;
+package py.una.pol.karaku.exception;
 
 import javax.faces.context.ExceptionHandler;
 import javax.faces.context.ExceptionHandlerFactory;

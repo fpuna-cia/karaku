@@ -1,11 +1,11 @@
 /*
  * @TextField.java 1.0 Feb 21, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import javax.el.ValueExpression;
 import javax.faces.component.html.HtmlInputText;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * 
@@ -19,7 +19,7 @@ public class TextField extends LabelField {
 	/**
 	 * Tipo de este componente
 	 */
-	private static final String TYPE = "py.una.med.base.dynamic.forms.TextField";
+	private static final String TYPE = "py.una.pol.karaku.dynamic.forms.TextField";
 
 	private HtmlInputText bind;
 

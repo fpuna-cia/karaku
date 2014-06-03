@@ -3,7 +3,7 @@
  * Sistema Integral de Gestion Hospitalaria
  * 
  */
-package py.una.med.base.exception;
+package py.una.pol.karaku.exception;
 
 /**
  * Clase base para todas las excepciones que no deben ser controladas

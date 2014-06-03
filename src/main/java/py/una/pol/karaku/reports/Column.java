@@ -2,7 +2,7 @@
  * @Column 1.0 20/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
 

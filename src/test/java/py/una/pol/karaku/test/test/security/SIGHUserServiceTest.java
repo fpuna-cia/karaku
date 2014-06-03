@@ -2,7 +2,7 @@
  * @SIGHUserServiceTest.java 1.0 Oct 24, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.security;
+package py.una.pol.karaku.test.test.security;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,11 +16,11 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import py.una.med.base.log.Log;
-import py.una.med.base.security.SIGHUserDetails;
-import py.una.med.base.security.SIGHUserService;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.security.SIGHUserDetails;
+import py.una.pol.karaku.security.SIGHUserService;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  *

@@ -2,16 +2,16 @@
  * @DynamicSurveyFields.java 1.0 07/06/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.survey.components;
+package py.una.pol.karaku.survey.components;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
-import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
-import py.una.med.base.survey.domain.OpcionRespuesta;
-import py.una.med.base.util.SIGHConverterV2;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
+import py.una.pol.karaku.survey.domain.OpcionRespuesta;
+import py.una.pol.karaku.util.SIGHConverterV2;
 
 /**
  * 
@@ -24,7 +24,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 	private DynamicSurveyFieldOption[] fields;
 	private int fieldsNumber = 0;
-	public static final String TYPE = "py.una.med.base.survey.components.DynamicSurveyFields";
+	public static final String TYPE = "py.una.pol.karaku.survey.components.DynamicSurveyFields";
 
 	/**
 	 * Construye un bloque del tipo Simple.

@@ -1,7 +1,7 @@
 /*
  * @StepFactory.java 1.0 Jun 5, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.wizard;
+package py.una.pol.karaku.dynamic.wizard;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.behavior.AjaxBehavior;
@@ -11,16 +11,16 @@ import javax.faces.event.AjaxBehaviorListener;
 import org.richfaces.component.UIPopupPanel;
 import org.richfaces.component.UITogglePanel;
 import org.richfaces.component.behavior.ToggleControl;
-import py.una.med.base.dynamic.forms.Button;
-import py.una.med.base.dynamic.forms.Button.OnClickCallBack;
-import py.una.med.base.dynamic.forms.ButtonAction;
-import py.una.med.base.dynamic.forms.DynamicFormList;
-import py.una.med.base.dynamic.forms.SIGHComponentFactory;
-import py.una.med.base.dynamic.tables.DataTable;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.ListHelper;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.dynamic.forms.Button;
+import py.una.pol.karaku.dynamic.forms.Button.OnClickCallBack;
+import py.una.pol.karaku.dynamic.forms.ButtonAction;
+import py.una.pol.karaku.dynamic.forms.DynamicFormList;
+import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.tables.DataTable;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.ListHelper;
+import py.una.pol.karaku.util.Util;
 
 /**
  * Fabrica de objetos del tipo {@link Step}, esta es una clase de conveniencia

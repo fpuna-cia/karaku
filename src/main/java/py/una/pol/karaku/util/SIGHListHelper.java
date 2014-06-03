@@ -2,9 +2,9 @@
  * @SIGHListHelper.java 1.0 Feb 25, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -13,16 +13,16 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.search.SearchHelper;
-import py.una.med.base.dao.select.Select;
-import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.model.DisplayName;
-import py.una.med.base.util.PagingHelper.ChangeListener;
-import py.una.med.base.util.SimpleFilter.ChangeListenerSimpleFilter;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.search.SearchHelper;
+import py.una.pol.karaku.dao.select.Select;
+import py.una.pol.karaku.dao.util.EntityExample;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.model.DisplayName;
+import py.una.pol.karaku.util.PagingHelper.ChangeListener;
+import py.una.pol.karaku.util.SimpleFilter.ChangeListenerSimpleFilter;
 
 /**
  * 

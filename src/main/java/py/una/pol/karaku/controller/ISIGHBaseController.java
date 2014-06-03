@@ -2,7 +2,7 @@
  * @ISIGHBaseController 1.0 20/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,15 +10,15 @@ import java.util.Map;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIOutput;
 import javax.faces.model.SelectItem;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.dao.BaseDAO;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.reports.Column;
-import py.una.med.base.security.HasDefaultPermissions;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.PagingHelper;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.dao.BaseDAO;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.reports.Column;
+import py.una.pol.karaku.security.HasDefaultPermissions;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.PagingHelper;
 
 /**
  * Interface que define el controlador básico para ser utilizado por una página

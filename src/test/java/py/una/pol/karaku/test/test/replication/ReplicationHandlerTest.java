@@ -2,7 +2,7 @@
  * @ReplicationManagerTest.java 1.0 Nov 22, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.replication;
+package py.una.pol.karaku.test.test.replication;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -21,29 +21,29 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import py.una.med.base.model.SIGHRevisionEntity;
-import py.una.med.base.replication.EntityNotFoundException;
-import py.una.med.base.replication.client.CacheAll;
-import py.una.med.base.replication.client.IReplicationLogic;
-import py.una.med.base.replication.client.ReplicationHandler;
-import py.una.med.base.replication.client.ReplicationInfo;
-import py.una.med.base.replication.client.ReplicationInfoDao;
-import py.una.med.base.replication.client.ReplicationLogic;
-import py.una.med.base.replication.client.ReplicationRequestFactory;
-import py.una.med.base.replication.client.ReplicationResponseHandler;
-import py.una.med.base.services.AbstractConverter;
-import py.una.med.base.services.ConverterProvider;
-import py.una.med.base.services.client.WSSecurityInterceptor;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntity;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntityDao;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntityResponse;
-import py.una.med.base.test.util.TestDateProvider;
-import py.una.med.base.test.util.TestPropertiesUtil;
-import py.una.med.base.test.util.TestUriCache;
-import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.test.util.transaction.SQLFiles;
+import py.una.pol.karaku.model.SIGHRevisionEntity;
+import py.una.pol.karaku.replication.EntityNotFoundException;
+import py.una.pol.karaku.replication.client.CacheAll;
+import py.una.pol.karaku.replication.client.IReplicationLogic;
+import py.una.pol.karaku.replication.client.ReplicationHandler;
+import py.una.pol.karaku.replication.client.ReplicationInfo;
+import py.una.pol.karaku.replication.client.ReplicationInfoDao;
+import py.una.pol.karaku.replication.client.ReplicationLogic;
+import py.una.pol.karaku.replication.client.ReplicationRequestFactory;
+import py.una.pol.karaku.replication.client.ReplicationResponseHandler;
+import py.una.pol.karaku.services.AbstractConverter;
+import py.una.pol.karaku.services.ConverterProvider;
+import py.una.pol.karaku.services.client.WSSecurityInterceptor;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntity;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntityDao;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntityResponse;
+import py.una.pol.karaku.test.util.TestDateProvider;
+import py.una.pol.karaku.test.util.TestPropertiesUtil;
+import py.una.pol.karaku.test.util.TestUriCache;
+import py.una.pol.karaku.test.util.TestUtils;
+import py.una.pol.karaku.test.util.transaction.SQLFiles;
 
 /**
  * 

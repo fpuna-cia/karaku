@@ -2,7 +2,7 @@
  * @MenuServerLogic.java 1.0 Oct 17, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.menu.server;
+package py.una.pol.karaku.menu.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,12 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.ListHelper;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.menu.schemas.Menu;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.ListHelper;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Component que provee las funcionalidades para proveer menús.

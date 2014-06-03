@@ -2,7 +2,7 @@
  * @SIGHReportBlockSign.java 1.0 24/07/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 import java.util.List;
 

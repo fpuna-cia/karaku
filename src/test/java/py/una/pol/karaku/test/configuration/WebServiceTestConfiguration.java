@@ -2,7 +2,7 @@
  * @TestConfiguration.java 1.0 Aug 19, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.configuration;
+package py.una.pol.karaku.test.configuration;
 
 import java.io.IOException;
 import java.util.concurrent.Executor;
@@ -18,14 +18,14 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.test.server.MockWebServiceClient;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.services.client.JsonURLProvider;
-import py.una.med.base.services.client.WSCaller;
-import py.una.med.base.services.client.WSInformationProvider;
-import py.una.med.base.services.client.WSSecurityInterceptor;
-import py.una.med.base.services.server.WebServiceDefinition;
-import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.test.util.TestWSCaller;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.services.client.JsonURLProvider;
+import py.una.pol.karaku.services.client.WSCaller;
+import py.una.pol.karaku.services.client.WSInformationProvider;
+import py.una.pol.karaku.services.client.WSSecurityInterceptor;
+import py.una.pol.karaku.services.server.WebServiceDefinition;
+import py.una.pol.karaku.test.util.TestUtils;
+import py.una.pol.karaku.test.util.TestWSCaller;
 
 /**
  * Clase base de configuración para test que utilizan

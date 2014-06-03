@@ -2,7 +2,7 @@
  * @QuantityContextListener.java 1.0 Nov 20, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.math;
+package py.una.pol.karaku.math;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

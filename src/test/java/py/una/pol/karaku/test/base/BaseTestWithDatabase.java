@@ -1,14 +1,14 @@
 /*
  * @ExampleTest.java 1.0 Aug 19, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.base;
+package py.una.pol.karaku.test.base;
 
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.test.util.transaction.DatabasePopulatorExecutionListener;
-import py.una.med.base.test.util.transaction.SQLFiles;
+import py.una.pol.karaku.test.util.transaction.DatabasePopulatorExecutionListener;
+import py.una.pol.karaku.test.util.transaction.SQLFiles;
 
 /**
  * Base clase para Test que utilicen una base de datos.

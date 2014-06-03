@@ -1,12 +1,12 @@
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.util.ListHelper;
 
 public final class SIGHReportBlockGrid extends SIGHReportBlock {
 

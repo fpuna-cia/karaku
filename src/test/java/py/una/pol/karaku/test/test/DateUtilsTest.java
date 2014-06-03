@@ -1,27 +1,27 @@
 /*
  * @DateUtilsTest.java 1.0 Nov 15, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test;
+package py.una.pol.karaku.test.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import static py.una.med.base.util.DateUtils.clearDate;
-import static py.una.med.base.util.DateUtils.cloneCalendar;
-import static py.una.med.base.util.DateUtils.cloneDate;
-import static py.una.med.base.util.DateUtils.isAfterOrEqual;
-import static py.una.med.base.util.DateUtils.isBefore;
-import static py.una.med.base.util.DateUtils.isBeforeOrEqual;
+import static py.una.pol.karaku.util.DateUtils.clearDate;
+import static py.una.pol.karaku.util.DateUtils.cloneCalendar;
+import static py.una.pol.karaku.util.DateUtils.cloneDate;
+import static py.una.pol.karaku.util.DateUtils.isAfterOrEqual;
+import static py.una.pol.karaku.util.DateUtils.isBefore;
+import static py.una.pol.karaku.util.DateUtils.isBeforeOrEqual;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.Test;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class DateUtilsTest extends BaseTest {
 
 	/**
 	 * Test method for
-	 * {@link py.una.med.base.util.DateUtils#cloneDate(java.util.Date)}.
+	 * {@link py.una.pol.karaku.util.DateUtils#cloneDate(java.util.Date)}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test
@@ -56,7 +56,7 @@ public class DateUtilsTest extends BaseTest {
 
 	/**
 	 * Test method for
-	 * {@link py.una.med.base.util.DateUtils#cloneCalendar(java.util.Calendar)}
+	 * {@link py.una.pol.karaku.util.DateUtils#cloneCalendar(java.util.Calendar)}
 	 * .
 	 */
 	@Test

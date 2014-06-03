@@ -1,4 +1,4 @@
-package py.una.med.base.model;
+package py.una.pol.karaku.model;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

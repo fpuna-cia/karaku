@@ -2,7 +2,7 @@
  * @KarakuFaultMessageResolverTest.java 1.0 Mar 10, 2014 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.test.test.services;
+package py.una.pol.karaku.test.test.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -15,9 +15,9 @@ import org.junit.Test;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 import org.springframework.ws.soap.saaj.SaajSoapMessage;
-import py.una.med.base.exception.HTTPException;
-import py.una.med.base.services.client.KarakuFaultMessageResolver;
-import py.una.med.base.services.schemas.HTTPExceptionDTO;
+import py.una.pol.karaku.exception.HTTPException;
+import py.una.pol.karaku.services.client.KarakuFaultMessageResolver;
+import py.una.pol.karaku.services.schemas.HTTPExceptionDTO;
 
 /**
  * 
@@ -30,7 +30,7 @@ public class KarakuFaultMessageResolverTest {
 
 	/**
 	 * Test method for
-	 * {@link py.una.med.base.services.client.KarakuFaultMessageResolver#resolveFault(org.springframework.ws.WebServiceMessage)}
+	 * {@link py.una.pol.karaku.services.client.KarakuFaultMessageResolver#resolveFault(org.springframework.ws.WebServiceMessage)}
 	 * .
 	 */
 	@Test

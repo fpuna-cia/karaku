@@ -2,7 +2,7 @@
  * @QuantityAdapterTest.java 1.0 Oct 14, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.math;
+package py.una.pol.karaku.test.test.math;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.math.Quantity;
-import py.una.med.base.services.util.NumberAdapter;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.math.Quantity;
+import py.una.pol.karaku.services.util.NumberAdapter;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * 

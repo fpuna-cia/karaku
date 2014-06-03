@@ -2,16 +2,16 @@
  * @WSEndpointController 1.0 26/06/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.configuration.SIGHConfiguration;
-import py.una.med.base.controller.ISIGHAdvancedController;
-import py.una.med.base.controller.SIGHAdvancedController;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.configuration.SIGHConfiguration;
+import py.una.pol.karaku.controller.ISIGHAdvancedController;
+import py.una.pol.karaku.controller.SIGHAdvancedController;
 
 /**
  * Controlador para la vista de manejo de URL's.

@@ -20,4 +20,4 @@
  * @version 1.0 Oct 1, 2013
  *
  */
-package py.una.med.base.dao.entity;
+package py.una.pol.karaku.dao.entity;

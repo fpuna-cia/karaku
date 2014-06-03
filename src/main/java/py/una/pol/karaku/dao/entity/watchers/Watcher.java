@@ -1,9 +1,9 @@
 /*
  * @Watcher.java 1.0 Nov 6, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.entity.watchers;
+package py.una.pol.karaku.dao.entity.watchers;
 
-import py.una.med.base.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.Operation;
 
 /**
  *

@@ -1,4 +1,4 @@
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -14,8 +14,8 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  * Clase para realizar operaciones de directorio en LDAP

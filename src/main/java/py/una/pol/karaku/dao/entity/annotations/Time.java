@@ -1,7 +1,7 @@
 /*
  * @Time.java 1.0 Oct 1, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.entity.annotations;
+package py.una.pol.karaku.dao.entity.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -48,7 +48,7 @@ public @interface Time {
 		/**
 		 * Fecha sin horas ni minutos.
 		 * <p>
-		 * {@link py.una.med.base.util.FormatProvider#DATE_FORMAT} es el formato
+		 * {@link py.una.pol.karaku.util.FormatProvider#DATE_FORMAT} es el formato
 		 * por defecto de este tipo de atributos
 		 * </p>
 		 */
@@ -59,7 +59,7 @@ public @interface Time {
 		 * Se eliminan el dia, el mes, el año, segundos y milisegundos
 		 * </p>
 		 * <p>
-		 * {@link py.una.med.base.util.FormatProvider#TIME_FORMAT} es el formato
+		 * {@link py.una.pol.karaku.util.FormatProvider#TIME_FORMAT} es el formato
 		 * por defecto de este tipo de atributos
 		 * </p>
 		 */
@@ -70,7 +70,7 @@ public @interface Time {
 		 * Se eliminan los segundos y milisegundos
 		 * </p>
 		 * <p>
-		 * {@link py.una.med.base.util.FormatProvider#DATETIME_FORMAT} es el
+		 * {@link py.una.pol.karaku.util.FormatProvider#DATETIME_FORMAT} es el
 		 * formato por defecto de este tipo de atributos
 		 * </p>
 		 */

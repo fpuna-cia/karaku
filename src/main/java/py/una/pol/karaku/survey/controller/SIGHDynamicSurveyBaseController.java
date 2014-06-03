@@ -2,7 +2,7 @@
  * @SIGHDynamicSurveyBaseController.java 1.0 03/06/13. Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.survey.controller;
+package py.una.pol.karaku.survey.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,28 +11,28 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.survey.business.IEncuestaDetalleLogic;
-import py.una.med.base.survey.business.IEncuestaLogic;
-import py.una.med.base.survey.business.IEncuestaPlantillaBloqueLogic;
-import py.una.med.base.survey.business.IEncuestaPlantillaPreguntaLogic;
-import py.una.med.base.survey.components.DynamicSurveyBlock;
-import py.una.med.base.survey.components.DynamicSurveyDataTable;
-import py.una.med.base.survey.components.DynamicSurveyField;
-import py.una.med.base.survey.components.DynamicSurveyField.SurveyField;
-import py.una.med.base.survey.components.DynamicSurveyFieldOption;
-import py.una.med.base.survey.components.DynamicSurveyFields;
-import py.una.med.base.survey.components.DynamicSurveyRow;
-import py.una.med.base.survey.domain.Encuesta;
-import py.una.med.base.survey.domain.EncuestaDetalle;
-import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
-import py.una.med.base.survey.domain.EncuestaPlantilla;
-import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
-import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
-import py.una.med.base.survey.domain.OpcionRespuesta;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.ListHelper;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.survey.business.IEncuestaDetalleLogic;
+import py.una.pol.karaku.survey.business.IEncuestaLogic;
+import py.una.pol.karaku.survey.business.IEncuestaPlantillaBloqueLogic;
+import py.una.pol.karaku.survey.business.IEncuestaPlantillaPreguntaLogic;
+import py.una.pol.karaku.survey.components.DynamicSurveyBlock;
+import py.una.pol.karaku.survey.components.DynamicSurveyDataTable;
+import py.una.pol.karaku.survey.components.DynamicSurveyField;
+import py.una.pol.karaku.survey.components.DynamicSurveyField.SurveyField;
+import py.una.pol.karaku.survey.components.DynamicSurveyFieldOption;
+import py.una.pol.karaku.survey.components.DynamicSurveyFields;
+import py.una.pol.karaku.survey.components.DynamicSurveyRow;
+import py.una.pol.karaku.survey.domain.Encuesta;
+import py.una.pol.karaku.survey.domain.EncuestaDetalle;
+import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
+import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
+import py.una.pol.karaku.survey.domain.OpcionRespuesta;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.ListHelper;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * 

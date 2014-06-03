@@ -1,11 +1,11 @@
 /*
  * @IAuditLogic 1.0 18/02/2013 Sistema integral de Gestion Hospitalaria
  */
-package py.una.med.base.business;
+package py.una.pol.karaku.business;
 
 import java.util.List;
-import py.una.med.base.domain.AuditTrail;
-import py.una.med.base.domain.AuditTrailDetail;
+import py.una.pol.karaku.domain.AuditTrail;
+import py.una.pol.karaku.domain.AuditTrailDetail;
 
 /**
  * 

@@ -1,11 +1,11 @@
 /*
  * @Interceptor.java 1.0 Oct 7, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.entity.interceptors;
+package py.una.pol.karaku.dao.entity.interceptors;
 
 import java.lang.reflect.Field;
 import javax.annotation.Nonnull;
-import py.una.med.base.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.Operation;
 
 /**
  * Interfaz que define un EntityInterceptor

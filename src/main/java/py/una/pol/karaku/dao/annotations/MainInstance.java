@@ -2,7 +2,7 @@
  * @Principal.java 1.0 Feb 13, 2013 Sistema Integral de Gestion Hospitalaria
  *
  */
-package py.una.med.base.dao.annotations;
+package py.una.pol.karaku.dao.annotations;
 
 import static javax.persistence.FetchType.EAGER;
 import java.lang.annotation.ElementType;
@@ -58,7 +58,7 @@ import javax.persistence.FetchType;
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 13, 2013
- * @see py.una.med.base.dao.util.MainInstanceHelper
+ * @see py.una.pol.karaku.dao.util.MainInstanceHelper
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

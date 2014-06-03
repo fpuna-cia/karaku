@@ -1,9 +1,9 @@
 /**
  * @I18nHelper 1.0 25/03/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,10 +16,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.configuration.SIGHConfiguration;
-import py.una.med.base.log.Log;
-import py.una.med.base.model.DisplayName;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.configuration.SIGHConfiguration;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.model.DisplayName;
 
 /**
  * Clase que sirve como punto de acceso único para la internacionalizacion.

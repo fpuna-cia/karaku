@@ -2,7 +2,7 @@
  * @SIGHExceptionHandler.java 1.0 07/01/13
  */
 
-package py.una.med.base.exception;
+package py.una.pol.karaku.exception;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -13,8 +13,8 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.util.Util;
 
 /**
  * Esta clase provee comportamiento especializado a una instancia

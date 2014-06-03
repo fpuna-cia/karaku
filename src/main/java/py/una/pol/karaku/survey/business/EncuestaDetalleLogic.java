@@ -1,21 +1,21 @@
 /*
  * @EncuestaDetalleLogic 1.0 29/05/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.survey.business;
+package py.una.pol.karaku.survey.business;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.business.SIGHBaseLogic;
-import py.una.med.base.repo.ISIGHBaseDao;
-import py.una.med.base.survey.domain.Encuesta;
-import py.una.med.base.survey.domain.EncuestaDetalle;
-import py.una.med.base.survey.domain.EncuestaDetalleOpcionRespuesta;
-import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
-import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
-import py.una.med.base.survey.domain.OpcionRespuesta;
-import py.una.med.base.survey.repo.IEncuestaDetalleDAO;
+import py.una.pol.karaku.business.SIGHBaseLogic;
+import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.survey.domain.Encuesta;
+import py.una.pol.karaku.survey.domain.EncuestaDetalle;
+import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
+import py.una.pol.karaku.survey.domain.OpcionRespuesta;
+import py.una.pol.karaku.survey.repo.IEncuestaDetalleDAO;
 
 /**
  * 
@@ -60,7 +60,7 @@ public class EncuestaDetalleLogic extends SIGHBaseLogic<EncuestaDetalle, Long>
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.survey.business.IEncuestaDetalleLogic#
+	 * @see py.una.pol.karaku.survey.business.IEncuestaDetalleLogic#
 	 * getDetailsRespuestasSelected(long)
 	 */
 	@Override

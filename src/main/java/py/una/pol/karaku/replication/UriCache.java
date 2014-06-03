@@ -1,9 +1,9 @@
 /*
  * @UriCache.java 1.0 Nov 27, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.replication;
+package py.una.pol.karaku.replication;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.log.Log;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.log.Log;
 
 /**
  * 

@@ -2,7 +2,7 @@
  * @EndpointEsceptionResolverTest.java 1.0 Mar 10, 2014 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.test.test.services;
+package py.una.pol.karaku.test.test.services;
 
 import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Method;
@@ -16,9 +16,9 @@ import org.springframework.ws.soap.SoapFault;
 import org.springframework.ws.soap.SoapFaultDetail;
 import org.springframework.ws.soap.SoapFaultDetailElement;
 import org.springframework.xml.transform.StringResult;
-import py.una.med.base.exception.HTTPException;
-import py.una.med.base.services.schemas.HTTPExceptionDTO;
-import py.una.med.base.services.server.EndpointExceptionResolver;
+import py.una.pol.karaku.exception.HTTPException;
+import py.una.pol.karaku.services.schemas.HTTPExceptionDTO;
+import py.una.pol.karaku.services.server.EndpointExceptionResolver;
 
 /**
  * 
@@ -31,7 +31,7 @@ public class EndpointExceptionResolverTest {
 
 	/**
 	 * Test method for
-	 * {@link py.una.med.base.services.server.EndpointExceptionResolver#customizeFault(java.lang.Object, java.lang.Exception, org.springframework.ws.soap.SoapFault)}
+	 * {@link py.una.pol.karaku.services.server.EndpointExceptionResolver#customizeFault(java.lang.Object, java.lang.Exception, org.springframework.ws.soap.SoapFault)}
 	 * .
 	 * 
 	 * @throws SecurityException

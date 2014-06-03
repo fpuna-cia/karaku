@@ -1,17 +1,17 @@
 /*
  * @ReportHelper.java 1.0 28/03/2014 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.log.Log;
-import py.una.med.base.reports.ExportReport;
-import py.una.med.base.reports.SIGHReportBlock;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.reports.ExportReport;
+import py.una.pol.karaku.reports.SIGHReportBlock;
 
 /**
  * Clase utilizada para generar reportes dentro de la aplicación.

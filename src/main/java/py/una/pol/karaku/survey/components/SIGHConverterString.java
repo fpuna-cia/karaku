@@ -1,7 +1,7 @@
 /*
  * @ConverterString.java 1.0 13/06/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.survey.components;
+package py.una.pol.karaku.survey.components;
 
 import java.util.Date;
 import javax.faces.component.UIComponent;

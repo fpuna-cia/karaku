@@ -1,4 +1,4 @@
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 /**
  * Clase que contiene cadenas constantes de expresiones regulares que se pueden

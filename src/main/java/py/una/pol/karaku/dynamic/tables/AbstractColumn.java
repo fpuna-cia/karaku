@@ -1,12 +1,12 @@
 /*
  * @Column.java 1.0 Mar 11, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.tables;
+package py.una.pol.karaku.dynamic.tables;
 
 import javax.faces.component.UIComponent;
 import org.richfaces.component.UIColumn;
-import py.una.med.base.dynamic.forms.SIGHComponentFactory;
-import py.una.med.base.util.ELHelper;
+import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.util.ELHelper;
 
 /**
  * Clase que representa una columna, por defecto trata con una cabecera y un

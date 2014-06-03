@@ -1,12 +1,12 @@
 /*
  * @QuantityType.java 1.0 Oct 9, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.entity.types;
+package py.una.pol.karaku.dao.entity.types;
 
 import java.sql.Types;
 import org.hibernate.type.AbstractSingleColumnStandardBasicType;
 import org.hibernate.type.descriptor.sql.DecimalTypeDescriptor;
-import py.una.med.base.math.Quantity;
+import py.una.pol.karaku.math.Quantity;
 
 /**
  * Hibernate Type para la clase {@link Quantity}.

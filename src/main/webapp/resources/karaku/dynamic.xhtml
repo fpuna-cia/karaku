@@ -10,7 +10,7 @@
 	xmlns:rich="http://richfaces.org/rich">
 	<cc:interface>
 		<cc:attribute name="field"
-			type="py.una.med.base.dynamic.forms.Field" required="true" />
+			type="py.una.pol.karaku.dynamic.forms.Field" required="true" />
 
 	</cc:interface>
 
@@ -18,7 +18,7 @@
 
 		<c:choose>
 			<c:when
-				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.PickerField'}">
+				test="#{cc.attrs.field.type eq 'py.una.pol.karaku.dynamic.forms.PickerField'}">
 				<h:outputLabel value="#{cc.attrs.field.label}" />
 				<h:panelGroup id="#{cc.attrs.field.id}">
 					<sigh:pickerButton pickerField="#{item}"
@@ -29,13 +29,13 @@
 				<rich:message ajaxRendered="true" for="#{cc.attrs.field.id}" />
 			</c:when>
 			<c:when
-				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.TextField'}">
+				test="#{cc.attrs.field.type eq 'py.una.pol.karaku.dynamic.forms.TextField'}">
 				<h:outputLabel value="#{cc.attrs.field.label}" />
 				<h:inputText binding="#{cc.attrs.field.bind}" id="#{cc.attrs.field.bind.id}" />
 				<h:message for="#{cc.attrs.field.bind.id}" />
 			</c:when>
 			<c:when
-				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.ButtonField'}">
+				test="#{cc.attrs.field.type eq 'py.una.pol.karaku.dynamic.forms.ButtonField'}">
 
 				<h:outputLabel value="#{cc.attrs.field.label}" id="#{cc.attrs.field.id}_label" />
 				<h:inputText value="#{cc.attrs.field.object}" id="#{cc.attrs.field.id}_input"
@@ -43,24 +43,24 @@
 				<h:commandButton binding="#{cc.attrs.field.buttonBind}" id="#{cc.attrs.field.id}_button" />
 			</c:when>
 			<c:when
-				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.ComboBoxField'}">
+				test="#{cc.attrs.field.type eq 'py.una.pol.karaku.dynamic.forms.ComboBoxField'}">
 				<h:outputLabel value="#{cc.attrs.field.label}" />
 				<h:selectOneMenu binding="#{cc.attrs.field.bind}" id="#{cc.attrs.field.bind.id}" />
 				<h:message for="#{cc.attrs.field.bind.id}" />
 			</c:when>
 			<c:when
-				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.CalendarField'}">
+				test="#{cc.attrs.field.type eq 'py.una.pol.karaku.dynamic.forms.CalendarField'}">
 				<h:outputLabel value="#{cc.attrs.field.label}" />
 				<rich:calendar binding="#{cc.attrs.field.bind}" id="#{cc.attrs.field.id}" />
 				<rich:message for="#{cc.attrs.field.id}" />
 			</c:when>
 			<c:when
-				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.Button'}">
+				test="#{cc.attrs.field.type eq 'py.una.pol.karaku.dynamic.forms.Button'}">
 				<h:commandButton id="#{cc.attrs.field.id}"
 					binding="#{cc.attrs.field.bind}" />
 			</c:when>
 			<c:when
-				test="#{cc.attrs.field.type eq 'py.una.med.base.dynamic.forms.RadioButtonField'}">
+				test="#{cc.attrs.field.type eq 'py.una.pol.karaku.dynamic.forms.RadioButtonField'}">
 				<h:outputLabel value="#{cc.attrs.field.label}" />
 				<h:selectOneRadio binding="#{cc.attrs.field.bind}" id="#{cc.attrs.field.bind.id}" />
 				<h:message for="#{cc.attrs.field.bind.id}" />

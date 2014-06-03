@@ -1,7 +1,7 @@
 /**
  * @OrdenParam 1.0 23/10/2012
  */
-package py.una.med.base.dao.search;
+package py.una.pol.karaku.dao.search;
 
 import javax.annotation.Nonnull;
 

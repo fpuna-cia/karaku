@@ -2,7 +2,7 @@
  * @KarakuAliasToBeanTransformer.java 1.0 Oct 13, 2013 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.dao.select;
+package py.una.pol.karaku.dao.select;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -25,9 +25,9 @@ import org.hibernate.property.Setter;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * Simple Transformer que expande el {@link AliasToBeanResultTransformer} para

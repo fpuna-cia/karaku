@@ -2,11 +2,11 @@
  * @ShareableWatcher.java 1.0 Nov 7, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication;
+package py.una.pol.karaku.replication;
 
 import org.springframework.stereotype.Component;
-import py.una.med.base.dao.entity.Operation;
-import py.una.med.base.dao.entity.watchers.AbstractWatcher;
+import py.una.pol.karaku.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.watchers.AbstractWatcher;
 
 /**
  *

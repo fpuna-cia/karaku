@@ -1,7 +1,7 @@
 /*
  * @Util.java 1.0 Sep 10, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Field;
@@ -19,8 +19,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 import org.springframework.util.ReflectionUtils.FieldFilter;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.test.test.util.layers.TestEntity;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.test.test.util.layers.TestEntity;
 
 /**
  * Provee utilidades para los test.

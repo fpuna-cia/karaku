@@ -2,13 +2,13 @@
  * @QuantityTypeDescriptor.java 1.0 Oct 9, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dao.entity.types;
+package py.una.pol.karaku.dao.entity.types;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import org.hibernate.type.descriptor.WrapperOptions;
 import org.hibernate.type.descriptor.java.AbstractTypeDescriptor;
-import py.una.med.base.math.Quantity;
+import py.una.pol.karaku.math.Quantity;
 
 /**
  * 

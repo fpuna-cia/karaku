@@ -2,7 +2,7 @@
  * @ReflexionConverter.java 1.0 Nov 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services;
+package py.una.pol.karaku.services;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -13,10 +13,10 @@ import java.util.Set;
 import org.springframework.core.GenericCollectionTypeResolver;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.EntityNotFoundException;
-import py.una.med.base.replication.Shareable;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.EntityNotFoundException;
+import py.una.pol.karaku.replication.Shareable;
 
 /**
  * {@link Converter} que utiliza reflexión.

@@ -2,7 +2,7 @@
  * @SIGHComponentFactoryTest.java 1.0 May 6, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.util;
+package py.una.pol.karaku.test.test.util;
 
 import static org.junit.Assert.assertNotNull;
 import javax.faces.FacesException;
@@ -15,8 +15,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.FacesContextWrapper;
 import org.junit.Test;
 import org.richfaces.component.behavior.ToggleControl;
-import py.una.med.base.dynamic.forms.PickerField;
-import py.una.med.base.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.forms.PickerField;
+import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
 
 /**
  * 

@@ -1,7 +1,7 @@
 /*
  * @Shareable.java 1.0 Nov 5, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.replication;
+package py.una.pol.karaku.replication;
 
 /**
  * Determina si una entidad puede o no ser replicada a varios sistemas.
@@ -106,7 +106,7 @@ public interface Shareable {
 	 * </p>
 	 * 
 	 * @return cadena única
-	 * @see py.una.med.base.dao.entity.annotations.URI
+	 * @see py.una.pol.karaku.dao.entity.annotations.URI
 	 */
 	String getUri();
 

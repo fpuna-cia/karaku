@@ -1,13 +1,13 @@
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.dao.where.MatchMode;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.util.EntityExample;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.dao.where.MatchMode;
 
 /**
  * Componente que provee acceso a URL's a través de la entidad

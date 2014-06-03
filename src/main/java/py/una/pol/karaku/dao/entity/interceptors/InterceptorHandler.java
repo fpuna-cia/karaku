@@ -2,9 +2,9 @@
  * @InterceptorHandler.java 1.0 Oct 1, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dao.entity.interceptors;
+package py.una.pol.karaku.dao.entity.interceptors;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -25,9 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
-import py.una.med.base.dao.entity.Operation;
-import py.una.med.base.log.Log;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.dao.entity.Operation;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * 

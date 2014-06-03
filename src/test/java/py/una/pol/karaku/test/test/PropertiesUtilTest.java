@@ -2,7 +2,7 @@
  * @PropertiesUtilTest.java 1.0 Feb 27, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test;
+package py.una.pol.karaku.test.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,10 +11,10 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.exception.KarakuWrongConfigurationFileException;
-import py.una.med.base.test.util.TestUtils;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.KarakuWrongConfigurationFileException;
+import py.una.pol.karaku.test.util.TestUtils;
 
 /**
  * 

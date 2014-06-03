@@ -2,9 +2,9 @@
  * @ObjectNotFound.java 1.0 Nov 28, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication;
+package py.una.pol.karaku.replication;
 
-import py.una.med.base.exception.KarakuException;
+import py.una.pol.karaku.exception.KarakuException;
 
 /**
  * 

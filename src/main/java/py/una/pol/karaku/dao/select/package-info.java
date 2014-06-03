@@ -8,4 +8,4 @@
  * @version 1.0 Oct 13, 2013
  * 
  */
-package py.una.med.base.dao.select;
+package py.una.pol.karaku.dao.select;

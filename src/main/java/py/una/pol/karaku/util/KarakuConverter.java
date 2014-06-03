@@ -2,7 +2,7 @@
  * @KarakuConverter.java 1.0 Jun 6, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.lang.reflect.Field;
 import javax.faces.component.UIComponent;
@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import py.una.med.base.domain.BaseEntity;
+import py.una.pol.karaku.domain.BaseEntity;
 
 /**
  * 

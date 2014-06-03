@@ -1,4 +1,4 @@
-package py.una.med.base.test.test;
+package py.una.pol.karaku.test.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import py.una.med.base.util.SIGHListHelperInMemory;
+import py.una.pol.karaku.util.SIGHListHelperInMemory;
 
 public class SIGHListHelperInMemoryTest {
 

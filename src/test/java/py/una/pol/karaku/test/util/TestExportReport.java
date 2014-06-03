@@ -2,14 +2,14 @@
  * @ExportReportTest.java 1.0 06/03/2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperPrint;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.reports.ExportReport;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.reports.ExportReport;
 
 /**
  * 

@@ -25,4 +25,4 @@
  * @version 1.0 Nov 4, 2013
  *
  */
-package py.una.med.base.test.test.replication;
+package py.una.pol.karaku.test.test.replication;

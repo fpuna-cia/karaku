@@ -1,7 +1,7 @@
 /**
  * @Align 1.1 10/04/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 /**
  * Se utiliza para definir la horientacion de la pagina para los reportes

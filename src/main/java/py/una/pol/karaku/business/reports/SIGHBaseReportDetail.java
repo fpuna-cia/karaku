@@ -2,7 +2,7 @@
  * @SIGHBaseReportDetail 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.business.reports;
+package py.una.pol.karaku.business.reports;
 
 import java.util.List;
 import java.util.Map;
@@ -11,15 +11,15 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.log.Log;
-import py.una.med.base.reports.Align;
-import py.una.med.base.reports.ExportReport;
-import py.una.med.base.reports.SIGHReportBlock;
-import py.una.med.base.reports.SIGHReportBlockSign;
-import py.una.med.base.reports.SIGHReportDetails;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.reports.Align;
+import py.una.pol.karaku.reports.ExportReport;
+import py.una.pol.karaku.reports.SIGHReportBlock;
+import py.una.pol.karaku.reports.SIGHReportBlockSign;
+import py.una.pol.karaku.reports.SIGHReportDetails;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * Clase que implementa el servicio para reportes del tipo cabecera-detalle. Se

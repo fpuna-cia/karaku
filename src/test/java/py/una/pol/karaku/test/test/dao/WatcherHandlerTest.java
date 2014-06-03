@@ -1,7 +1,7 @@
 /*
  * @WatcherTest.java 1.0 Nov 6, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.dao;
+package py.una.pol.karaku.test.test.dao;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertEquals;
@@ -16,11 +16,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.dao.entity.Operation;
-import py.una.med.base.dao.entity.watchers.AbstractWatcher;
-import py.una.med.base.dao.entity.watchers.WatcherHandler;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.watchers.AbstractWatcher;
+import py.una.pol.karaku.dao.entity.watchers.WatcherHandler;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  *

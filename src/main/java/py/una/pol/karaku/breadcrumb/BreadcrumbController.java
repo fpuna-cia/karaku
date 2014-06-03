@@ -2,7 +2,7 @@
  *
  * @BreadCrumController.java 14/02/13 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.breadcrumb;
+package py.una.pol.karaku.breadcrumb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,12 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import py.una.med.base.configuration.SIGHConfiguration;
-import py.una.med.base.controller.ISIGHBaseController;
-import py.una.med.base.jsf.utils.ICurrentpageHelper;
-import py.una.med.base.menu.client.MenuHelper;
-import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.configuration.SIGHConfiguration;
+import py.una.pol.karaku.controller.ISIGHBaseController;
+import py.una.pol.karaku.jsf.utils.ICurrentpageHelper;
+import py.una.pol.karaku.menu.client.MenuHelper;
+import py.una.pol.karaku.menu.schemas.Menu;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * Controlador que se encarga de manipular la vista del breadcrum

@@ -8,4 +8,4 @@
  * @version 1.0 Sep 16, 2013
  * 
  */
-package py.una.med.base.log;
+package py.una.pol.karaku.log;

@@ -8,4 +8,4 @@
  * @version 1.0 Jul 18, 2013
  * 
  */
-package py.una.med.base.survey.repo;
+package py.una.pol.karaku.survey.repo;

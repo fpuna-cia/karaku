@@ -2,7 +2,7 @@
  * @ReplicationRequestFactoryTest.java 1.0 Nov 26, 2013 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.test.test.replication;
+package py.una.pol.karaku.test.test.replication;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.replication.client.ReplicationInfo;
-import py.una.med.base.replication.client.ReplicationRequestFactory;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.replication.client.ReplicationInfo;
+import py.una.pol.karaku.replication.client.ReplicationRequestFactory;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * 

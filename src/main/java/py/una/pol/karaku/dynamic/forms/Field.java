@@ -1,7 +1,7 @@
 /*
  * @Field.java 1.0 Feb 21, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import java.util.Iterator;
 import javax.faces.application.FacesMessage;
@@ -9,8 +9,8 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import py.una.med.base.util.ELHelper;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.util.ELHelper;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * 

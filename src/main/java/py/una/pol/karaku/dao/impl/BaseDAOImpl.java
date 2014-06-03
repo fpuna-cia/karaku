@@ -3,9 +3,9 @@
  * 
  * Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.impl;
+package py.una.pol.karaku.dao.impl;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -32,25 +32,25 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.dao.BaseDAO;
-import py.una.med.base.dao.entity.Operation;
-import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
-import py.una.med.base.dao.entity.watchers.WatcherHandler;
-import py.una.med.base.dao.helper.BaseClauseHelper;
-import py.una.med.base.dao.helper.RestrictionHelper;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.search.OrderParam;
-import py.una.med.base.dao.search.SearchParam;
-import py.una.med.base.dao.select.KarakuAliasToBeanTransformer;
-import py.una.med.base.dao.select.Select;
-import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.dao.util.MainInstanceHelper;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.log.Log;
-import py.una.med.base.util.KarakuReflectionUtils;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.dao.BaseDAO;
+import py.una.pol.karaku.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.interceptors.InterceptorHandler;
+import py.una.pol.karaku.dao.entity.watchers.WatcherHandler;
+import py.una.pol.karaku.dao.helper.BaseClauseHelper;
+import py.una.pol.karaku.dao.helper.RestrictionHelper;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.search.OrderParam;
+import py.una.pol.karaku.dao.search.SearchParam;
+import py.una.pol.karaku.dao.select.KarakuAliasToBeanTransformer;
+import py.una.pol.karaku.dao.select.Select;
+import py.una.pol.karaku.dao.util.EntityExample;
+import py.una.pol.karaku.dao.util.MainInstanceHelper;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.util.KarakuReflectionUtils;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * Clase que implementa la interfaz {@link BaseDAO} utilizando {@link Session},

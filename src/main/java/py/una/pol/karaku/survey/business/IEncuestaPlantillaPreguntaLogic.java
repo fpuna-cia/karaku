@@ -2,12 +2,12 @@
  * @IEncuestaPlantillaPreguntaLogic 1.0 29/05/13. Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.survey.business;
+package py.una.pol.karaku.survey.business;
 
 import java.util.List;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.survey.domain.EncuestaPlantillaBloque;
-import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 
 /**
  * 

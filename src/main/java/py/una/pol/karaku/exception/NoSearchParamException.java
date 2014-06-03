@@ -2,7 +2,7 @@
  * @NoSearchParamException.java 1.0 Abr 26, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.exception;
+package py.una.pol.karaku.exception;
 
 /**
  * 

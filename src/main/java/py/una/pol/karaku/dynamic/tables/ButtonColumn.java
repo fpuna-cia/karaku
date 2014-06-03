@@ -1,12 +1,12 @@
 /*
  * @ButtonColumn.java 1.0 Mar 13, 2013 Sistema Integral de Gestión Hospitalaria
  */
-package py.una.med.base.dynamic.tables;
+package py.una.pol.karaku.dynamic.tables;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.component.UIComponent;
-import py.una.med.base.dynamic.forms.Button;
+import py.una.pol.karaku.dynamic.forms.Button;
 
 /**
  * Columna que tiene una cabecera simple y N botones en el cuerpo, estos botones

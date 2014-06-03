@@ -1,16 +1,16 @@
 /*
  * @Where Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.restrictions;
+package py.una.pol.karaku.dao.restrictions;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
 import org.hibernate.criterion.Criterion;
-import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.dao.where.Clause;
+import py.una.pol.karaku.dao.util.EntityExample;
+import py.una.pol.karaku.dao.where.Clause;
 
 /**
  * Clase que representa las restricciones para la busqueda.
@@ -87,7 +87,7 @@ public class Where<T> {
 
 	/**
 	 * Utilize {@link Where#addClause(Clause)} y
-	 * {@link py.una.med.base.dao.where.Clauses} para generar restricciones.
+	 * {@link py.una.pol.karaku.dao.where.Clauses} para generar restricciones.
 	 * 
 	 * @param crit
 	 *            para agregar.
@@ -104,12 +104,12 @@ public class Where<T> {
 
 	/**
 	 * Agrega una restricción a la consulta, estos se construyen con la clase
-	 * {@link py.una.med.base.dao.where.Clauses} y se pueden agregar tantos como
+	 * {@link py.una.pol.karaku.dao.where.Clauses} y se pueden agregar tantos como
 	 * se desean. Todas las clausulas que se agregan por este método se añaden
 	 * como una condición <code>and</code>.
 	 * <p>
 	 * Si se desea que se agregen como <code>or</code>, ver
-	 * {@link py.una.med.base.dao.where.Or}
+	 * {@link py.una.pol.karaku.dao.where.Or}
 	 * </p>
 	 * 
 	 * @param newClauses

@@ -2,7 +2,7 @@
  * @WSSecurityHeaderInterceptor.java 1.0 Aug 5, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;
 
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
@@ -14,7 +14,7 @@ import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.transport.context.TransportContext;
 import org.springframework.ws.transport.context.TransportContextHolder;
 import org.springframework.ws.transport.http.HttpUrlConnection;
-import py.una.med.base.services.client.WSInformationProvider.Info;
+import py.una.pol.karaku.services.client.WSInformationProvider.Info;
 
 /**
  * {@link org.springframework.ws.client.support.interceptor.ClientInterceptor}

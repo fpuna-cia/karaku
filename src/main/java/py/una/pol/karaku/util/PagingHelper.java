@@ -2,11 +2,11 @@
  * @PagingHelper 1.0 03/05/13. Sistema Integral de Gestión Hospitalaria
  */
 
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import javax.annotation.Nonnull;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.search.SearchParam;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.search.SearchParam;
 
 /**
  * Clase que se encarga de la paginación de las tablas
@@ -57,7 +57,7 @@ public class PagingHelper {
 
 	/**
 	 * Inicializa un nueva instancia, el punto de entrada de esta clase es
-	 * {@link #calculate(py.una.med.base.business.ISIGHBaseLogic, py.una.med.base.dao.restrictions.Where)}
+	 * {@link #calculate(py.una.pol.karaku.business.ISIGHBaseLogic, py.una.pol.karaku.dao.restrictions.Where)}
 	 * , y para obtener los resultados utilizar {@link #getISearchparam()}
 	 * 
 	 * @param rowsForPage

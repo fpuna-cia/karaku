@@ -1,4 +1,4 @@
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.dynamic.forms.SIGHComponentFactory;
-import py.una.med.base.jsf.utils.ICurrentpageHelper;
-import py.una.med.base.menu.client.AbstractMenuProvider;
-import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.security.AuthorityController;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.jsf.utils.ICurrentpageHelper;
+import py.una.pol.karaku.menu.client.AbstractMenuProvider;
+import py.una.pol.karaku.menu.schemas.Menu;
+import py.una.pol.karaku.security.AuthorityController;
 
 /**
  * Clase que implementa la creación del menu de la aplicación.

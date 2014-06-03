@@ -1,7 +1,7 @@
 /*
  * @Regex.java 1.0 21/01/2014 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.where;
+package py.una.pol.karaku.dao.where;
 
 import javax.annotation.Nonnull;
 import org.hibernate.Criteria;

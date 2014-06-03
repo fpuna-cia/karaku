@@ -2,15 +2,15 @@
  * @TimeInterceptor.java 1.0 Oct 1, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dao.entity.interceptors;
+package py.una.pol.karaku.dao.entity.interceptors;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
 import java.util.Date;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.dao.entity.Operation;
-import py.una.med.base.dao.entity.annotations.Time;
+import py.una.pol.karaku.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.annotations.Time;
 
 /**
  *

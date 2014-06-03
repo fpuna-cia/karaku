@@ -7,11 +7,11 @@
  * Las clases mas relevantes son:
  * </p>
  * <ol>
- * <li> {@link py.una.med.base.services.client.WSCaller} helper que se encarga de
+ * <li> {@link py.una.pol.karaku.services.client.WSCaller} helper que se encarga de
  * realizar llamadas.</li>
- * <li> {@link py.una.med.base.services.client.WSEndpoint} entidad que persiste
+ * <li> {@link py.una.pol.karaku.services.client.WSEndpoint} entidad que persiste
  * los datos de los servicios en la base de datos.</li>
- * <li> {@link py.una.med.base.services.client.WSInformationProvider} que se
+ * <li> {@link py.una.pol.karaku.services.client.WSInformationProvider} que se
  * encarga de recuperar información de los servicios.</li>
  * </ol>
  * 
@@ -20,4 +20,4 @@
  * @version 1.0 Jun 11, 2013
  * 
  */
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;

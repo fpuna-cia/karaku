@@ -2,7 +2,7 @@
  * @NotExpressionHelper.java 1.0 Sep 10, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dao.helper;
+package py.una.pol.karaku.dao.helper;
 
 import java.util.Map;
 import javax.annotation.Nonnull;
@@ -11,13 +11,13 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.dao.where.Not;
+import py.una.pol.karaku.dao.where.Not;
 
 /**
  * 
  * {@link BaseClauseHelper} que se encarga de parsear expresiones del tipo
  * {@link Not}, invoca a
- * {@link RestrictionHelper#getCriterion(py.una.med.base.dao.where.Clause, Criteria, Map)}
+ * {@link RestrictionHelper#getCriterion(py.una.pol.karaku.dao.where.Clause, Criteria, Map)}
  * y agrega ese criterion a la consulta.
  * 
  * @author Arturo Volpe

@@ -1,7 +1,7 @@
 /*
  * @ButtonActions.java 1.0 May 31, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 /**
  * 

@@ -2,7 +2,7 @@
  * @KarakuaultMessageResolver.java 1.0 Mar 6, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;
 
 import java.io.IOException;
 import org.slf4j.Logger;
@@ -16,8 +16,8 @@ import org.springframework.ws.soap.SoapFaultDetail;
 import org.springframework.ws.soap.SoapFaultDetailElement;
 import org.springframework.ws.soap.SoapMessage;
 import org.springframework.ws.soap.client.SoapFaultClientException;
-import py.una.med.base.exception.HTTPException;
-import py.una.med.base.services.schemas.HTTPExceptionDTO;
+import py.una.pol.karaku.exception.HTTPException;
+import py.una.pol.karaku.services.schemas.HTTPExceptionDTO;
 
 /**
  * 

@@ -2,13 +2,13 @@
  * @ReplicationInfoDao.java 1.0 Nov 25, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.client;
+package py.una.pol.karaku.replication.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.med.base.business.SIGHBaseLogic;
-import py.una.med.base.replication.server.Bundle;
+import py.una.pol.karaku.business.SIGHBaseLogic;
+import py.una.pol.karaku.replication.server.Bundle;
 
 /**
  * 

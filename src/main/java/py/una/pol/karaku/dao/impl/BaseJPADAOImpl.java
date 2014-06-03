@@ -1,4 +1,4 @@
-package py.una.med.base.dao.impl;
+package py.una.pol.karaku.dao.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -13,9 +13,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import py.una.med.base.dao.BaseDAO;
-import py.una.med.base.dao.helper.SearchParamJPAHelper;
-import py.una.med.base.dao.search.SearchParam;
+import py.una.pol.karaku.dao.BaseDAO;
+import py.una.pol.karaku.dao.helper.SearchParamJPAHelper;
+import py.una.pol.karaku.dao.search.SearchParam;
 
 public abstract class BaseJPADAOImpl<T, K extends Serializable> implements
 		BaseDAO<T, K> {

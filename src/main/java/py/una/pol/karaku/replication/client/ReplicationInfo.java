@@ -2,7 +2,7 @@
  * @ReplicationInfo.java 1.0 Nov 22, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.client;
+package py.una.pol.karaku.replication.client;
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -17,14 +17,14 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import py.una.med.base.dao.annotations.CaseSensitive;
-import py.una.med.base.dao.entity.annotations.Time;
-import py.una.med.base.dao.entity.annotations.Time.Type;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.services.client.WSEndpoint;
-import py.una.med.base.util.DateUtils;
+import py.una.pol.karaku.dao.annotations.CaseSensitive;
+import py.una.pol.karaku.dao.entity.annotations.Time;
+import py.una.pol.karaku.dao.entity.annotations.Time.Type;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.services.client.WSEndpoint;
+import py.una.pol.karaku.util.DateUtils;
 
 /**
  * 

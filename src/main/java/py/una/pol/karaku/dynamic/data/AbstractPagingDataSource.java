@@ -2,7 +2,7 @@
  * @AbstractPagingDataSource.java 1.0 Jun 24, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dynamic.data;
+package py.una.pol.karaku.dynamic.data;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public abstract class AbstractPagingDataSource implements PagingDataSource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.util.PagingDataSource#getCurrentPage()
+	 * @see py.una.pol.karaku.util.PagingDataSource#getCurrentPage()
 	 */
 	@Override
 	public Long getCurrentPage() {
@@ -55,7 +55,7 @@ public abstract class AbstractPagingDataSource implements PagingDataSource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.util.PagingDataSource#getRegistersPerPage()
+	 * @see py.una.pol.karaku.util.PagingDataSource#getRegistersPerPage()
 	 */
 	@Override
 	public Long getRegistersPerPage() {

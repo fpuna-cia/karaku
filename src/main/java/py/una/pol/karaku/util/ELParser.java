@@ -2,7 +2,7 @@
  * @ELHelper 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 /**
  * Clase que implementa funciones de parseo para las expresiones EL manejadas

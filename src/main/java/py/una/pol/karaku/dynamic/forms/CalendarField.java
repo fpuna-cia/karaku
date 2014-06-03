@@ -1,7 +1,7 @@
 /*
  * @CalendarField.java 1.0 Mar 15, 2013 Sistema Integral de Gestión Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import javax.el.ValueExpression;
 import org.richfaces.component.UICalendar;
@@ -28,18 +28,18 @@ public class CalendarField extends LabelField {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#getType()
+	 * @see py.una.pol.karaku.dynamic.forms.Field#getType()
 	 */
 	@Override
 	public String getType() {
 
-		return "py.una.med.base.dynamic.forms.CalendarField";
+		return "py.una.pol.karaku.dynamic.forms.CalendarField";
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#disable()
+	 * @see py.una.pol.karaku.dynamic.forms.Field#disable()
 	 */
 	@Override
 	public boolean disable() {
@@ -51,7 +51,7 @@ public class CalendarField extends LabelField {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#enable()
+	 * @see py.una.pol.karaku.dynamic.forms.Field#enable()
 	 */
 	@Override
 	public boolean enable() {

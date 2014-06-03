@@ -1,7 +1,7 @@
 /*
  * @HasRole.java 1.0 Mar 14, 2013 Sistema Integral de Gestión Hospitalaria
  */
-package py.una.med.base.security;
+package py.una.pol.karaku.security;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

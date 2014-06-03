@@ -2,7 +2,7 @@
  * @MathContextProvider.java 1.0 Oct 8, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.math;
+package py.una.pol.karaku.math;
 
 import java.io.Serializable;
 import java.math.MathContext;
@@ -10,8 +10,8 @@ import java.math.RoundingMode;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.configuration.PropertiesUtil;
-import py.una.med.base.log.Log;
+import py.una.pol.karaku.configuration.PropertiesUtil;
+import py.una.pol.karaku.log.Log;
 
 /**
  * Proveedor de configuraciones matemáticas.

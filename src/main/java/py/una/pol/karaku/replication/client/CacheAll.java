@@ -1,13 +1,13 @@
 /*
  * @CacheAll.java 1.0 Feb 21, 2014 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.replication.client;
+package py.una.pol.karaku.replication.client;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import py.una.med.base.replication.Shareable;
+import py.una.pol.karaku.replication.Shareable;
 
 /**
  * Todas las entidades de este tipo serán precargadas.

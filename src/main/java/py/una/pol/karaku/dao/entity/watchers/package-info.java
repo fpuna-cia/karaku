@@ -8,4 +8,4 @@
  * @version 1.0 Nov 6, 2013
  *
  */
-package py.una.med.base.dao.entity.watchers;
+package py.una.pol.karaku.dao.entity.watchers;

@@ -1,10 +1,10 @@
-package py.una.med.base.services.util;
+package py.una.pol.karaku.services.util;
 
 import java.text.ParseException;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.math.Quantity;
-import py.una.med.base.util.FormatProvider;
+import py.una.pol.karaku.math.Quantity;
+import py.una.pol.karaku.util.FormatProvider;
 
 /**
  *

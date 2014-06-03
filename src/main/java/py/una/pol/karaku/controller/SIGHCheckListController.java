@@ -1,7 +1,7 @@
 /*
  * @SIGHCheckList.java 1.0 24/07/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,8 +14,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.richfaces.component.UIExtendedDataTable;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.dynamic.forms.MultiplePickerField.ItemKeyProvider;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.dynamic.forms.MultiplePickerField.ItemKeyProvider;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package py.una.med.base.configuration;
+package py.una.pol.karaku.configuration;
 
 import java.util.concurrent.Executor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,13 +73,13 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
 	/**
 	 * Retorna el valor de la llave en el archivo de propiedades, si no se puede
-	 * parsear lanzar {@link py.una.med.base.exception.KarakuRuntimeException}
+	 * parsear lanzar {@link py.una.pol.karaku.exception.KarakuRuntimeException}
 	 *
 	 * @param key
 	 *            llave en el archivo de propiedades
 	 * @param def
 	 *            valor por defecto
-	 * @throws py.una.med.base.exception.KarakuRuntimeException
+	 * @throws py.una.pol.karaku.exception.KarakuRuntimeException
 	 *             si no puede parsear el valor del archivo de propiedades
 	 * @return def si no se encuentra, en caso contrario el valor parseado.
 	 */

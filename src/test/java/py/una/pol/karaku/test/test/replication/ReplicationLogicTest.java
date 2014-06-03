@@ -2,7 +2,7 @@
  * @ReplicationManagerTest.java 1.0 Nov 22, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.replication;
+package py.una.pol.karaku.test.test.replication;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,16 +17,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import py.una.med.base.replication.client.IReplicationLogic;
-import py.una.med.base.replication.client.ReplicationInfo;
-import py.una.med.base.replication.client.ReplicationInfoDao;
-import py.una.med.base.replication.client.ReplicationLogic;
-import py.una.med.base.test.base.BaseTestWithDatabase;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntity;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntityChild;
-import py.una.med.base.test.util.TestDateProvider;
-import py.una.med.base.test.util.TestUtils;
+import py.una.pol.karaku.replication.client.IReplicationLogic;
+import py.una.pol.karaku.replication.client.ReplicationInfo;
+import py.una.pol.karaku.replication.client.ReplicationInfoDao;
+import py.una.pol.karaku.replication.client.ReplicationLogic;
+import py.una.pol.karaku.test.base.BaseTestWithDatabase;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntity;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntityChild;
+import py.una.pol.karaku.test.util.TestDateProvider;
+import py.una.pol.karaku.test.util.TestUtils;
 
 /**
  * 

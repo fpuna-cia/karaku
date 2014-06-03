@@ -2,12 +2,12 @@
  * @AbstractWizard.java 1.0 May 29, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dynamic.wizard;
+package py.una.pol.karaku.dynamic.wizard;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.NotImplementedException;
-import py.una.med.base.dynamic.forms.Field;
+import py.una.pol.karaku.dynamic.forms.Field;
 
 /**
  * Clase que implementa funcionalidades comunes a todos los wizard, además es la
@@ -27,7 +27,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.wizard.Wizard#getSteps()
+	 * @see py.una.pol.karaku.dynamic.wizard.Wizard#getSteps()
 	 */
 	@Override
 	public List<Step> getSteps() {
@@ -50,7 +50,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.wizard.Wizard#initialize()
+	 * @see py.una.pol.karaku.dynamic.wizard.Wizard#initialize()
 	 */
 	@Override
 	public void initialize() {
@@ -67,7 +67,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.wizard.Wizard#next()
+	 * @see py.una.pol.karaku.dynamic.wizard.Wizard#next()
 	 */
 	@Override
 	public Step next() {
@@ -82,7 +82,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.wizard.Wizard#previous()
+	 * @see py.una.pol.karaku.dynamic.wizard.Wizard#previous()
 	 */
 	@Override
 	public Step previous() {
@@ -96,7 +96,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.wizard.Wizard#getCurrentStepNumber()
+	 * @see py.una.pol.karaku.dynamic.wizard.Wizard#getCurrentStepNumber()
 	 */
 	@Override
 	public int getCurrentStepNumber() {
@@ -107,7 +107,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.wizard.Wizard#validateEachStep()
+	 * @see py.una.pol.karaku.dynamic.wizard.Wizard#validateEachStep()
 	 */
 	@Override
 	public boolean validateEachStep() {
@@ -118,7 +118,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#enable()
+	 * @see py.una.pol.karaku.dynamic.forms.Field#enable()
 	 */
 	@Override
 	public boolean enable() {
@@ -129,7 +129,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.forms.Field#disable()
+	 * @see py.una.pol.karaku.dynamic.forms.Field#disable()
 	 */
 	@Override
 	public boolean disable() {
@@ -140,7 +140,7 @@ public abstract class AbstractWizard extends Field implements Wizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.wizard.Wizard#getTitle()
+	 * @see py.una.pol.karaku.dynamic.wizard.Wizard#getTitle()
 	 */
 	@Override
 	public String getTitle() {

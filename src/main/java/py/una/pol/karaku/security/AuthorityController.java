@@ -1,16 +1,16 @@
 /*
  * @AuthorityController.java 1.0 21/02/2013
  */
-package py.una.med.base.security;
+package py.una.pol.karaku.security;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Controller que se encarga de verificar permisos.

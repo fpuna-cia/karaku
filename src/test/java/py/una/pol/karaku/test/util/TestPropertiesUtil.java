@@ -2,11 +2,11 @@
  * @TestPropertiesUtil.java 1.0 Oct 21, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import java.util.HashMap;
 import java.util.Map;
-import py.una.med.base.configuration.PropertiesUtil;
+import py.una.pol.karaku.configuration.PropertiesUtil;
 
 /**
  * {@link PropertiesUtil} para los test.

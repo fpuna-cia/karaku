@@ -19,14 +19,14 @@ Los componentes soportados son:
 	xmlns:rich="http://richfaces.org/rich">
 	<cc:interface>
 		<cc:attribute name="step" required="true"
-			type="py.una.med.base.dynamic.wizard.Step" />
+			type="py.una.pol.karaku.dynamic.wizard.Step" />
 
 	</cc:interface>
 
 	<cc:implementation>
 		<c:choose>
 			<c:when
-				test="#{cc.attrs.step.type eq 'py.una.med.base.dynamic.wizard.DynamicFormStep'}">
+				test="#{cc.attrs.step.type eq 'py.una.pol.karaku.dynamic.wizard.DynamicFormStep'}">
 				<h:outputLabel value="#{cc.attrs.step.description}" />
 				<h:panelGrid columns="6"
 					columnClasses="form_label,form_input,form_error,form_label,form_input,form_error">
@@ -36,7 +36,7 @@ Los componentes soportados son:
 				</h:panelGrid>
 			</c:when>
 			<c:when
-				test="#{cc.attrs.step.type eq 'py.una.med.base.dynamic.wizard.FaceletsStep'}">
+				test="#{cc.attrs.step.type eq 'py.una.pol.karaku.dynamic.wizard.FaceletsStep'}">
 				<h:outputLabel value="#{cc.attrs.step.description}" />
 
 				<c:if test="#{cc.attrs.step.aliased}">
@@ -47,7 +47,7 @@ Los componentes soportados son:
 			</c:when>
 
 			<c:when
-				test="#{cc.attrs.step.type eq 'py.una.med.base.dynamic.wizard.DataTableStep'}">
+				test="#{cc.attrs.step.type eq 'py.una.pol.karaku.dynamic.wizard.DataTableStep'}">
 				<h:outputLabel value="#{cc.attrs.step.description}" />
 				<c:set var="table" value="#{cc.attrs.step.bind}" />
 				#{table.dataSource.refresh()}

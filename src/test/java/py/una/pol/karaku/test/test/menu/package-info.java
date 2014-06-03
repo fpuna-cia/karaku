@@ -9,4 +9,4 @@
  * @version 1.0 Oct 17, 2013
  * 
  */
-package py.una.med.base.test.test.menu;
+package py.una.pol.karaku.test.test.menu;

@@ -1,7 +1,7 @@
 /*
  * @DatabaseHelper.java 1.0 Nov 1, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import org.hibernate.SQLQuery;
 import org.springframework.context.ApplicationContext;
@@ -9,7 +9,7 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Define un conjunto de operaciones que pueden ejecutar los test, o son de uso

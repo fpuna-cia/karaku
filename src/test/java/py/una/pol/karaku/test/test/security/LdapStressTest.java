@@ -2,7 +2,7 @@
  * @LdapStressTest.java 1.0 Oct 25, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.security;
+package py.una.pol.karaku.test.test.security;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * Test de stress para probar el rendimiento de diferentes servidores LDAP

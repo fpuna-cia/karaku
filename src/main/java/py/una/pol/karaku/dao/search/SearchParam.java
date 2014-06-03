@@ -1,12 +1,12 @@
 /**
  * @SearchParam 1.0 23/10/2012
  */
-package py.una.med.base.dao.search;
+package py.una.pol.karaku.dao.search;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.List;
 import javax.annotation.Nonnull;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.util.ListHelper;
 
 public class SearchParam implements ISearchParam {
 

@@ -2,15 +2,15 @@
  * @ReportBlockBuilder.java 1.0 07/04/2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.jasperreports.engine.JRDataSource;
-import py.una.med.base.reports.SIGHReportBlockField.Field;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.reports.SIGHReportBlockField.Field;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Clase utilizada para el diseño de bloques de un determinado reporte.

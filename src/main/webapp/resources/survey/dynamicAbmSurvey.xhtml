@@ -16,7 +16,7 @@
 <composite:interface
 	displayName="Componente que renderiza una lista simple donde los campos son editables">
 	<composite:attribute name="controller" required="true"
-		type="py.una.med.base.survey.controller.ISIGHDynamicSurveyBaseController"
+		type="py.una.pol.karaku.survey.controller.ISIGHDynamicSurveyBaseController"
 		displayName="Controllador que rige esta vista" />
 	<composite:attribute name="idSurvey" default="idSurvey" />
 
@@ -29,12 +29,12 @@
 			<h:panelGrid id="#{cc.attrs.idSurvey}">
 				<c:forEach items="#{cc.attrs.controller.blocks}" var="block">
 					<c:if
-						test="#{block.type eq 'py.una.med.base.survey.components.DynamicSurveyDataTable'}">
+						test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyDataTable'}">
 						<survey:dynamicDataTable controller="#{cc.attrs.controller}"
 							block="#{block}" idBlock="#{block.id}" />
 					</c:if>
 					<c:if
-						test="#{block.type eq 'py.una.med.base.survey.components.DynamicSurveyFields'}">
+						test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyFields'}">
 						<survey:dynamicFields block="#{block}" idBlock="#{block.id}"
 							controller="#{cc.attrs.controller}" />
 					</c:if>

@@ -4,7 +4,7 @@
 
 	<jaxb:bindings schemaLocation="../schemas/services/exceptions.xsd">
 		<jaxb:schemaBindings>
-			<jaxb:package name="py.una.med.base.services.schemas" />
+			<jaxb:package name="py.una.pol.karaku.services.schemas" />
 			<jaxb:nameXmlTransform>
 				<jaxb:elementName suffix="DTO" />
 			</jaxb:nameXmlTransform>

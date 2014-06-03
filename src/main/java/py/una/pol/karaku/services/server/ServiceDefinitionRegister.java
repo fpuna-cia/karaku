@@ -2,7 +2,7 @@
  * @ServiceDefinitionRegister.java 1.0 Oct 18, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services.server;
+package py.una.pol.karaku.services.server;
 
 import java.io.IOException;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.commons.CommonsXsdSchemaCollection;
-import py.una.med.base.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  * 

@@ -1,7 +1,7 @@
 /*
  * @JSFUtilTest.java 1.0 Sep 27, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.jsf;
+package py.una.pol.karaku.test.test.jsf;
 
 import static org.junit.Assert.assertEquals;
 import java.text.ParseException;
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.jsf.utils.JSFUtils;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.jsf.utils.JSFUtils;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * 

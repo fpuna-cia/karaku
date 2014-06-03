@@ -1,7 +1,7 @@
 /*
  * @Checker.java 1.0 Nov 21, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.util.List;
 import javax.annotation.Nonnull;

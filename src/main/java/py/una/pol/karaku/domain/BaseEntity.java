@@ -1,7 +1,7 @@
 /*
  * @BaseEntity.java 1.0 May 24, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.domain;
+package py.una.pol.karaku.domain;
 
 import java.io.Serializable;
 

@@ -1,7 +1,7 @@
 /*
  * @TestEntity.java 1.0 Sep 10, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.util.layers;
+package py.una.pol.karaku.test.test.util.layers;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

@@ -2,7 +2,7 @@
  * @EnversReplicationProviderTest.java 1.0 Dec 10, 2013 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.test.test.replication;
+package py.una.pol.karaku.test.test.replication;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import javax.annotation.Nonnull;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -23,22 +23,22 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.replication.ShareableWatcher;
-import py.una.med.base.replication.server.Bundle;
-import py.una.med.base.replication.server.DummyFirstChangeProvider;
-import py.una.med.base.replication.server.EnversReplicationProvider;
-import py.una.med.base.replication.server.FirstChangeProviderHandler;
-import py.una.med.base.replication.server.ReplicationProvider;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntity;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntityDao;
-import py.una.med.base.test.util.TestUriInterceptor;
-import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.test.util.transaction.DatabasePopulatorExecutionListener;
-import py.una.med.base.test.util.transaction.SQLFiles;
-import py.una.med.base.test.util.transaction.Sequences;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.replication.ShareableWatcher;
+import py.una.pol.karaku.replication.server.Bundle;
+import py.una.pol.karaku.replication.server.DummyFirstChangeProvider;
+import py.una.pol.karaku.replication.server.EnversReplicationProvider;
+import py.una.pol.karaku.replication.server.FirstChangeProviderHandler;
+import py.una.pol.karaku.replication.server.ReplicationProvider;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntity;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntityDao;
+import py.una.pol.karaku.test.util.TestUriInterceptor;
+import py.una.pol.karaku.test.util.TestUtils;
+import py.una.pol.karaku.test.util.transaction.DatabasePopulatorExecutionListener;
+import py.una.pol.karaku.test.util.transaction.SQLFiles;
+import py.una.pol.karaku.test.util.transaction.Sequences;
 
 /**
  * 

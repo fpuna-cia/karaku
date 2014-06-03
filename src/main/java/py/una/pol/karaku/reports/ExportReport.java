@@ -2,7 +2,7 @@
  * @ExportReport 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,10 +23,10 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.security.AuthorityController;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.security.AuthorityController;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.Util;
 import ar.com.fdvs.dj.core.DynamicJasperHelper;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
 import ar.com.fdvs.dj.domain.DynamicReport;

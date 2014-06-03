@@ -9,4 +9,4 @@
  * @version 1.0 Sep 11, 2013
  *
  */
-package py.una.med.base.test.base;
+package py.una.pol.karaku.test.base;

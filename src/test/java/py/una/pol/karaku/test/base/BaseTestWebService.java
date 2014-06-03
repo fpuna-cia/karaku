@@ -1,7 +1,7 @@
 /*
  * @ExampleTest.java 1.0 Aug 19, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.base;
+package py.una.pol.karaku.test.base;
 
 import static org.springframework.ws.test.server.RequestCreators.withPayload;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import org.springframework.ws.test.server.MockWebServiceClient;
 import org.springframework.ws.test.server.RequestCreator;
 import org.springframework.ws.test.server.ResponseActions;
 import org.springframework.ws.test.server.ResponseMatcher;
-import py.una.med.base.test.configuration.WebServiceTestConfiguration;
+import py.una.pol.karaku.test.configuration.WebServiceTestConfiguration;
 
 /**
  *

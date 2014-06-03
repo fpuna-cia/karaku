@@ -2,7 +2,7 @@
  * @ReplicationEndpointTest.java 1.0 Nov 8, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.replication;
+package py.una.pol.karaku.test.test.replication;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,22 +15,22 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ws.test.server.ResponseMatchers;
-import py.una.med.base.replication.server.Bundle;
-import py.una.med.base.replication.server.DummyFirstChangeProvider;
-import py.una.med.base.replication.server.DummyReplicationProvider;
-import py.una.med.base.replication.server.FirstChangeProviderHandler;
-import py.una.med.base.replication.server.ReplicationProvider;
-import py.una.med.base.services.ConverterProvider;
-import py.una.med.base.test.base.BaseTestWebService;
-import py.una.med.base.test.configuration.TransactionTestConfiguration;
-import py.una.med.base.test.configuration.WebServiceTestConfiguration;
-import py.una.med.base.test.test.replication.layers.ReplicatedEntity;
-import py.una.med.base.test.test.replication.layers.ReplicationEntityEndpoint;
-import py.una.med.base.test.test.replication.layers.ReplicationEntityRequest;
-import py.una.med.base.test.test.replication.layers.ReplicationEntityResponse;
-import py.una.med.base.test.util.TestUtils;
-import py.una.med.base.test.util.transaction.DatabasePopulatorExecutionListener;
-import py.una.med.base.test.util.transaction.SQLFiles;
+import py.una.pol.karaku.replication.server.Bundle;
+import py.una.pol.karaku.replication.server.DummyFirstChangeProvider;
+import py.una.pol.karaku.replication.server.DummyReplicationProvider;
+import py.una.pol.karaku.replication.server.FirstChangeProviderHandler;
+import py.una.pol.karaku.replication.server.ReplicationProvider;
+import py.una.pol.karaku.services.ConverterProvider;
+import py.una.pol.karaku.test.base.BaseTestWebService;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
+import py.una.pol.karaku.test.configuration.WebServiceTestConfiguration;
+import py.una.pol.karaku.test.test.replication.layers.ReplicatedEntity;
+import py.una.pol.karaku.test.test.replication.layers.ReplicationEntityEndpoint;
+import py.una.pol.karaku.test.test.replication.layers.ReplicationEntityRequest;
+import py.una.pol.karaku.test.test.replication.layers.ReplicationEntityResponse;
+import py.una.pol.karaku.test.util.TestUtils;
+import py.una.pol.karaku.test.util.transaction.DatabasePopulatorExecutionListener;
+import py.una.pol.karaku.test.util.transaction.SQLFiles;
 
 /**
  * 

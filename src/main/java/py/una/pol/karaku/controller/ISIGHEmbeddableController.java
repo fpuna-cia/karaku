@@ -1,4 +1,4 @@
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 /**
  *

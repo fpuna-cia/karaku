@@ -8,4 +8,4 @@
  * @version 1.0 Apr 30, 2014
  * 
  */
-package py.una.med.base.test.test.i18n;
+package py.una.pol.karaku.test.test.i18n;

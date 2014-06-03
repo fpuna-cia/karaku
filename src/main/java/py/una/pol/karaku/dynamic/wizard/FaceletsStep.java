@@ -1,7 +1,7 @@
 /*
  * @XHTMLStep.java 1.0 Jun 6, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.wizard;
+package py.una.pol.karaku.dynamic.wizard;
 
 /**
  * Clase que sirve para reutilizar componentes escritos en Facelets (XHTML) y

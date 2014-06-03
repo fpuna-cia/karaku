@@ -2,7 +2,7 @@
  * @TransactionBaseTestConfiguration.java 1.0 Aug 19, 2013 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.test.configuration;
+package py.una.pol.karaku.test.configuration;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -15,31 +15,31 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
-import py.una.med.base.configuration.KarakuPersistence;
-import py.una.med.base.dao.entity.interceptors.BigDecimalInterceptor;
-import py.una.med.base.dao.entity.interceptors.CaseSensitiveInterceptor;
-import py.una.med.base.dao.entity.interceptors.InterceptorHandler;
-import py.una.med.base.dao.entity.interceptors.TimeInterceptor;
-import py.una.med.base.dao.entity.interceptors.UriInterceptor;
-import py.una.med.base.dao.entity.watchers.WatcherHandler;
-import py.una.med.base.dao.helper.AndExpressionHelper;
-import py.una.med.base.dao.helper.BetweenExpressionHelper;
-import py.una.med.base.dao.helper.EqualExpressionHelper;
-import py.una.med.base.dao.helper.GeExpressionHelper;
-import py.una.med.base.dao.helper.LeExpressionHelper;
-import py.una.med.base.dao.helper.LikeExpressionHelper;
-import py.una.med.base.dao.helper.NotExpressionHelper;
-import py.una.med.base.dao.helper.NumberLikeExpressionHelper;
-import py.una.med.base.dao.helper.OrExpressionHelper;
-import py.una.med.base.dao.helper.RegexExpressionHelper;
-import py.una.med.base.dao.helper.RestrictionHelper;
-import py.una.med.base.dao.util.MainInstanceHelper;
-import py.una.med.base.dao.where.DateClauses;
-import py.una.med.base.exception.KarakuPropertyNotFoundException;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.test.util.TestDateProvider;
-import py.una.med.base.test.util.TestUriInterceptor;
-import py.una.med.base.util.DateProvider;
+import py.una.pol.karaku.configuration.KarakuPersistence;
+import py.una.pol.karaku.dao.entity.interceptors.BigDecimalInterceptor;
+import py.una.pol.karaku.dao.entity.interceptors.CaseSensitiveInterceptor;
+import py.una.pol.karaku.dao.entity.interceptors.InterceptorHandler;
+import py.una.pol.karaku.dao.entity.interceptors.TimeInterceptor;
+import py.una.pol.karaku.dao.entity.interceptors.UriInterceptor;
+import py.una.pol.karaku.dao.entity.watchers.WatcherHandler;
+import py.una.pol.karaku.dao.helper.AndExpressionHelper;
+import py.una.pol.karaku.dao.helper.BetweenExpressionHelper;
+import py.una.pol.karaku.dao.helper.EqualExpressionHelper;
+import py.una.pol.karaku.dao.helper.GeExpressionHelper;
+import py.una.pol.karaku.dao.helper.LeExpressionHelper;
+import py.una.pol.karaku.dao.helper.LikeExpressionHelper;
+import py.una.pol.karaku.dao.helper.NotExpressionHelper;
+import py.una.pol.karaku.dao.helper.NumberLikeExpressionHelper;
+import py.una.pol.karaku.dao.helper.OrExpressionHelper;
+import py.una.pol.karaku.dao.helper.RegexExpressionHelper;
+import py.una.pol.karaku.dao.helper.RestrictionHelper;
+import py.una.pol.karaku.dao.util.MainInstanceHelper;
+import py.una.pol.karaku.dao.where.DateClauses;
+import py.una.pol.karaku.exception.KarakuPropertyNotFoundException;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.test.util.TestDateProvider;
+import py.una.pol.karaku.test.util.TestUriInterceptor;
+import py.una.pol.karaku.util.DateProvider;
 
 /**
  * Clases de persistencia para los test, sus anotaciones no se heredan.

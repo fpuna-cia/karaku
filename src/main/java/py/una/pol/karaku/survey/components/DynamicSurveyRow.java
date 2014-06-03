@@ -1,9 +1,9 @@
 /*
  * @Row.java 1.0 17/06/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.survey.components;
+package py.una.pol.karaku.survey.components;
 
-import py.una.med.base.survey.components.DynamicSurveyField.SurveyField;
+import py.una.pol.karaku.survey.components.DynamicSurveyField.SurveyField;
 
 /**
  * Esta clase representa una fila de un dataTable. La cual esta compuesta de un
@@ -18,7 +18,7 @@ public class DynamicSurveyRow {
 
 	private SurveyField[] cells;
 	private String id;
-	public static final String TYPE = "py.una.med.base.survey.DynamicSurveyRow";
+	public static final String TYPE = "py.una.pol.karaku.survey.DynamicSurveyRow";
 
 	public DynamicSurveyRow(String block, int index, int columnsNumber) {
 

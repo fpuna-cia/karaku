@@ -1,11 +1,11 @@
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.security.HasRole;
-import py.una.med.base.security.SIGHSecurity;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.security.HasRole;
+import py.una.pol.karaku.security.SIGHSecurity;
 
 /**
  * Implementacion base de la interfaz {@link ISIGHEmbeddableController}

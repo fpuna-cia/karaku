@@ -2,11 +2,11 @@
  * @AbstractMenuProvider.java 1.0 Oct 22, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.menu.client;
+package py.una.pol.karaku.menu.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import py.una.med.base.menu.schemas.Menu;
+import py.una.pol.karaku.menu.schemas.Menu;
 
 /**
  *

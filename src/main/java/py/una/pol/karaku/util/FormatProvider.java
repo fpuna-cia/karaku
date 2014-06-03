@@ -2,7 +2,7 @@
  * @FormatProvider.java 1.0 Sep 10, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import py.una.med.base.math.Quantity;
+import py.una.pol.karaku.math.Quantity;
 
 /**
  * Singleton que se encarga de realizar los formatos de {@link Date} y

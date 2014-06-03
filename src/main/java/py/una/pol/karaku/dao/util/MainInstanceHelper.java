@@ -3,7 +3,7 @@
  * 
  * Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.util;
+package py.una.pol.karaku.dao.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -26,10 +26,10 @@ import org.hibernate.sql.JoinType;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
-import py.una.med.base.dao.annotations.MainInstance;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.log.Log;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.dao.annotations.MainInstance;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * 

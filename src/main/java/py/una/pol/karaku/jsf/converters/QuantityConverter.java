@@ -2,7 +2,7 @@
  * @QuantityConverter.java 1.0 Oct 16, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.jsf.converters;
+package py.una.pol.karaku.jsf.converters;
 
 import java.text.ParseException;
 import javax.faces.component.UIComponent;
@@ -11,10 +11,10 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import py.una.med.base.math.Quantity;
-import py.una.med.base.util.FormatProvider;
-import py.una.med.base.util.StringUtils;
-import py.una.med.base.util.Util;
+import py.una.pol.karaku.math.Quantity;
+import py.una.pol.karaku.util.FormatProvider;
+import py.una.pol.karaku.util.StringUtils;
+import py.una.pol.karaku.util.Util;
 
 /**
  * Conversor JSF de cadenas a {@link Quantity}.

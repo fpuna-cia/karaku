@@ -2,7 +2,7 @@
  * @ControllerHelperTest.java 1.0 May 8, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.controller;
+package py.una.pol.karaku.test.test.controller;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
-import py.una.med.base.test.util.TestControllerHelper;
-import py.una.med.base.test.util.TestI18nHelper;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.UniqueHelper;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.util.TestControllerHelper;
+import py.una.pol.karaku.test.util.TestI18nHelper;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.UniqueHelper;
 
 /**
  * 

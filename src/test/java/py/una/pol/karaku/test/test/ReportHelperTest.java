@@ -2,7 +2,7 @@
  * @ReportHelperTest.java 1.0 31/03/2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test;
+package py.una.pol.karaku.test.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +12,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.reports.Column;
-import py.una.med.base.reports.SIGHReportBlockField;
-import py.una.med.base.reports.SIGHReportBlockField.Field;
-import py.una.med.base.reports.SIGHReportBlockGrid;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.ControllerTestConfiguration;
-import py.una.med.base.util.ReportBuilder;
-import py.una.med.base.util.ReportHelper;
+import py.una.pol.karaku.reports.Column;
+import py.una.pol.karaku.reports.SIGHReportBlockField;
+import py.una.pol.karaku.reports.SIGHReportBlockField.Field;
+import py.una.pol.karaku.reports.SIGHReportBlockGrid;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.ControllerTestConfiguration;
+import py.una.pol.karaku.util.ReportBuilder;
+import py.una.pol.karaku.util.ReportHelper;
 
 /**
  * Test del helper utilizado para la generacion de reportes.

@@ -2,7 +2,7 @@
  * @SIGHAdvancedControllerTest.java 1.0 May 26, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.controller;
+package py.una.pol.karaku.test.test.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,14 +13,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.controller.SIGHAdvancedController;
-import py.una.med.base.domain.AuditTrail;
-import py.una.med.base.exception.UniqueConstraintException;
-import py.una.med.base.test.base.BaseControllerTest;
-import py.una.med.base.test.configuration.ControllerTestConfiguration;
-import py.una.med.base.test.util.TestControllerHelper;
-import py.una.med.base.test.util.TestI18nHelper;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.controller.SIGHAdvancedController;
+import py.una.pol.karaku.domain.AuditTrail;
+import py.una.pol.karaku.exception.UniqueConstraintException;
+import py.una.pol.karaku.test.base.BaseControllerTest;
+import py.una.pol.karaku.test.configuration.ControllerTestConfiguration;
+import py.una.pol.karaku.test.util.TestControllerHelper;
+import py.una.pol.karaku.test.util.TestI18nHelper;
 
 /**
  * 

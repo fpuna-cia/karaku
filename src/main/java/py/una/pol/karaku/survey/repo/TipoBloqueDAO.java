@@ -2,11 +2,11 @@
  * @TipoBloqueDAO 1.0 27/05/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.survey.repo;
+package py.una.pol.karaku.survey.repo;
 
 import org.springframework.stereotype.Repository;
-import py.una.med.base.repo.SIGHBaseDao;
-import py.una.med.base.survey.domain.TipoBloque;
+import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.survey.domain.TipoBloque;
 
 /**
  * 

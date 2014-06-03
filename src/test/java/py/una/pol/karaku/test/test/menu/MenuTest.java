@@ -1,7 +1,7 @@
 /*
  * @MenuTest.java 1.0 Oct 17, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.menu;
+package py.una.pol.karaku.test.test.menu;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,15 +17,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.log.Log;
-import py.una.med.base.menu.client.AbstractMenuProvider;
-import py.una.med.base.menu.client.MenuHelper;
-import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.menu.server.MenuServerLogic;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
-import py.una.med.base.test.util.TestI18nHelper;
-import py.una.med.base.test.util.TestPropertiesUtil;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.menu.client.AbstractMenuProvider;
+import py.una.pol.karaku.menu.client.MenuHelper;
+import py.una.pol.karaku.menu.schemas.Menu;
+import py.una.pol.karaku.menu.server.MenuServerLogic;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.util.TestI18nHelper;
+import py.una.pol.karaku.test.util.TestPropertiesUtil;
 
 /**
  *

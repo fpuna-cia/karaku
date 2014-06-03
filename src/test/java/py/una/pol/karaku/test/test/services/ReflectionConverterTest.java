@@ -2,7 +2,7 @@
  * @ReflexionConverterTest.java 1.0 Nov 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.services;
+package py.una.pol.karaku.test.test.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,13 +15,13 @@ import org.junit.Test;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.math.Quantity;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.services.Converter;
-import py.una.med.base.services.ReflectionConverter;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
-import py.una.med.base.util.ListHelper;
+import py.una.pol.karaku.math.Quantity;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.services.Converter;
+import py.una.pol.karaku.services.ReflectionConverter;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * 
@@ -138,13 +138,13 @@ public class ReflectionConverterTest extends BaseTest {
 
 	}
 
-	private <E extends Shareable, T extends py.una.med.base.replication.DTO> Converter<E, T> make(
+	private <E extends Shareable, T extends py.una.pol.karaku.replication.DTO> Converter<E, T> make(
 			Class<E> eClass, Class<T> eDTO) {
 
 		return new ReflectionConverter<E, T>(eDTO, eClass) {
 
 			@Override
-			public <Y extends Shareable, O extends py.una.med.base.replication.DTO> Converter<Y, O> getConverter(
+			public <Y extends Shareable, O extends py.una.pol.karaku.replication.DTO> Converter<Y, O> getConverter(
 					Class<Y> entityClass, Class<O> dtoClass) {
 
 				return make(entityClass, dtoClass);
@@ -217,7 +217,7 @@ public class ReflectionConverterTest extends BaseTest {
 		}
 	}
 
-	public static class DTO implements py.una.med.base.replication.DTO {
+	public static class DTO implements py.una.pol.karaku.replication.DTO {
 
 		private Quantity quantity;
 		private Date date;
@@ -240,7 +240,7 @@ public class ReflectionConverterTest extends BaseTest {
 		}
 	}
 
-	public static class DTOChild implements py.una.med.base.replication.DTO {
+	public static class DTOChild implements py.una.pol.karaku.replication.DTO {
 
 		String string;
 

@@ -2,14 +2,14 @@
  * @ListSelectField.java 1.0 Jun 25, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import java.util.Collections;
 import java.util.List;
 import javax.faces.event.ValueChangeListener;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.util.KarakuListHelperProvider;
-import py.una.med.base.util.LabelProvider;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.util.KarakuListHelperProvider;
+import py.una.pol.karaku.util.LabelProvider;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class ListSelectField<T> extends LabelField {
 	@Override
 	public String getType() {
 
-		return "py.una.med.base.dynamic.forms.ListSelectField";
+		return "py.una.pol.karaku.dynamic.forms.ListSelectField";
 	}
 
 	@Override

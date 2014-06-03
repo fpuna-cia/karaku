@@ -2,14 +2,14 @@
  * @TestI18nHelper.java 1.0 Oct 17, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * Archivo de test Para I18nHelper.

@@ -1,9 +1,9 @@
 /*
  * @LabelField.java 1.0 Feb 21, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * 

@@ -1,7 +1,7 @@
 /*
  * ISIGHADvancedController.java 1.0
  */
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 
@@ -29,9 +29,9 @@ public interface ISIGHAdvancedController<T, K extends Serializable> extends
 	 * </p>
 	 * Puede recibir cualquier excepción, pero las reconocidas son:
 	 * <ol>
-	 * <li> {@link py.una.med.base.exception.UniqueConstraintException}:
+	 * <li> {@link py.una.pol.karaku.exception.UniqueConstraintException}:
 	 * excepciones que se lanzan cuando se un atributo con la anotación
-	 * {@link py.una.med.base.model.Unique} duplicado.</li>
+	 * {@link py.una.pol.karaku.model.Unique} duplicado.</li>
 	 * </ol>
 	 * <p>
 	 * </p>

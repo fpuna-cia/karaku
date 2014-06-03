@@ -2,7 +2,7 @@
  * @DateXMLAdapter.java 1.0 Jan 10, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services.util;
+package py.una.pol.karaku.services.util;
 
 import java.util.Calendar;
 import java.util.Date;

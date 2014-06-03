@@ -2,7 +2,7 @@
  * @KarakuConverter.java 1.0 Jun 6, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.jsf.converters;
+package py.una.pol.karaku.jsf.converters;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

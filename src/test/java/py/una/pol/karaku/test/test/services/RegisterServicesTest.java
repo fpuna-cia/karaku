@@ -2,7 +2,7 @@
  * @RegisterServicesTest.java 1.0 Oct 18, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.services;
+package py.una.pol.karaku.test.test.services;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
-import py.una.med.base.services.server.ServiceDefinitionRegister;
-import py.una.med.base.services.server.WebServiceDefinition;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.services.server.ServiceDefinitionRegister;
+import py.una.pol.karaku.services.server.WebServiceDefinition;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * 

@@ -1,14 +1,14 @@
 /*
  * @TestUriCache.java 1.0 Jan 7, 2014 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.replication.UriCache;
-import py.una.med.base.util.DateProvider;
+import py.una.pol.karaku.replication.UriCache;
+import py.una.pol.karaku.util.DateProvider;
 
 /**
  * Componente que hereda de {@link UriCache} para dar mejor soporte a test.

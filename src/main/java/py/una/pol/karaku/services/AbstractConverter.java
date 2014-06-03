@@ -2,14 +2,14 @@
  * @AbstractConverter.java 1.0 Nov 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.services;
+package py.una.pol.karaku.services;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.EntityNotFoundException;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.util.KarakuReflectionUtils;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.EntityNotFoundException;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.util.KarakuReflectionUtils;
 
 /**
  * {@link Converter} base.

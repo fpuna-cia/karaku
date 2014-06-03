@@ -2,7 +2,7 @@
  * @I18nHelperTest.java 1.0 Apr 30, 2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.i18n;
+package py.una.pol.karaku.test.test.i18n;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -17,11 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.model.DisplayName;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
-import py.una.med.base.test.util.TestI18nHelper;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.model.DisplayName;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.util.TestI18nHelper;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * 

@@ -2,7 +2,7 @@
  * @ListHelper 1.0 05/03/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

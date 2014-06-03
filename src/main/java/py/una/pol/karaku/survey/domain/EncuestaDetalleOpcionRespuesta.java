@@ -2,7 +2,7 @@
  * @EncuestaDetalleOpcionRespuesta 1.0 29/05/13. Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.survey.domain;
+package py.una.pol.karaku.survey.domain;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import org.hibernate.envers.Audited;
-import py.una.med.base.domain.BaseEntity;
+import py.una.pol.karaku.domain.BaseEntity;
 
 /**
  * 

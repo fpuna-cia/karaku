@@ -1,7 +1,7 @@
 /*
  * @ILikeTest.java 1.0 Sep 13, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.test.dao.clauses;
+package py.una.pol.karaku.test.test.dao.clauses;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 import javax.annotation.Nonnull;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.dao.where.Clause;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.dao.where.ILike;
-import py.una.med.base.test.test.util.layers.ITestDAO;
-import py.una.med.base.test.test.util.layers.TestEntity;
-import py.una.med.base.test.util.transaction.SQLFiles;
+import py.una.pol.karaku.dao.where.Clause;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.dao.where.ILike;
+import py.una.pol.karaku.test.test.util.layers.ITestDAO;
+import py.una.pol.karaku.test.test.util.layers.TestEntity;
+import py.una.pol.karaku.test.util.transaction.SQLFiles;
 
 /**
  * Clases de prueba para la {@link Clause} {@link ILike}

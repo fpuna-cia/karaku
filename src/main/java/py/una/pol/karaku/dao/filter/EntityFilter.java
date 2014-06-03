@@ -1,4 +1,4 @@
-package py.una.med.base.dao.filter;
+package py.una.pol.karaku.dao.filter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

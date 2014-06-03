@@ -1,4 +1,4 @@
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.log.Log;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.log.Log;
 
 /**
  * Componente que provee acceso a URL's a través de un archivo JSON.

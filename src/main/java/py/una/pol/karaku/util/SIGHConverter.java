@@ -1,4 +1,4 @@
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;

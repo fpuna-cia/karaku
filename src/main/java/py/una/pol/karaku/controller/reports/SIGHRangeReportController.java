@@ -1,4 +1,4 @@
-package py.una.med.base.controller.reports;
+package py.una.pol.karaku.controller.reports;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,10 +6,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.richfaces.component.UICalendar;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.util.ControllerHelper;
-import py.una.med.base.util.DateUtils;
-import py.una.med.base.util.FormatProvider;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.util.ControllerHelper;
+import py.una.pol.karaku.util.DateUtils;
+import py.una.pol.karaku.util.FormatProvider;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * 

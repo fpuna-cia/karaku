@@ -1,11 +1,11 @@
 /*
  * @SignBlockBuilder.java 1.0 28/05/2014Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 import java.util.ArrayList;
 import java.util.List;
-import py.una.med.base.reports.SIGHReportBlockSign.Sign;
+import py.una.pol.karaku.reports.SIGHReportBlockSign.Sign;
 
 /**
  * Clase utilizada para el diseño de bloques de firmas de un determinado

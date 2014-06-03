@@ -2,7 +2,7 @@
  * @ReportBuilderTest.java 1.0 28/03/2014 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test;
+package py.una.pol.karaku.test.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -14,15 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.reports.Column;
-import py.una.med.base.reports.SIGHReportBlock;
-import py.una.med.base.reports.SIGHReportBlockField;
-import py.una.med.base.reports.SIGHReportBlockField.Field;
-import py.una.med.base.reports.SIGHReportBlockGrid;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
-import py.una.med.base.test.util.TestI18nHelper;
-import py.una.med.base.util.ReportBuilder;
+import py.una.pol.karaku.reports.Column;
+import py.una.pol.karaku.reports.SIGHReportBlock;
+import py.una.pol.karaku.reports.SIGHReportBlockField;
+import py.una.pol.karaku.reports.SIGHReportBlockField.Field;
+import py.una.pol.karaku.reports.SIGHReportBlockGrid;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.util.TestI18nHelper;
+import py.una.pol.karaku.util.ReportBuilder;
 
 /**
  * 

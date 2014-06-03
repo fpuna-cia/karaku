@@ -3,13 +3,13 @@
  *
  * Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.util;
+package py.una.pol.karaku.dao.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javassist.util.proxy.MethodHandler;
 import org.hibernate.Session;
-import py.una.med.base.dao.annotations.MainInstance;
+import py.una.pol.karaku.dao.annotations.MainInstance;
 
 /**
  * MethodHandler (proxy) que se encarga de interceptar las llamadas a los

@@ -2,12 +2,12 @@
  * @ISIGHBaseReportController.java 1.0 12/03/13 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.controller.reports;
+package py.una.pol.karaku.controller.reports;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import py.una.med.base.util.SIGHConverterV2;
+import py.una.pol.karaku.util.SIGHConverterV2;
 
 /**
  * Interface del controlador utilizado para manejar los reportes complejos.

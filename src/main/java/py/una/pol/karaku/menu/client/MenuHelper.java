@@ -1,4 +1,4 @@
-package py.una.med.base.menu.client;
+package py.una.pol.karaku.menu.client;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.menu.schemas.Menu;
+import py.una.pol.karaku.menu.schemas.Menu;
 
 /**
  * Componente que provee funcionalidades básica para manipular {@link Menu}.
@@ -41,7 +41,7 @@ public class MenuHelper {
 	 *
 	 * <p>
 	 * Al reiniciarlo, obtiene nuevamente el menú del
-	 * {@link py.una.med.base.menu.server.MenuServerLogic}, y construye
+	 * {@link py.una.pol.karaku.menu.server.MenuServerLogic}, y construye
 	 * nuevamente su cache.
 	 * </p>
 	 */

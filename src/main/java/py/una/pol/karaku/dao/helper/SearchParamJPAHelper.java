@@ -1,4 +1,4 @@
-package py.una.med.base.dao.helper;
+package py.una.pol.karaku.dao.helper;
 
 import java.util.ArrayList;
 import javax.persistence.TypedQuery;
@@ -6,8 +6,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
-import py.una.med.base.dao.search.OrderParam;
-import py.una.med.base.dao.search.SearchParam;
+import py.una.pol.karaku.dao.search.OrderParam;
+import py.una.pol.karaku.dao.search.SearchParam;
 
 public class SearchParamJPAHelper<T> {
 

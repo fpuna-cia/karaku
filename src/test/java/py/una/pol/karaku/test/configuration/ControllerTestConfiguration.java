@@ -2,23 +2,23 @@
  * @TestConfiguration.java 1.0 Aug 19, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.configuration;
+package py.una.pol.karaku.test.configuration;
 
 import javax.el.ValueExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import py.una.med.base.breadcrumb.BreadcrumbController;
-import py.una.med.base.business.reports.SIGHBaseReportSimple;
-import py.una.med.base.dao.search.SearchHelper;
-import py.una.med.base.dao.where.DateClauses;
-import py.una.med.base.jsf.utils.ICurrentpageHelper;
-import py.una.med.base.reports.DynamicUtils;
-import py.una.med.base.security.AuthorityController;
-import py.una.med.base.test.util.TestControllerHelper;
-import py.una.med.base.test.util.TestExportReport;
-import py.una.med.base.util.ELHelper;
-import py.una.med.base.util.UniqueHelper;
+import py.una.pol.karaku.breadcrumb.BreadcrumbController;
+import py.una.pol.karaku.business.reports.SIGHBaseReportSimple;
+import py.una.pol.karaku.dao.search.SearchHelper;
+import py.una.pol.karaku.dao.where.DateClauses;
+import py.una.pol.karaku.jsf.utils.ICurrentpageHelper;
+import py.una.pol.karaku.reports.DynamicUtils;
+import py.una.pol.karaku.security.AuthorityController;
+import py.una.pol.karaku.test.util.TestControllerHelper;
+import py.una.pol.karaku.test.util.TestExportReport;
+import py.una.pol.karaku.util.ELHelper;
+import py.una.pol.karaku.util.UniqueHelper;
 
 /**
  * 

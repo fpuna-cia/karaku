@@ -1,4 +1,4 @@
-package py.una.med.base.exception;
+package py.una.pol.karaku.exception;
 
 /**
  * Excepción lanzada cuando la aplicación realiza una consulta que debe retornar

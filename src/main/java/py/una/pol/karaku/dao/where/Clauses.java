@@ -1,13 +1,13 @@
 /*
  * @Clauses.java 1.0 Sep 13, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.where;
+package py.una.pol.karaku.dao.where;
 
-import static py.una.med.base.util.Checker.notNull;
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.List;
 import javax.annotation.Nonnull;
-import py.una.med.base.dao.helper.AndExpressionHelper;
-import py.una.med.base.dao.helper.OrExpressionHelper;
+import py.una.pol.karaku.dao.helper.AndExpressionHelper;
+import py.una.pol.karaku.dao.helper.OrExpressionHelper;
 
 /**
  * Clase que sirve de punto de acceso común para todas las clauses que son

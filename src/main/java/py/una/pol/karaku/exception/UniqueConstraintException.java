@@ -1,8 +1,8 @@
-package py.una.med.base.exception;
+package py.una.pol.karaku.exception;
 
 import java.util.List;
-import py.una.med.base.util.ListHelper;
-import py.una.med.base.util.UniqueHelper.UniqueRestrintion;
+import py.una.pol.karaku.util.ListHelper;
+import py.una.pol.karaku.util.UniqueHelper.UniqueRestrintion;
 
 /**
  * Excepción que encapsula una {@link UniqueRestrintion} para poder recuperar la

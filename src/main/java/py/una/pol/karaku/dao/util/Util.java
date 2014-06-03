@@ -1,4 +1,4 @@
-package py.una.med.base.dao.util;
+package py.una.pol.karaku.dao.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

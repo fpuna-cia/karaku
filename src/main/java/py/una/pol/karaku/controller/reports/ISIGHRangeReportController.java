@@ -1,4 +1,4 @@
-package py.una.med.base.controller.reports;
+package py.una.pol.karaku.controller.reports;
 
 import javax.faces.event.AjaxBehaviorEvent;
 

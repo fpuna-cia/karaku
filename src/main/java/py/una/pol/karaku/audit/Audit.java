@@ -1,7 +1,7 @@
 /*
  * @Audit.java 1.0 18/02/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.audit;
+package py.una.pol.karaku.audit;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

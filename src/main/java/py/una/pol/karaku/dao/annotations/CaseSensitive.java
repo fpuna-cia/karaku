@@ -1,14 +1,14 @@
-package py.una.med.base.dao.annotations;
+package py.una.pol.karaku.dao.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import py.una.med.base.dao.entity.annotations.FieldAnnotation;
+import py.una.pol.karaku.dao.entity.annotations.FieldAnnotation;
 
 /**
  * Anotación que sirve para determinar si un field es case sensitive, si lo es
- * el {@link py.una.med.base.repo.SIGHBaseDao} no se encargara de ponerlo en
+ * el {@link py.una.pol.karaku.repo.SIGHBaseDao} no se encargara de ponerlo en
  * mayúsculas
  *
  * @author Arturo Volpe

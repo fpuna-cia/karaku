@@ -2,19 +2,19 @@
  * @AbstractReplicationEndPoint.java 1.0 Nov 7, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.replication.server;
+package py.una.pol.karaku.replication.server;
 
-import static py.una.med.base.util.Checker.isValid;
+import static py.una.pol.karaku.util.Checker.isValid;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.services.Converter;
-import py.una.med.base.services.ConverterProvider;
-import py.una.med.base.util.KarakuReflectionUtils;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.services.Converter;
+import py.una.pol.karaku.services.ConverterProvider;
+import py.una.pol.karaku.util.KarakuReflectionUtils;
 
 /**
  * Clase base para los Endpoints que proveen replicación a través de WS. s
@@ -38,7 +38,7 @@ import py.una.med.base.util.KarakuReflectionUtils;
  * sistema></i>.webservice.endpoint), con el nombre PaisReplicationEndpoint
  * 
  * <pre>
- * {@literal @}{@link py.una.med.base.services.server.WebServiceDefinition}(xsds =
+ * {@literal @}{@link py.una.pol.karaku.services.server.WebServiceDefinition}(xsds =
  * 	{
  * 		"/META-INF/schemas/configuracion/pais/Pais.xsd",
  * 		"/META-INF/schemas/configuracion/pais/PaisReplicationOperations.xsd"
@@ -48,7 +48,7 @@ import py.una.med.base.util.KarakuReflectionUtils;
  * 
  * </li>
  * <li>Agregar la anotación {@literal @}
- * {@link py.una.med.base.services.server.WebServiceDefinition} y configurar los
+ * {@link py.una.pol.karaku.services.server.WebServiceDefinition} y configurar los
  * <i>xsd's</i> anteriormente generados</li>
  * <li>Crear un método de la siguiente forma
  * 
@@ -91,7 +91,7 @@ import py.una.med.base.util.KarakuReflectionUtils;
  * </li>
  * <li>Se debe realizar un test de esto, para lo mismo se puede ver el ejemplo
  * de {@link import
- * py.una.med.base.test.test.replication.ReplicationEndpointTest}</li>
+ * py.una.pol.karaku.test.test.replication.ReplicationEndpointTest}</li>
  * </ol>
  * </p>
  * 

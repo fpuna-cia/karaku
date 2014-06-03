@@ -1,7 +1,7 @@
 /*
  * @WatcherHandler.java 1.0 Nov 6, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.entity.watchers;
+package py.una.pol.karaku.dao.entity.watchers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.dao.entity.Operation;
+import py.una.pol.karaku.dao.entity.Operation;
 
 /**
  * 

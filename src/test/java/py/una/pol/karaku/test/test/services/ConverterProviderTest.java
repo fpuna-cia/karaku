@@ -2,7 +2,7 @@
  * @ConverterProviderTest.java 1.0 Nov 11, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.test.services;
+package py.una.pol.karaku.test.test.services;
 
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -11,14 +11,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.med.base.replication.DTO;
-import py.una.med.base.replication.Shareable;
-import py.una.med.base.services.AbstractConverter;
-import py.una.med.base.services.Converter;
-import py.una.med.base.services.ConverterProvider;
-import py.una.med.base.services.ReflectionConverter;
-import py.una.med.base.test.base.BaseTest;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.replication.DTO;
+import py.una.pol.karaku.replication.Shareable;
+import py.una.pol.karaku.services.AbstractConverter;
+import py.una.pol.karaku.services.Converter;
+import py.una.pol.karaku.services.ConverterProvider;
+import py.una.pol.karaku.services.ReflectionConverter;
+import py.una.pol.karaku.test.base.BaseTest;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * 

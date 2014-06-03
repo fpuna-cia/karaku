@@ -1,4 +1,4 @@
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,14 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.audit.Audit;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.util.EntityExample;
-import py.una.med.base.util.I18nHelper;
-import py.una.med.base.util.PagingHelper;
-import py.una.med.base.util.SelectHelper;
-import py.una.med.base.util.StringUtils;
+import py.una.pol.karaku.audit.Audit;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.util.EntityExample;
+import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.PagingHelper;
+import py.una.pol.karaku.util.SelectHelper;
+import py.una.pol.karaku.util.StringUtils;
 
 /**
  * 

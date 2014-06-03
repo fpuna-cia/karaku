@@ -1,7 +1,7 @@
 /*
  * @Operation.java 1.0 Nov 5, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.entity;
+package py.una.pol.karaku.dao.entity;
 
 import javax.annotation.Nonnull;
 
@@ -17,14 +17,14 @@ public enum Operation {
 	/**
 	 * Define una operación de persistencia.
 	 * 
-	 * @see py.una.med.base.dao.BaseDAO#add(Object)
+	 * @see py.una.pol.karaku.dao.BaseDAO#add(Object)
 	 */
 	@Nonnull
 	CREATE,
 	/**
 	 * Define una operación de actualización.
 	 * 
-	 * @see py.una.med.base.dao.BaseDAO#update(Object)
+	 * @see py.una.pol.karaku.dao.BaseDAO#update(Object)
 	 */
 	@Nonnull
 	UPDATE,
@@ -34,11 +34,11 @@ public enum Operation {
 	 * <p>
 	 * Hay ciertos casos, donde la operación de eliminación puede ser omitida,
 	 * por ejemplo en los casos de entidades que implementan la interfaz
-	 * {@link py.una.med.base.replication.Shareable}. Donde existe un
+	 * {@link py.una.pol.karaku.replication.Shareable}. Donde existe un
 	 * <i>interceptor</i> que se encarga de modificarla y actualizarla.
 	 * </p>
 	 * 
-	 * @see py.una.med.base.dao.BaseDAO#remove(Object)
+	 * @see py.una.pol.karaku.dao.BaseDAO#remove(Object)
 	 */
 	@Nonnull
 	DELETE;

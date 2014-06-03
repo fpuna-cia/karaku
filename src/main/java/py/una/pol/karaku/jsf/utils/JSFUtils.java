@@ -1,7 +1,7 @@
 /*
  * @JSFUtils.java 1.0 Sep 27, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.jsf.utils;
+package py.una.pol.karaku.jsf.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

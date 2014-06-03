@@ -2,11 +2,11 @@
  * @TestDateProvider.java 1.0 Nov 14, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.test.util;
+package py.una.pol.karaku.test.util;
 
 import java.util.Calendar;
 import java.util.Date;
-import py.una.med.base.util.DateProvider;
+import py.una.pol.karaku.util.DateProvider;
 
 /**
  * Componente que provee fechas con enfoque de Test.

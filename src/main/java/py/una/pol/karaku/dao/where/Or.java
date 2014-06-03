@@ -1,7 +1,7 @@
 /*
  * @Where Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dao.where;
+package py.una.pol.karaku.dao.where;
 
 import org.hibernate.criterion.Criterion;
 

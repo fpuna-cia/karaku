@@ -1,4 +1,4 @@
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -7,7 +7,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import py.una.med.base.model.DisplayName;
+import py.una.pol.karaku.model.DisplayName;
 
 public final class EntitySerializer {
 

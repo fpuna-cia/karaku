@@ -2,7 +2,7 @@
  * @ReportControllerHelper.java 1.0 03/10/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.util;
+package py.una.pol.karaku.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.exception.ReportException;
-import py.una.med.base.reports.ExportReport;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.exception.ReportException;
+import py.una.pol.karaku.reports.ExportReport;
 
 /**
  * Helper utilizado para escuchar las peticiones de impresión de reportes entre

@@ -1,19 +1,19 @@
 /*
  * @MenuWSCaller.java 1.0 Oct 18, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.menu.client;
+package py.una.pol.karaku.menu.client;
 
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import py.una.med.base.exception.KarakuException;
-import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.menu.schemas.MenuRequest;
-import py.una.med.base.menu.schemas.MenuResponse;
-import py.una.med.base.services.client.WSCallBack;
-import py.una.med.base.services.client.WSCaller;
-import py.una.med.base.services.client.WSInformationProvider.Info;
+import py.una.pol.karaku.exception.KarakuException;
+import py.una.pol.karaku.menu.schemas.Menu;
+import py.una.pol.karaku.menu.schemas.MenuRequest;
+import py.una.pol.karaku.menu.schemas.MenuResponse;
+import py.una.pol.karaku.services.client.WSCallBack;
+import py.una.pol.karaku.services.client.WSCaller;
+import py.una.pol.karaku.services.client.WSInformationProvider.Info;
 
 /**
  * 
@@ -31,8 +31,8 @@ public class MenuWSCaller {
 	/**
 	 * @param request
 	 * @param callback
-	 * @see py.una.med.base.services.client.WSCaller#call(java.lang.Object,
-	 *      py.una.med.base.services.client.WSCallBack)
+	 * @see py.una.pol.karaku.services.client.WSCaller#call(java.lang.Object,
+	 *      py.una.pol.karaku.services.client.WSCallBack)
 	 */
 	public void call(MenuRequest request, Info info,
 			final WSCallBack<List<Menu>> callback) {

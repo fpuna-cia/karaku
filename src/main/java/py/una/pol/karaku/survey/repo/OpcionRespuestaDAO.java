@@ -1,11 +1,11 @@
 /*
  * @OpcionRespuestaDAO 1.0 29/05/13. Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.survey.repo;
+package py.una.pol.karaku.survey.repo;
 
 import org.springframework.stereotype.Repository;
-import py.una.med.base.repo.SIGHBaseDao;
-import py.una.med.base.survey.domain.OpcionRespuesta;
+import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.survey.domain.OpcionRespuesta;
 
 /**
  * 

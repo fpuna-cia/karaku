@@ -8,4 +8,4 @@
  * @version 1.0 Oct 13, 2013
  * 
  */
-package py.una.med.base.test.test.dao.select;
+package py.una.pol.karaku.test.test.dao.select;

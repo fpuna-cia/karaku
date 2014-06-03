@@ -1,4 +1,4 @@
-package py.una.med.base.menu.server;
+package py.una.pol.karaku.menu.server;
 
 import java.util.List;
 import org.slf4j.Logger;
@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import py.una.med.base.log.Log;
-import py.una.med.base.menu.schemas.Menu;
-import py.una.med.base.menu.schemas.MenuRequest;
-import py.una.med.base.menu.schemas.MenuResponse;
-import py.una.med.base.services.server.WebServiceDefinition;
+import py.una.pol.karaku.log.Log;
+import py.una.pol.karaku.menu.schemas.Menu;
+import py.una.pol.karaku.menu.schemas.MenuRequest;
+import py.una.pol.karaku.menu.schemas.MenuResponse;
+import py.una.pol.karaku.services.server.WebServiceDefinition;
 
 /**
  * 

@@ -2,7 +2,7 @@
  * @SGHUserGrantedAuthority.java 1.0 10/10/12
  */
 
-package py.una.med.base.security;
+package py.una.pol.karaku.security;
 
 import org.springframework.security.core.GrantedAuthority;
 

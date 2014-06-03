@@ -1,4 +1,4 @@
-package py.una.med.base.breadcrumb;
+package py.una.pol.karaku.breadcrumb;
 
 /**
  * Clase que sirve como auxilio de {@link BreadcrumbController} para representar

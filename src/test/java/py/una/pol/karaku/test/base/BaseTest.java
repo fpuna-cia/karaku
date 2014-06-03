@@ -1,7 +1,7 @@
 /*
  * @ExampleTest.java 1.0 Aug 19, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.test.base;
+package py.una.pol.karaku.test.base;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import py.una.med.base.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * 

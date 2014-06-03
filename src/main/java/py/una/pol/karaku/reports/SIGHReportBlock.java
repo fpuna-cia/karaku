@@ -1,7 +1,7 @@
 /*
  * @SIGHReportBlock.java 1.0 23/07/2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.reports;
+package py.una.pol.karaku.reports;
 
 import net.sf.jasperreports.engine.JRDataSource;
 

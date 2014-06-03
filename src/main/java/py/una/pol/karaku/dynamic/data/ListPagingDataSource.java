@@ -2,7 +2,7 @@
  * @ListPagingDataSource.java 1.0 Jun 24, 2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.dynamic.data;
+package py.una.pol.karaku.dynamic.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class ListPagingDataSource extends AbstractPagingDataSource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.data.PagingDataSource#getTotalCount()
+	 * @see py.una.pol.karaku.dynamic.data.PagingDataSource#getTotalCount()
 	 */
 	@Override
 	public Long getTotalCount() {
@@ -45,7 +45,7 @@ public class ListPagingDataSource extends AbstractPagingDataSource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.data.PagingDataSource#getItems()
+	 * @see py.una.pol.karaku.dynamic.data.PagingDataSource#getItems()
 	 */
 	@Override
 	public List<?> getItems() {
@@ -56,7 +56,7 @@ public class ListPagingDataSource extends AbstractPagingDataSource {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.dynamic.data.PagingDataSource#refresh()
+	 * @see py.una.pol.karaku.dynamic.data.PagingDataSource#refresh()
 	 */
 
 	@Override

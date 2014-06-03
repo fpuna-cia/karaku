@@ -1,7 +1,7 @@
 /*
  * @WSEndpoint.java 1.0 Jun 11, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.services.client;
+package py.una.pol.karaku.services.client;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +14,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
-import py.una.med.base.dao.annotations.CaseSensitive;
-import py.una.med.base.domain.BaseEntity;
-import py.una.med.base.model.DisplayName;
-import py.una.med.base.util.ValidationConstants;
+import py.una.pol.karaku.dao.annotations.CaseSensitive;
+import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.model.DisplayName;
+import py.una.pol.karaku.util.ValidationConstants;
 
 /**
  * Entidad que representa los endpoints a los que se accede,

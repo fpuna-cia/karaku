@@ -2,15 +2,15 @@
  * @ISIGHBaseReportDetail 1.0 19/02/13. Sistema Integral de Gestion Hospitalaria
  */
 
-package py.una.med.base.business.reports;
+package py.una.pol.karaku.business.reports;
 
 import java.util.List;
 import java.util.Map;
-import py.una.med.base.business.ISIGHBaseLogic;
-import py.una.med.base.reports.Align;
-import py.una.med.base.reports.SIGHReportBlock;
-import py.una.med.base.reports.SIGHReportBlockSign;
-import py.una.med.base.reports.SIGHReportDetails;
+import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.reports.Align;
+import py.una.pol.karaku.reports.SIGHReportBlock;
+import py.una.pol.karaku.reports.SIGHReportBlockSign;
+import py.una.pol.karaku.reports.SIGHReportDetails;
 
 /**
  * Interface que define el servicio para reportes del tipo cabecera-detalle. Se

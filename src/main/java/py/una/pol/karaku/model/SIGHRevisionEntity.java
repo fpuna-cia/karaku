@@ -1,4 +1,4 @@
-package py.una.med.base.model;
+package py.una.pol.karaku.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.envers.RevisionEntity;
 import org.hibernate.envers.RevisionNumber;
 import org.hibernate.envers.RevisionTimestamp;
-import py.una.med.base.audit.SIGHRevisionListener;
+import py.una.pol.karaku.audit.SIGHRevisionListener;
 
 /**
  *

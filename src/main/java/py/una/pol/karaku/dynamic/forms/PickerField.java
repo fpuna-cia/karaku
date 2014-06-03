@@ -1,7 +1,7 @@
 /*
  * @PickerField.java 1.0 Feb 21, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.dynamic.forms;
+package py.una.pol.karaku.dynamic.forms;
 
 import javax.el.ValueExpression;
 import javax.faces.application.FacesMessage;
@@ -9,10 +9,10 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import py.una.med.base.exception.KarakuRuntimeException;
-import py.una.med.base.util.KarakuListHelperProvider;
-import py.una.med.base.util.LabelProvider;
-import py.una.med.base.util.LabelProvider.StringLabelProvider;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
+import py.una.pol.karaku.util.KarakuListHelperProvider;
+import py.una.pol.karaku.util.LabelProvider;
+import py.una.pol.karaku.util.LabelProvider.StringLabelProvider;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class PickerField<T> extends LabelField {
 	/**
 	 * Tipo de este componente
 	 */
-	public static final String TYPE = "py.una.med.base.dynamic.forms.PickerField";
+	public static final String TYPE = "py.una.pol.karaku.dynamic.forms.PickerField";
 	private boolean hasCodeInput;
 	private String popupID;
 	private KeyListener keyListener;
@@ -70,7 +70,7 @@ public class PickerField<T> extends LabelField {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see py.una.med.base.forms.dynamic.Field#getType()
+	 * @see py.una.pol.karaku.forms.dynamic.Field#getType()
 	 */
 	@Override
 	public String getType() {

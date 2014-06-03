@@ -2,14 +2,14 @@
  * @DynamicSurveyCell.java 1.0 04/06/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.survey.components;
+package py.una.pol.karaku.survey.components;
 
 import java.util.List;
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
-import py.una.med.base.survey.components.DynamicSurveyField.SurveyField;
-import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
-import py.una.med.base.util.I18nHelper;
+import py.una.pol.karaku.survey.components.DynamicSurveyField.SurveyField;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
+import py.una.pol.karaku.util.I18nHelper;
 
 /**
  * Esta clase representa un dataTable, el cual esta compuesto de una lista de
@@ -26,7 +26,7 @@ public class DynamicSurveyDataTable extends DynamicSurveyBlock {
 	private int rowsNumber = 0;
 	private int columnsNumber = 0;
 	public static final int ROWS_FOR_TABLE = 50;
-	public static final String TYPE = "py.una.med.base.survey.components.DynamicSurveyDataTable";
+	public static final String TYPE = "py.una.pol.karaku.survey.components.DynamicSurveyDataTable";
 	private String globalMessage = "";
 
 	/**

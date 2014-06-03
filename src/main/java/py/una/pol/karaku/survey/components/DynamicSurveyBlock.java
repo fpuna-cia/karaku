@@ -2,13 +2,13 @@
  * @DynamicSurveyBlock.java 1.0 04/06/2013 Sistema Integral de Gestion
  * Hospitalaria
  */
-package py.una.med.base.survey.components;
+package py.una.pol.karaku.survey.components;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import py.una.med.base.survey.domain.EncuestaPlantillaPregunta;
+import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 
 /**
  * r
@@ -123,7 +123,7 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @see py.una.med.base.survey.IDynamicSurveyBlock#getType()
+	 * @see py.una.pol.karaku.survey.IDynamicSurveyBlock#getType()
 	 */
 	@Override
 	public String getType() {

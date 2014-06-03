@@ -2,11 +2,11 @@
  * @SIGHBaseShareableController.java 1.0 May 26, 2014 Sistema Integral de
  * Gestion Hospitalaria
  */
-package py.una.med.base.controller;
+package py.una.pol.karaku.controller;
 
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.where.Clauses;
-import py.una.med.base.replication.Shareable;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.where.Clauses;
+import py.una.pol.karaku.replication.Shareable;
 
 /**
  * 

@@ -1,7 +1,7 @@
 /*
  * @Quantity.java 1.0 Oct 8, 2013 Sistema Integral de Gestion Hospitalaria
  */
-package py.una.med.base.math;
+package py.una.pol.karaku.math;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -1,14 +1,14 @@
 /*
  * @BaseDAO.java 1.0 23/10/2021
  */
-package py.una.med.base.dao;
+package py.una.pol.karaku.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import py.una.med.base.dao.restrictions.Where;
-import py.una.med.base.dao.search.ISearchParam;
-import py.una.med.base.dao.select.Select;
-import py.una.med.base.dao.util.EntityExample;
+import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.dao.search.ISearchParam;
+import py.una.pol.karaku.dao.select.Select;
+import py.una.pol.karaku.dao.util.EntityExample;
 
 /**
  * Intefaz de acceso a datos.
@@ -124,7 +124,7 @@ public interface BaseDAO<T, K extends Serializable> {
 	 * </p>
 	 * <p>
 	 * Restricciones del negocio, como la utilización de la anotación
-	 * {@link py.una.med.base.dao.annotations.CaseSensitive} si se ven
+	 * {@link py.una.pol.karaku.dao.annotations.CaseSensitive} si se ven
 	 * reflejadas en la entidad pasada.
 	 * </p>
 	 * 
