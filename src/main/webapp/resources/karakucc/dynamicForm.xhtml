@@ -33,12 +33,34 @@
 					<c:choose>
 						<c:when
 							test="#{item.type eq 'py.una.pol.karaku.dynamic.forms.PickerField'}">
+
+							<!-- 
+								
+							Se remplazo la implementación del pickerButton en este lugar por que se
+							necesitaba que el pickerPopup se muestre luego de que se complete 
+							la acción de setear el picker y cargar las entidades a mostrar.
+							
+							Cambios:
+							- Se cambio `onclick` por `oncomplete`.
+							 -->
 							<h:outputLabel value="#{item.label}" />
 							<h:panelGroup id="#{item.id}">
-								<kk:pickerButton pickerField="#{item}"
-									chooseButtonRender="dynamic:form:pickerId:pickerPopUp"
-									chooseButtonAction="#{cc.attrs.fields.setPicker(item.id)}"
-									chooseButtonOnComplete="#{rich:component('pickerPopUp')}.show()" />
+								<kk:pickerUpdater pickerField="#{item}" />
+								<h:inputText value="#{item.code}"
+									rendered="#{item.hasCodeInput}"
+									disabled="#{item.buttonDisabled}">
+									<a4j:ajax event="blur" listener="#{item.keyUpListener}"
+										disabled="#{not item.hasCodeInput}"
+										render="#{item.id} #{item.idMessage} " execute="valueId"
+										immediate="true" />
+								</h:inputText>
+								<a4j:commandButton disabled="#{item.buttonDisabled}"
+									action="#{cc.attrs.fields.setPicker(item.id)}"
+									oncomplete="#{rich:component('pickerPopUp')}.show();return false;"
+									render="dynamic:form:pickerId:pickerPopUp"
+									value="#{msg['COMPONENT_PICKER_CHOOSE']}" immediate="true" />
+								<h:outputLabel value="#{item.formmatedSelectedOption}"
+									style="text-transform:none" />
 							</h:panelGroup>
 							<rich:message ajaxRendered="true" for="#{item.id}" />
 						</c:when>
