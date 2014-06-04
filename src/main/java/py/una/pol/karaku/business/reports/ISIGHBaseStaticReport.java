@@ -6,7 +6,7 @@ package py.una.pol.karaku.business.reports;
 
 import java.util.List;
 import java.util.Map;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.exception.ReportException;
 
@@ -32,7 +32,7 @@ public interface ISIGHBaseStaticReport {
 	 *            Representa los filtros ingresados por el usuario.
 	 * @return Lista filtrada
 	 */
-	<T> List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	<T> List<?> getList(IKarakuBaseLogic<T, ?> logic, Where<T> where);
 
 	/**
 	 * 
@@ -56,6 +56,6 @@ public interface ISIGHBaseStaticReport {
 	 * @throws ReportException
 	 */
 	<T> void generateReport(String fileReport, Map<String, Object> params,
-			String type, ISIGHBaseLogic<T, ?> logic, Where<T> where)
+			String type, IKarakuBaseLogic<T, ?> logic, Where<T> where)
 			throws ReportException;
 }

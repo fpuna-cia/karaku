@@ -17,7 +17,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.reports.Column;
 import py.una.pol.karaku.reports.ExportReport;
@@ -43,7 +43,7 @@ public abstract class SIGHBaseReportAdvanced<T> implements
 	private ExportReport exportReport;
 
 	@Override
-	public ISIGHBaseLogic<T, ?> getBaseLogic() {
+	public IKarakuBaseLogic<T, ?> getBaseLogic() {
 
 		throw new NotImplementedException();
 	}

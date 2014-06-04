@@ -5,7 +5,7 @@
 package py.una.pol.karaku.survey.business;
 
 import java.util.List;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 
@@ -18,7 +18,7 @@ import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
  * 
  */
 public interface IEncuestaPlantillaPreguntaLogic extends
-		ISIGHBaseLogic<EncuestaPlantillaPregunta, Long> {
+		IKarakuBaseLogic<EncuestaPlantillaPregunta, Long> {
 
 	List<EncuestaPlantillaPregunta> getQuestionsByBlock(
 			EncuestaPlantillaBloque block);

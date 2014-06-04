@@ -5,7 +5,7 @@
 package py.una.pol.karaku.survey.repo;
 
 import java.util.List;
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
 
@@ -18,7 +18,7 @@ import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
  * 
  */
 public interface IEncuestaPlantillaBloqueDAO extends
-		ISIGHBaseDao<EncuestaPlantillaBloque, Long> {
+		IKarakuBaseDao<EncuestaPlantillaBloque, Long> {
 
 	/**
 	 * Obtiene los bloques que corresponden a una determinada plantilla de

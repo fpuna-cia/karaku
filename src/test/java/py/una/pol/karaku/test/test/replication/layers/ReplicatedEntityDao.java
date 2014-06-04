@@ -5,7 +5,7 @@ package py.una.pol.karaku.test.test.replication.layers;
 
 import javax.annotation.Nonnull;
 import org.hibernate.Session;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 
 /**
  * Dao para los test de replicacion
@@ -15,7 +15,7 @@ import py.una.pol.karaku.repo.SIGHBaseDao;
  * @version 1.0 Nov 4, 2013
  * 
  */
-public class ReplicatedEntityDao extends SIGHBaseDao<ReplicatedEntity, Long> {
+public class ReplicatedEntityDao extends KarakuBaseDao<ReplicatedEntity, Long> {
 
 	Session session;
 

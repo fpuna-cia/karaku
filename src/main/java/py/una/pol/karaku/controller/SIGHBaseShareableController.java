@@ -16,7 +16,7 @@ import py.una.pol.karaku.replication.Shareable;
  * 
  */
 public abstract class SIGHBaseShareableController<T extends Shareable> extends
-		SIGHAdvancedController<T, Long> {
+		KarakuAdvancedController<T, Long> {
 
 	private static final String FIELD_ACTIVO = "activo";
 

@@ -3,7 +3,7 @@ package py.una.pol.karaku.controller;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.model.SelectItem;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 
 /**
  * 
@@ -26,7 +26,7 @@ public interface IBaseController<T, K extends Serializable> {
 
 	void doSearch();
 
-	ISIGHBaseLogic<T, K> getBaseLogic();
+	IKarakuBaseLogic<T, K> getBaseLogic();
 
 	List<String> getBaseSearchItems();
 

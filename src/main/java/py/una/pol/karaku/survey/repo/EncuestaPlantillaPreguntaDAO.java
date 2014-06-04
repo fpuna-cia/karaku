@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.search.OrderParam;
 import py.una.pol.karaku.dao.search.SearchParam;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 import py.una.pol.karaku.util.ListHelper;
@@ -27,7 +27,7 @@ import py.una.pol.karaku.util.ListHelper;
  */
 @Repository
 public class EncuestaPlantillaPreguntaDAO extends
-		SIGHBaseDao<EncuestaPlantillaPregunta, Long> implements
+		KarakuBaseDao<EncuestaPlantillaPregunta, Long> implements
 		IEncuestaPlantillaPreguntaDAO {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());

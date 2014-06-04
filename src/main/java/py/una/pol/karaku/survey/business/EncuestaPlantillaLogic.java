@@ -7,8 +7,8 @@ package py.una.pol.karaku.survey.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.pol.karaku.business.SIGHBaseLogic;
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.business.KarakuBaseLogic;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
 import py.una.pol.karaku.survey.repo.IEncuestaPlantillaDAO;
 
@@ -22,14 +22,14 @@ import py.una.pol.karaku.survey.repo.IEncuestaPlantillaDAO;
  */
 @Service
 @Transactional
-public class EncuestaPlantillaLogic extends SIGHBaseLogic<EncuestaPlantilla, Long>
+public class EncuestaPlantillaLogic extends KarakuBaseLogic<EncuestaPlantilla, Long>
 		implements IEncuestaPlantillaLogic {
 
 	@Autowired
 	private IEncuestaPlantillaDAO dao;
 
 	@Override
-	public ISIGHBaseDao<EncuestaPlantilla, Long> getDao() {
+	public IKarakuBaseDao<EncuestaPlantilla, Long> getDao() {
 
 		return dao;
 	}

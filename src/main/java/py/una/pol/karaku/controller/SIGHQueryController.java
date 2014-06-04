@@ -28,7 +28,7 @@ import py.una.pol.karaku.util.StringUtils;
 @Deprecated
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class SIGHQueryController<T, K extends Serializable> extends
-		SIGHAdvancedController<T, K> implements ISIGHQueryController<T, K> {
+		KarakuAdvancedController<T, K> implements ISIGHQueryController<T, K> {
 
 	private List<Object[]> values;
 

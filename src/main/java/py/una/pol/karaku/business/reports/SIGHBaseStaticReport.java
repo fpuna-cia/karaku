@@ -9,7 +9,7 @@ import java.util.Map;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.reports.ExportReport;
@@ -29,13 +29,13 @@ public abstract class SIGHBaseStaticReport implements ISIGHBaseStaticReport {
 	private ExportReport exportReport;
 
 	@Override
-	public abstract <T> List<?> getList(ISIGHBaseLogic<T, ?> logic,
+	public abstract <T> List<?> getList(IKarakuBaseLogic<T, ?> logic,
 			Where<T> where);
 
 	@Override
 	public <T> void generateReport(String fileReport,
 			Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, Where<T> where) throws ReportException {
+			IKarakuBaseLogic<T, ?> logic, Where<T> where) throws ReportException {
 
 		JRDataSource dataSource = new JRBeanCollectionDataSource(getList(logic,
 				where));

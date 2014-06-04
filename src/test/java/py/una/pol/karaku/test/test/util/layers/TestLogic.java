@@ -5,8 +5,8 @@ package py.una.pol.karaku.test.test.util.layers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import py.una.pol.karaku.business.SIGHBaseLogic;
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.business.KarakuBaseLogic;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 
 /**
  *
@@ -16,14 +16,14 @@ import py.una.pol.karaku.repo.ISIGHBaseDao;
  *
  */
 @Service
-public class TestLogic extends SIGHBaseLogic<TestEntity, Long> implements
+public class TestLogic extends KarakuBaseLogic<TestEntity, Long> implements
 		ITestLogic {
 
 	@Autowired
 	private ITestDAO dao;
 
 	@Override
-	public ISIGHBaseDao<TestEntity, Long> getDao() {
+	public IKarakuBaseDao<TestEntity, Long> getDao() {
 
 		return dao;
 	}

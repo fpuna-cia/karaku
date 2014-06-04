@@ -3,7 +3,7 @@
  */
 package py.una.pol.karaku.survey.business;
 
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.survey.domain.TipoObjeto;
 
 /**
@@ -14,6 +14,6 @@ import py.una.pol.karaku.survey.domain.TipoObjeto;
  * @version 1.0 27/05/2013
  * 
  */
-public interface ITipoObjetoLogic extends ISIGHBaseLogic<TipoObjeto, Long> {
+public interface ITipoObjetoLogic extends IKarakuBaseLogic<TipoObjeto, Long> {
 
 }

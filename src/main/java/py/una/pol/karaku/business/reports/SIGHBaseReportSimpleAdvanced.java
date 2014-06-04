@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.reports.Column;
@@ -40,7 +40,7 @@ public abstract class SIGHBaseReportSimpleAdvanced<T> implements
 	}
 
 	@Override
-	public List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where) {
+	public List<?> getList(IKarakuBaseLogic<T, ?> logic, Where<T> where) {
 
 		if (where != null) {
 			return logic.getAll(where, null);
@@ -62,12 +62,12 @@ public abstract class SIGHBaseReportSimpleAdvanced<T> implements
 	public abstract List<Column> getColumnsReport();
 
 	@Override
-	public abstract DRDataSource getDataSource(ISIGHBaseLogic<T, ?> logic,
+	public abstract DRDataSource getDataSource(IKarakuBaseLogic<T, ?> logic,
 			Where<T> where);
 
 	@Override
 	public void generateReport(Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, Where<T> where) throws ReportException {
+			IKarakuBaseLogic<T, ?> logic, Where<T> where) throws ReportException {
 
 		exportReport.exportSimpleReport(getColumnsReport(),
 				getDataSource(logic, where), params, type);

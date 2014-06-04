@@ -1,0 +1,53 @@
+<!-- 
+Componente que define el funcionamiento del wizard, convenciones:
+
+- Nombre del Wizard = bind
+
+
+ -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	<cc:interface componentType="wizard">
+		<cc:attribute name="bind"
+			type="py.una.pol.karaku.dynamic.wizard.SimpleWizard" />
+	</cc:interface>
+	<cc:implementation>
+
+
+		<rich:popupPanel id="#{cc.attrs.bind.popupId}" modal="true"
+			moveable="false" resizeable="false" width="600" height="450">
+			<f:facet name="header">
+				<h:outputText value="#{cc.attrs.bind.title}" />
+			</f:facet>
+			<h:form>
+				<rich:panel styleClass="wizard">
+					<rich:togglePanel switchType="ajax" activeItem="first"
+						id="#{cc.attrs.bind.togglePanelId}">
+						<c:forEach items="#{cc.attrs.bind.steps}" var="item"
+							varStatus="pageCounter">
+							<c:choose>
+								<c:when test="${pageCounter.count eq 1}">
+									<rich:togglePanelItem name="first">
+										<k:step step="#{item}" />
+									</rich:togglePanelItem>
+								</c:when>
+								<c:otherwise>
+									<rich:togglePanelItem>
+										<k:step step="#{item}" />
+									</rich:togglePanelItem>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</rich:togglePanel>
+				</rich:panel>
+			</h:form>
+		</rich:popupPanel>
+	</cc:implementation>
+</ui:composition>

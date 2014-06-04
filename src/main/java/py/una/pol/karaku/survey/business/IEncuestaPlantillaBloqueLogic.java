@@ -5,7 +5,7 @@
 package py.una.pol.karaku.survey.business;
 
 import java.util.List;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
 
@@ -18,7 +18,7 @@ import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
  * 
  */
 public interface IEncuestaPlantillaBloqueLogic extends
-		ISIGHBaseLogic<EncuestaPlantillaBloque, Long> {
+		IKarakuBaseLogic<EncuestaPlantillaBloque, Long> {
 
 	/**
 	 * @param plantilla

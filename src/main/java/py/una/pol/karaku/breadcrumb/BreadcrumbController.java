@@ -10,8 +10,8 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import py.una.pol.karaku.configuration.SIGHConfiguration;
-import py.una.pol.karaku.controller.ISIGHBaseController;
+import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
+import py.una.pol.karaku.controller.IKarakuBaseController;
 import py.una.pol.karaku.jsf.utils.ICurrentpageHelper;
 import py.una.pol.karaku.menu.client.MenuHelper;
 import py.una.pol.karaku.menu.schemas.Menu;
@@ -26,7 +26,7 @@ import py.una.pol.karaku.util.I18nHelper;
  *
  */
 @Component
-@Scope(value = SIGHConfiguration.SCOPE_CONVERSATION)
+@Scope(value = KarakuBaseConfiguration.SCOPE_CONVERSATION)
 public class BreadcrumbController {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class BreadcrumbController {
 
 	private List<BreadcrumbItem> items;
 
-	private ISIGHBaseController<?, ?> actualController;
+	private IKarakuBaseController<?, ?> actualController;
 
 	/**
 	 * Limpia y configura el breadcrum, para ello busca en la URL y verifica si
@@ -148,7 +148,7 @@ public class BreadcrumbController {
 	 *
 	 * @param controller
 	 */
-	public void setActualController(final ISIGHBaseController<?, ?> controller) {
+	public void setActualController(final IKarakuBaseController<?, ?> controller) {
 
 		actualController = controller;
 

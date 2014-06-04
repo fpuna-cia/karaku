@@ -3,7 +3,7 @@
  */
 package py.una.pol.karaku.survey.business;
 
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.survey.domain.OpcionRespuesta;
 
 /**
@@ -15,6 +15,6 @@ import py.una.pol.karaku.survey.domain.OpcionRespuesta;
  * 
  */
 public interface IOpcionRespuestaLogic extends
-		ISIGHBaseLogic<OpcionRespuesta, Long> {
+		IKarakuBaseLogic<OpcionRespuesta, Long> {
 
 }

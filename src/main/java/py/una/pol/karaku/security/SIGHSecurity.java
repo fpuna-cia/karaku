@@ -20,21 +20,21 @@ import py.una.pol.karaku.util.StringUtils;
  * </p>
  * <p>
  * Aquellos componentes que utilicen esta anotación y hereden de
- * {@link ISIGHBaseController}, tienen la facilidad de poder utilizar las
+ * {@link IKarakuBaseController}, tienen la facilidad de poder utilizar las
  * palabras claves:
  * <ul>
  * <li>{@link #DEFAULT}: que define el permiso por defecto (en ausencia de los
  * siguientes), cuando se encuentre esta clave se llamara la método
- * {@link ISIGHBaseController#getDefaultPermission()}</li>
+ * {@link IKarakuBaseController#getDefaultPermission()}</li>
  * <li>{@link #DEFAULT_CREATE}: que define el permiso por defecto para crear, si
  * el programador no sobreescribe el método y le pasa otro permiso. Cuando se encuentre esta clave se llamara la método
- * {@link ISIGHBaseController#getCreatePermission()</li>
+ * {@link IKarakuBaseController#getCreatePermission()</li>
  * <li>{@link #DEFAULT_EDIT}: que define el permiso por defecto para editar, si
  * el programador no sobreescribe el método y le pasa otro permiso. Cuando se encuentre esta clave se llamara la método
- * {@link ISIGHBaseController#getEditPermission()</li>
+ * {@link IKarakuBaseController#getEditPermission()</li>
  * <li>{@link #DEFAULT_DELETE}: que define el permiso por defecto para borrar,
  * si el programador no sobreescribe el método y le pasa otro permiso.Cuando se encuentre esta clave se llamara la método
- * {@link ISIGHBaseController#getDeletePermission()</li>
+ * {@link IKarakuBaseController#getDeletePermission()</li>
  * </ul>
  * </p>
  * 

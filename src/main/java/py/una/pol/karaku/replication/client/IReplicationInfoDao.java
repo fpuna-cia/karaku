@@ -4,7 +4,7 @@
  */
 package py.una.pol.karaku.replication.client;
 
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 
 /**
  * 
@@ -14,6 +14,6 @@ import py.una.pol.karaku.repo.ISIGHBaseDao;
  * 
  */
 public interface IReplicationInfoDao extends
-		ISIGHBaseDao<ReplicationInfo, Long> {
+		IKarakuBaseDao<ReplicationInfo, Long> {
 
 }

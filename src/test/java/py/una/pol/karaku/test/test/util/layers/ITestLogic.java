@@ -3,7 +3,7 @@
  */
 package py.una.pol.karaku.test.test.util.layers;
 
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 
 /**
  *
@@ -12,6 +12,6 @@ import py.una.pol.karaku.business.ISIGHBaseLogic;
  * @version 1.0 Sep 10, 2013
  *
  */
-public interface ITestLogic extends ISIGHBaseLogic<TestEntity, Long> {
+public interface ITestLogic extends IKarakuBaseLogic<TestEntity, Long> {
 
 }

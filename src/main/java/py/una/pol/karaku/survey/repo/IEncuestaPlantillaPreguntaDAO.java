@@ -5,7 +5,7 @@
 package py.una.pol.karaku.survey.repo;
 
 import java.util.List;
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 
@@ -18,7 +18,7 @@ import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
  * 
  */
 public interface IEncuestaPlantillaPreguntaDAO extends
-		ISIGHBaseDao<EncuestaPlantillaPregunta, Long>  {
+		IKarakuBaseDao<EncuestaPlantillaPregunta, Long>  {
 
 	/**
 	 * Obtiene todas las preguntas de un bloque en particular recibido como

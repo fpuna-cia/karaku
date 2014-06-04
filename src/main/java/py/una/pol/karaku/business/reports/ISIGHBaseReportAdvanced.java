@@ -8,7 +8,7 @@ package py.una.pol.karaku.business.reports;
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.reports.Column;
 import py.una.pol.karaku.reports.SIGHReportBlockGrid;
@@ -29,7 +29,7 @@ public interface ISIGHBaseReportAdvanced<T> {
 	 * 
 	 * @return
 	 */
-	ISIGHBaseLogic<T, ?> getBaseLogic();
+	IKarakuBaseLogic<T, ?> getBaseLogic();
 
 	/**
 	 * Metodo que forma un datasource en base a la estructura definida en

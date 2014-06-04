@@ -7,7 +7,7 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc">
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -16,7 +16,7 @@
 	<h:outputStylesheet library="css" name="theme.css" />
 	<h:outputScript library="scripts" name="menu.js" />
 	<h:outputScript library="scripts" name="validation.js" />
-	<title>SIGH</title>
+	<title>#{menuController.appName}</title>
 </h:head>
 
 <h:body>
@@ -71,13 +71,13 @@
 						</f:facet>
 						<div id="menu">
 							<ui:insert name="left">
-								<sigh:menu />
+								<k:menu />
 							</ui:insert>
 						</div>
 					</rich:panel>
 				</div>
 				<div class="span10 espan10" id="main" style="margin-left: 1%;">
-					<sigh:breadcrumb />
+					<k:breadcrumb />
 					<ui:insert name="content">Content</ui:insert>
 				</div>
 			</div>

@@ -1,0 +1,95 @@
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc">
+	<cc:interface componentType="pickerButton">
+		<cc:attribute name="urlColumns"
+			default="#{cc.attrs.pickerField.urlColumns}" />
+		<cc:attribute name="popupTitle" default="Seleccione una entidad" />
+		<cc:attribute name="render" default="#{cc.attrs.pickerField.id}" />
+		<cc:attribute name="options" />
+		<cc:attribute name="pickerField"
+			type="py.una.pol.karaku.dynamic.forms.PickerField" />
+		<cc:attribute name="width" default="850" />
+		<cc:attribute name="idBasicFilter" default="idBasicFilter" />
+		<cc:attribute name="height" default="600" />
+		<cc:attribute name="closeJS"
+			default="#{rich:component(cc.attrs.pickerId)}.hide(); return false;" />
+		<cc:attribute name="pickerId"
+			default="#{cc.attrs.pickerField.popupID}" />
+		<cc:attribute name="reRenderRegionId" default="" />
+		<cc:attribute name="title"
+			default="#{cc.attrs.pickerField.popupTitle}"></cc:attribute>
+	</cc:interface>
+	<cc:implementation>
+
+		<rich:popupPanel id="#{cc.attrs.pickerId}" show="false" modal="true"
+			autosized="true" resizeable="false">
+			<f:facet name="header">
+				<h:outputText value="#{cc.attrs.title}" />
+			</f:facet>
+			<f:facet name="controls">
+				<h:form>
+					<a4j:commandButton value="x" immediate="true"
+						onclick="#{cc.attrs.closeJS}" styleClass="btn-cancel"
+						title="Salir" />
+				</h:form>
+			</f:facet>
+			<rich:messages ajaxRendered="true" showDetail="true" id="global"
+				globalOnly="true" />
+			<h:form id="pickerPopupFormulario1">
+				<h:panelGroup id="pg">
+					<k:basicFilter2 id="#{cc.attrs.idBasicFilter}"
+						simpleFilter="#{cc.attrs.pickerField.listHelper.simpleFilter}"
+						searchRender="pickerPopupFormulario2:pg"
+						filterOptions="#{cc.attrs.pickerField.listHelper.filterOptions}">
+					</k:basicFilter2>
+				</h:panelGroup>
+			</h:form>
+			<h:form id="pickerPopupFormulario2">
+
+				<h:panelGroup id="pg">
+					<rich:extendedDataTable
+						value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
+						selection="#{cc.currentSelection}" selectionMode="single"
+						noDataLabel="No se encontraron registros" style="height:300px"
+						id="#{cc.attrs.pickerField.dataTableID}">
+
+						<a4j:ajax execute="@form" event="selectionchange"
+							listener="#{cc.selectionListener}" render="@form" />
+						<ui:include src="#{cc.attrs.urlColumns}" />
+					</rich:extendedDataTable>
+					<h:panelGrid columns="3" width="100%"
+						columnClasses="list_button_class,list_export_class,list_pagin_class">
+						<h:outputLabel value="" />
+						<h:outputLabel value="" />
+						<k:navigation helper="#{cc.attrs.pickerField.listHelper.helper}"
+							idPanel="idPagingPanel" render="pg" />
+					</h:panelGrid>
+					<rich:panel>
+						<h:outputLabel value="Valor Seleccionado: " />
+						<h:outputText
+							value="#{cc.attrs.pickerField.getFormmatedOption(cc.selectedItem)} "
+							style="font-weight: bold;" id="pickerResult" />
+					</rich:panel>
+					<h:panelGrid id="picker_control" columns="2">
+						<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
+							render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"
+							id="buttonSelect" action="#{cc.clear()}"
+							actionListener="#{cc.attrs.pickerField.changeValueListener(cc.selectedItem)}"
+							oncomplete="#{empty facesContext.maximumSeverity ? cc.attrs.closeJS : ''}">
+						</a4j:commandButton>
+						<a4j:commandButton value="#{msg['PICKER_CANCELAR']}"
+							oncomplete="#{cc.attrs.closeJS}" immediate="true">
+						</a4j:commandButton>
+					</h:panelGrid>
+				</h:panelGroup>
+
+			</h:form>
+		</rich:popupPanel>
+	</cc:implementation>
+</ui:composition>

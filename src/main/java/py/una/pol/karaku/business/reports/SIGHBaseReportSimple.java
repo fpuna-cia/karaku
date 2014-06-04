@@ -10,7 +10,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.reports.Column;
@@ -32,7 +32,7 @@ public class SIGHBaseReportSimple implements ISIGHBaseReportSimple {
 	private ExportReport exportReport;
 
 	@Override
-	public <T> List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where) {
+	public <T> List<?> getList(IKarakuBaseLogic<T, ?> logic, Where<T> where) {
 
 		if (where != null) {
 			return logic.getAll(where, null);
@@ -42,7 +42,7 @@ public class SIGHBaseReportSimple implements ISIGHBaseReportSimple {
 
 	@Override
 	public <T> void generateReport(Map<String, Object> params, String type,
-			List<Column> columns, ISIGHBaseLogic<T, ?> logic, Where<T> where,
+			List<Column> columns, IKarakuBaseLogic<T, ?> logic, Where<T> where,
 			Class<T> clazz) throws ReportException {
 
 		JRDataSource datasource = new JRBeanCollectionDataSource(getList(logic,

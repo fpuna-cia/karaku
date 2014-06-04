@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc">
+
+<composite:interface>
+	<composite:attribute name="controller" required="true"
+		type="py.una.pol.karaku.controller.ISIGHAdvancedController"
+		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
+	<composite:attribute name="dynamicForm"
+		default="#{cc.attrs.controller.dynamicFormList}"
+		type="py.una.pol.karaku.dynamic.forms.DynamicFormList"
+		displayName="Ubicacion del DynamicField donde se encuentra el formulario" />
+	<composite:attribute name="containerId" />
+	<composite:attribute name="headerTitle"></composite:attribute>
+</composite:interface>
+<composite:implementation
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc">
+	
+	
+	
+	<h:form>
+		<rich:messages ajaxRendered="true" showDetail="true"
+			id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
+	</h:form>
+
+	<rich:panel>
+		<f:facet name="header">
+			<h:outputLabel value="#{cc.attrs.controller.headerText}" />
+		</f:facet>
+		<k:dynamicForm fields="#{cc.attrs.dynamicForm}" id="form">
+			<rich:panel>
+				<h:commandButton action="#{cc.attrs.controller.doEdit()}"
+					value="#{msg['BASE_FORM_EDIT']}"
+					rendered="#{cc.attrs.controller.edit}" />
+				<h:commandButton action="#{cc.attrs.controller.doCreate()}"
+					value="#{msg['BASE_FORM_CREATE']}"
+					rendered="#{cc.attrs.controller.create}" />
+				<h:commandButton action="#{cc.attrs.controller.doDelete()}"
+					value="#{msg['BASE_FORM_DELETE']}"
+					rendered="#{cc.attrs.controller.isDelete()}" />
+				<h:commandButton action="#{cc.attrs.controller.preList()}"
+					value="#{cc.attrs.controller.cancelText}" immediate="true" />
+			</rich:panel>
+		</k:dynamicForm>
+	</rich:panel>
+
+
+
+
+</composite:implementation>
+</html>

@@ -6,7 +6,7 @@ import py.una.pol.karaku.domain.AuditTrail;
 
 @Repository
 @Transactional
-public class AuditTrailDao extends SIGHBaseDao<AuditTrail, Integer> implements
+public class AuditTrailDao extends KarakuBaseDao<AuditTrail, Integer> implements
 		IAuditTrailDao {
 
 	public AuditTrailDao() {

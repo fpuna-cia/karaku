@@ -14,7 +14,7 @@ import py.una.pol.karaku.domain.AuditTrailDetail;
  * @version 1.0
  * 
  */
-public interface IAuditLogic extends ISIGHBaseLogic<AuditTrail, Integer> {
+public interface IAuditLogic extends IKarakuBaseLogic<AuditTrail, Integer> {
 
 	/**
 	 * Agrega un registro de auditoria y todos sus detalles

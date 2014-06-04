@@ -4,7 +4,7 @@
 package py.una.pol.karaku.survey.business;
 
 import java.util.List;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.survey.domain.Encuesta;
 import py.una.pol.karaku.survey.domain.EncuestaDetalle;
 import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
@@ -21,7 +21,7 @@ import py.una.pol.karaku.survey.domain.OpcionRespuesta;
  * 
  */
 public interface IEncuestaDetalleLogic extends
-		ISIGHBaseLogic<EncuestaDetalle, Long> {
+		IKarakuBaseLogic<EncuestaDetalle, Long> {
 
 	/**
 	 * Obtiene la lista de respuestas relacionadas a un bloque en particular, de

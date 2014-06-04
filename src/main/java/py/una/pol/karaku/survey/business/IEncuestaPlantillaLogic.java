@@ -4,7 +4,7 @@
  */
 package py.una.pol.karaku.survey.business;
 
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
 
 /**
@@ -16,6 +16,6 @@ import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
  * 
  */
 public interface IEncuestaPlantillaLogic extends
-		ISIGHBaseLogic<EncuestaPlantilla, Long> {
+		IKarakuBaseLogic<EncuestaPlantilla, Long> {
 
 }

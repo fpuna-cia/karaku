@@ -20,7 +20,7 @@ import py.una.pol.karaku.security.SIGHSecurity;
  *            Clase del id de la entidad
  */
 public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
-		extends SIGHAdvancedController<T, K> implements
+		extends KarakuAdvancedController<T, K> implements
 		ISIGHAdvancedController<T, K>, ISIGHEmbeddableController {
 
 	/**
@@ -122,7 +122,7 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 
 	/**
 	 * Metodo que se encarga de la craecion, delega la responsabilidad al
-	 * controler principal y luego llama a {@link SIGHAdvancedController}
+	 * controler principal y luego llama a {@link KarakuAdvancedController}
 	 * heredado para que se encarge de guardar.
 	 */
 	@Override
@@ -183,7 +183,7 @@ public abstract class SIGHBaseEmbeddableController<T, K extends Serializable>
 		if (mainController == null) {
 			return super.getDefaultPermission();
 		} else {
-			return ((ISIGHBaseController<T, K>) mainController)
+			return ((IKarakuBaseController<T, K>) mainController)
 					.getDefaultPermission();
 		}
 	}

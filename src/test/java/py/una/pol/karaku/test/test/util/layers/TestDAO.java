@@ -4,7 +4,7 @@
 package py.una.pol.karaku.test.test.util.layers;
 
 import org.springframework.stereotype.Repository;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 
 /**
  * 
@@ -14,6 +14,6 @@ import py.una.pol.karaku.repo.SIGHBaseDao;
  * 
  */
 @Repository
-public class TestDAO extends SIGHBaseDao<TestEntity, Long> implements ITestDAO {
+public class TestDAO extends KarakuBaseDao<TestEntity, Long> implements ITestDAO {
 
 }

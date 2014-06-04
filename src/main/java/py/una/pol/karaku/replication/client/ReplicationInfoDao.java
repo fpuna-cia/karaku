@@ -5,7 +5,7 @@
 package py.una.pol.karaku.replication.client;
 
 import org.springframework.stereotype.Repository;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 
 /**
  * 
@@ -15,7 +15,7 @@ import py.una.pol.karaku.repo.SIGHBaseDao;
  * 
  */
 @Repository
-public class ReplicationInfoDao extends SIGHBaseDao<ReplicationInfo, Long>
+public class ReplicationInfoDao extends KarakuBaseDao<ReplicationInfo, Long>
 		implements IReplicationInfoDao {
 
 }

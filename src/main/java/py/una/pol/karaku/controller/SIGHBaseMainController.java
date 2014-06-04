@@ -31,7 +31,7 @@ import py.una.pol.karaku.util.ControllerHelper;
  * 
  */
 public abstract class SIGHBaseMainController<T, K extends Serializable> extends
-		SIGHAdvancedController<T, K> implements ISIGHAdvancedController<T, K>,
+		KarakuAdvancedController<T, K> implements ISIGHAdvancedController<T, K>,
 		ISIGHMainController {
 
 	protected static final String FAILURE = "fail";

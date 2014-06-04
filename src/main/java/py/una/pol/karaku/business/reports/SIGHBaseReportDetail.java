@@ -11,7 +11,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.reports.Align;
 import py.una.pol.karaku.reports.ExportReport;
@@ -51,7 +51,7 @@ public abstract class SIGHBaseReportDetail<T> implements
 	private I18nHelper i18nHelper;
 
 	@Override
-	public abstract ISIGHBaseLogic<T, ?> getBaseLogic();
+	public abstract IKarakuBaseLogic<T, ?> getBaseLogic();
 
 	@Override
 	public abstract List<?> getDetails(T bean);

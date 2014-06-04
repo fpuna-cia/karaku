@@ -6,15 +6,15 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
+	xmlns:k="http://java.sun.com/jsf/composite/karaku"
 	template="/views/templates/header.xhtml">
 
 	<ui:define name="content">
 
-		<sigh:list controller="#{replicationJSFController}"
+		<k:list controller="#{replicationJSFController}"
 			urlColumns="/views/karaku/replication/columns.xhtml"
 			urlSearchForm="/views/karaku/replication/fields.xhtml">
-		</sigh:list>
+		</k:list>
 		<h:form>
 			<h:commandButton value="Do all sync"
 				action="#{replicationHandler.doSync()}" />

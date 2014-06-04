@@ -3,7 +3,7 @@
  */
 package py.una.pol.karaku.test.test.util.layers;
 
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 
 /**
  *
@@ -12,6 +12,6 @@ import py.una.pol.karaku.repo.ISIGHBaseDao;
  * @version 1.0 Sep 10, 2013
  *
  */
-public interface ITestDAO extends ISIGHBaseDao<TestEntity, Long> {
+public interface ITestDAO extends IKarakuBaseDao<TestEntity, Long> {
 
 }

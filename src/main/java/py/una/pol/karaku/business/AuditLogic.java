@@ -11,7 +11,7 @@ import py.una.pol.karaku.domain.AuditTrail;
 import py.una.pol.karaku.domain.AuditTrailDetail;
 import py.una.pol.karaku.repo.IAuditTrailDao;
 import py.una.pol.karaku.repo.IAuditTrailDetailDao;
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 
 /**
  * Clase que implementa la interfaz {@link IAuditLogic}
@@ -23,7 +23,7 @@ import py.una.pol.karaku.repo.ISIGHBaseDao;
  */
 @Service
 @Transactional
-public class AuditLogic extends SIGHBaseLogic<AuditTrail, Integer> implements
+public class AuditLogic extends KarakuBaseLogic<AuditTrail, Integer> implements
 		IAuditLogic {
 
 	@Autowired
@@ -33,7 +33,7 @@ public class AuditLogic extends SIGHBaseLogic<AuditTrail, Integer> implements
 	private IAuditTrailDetailDao detailDao;
 
 	@Override
-	public ISIGHBaseDao<AuditTrail, Integer> getDao() {
+	public IKarakuBaseDao<AuditTrail, Integer> getDao() {
 
 		return dao;
 	}

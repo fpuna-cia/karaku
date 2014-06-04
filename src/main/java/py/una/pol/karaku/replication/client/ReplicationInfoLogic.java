@@ -7,7 +7,7 @@ package py.una.pol.karaku.replication.client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.pol.karaku.business.SIGHBaseLogic;
+import py.una.pol.karaku.business.KarakuBaseLogic;
 import py.una.pol.karaku.replication.server.Bundle;
 
 /**
@@ -19,7 +19,7 @@ import py.una.pol.karaku.replication.server.Bundle;
  */
 @Service
 @Transactional
-public class ReplicationInfoLogic extends SIGHBaseLogic<ReplicationInfo, Long> {
+public class ReplicationInfoLogic extends KarakuBaseLogic<ReplicationInfo, Long> {
 
 	@Autowired
 	private ReplicationInfoDao dao;

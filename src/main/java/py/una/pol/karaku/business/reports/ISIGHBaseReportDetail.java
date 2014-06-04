@@ -6,7 +6,7 @@ package py.una.pol.karaku.business.reports;
 
 import java.util.List;
 import java.util.Map;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.reports.Align;
 import py.una.pol.karaku.reports.SIGHReportBlock;
 import py.una.pol.karaku.reports.SIGHReportBlockSign;
@@ -28,7 +28,7 @@ public interface ISIGHBaseReportDetail<T> {
 	 * 
 	 * @return
 	 */
-	ISIGHBaseLogic<T, ?> getBaseLogic();
+	IKarakuBaseLogic<T, ?> getBaseLogic();
 
 	/**
 	 * Metodo que realiza la consulta HQL especifica, la cual obtiene los

@@ -4,7 +4,7 @@
  */
 package py.una.pol.karaku.test.test.math.layers;
 
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 
 /**
  * 
@@ -14,6 +14,6 @@ import py.una.pol.karaku.repo.SIGHBaseDao;
  * 
  */
 public class EntityWithQuantityDAO extends
-		SIGHBaseDao<EntityWithQuantity, Long> implements IEntityWithQuantityDAO {
+		KarakuBaseDao<EntityWithQuantity, Long> implements IEntityWithQuantityDAO {
 
 }

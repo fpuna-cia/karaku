@@ -7,7 +7,7 @@ package py.una.pol.karaku.business.reports;
 import java.util.List;
 import java.util.Map;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.reports.Column;
@@ -42,7 +42,7 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 *            Representa los filtros ingresados por el usuario.
 	 * @return Datasource que sera utilizado para generar el reporte.
 	 */
-	DRDataSource getDataSource(ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	DRDataSource getDataSource(IKarakuBaseLogic<T, ?> logic, Where<T> where);
 
 	/**
 	 * Metodo que define la estructura del dataSource. Dicha estructura debe
@@ -72,7 +72,7 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 * @return Lista filtrada
 	 */
 
-	List<?> getList(ISIGHBaseLogic<T, ?> logic, Where<T> where);
+	List<?> getList(IKarakuBaseLogic<T, ?> logic, Where<T> where);
 
 	/**
 	 * Metodo que genera el reporte fisicamente.s
@@ -89,6 +89,6 @@ public interface ISIGHBaseReportSimpleAdvanced<T> {
 	 * @throws ReportException
 	 */
 	void generateReport(Map<String, Object> params, String type,
-			ISIGHBaseLogic<T, ?> logic, Where<T> where) throws ReportException;
+			IKarakuBaseLogic<T, ?> logic, Where<T> where) throws ReportException;
 
 }

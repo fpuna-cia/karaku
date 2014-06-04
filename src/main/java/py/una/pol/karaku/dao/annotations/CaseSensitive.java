@@ -8,7 +8,7 @@ import py.una.pol.karaku.dao.entity.annotations.FieldAnnotation;
 
 /**
  * Anotación que sirve para determinar si un field es case sensitive, si lo es
- * el {@link py.una.pol.karaku.repo.SIGHBaseDao} no se encargara de ponerlo en
+ * el {@link py.una.pol.karaku.repo.KarakuBaseDao} no se encargara de ponerlo en
  * mayúsculas
  *
  * @author Arturo Volpe

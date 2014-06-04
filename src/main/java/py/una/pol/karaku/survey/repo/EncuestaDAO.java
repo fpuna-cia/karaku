@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.where.Clauses;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 import py.una.pol.karaku.survey.domain.Encuesta;
 import py.una.pol.karaku.survey.domain.EncuestaDetalle;
 import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
@@ -26,7 +26,7 @@ import py.una.pol.karaku.util.ListHelper;
  * 
  */
 @Repository
-public class EncuestaDAO extends SIGHBaseDao<Encuesta, Long> implements
+public class EncuestaDAO extends KarakuBaseDao<Encuesta, Long> implements
 		IEncuestaDAO {
 
 	@Autowired

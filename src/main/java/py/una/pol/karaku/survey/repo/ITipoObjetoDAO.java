@@ -4,7 +4,7 @@
 
 package py.una.pol.karaku.survey.repo;
 
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 import py.una.pol.karaku.survey.domain.TipoObjeto;
 
 /**
@@ -16,6 +16,6 @@ import py.una.pol.karaku.survey.domain.TipoObjeto;
  * @version 1.0 27/05/2013
  * 
  */
-public interface ITipoObjetoDAO extends ISIGHBaseDao<TipoObjeto, Long> {
+public interface ITipoObjetoDAO extends IKarakuBaseDao<TipoObjeto, Long> {
 
 }

@@ -8,8 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.pol.karaku.business.SIGHBaseLogic;
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.business.KarakuBaseLogic;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
 import py.una.pol.karaku.survey.repo.IEncuestaPlantillaBloqueDAO;
@@ -25,14 +25,14 @@ import py.una.pol.karaku.survey.repo.IEncuestaPlantillaBloqueDAO;
 @Service
 @Transactional
 public class EncuestaPlantillaBloqueLogic extends
-		SIGHBaseLogic<EncuestaPlantillaBloque, Long> implements
+		KarakuBaseLogic<EncuestaPlantillaBloque, Long> implements
 		IEncuestaPlantillaBloqueLogic {
 
 	@Autowired
 	private IEncuestaPlantillaBloqueDAO dao;
 
 	@Override
-	public ISIGHBaseDao<EncuestaPlantillaBloque, Long> getDao() {
+	public IKarakuBaseDao<EncuestaPlantillaBloque, Long> getDao() {
 
 		return dao;
 	}

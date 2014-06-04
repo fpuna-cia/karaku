@@ -14,7 +14,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.richfaces.component.UIExtendedDataTable;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dynamic.forms.MultiplePickerField.ItemKeyProvider;
 
 /**
@@ -25,7 +25,7 @@ import py.una.pol.karaku.dynamic.forms.MultiplePickerField.ItemKeyProvider;
  * 
  */
 public abstract class SIGHCheckListController<T, K extends Serializable>
-		extends SIGHAdvancedController<T, K> implements
+		extends KarakuAdvancedController<T, K> implements
 		ISIGHCheckListController<T, K> {
 
 	private ItemKeyProvider<T> itemKeyProvider;
@@ -34,7 +34,7 @@ public abstract class SIGHCheckListController<T, K extends Serializable>
 	private Collection<T> elementsList;
 
 	@Override
-	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
+	public abstract IKarakuBaseLogic<T, K> getBaseLogic();
 
 	@Override
 	public Object getItemKeyProvider(T item) {

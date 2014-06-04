@@ -14,7 +14,7 @@ import py.una.pol.karaku.dao.search.OrderParam;
 import py.una.pol.karaku.dao.search.SearchParam;
 import py.una.pol.karaku.dao.select.Select;
 import py.una.pol.karaku.dao.where.Clauses;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 import py.una.pol.karaku.survey.domain.Encuesta;
 import py.una.pol.karaku.survey.domain.EncuestaDetalle;
 import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
@@ -31,7 +31,7 @@ import py.una.pol.karaku.survey.domain.OpcionRespuesta;
  * 
  */
 @Repository
-public class EncuestaDetalleDAO extends SIGHBaseDao<EncuestaDetalle, Long>
+public class EncuestaDetalleDAO extends KarakuBaseDao<EncuestaDetalle, Long>
 		implements IEncuestaDetalleDAO {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());

@@ -5,7 +5,7 @@ package py.una.pol.karaku.services.client;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 
 /**
  *
@@ -16,6 +16,6 @@ import py.una.pol.karaku.repo.SIGHBaseDao;
  */
 @Repository
 @Transactional
-public class WSEndpointDAO extends SIGHBaseDao<WSEndpoint, Long> {
+public class WSEndpointDAO extends KarakuBaseDao<WSEndpoint, Long> {
 
 }

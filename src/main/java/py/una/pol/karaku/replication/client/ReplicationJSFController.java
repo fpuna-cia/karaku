@@ -20,9 +20,9 @@ import org.richfaces.component.UIExtendedDataTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
-import py.una.pol.karaku.configuration.SIGHConfiguration;
-import py.una.pol.karaku.controller.SIGHAdvancedController;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
+import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
+import py.una.pol.karaku.controller.KarakuAdvancedController;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.where.Clauses;
 import py.una.pol.karaku.replication.DTO;
@@ -42,9 +42,9 @@ import py.una.pol.karaku.util.StringUtils;
  * 
  */
 @Controller
-@Scope(value = SIGHConfiguration.SCOPE_CONVERSATION)
+@Scope(value = KarakuBaseConfiguration.SCOPE_CONVERSATION)
 public class ReplicationJSFController extends
-		SIGHAdvancedController<ReplicationInfo, Long> {
+		KarakuAdvancedController<ReplicationInfo, Long> {
 
 	private static final String BASE_PACKAGE_FOR_SCAN = "py.una.med";
 	public static final int ROWS_FOR_PAGE = 100;
@@ -70,7 +70,7 @@ public class ReplicationJSFController extends
 	}
 
 	@Override
-	public ISIGHBaseLogic<ReplicationInfo, Long> getBaseLogic() {
+	public IKarakuBaseLogic<ReplicationInfo, Long> getBaseLogic() {
 
 		return logic;
 	}

@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import py.una.pol.karaku.dao.BaseDAO;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.where.Clauses;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 import py.una.pol.karaku.test.base.BaseTestWithDatabase;
 import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
 import py.una.pol.karaku.test.test.util.layers.ITestDAO;
@@ -34,7 +34,7 @@ import py.una.pol.karaku.test.util.TestUtils;
 import py.una.pol.karaku.test.util.transaction.SQLFiles;
 
 /**
- * Test de integración de {@link Where} del {@link SIGHBaseDao}. Ver el archivo
+ * Test de integración de {@link Where} del {@link KarakuBaseDao}. Ver el archivo
  * WhereTest.SQL
  * 
  * @author Arturo Volpe

@@ -18,7 +18,7 @@ import java.io.Serializable;
  * 
  */
 public interface ISIGHAdvancedController<T, K extends Serializable> extends
-		ISIGHBaseController<T, K> {
+		IKarakuBaseController<T, K> {
 
 	/**
 	 * Método que se utiliza para capturar excepciones, manejarlas y mostrar

@@ -11,7 +11,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.survey.business.IEncuestaDetalleLogic;
 import py.una.pol.karaku.survey.business.IEncuestaLogic;
 import py.una.pol.karaku.survey.business.IEncuestaPlantillaBloqueLogic;
@@ -66,7 +66,7 @@ public abstract class SIGHDynamicSurveyBaseController implements
 	@Autowired
 	private IEncuestaDetalleLogic encuestaDetalleLogic;
 
-	public ISIGHBaseLogic<Encuesta, Long> getBaseLogic() {
+	public IKarakuBaseLogic<Encuesta, Long> getBaseLogic() {
 
 		return encuestaLogic;
 	}

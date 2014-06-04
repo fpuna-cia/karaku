@@ -4,7 +4,7 @@
 package py.una.pol.karaku.survey.repo;
 
 import org.springframework.stereotype.Repository;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
 
 /**
@@ -16,7 +16,7 @@ import py.una.pol.karaku.survey.domain.EncuestaPlantilla;
  * 
  */
 @Repository
-public class EncuestaPlantillaDAO extends SIGHBaseDao<EncuestaPlantilla, Long>
+public class EncuestaPlantillaDAO extends KarakuBaseDao<EncuestaPlantilla, Long>
 		implements IEncuestaPlantillaDAO {
 
 }

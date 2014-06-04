@@ -4,7 +4,7 @@
  */
 package py.una.pol.karaku.survey.repo;
 
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
 
 /**
@@ -16,6 +16,6 @@ import py.una.pol.karaku.survey.domain.EncuestaDetalleOpcionRespuesta;
  * 
  */
 public interface IEncuestaDetalleOpcionRespuestaDAO extends
-		ISIGHBaseDao<EncuestaDetalleOpcionRespuesta, Long> {
+		IKarakuBaseDao<EncuestaDetalleOpcionRespuesta, Long> {
 
 }

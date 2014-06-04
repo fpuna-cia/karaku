@@ -6,8 +6,8 @@ package py.una.pol.karaku.services.client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.una.pol.karaku.business.SIGHBaseLogic;
-import py.una.pol.karaku.repo.ISIGHBaseDao;
+import py.una.pol.karaku.business.KarakuBaseLogic;
+import py.una.pol.karaku.repo.IKarakuBaseDao;
 
 /**
  * 
@@ -18,13 +18,13 @@ import py.una.pol.karaku.repo.ISIGHBaseDao;
  */
 @Service
 @Transactional
-public class WSEndpointLogic extends SIGHBaseLogic<WSEndpoint, Long> {
+public class WSEndpointLogic extends KarakuBaseLogic<WSEndpoint, Long> {
 
 	@Autowired
 	private WSEndpointDAO dao;
 
 	@Override
-	public ISIGHBaseDao<WSEndpoint, Long> getDao() {
+	public IKarakuBaseDao<WSEndpoint, Long> getDao() {
 
 		return dao;
 	}

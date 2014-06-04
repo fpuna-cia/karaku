@@ -13,7 +13,7 @@ import java.util.List;
 import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.search.ISearchParam;
 import py.una.pol.karaku.dao.search.SearchHelper;
@@ -48,7 +48,7 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	private static final int ROWS_FOR_PAGE = 5;
 	private SimpleFilter simpleFilter;
 	private PagingHelper helper;
-	private ISIGHBaseLogic<T, K> logic;
+	private IKarakuBaseLogic<T, K> logic;
 	private EntityExample<T> example;
 	private Where<T> baseWhere;
 	private List<SelectItem> filterOptions;
@@ -58,13 +58,13 @@ public class SIGHListHelper<T, K extends Serializable> implements
 	private String[] columnsList;
 	private List<T> entities;
 
-	public SIGHListHelper(Class<T> clazz, ISIGHBaseLogic<T, K> logic) {
+	public SIGHListHelper(Class<T> clazz, IKarakuBaseLogic<T, K> logic) {
 
 		this(clazz, null, logic);
 	}
 
 	public SIGHListHelper(Class<T> clazz, SimpleFilter simpleFilter,
-			ISIGHBaseLogic<T, K> logic) {
+			IKarakuBaseLogic<T, K> logic) {
 
 		this.clazz = clazz;
 		this.simpleFilter = simpleFilter;

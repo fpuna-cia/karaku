@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.WebApplicationContext;
 import py.una.pol.karaku.audit.Audit;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dao.search.ISearchParam;
 import py.una.pol.karaku.dao.util.EntityExample;
 import py.una.pol.karaku.util.I18nHelper;
@@ -24,7 +24,7 @@ import py.una.pol.karaku.util.StringUtils;
 /**
  * 
  * 
- * @deprecated utilizar {@link SIGHAdvancedController}
+ * @deprecated utilizar {@link KarakuAdvancedController}
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Dec 12, 2013
@@ -379,7 +379,7 @@ public abstract class BaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	public abstract ISIGHBaseLogic<T, K> getBaseLogic();
+	public abstract IKarakuBaseLogic<T, K> getBaseLogic();
 
 	public Boolean getSucess() {
 

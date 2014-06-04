@@ -5,7 +5,7 @@
 package py.una.pol.karaku.survey.repo;
 
 import org.springframework.stereotype.Repository;
-import py.una.pol.karaku.repo.SIGHBaseDao;
+import py.una.pol.karaku.repo.KarakuBaseDao;
 import py.una.pol.karaku.survey.domain.TipoBloque;
 
 /**
@@ -17,7 +17,7 @@ import py.una.pol.karaku.survey.domain.TipoBloque;
  * 
  */
 @Repository
-public class TipoBloqueDAO extends SIGHBaseDao<TipoBloque, Long> implements
+public class TipoBloqueDAO extends KarakuBaseDao<TipoBloque, Long> implements
 		ITipoBloqueDAO {
 
 }

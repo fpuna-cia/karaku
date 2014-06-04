@@ -7,11 +7,11 @@ package py.una.pol.karaku.services.client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import py.una.pol.karaku.business.ISIGHBaseLogic;
+import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.configuration.PropertiesUtil;
-import py.una.pol.karaku.configuration.SIGHConfiguration;
+import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
 import py.una.pol.karaku.controller.ISIGHAdvancedController;
-import py.una.pol.karaku.controller.SIGHAdvancedController;
+import py.una.pol.karaku.controller.KarakuAdvancedController;
 
 /**
  * Controlador para la vista de manejo de URL's.
@@ -21,10 +21,10 @@ import py.una.pol.karaku.controller.SIGHAdvancedController;
  * @version 1.0 25/06/2013
  * 
  */
-@Scope(value = SIGHConfiguration.SCOPE_CONVERSATION)
+@Scope(value = KarakuBaseConfiguration.SCOPE_CONVERSATION)
 @Controller
 public class WSEndpointController extends
-		SIGHAdvancedController<WSEndpoint, Long> implements
+		KarakuAdvancedController<WSEndpoint, Long> implements
 		ISIGHAdvancedController<WSEndpoint, Long> {
 
 	@Autowired
@@ -48,7 +48,7 @@ public class WSEndpointController extends
 	private WSEndpointLogic logic;
 
 	@Override
-	public ISIGHBaseLogic<WSEndpoint, Long> getBaseLogic() {
+	public IKarakuBaseLogic<WSEndpoint, Long> getBaseLogic() {
 
 		return logic;
 	}

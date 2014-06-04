@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc">
+
+<composite:interface>
+	<composite:attribute name="controller" required="true"
+		type="py.una.pol.karaku.controller.ISIGHAdvancedController"
+		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
+	<composite:attribute name="urlFormDatosBasicos" required="true" />
+	<composite:attribute name="abmHeader" default="" />
+	<composite:attribute name="tab1Header" default="tab1Header" />
+	<composite:attribute name="ajaxSave" default="false"
+		displayName="Determina cuando un botón es o no ajax, por defecto es false, es decir, cuando se presionan se refresca la página," />
+	<composite:attribute name="saveOnComple" default="" />
+	<composite:attribute name="saveRender" default="" />
+	<composite:attribute name="saveAction" method-signature="void f()" />
+	<composite:attribute name="saveAndContinueAction"
+		default="#{cc.attrs.saveAction}" method-signature="void f()" />
+</composite:interface>
+<composite:implementation
+	xmlns:composite="http://java.sun.com/jsf/composite">
+	<h:form>
+		<h:commandButton action="#{cc.attrs.controller.preList()}"
+			value="#{msg['BASE_ADVANCED_ABM_GO_BACK']}" immediate="true" />
+	</h:form>
+	<rich:messages ajaxRendered="true" showDetail="true"
+		id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
+
+	<h:form id="headerForm">
+		<h:selectBooleanCheckbox styleClass="check_expand" value="true"
+			style="float: right; " id="toogleDetail"
+			rendered="#{not cc.attrs.controller.editingHeader}"
+			onclick="$('#generales').toggle('slow');$('#detallados').toggle('slow');" />
+		<div id="generales" style="display: none">
+			<rich:panel header="Resumen">
+				<ui:include src="#{cc.attrs.controller.headerPath}" />
+			</rich:panel>
+		</div>
+		<div id="detallados">
+			<ui:include src="#{cc.attrs.urlFormDatosBasicos}" />
+		</div>
+		<h:commandButton action="#{cc.attrs.controller.beginEditHeader()}"
+			value="#{msg['BASE_ADVANCED_ABM_EDIT_HEADER']}"
+			rendered="#{cc.attrs.controller.editButtonVisible()}">
+		</h:commandButton>
+		<!-- Crea un panel group con los botones que solo serán visibles si esta en modo No AJAX (por defecto) -->
+		<h:panelGroup rendered="#{not cc.attrs.ajaxSave}">
+			<h:commandButton action="#{cc.attrs.controller.doSave}"
+				value="#{msg['BASE_ADVANCED_ABM_SAVE']}"
+				rendered="#{cc.attrs.controller.saveButtonVisible()}" />
+			<h:commandButton action="#{cc.attrs.controller.doSaveAndContinue}"
+				value="#{msg['BASE_ADVANCED_ABM_SAVE_AND_CONTINUE']}"
+				rendered="#{cc.attrs.controller.saveButtonVisible()}" />
+		</h:panelGroup>
+		<h:panelGroup rendered="#{cc.attrs.ajaxSave}">
+			<a4j:commandButton value="#{msg['BASE_ADVANCED_ABM_SAVE']}"
+				rendered="#{cc.attrs.controller.saveButtonVisible()}"
+				render="#{cc.attrs.saveRender}" action="#{cc.attrs.saveAction}"
+				oncomplete="#{cc.attrs.saveOnComple}" />
+			<a4j:commandButton action="#{cc.attrs.saveAndContinueAction}"
+				value="#{msg['BASE_ADVANCED_ABM_SAVE_AND_CONTINUE']}"
+				render="#{cc.attrs.saveRender}"
+				rendered="#{cc.attrs.controller.saveButtonVisible()}"
+				oncomplete="#{cc.attrs.saveOnComple}" />
+		</h:panelGroup>
+		<h:commandButton action="#{cc.attrs.controller.doDelete()}"
+			value="#{msg.BASE_ADVANCED_ABM_DELETE}"
+			rendered="#{cc.attrs.controller.isDelete() and authorityController.hasRole(cc.attrs.controller.deletePermission)}" />
+		<h:commandButton action="#{cc.attrs.controller.doCancel}"
+			onclick="#{rich:element('headerForm')}.reset();" immediate="true"
+			value="#{msg['BASE_ADVANCED_ABM_CANCEL']}"
+			rendered="#{cc.attrs.controller.cancelButtonVisible()}" />
+	</h:form>
+
+	<h:form rendered="#{not cc.attrs.controller.editingHeader}">
+		<rich:tabPanel id="tabPanel" switchType="ajax" immediate="true">
+			<composite:insertChildren />
+		</rich:tabPanel>
+	</h:form>
+
+
+	<h:form>
+		<h:commandButton action="#{cc.attrs.controller.preList()}"
+			value="#{msg['BASE_ADVANCED_ABM_GO_BACK']}" immediate="true" />
+	</h:form>
+
+
+
+</composite:implementation>
+</html>
