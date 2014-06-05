@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import py.una.pol.karaku.reports.GridBlockBuilder;
-import py.una.pol.karaku.reports.SIGHReportBlockGrid;
+import py.una.pol.karaku.reports.KarakuReportBlockGrid;
 import py.una.pol.karaku.test.base.BaseTest;
 import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 import py.una.pol.karaku.test.util.TestI18nHelper;
@@ -106,7 +106,7 @@ public class GridBlockBuilderTest extends BaseTest {
 		builder.addColumn("Contacto", false, "contacto");
 		builder.addColumn("Telefono", false, "telefono");
 
-		SIGHReportBlockGrid build = builder.build(getData());
+		KarakuReportBlockGrid build = builder.build(getData());
 
 		assertEquals("Lista de contactos", build.getTitle());
 		assertEquals(2, build.getColumns().size());

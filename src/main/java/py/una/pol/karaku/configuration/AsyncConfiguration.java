@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.configuration;
 
 import java.util.concurrent.Executor;

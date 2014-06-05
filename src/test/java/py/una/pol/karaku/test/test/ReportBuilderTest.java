@@ -15,10 +15,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import py.una.pol.karaku.reports.Column;
-import py.una.pol.karaku.reports.SIGHReportBlock;
-import py.una.pol.karaku.reports.SIGHReportBlockField;
-import py.una.pol.karaku.reports.SIGHReportBlockField.Field;
-import py.una.pol.karaku.reports.SIGHReportBlockGrid;
+import py.una.pol.karaku.reports.KarakuReportBlock;
+import py.una.pol.karaku.reports.KarakuReportBlockField;
+import py.una.pol.karaku.reports.KarakuReportBlockField.Field;
+import py.una.pol.karaku.reports.KarakuReportBlockGrid;
 import py.una.pol.karaku.test.base.BaseTest;
 import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 import py.una.pol.karaku.test.util.TestI18nHelper;
@@ -80,7 +80,7 @@ public class ReportBuilderTest extends BaseTest {
 		builder.setMaster(getBlockField());
 		builder.addDetail(getBlockGrid());
 
-		List<SIGHReportBlock> blocks = builder.getBlocksMasterDetail();
+		List<KarakuReportBlock> blocks = builder.getBlocksMasterDetail();
 
 		assertEquals(2, blocks.size());
 
@@ -104,25 +104,25 @@ public class ReportBuilderTest extends BaseTest {
 
 	}
 
-	protected SIGHReportBlockField getBlockField() {
+	protected KarakuReportBlockField getBlockField() {
 
 		List<Field> fields = new ArrayList<Field>();
 		fields.add(new Field("Nombre", "Daniel"));
 		fields.add(new Field("Apellido", "Quintana"));
 		fields.add(new Field("Sexo", "Masculino"));
 
-		SIGHReportBlockField block = new SIGHReportBlockField(
+		KarakuReportBlockField block = new KarakuReportBlockField(
 				"Datos del paciente", "datos_paciente", fields, 10, 50);
 		return block;
 	}
 
-	protected SIGHReportBlockGrid getBlockGrid() {
+	protected KarakuReportBlockGrid getBlockGrid() {
 
 		List<Column> columns = new ArrayList<Column>();
 		columns.add(new Column("Operadora", "operadora"));
 		columns.add(new Column("Número", "numero"));
 
-		SIGHReportBlockGrid block = new SIGHReportBlockGrid("Teléfonos",
+		KarakuReportBlockGrid block = new KarakuReportBlockGrid("Teléfonos",
 				"tel_paciente", columns, getData());
 		return block;
 	}

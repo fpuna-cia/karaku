@@ -347,7 +347,7 @@ public class PickerField<T> extends LabelField {
 	public HtmlInputText getCodeInput() {
 
 		if (codeInput == null) {
-			codeInput = SIGHComponentFactory.getHtmlInputText();
+			codeInput = KarakuComponentFactory.getHtmlInputText();
 
 		}
 

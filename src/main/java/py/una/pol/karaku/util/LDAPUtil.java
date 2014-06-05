@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.util;
 
 import java.util.ArrayList;
@@ -19,9 +22,9 @@ import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  * Clase para realizar operaciones de directorio en LDAP
- *
+ * 
  * @author Uriel Gonzalez
- *
+ * 
  */
 @Component
 public class LDAPUtil {
@@ -34,8 +37,12 @@ public class LDAPUtil {
 
 	private static final String LDAP_ADMIN_PASS_KEY = "ldap.user.password";
 
-	// Los usuarios especiales son utilizado por los sistemas para autenticarse.
-	// Estos usuarios no se deben de mostrar al usuario final
+	/**
+	 * Los usuarios especiales son utilizado por los sistemas para autenticarse.
+	 * Estos usuarios no se deben de mostrar al usuario final
+	 * 
+	 * TODO cambiar a propiedad
+	 */
 	private static final String LDAP_SPECIAL_USER_PREFIX = "sigh_";
 
 	@Autowired
@@ -63,7 +70,7 @@ public class LDAPUtil {
 
 	/**
 	 * Recupera los usuarios de LDAP
-	 *
+	 * 
 	 * @return Una lista con los usuarios de LDAP
 	 */
 	public List<User> getUsers() {

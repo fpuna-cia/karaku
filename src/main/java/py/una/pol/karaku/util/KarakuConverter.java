@@ -26,6 +26,8 @@ public class KarakuConverter implements Converter {
 
 	private final Logger log = LoggerFactory.getLogger(KarakuConverter.class);
 
+	private static KarakuConverter INSTANCE = new KarakuConverter();
+
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
@@ -80,4 +82,13 @@ public class KarakuConverter implements Converter {
 			return null;
 		}
 	}
+
+	/**
+	 * @return iNSTANCE
+	 */
+	public static KarakuConverter getInstance() {
+
+		return INSTANCE;
+	}
+
 }

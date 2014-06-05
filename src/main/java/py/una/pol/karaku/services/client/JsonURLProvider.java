@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.services.client;
 
 import java.io.InputStream;

@@ -25,7 +25,7 @@ public class TextField extends LabelField {
 
 	public TextField() {
 
-		bind = SIGHComponentFactory.getHtmlInputText();
+		bind = KarakuComponentFactory.getHtmlInputText();
 		bind.setId(getId());
 
 	}

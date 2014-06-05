@@ -9,9 +9,9 @@
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<aop:aspectj-autoproxy />
-	<bean class="py.una.pol.karaku.audit.SIGHAudit" id="auditBase" />
-	<bean class="py.una.pol.karaku.dao.filter.SIGHEntityFilterHandler" id="filterHandler" />
-	<bean class="py.una.pol.karaku.security.SIGHSecurity" id="security" />
+	<bean class="py.una.pol.karaku.audit.Auditor" id="auditBase" />
+	<bean class="py.una.pol.karaku.dao.filter.KarakuEntityFilterHandler" id="filterHandler" />
+	<bean class="py.una.pol.karaku.security.KarakuSecurity" id="security" />
 	<aop:config>
 		<aop:aspect id="auditBaseAspect" ref="auditBase">
 			<aop:before method="doAudit" pointcut="@annotation(audit)"

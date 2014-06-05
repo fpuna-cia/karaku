@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.util;
 
 import static py.una.pol.karaku.util.Checker.notNull;

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.util;
 
 public final class Serializer {

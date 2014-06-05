@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import py.una.pol.karaku.reports.Column;
-import py.una.pol.karaku.reports.SIGHReportBlockField;
-import py.una.pol.karaku.reports.SIGHReportBlockField.Field;
-import py.una.pol.karaku.reports.SIGHReportBlockGrid;
+import py.una.pol.karaku.reports.KarakuReportBlockField;
+import py.una.pol.karaku.reports.KarakuReportBlockField.Field;
+import py.una.pol.karaku.reports.KarakuReportBlockGrid;
 import py.una.pol.karaku.test.base.BaseTest;
 import py.una.pol.karaku.test.configuration.ControllerTestConfiguration;
 import py.una.pol.karaku.util.ReportBuilder;
@@ -77,25 +77,25 @@ public class ReportHelperTest extends BaseTest {
 		reportHelper.generateReportBlocks(builder);
 	}
 
-	protected SIGHReportBlockGrid getBlockDetail() {
+	protected KarakuReportBlockGrid getBlockDetail() {
 
 		List<Column> columns = new ArrayList<Column>();
 		columns.add(new Column("Operadora", "operadora"));
 		columns.add(new Column("Numero", "numero"));
 
-		SIGHReportBlockGrid block2 = new SIGHReportBlockGrid("Teléfonos",
+		KarakuReportBlockGrid block2 = new KarakuReportBlockGrid("Teléfonos",
 				"tel_paciente", columns, getData());
 		return block2;
 	}
 
-	protected SIGHReportBlockField getBlockHeader() {
+	protected KarakuReportBlockField getBlockHeader() {
 
 		List<Field> fields = new ArrayList<Field>();
 		fields.add(new Field("Nombre", "Daniel"));
 		fields.add(new Field("Apellido", "Quintana"));
 		fields.add(new Field("Sexo", "Masculino"));
 
-		SIGHReportBlockField block1 = new SIGHReportBlockField(
+		KarakuReportBlockField block1 = new KarakuReportBlockField(
 				"Datos del paciente", "datos_paciente", fields, 10, 50);
 		return block1;
 	}

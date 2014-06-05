@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * @author Romina Fernandez
  * @since 1.0
  * @version 1.1
- * @see SIGHAudit encargado de interceptar el método
+ * @see Auditor encargado de interceptar el método
  */
 @Documented
 @Target(ElementType.METHOD)

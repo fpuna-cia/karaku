@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
@@ -11,10 +14,10 @@ import py.una.pol.karaku.dao.search.SearchHelper;
 import py.una.pol.karaku.exception.UniqueConstraintException;
 import py.una.pol.karaku.model.DisplayName;
 import py.una.pol.karaku.security.HasRole;
-import py.una.pol.karaku.security.SIGHSecurity;
+import py.una.pol.karaku.security.KarakuSecurity;
 import py.una.pol.karaku.util.ControllerHelper;
 import py.una.pol.karaku.util.I18nHelper;
-import py.una.pol.karaku.util.SIGHConverterV2;
+import py.una.pol.karaku.util.KarakuConverter;
 import py.una.pol.karaku.util.StringUtils;
 
 /**
@@ -31,7 +34,7 @@ import py.una.pol.karaku.util.StringUtils;
  */
 public abstract class KarakuAdvancedController<T, K extends Serializable>
 		extends KarakuBaseController<T, K> implements
-		ISIGHAdvancedController<T, K> {
+		IKarakuAdvancedController<T, K> {
 
 	private static final String DELETE_FAILURE = "BASE_ABM_DELETE_FAILURE";
 	private static final String EDIT_FAILURE = "BASE_ABM_EDIT_FAILURE";
@@ -112,9 +115,9 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 	 * 
 	 * @return Converter universal
 	 */
-	public SIGHConverterV2 getConverter() {
+	public KarakuConverter getConverter() {
 
-		return new SIGHConverterV2();
+		return KarakuConverter.getInstance();
 	}
 
 	/**
@@ -128,7 +131,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_CREATE)
+	@HasRole(KarakuSecurity.DEFAULT_CREATE)
 	public String preCreate() {
 
 		setMode(Mode.NEW);
@@ -137,7 +140,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_DELETE)
+	@HasRole(KarakuSecurity.DEFAULT_DELETE)
 	public String doDelete() {
 
 		try {
@@ -187,7 +190,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_EDIT)
+	@HasRole(KarakuSecurity.DEFAULT_EDIT)
 	public String doEdit() {
 
 		try {
@@ -321,7 +324,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 	 * @see #handleException(Exception)
 	 */
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_CREATE)
+	@HasRole(KarakuSecurity.DEFAULT_CREATE)
 	public String doCreate() {
 
 		try {

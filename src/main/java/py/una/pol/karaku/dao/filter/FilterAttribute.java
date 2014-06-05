@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.dao.filter;
 
 import java.lang.annotation.ElementType;

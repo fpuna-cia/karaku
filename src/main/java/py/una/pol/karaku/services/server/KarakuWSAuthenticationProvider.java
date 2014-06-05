@@ -10,8 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import py.una.pol.karaku.security.SIGHUserDetails;
-import py.una.pol.karaku.security.SIGHUserService;
+import py.una.pol.karaku.security.KarakuUser;
+import py.una.pol.karaku.security.KarakuUserService;
 
 /**
  * Clase que provee autenticación para usuarios.
@@ -24,7 +24,7 @@ import py.una.pol.karaku.security.SIGHUserService;
  * autenticar cualquier mecanismo basado en Usuario y Password.
  * </p>
  * <p>
- * Se basa en {@link SIGHUserService} para autenticar el usuario y luego para
+ * Se basa en {@link KarakuUserService} para autenticar el usuario y luego para
  * obtener los permisos, esto se hace en dos fases, la primera es
  * {@link #retrieveUser(String, UsernamePasswordAuthenticationToken)} donde se
  * autentica el usuario y se autoriza el acceso a expresiones como
@@ -44,7 +44,7 @@ public class KarakuWSAuthenticationProvider extends
 		AuthenticationProvider {
 
 	@Autowired
-	private SIGHUserService userService;
+	private KarakuUserService userService;
 
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
@@ -60,7 +60,7 @@ public class KarakuWSAuthenticationProvider extends
 		if (userService.checkAuthenthicationByUID(username, authentication
 				.getCredentials().toString())) {
 
-			SIGHUserDetails user = new SIGHUserDetails();
+			KarakuUser user = new KarakuUser();
 			user.setUserName(username);
 			return user;
 		}

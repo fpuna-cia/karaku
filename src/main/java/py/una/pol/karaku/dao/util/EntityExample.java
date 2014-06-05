@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.dao.util;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 /*
- * @SIGHAdvancedControllerTest.java 1.0 May 26, 2014 Sistema Integral de Gestion
- * Hospitalaria
+ * @KarakuAdvancedControllerTest.java 1.0 May 26, 2014 Sistema Integral de
+ * Gestion Hospitalaria
  */
 package py.una.pol.karaku.test.test.controller;
 

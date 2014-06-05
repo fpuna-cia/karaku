@@ -15,18 +15,18 @@ import javax.faces.event.ValueChangeListener;
 import javax.faces.model.SelectItem;
 import org.slf4j.LoggerFactory;
 import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.KarakuConverter;
 import py.una.pol.karaku.util.LabelProvider;
 import py.una.pol.karaku.util.LabelProvider.StringLabelProvider;
 import py.una.pol.karaku.util.ListHelper;
-import py.una.pol.karaku.util.SIGHConverterV2;
 import py.una.pol.karaku.util.SelectHelper;
 
 /**
- *
+ * 
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Feb 21, 2013
- *
+ * 
  */
 public class ComboBoxField<T> extends LabelField {
 
@@ -41,7 +41,7 @@ public class ComboBoxField<T> extends LabelField {
 	 */
 	public static final String TYPE = "py.una.pol.karaku.dynamic.forms.ComboBoxField";
 
-	private SIGHConverterV2 converter;
+	private KarakuConverter converter;
 	private HtmlSelectOneMenu bind;
 	private List<String> toRender;
 	private boolean withDefault;
@@ -60,8 +60,8 @@ public class ComboBoxField<T> extends LabelField {
 
 		super();
 		this.withDefault = withDefault;
-		converter = new SIGHConverterV2();
-		this.bind = SIGHComponentFactory.getNewSelectOneMenu();
+		converter = KarakuConverter.getInstance();
+		this.bind = KarakuComponentFactory.getNewSelectOneMenu();
 		this.bind.setId(getId());
 		this.bind.setConverter(converter);
 		toRender = new ArrayList<String>();
@@ -69,10 +69,10 @@ public class ComboBoxField<T> extends LabelField {
 
 	/**
 	 * Retorna el converter por defecto de este objeto
-	 *
+	 * 
 	 * @return converter
 	 */
-	public SIGHConverterV2 getConverter() {
+	public KarakuConverter getConverter() {
 
 		return converter;
 	}
@@ -80,7 +80,7 @@ public class ComboBoxField<T> extends LabelField {
 	private UISelectItem getDefaultSelectItem() {
 
 		if (defaultSelectItem == null) {
-			defaultSelectItem = SIGHComponentFactory.getNewSelectItem();
+			defaultSelectItem = KarakuComponentFactory.getNewSelectItem();
 			defaultSelectItem.setItemLabel(I18nHelper
 					.getMessage(DEFAULT_LABEL_TEXT));
 			defaultSelectItem.setId(getId() + "_" + DEFAULT_LABEL_ID);
@@ -97,7 +97,7 @@ public class ComboBoxField<T> extends LabelField {
 	public void setItems(final List<T> items, final LabelProvider<T> label) {
 
 		clear();
-		UISelectItems uiItems = SIGHComponentFactory.getNewSelectItems();
+		UISelectItems uiItems = KarakuComponentFactory.getNewSelectItems();
 		List<SelectItem> selectItems = SelectHelper
 				.getSelectItems(items, label);
 		uiItems.setValue(selectItems);
@@ -164,7 +164,7 @@ public class ComboBoxField<T> extends LabelField {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see py.una.pol.karaku.forms.dynamic.Field#getType()
 	 */
 	@Override

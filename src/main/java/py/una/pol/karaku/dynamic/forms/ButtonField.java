@@ -62,13 +62,13 @@ public class ButtonField extends TextField {
 	public ButtonField() {
 
 		super();
-		buttonBind = SIGHComponentFactory.getAjaxCommandButton();
+		buttonBind = KarakuComponentFactory.getAjaxCommandButton();
 		buttonBind.setImmediate(true);
 		toRender = new ArrayList<String>(3);
 		toRender.add(getId("label"));
 		toRender.add(getId("input"));
 		toRender.add(getId("button"));
-		ajaxBehavior = SIGHComponentFactory.getAjaxBehavior();
+		ajaxBehavior = KarakuComponentFactory.getAjaxBehavior();
 		setClientBehavior("click");
 		ajaxBehavior.setRender(toRender);
 

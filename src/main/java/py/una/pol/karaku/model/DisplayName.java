@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.model;
 
 import java.lang.annotation.ElementType;

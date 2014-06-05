@@ -15,7 +15,7 @@ import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import py.una.pol.karaku.breadcrumb.BreadcrumbController;
-import py.una.pol.karaku.business.reports.SIGHBaseReportSimple;
+import py.una.pol.karaku.business.reports.KarakuBaseReportSimple;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.search.ISearchParam;
 import py.una.pol.karaku.exception.KarakuRuntimeException;
@@ -25,7 +25,7 @@ import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.menu.schemas.Menu;
 import py.una.pol.karaku.reports.Column;
 import py.una.pol.karaku.security.HasRole;
-import py.una.pol.karaku.security.SIGHSecurity;
+import py.una.pol.karaku.security.KarakuSecurity;
 import py.una.pol.karaku.util.ControllerHelper;
 import py.una.pol.karaku.util.EntitySerializer;
 import py.una.pol.karaku.util.I18nHelper;
@@ -97,7 +97,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	protected ControllerHelper controllerHelper;
 
 	@Autowired
-	private SIGHBaseReportSimple baseReportSimple;
+	private KarakuBaseReportSimple baseReportSimple;
 
 	/**
 	 * Lista de entidades mostradas actualmente, cualquier manipulación a ella
@@ -175,7 +175,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_CREATE)
+	@HasRole(KarakuSecurity.DEFAULT_CREATE)
 	public String doCreate() {
 
 		this.log.info("doCreate llamado");
@@ -197,7 +197,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_DELETE)
+	@HasRole(KarakuSecurity.DEFAULT_DELETE)
 	public String doDelete() {
 
 		try {
@@ -216,7 +216,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_EDIT)
+	@HasRole(KarakuSecurity.DEFAULT_EDIT)
 	public String doEdit() {
 
 		try {
@@ -235,7 +235,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT)
+	@HasRole(KarakuSecurity.DEFAULT)
 	public void doSearch() {
 
 		this.controllerHelper.updateModel("pgSearch");
@@ -246,7 +246,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT)
+	@HasRole(KarakuSecurity.DEFAULT)
 	public void doSimpleSearch() {
 
 		this.log.info("doSimpleSearch llamado");
@@ -737,7 +737,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_CREATE)
+	@HasRole(KarakuSecurity.DEFAULT_CREATE)
 	public String preCreate() {
 
 		this.mode = Mode.NEW;
@@ -747,7 +747,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_DELETE)
+	@HasRole(KarakuSecurity.DEFAULT_DELETE)
 	public String preDelete() {
 
 		this.log.info("Pre Delete llamado");
@@ -756,7 +756,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT_EDIT)
+	@HasRole(KarakuSecurity.DEFAULT_EDIT)
 	public String preEdit() {
 
 		this.mode = Mode.EDIT;
@@ -765,7 +765,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT)
+	@HasRole(KarakuSecurity.DEFAULT)
 	public String preList() {
 
 		this.setBean(null);
@@ -774,7 +774,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT)
+	@HasRole(KarakuSecurity.DEFAULT)
 	public void preSearch() {
 
 		this.log.info("pre search llamado");
@@ -783,7 +783,7 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	}
 
 	@Override
-	@HasRole(SIGHSecurity.DEFAULT)
+	@HasRole(KarakuSecurity.DEFAULT)
 	public String preView() {
 
 		this.mode = Mode.VIEW;

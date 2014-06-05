@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import py.una.pol.karaku.breadcrumb.BreadcrumbController;
-import py.una.pol.karaku.business.reports.SIGHBaseReportSimple;
+import py.una.pol.karaku.business.reports.KarakuBaseReportSimple;
 import py.una.pol.karaku.dao.search.SearchHelper;
 import py.una.pol.karaku.dao.where.DateClauses;
 import py.una.pol.karaku.jsf.utils.ICurrentpageHelper;
@@ -91,7 +91,7 @@ public class ControllerTestConfiguration extends BaseTestConfiguration {
 	}
 
 	@Bean
-	SIGHBaseReportSimple baseReportSimple() {
+	KarakuBaseReportSimple baseReportSimple() {
 
 		return null;
 	}

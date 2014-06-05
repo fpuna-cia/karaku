@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.dao.search;
 
 import java.util.List;

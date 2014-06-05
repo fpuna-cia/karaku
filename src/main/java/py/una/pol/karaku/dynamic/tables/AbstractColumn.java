@@ -5,7 +5,7 @@ package py.una.pol.karaku.dynamic.tables;
 
 import javax.faces.component.UIComponent;
 import org.richfaces.component.UIColumn;
-import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.forms.KarakuComponentFactory;
 import py.una.pol.karaku.util.ELHelper;
 
 /**
@@ -50,7 +50,7 @@ public abstract class AbstractColumn {
 
 	public AbstractColumn() {
 
-		bind = SIGHComponentFactory.getRichColumn();
+		bind = KarakuComponentFactory.getRichColumn();
 		bind.setId(getNextId());
 		elHelper = ELHelper.INSTANCE;
 	}

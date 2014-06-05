@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import py.una.pol.karaku.reports.Align;
-import py.una.pol.karaku.reports.SIGHReportBlock;
-import py.una.pol.karaku.reports.SIGHReportBlockField;
+import py.una.pol.karaku.reports.KarakuReportBlock;
+import py.una.pol.karaku.reports.KarakuReportBlockField;
 
 /**
  * Clase utilizada para el diseño de reportes.
@@ -22,9 +22,9 @@ import py.una.pol.karaku.reports.SIGHReportBlockField;
 
 public final class ReportBuilder {
 
-	private SIGHReportBlockField master;
+	private KarakuReportBlockField master;
 
-	private List<SIGHReportBlock> details;
+	private List<KarakuReportBlock> details;
 
 	private Map<String, Object> params;
 	private String type;
@@ -45,7 +45,7 @@ public final class ReportBuilder {
 	 * @param block
 	 *            Representa la cabecera de un reporte cabecera-detalle
 	 */
-	public ReportBuilder setMaster(SIGHReportBlockField block) {
+	public ReportBuilder setMaster(KarakuReportBlockField block) {
 
 		this.master = block;
 		return this;
@@ -56,10 +56,10 @@ public final class ReportBuilder {
 	 *            Representa un determinado detalle de un reporte
 	 *            cabecera-detalle
 	 */
-	public ReportBuilder addDetail(SIGHReportBlock block) {
+	public ReportBuilder addDetail(KarakuReportBlock block) {
 
 		if (details == null) {
-			details = new ArrayList<SIGHReportBlock>();
+			details = new ArrayList<KarakuReportBlock>();
 		}
 		this.details.add(block);
 		return this;
@@ -73,17 +73,17 @@ public final class ReportBuilder {
 	 * @param block
 	 * @return
 	 */
-	public ReportBuilder addBlock(SIGHReportBlock block) {
+	public ReportBuilder addBlock(KarakuReportBlock block) {
 
 		return this.addDetail(block);
 	}
 
-	public List<SIGHReportBlock> getDetails() {
+	public List<KarakuReportBlock> getDetails() {
 
 		return details;
 	}
 
-	public SIGHReportBlockField getMaster() {
+	public KarakuReportBlockField getMaster() {
 
 		return master;
 	}
@@ -124,9 +124,9 @@ public final class ReportBuilder {
 	 * 
 	 * @return Lista de bloques del reporte del tipo master-detail.
 	 */
-	public List<SIGHReportBlock> getBlocksMasterDetail() {
+	public List<KarakuReportBlock> getBlocksMasterDetail() {
 
-		List<SIGHReportBlock> blocks = new ArrayList<SIGHReportBlock>();
+		List<KarakuReportBlock> blocks = new ArrayList<KarakuReportBlock>();
 		blocks.add(master);
 		blocks.addAll(details);
 		return blocks;
@@ -137,7 +137,7 @@ public final class ReportBuilder {
 	 * 
 	 * @return Lista de bloques del reporte.
 	 */
-	public List<SIGHReportBlock> getBlocks() {
+	public List<KarakuReportBlock> getBlocks() {
 
 		return details;
 	}

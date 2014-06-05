@@ -9,8 +9,7 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:o="http://myfaces.apache.org/orchestra"
 	xmlns:composite="http://java.sun.com/jsf/composite"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:sigh="http://java.sun.com/jsf/composite/sigh">
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <composite:interface>
 	<composite:attribute name="block" required="true"
@@ -18,7 +17,7 @@
 
 	<composite:attribute name="idBlock" required="true" />
 	<composite:attribute name="controller" required="true"
-		type="py.una.pol.karaku.survey.controller.ISIGHDynamicSurveyBaseController" />
+		type="py.una.pol.karaku.survey.controller.IKarakuDynamicSurveyBaseController" />
 	<composite:attribute name="withActions" default="true"
 		shortDescription="Show a column with edit and delete"
 		type="java.lang.Boolean" />

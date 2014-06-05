@@ -5,7 +5,7 @@ package py.una.pol.karaku.reports;
 
 import java.util.ArrayList;
 import java.util.List;
-import py.una.pol.karaku.reports.SIGHReportBlockSign.Sign;
+import py.una.pol.karaku.reports.KarakuReportBlockSign.Sign;
 
 /**
  * Clase utilizada para el diseño de bloques de firmas de un determinado
@@ -36,9 +36,9 @@ public final class SignBlockBuilder {
 	 * 
 	 * @return
 	 */
-	public SIGHReportBlockSign build() {
+	public KarakuReportBlockSign build() {
 
-		return new SIGHReportBlockSign(getSigns());
+		return new KarakuReportBlockSign(getSigns());
 
 	}
 

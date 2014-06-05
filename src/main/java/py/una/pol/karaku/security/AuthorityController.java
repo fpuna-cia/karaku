@@ -36,7 +36,7 @@ public class AuthorityController {
 	 * elemento, esto se hace mediante el tag, &lt security &gt.<br>
 	 * Funciona buscando en la session el usuario actual de la aplicación,
 	 * obtiene la autenticación, y un vector de autoridades (
-	 * {@link SIGHUserGrantedAuthority}), compara el permiso que da cada una de
+	 * {@link KarakuPermission}), compara el permiso que da cada una de
 	 * esas autoridades con el permiso solicitado, si no tiene el permiso
 	 * retorna falso, y loguea un mensaje de error
 	 * 
@@ -88,7 +88,7 @@ public class AuthorityController {
 		if (StringUtils.isInvalid(rol)) {
 			LOG.trace("Checking a invalid rol ({})", rol);
 		}
-		return ((SIGHUserDetails) SecurityContextHolder.getContext()
+		return ((KarakuUser) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).hasRole(rol);
 
 	}

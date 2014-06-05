@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.controller;
 
 import java.util.ArrayList;
@@ -14,7 +17,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import py.una.pol.karaku.configuration.PropertiesUtil;
-import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.forms.KarakuComponentFactory;
 import py.una.pol.karaku.jsf.utils.ICurrentpageHelper;
 import py.una.pol.karaku.menu.client.AbstractMenuProvider;
 import py.una.pol.karaku.menu.schemas.Menu;
@@ -50,7 +53,7 @@ public class MenuBean {
 	 */
 	public UIPanelMenu getMenu() {
 
-		menupanel = SIGHComponentFactory.getMenu();
+		menupanel = KarakuComponentFactory.getMenu();
 		menupanel.setGroupExpandedLeftIcon("triangleUp");
 		menupanel.setGroupCollapsedLeftIcon("triangleDown");
 		menupanel.setTopGroupExpandedRightIcon("chevronUp");
@@ -105,7 +108,7 @@ public class MenuBean {
 
 	private UIComponent getMultipleMenu(Menu menu) {
 
-		UIPanelMenuGroup menuGroup = SIGHComponentFactory.getMenuGroup();
+		UIPanelMenuGroup menuGroup = KarakuComponentFactory.getMenuGroup();
 		menuGroup.setLabel(menu.getName());
 
 		for (Menu children : menu.getItems()) {
@@ -134,7 +137,7 @@ public class MenuBean {
 
 	private UIComponent getSingleMenu(Menu menu) {
 
-		UIPanelMenuItem item = SIGHComponentFactory.getMenuItem();
+		UIPanelMenuItem item = KarakuComponentFactory.getMenuItem();
 		// Con este código se consigue que solo el menu actualmente seleccionado
 		// tenga un ID legible, así se puede marcar como seleccionado.
 		if ((getCurrentMenuSelected() != null)
@@ -155,7 +158,7 @@ public class MenuBean {
 					|| menuUrl.startsWith("/view")) {
 				// link correspondiente a este sistema
 				menuUrl = menuUrl.replace(appPlaceHolder, "");
-				link = SIGHComponentFactory.getLink();
+				link = KarakuComponentFactory.getLink();
 				((HtmlOutcomeTargetLink) link).setOutcome(menuUrl);
 			} else {
 				// link a otro sistema
@@ -169,7 +172,7 @@ public class MenuBean {
 				((HtmlOutputLink) link).setValue(menuUrl);
 			}
 		} else {
-			link = SIGHComponentFactory.getLink();
+			link = KarakuComponentFactory.getLink();
 		}
 
 		link.getChildren().add(item);

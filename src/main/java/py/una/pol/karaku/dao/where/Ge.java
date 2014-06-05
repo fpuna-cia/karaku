@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.dao.where;
 
 import javax.annotation.Nonnull;

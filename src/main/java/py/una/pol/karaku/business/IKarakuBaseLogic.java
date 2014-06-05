@@ -1,5 +1,6 @@
 /*
- * @ISIGHBaseLogic 1.4 18/02/2013 Sistema integral de Gestion Hospitalaria
+ * @IKarakuBaseLogic.java 1.4 18/02/2013 Sistema integral de Gestion
+ * Hospitalaria
  */
 package py.una.pol.karaku.business;
 

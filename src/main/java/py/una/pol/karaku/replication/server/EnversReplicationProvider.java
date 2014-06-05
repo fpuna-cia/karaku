@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.una.pol.karaku.log.Log;
-import py.una.pol.karaku.model.SIGHRevisionEntity;
+import py.una.pol.karaku.model.KarakuRevisionEntity;
 import py.una.pol.karaku.replication.Shareable;
 import py.una.pol.karaku.util.StringUtils;
 
@@ -144,7 +144,7 @@ public class EnversReplicationProvider implements ReplicationProvider {
 	}
 
 	/**
-	 * Este método retorna un Long por que {@link SIGHRevisionEntity} tiene un
+	 * Este método retorna un Long por que {@link KarakuRevisionEntity} tiene un
 	 * identificador que es long. Si se utiliza un int, como en
 	 * {@link DefaultRevisionEntity} debe retornar un {@link Integer}.
 	 * 
@@ -193,8 +193,8 @@ public class EnversReplicationProvider implements ReplicationProvider {
 
 	protected long getLongId(Object o) {
 
-		if (o instanceof SIGHRevisionEntity) {
-			return ((SIGHRevisionEntity) o).getId();
+		if (o instanceof KarakuRevisionEntity) {
+			return ((KarakuRevisionEntity) o).getId();
 		}
 
 		return ((DefaultRevisionEntity) o).getId();

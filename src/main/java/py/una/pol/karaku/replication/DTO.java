@@ -26,7 +26,7 @@ public interface DTO {
 	 * una URI generada de esta forma se compone de:
 	 * 
 	 * <pre>
-	 * med.una.py / sigh / entity / UNIQUE_COLUMN
+	 * med.una.py / karaku / entity / UNIQUE_COLUMN
 	 * </pre>
 	 * 
 	 * </li>
@@ -34,7 +34,7 @@ public interface DTO {
 	 * números únicos para una entidad.
 	 * 
 	 * <pre>
-	 * med.una.py / sigh / entity / SEQUENCE
+	 * med.una.py / karaku / entity / SEQUENCE
 	 * </pre>
 	 * 
 	 * </li>

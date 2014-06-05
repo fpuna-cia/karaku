@@ -22,7 +22,7 @@ public class CalendarField extends LabelField {
 	 */
 	public CalendarField() {
 
-		bind = SIGHComponentFactory.getCalendar();
+		bind = KarakuComponentFactory.getCalendar();
 	}
 
 	/*

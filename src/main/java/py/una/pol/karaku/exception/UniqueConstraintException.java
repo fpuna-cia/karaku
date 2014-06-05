@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.exception;
 
 import java.util.List;

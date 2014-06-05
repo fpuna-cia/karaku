@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.util;
 
 import java.lang.annotation.Annotation;

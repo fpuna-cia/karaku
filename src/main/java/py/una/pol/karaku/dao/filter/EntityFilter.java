@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.dao.filter;
 
 import java.lang.annotation.ElementType;
@@ -11,7 +14,7 @@ import java.lang.annotation.Target;
  * 
  * @author Arturo Volpe
  * @see FilterAttribute
- * @see SIGHEntityFilterHandler
+ * @see KarakuEntityFilterHandler
  * @since 1.0
  * @version 1.0
  * 

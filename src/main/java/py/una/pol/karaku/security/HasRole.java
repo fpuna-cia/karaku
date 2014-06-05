@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  * Determina si el usuario que se autentico al sistema tiene el permiso pasado
  * en {@link #value()}.
  * 
- * @see SIGHSecurity
+ * @see KarakuSecurity
  * @see AuthorityController
  * @author Arturo Volpe
  * @since 1.0

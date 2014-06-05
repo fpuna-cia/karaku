@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.domain;
 
 import java.io.Serializable;

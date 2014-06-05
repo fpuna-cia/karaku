@@ -15,7 +15,7 @@ import py.una.pol.karaku.dynamic.forms.Button;
 import py.una.pol.karaku.dynamic.forms.Button.OnClickCallBack;
 import py.una.pol.karaku.dynamic.forms.ButtonAction;
 import py.una.pol.karaku.dynamic.forms.DynamicFormList;
-import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.forms.KarakuComponentFactory;
 import py.una.pol.karaku.dynamic.tables.DataTable;
 import py.una.pol.karaku.util.ControllerHelper;
 import py.una.pol.karaku.util.I18nHelper;
@@ -87,7 +87,7 @@ public class StepBuilder {
 		previous.setStyle(FLOAT_LEFT);
 		previous.setImmediate(true);
 		previous.addAjaxBehavior(ButtonAction.CLICK,
-				SIGHComponentFactory.getToogleControl("@prev"));
+				KarakuComponentFactory.getToogleControl("@prev"));
 		previous.setText("KARAKU_WIZARD_PREVIOUS");
 		step.getToolBar().addItem(previous);
 		return this;
@@ -105,7 +105,7 @@ public class StepBuilder {
 		Button next = new Button();
 		next.setStyle(FLOAT_RIGTH);
 
-		ToggleControl control = SIGHComponentFactory.getToogleControl("@next");
+		ToggleControl control = KarakuComponentFactory.getToogleControl("@next");
 
 		next.addAjaxBehavior(ButtonAction.CLICK, control);
 		next.setText("KARAKU_WIZARD_NEXT");
@@ -292,7 +292,7 @@ public class StepBuilder {
 		b.setImmediate(immediate);
 		b.setStyle(inLeft ? FLOAT_LEFT : FLOAT_RIGTH);
 
-		AjaxBehavior ab = SIGHComponentFactory.getAjaxBehavior();
+		AjaxBehavior ab = KarakuComponentFactory.getAjaxBehavior();
 		ab.addAjaxBehaviorListener(new AjaxBehaviorListener() {
 
 			@Override

@@ -1,5 +1,6 @@
 /**
- * @SIGHConfiguration 1.0 25/03/13. Sistema Integral de Gestion Hospitalaria
+ * @KarakuBaseConfiguration 1.0 25/03/13. Sistema Integral de Gestion
+ *                          Hospitalaria
  */
 package py.una.pol.karaku.configuration;
 

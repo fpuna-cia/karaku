@@ -164,7 +164,7 @@ public class ExportReport {
 	 *            Tipo de exportacion, puede ser XLS o PDF
 	 * @throws ReportException
 	 */
-	public <T> void exportDetailReport(SIGHReportDetails report, Align align,
+	public <T> void exportDetailReport(KarakuReportDetails report, Align align,
 			boolean criteria, Class<T> clazz, JRDataSource dataSource,
 			Map<String, Object> params, String type) throws ReportException {
 
@@ -209,7 +209,7 @@ public class ExportReport {
 	 * @throws ReportException
 	 */
 
-	public <T> void exportDetailReport(String path, SIGHReportDetails report,
+	public <T> void exportDetailReport(String path, KarakuReportDetails report,
 			Class<T> clazz, JRDataSource dataSource,
 			Map<String, Object> params, String type) throws ReportException {
 
@@ -230,7 +230,7 @@ public class ExportReport {
 	}
 
 	public <T> void exportDetailReport(HttpServletResponse httpServletResponse,
-			String path, SIGHReportDetails report, Class<T> clazz,
+			String path, KarakuReportDetails report, Class<T> clazz,
 			JRDataSource dataSource, Map<String, Object> params, String type)
 			throws ReportException {
 
@@ -397,7 +397,7 @@ public class ExportReport {
 	 * @throws ReportException
 	 */
 	public <T> void exportReportBlock(Align align, boolean criteria,
-			List<SIGHReportBlock> blocks, Map<String, Object> params,
+			List<KarakuReportBlock> blocks, Map<String, Object> params,
 			String type) throws ReportException {
 
 		JasperPrint jasperPrint;
@@ -417,7 +417,7 @@ public class ExportReport {
 	}
 
 	public <T> void exportReportBlock(boolean criteria,
-			List<SIGHReportBlock> blocks, Map<String, Object> params,
+			List<KarakuReportBlock> blocks, Map<String, Object> params,
 			String type) throws ReportException {
 
 		JasperPrint jasperPrint;
@@ -438,7 +438,7 @@ public class ExportReport {
 
 	public <T> void exportReportFields(boolean criteria,
 			HttpServletResponse httpServletResponse,
-			List<SIGHReportBlock> blocks, Map<String, Object> params,
+			List<KarakuReportBlock> blocks, Map<String, Object> params,
 			String type) throws ReportException {
 
 		JasperPrint jasperPrint;
@@ -457,7 +457,7 @@ public class ExportReport {
 		}
 	}
 
-	public <T> void exportReportGrid(List<SIGHReportBlockGrid> blocks,
+	public <T> void exportReportGrid(List<KarakuReportBlockGrid> blocks,
 			Map<String, Object> params, String type) throws ReportException {
 
 		JasperPrint jasperPrint;
@@ -477,7 +477,7 @@ public class ExportReport {
 	}
 
 	public <T> void exportReportGrid(HttpServletResponse httpServletResponse,
-			List<SIGHReportBlockGrid> blocks, Map<String, Object> params,
+			List<KarakuReportBlockGrid> blocks, Map<String, Object> params,
 			String type) throws ReportException {
 
 		JasperPrint jasperPrint;
@@ -517,7 +517,7 @@ public class ExportReport {
 	 * @throws ReportException
 	 */
 	public <T> void exportReportFields(boolean criteria,
-			List<SIGHReportBlock> blocks, List<SIGHReportBlockSign> signs,
+			List<KarakuReportBlock> blocks, List<KarakuReportBlockSign> signs,
 			Map<String, Object> params, String type) throws ReportException {
 
 		JasperPrint jasperPrint;
@@ -537,7 +537,7 @@ public class ExportReport {
 	}
 
 	public <T> void exportReportFields(HttpServletResponse httpServletResponse,
-			List<SIGHReportBlock> blocks, List<SIGHReportBlockSign> signs,
+			List<KarakuReportBlock> blocks, List<KarakuReportBlockSign> signs,
 			Map<String, Object> params, String type) throws ReportException {
 
 		JasperPrint jasperPrint;

@@ -57,7 +57,7 @@ public class PagingHelper {
 
 	/**
 	 * Inicializa un nueva instancia, el punto de entrada de esta clase es
-	 * {@link #calculate(py.una.pol.karaku.business.ISIGHBaseLogic, py.una.pol.karaku.dao.restrictions.Where)}
+	 * {@link #calculate(py.una.pol.karaku.business.IKarakuBaseLogic, py.una.pol.karaku.dao.restrictions.Where)}
 	 * , y para obtener los resultados utilizar {@link #getISearchparam()}
 	 * 
 	 * @param rowsForPage

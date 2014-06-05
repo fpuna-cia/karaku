@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.math.Quantity;
-import py.una.pol.karaku.reports.SIGHReportBlockSign.Sign;
-import py.una.pol.karaku.reports.SIGHReportDetails.Detail;
+import py.una.pol.karaku.reports.KarakuReportBlockSign.Sign;
+import py.una.pol.karaku.reports.KarakuReportDetails.Detail;
 import py.una.pol.karaku.util.I18nHelper;
 import ar.com.fdvs.dj.core.DJConstants;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
@@ -179,7 +179,7 @@ public final class DynamicUtils {
 	 */
 
 	public <T> DynamicReport buildReportBlock(Align align, boolean criteria,
-			List<SIGHReportBlock> blocks) throws ReportException {
+			List<KarakuReportBlock> blocks) throws ReportException {
 
 		FastReportBuilder structReport = getInstanceByAlign(align, criteria);
 		structReport.setAllowDetailSplit(false);
@@ -190,7 +190,7 @@ public final class DynamicUtils {
 	}
 
 	public <T> DynamicReport buildReportBlock(boolean criteria,
-			List<SIGHReportBlock> blocks) throws ReportException {
+			List<KarakuReportBlock> blocks) throws ReportException {
 
 		FastReportBuilder structReport = this.newInstancePortrait(criteria);
 		structReport.setAllowDetailSplit(false);
@@ -201,7 +201,7 @@ public final class DynamicUtils {
 	}
 
 	public <T> DynamicReport buidReportBlockGrid(
-			List<SIGHReportBlockGrid> blocks) throws ReportException {
+			List<KarakuReportBlockGrid> blocks) throws ReportException {
 
 		FastReportBuilder structReport = this.newInstancePortrait(true);
 
@@ -233,7 +233,7 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 	public <T> DynamicReport buidReportFields(boolean criteria,
-			List<SIGHReportBlock> blocks, List<SIGHReportBlockSign> signs)
+			List<KarakuReportBlock> blocks, List<KarakuReportBlockSign> signs)
 			throws ReportException {
 
 		FastReportBuilder structReport = this.newInstancePortrait(criteria);
@@ -263,7 +263,7 @@ public final class DynamicUtils {
 	 * @return Reporte dinamico estructurado listo para ser generado
 	 * @throws ReportException
 	 */
-	public <T> DynamicReport buildReportDetail(SIGHReportDetails report,
+	public <T> DynamicReport buildReportDetail(KarakuReportDetails report,
 			Align align, boolean criteria, Class<T> clazz)
 			throws ReportException {
 
@@ -303,7 +303,7 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 	public <T> DynamicReport buildReportDetail(String path,
-			SIGHReportDetails report, Class<T> clazz) throws ReportException {
+			KarakuReportDetails report, Class<T> clazz) throws ReportException {
 
 		FastReportBuilder structReportHead = this.newInstance();
 		this.setTemplate(path, structReportHead);
@@ -329,7 +329,7 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 	public <T> FastReportBuilder addDetails(FastReportBuilder structReportHead,
-			SIGHReportDetails report, Class<T> clazz) throws ReportException {
+			KarakuReportDetails report, Class<T> clazz) throws ReportException {
 
 		Style titleStyle = new Style();
 		titleStyle.setHorizontalAlign(HorizontalAlign.LEFT);
@@ -654,21 +654,21 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 	public <T> FastReportBuilder addBlocks(FastReportBuilder structReport,
-			List<SIGHReportBlock> blocks) throws ReportException {
+			List<KarakuReportBlock> blocks) throws ReportException {
 
-		for (SIGHReportBlock block : blocks) {
+		for (KarakuReportBlock block : blocks) {
 			// Si es un bloque de fields
-			if (block instanceof SIGHReportBlockField) {
-				this.buildBlock(structReport, (SIGHReportBlockField) block);
+			if (block instanceof KarakuReportBlockField) {
+				this.buildBlock(structReport, (KarakuReportBlockField) block);
 			} else {
 				// Si es un bloque de firmas
-				if (block instanceof SIGHReportBlockSign) {
+				if (block instanceof KarakuReportBlockSign) {
 					this.buildBlockSign(structReport,
-							(SIGHReportBlockSign) block);
+							(KarakuReportBlockSign) block);
 				} else {
 					// Si es un bloque de grillas
 					this.buildBlockGrid(structReport,
-							(SIGHReportBlockGrid) block);
+							(KarakuReportBlockGrid) block);
 				}
 			}
 		}
@@ -677,9 +677,9 @@ public final class DynamicUtils {
 	}
 
 	public <T> FastReportBuilder addBlocksGrid(FastReportBuilder structReport,
-			List<SIGHReportBlockGrid> blocks) throws ReportException {
+			List<KarakuReportBlockGrid> blocks) throws ReportException {
 
-		for (SIGHReportBlockGrid block : blocks) {
+		for (KarakuReportBlockGrid block : blocks) {
 			this.buildBlockGrid(structReport, block);
 		}
 
@@ -698,9 +698,9 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 	public <T> FastReportBuilder addBlocksSign(FastReportBuilder structReport,
-			List<SIGHReportBlockSign> blocks) throws ReportException {
+			List<KarakuReportBlockSign> blocks) throws ReportException {
 
-		for (SIGHReportBlockSign block : blocks) {
+		for (KarakuReportBlockSign block : blocks) {
 			this.buildBlockSign(structReport, block);
 		}
 
@@ -719,7 +719,7 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 	public FastReportBuilder buildBlock(FastReportBuilder structReportHead,
-			SIGHReportBlockField block) throws ReportException {
+			KarakuReportBlockField block) throws ReportException {
 
 		FastReportBuilder structBlockReport = new FastReportBuilder();
 		structBlockReport.setDefaultStyles(
@@ -758,7 +758,7 @@ public final class DynamicUtils {
 	}
 
 	public FastReportBuilder buildBlockGrid(FastReportBuilder structReportHead,
-			SIGHReportBlockGrid block) throws ReportException {
+			KarakuReportBlockGrid block) throws ReportException {
 
 		FastReportBuilder structBlockReport = this.newInstance();
 		structBlockReport.setDefaultStyles(this.getStyleTitle(), null,
@@ -795,7 +795,7 @@ public final class DynamicUtils {
 	 * @throws ReportException
 	 */
 	public FastReportBuilder buildBlockSign(FastReportBuilder structReportHead,
-			SIGHReportBlockSign block) throws ReportException {
+			KarakuReportBlockSign block) throws ReportException {
 
 		FastReportBuilder structBlockReport = new FastReportBuilder();
 		structBlockReport.setDefaultStyles(this.getStyleTitle(),

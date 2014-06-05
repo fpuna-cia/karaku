@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.reports.ExportReport;
-import py.una.pol.karaku.reports.SIGHReportBlock;
+import py.una.pol.karaku.reports.KarakuReportBlock;
 
 /**
  * Clase utilizada para generar reportes dentro de la aplicación.
@@ -99,11 +99,11 @@ public class ReportHelper {
 	 *            Parámetros del reporte.
 	 * @return Parámetros configurados con cada uno de los dataSources.
 	 */
-	private Map<String, Object> setDataSources(List<SIGHReportBlock> blocks,
+	private Map<String, Object> setDataSources(List<KarakuReportBlock> blocks,
 			Map<String, Object> params) {
 
 		int id = 0;
-		for (SIGHReportBlock block : blocks) {
+		for (KarakuReportBlock block : blocks) {
 			block.setNameDataSource("block_" + id);
 			params.put(block.getNameDataSource(), block.getDataSource());
 			id++;

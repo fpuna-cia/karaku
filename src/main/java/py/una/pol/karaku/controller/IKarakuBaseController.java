@@ -28,22 +28,22 @@ import py.una.pol.karaku.util.PagingHelper;
  * Un controlador que implementa esta interfaz solo podrá realizar casos de usos
  * simples, para Karaku, un caso de uso simple es aquel que no tiene la forma
  * cabecera detalle, para estos casos se usa la conjunción de este controlador y
- * {@link ISIGHMainController} (para el controlador cabecera) y
- * {@link ISIGHEmbeddableController} (para los controladores detalle). <br />
+ * {@link IKarakuMainController} (para el controlador cabecera) y
+ * {@link IKarakuEmbeddableController} (para los controladores detalle). <br />
  * Ejemplos de uso:
  * 
  * <br />
  * <b>Vista de edición, modificación, y listado:</b>
  * 
  * <pre>
- * 		&lt;sigh:abm controller="#{etniaController}"
+ * 		&lt;k:abm controller="#{etniaController}"
  * 			urlForm="/views/identificacion/etnia/fields.xhtml" />
  * </pre>
  * 
  * <b>Listado de elementos:</b>
  * 
  * <pre>
- * 		&lt;sigh:list controller="#{etniaController}" 
+ * 		&lt;k:list controller="#{etniaController}" 
  * 			urlColumns="/views/identificacion/etnia/columns.xhtml"
  * 			urlSearchForm="/views/identificacion/etnia/fields.xhtml" />
  * </pre>
@@ -52,8 +52,8 @@ import py.una.pol.karaku.util.PagingHelper;
  * <ul>
  * <li><b>etniaController</b>: un {@link Component} que implemente esta
  * interfaz, tipicamente heredando de {@link KarakuBaseController} o
- * {@link KarakuAdvancedController}. En el mejor de los casos un controlador solo
- * debe implementar el método {@link #getBaseLogic()}.</li>
+ * {@link KarakuAdvancedController}. En el mejor de los casos un controlador
+ * solo debe implementar el método {@link #getBaseLogic()}.</li>
  * <li><b>urlColumns</b>: un archivo facelets que define un conjunto de
  * {@link UIColumn} que se utiliza para mostrar la lista de entidades.</li>
  * <li><b>urlform</b>: un archivo facelets que define un conjunto de
@@ -76,10 +76,10 @@ import py.una.pol.karaku.util.PagingHelper;
  *      reflexion.
  * @see KarakuAdvancedController SIGHAdvancedController, implementación que
  *      utiliza reflexion para realizar búsquedas automatizadas
- * @see ISIGHMainController ISIGHMainController interfaz que define la cabecera
- *      de un formulario complejo
- * @see ISIGHEmbeddableController ISIGHEmbeddableController interfaz que define
- *      el detalle de un caso de uso complejo
+ * @see IKarakuMainController ISIGHMainController interfaz que define la
+ *      cabecera de un formulario complejo
+ * @see IKarakuEmbeddableController ISIGHEmbeddableController interfaz que
+ *      define el detalle de un caso de uso complejo
  */
 public interface IKarakuBaseController<T, K extends Serializable> extends
 		HasDefaultPermissions {
@@ -126,8 +126,8 @@ public interface IKarakuBaseController<T, K extends Serializable> extends
 		EDIT,
 		/**
 		 * Determina si el controlador esta en modo de creación, en este modo el
-		 * {@link IKarakuBaseController#getBean()} es editable (y su id es null),
-		 * y no se realizan ningún tipo de búsquedas.
+		 * {@link IKarakuBaseController#getBean()} es editable (y su id es
+		 * null), y no se realizan ningún tipo de búsquedas.
 		 * 
 		 * @see IKarakuBaseController#isCreate()
 		 * @see IKarakuBaseController#doCreate()
@@ -135,8 +135,8 @@ public interface IKarakuBaseController<T, K extends Serializable> extends
 		NEW,
 		/**
 		 * Determina si el controlador esta en modo de búsqueda avanzada, en
-		 * este modo el {@link IKarakuBaseController#getBean()} es editable (y su
-		 * id es <code>null</code>).
+		 * este modo el {@link IKarakuBaseController#getBean()} es editable (y
+		 * su id es <code>null</code>).
 		 * 
 		 * @see IKarakuBaseController#isSearch()
 		 * @see IKarakuBaseController#doSearch()
@@ -480,8 +480,8 @@ public interface IKarakuBaseController<T, K extends Serializable> extends
 
 	/**
 	 * Método que será invocado antes de crear un elemento, este método debe
-	 * suponer que {@link IKarakuBaseController#getBean()} retornara la entidad a
-	 * crear. <br />
+	 * suponer que {@link IKarakuBaseController#getBean()} retornara la entidad
+	 * a crear. <br />
 	 * Aquí se debe realizar la inicialización del bean, ya que
 	 * {@link #getBean()} debe retornar la entidad a crear.
 	 * 
@@ -491,8 +491,8 @@ public interface IKarakuBaseController<T, K extends Serializable> extends
 
 	/**
 	 * Método que será invocado antes de eliminar un elemento, este método debe
-	 * suponer que {@link IKarakuBaseController#getBean()} retornara la entidad a
-	 * eliminar
+	 * suponer que {@link IKarakuBaseController#getBean()} retornara la entidad
+	 * a eliminar
 	 * 
 	 * @return cadena que representa la página donde se creara el bean
 	 */
@@ -500,8 +500,8 @@ public interface IKarakuBaseController<T, K extends Serializable> extends
 
 	/**
 	 * Método que será invocado antes de editar un elemento, este método debe
-	 * suponer que {@link IKarakuBaseController#getBean()} retornara la entidad a
-	 * editar
+	 * suponer que {@link IKarakuBaseController#getBean()} retornara la entidad
+	 * a editar
 	 * 
 	 * @return cadena que representa la pagina donde se editara el bean
 	 */

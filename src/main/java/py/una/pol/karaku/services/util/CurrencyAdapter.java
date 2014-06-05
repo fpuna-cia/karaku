@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.services.util;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;

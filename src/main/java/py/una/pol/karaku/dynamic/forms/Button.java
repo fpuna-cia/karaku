@@ -8,29 +8,29 @@ import javax.el.ValueExpression;
 import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.event.ActionListener;
 import org.richfaces.component.UICommandButton;
-import py.una.pol.karaku.dynamic.util.SIGHSetPropertyActionListener;
+import py.una.pol.karaku.dynamic.util.KarakuSetPropertyActionListener;
 import py.una.pol.karaku.util.ELHelper;
 import py.una.pol.karaku.util.StringUtils;
 
 /**
  * Clase que representa un botón, es un Facade que facilita su creación a través
  * de código JAVA
- *
+ * 
  * @author Arturo Volpe Volpe
  * @since 1.0
  * @version 1.0 Mar 13, 2013
- *
+ * 
  */
 public class Button extends Field {
 
 	/**
 	 * Interfaz que define un callBack que será invocado cuando se presiones el
 	 * botón, véase {@link Button#setClickCallBack(OnClickCallBack)}
-	 *
+	 * 
 	 * @author Arturo Volpe
 	 * @since 1.0
 	 * @version 1.0 Jun 17, 2013
-	 *
+	 * 
 	 */
 	public interface OnClickCallBack {
 
@@ -63,7 +63,7 @@ public class Button extends Field {
 	 */
 	public Button() {
 
-		bind = SIGHComponentFactory.getAjaxCommandButton();
+		bind = KarakuComponentFactory.getAjaxCommandButton();
 		bind.setStyleClass("commandButton");
 
 	}
@@ -84,7 +84,7 @@ public class Button extends Field {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see py.una.pol.karaku.dynamic.forms.Field#disable()
 	 */
 	@Override
@@ -96,7 +96,7 @@ public class Button extends Field {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see py.una.pol.karaku.dynamic.forms.Field#enable()
 	 */
 	@Override
@@ -115,7 +115,7 @@ public class Button extends Field {
 
 	/**
 	 * Cambia el valor enabled del componente.
-	 *
+	 * 
 	 * @param nuevo
 	 *            estado del componente
 	 */
@@ -130,7 +130,7 @@ public class Button extends Field {
 
 	/**
 	 * Retorna el componente que esta clase encapsula.
-	 *
+	 * 
 	 * @return {@link UICommandButton} encapsulado
 	 */
 	public UICommandButton getBind() {
@@ -140,7 +140,7 @@ public class Button extends Field {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see py.una.pol.karaku.dynamic.forms.Field#getType()
 	 */
 	@Override
@@ -151,7 +151,7 @@ public class Button extends Field {
 
 	/**
 	 * Asigna el texto del boton.
-	 *
+	 * 
 	 * @param key
 	 *            del archivo de internacionalizacion
 	 */
@@ -164,8 +164,8 @@ public class Button extends Field {
 	 * Asigna al componente para que actué de acuerdo a la acción pasada como
 	 * Parámetro, corresponde al atributo <code>action</code> del
 	 * {@link #getBind()}
-	 *
-	 *
+	 * 
+	 * 
 	 * @param expression
 	 *            MethodExpression representing the application action to invoke
 	 *            when this component is activated by the user. The expression
@@ -184,8 +184,8 @@ public class Button extends Field {
 	 * Parámetro, corresponde al atributo <code>action</code> del
 	 * {@link #getBind()}, este método no recibe parámetros y debe retornar un
 	 * objeto.
-	 *
-	 *
+	 * 
+	 * 
 	 * @param expression
 	 *            MethodExpression representing the application action to invoke
 	 *            when this component is activated by the user. The expression
@@ -206,7 +206,7 @@ public class Button extends Field {
 	 * <code>source</code> a <code>target</code>, para esto, el target debe ser
 	 * Asignable con el source, tienen que ser expresiones validas que retornen
 	 * un objeto
-	 *
+	 * 
 	 * @param source
 	 *            EL expression
 	 * @param target
@@ -216,15 +216,15 @@ public class Button extends Field {
 			final String target) {
 
 		getBind().addActionListener(
-				new SIGHSetPropertyActionListener(source, target));
+				new KarakuSetPropertyActionListener(source, target));
 	}
 
 	/**
 	 * Modifica el elemento que es encapsulado por esta clase
-	 *
+	 * 
 	 * @param UICommandButton
 	 *            que sera encapsulado por esta clase
-	 *
+	 * 
 	 */
 	public void setBind(final UICommandButton bind) {
 
@@ -243,7 +243,7 @@ public class Button extends Field {
 	/**
 	 * Agrega un {@link OnClickCallBack} que será invocado cuando se presione
 	 * click sobre el botón.
-	 *
+	 * 
 	 * @param callBack
 	 *            {@link OnClickCallBack} que será invocado cuando se presione
 	 *            click.

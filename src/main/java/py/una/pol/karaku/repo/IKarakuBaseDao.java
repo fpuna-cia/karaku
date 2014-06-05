@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.repo;
 
 import java.io.Serializable;

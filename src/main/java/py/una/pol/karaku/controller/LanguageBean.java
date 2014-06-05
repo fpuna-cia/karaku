@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.controller;
 
 import java.io.Serializable;

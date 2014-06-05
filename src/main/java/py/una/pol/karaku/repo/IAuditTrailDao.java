@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.repo;
 
 import py.una.pol.karaku.domain.AuditTrail;

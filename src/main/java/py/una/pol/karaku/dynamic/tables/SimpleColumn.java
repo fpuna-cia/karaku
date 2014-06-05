@@ -6,7 +6,7 @@ package py.una.pol.karaku.dynamic.tables;
 import javax.el.ValueExpression;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
-import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.forms.KarakuComponentFactory;
 
 /**
  * Columna que tiene como cabecera y cuerpo un {@link HtmlInputText}
@@ -23,7 +23,7 @@ public class SimpleColumn extends SimpleHeaderColumn {
 	public SimpleColumn() {
 
 		super();
-		body = SIGHComponentFactory.getHtmlOutputText();
+		body = KarakuComponentFactory.getHtmlOutputText();
 
 	}
 

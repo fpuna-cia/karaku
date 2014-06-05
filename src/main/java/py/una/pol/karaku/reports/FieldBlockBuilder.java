@@ -8,7 +8,7 @@ import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.jasperreports.engine.JRDataSource;
-import py.una.pol.karaku.reports.SIGHReportBlockField.Field;
+import py.una.pol.karaku.reports.KarakuReportBlockField.Field;
 import py.una.pol.karaku.util.I18nHelper;
 import py.una.pol.karaku.util.StringUtils;
 
@@ -31,7 +31,7 @@ public final class FieldBlockBuilder {
 
 	/**
 	 * Construye una instancia de un builder para diseñar bloques de reporte del
-	 * tipo {@link SIGHReportBlockField} y {@link SIGHReportBlockGrid}
+	 * tipo {@link KarakuReportBlockField} y {@link KarakuReportBlockGrid}
 	 * 
 	 * @param title
 	 *            título del bloque a construir.
@@ -99,7 +99,7 @@ public final class FieldBlockBuilder {
 
 	/**
 	 * Configura el ancho del label de un bloque del tipo
-	 * {@link SIGHReportBlockField}.
+	 * {@link KarakuReportBlockField}.
 	 * 
 	 * @param widthLabel
 	 *            ancho de la columna que representa el label del bloque
@@ -119,7 +119,7 @@ public final class FieldBlockBuilder {
 
 	/**
 	 * Configura el ancho del valor de un bloque del tipo
-	 * {@link SIGHReportBlockField}.
+	 * {@link KarakuReportBlockField}.
 	 * 
 	 * @param widthValue
 	 *            ancho de la columna que representa el valor del bloque
@@ -134,7 +134,7 @@ public final class FieldBlockBuilder {
 
 	/**
 	 * Fields utilizados para representar un bloque del tipo
-	 * {@link SIGHReportBlockField}
+	 * {@link KarakuReportBlockField}
 	 * 
 	 * @param fields
 	 *            atributos a mostrar
@@ -197,7 +197,7 @@ public final class FieldBlockBuilder {
 	}
 
 	/**
-	 * Contruye un bloque {@link SIGHReportBlockField}
+	 * Contruye un bloque {@link KarakuReportBlockField}
 	 * 
 	 * <p>
 	 * Ejemplo del bloque:
@@ -215,9 +215,9 @@ public final class FieldBlockBuilder {
 	 * 
 	 * @return bloque configurado correctamente.
 	 */
-	public SIGHReportBlockField build() {
+	public KarakuReportBlockField build() {
 
-		return new SIGHReportBlockField(getTitle(), getNameDataSource(),
+		return new KarakuReportBlockField(getTitle(), getNameDataSource(),
 				fields, getWidthLabel(), getWidthValue());
 
 	}

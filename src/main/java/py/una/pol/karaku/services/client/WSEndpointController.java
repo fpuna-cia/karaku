@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.configuration.PropertiesUtil;
 import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
-import py.una.pol.karaku.controller.ISIGHAdvancedController;
+import py.una.pol.karaku.controller.IKarakuAdvancedController;
 import py.una.pol.karaku.controller.KarakuAdvancedController;
 
 /**
@@ -25,7 +25,7 @@ import py.una.pol.karaku.controller.KarakuAdvancedController;
 @Controller
 public class WSEndpointController extends
 		KarakuAdvancedController<WSEndpoint, Long> implements
-		ISIGHAdvancedController<WSEndpoint, Long> {
+		IKarakuAdvancedController<WSEndpoint, Long> {
 
 	@Autowired
 	private PropertiesUtil util;

@@ -7,7 +7,7 @@ package py.una.pol.karaku.dynamic.tables;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 
-import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.forms.KarakuComponentFactory;
 import py.una.pol.karaku.util.I18nHelper;
 
 /**
@@ -36,7 +36,7 @@ public abstract class SimpleHeaderColumn extends AbstractColumn {
 	public void setHeaderText(final String key) {
 
 		if (getHeader() == null) {
-			setHeader(SIGHComponentFactory.getHtmlOutputText());
+			setHeader(KarakuComponentFactory.getHtmlOutputText());
 		}
 		getHeader().setValue(I18nHelper.getMessage(key));
 	}

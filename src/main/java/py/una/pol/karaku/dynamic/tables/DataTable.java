@@ -9,7 +9,7 @@ import org.richfaces.component.UIExtendedDataTable;
 import org.richfaces.model.SelectionMode;
 import py.una.pol.karaku.dynamic.data.AbstractPagingDataSource;
 import py.una.pol.karaku.dynamic.forms.Field;
-import py.una.pol.karaku.dynamic.forms.SIGHComponentFactory;
+import py.una.pol.karaku.dynamic.forms.KarakuComponentFactory;
 import py.una.pol.karaku.util.StringUtils;
 
 /**
@@ -48,7 +48,7 @@ public class DataTable extends Field {
 	 */
 	public DataTable() {
 
-		table = SIGHComponentFactory.getDataTable();
+		table = KarakuComponentFactory.getDataTable();
 		table.setVar(DATA_TABLE_VARIABLE);
 	}
 

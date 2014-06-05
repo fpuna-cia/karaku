@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.services.util;
 
 import java.text.ParseException;

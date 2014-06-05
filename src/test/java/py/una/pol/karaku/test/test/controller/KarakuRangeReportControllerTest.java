@@ -1,5 +1,5 @@
 /*
- * @SIGHRangeReportControllerTest.java 1.0 Feb 11, 2014 Sistema Integral de
+ * @KarakuRangeReportControllerTest.java 1.0 Feb 11, 2014 Sistema Integral de
  * Gestion Hospitalaria
  */
 package py.una.pol.karaku.test.test.controller;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import py.una.pol.karaku.controller.reports.SIGHRangeReportController;
+import py.una.pol.karaku.controller.reports.KarakuRangeReportController;
 import py.una.pol.karaku.test.base.BaseControllerTest;
 import py.una.pol.karaku.test.configuration.ControllerTestConfiguration;
 import py.una.pol.karaku.test.test.util.layers.TestEntity;
@@ -38,15 +38,15 @@ public class KarakuRangeReportControllerTest extends BaseControllerTest {
 	static class ContextConfiguration extends ControllerTestConfiguration {
 
 		@Bean
-		public TestSIGHRangeReportController testSIGHRangeReportController() {
+		public TestKarakuRangeReportController testRangeReportController() {
 
-			return new TestSIGHRangeReportController();
+			return new TestKarakuRangeReportController();
 		}
 
 	}
 
 	@Autowired
-	private TestSIGHRangeReportController controller;
+	private TestKarakuRangeReportController controller;
 
 	@Before
 	public void setUpMessages() {
@@ -61,7 +61,7 @@ public class KarakuRangeReportControllerTest extends BaseControllerTest {
 	public void testOnChangeDateAfter() {
 
 		controller.getFilterOptions().put(
-				SIGHRangeReportController.DATE_BEFORE, getDate(1, 3, 2014));
+				KarakuRangeReportController.DATE_BEFORE, getDate(1, 3, 2014));
 
 		controller.onChangeDateAfter(getEvent(1, 2, 2014));
 		assertEquals("La fecha debe ser posterior a 01-03-2014", getHelper()
@@ -76,8 +76,8 @@ public class KarakuRangeReportControllerTest extends BaseControllerTest {
 	@Test
 	public void testOnChangeDateBefore() {
 
-		controller.getFilterOptions().put(SIGHRangeReportController.DATE_AFTER,
-				getDate(1, 3, 2014));
+		controller.getFilterOptions().put(
+				KarakuRangeReportController.DATE_AFTER, getDate(1, 3, 2014));
 
 		controller.onChangeDateBefore(getEvent(1, 5, 2014));
 		assertEquals("La fecha debe ser anterior a 01-03-2014", getHelper()
@@ -108,8 +108,8 @@ public class KarakuRangeReportControllerTest extends BaseControllerTest {
 		return new AjaxBehaviorEvent(calendar, new AjaxBehavior());
 	}
 
-	static class TestSIGHRangeReportController extends
-			SIGHRangeReportController<TestEntity, Long> {
+	static class TestKarakuRangeReportController extends
+			KarakuRangeReportController<TestEntity, Long> {
 
 		@Override
 		public void generateReport() {

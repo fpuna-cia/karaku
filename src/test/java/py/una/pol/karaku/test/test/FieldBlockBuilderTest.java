@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import py.una.pol.karaku.reports.FieldBlockBuilder;
-import py.una.pol.karaku.reports.SIGHReportBlockField;
+import py.una.pol.karaku.reports.KarakuReportBlockField;
 import py.una.pol.karaku.test.base.BaseTest;
 import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 import py.una.pol.karaku.test.util.TestI18nHelper;
@@ -99,7 +99,7 @@ public class FieldBlockBuilderTest extends BaseTest {
 		builder.addField("Nombre: ", false, "CARMEN");
 		builder.addField("Apellido: ", false, "RIVAS");
 
-		SIGHReportBlockField build = builder.build();
+		KarakuReportBlockField build = builder.build();
 
 		assertEquals("Lista de personas", build.getTitle());
 		assertEquals(20, build.getWidthLabel());

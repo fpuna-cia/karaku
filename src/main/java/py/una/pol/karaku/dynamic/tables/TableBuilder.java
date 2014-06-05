@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.dynamic.tables;
 
 import org.richfaces.model.SelectionMode;

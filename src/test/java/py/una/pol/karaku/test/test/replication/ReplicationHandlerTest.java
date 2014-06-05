@@ -12,6 +12,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +22,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceTemplate;
-import py.una.pol.karaku.model.SIGHRevisionEntity;
+import py.una.pol.karaku.model.KarakuRevisionEntity;
 import py.una.pol.karaku.replication.EntityNotFoundException;
 import py.una.pol.karaku.replication.client.CacheAll;
 import py.una.pol.karaku.replication.client.IReplicationLogic;
@@ -64,7 +65,7 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 		public Class<?>[] getEntityClasses() {
 
 			return TestUtils.getReferencedClasses(ReplicatedEntity.class,
-					ReplicationInfo.class, SIGHRevisionEntity.class);
+					ReplicationInfo.class, KarakuRevisionEntity.class);
 		}
 
 		@Bean
@@ -155,13 +156,20 @@ public class ReplicationHandlerTest extends BaseTestWithDatabase {
 
 	@Autowired
 	private WSTemplate template;
+
 	@Autowired
-	TestPropertiesUtil propertiesUtil;
+	private TestPropertiesUtil propertiesUtil;
+
+	@Before
+	public void activePermissions() {
+
+		propertiesUtil.put(ReplicationHandler.REPLICATION_ENABLED, "true");
+		propertiesUtil.put("karaku.ws.client.enabled", "true");
+	}
 
 	@Test
 	public void testDoSync() throws Exception {
 
-		propertiesUtil.put(ReplicationHandler.REPLICATION_ENABLED, "true");
 		ReplicatedEntity re1 = new ReplicatedEntity();
 		re1.setDescription("DESC1");
 		re1.setUri("re1");

@@ -10,13 +10,12 @@
 	xmlns:composite="http://java.sun.com/jsf/composite"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:o="http://myfaces.apache.org/orchestra"
-	xmlns:sigh="http://java.sun.com/jsf/composite/sigh"
 	xmlns:survey="http://java.sun.com/jsf/composite/survey">
 
 <composite:interface
 	displayName="Componente que renderiza una lista simple donde los campos son editables">
 	<composite:attribute name="controller" required="true"
-		type="py.una.pol.karaku.survey.controller.ISIGHDynamicSurveyBaseController"
+		type="py.una.pol.karaku.survey.controller.IKarakuDynamicSurveyBaseController"
 		displayName="Controllador que rige esta vista" />
 	<composite:attribute name="idSurvey" default="idSurvey" />
 

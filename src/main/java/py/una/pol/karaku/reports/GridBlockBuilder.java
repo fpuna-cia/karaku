@@ -28,7 +28,7 @@ public final class GridBlockBuilder {
 
 	/**
 	 * Construye una instancia de un builder para diseñar bloques de reporte del
-	 * tipo {@link SIGHReportBlockField} y {@link SIGHReportBlockGrid}
+	 * tipo {@link KarakuReportBlockField} y {@link KarakuReportBlockGrid}
 	 * 
 	 * @param title
 	 *            título del bloque a construir.
@@ -90,7 +90,7 @@ public final class GridBlockBuilder {
 
 	/**
 	 * Columnas utilizadas para representar un bloque del tipo
-	 * {@link SIGHReportBlockGrid}.
+	 * {@link KarakuReportBlockGrid}.
 	 * 
 	 * @return
 	 */
@@ -153,7 +153,7 @@ public final class GridBlockBuilder {
 	}
 
 	/**
-	 * Construye un bloque del tipo {@link SIGHReportBlockGrid}
+	 * Construye un bloque del tipo {@link KarakuReportBlockGrid}
 	 * 
 	 * 
 	 * <p>
@@ -181,9 +181,9 @@ public final class GridBlockBuilder {
 	 *            lista de elementos a visualizar en la grilla.
 	 * @return bloque configurado correctamente.
 	 */
-	public SIGHReportBlockGrid build(List<?> listElement) {
+	public KarakuReportBlockGrid build(List<?> listElement) {
 
-		return new SIGHReportBlockGrid(getTitle(), getNameDataSource(),
+		return new KarakuReportBlockGrid(getTitle(), getNameDataSource(),
 				getColumns(), listElement);
 	}
 

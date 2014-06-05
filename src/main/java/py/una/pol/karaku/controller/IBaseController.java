@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.controller;
 
 import java.io.Serializable;
@@ -7,7 +10,7 @@ import py.una.pol.karaku.business.IKarakuBaseLogic;
 
 /**
  * 
- * @deprecated Utilizar {@link ISIGHAdvancedController}
+ * @deprecated Utilizar {@link IKarakuAdvancedController}
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Dec 12, 2013

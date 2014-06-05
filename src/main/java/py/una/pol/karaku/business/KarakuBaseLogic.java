@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.business;
 
 import java.io.Serializable;
@@ -150,13 +153,6 @@ public abstract class KarakuBaseLogic<T, K extends Serializable> implements
 		return getDao().getCount();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * py.una.pol.karaku.business.ISIGHBaseLogic#getCount(py.una.pol.karaku.dao.
-	 * restrictions.Where)
-	 */
 	@Override
 	public Long getCount(Where<T> where) {
 

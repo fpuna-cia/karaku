@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package py.una.pol.karaku.jsf.components;
 
 import java.util.Date;

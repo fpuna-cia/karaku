@@ -15,7 +15,7 @@
 
 	<factory>
 		<exception-handler-factory>
-			py.una.pol.karaku.exception.SIGHExceptionHandlerFactory
+			py.una.pol.karaku.exception.KarakuJSFExceptionHandlerFactory
 		</exception-handler-factory>
 	</factory>
 

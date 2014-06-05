@@ -11,7 +11,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 import py.una.pol.karaku.survey.domain.OpcionRespuesta;
-import py.una.pol.karaku.util.SIGHConverterV2;
+import py.una.pol.karaku.util.KarakuConverter;
 
 /**
  * 
@@ -176,9 +176,9 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	 * 
 	 * @return converter
 	 */
-	public SIGHConverterV2 getConverter() {
+	public KarakuConverter getConverter() {
 
-		return new SIGHConverterV2();
+		return KarakuConverter.getInstance();
 	}
 
 	/**
@@ -187,9 +187,9 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	 * 
 	 * @return converterString
 	 */
-	public SIGHConverterString getConverterString() {
+	public KarakuConverterString getConverterString() {
 
-		return new SIGHConverterString();
+		return new KarakuConverterString();
 	}
 
 	/**

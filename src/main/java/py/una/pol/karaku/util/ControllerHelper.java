@@ -462,7 +462,7 @@ public class ControllerHelper {
 	 * <ol>
 	 * <li>Obtención de elementos: se obtiene el componente a través de su ID,
 	 * el contexto de faces y el contexto de las expresiones del lenguaje</li>
-	 * <li>Se obtiene un {@link SIGHConverterV2} para convertir los combos</li>
+	 * <li>Se obtiene un {@link KarakuConverter} para convertir los combos</li>
 	 * <li>Se itera sobre la lista de los hijos del componente a actualizar</li>
 	 * <ol>
 	 * <li>Se verifica si es un combobox, si este es el caso se convierte su
