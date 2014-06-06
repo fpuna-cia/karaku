@@ -185,4 +185,15 @@ public final class ReportBuilder {
 
 		this.align = align;
 	}
+
+	/**
+	 * Agrega un conjunto de parámetros al reporte.
+	 * 
+	 * @param params
+	 *            Parámetros que se desean agregar.
+	 */
+	public void addAllParam(Map<String, Object> params) {
+
+		this.params.putAll(params);
+	}
 }
