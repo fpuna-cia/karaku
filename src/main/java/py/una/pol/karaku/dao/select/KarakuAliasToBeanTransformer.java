@@ -148,7 +148,7 @@ public class KarakuAliasToBeanTransformer<T> extends
 			return list;
 		}
 
-		HashMap<Identity, Object> objects = new HashMap<Identity, Object>(
+		Map<Identity, Object> objects = new HashMap<Identity, Object>(
 				list.size());
 		List toRet = new ArrayList();
 		for (Object o : list) {

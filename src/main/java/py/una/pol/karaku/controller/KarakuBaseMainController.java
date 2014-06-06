@@ -158,8 +158,7 @@ public abstract class KarakuBaseMainController<T, K extends Serializable>
 
 			return SUCCESS;
 		} catch (Exception e) {
-			e = helper.convertException(e, getClazz());
-			if (!handleException(e)) {
+			if (!handleException(helper.convertException(e, getClazz()))) {
 				log.warn("doCreate failed", e);
 				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
 						"BASE_ABM_CREATE_FAILURE", e.getMessage());
@@ -179,8 +178,7 @@ public abstract class KarakuBaseMainController<T, K extends Serializable>
 					"BASE_ABM_EDIT_SUCCESS");
 			return SUCCESS;
 		} catch (Exception e) {
-			e = helper.convertException(e, getClazz());
-			if (!handleException(e)) {
+			if (!handleException(helper.convertException(e, getClazz()))) {
 				log.warn("doCreate failed", e);
 				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
 						"BASE_ABM_EDIT_FAILURE", e.getMessage());

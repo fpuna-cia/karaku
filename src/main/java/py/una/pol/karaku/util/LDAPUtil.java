@@ -23,8 +23,10 @@
 package py.una.pol.karaku.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -69,7 +71,7 @@ public class LDAPUtil {
 
 	private DirContext createInitialDirContext() {
 
-		Hashtable<String, String> env = new Hashtable<String, String>();
+		Map<Object, String> env = new HashMap<Object, String>();
 		env.put(Context.INITIAL_CONTEXT_FACTORY,
 				"com.sun.jndi.ldap.LdapCtxFactory");
 		env.put(Context.PROVIDER_URL, propertiesUtil.get(LDAP_SERVER_KEY) + "/"
@@ -79,7 +81,7 @@ public class LDAPUtil {
 				propertiesUtil.get(LDAP_ADMIN_PASS_KEY));
 
 		try {
-			return new InitialDirContext(env);
+			return new InitialDirContext(new Hashtable<Object, String>(env));
 
 		} catch (NamingException e) {
 			throw new KarakuRuntimeException(e.getMessage(), e);

@@ -69,7 +69,7 @@ public abstract class KarakuBaseReportSimpleAdvanced<T> implements
 	@Override
 	public List<String> getColumnsDataSource() {
 
-		LinkedList<String> template = new LinkedList<String>();
+		List<String> template = new LinkedList<String>();
 		for (Column column : getColumnsReport()) {
 			template.add(column.getField());
 		}
@@ -85,7 +85,8 @@ public abstract class KarakuBaseReportSimpleAdvanced<T> implements
 
 	@Override
 	public void generateReport(Map<String, Object> params, String type,
-			IKarakuBaseLogic<T, ?> logic, Where<T> where) throws ReportException {
+			IKarakuBaseLogic<T, ?> logic, Where<T> where)
+			throws ReportException {
 
 		exportReport.exportSimpleReport(getColumnsReport(),
 				getDataSource(logic, where), params, type);

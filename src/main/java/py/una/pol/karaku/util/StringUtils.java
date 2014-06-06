@@ -41,26 +41,27 @@ import org.apache.commons.lang3.ArrayUtils;
  */
 public final class StringUtils {
 
+	private static final List<Character> VOCALES = Arrays.asList('a', 'e', 'i',
+			'o', 'u', 'A', 'E', 'I', 'O', 'U');
+	private static final List<Character> VOCALES_FUERTES_TONICAS = Arrays
+			.asList('á', 'é', 'ó');
+	private static final List<Character> VOCALES_DEBILES_TONICAS = Arrays
+			.asList('í', 'ú');
+	private static final List<Character> CONSONANTES_ESPECIALES = Arrays
+			.asList('d', 'j', 'l', 'n', 'r', 'D', 'J', 'L', 'N', 'R');
+	private static final List<Character> CONSONANTES = Arrays.asList('b', 'c',
+			'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's',
+			't', 'v', 'w', 'x', 'y', 'z', 'B', 'C', 'D', 'F', 'G', 'H', 'J',
+			'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y',
+			'Z');
+	private static final List<Character> MAYUSCULAS = Arrays.asList('A', 'B',
+			'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+
 	private StringUtils() {
 
 		// No-op
 	}
-
-	private static List<Character> Vocales = Arrays.asList('a', 'e', 'i', 'o',
-			'u', 'A', 'E', 'I', 'O', 'U');
-	private static List<Character> VocalesFuertesTonicas = Arrays.asList('á',
-			'é', 'ó');
-	private static List<Character> VocalesDebilesTonicas = Arrays.asList('í',
-			'ú');
-	private static List<Character> ConsonantesEspeciales = Arrays.asList('d',
-			'j', 'l', 'n', 'r', 'D', 'J', 'L', 'N', 'R');
-	private static List<Character> Consonantes = Arrays.asList('b', 'c', 'd',
-			'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't',
-			'v', 'w', 'x', 'y', 'z', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K',
-			'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z');
-	private static List<Character> Mayus = Arrays.asList('A', 'B', 'C', 'D',
-			'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
-			'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
 
 	/**
 	 * Valida si una cadena es o no válida (tomando en cuenta cadenas recibidas
@@ -306,7 +307,7 @@ public final class StringUtils {
 		List<String> list = new ArrayList<String>();
 		int j = 0;
 		for (int i = 1; i < string.length(); i++) {
-			if (Mayus.contains(string.charAt(i))) {
+			if (MAYUSCULAS.contains(string.charAt(i))) {
 				list.add(string.substring(j, i));
 				j = i;
 			}
@@ -333,17 +334,29 @@ public final class StringUtils {
 
 		String plural = "";
 		Character terminate = singular.charAt(singular.length() - 1);
-		if (Vocales.contains(terminate)
-				|| VocalesFuertesTonicas.contains(terminate)) {
+		if (VOCALES.contains(terminate)
+				|| VOCALES_FUERTES_TONICAS.contains(terminate)) {
 			plural = singular.concat("s");
 			return plural;
 		}
-		if (VocalesDebilesTonicas.contains(terminate)) {
+		if (VOCALES_DEBILES_TONICAS.contains(terminate)) {
 			plural = singular.concat("es");
 			return plural;
 		}
-		if (ConsonantesEspeciales.contains(terminate)) {
-			if (!Consonantes.contains(singular.charAt(singular.length() - 2))) {
+		return terminaConConsonante(singular, terminate);
+	}
+
+	/**
+	 * @param singular
+	 * @param terminate
+	 * @return
+	 */
+	private static String terminaConConsonante(final String singular,
+			Character terminate) {
+
+		String plural;
+		if (CONSONANTES_ESPECIALES.contains(terminate)) {
+			if (!CONSONANTES.contains(singular.charAt(singular.length() - 2))) {
 				plural = singular.concat("es");
 				return plural;
 			} else {
@@ -355,7 +368,7 @@ public final class StringUtils {
 			return plural;
 		}
 		if (is(terminate, 'y', 'Y')) {
-			if (Vocales.contains(singular.charAt(singular.length() - 2))) {
+			if (VOCALES.contains(singular.charAt(singular.length() - 2))) {
 				plural = singular.concat("es");
 				return plural;
 			} else {
@@ -367,7 +380,7 @@ public final class StringUtils {
 			plural = singular.substring(0, singular.length() - 1).concat("ces");
 			return plural;
 		}
-		if (!ConsonantesEspeciales.contains(terminate)) {
+		if (!CONSONANTES_ESPECIALES.contains(terminate)) {
 			plural = singular.concat("s");
 			return plural;
 		}

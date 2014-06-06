@@ -24,8 +24,10 @@ package py.una.pol.karaku.security;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -215,14 +217,14 @@ public class KarakuUserService implements UserDetailsService {
 	private InitialDirContext getInitialDirContext(String user, String pass)
 			throws NamingException {
 
-		Hashtable<Object, String> env = new Hashtable<Object, String>();
+		Map<Object, String> env = new HashMap<Object, String>();
 		env.put(Context.INITIAL_CONTEXT_FACTORY,
 				"com.sun.jndi.ldap.LdapCtxFactory");
 		env.put(Context.PROVIDER_URL, getServerLocation());
 
 		env.put(Context.SECURITY_PRINCIPAL, user);
 		env.put(Context.SECURITY_CREDENTIALS, pass);
-		return new InitialDirContext(env);
+		return new InitialDirContext(new Hashtable<Object, String>(env));
 	}
 
 	/**

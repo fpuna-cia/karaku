@@ -36,7 +36,6 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 import org.springframework.util.ReflectionUtils.FieldFilter;
 import org.springframework.util.ReflectionUtils.MethodCallback;
 import org.springframework.util.ReflectionUtils.MethodFilter;
-import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
  * {@link BeanPostProcessor} encargado de inyectar los {@link Logger} a través
@@ -109,10 +108,8 @@ public class LogPostProcessor implements BeanPostProcessor {
 				try {
 					method.invoke(bean, getLogger(bean, log));
 				} catch (InvocationTargetException e) {
-					LOGGER.warn("Error extracting proxy object",
-							new KarakuRuntimeException(
-									"Can not set logger for: "
-											+ bean.getClass().getName(), e));
+					LOGGER.warn("Error extracting proxy object from {}", bean
+							.getClass().getName(), e);
 				}
 			}
 		}, new MethodFilter() {

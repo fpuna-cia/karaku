@@ -32,7 +32,7 @@ import py.una.pol.karaku.util.KarakuConverter;
  * @author Osmar Vianconi
  * @since 1.0
  * @version 1.0 02/08/2013
- * 
+ * @deprecated no esta bien probado, y su funcionamiento no esta documentado
  */
 @Deprecated
 public interface IKarakuQueryController<T, K extends Serializable> extends

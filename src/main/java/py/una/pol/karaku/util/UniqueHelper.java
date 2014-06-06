@@ -76,7 +76,7 @@ public class UniqueHelper {
 
 		// TODO esto se crea cada vez que surge una excepción, considerar la
 		// posibilidad de guardarlo y utilizarlo mas tarde.
-		HashMap<String, UniqueRestrintion> restrintions = new HashMap<String, UniqueRestrintion>();
+		Map<String, UniqueRestrintion> restrintions = new HashMap<String, UniqueRestrintion>();
 		for (Field f : clazz.getDeclaredFields()) {
 			Unique uniqueName = f.getAnnotation(Unique.class);
 			if (uniqueName != null) {

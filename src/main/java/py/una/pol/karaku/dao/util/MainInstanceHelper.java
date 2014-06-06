@@ -45,6 +45,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import py.una.pol.karaku.dao.annotations.MainInstance;
 import py.una.pol.karaku.dao.restrictions.Where;
+import py.una.pol.karaku.exception.KarakuException;
 import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.util.ListHelper;
 
@@ -274,19 +275,22 @@ public class MainInstanceHelper {
 	 * @throws NoSuchMethodException
 	 */
 	public void help(final Object entity, final Session session)
-			throws NoSuchMethodException, InstantiationException,
-			IllegalAccessException, InvocationTargetException {
+			throws KarakuException {
 
 		if (entity == null) {
 			return;
 		}
 
-		for (Field f : MainInstanceFieldHelper.getMainInstanceFields(entity
-				.getClass())) {
-			MainInstance principal = f.getAnnotation(MainInstance.class);
-			f.setAccessible(true);
-			ReflectionUtils.setField(f, entity,
-					newInstance(entity, session, principal, f.getType()));
+		try {
+			for (Field f : MainInstanceFieldHelper.getMainInstanceFields(entity
+					.getClass())) {
+				MainInstance principal = f.getAnnotation(MainInstance.class);
+				f.setAccessible(true);
+				ReflectionUtils.setField(f, entity,
+						newInstance(entity, session, principal, f.getType()));
+			}
+		} catch (Exception exception) {
+			throw new KarakuException(exception);
 		}
 	}
 
@@ -305,23 +309,26 @@ public class MainInstanceHelper {
 	 * @throws Exception
 	 */
 	public void helpList(@Nonnull final List<?> entities,
-			@Nonnull final Session session) throws IllegalAccessException,
-			NoSuchMethodException, InstantiationException,
-			InvocationTargetException {
+			@Nonnull final Session session) throws KarakuException {
 
 		if (!ListHelper.hasElements(entities)) {
 			return;
 		}
-		Class<?> clazz = entities.get(0).getClass();
-		for (Field f : MainInstanceFieldHelper.getMainInstanceFields(clazz)) {
-			MainInstance principal = f.getAnnotation(MainInstance.class);
-			f.setAccessible(true);
-			for (Object object : entities) {
-				if (principal.fetch() == FetchType.LAZY) {
-					f.set(object,
-							newInstance(object, session, principal, f.getType()));
+		try {
+			Class<?> clazz = entities.get(0).getClass();
+			for (Field f : MainInstanceFieldHelper.getMainInstanceFields(clazz)) {
+				MainInstance principal = f.getAnnotation(MainInstance.class);
+				f.setAccessible(true);
+				for (Object object : entities) {
+					if (principal.fetch() == FetchType.LAZY) {
+						f.set(object,
+								newInstance(object, session, principal,
+										f.getType()));
+					}
 				}
 			}
+		} catch (Exception exception) {
+			throw new KarakuException(exception);
 		}
 	}
 

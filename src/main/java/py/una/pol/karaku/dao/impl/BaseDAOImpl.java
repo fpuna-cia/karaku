@@ -374,7 +374,7 @@ public abstract class BaseDAOImpl<T, K extends Serializable> implements
 	@Override
 	public Long getCount(final Where<T> where) {
 
-		HashMap<String, String> alias = new HashMap<String, String>();
+		Map<String, String> alias = new HashMap<String, String>();
 		Criteria criteria = this.generateWhere(where, alias);
 		if (where != null && where.isDistinct()) {
 			criteria.setProjection(Projections.countDistinct("id"));

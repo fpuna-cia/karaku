@@ -25,6 +25,7 @@ package py.una.pol.karaku.survey.components;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import py.una.pol.karaku.util.KarakuStringConverter;
 import py.una.pol.karaku.util.StringUtils;
 
 /**
@@ -33,7 +34,7 @@ import py.una.pol.karaku.util.StringUtils;
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 13/06/2013
- * 
+ * @deprecated utilizar {@link KarakuStringConverter}
  */
 @Deprecated
 public class KarakuConverterString implements Converter {

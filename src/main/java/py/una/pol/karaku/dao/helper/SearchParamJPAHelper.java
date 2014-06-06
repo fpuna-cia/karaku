@@ -23,6 +23,7 @@
 package py.una.pol.karaku.dao.helper;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -54,7 +55,7 @@ public class SearchParamJPAHelper<T> {
 		if (params == null) {
 			return query;
 		}
-		ArrayList<Order> orders = new ArrayList<Order>();
+		List<Order> orders = new ArrayList<Order>();
 		if (params.getOrders() != null) {
 			for (OrderParam orderParam : params.getOrders()) {
 				if (orderParam.isAsc()) {

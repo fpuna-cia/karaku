@@ -62,7 +62,7 @@ public final class ListHelper {
 	@Nonnull
 	public static <T> List<T> getAsList(@NotNull T ... items) {
 
-		ArrayList<T> aRet = new ArrayList<T>(items.length);
+		List<T> aRet = new ArrayList<T>(items.length);
 		for (T item : items) {
 			if (item != null) {
 				aRet.add(item);

@@ -98,7 +98,7 @@ public abstract class KarakuBaseReportAdvanced<T> implements
 	@Override
 	public List<String> getColumnsDataSource() {
 
-		LinkedList<String> template = new LinkedList<String>();
+		List<String> template = new LinkedList<String>();
 		for (Column column : this.getColumnsReport()) {
 			template.add(column.getField());
 		}
@@ -211,8 +211,8 @@ public abstract class KarakuBaseReportAdvanced<T> implements
 	 * @return
 	 */
 	@Override
-	public Map<String, Object> setDataSources(List<KarakuReportBlockGrid> blocks,
-			Map<String, Object> params) {
+	public Map<String, Object> setDataSources(
+			List<KarakuReportBlockGrid> blocks, Map<String, Object> params) {
 
 		for (KarakuReportBlockGrid block : blocks) {
 			params.put(block.getNameDataSource(), block.getDataSource());

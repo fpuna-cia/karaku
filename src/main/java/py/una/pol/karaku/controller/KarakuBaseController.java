@@ -63,8 +63,8 @@ import py.una.pol.karaku.util.StringUtils;
  * @see IKarakuBaseController
  * 
  */
-public abstract class KarakuBaseController<T, K extends Serializable> implements
-		IKarakuBaseController<T, K> {
+public abstract class KarakuBaseController<T, K extends Serializable>
+		implements IKarakuBaseController<T, K> {
 
 	private static final String LIST_XHTML = "list.xhtml";
 	private static final String ABM_XHTML = "abm.xhtml";
@@ -75,14 +75,12 @@ public abstract class KarakuBaseController<T, K extends Serializable> implements
 	 * Vector que contiene las columnas por las que se intentará ordenar.
 	 */
 	private static final String[] DEFAULT_SORT_COLUMNS = { "descripcion", "id" };
+
 	@Autowired
 	private BreadcrumbController breadcrumController;
 
 	@Autowired
 	private ICurrentpageHelper currentPageHelper;
-
-	@Autowired
-	private BreadcrumbController breadController;
 
 	private static final int ROWS_FOR_PAGE = 10;
 

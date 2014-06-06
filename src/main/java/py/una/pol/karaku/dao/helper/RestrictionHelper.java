@@ -144,8 +144,7 @@ public class RestrictionHelper implements ApplicationContextAware {
 	public List<Criterion> getCriterions(@Nonnull List<Clause> clauses,
 			@Nonnull Criteria criteria, @Nonnull Map<String, String> alias) {
 
-		ArrayList<Criterion> criterions = new ArrayList<Criterion>(
-				clauses.size());
+		List<Criterion> criterions = new ArrayList<Criterion>(clauses.size());
 		for (Clause cr : clauses) {
 			if (cr == null) {
 				continue;

@@ -66,31 +66,49 @@ public class QuantityTypeDescriptor extends AbstractTypeDescriptor<Quantity> {
 			return null;
 		}
 		BigDecimal value = quantity.bigDecimalValue();
+		X toRet = null;
 		if (BigDecimal.class.isAssignableFrom(type)) {
-			return (X) value;
+			toRet = (X) value;
 		}
 		if (BigInteger.class.isAssignableFrom(type)) {
-			return (X) value.toBigIntegerExact();
+			toRet = (X) value.toBigIntegerExact();
 		}
-		if (Byte.class.isAssignableFrom(type)) {
-			return (X) Byte.valueOf(value.byteValue());
-		}
-		if (Short.class.isAssignableFrom(type)) {
-			return (X) Short.valueOf(value.shortValue());
-		}
-		if (Integer.class.isAssignableFrom(type)) {
-			return (X) Integer.valueOf(value.intValue());
-		}
-		if (Long.class.isAssignableFrom(type)) {
-			return (X) Long.valueOf(value.longValue());
-		}
-		if (Double.class.isAssignableFrom(type)) {
-			return (X) Double.valueOf(value.doubleValue());
-		}
-		if (Float.class.isAssignableFrom(type)) {
-			return (X) Float.valueOf(value.floatValue());
+		toRet = checkForPrimitives(type, value, toRet);
+		if (toRet != null) {
+			return toRet;
 		}
 		throw unknownUnwrap(type);
+	}
+
+	/**
+	 * @param type
+	 * @param value
+	 * @param toRet
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private <X> X checkForPrimitives(Class<X> type, BigDecimal value, X x) {
+
+		X toRet = x;
+		if (Byte.class.isAssignableFrom(type)) {
+			toRet = (X) Byte.valueOf(value.byteValue());
+		}
+		if (Short.class.isAssignableFrom(type)) {
+			toRet = (X) Short.valueOf(value.shortValue());
+		}
+		if (Integer.class.isAssignableFrom(type)) {
+			toRet = (X) Integer.valueOf(value.intValue());
+		}
+		if (Long.class.isAssignableFrom(type)) {
+			toRet = (X) Long.valueOf(value.longValue());
+		}
+		if (Double.class.isAssignableFrom(type)) {
+			toRet = (X) Double.valueOf(value.doubleValue());
+		}
+		if (Float.class.isAssignableFrom(type)) {
+			toRet = (X) Float.valueOf(value.floatValue());
+		}
+		return toRet;
 	}
 
 	/**
