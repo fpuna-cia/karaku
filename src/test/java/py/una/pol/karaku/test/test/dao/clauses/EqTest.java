@@ -1,9 +1,9 @@
 /*-
  * Copyright (c)
  *
- * 		2012-2014, Facultad Polit閏nica, Universidad Nacional de Asunci髇.
- * 		2012-2014, Facultad de Ciencias M閐icas, Universidad Nacional de Asunci髇.
- * 		2012-2013, Centro Nacional de Computaci髇, Universidad Nacional de Asunci髇.
+ * 		2012-2014, Facultad Polit茅cnica, Universidad Nacional de Asunci贸n.
+ * 		2012-2014, Facultad de Ciencias M茅dicas, Universidad Nacional de Asunci贸n.
+ * 		2012-2013, Centro Nacional de Computaci贸n, Universidad Nacional de Asunci贸n.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -38,8 +38,8 @@ import py.una.pol.karaku.test.util.transaction.SQLFiles;
 /**
  * Clases de prueba para la {@link Clause} {@link ILike}
  * <p>
- * Este es un test de integraci贸n, que depende de que {@link ILikeTest}
- * funcione correctamente.
+ * Este es un test de integraci贸n, que depende de que {@link ILikeTest} funcione
+ * correctamente.
  * </p>
  * 
  * @author Arturo Volpe

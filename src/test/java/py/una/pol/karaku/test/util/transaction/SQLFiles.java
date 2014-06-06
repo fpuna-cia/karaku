@@ -1,9 +1,9 @@
 /*-
  * Copyright (c)
  *
- * 		2012-2014, Facultad Polit閏nica, Universidad Nacional de Asunci髇.
- * 		2012-2014, Facultad de Ciencias M閐icas, Universidad Nacional de Asunci髇.
- * 		2012-2013, Centro Nacional de Computaci髇, Universidad Nacional de Asunci髇.
+ * 		2012-2014, Facultad Polit茅cnica, Universidad Nacional de Asunci贸n.
+ * 		2012-2014, Facultad de Ciencias M茅dicas, Universidad Nacional de Asunci贸n.
+ * 		2012-2013, Centro Nacional de Computaci贸n, Universidad Nacional de Asunci贸n.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 import py.una.pol.karaku.exception.KarakuRuntimeException;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2
  * @version 1.0 Sep 11, 2013
@@ -56,9 +56,9 @@ public @interface SQLFiles {
 	 * La extensi贸n <code>.sql</code> puede ser omitida. <br />
 	 * Los valores inv谩lidos (y repetidos) lanzaran una excepci贸n del tipo
 	 * {@link KarakuRuntimeException}
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * <p>
 	 * <b>En caso de que esta anotaci贸n est茅 en el scope de una clase</b>, una
 	 * cadena con que sea igual a {@link #DEFAULT} o a <code>""</code>, ser谩
@@ -66,15 +66,15 @@ public @interface SQLFiles {
 	 * la misma donde se encuentra el test, con un archivo con el mismo nombre
 	 * que el test, cambiando <code>java</code> por <code>sql</code>. <br>
 	 * <b>Por ejemplo</b>
-	 *
+	 * 
 	 * <pre>
 	 * 	py.una.med.sistema.test.casos.Test350.java
 	 * Tendr谩 por archivo por defecto
 	 * 	py/una/med/sistema/test/casos/Test350.sql
 	 * </pre>
-	 *
+	 * 
 	 * </p>
-	 *
+	 * 
 	 * @return {@link String[]} con la ubicaci贸n de los archivos
 	 */
 	String[] value() default { DEFAULT };

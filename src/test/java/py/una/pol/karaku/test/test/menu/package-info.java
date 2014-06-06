@@ -1,9 +1,9 @@
 /*-
  * Copyright (c)
  *
- * 		2012-2014, Facultad Polit閏nica, Universidad Nacional de Asunci髇.
- * 		2012-2014, Facultad de Ciencias M閐icas, Universidad Nacional de Asunci髇.
- * 		2012-2013, Centro Nacional de Computaci髇, Universidad Nacional de Asunci髇.
+ * 		2012-2014, Facultad Polit茅cnica, Universidad Nacional de Asunci贸n.
+ * 		2012-2014, Facultad de Ciencias M茅dicas, Universidad Nacional de Asunci贸n.
+ * 		2012-2013, Centro Nacional de Computaci贸n, Universidad Nacional de Asunci贸n.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,7 +21,7 @@
  * MA 02110-1301  USA
  */
 /**
- * Test para men煤s, tanto como clientes como servidores.
+ * Test para men脙潞s, tanto como clientes como servidores.
  * 
  * @author Arturo Volpe
  * @since 2.2.8

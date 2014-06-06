@@ -1,9 +1,9 @@
 /*-
  * Copyright (c)
  *
- * 		2012-2014, Facultad Polit閏nica, Universidad Nacional de Asunci髇.
- * 		2012-2014, Facultad de Ciencias M閐icas, Universidad Nacional de Asunci髇.
- * 		2012-2013, Centro Nacional de Computaci髇, Universidad Nacional de Asunci髇.
+ * 		2012-2014, Facultad Polit茅cnica, Universidad Nacional de Asunci贸n.
+ * 		2012-2014, Facultad de Ciencias M茅dicas, Universidad Nacional de Asunci贸n.
+ * 		2012-2013, Centro Nacional de Computaci贸n, Universidad Nacional de Asunci贸n.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,16 +21,16 @@
  * MA 02110-1301  USA
  */
 /**
- * Test para los servicios de replicaci贸n.
+ * Test para los servicios de replicaci脙鲁n.
  * 
- * La organizaci贸n es como sigue:
+ * La organizaci脙鲁n es como sigue:
  * 
  * <p>
  * <ol>
  * <li>Layers: se encuentran los objetos no mockeados que sera utilizados para
- * los test, como una entidad, dao y l贸gica.</li>
+ * los test, como una entidad, dao y l脙鲁gica.</li>
  * <li>Watchers: test que se encargan de detectar cambios y almacenar la
- * informaci贸n necesaria para que los proveedores puedan generar informacion.</li>
+ * informaci脙鲁n necesaria para que los proveedores puedan generar informacion.</li>
  * <li>Provider: se encuentran los test que se encargan de proveer datos</li>
  * <li>Consumer: se encuentran los test que consumen y se encargan de actualizar
  * tablas locales.</li>

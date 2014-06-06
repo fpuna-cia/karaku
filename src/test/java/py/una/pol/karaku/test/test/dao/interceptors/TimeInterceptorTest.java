@@ -1,9 +1,9 @@
 /*-
  * Copyright (c)
  *
- * 		2012-2014, Facultad Polit閏nica, Universidad Nacional de Asunci髇.
- * 		2012-2014, Facultad de Ciencias M閐icas, Universidad Nacional de Asunci髇.
- * 		2012-2013, Centro Nacional de Computaci髇, Universidad Nacional de Asunci髇.
+ * 		2012-2014, Facultad Polit茅cnica, Universidad Nacional de Asunci贸n.
+ * 		2012-2014, Facultad de Ciencias M茅dicas, Universidad Nacional de Asunci贸n.
+ * 		2012-2013, Centro Nacional de Computaci贸n, Universidad Nacional de Asunci贸n.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -43,7 +43,7 @@ import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 
 /**
  * The Class TimeInterceptorTest.
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 1, 2013
@@ -59,7 +59,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Interceptor handler.
-		 *
+		 * 
 		 * @return the interceptor handler
 		 */
 		@Bean
@@ -70,7 +70,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Time interceptor.
-		 *
+		 * 
 		 * @return the time interceptor
 		 */
 		@Bean
@@ -208,7 +208,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Instantiates a new time test.
-		 *
+		 * 
 		 * @param time
 		 *            the time
 		 * @param dateTime
@@ -226,7 +226,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Gets the time.
-		 *
+		 * 
 		 * @return time
 		 */
 		public Date getTime() {
@@ -236,7 +236,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Gets the date.
-		 *
+		 * 
 		 * @return date
 		 */
 		public Date getDate() {
@@ -246,7 +246,7 @@ public class TimeInterceptorTest extends BaseTest {
 
 		/**
 		 * Gets the date time.
-		 *
+		 * 
 		 * @return dateTime
 		 */
 		public Date getDateTime() {

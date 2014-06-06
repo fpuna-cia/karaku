@@ -1,9 +1,9 @@
 /*-
  * Copyright (c)
  *
- * 		2012-2014, Facultad Polit閏nica, Universidad Nacional de Asunci髇.
- * 		2012-2014, Facultad de Ciencias M閐icas, Universidad Nacional de Asunci髇.
- * 		2012-2013, Centro Nacional de Computaci髇, Universidad Nacional de Asunci髇.
+ * 		2012-2014, Facultad Polit茅cnica, Universidad Nacional de Asunci贸n.
+ * 		2012-2014, Facultad de Ciencias M茅dicas, Universidad Nacional de Asunci贸n.
+ * 		2012-2013, Centro Nacional de Computaci贸n, Universidad Nacional de Asunci贸n.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,12 +22,12 @@
  */
 /**
  * Paquete que incluye una version simulado de todas las capas de la
- * aplicaci贸n. <h3>Incluye las siguientes capas</h3>
+ * aplicaci脙鲁n. <h3>Incluye las siguientes capas</h3>
  * <ol>
  * <li> {@link py.una.pol.karaku.test.util.TestEntity} representando el nivel de
  * entidades</li>
  * <li> {@link py.una.pol.karaku.test.util.TestDAO} representando los daos.</li>
- * <li> {@link py.una.pol.karaku.test.util.TestLogic} represntando a la l贸gica</li>
+ * <li> {@link py.una.pol.karaku.test.util.TestLogic} represntando a la l脙鲁gica</li>
  * </ol>
  * 
  * @author Arturo Volpe
