@@ -35,8 +35,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import py.una.pol.karaku.configuration.PropertiesUtil;
 import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
+import py.una.pol.karaku.configuration.PropertiesUtil;
 import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.model.DisplayName;
 
@@ -58,6 +58,9 @@ public class I18nHelper {
 
 	private static WeakReference<I18nHelper> weakSingleton;
 
+	public static final String I18N_LENIENT = "karaku.i18n.lenient";
+
+	private boolean lenient;
 	@Log
 	private Logger log;
 
@@ -97,6 +100,7 @@ public class I18nHelper {
 	@PostConstruct
 	public void initialize() {
 
+		lenient = util.getBoolean(I18N_LENIENT, true);
 		String value = util.get(KarakuBaseConfiguration.LANGUAGE_BUNDLES_KEY);
 		getSingleton().initializeBundles(Arrays.asList(value.split("\\s+")));
 	}
@@ -159,7 +163,9 @@ public class I18nHelper {
 		if (toRet != null) {
 			return toRet;
 		}
-		log.warn("String not found in current bundles {}", key);
+		if (!lenient) {
+			return key;
+		}
 		return key + "&&&";
 	}
 
