@@ -24,29 +24,52 @@ package py.una.pol.karaku.dao.entity.interceptors;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
+import py.una.pol.karaku.configuration.PropertiesUtil;
 import py.una.pol.karaku.dao.annotations.CaseSensitive;
 import py.una.pol.karaku.dao.entity.Operation;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 1, 2013
- *
+ * 
  */
 @Component
 public class CaseSensitiveInterceptor extends AbstractInterceptor {
 
+	@Autowired
+	private PropertiesUtil properties;
+
+	boolean enabled;
+
+	@PostConstruct
+	public void postConstruct() {
+
+		enabled = properties.getBoolean("karaku.interceptor.caseSensitive",
+				true);
+	}
+
 	@Override
 	public Class<?>[] getObservedTypes() {
+
+		if (!enabled) {
+			return new Class<?>[] {};
+		}
 
 		return new Class<?>[] { String.class };
 	}
 
 	@Override
 	public Class<?>[] getObservedAnnotations() {
+
+		if (!enabled) {
+			return new Class<?>[] {};
+		}
 
 		return new Class<?>[] { CaseSensitive.class, void.class };
 
@@ -55,8 +78,8 @@ public class CaseSensitiveInterceptor extends AbstractInterceptor {
 	@Override
 	public boolean interceptable(Operation op, Field f, Object bean) {
 
-		boolean interceptable = (op != Operation.DELETE)
-				&& (f.getAnnotation(CaseSensitive.class) == null);
+		boolean interceptable = op != Operation.DELETE
+				&& f.getAnnotation(CaseSensitive.class) == null;
 		for (Annotation a : f.getAnnotations()) {
 			if (a.annotationType().isAnnotationPresent(CaseSensitive.class)) {
 				interceptable = false;
