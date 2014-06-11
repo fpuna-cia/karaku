@@ -24,6 +24,7 @@ package py.una.pol.karaku.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -73,7 +74,7 @@ public final class EntitySerializer {
 		}
 
 		if (!"serialVersionUID".equals(key) && (value != null)
-				&& !"".equals(value)) {
+				&& !"".equals(value) && !isPublicStaticFinal(f)) {
 			return Serializer.contruct(sb, key, value.toString());
 		}
 		return sb;
@@ -101,5 +102,12 @@ public final class EntitySerializer {
 			return true;
 		}
 		return false;
+	}
+
+	public static boolean isPublicStaticFinal(Field field) {
+
+		int modifiers = field.getModifiers();
+		return (Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier
+				.isFinal(modifiers));
 	}
 }
