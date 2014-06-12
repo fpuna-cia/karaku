@@ -32,12 +32,10 @@ import java.util.ResourceBundle;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
 import org.apache.commons.lang3.ArrayUtils;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
 import py.una.pol.karaku.configuration.PropertiesUtil;
-import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.model.DisplayName;
 
 /**
@@ -61,8 +59,6 @@ public class I18nHelper {
 	public static final String I18N_LENIENT = "karaku.i18n.lenient";
 
 	private boolean lenient;
-	@Log
-	private Logger log;
 
 	private static ApplicationContext context;
 

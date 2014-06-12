@@ -42,10 +42,9 @@ import py.una.pol.karaku.dao.entity.Operation;
 @Component
 public class CaseSensitiveInterceptor extends AbstractInterceptor {
 
-	@Autowired
 	private PropertiesUtil properties;
 
-	boolean enabled;
+	private boolean enabled;
 
 	@PostConstruct
 	public void postConstruct() {
@@ -78,11 +77,15 @@ public class CaseSensitiveInterceptor extends AbstractInterceptor {
 	@Override
 	public boolean interceptable(Operation op, Field f, Object bean) {
 
-		boolean interceptable = op != Operation.DELETE
-				&& f.getAnnotation(CaseSensitive.class) == null;
+		if (op == Operation.DELETE
+				|| f.isAnnotationPresent(CaseSensitive.class)) {
+			return false;
+		}
+		boolean interceptable = true;
 		for (Annotation a : f.getAnnotations()) {
 			if (a.annotationType().isAnnotationPresent(CaseSensitive.class)) {
 				interceptable = false;
+				break;
 			}
 		}
 
@@ -100,4 +103,13 @@ public class CaseSensitiveInterceptor extends AbstractInterceptor {
 		}
 	}
 
+	/**
+	 * @param properties
+	 *            properties para setear
+	 */
+	@Autowired
+	public void setProperties(PropertiesUtil properties) {
+
+		this.properties = properties;
+	}
 }
