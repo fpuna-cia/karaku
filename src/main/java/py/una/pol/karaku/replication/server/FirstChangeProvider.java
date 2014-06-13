@@ -48,12 +48,34 @@ import py.una.pol.karaku.replication.Shareable;
  */
 public interface FirstChangeProvider<T extends Shareable> {
 
-	Integer MAX_PRIORITY = Integer.MAX_VALUE;
-
+	/**
+	 * Lista de cambios iniciales.
+	 * 
+	 * @param clazz
+	 *            clase de la cual se esperan los cambios
+	 * @return colección de cambios, posiblemente <code>null</code>
+	 */
 	Collection<? extends T> getChanges(Class<? extends T> clazz);
 
+	/**
+	 * Clase que soporta este provider.
+	 * <p>
+	 * Se asume que se soporta la clase y todas sus subclases
+	 * </p>
+	 * 
+	 * @return clase soportada, nunca <code>null</code>
+	 */
 	Class<T> getSupportedClass();
 
+	/**
+	 * Prioridad que tiene sobre otros Proveedores.
+	 * 
+	 * <p>
+	 * El máximo valor es {@link Integer#MAX_VALUE}
+	 * 
+	 * @return entero que representa su máximo valor, nunca <code>null</code>
+	 * 
+	 */
 	Integer getPriority();
 
 }

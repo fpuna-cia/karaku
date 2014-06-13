@@ -66,6 +66,38 @@ import py.una.pol.karaku.util.StringUtils;
 @Component
 public class KarakuSecurity {
 
+	/**
+	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
+	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
+	 * sino se invocara al método
+	 * {@link HasDefaultPermissions#getDefaultPermission()}
+	 */
+	public static final String DEFAULT = HasDefaultPermissions.DEFAULT;
+
+	/**
+	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
+	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
+	 * sino se invocara al método
+	 * {@link HasDefaultPermissions#getCreatePermission()}
+	 */
+	public static final String DEFAULT_CREATE = HasDefaultPermissions.DEFAULT_CREATE;
+
+	/**
+	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
+	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
+	 * sino se invocara al método
+	 * {@link HasDefaultPermissions#getEditPermission()}
+	 */
+	public static final String DEFAULT_EDIT = HasDefaultPermissions.DEFAULT_EDIT;
+
+	/**
+	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
+	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
+	 * sino se invocara al método
+	 * {@link HasDefaultPermissions#getDeletePermission()}
+	 */
+	public static final String DEFAULT_DELETE = HasDefaultPermissions.DEFAULT_DELETE;
+
 	@Log
 	private Logger log;
 
@@ -108,35 +140,4 @@ public class KarakuSecurity {
 		}
 	}
 
-	/**
-	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
-	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
-	 * sino se invocara al método
-	 * {@link HasDefaultPermissions#getDefaultPermission()}
-	 */
-	public static final String DEFAULT = HasDefaultPermissions.DEFAULT;
-
-	/**
-	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
-	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
-	 * sino se invocara al método
-	 * {@link HasDefaultPermissions#getCreatePermission()}
-	 */
-	public static final String DEFAULT_CREATE = HasDefaultPermissions.DEFAULT_CREATE;
-
-	/**
-	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
-	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
-	 * sino se invocara al método
-	 * {@link HasDefaultPermissions#getEditPermission()}
-	 */
-	public static final String DEFAULT_EDIT = HasDefaultPermissions.DEFAULT_EDIT;
-
-	/**
-	 * Cuando sea un {@link HasDefaultPermissions} el componente que se este
-	 * auditando, y se encuentre esta clave, no se la utilizara como permiso,
-	 * sino se invocara al método
-	 * {@link HasDefaultPermissions#getDeletePermission()}
-	 */
-	public static final String DEFAULT_DELETE = HasDefaultPermissions.DEFAULT_DELETE;
 }

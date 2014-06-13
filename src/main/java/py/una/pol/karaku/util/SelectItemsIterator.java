@@ -57,26 +57,6 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 
 	/**
 	 * <p>
-	 * Construct an iterator instance for the specified parent component.
-	 * </p>
-	 * 
-	 * @param ctx
-	 *            the {@link FacesContext} for the current request
-	 * @param parent
-	 *            The parent {@link UIComponent} whose children will be
-	 *            processed
-	 */
-	public SelectItemsIterator(FacesContext ctx, UIComponent parent) {
-
-		kids = parent.getChildren().listIterator();
-		this.ctx = ctx;
-
-	}
-
-	// ------------------------------------------------------ Instance Variables
-
-	/**
-	 * <p>
 	 * Iterator over the SelectItem elements pointed at by a
 	 * <code>UISelectItems</code> component, or <code>null</code>.
 	 * </p>
@@ -100,6 +80,26 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 	 * The {@link FacesContext} for the current request.
 	 */
 	private final FacesContext ctx;
+
+	/**
+	 * <p>
+	 * Construct an iterator instance for the specified parent component.
+	 * </p>
+	 * 
+	 * @param ctx
+	 *            the {@link FacesContext} for the current request
+	 * @param parent
+	 *            The parent {@link UIComponent} whose children will be
+	 *            processed
+	 */
+	public SelectItemsIterator(FacesContext ctx, UIComponent parent) {
+
+		kids = parent.getChildren().listIterator();
+		this.ctx = ctx;
+
+	}
+
+	// ------------------------------------------------------ Instance Variables
 
 	// -------------------------------------------------------- Iterator Methods
 
@@ -203,7 +203,7 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 					throw new IllegalArgumentException();
 				}
 			}
-			if ((items != null) && !items.hasNext()) {
+			if (items != null && !items.hasNext()) {
 				items = null;
 			}
 		}
@@ -218,11 +218,10 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 		if (kids.hasNext()) {
 			Object next = kids.next();
 			while (kids.hasNext()
-					&& !((next instanceof UISelectItem) || (next instanceof UISelectItems))) {
+					&& !(next instanceof UISelectItem || next instanceof UISelectItems)) {
 				next = kids.next();
 			}
-			if ((next instanceof UISelectItem)
-					|| (next instanceof UISelectItems)) {
+			if (next instanceof UISelectItem || next instanceof UISelectItems) {
 				return next;
 			}
 		}
@@ -333,8 +332,8 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 			Map.Entry entry = (Map.Entry) iterator.next();
 			Object key = entry.getKey();
 			Object value = entry.getValue();
-			item.setLabel((key != null) ? key.toString() : value.toString());
-			item.setValue((value != null) ? value : "");
+			item.setLabel(key != null ? key.toString() : value.toString());
+			item.setValue(value != null ? value : "");
 			return item;
 
 		}
@@ -455,17 +454,16 @@ final class SelectItemsIterator implements Iterator<SelectItem> {
 					Object itemDisabledResult = attrs.get(ITEM_DISABLED);
 					Object noSelectionOptionResult = attrs
 							.get(NO_SELECTION_OPTION);
-					setValue((itemValueResult != null) ? itemValueResult
-							: value);
-					setLabel((itemLabelResult != null) ? itemLabelResult
+					setValue(itemValueResult != null ? itemValueResult : value);
+					setLabel(itemLabelResult != null ? itemLabelResult
 							.toString() : value.toString());
-					setDescription((itemDescriptionResult != null) ? itemDescriptionResult
+					setDescription(itemDescriptionResult != null ? itemDescriptionResult
 							.toString() : null);
-					setEscape((itemEscapedResult != null) ? Boolean
+					setEscape(itemEscapedResult != null ? Boolean
 							.valueOf(itemEscapedResult.toString()) : false);
-					setDisabled((itemDisabledResult != null) ? Boolean
+					setDisabled(itemDisabledResult != null ? Boolean
 							.valueOf(itemDisabledResult.toString()) : false);
-					setNoSelectionOption((noSelectionOptionResult != null) ? Boolean
+					setNoSelectionOption(noSelectionOptionResult != null ? Boolean
 							.valueOf(noSelectionOptionResult.toString())
 							: false);
 				} finally {

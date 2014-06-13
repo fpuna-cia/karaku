@@ -25,16 +25,16 @@ package py.una.pol.karaku.security;
 /**
  * Interfaz que define un mecanismo de manipulación automática de ciertos
  * permisos.
- *
+ * 
  * <p>
  * Permite que los mismos puedan ser omitidos en las implementaciones y se
  * utilice solamente el permiso por defecto.
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 1.0
  * @version 1.0 Oct 3, 2013
- *
+ * 
  */
 public interface HasDefaultPermissions {
 
@@ -42,8 +42,7 @@ public interface HasDefaultPermissions {
 	 * Retorna una cadena que representa el defecto, este permiso es utilizado
 	 * cuando ningún otro permiso es proveído, y es el permiso necesario para
 	 * poder Ver un elemento.
-	 *
-	 * @see #isView()
+	 * 
 	 * @return cadena que representa el permiso
 	 */
 	String getDefaultPermission();
@@ -53,8 +52,7 @@ public interface HasDefaultPermissions {
 	 * poder borrar registros en este controlador.<br />
 	 * Si no se quiere que se pueda borrar, se puede poner una cadena aleatoria
 	 * o retornar <code>""</code>
-	 *
-	 * @see #isDelete()
+	 * 
 	 * @return cadena que representa el permiso
 	 */
 	String getDeletePermission();
@@ -62,8 +60,7 @@ public interface HasDefaultPermissions {
 	/**
 	 * Retorna la cadena que representa el nombre del permiso necesario para
 	 * poder crear nuevos registros en este controlador.<br />
-	 *
-	 * @see #isCreate()
+	 * 
 	 * @return cadena que representa el permiso
 	 */
 	String getCreatePermission();
@@ -71,8 +68,7 @@ public interface HasDefaultPermissions {
 	/**
 	 * Retorna la cadena que representa el nombre del permiso necesario para
 	 * poder editar registros en este controlador.<br />
-	 *
-	 * @see #isEdit()
+	 * 
 	 * @return cadena que representa el permiso
 	 */
 	String getEditPermission();

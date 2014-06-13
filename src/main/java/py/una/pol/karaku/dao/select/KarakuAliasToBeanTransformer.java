@@ -65,9 +65,7 @@ import py.una.pol.karaku.util.ListHelper;
 public class KarakuAliasToBeanTransformer<T> extends
 		AliasToBeanResultTransformer {
 
-	/**
-	 * 
-	 */
+	private static final long serialVersionUID = 8185588266275147013L;
 	private static final String COULD_NOT_INSTANTIATE_RESULTCLASS = "Could not instantiate resultclass: ";
 	private static final String UNCHECKED = "unchecked";
 	private static final String RAWTYPES = "rawtypes";
@@ -84,11 +82,6 @@ public class KarakuAliasToBeanTransformer<T> extends
 		super(resultClass);
 		this.resultClass = resultClass;
 	}
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 8185588266275147013L;
 
 	@Override
 	public Object transformTuple(Object[] tuple, String[] realAlias) {

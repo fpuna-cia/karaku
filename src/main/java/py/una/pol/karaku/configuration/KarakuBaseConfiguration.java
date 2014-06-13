@@ -49,37 +49,6 @@ import py.una.pol.karaku.util.Util;
 @Configuration
 public class KarakuBaseConfiguration {
 
-	private Logger log = LoggerFactory.getLogger(KarakuBaseConfiguration.class);
-
-	// @Autowired
-	private static PropertiesUtil propertiesUtil;
-
-	private I18nHelper i18nHelper;
-
-	@Autowired
-	private Util util;
-
-	/**
-	 * Imprime un mensaje de bienvenida
-	 */
-	@PostConstruct
-	public void postConstruct() {
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("\n");
-		sb.append(" _   __                _          ").append("\n");
-		sb.append("| | / /               | |         ").append("\n");
-		sb.append("| |/ /  __ _ _ __ __ _| | ___   _ ").append("\n");
-		sb.append("|    \\ / _` | '__/ _` | |/ / | | |").append("\n");
-		sb.append("| |\\  \\ (_| | | | (_| |   <| |_| |").append("\n");
-		sb.append("\\_| \\_/\\__,_|_|  \\__,_|_|\\_\\\\__,_|").append("\n");
-		sb.append("\n");
-		sb.append("Sistema: ").append(util.getNameSystem().trim()).append("\n");
-		sb.append("Version: ").append(util.getVersion().trim()).append("\n");
-		log.info(sb.toString());
-
-	}
-
 	/**
 	 * Define un scope de conversación de acceso para el uso de apache
 	 * orchestra, esta cadena se configura, además, en el archivo
@@ -116,6 +85,37 @@ public class KarakuBaseConfiguration {
 	 * Ubicación del archivo de configuraciones
 	 */
 	public static final String CONFIG_LOCATION = "karaku.properties";
+
+	private Logger log = LoggerFactory.getLogger(KarakuBaseConfiguration.class);
+
+	// @Autowired
+	private static PropertiesUtil propertiesUtil;
+
+	private I18nHelper i18nHelper;
+
+	@Autowired
+	private Util util;
+
+	/**
+	 * Imprime un mensaje de bienvenida
+	 */
+	@PostConstruct
+	public void postConstruct() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("\n");
+		sb.append(" _   __                _          ").append("\n");
+		sb.append("| | / /               | |         ").append("\n");
+		sb.append("| |/ /  __ _ _ __ __ _| | ___   _ ").append("\n");
+		sb.append("|    \\ / _` | '__/ _` | |/ / | | |").append("\n");
+		sb.append("| |\\  \\ (_| | | | (_| |   <| |_| |").append("\n");
+		sb.append("\\_| \\_/\\__,_|_|  \\__,_|_|\\_\\\\__,_|").append("\n");
+		sb.append("\n");
+		sb.append("Sistema: ").append(util.getNameSystem().trim()).append("\n");
+		sb.append("Version: ").append(util.getVersion().trim()).append("\n");
+		log.info(sb.toString());
+
+	}
 
 	/**
 	 * {@link org.springframework.stereotype.Component} que provee las

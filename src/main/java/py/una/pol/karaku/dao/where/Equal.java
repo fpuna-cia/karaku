@@ -43,17 +43,6 @@ public class Equal implements Clause {
 	private final String path;
 
 	/**
-	 * Retorna un {@link Criterion} configurado para implementar la
-	 * funcionalidad de esta clase.
-	 */
-	@Override
-	public Criterion getCriterion() {
-
-		return Restrictions.eq(path, value);
-
-	}
-
-	/**
 	 * Crea una nueva intancia de esta clase utilizando la variable path como
 	 * una tributo y value el objeto de referencia para ser comparado, el
 	 * {@link Object#toString()} de este valor sera utilizado para construir la
@@ -72,6 +61,17 @@ public class Equal implements Clause {
 		super();
 		this.value = value;
 		this.path = path;
+	}
+
+	/**
+	 * Retorna un {@link Criterion} configurado para implementar la
+	 * funcionalidad de esta clase.
+	 */
+	@Override
+	public Criterion getCriterion() {
+
+		return Restrictions.eq(path, value);
+
 	}
 
 	@Nonnull

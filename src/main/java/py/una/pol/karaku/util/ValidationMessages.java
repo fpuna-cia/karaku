@@ -24,21 +24,17 @@ package py.una.pol.karaku.util;
 
 /**
  * Utilidad para acceder a los diferentes mensajes de validación.
- *
+ * 
  * <p>
  * Se listan todos los mensajes disponibles para agregar en una entidad.
  * </p>
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Oct 17, 2013
- *
+ * 
  */
 public final class ValidationMessages {
-
-	private ValidationMessages() {
-
-	}
 
 	/**
 	 * Mensaje para longitud máxima.
@@ -52,8 +48,13 @@ public final class ValidationMessages {
 
 	/**
 	 * Mensaje para definir que solo se admiten cadenas.
-	 *
+	 * 
 	 * @see ValidationConstants#GN_WORDS_SPE
 	 */
 	public static final String ONLY_STRING = "{ONLY_STRING}";
+
+	private ValidationMessages() {
+
+	}
+
 }

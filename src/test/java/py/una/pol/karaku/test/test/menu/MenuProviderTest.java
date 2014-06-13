@@ -22,9 +22,10 @@
  */
 package py.una.pol.karaku.test.test.menu;
 
+import static org.junit.Assert.assertFalse;
 import java.io.IOException;
+import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import py.una.pol.karaku.menu.client.AbstractMenuProvider;
 import py.una.pol.karaku.menu.client.MenuWSCaller;
 import py.una.pol.karaku.menu.client.WSMenuProvider;
+import py.una.pol.karaku.menu.schemas.Menu;
 import py.una.pol.karaku.menu.schemas.MenuRequest;
 import py.una.pol.karaku.menu.schemas.MenuResponse;
 import py.una.pol.karaku.menu.server.MenuServerLogic;
@@ -113,6 +115,9 @@ public class MenuProviderTest extends BaseTestWebService {
 	@Autowired
 	AbstractMenuProvider menuClientLogic;
 
+	@Autowired
+	MenuServerLogic serverLogic;
+
 	@Before
 	public void before() {
 
@@ -123,10 +128,10 @@ public class MenuProviderTest extends BaseTestWebService {
 	}
 
 	@Test
-	@Ignore
-	public void testCallMocked() throws InterruptedException {
+	public void testCallMocked() {
 
-		Thread.sleep(11000);
-		menuClientLogic.getMenu();
+		List<Menu> menu = menuClientLogic.getMenu();
+		assertFalse(menu.isEmpty());
+		// TODO comparar el menu con el proveido directamente por serverlogic
 	}
 }

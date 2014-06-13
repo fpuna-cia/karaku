@@ -198,7 +198,7 @@ public class ControllerHelper {
 			final String summary, final String detail, final String componentId) {
 
 		createFacesMessageSimple(severity, getString(summary),
-				getString(detail), componentId); //
+				getString(detail), componentId);
 	}
 
 	/**

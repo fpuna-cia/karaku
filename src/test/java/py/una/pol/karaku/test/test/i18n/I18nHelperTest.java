@@ -29,7 +29,6 @@ import static org.junit.Assert.assertTrue;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +47,6 @@ import py.una.pol.karaku.util.I18nHelper;
  * @version 1.0 Apr 30, 2014
  * 
  */
-@Ignore
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class I18nHelperTest extends BaseTest {
 

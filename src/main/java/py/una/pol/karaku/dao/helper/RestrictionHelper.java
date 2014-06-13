@@ -59,6 +59,8 @@ public class RestrictionHelper implements ApplicationContextAware {
 
 	private static Map<Class<?>, BaseClauseHelper<?>> helpers;
 
+	private ApplicationContext applicationContext;
+
 	private static void register(BaseClauseHelper<?> newHelper) {
 
 		getHelpers().put(newHelper.getClassOfClause(), newHelper);
@@ -75,8 +77,6 @@ public class RestrictionHelper implements ApplicationContextAware {
 
 		return helpers;
 	}
-
-	private ApplicationContext applicationContext;
 
 	@SuppressWarnings("rawtypes")
 	@PostConstruct

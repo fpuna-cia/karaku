@@ -24,7 +24,6 @@ package py.una.pol.karaku.test.test.controller;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +45,6 @@ import py.una.pol.karaku.util.UniqueHelper;
  * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-@Ignore
 public class ControllerHelperTest extends BaseTest {
 
 	private static final String M4 = "4";
@@ -93,10 +91,10 @@ public class ControllerHelperTest extends BaseTest {
 	public void testCreateMessages() throws Exception {
 
 		h.addInfoMessage(M1);
-		check(null, "uno", null);
+		check(null, "uno", "uno");
 
 		h.addInfoMessage(M2, "1");
-		check(null, "1", null);
+		check(null, "1", "1");
 
 	}
 

@@ -106,14 +106,13 @@ public class UniqueHelper {
 	 */
 	public static class UniqueRestrintion {
 
-		protected UniqueRestrintion(final String uniqueConstraintName) {
-
-			super();
-			this.uniqueConstraintName = uniqueConstraintName;
-		}
-
 		private String uniqueConstraintName;
 		private List<String> fields;
+
+		protected UniqueRestrintion(final String uniqueConstraintName) {
+
+			this.uniqueConstraintName = uniqueConstraintName;
+		}
 
 		/**
 		 * Agrega un nuevo field a la lista de fields manejados por esta clase

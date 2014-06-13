@@ -47,6 +47,16 @@ import py.una.pol.karaku.dao.where.Clause;
  */
 public class Where<T> {
 
+	private List<Criterion> criterions;
+
+	private List<Clause> clauses;
+
+	private EntityExample<T> example;
+
+	private List<String> fetchJoin;
+
+	private boolean distinct;
+
 	/**
 	 * Construye un nuevo {@link Where} y lo retorna, la intención de este
 	 * método, es facilitar la craeción de consultas en una sintaxis Fluent-like
@@ -57,16 +67,6 @@ public class Where<T> {
 
 		return new Where<T>();
 	}
-
-	private List<Criterion> criterions;
-
-	private List<Clause> clauses;
-
-	private EntityExample<T> example;
-
-	private List<String> fetchJoin;
-
-	private boolean distinct;
 
 	/**
 	 * Setea una entidad para ser utilizada como ejemplo, al hacer esto todas
@@ -123,9 +123,9 @@ public class Where<T> {
 
 	/**
 	 * Agrega una restricción a la consulta, estos se construyen con la clase
-	 * {@link py.una.pol.karaku.dao.where.Clauses} y se pueden agregar tantos como
-	 * se desean. Todas las clausulas que se agregan por este método se añaden
-	 * como una condición <code>and</code>.
+	 * {@link py.una.pol.karaku.dao.where.Clauses} y se pueden agregar tantos
+	 * como se desean. Todas las clausulas que se agregan por este método se
+	 * añaden como una condición <code>and</code>.
 	 * <p>
 	 * Si se desea que se agregen como <code>or</code>, ver
 	 * {@link py.una.pol.karaku.dao.where.Or}
