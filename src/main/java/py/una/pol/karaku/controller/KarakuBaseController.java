@@ -331,8 +331,7 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 	public Map<String, Object> getParamsFilter(Map<String, Object> paramsReport) {
 
 		if (this.example != null) {
-			paramsReport.put(REPORT_SELECTION_KEY,
-					EntitySerializer.serialize(this.getExample()));
+			paramsReport.put(REPORT_SELECTION_KEY, getParamsAdvancedReport());
 			return paramsReport;
 		}
 		if (StringUtils.isValid(getFilterValue())) {
@@ -342,6 +341,17 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 		}
 		return paramsReport;
 
+	}
+
+	/**
+	 * Retorna un String Serializado con los atributos de la clase base para el
+	 * parametro de un reporte
+	 * 
+	 * @return
+	 */
+	protected String getParamsAdvancedReport() {
+
+		return EntitySerializer.serialize(this.getExample());
 	}
 
 	@Override
