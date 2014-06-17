@@ -22,7 +22,6 @@
  */
 package py.una.pol.karaku.util;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import javax.persistence.Id;
@@ -42,14 +41,13 @@ public final class EntitySerializer {
 		// No-op
 	}
 
-	public static <T> String serialize(T object) {
+	public static String serialize(Object object) {
 
-		@SuppressWarnings("unchecked")
-		Class<T> clazz = (Class<T>) object.getClass();
+		Class<?> clazz = object.getClass();
 		StringBuilder sb = new StringBuilder();
 		try {
 			for (Field field : clazz.getDeclaredFields()) {
-				if (!checkAnnotations(field)) {
+				if (!check(field)) {
 					continue;
 				}
 				construct(sb, field, object);
@@ -65,49 +63,42 @@ public final class EntitySerializer {
 			throws IllegalAccessException {
 
 		f.setAccessible(true);
-		String key = f.getName();
 		Object value = f.get(o);
 
+		if (!StringUtils.isValid(value)) {
+			return sb;
+		}
+
+		String key = f.getName();
 		DisplayName displayName = f.getAnnotation(DisplayName.class);
 		if (displayName != null) {
+
 			key = I18nHelper.getName(displayName);
 		}
 
-		if (!"serialVersionUID".equals(key) && (value != null)
-				&& !"".equals(value) && !isPublicStaticFinal(f)) {
-			return Serializer.contruct(sb, key, value.toString());
-		}
-		return sb;
+		return Serializer.contruct(sb, key, value.toString());
 
 	}
 
-	private static boolean checkAnnotations(Field f) {
+	private static boolean check(Field f) {
 
-		if (checkAnnotation(f, Id.class)) {
+		if (f.isAnnotationPresent(Id.class)) {
 			return false;
 		}
-		if (checkAnnotation(f, OneToMany.class)) {
+		if (f.isAnnotationPresent(OneToMany.class)) {
 			return false;
 		}
-		if (checkAnnotation(f, ManyToMany.class)) {
+		if (f.isAnnotationPresent(ManyToMany.class)) {
 			return false;
 		}
-		return true;
+		if (f.isSynthetic()) {
+			return false;
+		}
+		return !isStatic(f);
 	}
 
-	private static boolean checkAnnotation(Field f,
-			Class<? extends Annotation> clazz) {
+	private static boolean isStatic(Field field) {
 
-		if (f.getAnnotation(clazz) != null) {
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean isPublicStaticFinal(Field field) {
-
-		int modifiers = field.getModifiers();
-		return (Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers) && Modifier
-				.isFinal(modifiers));
+		return Modifier.isStatic(field.getModifiers());
 	}
 }
