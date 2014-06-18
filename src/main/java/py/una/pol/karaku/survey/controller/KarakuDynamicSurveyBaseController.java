@@ -23,7 +23,6 @@
 package py.una.pol.karaku.survey.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
@@ -99,7 +98,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 	protected void buildSurveyFromForm() {
 
 		List<EncuestaDetalle> detallesEncuesta = new ArrayList<EncuestaDetalle>();
-		for (DynamicSurveyBlock bloque : blocks) {
+		for (DynamicSurveyBlock bloque : getBlocks()) {
 			if (bloque instanceof DynamicSurveyFields) {
 				// Si el bloque es del tipo fields, cada field es un
 				// detalle.
@@ -290,6 +289,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 
 				DynamicSurveyFieldOption field = new DynamicSurveyFieldOption(
 						block.getTypeField(detalle.getNumeroPregunta() - 1));
+
 				SurveyField cell = DynamicSurveyField.fieldFactory(block
 						.getQuestion(detalle.getNumeroPregunta()));
 
@@ -381,32 +381,17 @@ public abstract class KarakuDynamicSurveyBaseController implements
 		if (respuesta.getId() != null) {
 			return encuestaDetalleLogic.getRespuestasSelected(respuesta);
 		} else {
-
-			for (EncuestaDetalle detalle : getBean().getDetalles()) {
-
-				if (detalle.getNumeroPregunta().equals(
-						respuesta.getNumeroPregunta())) {
-
-					List<EncuestaDetalleOpcionRespuesta> listResponse = encuestaDetalleLogic
-							.getDetailsRespuestasSelected(detalle);
-
-					if (ListHelper.hasElements(listResponse)) {
-						detalle.setOpcionRespuesta(listResponse);
-						List<OpcionRespuesta> result = new ArrayList<OpcionRespuesta>();
-
-						for (EncuestaDetalleOpcionRespuesta detalleOpcionRespuesta : detalle
-								.getOpcionRespuesta()) {
-
-							result.add(detalleOpcionRespuesta
-									.getOpcionRespuesta());
-
-						}
-						return result;
-					}
-
-				}
+			/*
+			 * Si la respuesta no esta persistida utilizamos los datos que se
+			 * encuentran en memoria.
+			 */
+			List<OpcionRespuesta> result = new ArrayList<OpcionRespuesta>();
+			for (EncuestaDetalleOpcionRespuesta opcion : respuesta
+					.getOpcionRespuesta()) {
+				result.add(opcion.getOpcionRespuesta());
 			}
-			return Collections.emptyList();
+			return result;
+
 		}
 
 	}
@@ -440,7 +425,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 		for (DynamicSurveyFieldOption field : fields.getFields()) {
 			EncuestaDetalle detalle = null;
 
-			if (isEdit()) {
+			if (isEdit() && !isInMemory()) {
 				EncuestaDetalle example = new EncuestaDetalle();
 				example.setEncuesta(getBean());
 				example.setPregunta(bloque.getQuestion(index));
@@ -486,6 +471,14 @@ public abstract class KarakuDynamicSurveyBaseController implements
 	}
 
 	/**
+	 * @return
+	 */
+	protected boolean isInMemory() {
+
+		return getBean().getId() == null;
+	}
+
+	/**
 	 * @param opcion
 	 * @param detalle
 	 * @param detallesOpcionRespuesta
@@ -518,7 +511,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 				// Solo almaceno los valores ingresados
 				if (StringUtils.isValid(row.getCell(i).getValue())) {
 					EncuestaDetalle detalle = null;
-					if (isEdit()) {
+					if (isEdit() && !isInMemory()) {
 						EncuestaDetalle example = new EncuestaDetalle();
 						example.setEncuesta(getBean());
 						example.setPregunta(bloque.getQuestion(i + 1));
@@ -547,6 +540,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 	public void preCreate(EncuestaPlantilla template) {
 
 		setBean(getNewInstance(template));
+		setBlocks(null);
 		log.debug("preCreate llamado");
 
 	}
@@ -585,6 +579,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 	public void preEdit(Encuesta encuesta) {
 
 		setBean(encuesta);
+		setBlocks(null);
 		log.debug("preEdit llamado");
 
 	}
@@ -595,6 +590,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 		preEdit(encuesta);
 		mode = Mode.EDIT;
 		return goUrlSurvey();
+
 	}
 
 	@Override
@@ -610,7 +606,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 	@Override
 	public void edit() {
 
-		if (bean.getId() != null) {
+		if (!isInMemory()) {
 			getBaseLogic().update(bean);
 		}
 	}
@@ -637,8 +633,9 @@ public abstract class KarakuDynamicSurveyBaseController implements
 
 	@Override
 	public void preView(Encuesta encuesta) {
-
 		setBean(encuesta);
+		setBlocks(null);
+
 		log.debug("preView llamado");
 
 	}
@@ -671,7 +668,7 @@ public abstract class KarakuDynamicSurveyBaseController implements
 	public String doDelete() {
 
 		log.debug("Eliminando la encuesta seleccionada..");
-		if (bean.getId() != null) {
+		if (!isInMemory()) {
 			bean.setId(bean.getId());
 			getBaseLogic().remove(bean);
 		}

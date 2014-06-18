@@ -26,129 +26,135 @@
 </composite:interface>
 <composite:implementation>
 	<rich:panel header="#{cc.attrs.block.title}" id="#{cc.attrs.idBlock}">
-		<h:panelGrid columns="4"
-			columnClasses="form_label,form_label, form_input, form_error">
+		<h:panelGrid columns="3"
+			columnClasses="form_label,form_label, form_input">
 			<c:set value="#{0}" var="cont" />
 			<c:forEach items="#{cc.attrs.block.fields}" var="element">
-
-				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO'}">
-					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
-					<h:outputLabel
-						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
-						style="color:blue;" />
-					<h:inputText value="#{element.field.value}"
-						id="#{cc.attrs.block.id}_#{cont}"
-						disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
-						requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
-						required="#{cc.attrs.block.isRequiredField(cont)}" />
-				</c:if>
-				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'RADIO'}">
-					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
-					<h:outputLabel
-						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
-						style="color:blue;" />
-					<h:panelGrid
-						columns="#{cc.attrs.block.getAnswerOptions(cont).size()*3}"
-						id="#{cc.attrs.block.id}_#{cont}_pgrid">
-						<h:selectOneRadio value="#{element.oneOption}"
+				<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
+				<h:outputLabel
+					value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
+					style="color:blue;" />
+				<f:subview
+					rendered="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO'}">
+					<h:panelGrid columns="2" columnClasses="form_input,form_error">
+						<h:inputText value="#{element.field.value}"
+							id="#{cc.attrs.block.id}_#{cont}"
+							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
+							requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
+							required="#{cc.attrs.block.isRequiredField(cont)}" />
+						<rich:messages ajaxRendered="true"
+							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
+					</h:panelGrid>
+				</f:subview>
+				<f:subview
+					rendered="#{cc.attrs.block.getTypeField(cont) eq 'RADIO'}">
+					<h:panelGrid columns="2" columnClasses="form_input,form_error">
+						<h:panelGrid
+							columns="#{cc.attrs.block.getAnswerOptions(cont).size()*3}"
+							id="#{cc.attrs.block.id}_#{cont}_pgrid">
+							<h:selectOneRadio value="#{element.oneOption}"
+								converter="#{cc.attrs.block.converter}"
+								required="#{cc.attrs.block.isRequiredField(cont)}"
+								requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
+								style="text-transform:none !important;"
+								id="#{cc.attrs.block.id}_#{cont}"
+								disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
+								<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
+								<a4j:ajax event="change"
+									render="#{cc.attrs.block.id}_#{cont}_pgrid"
+									listener="#{cc.attrs.block.enableCheckText()}" />
+								<a4j:param name="index" value="#{cont}" />
+							</h:selectOneRadio>
+							<h:inputText value="#{element.field.value}"
+								id="#{cc.attrs.block.id}_#{cont}_input"
+								rendered="#{element.visibilityCheckText}"
+								disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
+								<a4j:ajax event="blur"
+									listener="#{cc.attrs.block.completeChangeListener}" />
+								<a4j:param name="index" value="#{cont}" />
+							</h:inputText>
+						</h:panelGrid>
+						<rich:messages ajaxRendered="true"
+							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
+					</h:panelGrid>
+				</f:subview>
+				<f:subview
+					rendered="#{cc.attrs.block.getTypeField(cont) eq 'CHECK'}">
+					<h:panelGrid columns="2" columnClasses="form_input,form_error">
+						<h:panelGrid
+							columns="#{cc.attrs.block.getAnswerOptions(cont).size()*3}"
+							id="#{cc.attrs.block.id}_#{cont}_pgrid">
+							<h:selectManyCheckbox value="#{element.manyOptions}"
+								converter="#{cc.attrs.block.converter}"
+								required="#{cc.attrs.block.isRequiredField(cont)}"
+								requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
+								style="text-transform:none !important;"
+								id="#{cc.attrs.block.id}_#{cont}"
+								disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
+								<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
+								<a4j:ajax event="change"
+									render="#{cc.attrs.block.id}_#{cont}_pgrid"
+									listener="#{cc.attrs.block.enableCheckText()}" />
+								<a4j:param name="index" value="#{cont}" />
+							</h:selectManyCheckbox>
+							<h:inputText value="#{element.field.value}"
+								id="#{cc.attrs.block.id}_#{cont}_input"
+								rendered="#{element.visibilityCheckText}"
+								disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
+								<a4j:ajax event="blur"
+									listener="#{cc.attrs.block.completeChangeListener}" />
+								<a4j:param name="index" value="#{cont}" />
+							</h:inputText>
+						</h:panelGrid>
+						<rich:messages ajaxRendered="true"
+							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
+					</h:panelGrid>
+				</f:subview>
+				<f:subview
+					rendered="#{cc.attrs.block.getTypeField(cont) eq 'COMBO'}">
+					<h:panelGrid columns="2" columnClasses="form_input,form_error">
+						<h:selectOneMenu value="#{element.oneOption}"
+							id="#{cc.attrs.block.id}_#{cont}"
 							converter="#{cc.attrs.block.converter}"
 							required="#{cc.attrs.block.isRequiredField(cont)}"
 							requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
-							style="text-transform:none !important;"
-							id="#{cc.attrs.block.id}_#{cont}"
 							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
+							<f:selectItem itemLabel="#{msg['ABM_SURVEY_SELECT']}"
+								noSelectionOption="true" />
 							<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
-							<a4j:ajax event="change"
-								render="#{cc.attrs.block.id}_#{cont}_pgrid"
-								listener="#{cc.attrs.block.enableCheckText()}" />
-							<a4j:param name="index" value="#{cont}" />
-						</h:selectOneRadio>
-						<h:inputText value="#{element.field.value}"
-							id="#{cc.attrs.block.id}_#{cont}_input"
-							rendered="#{element.visibilityCheckText}"
-							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
-							<a4j:ajax event="blur"
-								listener="#{cc.attrs.block.completeChangeListener}" />
-							<a4j:param name="index" value="#{cont}" />
-						</h:inputText>
+						</h:selectOneMenu>
+						<rich:messages ajaxRendered="true"
+							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
 					</h:panelGrid>
-				</c:if>
-				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'CHECK'}">
-					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
-					<h:outputLabel
-						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
-						style="color:blue;" />
-					<h:panelGrid
-						columns="#{cc.attrs.block.getAnswerOptions(cont).size()*3}"
-						id="#{cc.attrs.block.id}_#{cont}_pgrid">
-						<h:selectManyCheckbox value="#{element.manyOptions}"
-							converter="#{cc.attrs.block.converter}"
+				</f:subview>
+				<f:subview
+					rendered="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO_FECHA'}">
+					<h:panelGrid columns="2" columnClasses="form_input,form_error">
+						<rich:calendar value="#{element.field.value}"
+							id="#{cc.attrs.block.id}_#{cont}"
+							converter="#{cc.attrs.block.converterString}"
+							datePattern="#{fp.dateFormat}"
 							required="#{cc.attrs.block.isRequiredField(cont)}"
 							requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
-							style="text-transform:none !important;"
-							id="#{cc.attrs.block.id}_#{cont}"
 							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
-							<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
-							<a4j:ajax event="change"
-								render="#{cc.attrs.block.id}_#{cont}_pgrid"
-								listener="#{cc.attrs.block.enableCheckText()}" />
-							<a4j:param name="index" value="#{cont}" />
-						</h:selectManyCheckbox>
-						<h:inputText value="#{element.field.value}"
-							id="#{cc.attrs.block.id}_#{cont}_input"
-							rendered="#{element.visibilityCheckText}"
-							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
-							<a4j:ajax event="blur"
-								listener="#{cc.attrs.block.completeChangeListener}" />
-							<a4j:param name="index" value="#{cont}" />
-						</h:inputText>
+						</rich:calendar>
+						<rich:messages ajaxRendered="true"
+							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
 					</h:panelGrid>
-				</c:if>
-				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'COMBO'}">
-					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
-					<h:outputLabel
-						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
-						style="color:blue;" />
-					<h:selectOneMenu value="#{element.oneOption}"
-						id="#{cc.attrs.block.id}_#{cont}"
-						converter="#{cc.attrs.block.converter}"
-						required="#{cc.attrs.block.isRequiredField(cont)}"
-						requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
-						disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
-						<f:selectItem itemLabel="#{msg['ABM_SURVEY_SELECT']}"
-							noSelectionOption="true" />
-						<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
-					</h:selectOneMenu>
-				</c:if>
-				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO_FECHA'}">
-					<h:outputLabel value="#{cc.attrs.block.labels[cont]}"
-						required="#{cc.attrs.block.isRequiredField(cont)}" />
-					<h:outputLabel
-						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
-						style="color:blue;" />
-					<rich:calendar value="#{element.field.value}"
-						id="#{cc.attrs.block.id}_#{cont}"
-						converter="#{cc.attrs.block.converterString}"
-						datePattern="dd-MM-yyyy"
-						required="#{cc.attrs.block.isRequiredField(cont)}"
-						requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
-						disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
-					</rich:calendar>
-				</c:if>
-				<c:if test="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO_AREA'}">
-					<h:outputLabel value="#{cc.attrs.block.labels[cont]}" />
-					<h:outputLabel
-						value="#{cc.attrs.block.isRequiredField(cont)?'*':''}"
-						style="color:blue;" />
-					<h:inputTextarea value="#{element.field.value}"
-						id="#{cc.attrs.block.id}_#{cont}"
-						style="width:182px; height: 115px; text-transform: uppercase;"
-						disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
-						required="#{cc.attrs.block.isRequiredField(cont)}"
-						requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}" />
-				</c:if>
-				<rich:messages ajaxRendered="true"
-					for="#{cc.attrs.block.id}_#{cont}" />
+				</f:subview>
+				<f:subview
+					rendered="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO_AREA'}">
+					<h:panelGrid columns="2" columnClasses="form_input,form_error">
+						<h:inputTextarea value="#{element.field.value}"
+							id="#{cc.attrs.block.id}_#{cont}"
+							style="width:182px; height: 115px; text-transform: uppercase;"
+							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
+							required="#{cc.attrs.block.isRequiredField(cont)}"
+							requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}" />
+						<rich:messages ajaxRendered="true"
+							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
+					</h:panelGrid>
+				</f:subview>
 				<c:set value="#{cont + 1}" var="cont" />
 			</c:forEach>
 		</h:panelGrid>

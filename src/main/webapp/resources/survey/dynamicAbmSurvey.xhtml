@@ -18,41 +18,49 @@
 		type="py.una.pol.karaku.survey.controller.IKarakuDynamicSurveyBaseController"
 		displayName="Controllador que rige esta vista" />
 	<composite:attribute name="idSurvey" default="idSurvey" />
-
+	<composite:attribute name="headerTitle"
+		default="#{msg['ABM_SURVEY_HEADER']}" />
+	<composite:attribute name="withCreateButton"
+		default="#{cc.attrs.controller.isNew()}" />
+	<composite:attribute name="withEditButton"
+		default="#{cc.attrs.controller.isEdit()}" />
+	<composite:attribute name="withDeleteButton"
+		default="#{cc.attrs.controller.isDelete()}" />
+	<composite:attribute name="withCancelButton" default="true" />
 </composite:interface>
 <composite:implementation
 	xmlns:survey="http://java.sun.com/jsf/composite/survey">
-	<rich:panel header="#{msg['ABM_SURVEY_HEADER']}" switchType="client">
+	<rich:panel header="#{cc.attrs.headerTitle}" switchType="client"
+		style="text-align:left;">
 
-		<h:form>
-			<h:panelGrid id="#{cc.attrs.idSurvey}">
-				<c:forEach items="#{cc.attrs.controller.blocks}" var="block">
-					<c:if
-						test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyDataTable'}">
-						<survey:dynamicDataTable controller="#{cc.attrs.controller}"
-							block="#{block}" idBlock="#{block.id}" />
-					</c:if>
-					<c:if
-						test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyFields'}">
-						<survey:dynamicFields block="#{block}" idBlock="#{block.id}"
-							controller="#{cc.attrs.controller}" />
-					</c:if>
-				</c:forEach>
-			</h:panelGrid>
+		<h:panelGrid id="#{cc.attrs.idSurvey}">
+			<c:forEach items="#{cc.attrs.controller.blocks}" var="block">
+				<c:if
+					test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyDataTable'}">
+					<survey:dynamicDataTable controller="#{cc.attrs.controller}"
+						block="#{block}" idBlock="#{block.id}" />
+				</c:if>
+				<c:if
+					test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyFields'}">
+					<survey:dynamicFields block="#{block}" idBlock="#{block.id}"
+						controller="#{cc.attrs.controller}" />
+				</c:if>
+			</c:forEach>
+		</h:panelGrid>
 
-			<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"
-				action="#{cc.attrs.controller.doCreate()}"
-				rendered="#{cc.attrs.controller.isNew()}" />
-			<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"
-				action="#{cc.attrs.controller.doEdit()}"
-				rendered="#{cc.attrs.controller.isEdit()}" />
-			<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_DELETE']}"
-				action="#{cc.attrs.controller.doDelete()}"
-				rendered="#{cc.attrs.controller.isDelete()}" />
-			<h:commandButton
-				value="#{cc.attrs.controller.getValueButtonCancel()}"
-				action="#{cc.attrs.controller.doCancel()}" immediate="true" />
-		</h:form>
+		<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"
+			action="#{cc.attrs.controller.doCreate()}"
+			rendered="#{cc.attrs.withCreateButton}" onclick="no_alert()" />
+		<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"
+			action="#{cc.attrs.controller.doEdit()}"
+			rendered="#{cc.attrs.withEditButton}" onclick="no_alert()" />
+		<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_DELETE']}"
+			action="#{cc.attrs.controller.doDelete()}"
+			rendered="#{cc.attrs.withDeleteButton}" onclick="no_alert()" />
+		<h:commandButton value="#{cc.attrs.controller.getValueButtonCancel()}"
+			action="#{cc.attrs.controller.doCancel()}" immediate="true"
+			rendered="#{cc.attrs.withCancelButton}" />
+
 	</rich:panel>
 </composite:implementation>
 </html>

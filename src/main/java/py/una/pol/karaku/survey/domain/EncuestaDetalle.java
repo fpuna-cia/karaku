@@ -22,7 +22,6 @@
  */
 package py.una.pol.karaku.survey.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -52,7 +51,7 @@ import py.una.pol.karaku.domain.BaseEntity;
 @Audited
 @Table(name = "encuesta_detalle")
 @SequenceGenerator(name = "ENCUESTA_DETALLE_SEQ", sequenceName = "encuesta_detalle_id_seq")
-public class EncuestaDetalle extends BaseEntity implements Serializable {
+public class EncuestaDetalle extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	@Id

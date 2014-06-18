@@ -120,6 +120,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 			if (fields[i] == null) {
 				fields[i] = new DynamicSurveyFieldOption(getQuestions().get(i)
 						.getTipoObjeto().getNombre());
+
 				fields[i].setField(DynamicSurveyField
 						.fieldFactory(getQuestions().get(i)));
 			}

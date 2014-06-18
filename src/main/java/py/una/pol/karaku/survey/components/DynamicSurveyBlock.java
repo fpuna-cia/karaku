@@ -30,11 +30,11 @@ import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 
 /**
  * r
- *
+ * 
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 04/06/2013
- *
+ * 
  */
 public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 
@@ -43,7 +43,7 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 	private List<EncuestaPlantillaPregunta> questions;
 
 	/**
-	 *
+	 * 
 	 * @param questions
 	 *            Lista de preguntas relacionadas al bloque
 	 * @param index
@@ -89,7 +89,7 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 
 	/**
 	 * Obtiene una pregunta en particular del bloque.
-	 *
+	 * 
 	 * @param index
 	 *            Representa el orden de la pregunta dentro del bloque
 	 * @return
@@ -126,7 +126,7 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 
 	/**
 	 * Obtiene el valor del parametro asociado a un compoenente.
-	 *
+	 * 
 	 * @param name
 	 *            nombre del parametro
 	 * @return
@@ -138,15 +138,9 @@ public class DynamicSurveyBlock implements IDynamicSurveyBlock {
 		return externalContext.getRequestParameterMap().get(name);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see py.una.pol.karaku.survey.IDynamicSurveyBlock#getType()
-	 */
 	@Override
 	public String getType() {
 
-		// TODO Auto-generated method stub
 		return "";
 	}
 
