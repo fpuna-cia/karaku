@@ -138,6 +138,7 @@ textarea {
 /* Este estilo sera aplicado a todas las primeras columnas (label del input) */
 .form_label {
 	text-align: right;
+	vertical-align: middle !important;
 }
 
 /* Este estilo sera aplicado a todos los inputs de los formularios */
@@ -150,6 +151,8 @@ textarea {
 .form_error {
 	text-align: left;
 	color: blue !important;
+	text-transform: none;
+	vertical-align: middle !important;
 }
 
 .faces-error {
