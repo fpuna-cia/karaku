@@ -199,7 +199,7 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 		try {
 			this.getBaseLogic().add(this.bean);
 			this.reloadEntities();
-			this.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
+			this.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
 					"BASE_ABM_CREATE_SUCCESS");
 			this.postCreate();
 			return this.goList();
@@ -221,13 +221,13 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 			this.log.info("Do Delete llamado");
 			this.getBaseLogic().remove(this.getBean());
 			this.reloadEntities();
-			this.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
+			this.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
 					"MESSAGE_DELETE_SUCCESS");
 			return this.goList();
 		} catch (Exception e) {
 			log.warn("Cant delete entity {}", e);
 			this.controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_ERROR, "", e.getMessage());
+					FacesMessage.SEVERITY_ERROR, e.getMessage());
 			return "";
 		}
 	}
@@ -240,13 +240,13 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 			this.log.info("Do edit llamado");
 			this.getBaseLogic().update(this.bean);
 			this.reloadEntities();
-			this.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
+			this.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO,
 					"BASE_ABM_EDIT_SUCCESS");
 			return this.goList();
 		} catch (Exception e) {
 			this.log.error("Error al editar", e);
 			this.controllerHelper.createGlobalFacesMessage(
-					FacesMessage.SEVERITY_ERROR, "", "BASE_ABM_EDIT_FAILURE");
+					FacesMessage.SEVERITY_ERROR, "BASE_ABM_EDIT_FAILURE");
 			return "";
 		}
 	}
@@ -270,7 +270,7 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 		setMode(Mode.LIST);
 		if (!StringUtils.isValid(this.getFilterOption())
 				|| !StringUtils.isValid(this.getFilterValue())) {
-			this.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN, "",
+			this.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
 					"BASE_ABM_SEARCH_VALUE_OPTION_REQUIRED");
 			return;
 		} else {
