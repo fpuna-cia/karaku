@@ -120,7 +120,7 @@ public class KarakuListHelper<T, K extends Serializable> implements
 	protected void loadEntities() {
 
 		LOG.debug("Get entities of {} ", this.getClass());
-		Where<T> where = getFilters(this.clazz, this.example, simpleFilter);
+		Where<T> where = getFilters(this.clazz, this.example, getSimpleFilter());
 		Long totalSize = this.logic.getCount(where);
 		getHelper().udpateCount(totalSize);
 		ISearchParam isp = this.helper.getISearchparam();
@@ -196,33 +196,38 @@ public class KarakuListHelper<T, K extends Serializable> implements
 	 * Retorna un Where con todos los filtros aplicados, esto incluye tanto
 	 * busquedas avanzadas como busquedas simples
 	 */
-	public Where<T> getFilters(Class<T> clazz, EntityExample<T> entityExample,
-			SimpleFilter simpleFilter) {
+	public Where<T> getFilters(Class<T> claz2, EntityExample<T> entityExample,
+			SimpleFilter sf) {
 
-		Where<T> where = getBaseWhere();
+		Where<T> base = getBaseWhere();
+		Where<T> where;
 
-		if (where == null) {
+		if (base == null) {
 			where = new Where<T>();
+		} else {
+			where = base.getClone();
 		}
+
 		if (this.example != null) {
 			where.setExample(entityExample);
 			return where;
 		}
-		if (!StringUtils.isValid(getSimpleFilter().getOption(),
-				getSimpleFilter().getValue())) {
+
+		if (!StringUtils.isValid(sf.getOption(), sf.getValue())) {
 			return where;
 		}
+
 		SearchHelper sh = Util.getSpringBeanByJSFContext(null,
 				SearchHelper.class);
-		String path = this.getField(clazz, getSimpleFilter().getOption());
+		String path = this.getField(claz2, sf.getOption());
+		where.addClause(sh.getClause(claz2, path, sf.getValue()));
 
-		where.addClause(sh.getClause(clazz, path, getSimpleFilter().getValue()));
 		return where;
 	}
 
-	private String getField(final Class<?> clazz, final String value) {
+	private String getField(final Class<?> claz2, final String value) {
 
-		for (Field f : clazz.getDeclaredFields()) {
+		for (Field f : claz2.getDeclaredFields()) {
 			DisplayName displayName = f.getAnnotation(DisplayName.class);
 			if (displayName == null) {
 				continue;

@@ -25,6 +25,8 @@ package py.una.pol.karaku.test.test.dao.clauses;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -53,8 +55,8 @@ import py.una.pol.karaku.test.util.TestUtils;
 import py.una.pol.karaku.test.util.transaction.SQLFiles;
 
 /**
- * Test de integración de {@link Where} del {@link KarakuBaseDao}. Ver el archivo
- * WhereTest.SQL
+ * Test de integración de {@link Where} del {@link KarakuBaseDao}. Ver el
+ * archivo WhereTest.SQL
  * 
  * @author Arturo Volpe
  * @since 2.2
@@ -213,6 +215,17 @@ public class WhereTest extends BaseTestWithDatabase {
 		te = dao.getAll(where, null).get(0);
 		assertTrue(Hibernate.isInitialized(te.getTestChild().getGrandChilds()));
 
+	}
+
+	@Test
+	public void testGetClone() {
+
+		Where<TestEntity> where = new Where<TestEntity>();
+		where.addClause(Clauses.eq("1", "a"));
+		Where<TestEntity> where2 = where.getClone();
+		where2.addClause(Clauses.eq("2", "b"));
+		assertFalse(where == where2);
+		assertNotEquals(where.getClauses().size(), where2.getClauses().size());
 	}
 
 	/**

@@ -286,4 +286,23 @@ public class Where<T> {
 		}
 		return toRet;
 	}
+
+	public Where<T> getClone() {
+
+		Where<T> clon = get();
+		clon.clauses = cloneList(clauses);
+		clon.criterions = cloneList(criterions);
+		clon.distinct = distinct;
+		clon.example = example;
+		clon.fetchJoin = cloneList(fetchJoin);
+		return clon;
+	}
+
+	private <Z> List<Z> cloneList(List<Z> list) {
+
+		if (list == null) {
+			return Collections.emptyList();
+		}
+		return new ArrayList<Z>(list);
+	}
 }
