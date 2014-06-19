@@ -97,8 +97,9 @@ public class ControllerHelper {
 	public void createGlobalFacesMessage(final Severity severity,
 			@Nonnull final String summary, @Nonnull final String detail) {
 
-		createGlobalSimpleMessage(severity, getStringNotNullNotEmpty(summary),
-				getStringNotNullNotEmpty(detail));
+		createGlobalSimpleMessage(severity, getString(notNull(summary)),
+				getString(notNull(detail)));
+
 	}
 
 	/**
@@ -612,21 +613,5 @@ public class ControllerHelper {
 	protected FacesContext getContext() {
 
 		return FacesContext.getCurrentInstance();
-	}
-
-	/**
-	 * Verifica si un String es válida retornando su correspondiente valor
-	 * internacionalizado, en caso contrario, retorna null.
-	 * 
-	 * @param string
-	 * @return
-	 */
-	private String getStringNotNullNotEmpty(String string) {
-
-		if (StringUtils.isValid(string)) {
-			return getString(string);
-		}
-
-		return null;
 	}
 }

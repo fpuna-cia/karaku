@@ -153,15 +153,15 @@ public abstract class KarakuBaseMainController<T, K extends Serializable>
 		try {
 			setBean(create(getBean()));
 			reloadEntities();
-			helper.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
-					"BASE_ABM_CREATE_SUCCESS");
+			helper.createGlobalFacesMessageSimple(FacesMessage.SEVERITY_INFO,
+					getMessageCreateSuccess());
 
 			return SUCCESS;
 		} catch (Exception e) {
 			if (!handleException(helper.convertException(e, getClazz()))) {
 				log.warn("doCreate failed", e);
 				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						"BASE_ABM_CREATE_FAILURE", e.getMessage());
+						getMessageCreateFailure(), e.getMessage());
 			}
 			return FAILURE;
 		}
@@ -174,14 +174,14 @@ public abstract class KarakuBaseMainController<T, K extends Serializable>
 		try {
 			edit(getBean());
 			reloadEntities();
-			this.createGlobalFacesMessage(FacesMessage.SEVERITY_INFO, "",
-					"BASE_ABM_EDIT_SUCCESS");
+			helper.createGlobalFacesMessageSimple(FacesMessage.SEVERITY_INFO,
+					getMessageEditSuccess());
 			return SUCCESS;
 		} catch (Exception e) {
 			if (!handleException(helper.convertException(e, getClazz()))) {
 				log.warn("doCreate failed", e);
 				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						"BASE_ABM_EDIT_FAILURE", e.getMessage());
+						getMessageEditFailure(), e.getMessage());
 			}
 			return FAILURE;
 		}

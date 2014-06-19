@@ -172,7 +172,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 			if (!handleException(helper.convertException(e, getClazz()))) {
 				log.warn("doCreate failed", e);
 				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						DELETE_FAILURE);
+						getMessageDeleteFailure(), e.getMessage());
 			}
 			return "";
 		}
@@ -222,7 +222,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 			if (!handleException(helper.convertException(e, getClazz()))) {
 				log.warn("doEdit failed", e);
 				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						EDIT_FAILURE, e.getMessage());
+						getMessageEditFailure(), e.getMessage());
 			}
 			return "";
 		}
@@ -356,7 +356,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 			if (!handleException(helper.convertException(e, getClazz()))) {
 				log.warn("doCreate failed", e);
 				helper.createGlobalFacesMessage(FacesMessage.SEVERITY_WARN,
-						CREATE_FAILURE, e.getMessage());
+						getMessageCreateFailure(), e.getMessage());
 			}
 			return "";
 		}
