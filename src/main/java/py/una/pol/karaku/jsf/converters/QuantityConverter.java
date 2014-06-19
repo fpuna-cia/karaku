@@ -23,14 +23,17 @@
 package py.una.pol.karaku.jsf.converters;
 
 import java.text.ParseException;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import py.una.pol.karaku.math.Quantity;
 import py.una.pol.karaku.util.FormatProvider;
+import py.una.pol.karaku.util.I18nHelper;
 import py.una.pol.karaku.util.StringUtils;
 import py.una.pol.karaku.util.Util;
 
@@ -46,6 +49,7 @@ import py.una.pol.karaku.util.Util;
 @FacesConverter(forClass = Quantity.class)
 public class QuantityConverter implements Converter {
 
+	private static final String CONVERTER_EXCEPTION_MESSEGE = "CONVERTER_EXCEPTION_MESSEGE";
 	private static final Logger LOG = LoggerFactory
 			.getLogger(QuantityConverter.class);
 
@@ -60,7 +64,11 @@ public class QuantityConverter implements Converter {
 			return getFormatProvider(context).parseQuantity(value);
 		} catch (ParseException e) {
 			LOG.trace("Can't parse quantity: ", value, e);
-			return null;
+			throw new ConverterException(new FacesMessage(
+					I18nHelper.getMessage(CONVERTER_EXCEPTION_MESSEGE)), e);
+		} catch (Exception e) {
+			throw new ConverterException(new FacesMessage(
+					I18nHelper.getMessage(CONVERTER_EXCEPTION_MESSEGE)), e);
 		}
 	}
 
