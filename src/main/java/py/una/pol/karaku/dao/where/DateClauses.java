@@ -309,14 +309,14 @@ public final class DateClauses {
 
 	private Clause doLt(@Nonnull String path, @Nonnull Date date) {
 
-		Date end = this.setTimeToEnd(date);
+		Date end = this.setTimeToBegin(date);
 		end = this.nextInstant(end);
 		return Clauses.lt(path, end);
 	}
 
 	private Clause doLe(@Nonnull String path, @Nonnull Date date) {
 
-		Date begin = this.setTimeToBegin(date);
+		Date begin = this.setTimeToEnd(date);
 		return Clauses.le(path, begin);
 	}
 
@@ -385,7 +385,7 @@ public final class DateClauses {
 	@Nonnull
 	private Date addMinute(@Nonnull Date date, int minutes) {
 
-		date.setTime(date.getTime() + (MILISECOND_SECOND * minutes));
+		date.setTime(date.getTime() + MILISECOND_SECOND * minutes);
 		return date;
 	}
 
