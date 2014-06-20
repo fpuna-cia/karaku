@@ -53,6 +53,13 @@ public final class ValidationMessages {
 	 */
 	public static final String ONLY_STRING = "{ONLY_STRING}";
 
+	/**
+	 * Mensaje para definir que solo se admiten cadenas especiales.
+	 * 
+	 * @see ValidationConstants#ALPHANUMERIC_SPE
+	 */
+	public static final String ALPHANUMERIC_SPE = "{ALPHANUMERIC_SPE}";
+
 	private ValidationMessages() {
 
 	}
