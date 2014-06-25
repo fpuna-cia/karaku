@@ -25,8 +25,10 @@ package py.una.pol.karaku.jsf.components;
 import java.util.Collection;
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UINamingContainer;
-import javax.faces.event.AjaxBehaviorEvent;
 import org.richfaces.component.UIExtendedDataTable;
+import py.una.pol.karaku.dynamic.forms.PickerField;
+import py.una.pol.karaku.jsf.utils.JSFUtils;
+import py.una.pol.karaku.util.ListHelper;
 
 /**
  * 
@@ -38,26 +40,20 @@ import org.richfaces.component.UIExtendedDataTable;
 @FacesComponent(value = "pickerButton")
 public class PickerButton extends UINamingContainer {
 
-	private static final String SELECTION_KEY = "selection";
-	private static final String SELECTED_KEY = "selected";
-
 	public Object getSelectedItem() {
 
-		return get(SELECTED_KEY);
-	}
+		UIExtendedDataTable dt = (UIExtendedDataTable) JSFUtils.find(
+				getPicker().getDataTableID(), this);
+		Collection<?> col = dt.getSelection();
 
-	public void setSelectedItem(Object selected) {
+		if (!ListHelper.hasElements(col)) {
+			return null;
 
-		put(SELECTED_KEY, selected);
-	}
+		}
+		Object selected = col.iterator().next();
 
-	/**
-	 * @return currentSelection
-	 */
-	@SuppressWarnings("unchecked")
-	public Collection<Object> getCurrentSelection() {
-
-		return (Collection<Object>) get(SELECTION_KEY);
+		dt.setRowKey(selected);
+		return dt.getRowData();
 	}
 
 	public Object get(String key) {
@@ -70,37 +66,14 @@ public class PickerButton extends UINamingContainer {
 		getStateHelper().put(key, object);
 	}
 
-	/**
-	 * @param currentSelection
-	 *            currentSelection para setear
-	 */
-	public void setCurrentSelection(Collection<Object> currentSelection) {
+	public void aceptarClicked() {
 
-		put(SELECTION_KEY, currentSelection);
+		getPicker().changeValueListener(getSelectedItem());
 	}
 
-	public boolean getSelectDisable() {
+	private PickerField<?> getPicker() {
 
-		return getCurrentSelection() == null;
+		return (PickerField<?>) getAttributes().get("pickerField");
 	}
 
-	public void selectionListener(AjaxBehaviorEvent event) {
-
-		UIExtendedDataTable dataTable = (UIExtendedDataTable) event
-				.getComponent();
-
-		for (Object selectionKey : getCurrentSelection()) {
-			dataTable.setRowKey(selectionKey);
-			if (dataTable.isRowAvailable()) {
-				setSelectedItem(dataTable.getRowData());
-
-			}
-		}
-	}
-
-	public void clear() {
-
-		setCurrentSelection(null);
-		setSelectedItem(null);
-	}
 }

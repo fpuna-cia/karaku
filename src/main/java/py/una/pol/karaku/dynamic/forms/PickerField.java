@@ -510,13 +510,14 @@ public class PickerField<T> extends LabelField {
 	 * {@link ValueChangeListener#onChange(Field, Object)} cuando existe un
 	 * cambio en el valor asociado al {@link PickerField}
 	 **/
-	public void changeValueListener(T value) {
+	@SuppressWarnings("unchecked")
+	public void changeValueListener(Object value) {
 
-		setValue(value);
+		setValue((T) value);
 		if (valueChangeListener == null) {
 			return;
 		}
-		valueChangeListener.onChange(this, getValue());
+		valueChangeListener.onChange(this, (T) value);
 	}
 
 	/**
