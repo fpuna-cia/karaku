@@ -114,7 +114,6 @@ public class Column {
 		this.field = field;
 		this.nameField = field;
 		this.width = width;
-		this.align = HorizontalAlign.LEFT;
 	}
 
 	/**
@@ -179,7 +178,6 @@ public class Column {
 		this.field = field;
 		this.nameField = field;
 		this.width = DEFAULT_WIDTH;
-		this.align = HorizontalAlign.LEFT;
 	}
 
 	/**
@@ -196,7 +194,6 @@ public class Column {
 		this.field = field;
 		this.nameField = field;
 		this.width = DEFAULT_WIDTH;
-		this.align = HorizontalAlign.LEFT;
 	}
 
 	/**
@@ -219,7 +216,6 @@ public class Column {
 		this.field = field;
 		this.nameField = nameField;
 		this.width = width;
-		this.align = HorizontalAlign.LEFT;
 	}
 
 	public String getTitle() {

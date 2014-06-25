@@ -578,7 +578,7 @@ public final class DynamicUtils {
 					structReport.addColumn(column.getTitle(),
 							column.getField(), field.getType().getName(),
 							getWidthColumn(column, field),
-							this.getStyleColumn(field));
+							this.getStyleColumn(column, field));
 				}
 
 			} catch (ClassNotFoundException e) {
@@ -654,15 +654,25 @@ public final class DynamicUtils {
 	/**
 	 * Construye el estilo de la columna del reporte
 	 * 
+	 * @param column
+	 *            Columna del reporte
 	 * @param field
+	 *            Field asociado a la columna
 	 * @return
 	 */
-	private Style getStyleColumn(Field field) {
+	private Style getStyleColumn(Column column, Field field) {
 
 		Style style = this.getStyleColumnDetail();
-
-		style.setPattern(getPattern(field));
-		style.setHorizontalAlign(getAlignColumn(field));
+		if (column.getPattern() == null) {
+			style.setPattern(getPattern(field));
+		} else {
+			style.setPattern(column.getPattern());
+		}
+		if (column.getAlign() == null) {
+			style.setHorizontalAlign(getAlignColumn(field));
+		} else {
+			style.setHorizontalAlign(column.getAlign());
+		}
 		return style;
 	}
 
