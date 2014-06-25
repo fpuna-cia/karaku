@@ -151,6 +151,9 @@ public final class ValidationConstants {
 	public static final String ALPHANUMERIC_HYPHEN = "[a-zA-Z0-9ñÑ" + GRAVE
 			+ " \\-]*";
 
+	public static final String ALPHANUMERIC_HYPHEN_NOT_NUMERIC = "[a-zA-ZñÑ"
+			+ GRAVE + " \\-]*";
+
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
 	 * minúsculas además de dígitos y caracteres especiales como por ejemplo [
