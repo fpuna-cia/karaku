@@ -40,6 +40,7 @@ public final class ValidationConstants {
 
 	private static final String SPANISH_LETTERS = "[a-zA-ZñÑ";
 	private static final String SPANISH_LETTERS_WITH_SINGLE_QUOTE = "[a-zA-Z'ñÑ";
+	private static final String HYPHEN = "\\-";
 	private static final String END = " ]*";
 
 	private static final String LC_GRAVE = "áéíóú";
@@ -149,10 +150,10 @@ public final class ValidationConstants {
 	 * minúsculas además de dígitos, espacio en blanco y guiones medios.
 	 */
 	public static final String ALPHANUMERIC_HYPHEN = "[a-zA-Z0-9ñÑ" + GRAVE
-			+ " \\-]*";
+			+ HYPHEN + END;
 
-	public static final String ALPHANUMERIC_HYPHEN_NOT_NUMERIC = "[a-zA-ZñÑ"
-			+ GRAVE + " \\-]*";
+	public static final String ALPHANUMERIC_HYPHEN_NOT_NUMERIC = SPANISH_LETTERS 
+			+ GRAVE + HYPHEN + END;
 
 	/**
 	 * Expresión que admite caracteres del castellano tanto en mayúsculas o
