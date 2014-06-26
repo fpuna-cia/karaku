@@ -570,7 +570,7 @@ public final class DynamicUtils {
 				if (column.getField().contains(".")) {
 					structReport.addColumn(column.getTitle(),
 							column.getField(), Object.class.getName(),
-							column.getWidth());
+							column.getWidth(), getStyleColumn(column));
 				} else {
 					Field field = ReflectionUtils.findField(clazz,
 							column.getNameField());
