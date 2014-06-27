@@ -28,14 +28,18 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
+import py.una.pol.karaku.dao.entity.annotations.Time;
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.math.Quantity;
 import py.una.pol.karaku.reports.KarakuReportBlockSign.Sign;
 import py.una.pol.karaku.reports.KarakuReportDetails.Detail;
+import py.una.pol.karaku.util.FormatProvider;
 import py.una.pol.karaku.util.I18nHelper;
 import ar.com.fdvs.dj.core.DJConstants;
 import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
@@ -63,6 +67,9 @@ import ar.com.fdvs.dj.domain.entities.columns.AbstractColumn;
 @Component
 public final class DynamicUtils {
 
+	private static final int BIG = 12;
+	private static final int WIDTH_SEPARATOR = 10;
+	private static final int WIDTH_DATE = 10;
 	/**
 	 * Ubicacion del template base dentro de la aplicacion.
 	 */
@@ -72,8 +79,9 @@ public final class DynamicUtils {
 	private static final String FILE_LANDSCAPE_CRITERIA_LOCATION = "report/base/LandscapeWithCriteria.jrxml";
 	private static final String FILE_LANDSCAPE_LOCATION = "report/base/Landscape.jrxml";
 	private static final String NOT_DATA = "BASE_REPORT_NOT_DATA";
-	private static final int BIG = 12;
-	private static final int WIDTH_SEPARATOR = 10;
+
+	@Autowired
+	private FormatProvider fp;
 
 	/**
 	 * Crea una estructura de reporte configurada con las características
@@ -562,15 +570,15 @@ public final class DynamicUtils {
 				if (column.getField().contains(".")) {
 					structReport.addColumn(column.getTitle(),
 							column.getField(), Object.class.getName(),
-							column.getWidth());
+							column.getWidth(), getStyleColumn(column));
 				} else {
 					Field field = ReflectionUtils.findField(clazz,
 							column.getNameField());
 
 					structReport.addColumn(column.getTitle(),
 							column.getField(), field.getType().getName(),
-							column.getWidth(),
-							this.getStyleColumn(this.getAlignColumn(field)));
+							getWidthColumn(column, field),
+							this.getStyleColumn(column, field));
 				}
 
 			} catch (ClassNotFoundException e) {
@@ -594,8 +602,29 @@ public final class DynamicUtils {
 
 		if (Number.class.isAssignableFrom(field.getType())) {
 			return HorizontalAlign.RIGHT;
+		} else {
+			if (Date.class.isAssignableFrom(field.getType())) {
+				return HorizontalAlign.CENTER;
+			}
 		}
 		return HorizontalAlign.LEFT;
+	}
+
+	/**
+	 * Verifica si la columna es del tipo {@link Date} y coloca un ancho fijo a
+	 * la misma.
+	 * 
+	 * @param column
+	 * @param field
+	 * @return
+	 */
+	protected int getWidthColumn(Column column, Field field) {
+
+		if (Date.class.isAssignableFrom(field.getType())) {
+			return WIDTH_DATE;
+		} else {
+			return column.getWidth();
+		}
 	}
 
 	/**
@@ -620,6 +649,61 @@ public final class DynamicUtils {
 		Style style = this.getStyleColumnDetail();
 		style.setHorizontalAlign(align);
 		return style;
+	}
+
+	/**
+	 * Construye el estilo de la columna del reporte
+	 * 
+	 * @param column
+	 *            Columna del reporte
+	 * @param field
+	 *            Field asociado a la columna
+	 * @return
+	 */
+	private Style getStyleColumn(Column column, Field field) {
+
+		Style style = this.getStyleColumnDetail();
+		if (column.getPattern() == null) {
+			style.setPattern(getPattern(field));
+		} else {
+			style.setPattern(column.getPattern());
+		}
+		if (column.getAlign() == null) {
+			style.setHorizontalAlign(getAlignColumn(field));
+		} else {
+			style.setHorizontalAlign(column.getAlign());
+		}
+		return style;
+	}
+
+	/**
+	 * Verifica el pattern que se debe aplicar a la columna
+	 * 
+	 * <li>Si es del tipo {@link Date} se verifica el tipo que se encuentra
+	 * asociada a la anotacion {@link Time} para establecer el pattern a
+	 * utilizar.
+	 * 
+	 * @param field
+	 */
+	protected String getPattern(Field field) {
+
+		if (Date.class.isAssignableFrom(field.getType())) {
+			if (field.isAnnotationPresent(Time.class)) {
+				switch (field.getAnnotation(Time.class).type()) {
+					case DATE:
+						return fp.getDateFormat();
+					case DATETIME:
+						return fp.getDateTimeFormat();
+					case TIME:
+						return fp.getTimeFormat();
+					default:
+						break;
+				}
+			} else {
+				return fp.getDateFormat();
+			}
+		}
+		return null;
 	}
 
 	private Style getStyleColumn(HorizontalAlign align, String pattern) {

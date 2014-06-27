@@ -714,6 +714,11 @@ public class FormatProvider {
 		return DATETIME_FORMAT;
 	}
 
+	public String getTimeFormat() {
+
+		return TIME_FORMAT;
+	}
+
 	/**
 	 * Formato de las monedas.
 	 * 

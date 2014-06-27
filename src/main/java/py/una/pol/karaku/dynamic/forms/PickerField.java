@@ -42,6 +42,8 @@ import py.una.pol.karaku.util.LabelProvider.StringLabelProvider;
  */
 public class PickerField<T> extends LabelField {
 
+	private static final String COMPONENT_PICKER_INPUT_NOT_FOUND = "COMPONENT_PICKER_INPUT_NOT_FOUND";
+
 	public interface KeyListener {
 
 		boolean onBlur(Field source, AjaxBehaviorEvent event,
@@ -115,8 +117,9 @@ public class PickerField<T> extends LabelField {
 			// Tratar cuadno se selecciona un valor nulo
 			if (!bool) {
 				getValueExpression().setValue(fc.getELContext(), null);
-				createFacesMessage(FacesMessage.SEVERITY_WARN, "",
-						"COMPONENT_PICKER_INPUT_NOT_FOUND");
+				createFacesMessage(FacesMessage.SEVERITY_WARN,
+						COMPONENT_PICKER_INPUT_NOT_FOUND,
+						COMPONENT_PICKER_INPUT_NOT_FOUND);
 			}
 		}
 
