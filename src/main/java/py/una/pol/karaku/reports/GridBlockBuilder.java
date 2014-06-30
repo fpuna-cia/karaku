@@ -135,6 +135,49 @@ public final class GridBlockBuilder {
 		return this;
 	}
 
+	/**
+	 * Agrega una columna con estilos específicos al reporte.
+	 * 
+	 * @param title
+	 *            Título de la columna
+	 * @param field
+	 *            Atributo con el cual se debe asociar la columna
+	 * @param align
+	 *            Alineación de la columna
+	 * @param pattern
+	 *            Pattern que se desea aplicar a la columna
+	 * @return
+	 */
+	public GridBlockBuilder addColumn(String title, String field,
+			HorizontalAlign align, String pattern) {
+
+		this.columns.add(new Column(getMessage(title), field, align, pattern));
+		return this;
+	}
+
+	/**
+	 * Agrega una columna con estilos específicos al reporte.
+	 * 
+	 * @param title
+	 *            Título de la columna
+	 * @param field
+	 *            Atributo con el cual se debe asociar la columna
+	 * @param width
+	 *            Ancho de la columna
+	 * @param align
+	 *            Alineación de la columna
+	 * @param pattern
+	 *            Pattern que se desea aplicar a la columna
+	 * @return
+	 */
+	public GridBlockBuilder addColumn(String title, String field, int width,
+			HorizontalAlign align, String pattern) {
+
+		this.columns.add(new Column(getMessage(title), field, width, align,
+				pattern));
+		return this;
+	}
+
 	public GridBlockBuilder addColumn(String title, boolean i18n, String field) {
 
 		if (i18n) {
