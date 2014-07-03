@@ -123,4 +123,23 @@ public class EncuestaPlantillaBloque extends BaseEntity implements Serializable 
 		this.tipoBloque = tipoBloque;
 	}
 
+	/**
+	 * Verifica si el tipo del bloque es GRILLA.
+	 * 
+	 * @return
+	 */
+	public boolean isGrilla() {
+
+		return "GRILLA".equals(getTipoBloque().getDescripcion());
+	}
+
+	/**
+	 * Verifica si el tipo del bloque es SIMPLE.
+	 * 
+	 * @return
+	 */
+	public boolean isSimple() {
+
+		return "SIMPLE".equals(getTipoBloque().getDescripcion());
+	}
 }
