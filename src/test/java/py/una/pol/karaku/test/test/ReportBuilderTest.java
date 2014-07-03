@@ -40,6 +40,7 @@ import py.una.pol.karaku.reports.KarakuReportBlockGrid;
 import py.una.pol.karaku.test.base.BaseTest;
 import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 import py.una.pol.karaku.test.util.TestI18nHelper;
+import py.una.pol.karaku.util.ListHelper;
 import py.una.pol.karaku.util.ReportBuilder;
 
 /**
@@ -68,37 +69,48 @@ public class ReportBuilderTest extends BaseTest {
 	}
 
 	@Test
-	public void testSetMaster() {
+	public void testMasterDetail() {
 
 		ReportBuilder builder = new ReportBuilder("TITLE", "pdf");
 		builder.setMaster(getBlockField());
-
-		assertEquals("Ficha Médica", builder.getParams().get("titleReport"));
-		assertNotNull(builder.getMaster());
-		assertEquals("Datos del paciente", builder.getMaster().getTitle());
-
-	}
-
-	@Test
-	public void testAddDetail() {
-
-		ReportBuilder builder = new ReportBuilder("TITLE", "pdf");
-
-		builder.addDetail(getBlockGrid());
-		builder.addDetail(getBlockGrid());
-
-		assertEquals(2, builder.getDetails().size());
-		assertEquals("Teléfonos", builder.getDetails().get(0).getTitle());
-	}
-
-	@Test
-	public void testGetBlocks() {
-
-		ReportBuilder builder = new ReportBuilder("TITLE", "pdf");
-		builder.setMaster(getBlockField());
-		builder.addDetail(getBlockGrid());
+		KarakuReportBlockGrid detalle1 = getBlockGrid();
+		detalle1.setTitle("PRIMERO");
+		KarakuReportBlockGrid detalle2 = getBlockGrid();
+		detalle2.setTitle("SEGUNDO");
+		builder.addDetail(detalle1);
+		builder.addDetail(detalle2);
 
 		List<KarakuReportBlock> blocks = builder.getBlocksMasterDetail();
+
+		assertEquals(3, blocks.size());
+		assertEquals("Ficha Médica", builder.getParams().get("titleReport"));
+		assertNotNull(builder.getMaster());
+		assertEquals(2, builder.getDetails().size());
+		assertEquals("Datos del paciente", blocks.get(0).getTitle());
+		assertEquals("PRIMERO", blocks.get(1).getTitle());
+		assertEquals("SEGUNDO", blocks.get(2).getTitle());
+	}
+
+	@Test
+	public void testBlocks() {
+
+		ReportBuilder builder = new ReportBuilder("TITLE", "pdf");
+		builder.addBlock(getBlockField());
+		builder.addBlock(getBlockGrid());
+
+		List<KarakuReportBlock> blocks = builder.getBlocks();
+
+		assertEquals(2, blocks.size());
+
+	}
+
+	@Test
+	public void testBlocksAll() {
+
+		ReportBuilder builder = new ReportBuilder("TITLE", "pdf");
+		builder.addBlocks(ListHelper.getAsList(getBlockField(), getBlockGrid()));
+
+		List<KarakuReportBlock> blocks = builder.getBlocks();
 
 		assertEquals(2, blocks.size());
 

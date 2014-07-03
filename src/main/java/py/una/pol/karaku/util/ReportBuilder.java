@@ -61,6 +61,17 @@ public final class ReportBuilder {
 	}
 
 	/**
+	 * Constructor por defecto
+	 */
+	public ReportBuilder() {
+
+		this.params = new HashMap<String, Object>();
+		// Agrega el título del reporte en la los parámetros.
+		this.sectionCriteria = false;
+		this.setAlign(Align.VERTICAL);
+	}
+
+	/**
 	 * @param block
 	 *            Representa la cabecera de un reporte cabecera-detalle
 	 */
@@ -95,6 +106,21 @@ public final class ReportBuilder {
 	public ReportBuilder addBlock(KarakuReportBlock block) {
 
 		return this.addDetail(block);
+	}
+
+	/**
+	 * Agrega una lista de bloques al reporte.
+	 * 
+	 * @param blocks
+	 *            bloques que se desean agregar al reporte
+	 * @return Reporte con los bloques agregados.
+	 */
+	public ReportBuilder addBlocks(List<KarakuReportBlock> blocks) {
+
+		for (KarakuReportBlock block : blocks) {
+			addDetail(block);
+		}
+		return this;
 	}
 
 	public List<KarakuReportBlock> getDetails() {
