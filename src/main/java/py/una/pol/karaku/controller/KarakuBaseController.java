@@ -129,6 +129,7 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 	public void clearFilters() {
 
 		this.log.info("Clear Filters called");
+		this.mode = Mode.LIST;
 		this.setExample(null);
 		this.setFilterValue("");
 		this.setFilterOption("");
