@@ -32,17 +32,20 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.envers.Audited;
 import py.una.pol.karaku.domain.BaseEntity;
+import py.una.pol.karaku.util.ValidationConstants;
 
 /**
- *
- *
+ * 
+ * 
  * @author Nathalia Ochoa
+ * @author Arsenio Ferreira
  * @since 1.0
- * @version 1.0 29/05/2013
- *
+ * @version 1.1 25/06/2014
+ * 
  */
 @Entity
 @Audited
@@ -68,12 +71,18 @@ public class EncuestaPlantilla extends BaseEntity implements Serializable {
 	@Size(min = 2, max = 2, message = "{LENGTH}")
 	private String activo;
 
+	@NotNull
+	@Size(max = 100, message = "{LENGTH_MAX}")
+	@Pattern(regexp = ValidationConstants.WORDS_SPE, message = "{FORMAT_CAPITALIZED}")
+	private String descripcion;
+
 	@Override
 	public Long getId() {
 
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 
 		this.id = id;
@@ -113,6 +122,16 @@ public class EncuestaPlantilla extends BaseEntity implements Serializable {
 	public void setActivo(String activo) {
 
 		this.activo = activo;
+	}
+
+	public String getDescripcion() {
+
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+
+		this.descripcion = descripcion;
 	}
 
 }
