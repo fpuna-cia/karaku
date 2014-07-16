@@ -244,6 +244,22 @@ public class ControllerHelper {
 	}
 
 	/**
+	 * Agrega un mensaje con severidad <b>info</b> e internacionalizado.
+	 * 
+	 * @param summary
+	 *            cadena del archivo de internacionalización del sumario del
+	 *            mensaje
+	 * @param params
+	 *            parametros del mensaje.
+	 */
+	public void addWarnMessage(@Nonnull final String summary,
+			final Object ... params) {
+
+		addMessage(FacesMessage.SEVERITY_WARN,
+				i18nHelper.getString(summary, params), null, null);
+	}
+
+	/**
 	 * Agrega un mensaje con severidad warn a un componente.
 	 * 
 	 * @see I18nHelper#getString(String, Object...)
