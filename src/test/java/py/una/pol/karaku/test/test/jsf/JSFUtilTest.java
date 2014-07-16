@@ -26,6 +26,9 @@ import static org.junit.Assert.assertEquals;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputLabel;
+import javax.faces.component.html.HtmlPanelGroup;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -73,5 +76,47 @@ public class JSFUtilTest extends BaseTest {
 	public void parseWrongDate() throws ParseException {
 
 		this.jsfUtils.asDate("Tue Nov 22 00:00:00 XXX 2011");
+	}
+	
+	@Test
+	public void testFindOneLevel() throws Exception {
+
+		HtmlPanelGroup root = new HtmlPanelGroup();
+		root.setId("root");
+		
+		HtmlOutputLabel label = new HtmlOutputLabel();
+		label.setId("label1");
+		
+		HtmlOutputLabel sinId = new HtmlOutputLabel();
+
+		root.getChildren().add(sinId);
+		root.getChildren().add(label);
+		root.getChildren().add(new HtmlInputText());
+		
+		assertEquals(label, JSFUtils.find("label1", root));
+		
+		
+	}
+	@Test
+	public void testFindTwoLevels() throws Exception {
+
+		HtmlPanelGroup root = new HtmlPanelGroup();
+		root.setId("root");
+		
+		HtmlPanelGroup branch1 = new HtmlPanelGroup();
+
+		HtmlOutputLabel label = new HtmlOutputLabel();
+		label.setId("label1");
+		
+		HtmlOutputLabel sinId = new HtmlOutputLabel();
+
+		root.getChildren().add(branch1);
+		branch1.getChildren().add(sinId);
+		branch1.getChildren().add(label);
+		branch1.getChildren().add(new HtmlInputText());
+		
+		assertEquals(label, JSFUtils.find("label1", root));
+		
+		
 	}
 }

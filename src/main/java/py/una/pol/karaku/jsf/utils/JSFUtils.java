@@ -95,9 +95,6 @@ public class JSFUtils {
 		Iterator<UIComponent> it = uiComponent.getFacetsAndChildren();
 		while (it.hasNext()) {
 			UIComponent ui = it.next();
-			if (ui == null) {
-				continue;
-			}
 			if (id.equals(ui.getId())) {
 				return ui;
 			}
