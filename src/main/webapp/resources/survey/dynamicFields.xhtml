@@ -42,7 +42,7 @@
 							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
 							requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
 							required="#{cc.attrs.block.isRequiredField(cont)}" />
-						<rich:messages ajaxRendered="true"
+						<h:messages ajaxRendered="true"
 							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
 					</h:panelGrid>
 				</f:subview>
@@ -74,7 +74,7 @@
 								<a4j:param name="index" value="#{cont}" />
 							</h:inputText>
 						</h:panelGrid>
-						<rich:messages ajaxRendered="true"
+						<h:messages ajaxRendered="true"
 							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
 					</h:panelGrid>
 				</f:subview>
@@ -106,7 +106,7 @@
 								<a4j:param name="index" value="#{cont}" />
 							</h:inputText>
 						</h:panelGrid>
-						<rich:messages ajaxRendered="true"
+						<h:messages ajaxRendered="true"
 							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
 					</h:panelGrid>
 				</f:subview>
@@ -123,7 +123,7 @@
 								noSelectionOption="true" />
 							<f:selectItems value="#{cc.attrs.block.getAnswerOptions(cont)}" />
 						</h:selectOneMenu>
-						<rich:messages ajaxRendered="true"
+						<h:messages ajaxRendered="true"
 							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
 					</h:panelGrid>
 				</f:subview>
@@ -138,7 +138,7 @@
 							requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}"
 							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}">
 						</rich:calendar>
-						<rich:messages ajaxRendered="true"
+						<h:messages ajaxRendered="true"
 							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
 					</h:panelGrid>
 				</f:subview>
@@ -151,7 +151,7 @@
 							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
 							required="#{cc.attrs.block.isRequiredField(cont)}"
 							requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}" />
-						<rich:messages ajaxRendered="true"
+						<h:messages ajaxRendered="true"
 							for="#{cc.attrs.block.id}_#{cont}" styleClass="form_error" />
 					</h:panelGrid>
 				</f:subview>
