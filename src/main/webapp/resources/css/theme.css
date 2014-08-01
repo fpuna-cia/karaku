@@ -730,3 +730,11 @@ Css para los requeridos
 	color : #99B2B7 !important;
 	font-weight: bold !important;
 }
+
+
+/*
+	CSS para el panel de cargando
+*/
+.loading_pop_up {
+	text-align: center;
+}
