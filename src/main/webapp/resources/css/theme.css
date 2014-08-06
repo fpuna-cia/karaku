@@ -597,10 +597,20 @@ td.form_input select {
 }
 
 .rf-tab-hdr { /* rich:tabPanel header*/
-	background-color: inherit !important;
-	border: none !important;
+	background-color: #CCD8DB !important;
+	border-color: rgba(0, 0, 0, 0.4) !important;
 	color: black !important;
 	background-image: none !important;
+	-webkit-border-top-left-radius: 4px;
+	-moz-border-top-left-radius: 4px;
+	-o-border-top-left-radius: 4px;
+	-ms-border-top-left-radius: 4px;
+	border-top-left-radius: 4px;
+	-webkit-border-top-right-radius: 4px;
+	-moz-border-top-right-radius: 4px;
+	-o-border-top-right-radius: 4px;
+	-ms-border-top-right-radius: 4px;
+	border-top-right-radius: 4px;
 }
 
 .rf-tab-hdr-tabline-vis.rf-tab-hdr-tabline-top
@@ -610,7 +620,7 @@ td.form_input select {
 }
 
 .rf-tab-hdr-act /* rich:tabPanel active tab */ {
-	background: #99B2B7 !important;
+	background: #89A0A4 !important;
 	font-widht: normal !important;
 	border: 1px solid #99B2B7 !important;
 	border-bottom-width: 0px !important;
