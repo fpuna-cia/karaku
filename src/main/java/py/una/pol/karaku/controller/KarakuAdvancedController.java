@@ -27,7 +27,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.search.SearchHelper;
 import py.una.pol.karaku.exception.UniqueConstraintException;
@@ -366,8 +368,9 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 	 * {@inheritDoc}
 	 * <p>
 	 * Esta implementación captura las excepciones del tipo
-	 * {@link UniqueConstraintException} y intenta generar un mensaje de error
-	 * pertinente.
+	 * {@link UniqueConstraintException} y las excepciones del tipo
+	 * {@link DataIntegrityViolationException} y intenta generar un mensaje de
+	 * error pertinente.
 	 * </p>
 	 * 
 	 */
@@ -390,6 +393,27 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 			}
 			return true;
 
+		} else if (e instanceof DataIntegrityViolationException) {
+
+			// TODO: buscar una solucion mas generica para este caso, de
+			// identificar excepciones causadas por constraints de foreign keys
+
+			DataIntegrityViolationException integrityException = (DataIntegrityViolationException) e;
+
+			/* controlar que su causa sea del tipo constraintException */
+			if (integrityException.getCause() instanceof ConstraintViolationException) {
+
+				/* controlar que el constraint sea de fk */
+				ConstraintViolationException constraintException = (ConstraintViolationException) integrityException
+						.getCause();
+
+				if (constraintException.getConstraintName().startsWith("fk")) {
+					controllerHelper.createGlobalFacesMessage(
+							FacesMessage.SEVERITY_WARN,
+							"ENTITY_REQUIRED_DETAIL");
+					return true;
+				}
+			}
 		}
 		return false;
 	}
