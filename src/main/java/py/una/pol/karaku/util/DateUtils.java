@@ -211,4 +211,31 @@ public final class DateUtils {
 		return nuevo.getTime();
 	}
 
+	/**
+	 * Calcula la diferencia en años entre la fecha pasada como parámetro y la
+	 * fecha actual.
+	 * 
+	 * @param date
+	 *            Fecha
+	 * @return Diferencia en años
+	 */
+	public static int calculateYearsFromNow(Date date) {
+
+		int edad = 0;
+		if (date != null) {
+			Calendar fechaNacimiento = Calendar.getInstance();
+			fechaNacimiento.setTime(date);
+			Calendar fechaActual = Calendar.getInstance();
+
+			edad = fechaActual.get(Calendar.YEAR)
+					- fechaNacimiento.get(Calendar.YEAR);
+			if ((fechaNacimiento.get(Calendar.DAY_OF_YEAR) - fechaActual
+					.get(Calendar.DAY_OF_YEAR)) > 0) {
+				edad--;
+			}
+		}
+		return edad;
+
+	}
+
 }
