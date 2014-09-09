@@ -72,6 +72,11 @@ public class EncuestaPlantilla extends BaseEntity implements Serializable {
 	private String activo;
 
 	@NotNull
+	@Size(max = 30)
+	@Column(name = "key")
+	private String key;
+
+	@NotNull
 	@Size(max = 100, message = "{LENGTH_MAX}")
 	@Pattern(regexp = ValidationConstants.WORDS_SPE, message = "{FORMAT_CAPITALIZED}")
 	private String descripcion;
@@ -122,6 +127,23 @@ public class EncuestaPlantilla extends BaseEntity implements Serializable {
 	public void setActivo(String activo) {
 
 		this.activo = activo;
+	}
+
+	/**
+	 * @return key
+	 */
+	public String getKey() {
+
+		return key;
+	}
+
+	/**
+	 * @param key
+	 *            key para setear
+	 */
+	public void setKey(String key) {
+
+		this.key = key;
 	}
 
 	public String getDescripcion() {
