@@ -37,6 +37,10 @@ import javax.annotation.Nullable;
  */
 public final class DateUtils {
 
+	private static final String[] MESES = { "Enero", "Febrero", "Marzo",
+			"Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+			"Octubre", "Noviembre", "Diciembre" };
+
 	private DateUtils() {
 
 	}
@@ -235,7 +239,24 @@ public final class DateUtils {
 			}
 		}
 		return edad;
+	}
 
+	/**
+	 * Convierte de número a nombre del mes pasado como parametro
+	 * 
+	 * @param mes
+	 *            mes del cual se desea el nombre
+	 * 
+	 *            <li>Ejemplo: obtenerMesEnLetras(Calendar.JANUARY) = Enero
+	 */
+
+	public static String obtenerMesEnLetras(int mes) {
+
+		if (mes < 0 || mes > MESES.length - 1) {
+			return "";
+		}
+
+		return MESES[mes];
 	}
 
 }
