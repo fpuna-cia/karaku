@@ -239,8 +239,6 @@ public final class DynamicUtils {
 		FastReportBuilder structReport = this
 				.newInstanceWithCustomTemplate(templateFile);
 
-		// structReport.setAllowDetailSplit(false);
-
 		this.addBlocks(structReport, blocks);
 
 		return structReport.build();
