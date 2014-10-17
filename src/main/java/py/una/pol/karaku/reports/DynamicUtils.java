@@ -150,6 +150,13 @@ public final class DynamicUtils {
 
 	}
 
+	public FastReportBuilder newInstanceWithCustomTemplate(String path) {
+
+		FastReportBuilder structReport = this.newInstance();
+		this.setTemplate(path, structReport);
+		return structReport;
+	}
+
 	/**
 	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template
 	 * base (con la sección de criterios)para la configuracion general. Se
@@ -223,6 +230,21 @@ public final class DynamicUtils {
 		this.addBlocks(structReport, blocks);
 
 		return structReport.build();
+	}
+
+	public <T> DynamicReport buildReportBlock(boolean criteria,
+			List<KarakuReportBlock> blocks, String templateFile)
+			throws ReportException {
+
+		FastReportBuilder structReport = this
+				.newInstanceWithCustomTemplate(templateFile);
+
+		// structReport.setAllowDetailSplit(false);
+
+		this.addBlocks(structReport, blocks);
+
+		return structReport.build();
+
 	}
 
 	public <T> DynamicReport buidReportBlockGrid(

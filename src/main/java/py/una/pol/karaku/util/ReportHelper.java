@@ -109,6 +109,32 @@ public class ReportHelper {
 
 	}
 
+	public void generateReportBlocks(ReportBuilder reportBuilder,
+			String templateFilePath) {
+
+		try {
+			if (reportBuilder.getBlocks() == null) {
+				exportReport.blank(reportBuilder.isSectionCriteria(),
+						reportBuilder.getParams(), reportBuilder.getType(),
+						templateFilePath);
+			} else {
+				// Configuramos el dataSource de cada bloque en los parámetros
+				// del
+				// reporte.
+				Map<String, Object> params = setDataSources(
+						reportBuilder.getBlocks(), reportBuilder.getParams());
+
+				exportReport.exportReportBlock(reportBuilder.getAlign(),
+						reportBuilder.isSectionCriteria(),
+						reportBuilder.getBlocks(), params,
+						reportBuilder.getType(), templateFilePath);
+			}
+		} catch (ReportException e) {
+			log.warn("Can not create report master detail", e);
+		}
+
+	}
+
 	/**
 	 * Configura el dataSource para cada bloque del reporte.
 	 * 

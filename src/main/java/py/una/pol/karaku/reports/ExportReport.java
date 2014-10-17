@@ -143,6 +143,14 @@ public class ExportReport {
 
 	}
 
+	public void blank(boolean criteria, Map<String, Object> params,
+			String type, String path) throws ReportException {
+
+		exportAvancedReport(dynamicUtils.newInstanceWithCustomTemplate(path)
+				.build(), new DRDataSource(), params, type);
+
+	}
+
 	public void exportAvancedReport(HttpServletResponse httpServletResponse,
 			DynamicReport report, JRDataSource dataSource,
 			Map<String, Object> params, String type) throws ReportException {
@@ -423,6 +431,26 @@ public class ExportReport {
 		try {
 			jasperPrint = DynamicJasperHelper.generateJasperPrint(
 					dynamicUtils.buildReportBlock(align, criteria, blocks),
+					new ClassicLayoutManager(), new JREmptyDataSource(),
+					getDetailsReport(params));
+
+			generate(getServletResponse(), jasperPrint, params, type);
+
+		} catch (JRException e) {
+			throw new ReportException(e);
+		} catch (IOException e) {
+			throw new ReportException(e);
+		}
+	}
+
+	public <T> void exportReportBlock(Align align, boolean criteria,
+			List<KarakuReportBlock> blocks, Map<String, Object> params,
+			String type, String path) throws ReportException {
+
+		JasperPrint jasperPrint;
+		try {
+			jasperPrint = DynamicJasperHelper.generateJasperPrint(
+					dynamicUtils.buildReportBlock(criteria, blocks, path),
 					new ClassicLayoutManager(), new JREmptyDataSource(),
 					getDetailsReport(params));
 
