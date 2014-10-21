@@ -27,6 +27,7 @@
 	<composite:attribute name="withDeleteButton"
 		default="#{cc.attrs.controller.isDelete()}" />
 	<composite:attribute name="withCancelButton" default="true" />
+	<composite:facet name="bottomFields" required="false"/>
 </composite:interface>
 <composite:implementation
 	xmlns:survey="http://java.sun.com/jsf/composite/survey">
@@ -46,6 +47,7 @@
 						controller="#{cc.attrs.controller}" />
 				</c:if>
 			</c:forEach>
+			<composite:renderFacet name="bottomFields"/>
 		</h:panelGrid>
 
 		<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"
