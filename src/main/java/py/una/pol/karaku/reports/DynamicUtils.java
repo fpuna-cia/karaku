@@ -1033,9 +1033,9 @@ public final class DynamicUtils {
 
 		Style styleColumns = new Style();
 		styleColumns.setTransparent(false);
-		styleColumns.setBackgroundColor(Color.darkGray);
+		styleColumns.setBackgroundColor(Color.white);
 		styleColumns.setFont(Font.ARIAL_SMALL_BOLD);
-		styleColumns.setTextColor(Color.white);
+		styleColumns.setTextColor(Color.black);
 		styleColumns.setHorizontalAlign(HorizontalAlign.CENTER);
 		styleColumns.setVerticalAlign(VerticalAlign.MIDDLE);
 		return styleColumns;

@@ -26,8 +26,10 @@ package py.una.pol.karaku.reports;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
+
 import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -38,10 +40,13 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.JRTextExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+
 import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.security.AuthorityController;
 import py.una.pol.karaku.util.I18nHelper;
@@ -62,6 +67,7 @@ public class ExportReport {
 
 	private static final String EXPORT_TYPE_EXCEL = "xls";
 	private static final String EXPORT_TYPE_PDF = "pdf";
+	private static final String EXPORT_TYPE_TXT = "txt";
 	private static final String FILE_LOCATION = "report/";
 	private static final String FILE_LOCATION_TEMPLATE = "report/base/";
 	private static final String MEDIA_TYPE_EXCEL = "application/vnd.ms-excel";
@@ -713,6 +719,21 @@ public class ExportReport {
 						"attachment; filename=" + name);
 
 				JRPdfExporter exporter = new JRPdfExporter();
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT,
+						jasperPrint);
+				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
+						httpServletResponse.getOutputStream());
+
+				exporter.exportReport();
+
+			}
+			if (type.equalsIgnoreCase(EXPORT_TYPE_TXT)) {
+				httpServletResponse.setContentType(MEDIA_TYPE_TXT);
+				httpServletResponse.setHeader("Content-Disposition",
+						"attachment; filename=" + name + "."
+								+ EXPORT_TYPE_TXT);
+
+				JRTextExporter exporter = new JRTextExporter();
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT,
 						jasperPrint);
 				exporter.setParameter(JRExporterParameter.OUTPUT_STREAM,
