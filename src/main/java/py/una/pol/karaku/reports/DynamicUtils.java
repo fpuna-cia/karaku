@@ -1033,6 +1033,7 @@ public final class DynamicUtils {
 
 		Style styleColumns = new Style();
 		styleColumns.setTransparent(false);
+		styleColumns.setBorder(Border.THIN());
 		styleColumns.setBackgroundColor(Color.white);
 		styleColumns.setFont(Font.ARIAL_SMALL_BOLD);
 		styleColumns.setTextColor(Color.black);
