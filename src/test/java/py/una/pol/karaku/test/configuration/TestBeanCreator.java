@@ -31,7 +31,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 /**
  * Esta clase es la encargada de crear los beans de los tipos indicados en
- * {@link BaseTestConfiguration} 
+ * {@link BaseTestConfiguration}
  * 
  * 
  * @author Rainer Reyes
@@ -61,8 +61,6 @@ public class TestBeanCreator implements BeanFactoryPostProcessor {
 				String beanName = getName(clazz);
 				if (bf.containsBeanDefinition(beanName))
 					continue;
-
-				System.out.println("Registrando con nombre " + getName(clazz));
 				BeanDefinition bd = BeanDefinitionBuilder.rootBeanDefinition(
 						clazz).getBeanDefinition();
 				bf.registerBeanDefinition(beanName, bd);

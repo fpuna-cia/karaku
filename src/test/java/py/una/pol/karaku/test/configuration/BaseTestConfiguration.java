@@ -45,7 +45,6 @@ import py.una.pol.karaku.util.I18nHelper;
 @Configuration
 @Profile(BaseTestConfiguration.TEST_PROFILE)
 public class BaseTestConfiguration {
-
 	/**
 	 * Ubicacion del archivo de configuraciones
 	 */
@@ -98,7 +97,7 @@ public class BaseTestConfiguration {
 
 	/**
 	 * 
-	 * Bean encargado de crear los bean. Sobreescribir el método {@link
+	 * Bean encargado de crear los bean. Sobreescribir el mï¿½todo {@link
 	 * BaseTestConfiguration.getClasses()}
 	 * 
 	 * @return
