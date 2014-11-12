@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
+
 import py.una.pol.karaku.log.LogPostProcessor;
 import py.una.pol.karaku.math.MathContextProvider;
 import py.una.pol.karaku.services.util.NumberAdapter;
@@ -95,4 +96,26 @@ public class BaseTestConfiguration {
 		return new TestI18nHelper();
 	}
 
+	/**
+	 * 
+	 * Bean encargado de crear los bean. Sobreescribir el método {@link
+	 * BaseTestConfiguration.getClasses()}
+	 * 
+	 * @return
+	 */
+	@Bean
+	TestBeanCreator creator() {
+
+		System.out.println(getCreateBeanClasses());
+		return new TestBeanCreator(this);
+	}
+
+	/**
+	 * 
+	 * 
+	 * @return clases lista de clases las cuales son beans y deben ser creados
+	 */
+	public Class<?>[] getCreateBeanClasses() {
+		return null;
+	};
 }
