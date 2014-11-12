@@ -72,6 +72,7 @@ public class ExportReport {
 	private static final String FILE_LOCATION_TEMPLATE = "report/base/";
 	private static final String MEDIA_TYPE_EXCEL = "application/vnd.ms-excel";
 	private static final String MEDIA_TYPE_PDF = "application/pdf";
+	private static final String MEDIA_TYPE_TXT = "application/text";
 
 	@Autowired(required = false)
 	private Util util;
