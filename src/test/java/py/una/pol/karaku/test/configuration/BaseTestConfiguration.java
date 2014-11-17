@@ -22,11 +22,15 @@
  */
 package py.una.pol.karaku.test.configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.support.SimpleThreadScope;
 import org.springframework.core.io.ClassPathResource;
-
+import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
 import py.una.pol.karaku.log.LogPostProcessor;
 import py.una.pol.karaku.math.MathContextProvider;
 import py.una.pol.karaku.services.util.NumberAdapter;
@@ -45,6 +49,7 @@ import py.una.pol.karaku.util.I18nHelper;
 @Configuration
 @Profile(BaseTestConfiguration.TEST_PROFILE)
 public class BaseTestConfiguration {
+
 	/**
 	 * Ubicacion del archivo de configuraciones
 	 */
@@ -115,6 +120,20 @@ public class BaseTestConfiguration {
 	 * @return clases lista de clases las cuales son beans y deben ser creados
 	 */
 	public Class<?>[] getCreateBeanClasses() {
+
 		return null;
 	};
+
+	@Bean
+	public CustomScopeConfigurer configurer() {
+
+		CustomScopeConfigurer toRet = new CustomScopeConfigurer();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(KarakuBaseConfiguration.SCOPE_CONVERSATION,
+				new SimpleThreadScope());
+		map.put(KarakuBaseConfiguration.SCOPE_CONVERSATION_MANUAL,
+				new SimpleThreadScope());
+		toRet.setScopes(map);
+		return toRet;
+	}
 }
