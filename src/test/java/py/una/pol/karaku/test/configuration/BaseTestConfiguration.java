@@ -110,8 +110,7 @@ public class BaseTestConfiguration {
 	@Bean
 	TestBeanCreator creator() {
 
-		System.out.println(getCreateBeanClasses());
-		return new TestBeanCreator(this);
+		return new TestBeanCreator(getCreateBeanClasses());
 	}
 
 	/**
@@ -121,7 +120,15 @@ public class BaseTestConfiguration {
 	 */
 	public Class<?>[] getCreateBeanClasses() {
 
-		return null;
+		Class<?>[] classes;
+		if (getClass().getSuperclass().isAnnotationPresent(
+				ClassesToCreate.class)) {
+			classes = getClass().getSuperclass()
+					.getAnnotation(ClassesToCreate.class).value();
+		} else {
+			classes = new Class<?>[0];
+		}
+		return classes;
 	};
 
 	@Bean

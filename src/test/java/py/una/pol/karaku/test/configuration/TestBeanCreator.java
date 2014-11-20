@@ -44,8 +44,9 @@ public class TestBeanCreator implements BeanFactoryPostProcessor {
 
 	Class<?>[] classes;
 
-	public TestBeanCreator(BaseTestConfiguration base) {
-		this.classes = base.getCreateBeanClasses();
+	public TestBeanCreator(Class<?>[] classes) {
+
+            this.classes = classes;
 	}
 
 	@Override
