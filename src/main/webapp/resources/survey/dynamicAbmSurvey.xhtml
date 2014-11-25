@@ -31,7 +31,7 @@
 </composite:interface>
 <composite:implementation
 	xmlns:survey="http://java.sun.com/jsf/composite/survey">
-	<rich:panel header="#{cc.attrs.headerTitle}" switchType="client"
+	<rich:collapsiblePanel header="#{cc.attrs.headerTitle}" switchType="client"
 		style="text-align:left;">
 
 		<h:panelGrid id="#{cc.attrs.idSurvey}">
@@ -63,6 +63,6 @@
 			action="#{cc.attrs.controller.doCancel()}" immediate="true"
 			rendered="#{cc.attrs.withCancelButton}" />
 
-	</rich:panel>
+	</rich:collapsiblePanel>
 </composite:implementation>
 </html>
