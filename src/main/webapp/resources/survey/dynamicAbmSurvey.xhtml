@@ -38,7 +38,7 @@
 			<c:forEach items="#{cc.attrs.controller.blocks}" var="block">
 				<c:if
 					test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyDataTable'}">
-					<rich:collapsiblePanel header="#{cc.attrs.headerTitle}" switchType="client"
+					<rich:collapsiblePanel header="#{block}" switchType="client"
 		style="text-align:left;">
 					<survey:dynamicDataTable controller="#{cc.attrs.controller}"
 						block="#{block}" idBlock="#{block.id}" />
@@ -46,7 +46,7 @@
 				</c:if>
 				<c:if
 					test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyFields'}">
-					<rich:collapsiblePanel header="#{cc.attrs.headerTitle}" switchType="client"
+					<rich:collapsiblePanel header="#{block}" switchType="client"
 		style="text-align:left;">
 					<survey:dynamicFields block="#{block}" idBlock="#{block.id}"
 						controller="#{cc.attrs.controller}" />
