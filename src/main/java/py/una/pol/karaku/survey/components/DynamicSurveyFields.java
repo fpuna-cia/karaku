@@ -134,6 +134,9 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 				fields[i].setField(DynamicSurveyField
 						.fieldFactory(getQuestions().get(i)));
+				if (getQuestions().get(i).isObligatoria() == true) {
+					setExpadir(true);
+				}
 			}
 		}
 		return fields;
@@ -162,7 +165,6 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	 */
 	public Boolean isRequiredField(int index) {
 
-		this.setExpadir(true);
 		return getQuestions().get(index).isObligatoria();
 	}
 
