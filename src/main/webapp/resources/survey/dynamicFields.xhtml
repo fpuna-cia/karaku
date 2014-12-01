@@ -25,7 +25,9 @@
 	<composite:attribute name="width" default="620px" />
 </composite:interface>
 <composite:implementation>
-	<rich:collapsiblePanel expanded="false" switchType="client" header="#{cc.attrs.block.title}" id="#{cc.attrs.idBlock}">
+	<rich:collapsiblePanel expanded="#{cc.attrs.block.isExpandir}" 
+	switchType="client" header="#{cc.attrs.block.title}" 
+	id="#{cc.attrs.idBlock}">
 		<h:panelGrid columns="3"
 			columnClasses="form_label,form_label, form_input">
 			<c:set value="#{0}" var="cont" />
