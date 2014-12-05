@@ -24,12 +24,15 @@ package py.una.pol.karaku.test.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.SimpleThreadScope;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.context.WebApplicationContext;
+
 import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
 import py.una.pol.karaku.log.LogPostProcessor;
 import py.una.pol.karaku.math.MathContextProvider;
@@ -132,6 +135,8 @@ public class BaseTestConfiguration {
 		map.put(KarakuBaseConfiguration.SCOPE_CONVERSATION,
 				new SimpleThreadScope());
 		map.put(KarakuBaseConfiguration.SCOPE_CONVERSATION_MANUAL,
+				new SimpleThreadScope());
+		map.put(WebApplicationContext.SCOPE_SESSION,
 				new SimpleThreadScope());
 		toRet.setScopes(map);
 		return toRet;
