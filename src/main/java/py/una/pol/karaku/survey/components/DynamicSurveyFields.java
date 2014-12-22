@@ -43,7 +43,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	private DynamicSurveyFieldOption[] fields;
 	private int fieldsNumber = 0;
 	public static final String TYPE = "py.una.pol.karaku.survey.components.DynamicSurveyFields";
-
+	private boolean expandir = false;
 	/**
 	 * Construye un bloque del tipo Simple.
 	 * 
@@ -65,6 +65,7 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 		return this;
 	}
 
+	
 	private void initFields(int fieldsNumber) {
 
 		this.fields = new DynamicSurveyFieldOption[fieldsNumber];
@@ -93,6 +94,16 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 		this.fields[index - 1].setFieldValue(fieldValue);
 	}
 
+	public void setExpadir(boolean expandir) {
+		
+		this.expandir = expandir;
+	}
+	
+	public boolean isExpadir() {
+		
+		return this.expandir;
+	}
+	
 	@Override
 	public String getType() {
 
@@ -123,6 +134,9 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 				fields[i].setField(DynamicSurveyField
 						.fieldFactory(getQuestions().get(i)));
+				if (getQuestions().get(i).isObligatoria() == true) {
+					setExpadir(true);
+				}
 			}
 		}
 		return fields;

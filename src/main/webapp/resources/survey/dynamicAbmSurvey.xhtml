@@ -38,13 +38,17 @@
 			<c:forEach items="#{cc.attrs.controller.blocks}" var="block">
 				<c:if
 					test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyDataTable'}">
+				
 					<survey:dynamicDataTable controller="#{cc.attrs.controller}"
 						block="#{block}" idBlock="#{block.id}" />
+						
 				</c:if>
 				<c:if
 					test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyFields'}">
+					
 					<survey:dynamicFields block="#{block}" idBlock="#{block.id}"
 						controller="#{cc.attrs.controller}" />
+						
 				</c:if>
 			</c:forEach>
 			<composite:renderFacet name="bottomFields"/>
