@@ -22,12 +22,17 @@
  */
 package py.una.pol.karaku.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import org.ajax4jsf.javascript.JSObject;
 import org.hibernate.exception.ConstraintViolationException;
+import org.richfaces.application.ServiceTracker;
+import org.richfaces.javascript.JavaScriptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import py.una.pol.karaku.dao.restrictions.Where;
@@ -446,6 +451,36 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 
 		log.info("Create llamado");
 		return getBaseLogic().add(entity);
+	}
+
+	/**
+	 * Agrega la llamada a la función js "equalColumnWidth()" dentro del
+	 * listener "ready" de JQuery. Desgraciadamente esta es la única forma que
+	 * proporciona RichFaces para agregar métodos al ready que crea él mismo.
+	 * 
+	 * Este método se debería llamar desde la vistas donde exista alguna lista
+	 * con extendedDataTable.
+	 */
+	public void columnFix() {
+
+		JavaScriptService jsService = ServiceTracker
+				.getService(JavaScriptService.class);
+		JSObject js = new JSObject("name") {
+
+			@Override
+			public void appendScript(Appendable target) throws IOException {
+
+				CharSequence cs = "equalColumnWidth()";
+				target.append(cs);
+			}
+
+			@Override
+			public void appendScriptToStringBuilder(StringBuilder stringBuilder) {
+
+				stringBuilder.append("equalColumnWidth()");
+			}
+		};
+		jsService.addPageReadyScript(FacesContext.getCurrentInstance(), js);
 	}
 
 }
