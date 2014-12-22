@@ -26,6 +26,7 @@ import java.util.concurrent.Executor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -33,12 +34,12 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * Clase que agrega soporte para tareas asíncronas a Karaku,
- *
+ * 
  * @see <a href="http://appcia.cnc.una.py/wf/index.php/Asyn_task">Wiki</a>
  * @author Arturo Volpe Torres
  * @since 1.0
  * @version 1.0 Jun 17, 2013
- *
+ * 
  */
 @Configuration
 @EnableAsync
@@ -74,12 +75,12 @@ public class AsyncConfiguration implements AsyncConfigurer {
 
 	/**
 	 * Crea un nuevo executor. Véase {@link #getAsyncExecutor()}
-	 *
+	 * 
 	 * @see <a href="http://appcia.cnc.una.py/wf/index.php/Asyn_task">Wiki</a>
 	 * @return {@link Executor} de tareas asíncronas
 	 */
 	@Bean
-	public Executor asyncExecutor() {
+	public AsyncTaskExecutor asyncExecutor() {
 
 		final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(getInt("karaku.async.pool.size",
@@ -90,13 +91,14 @@ public class AsyncConfiguration implements AsyncConfigurer {
 				DEFAULT_ASYNC_QUEUE_SIZE));
 		executor.setThreadNamePrefix(properties.get(
 				"karaku.async.thread.prefix", DEFAULT_THREAD_PREFIX));
+		// TODO cambiar por un SyncTaskExecutor
 		return executor;
 	}
 
 	/**
 	 * Retorna el valor de la llave en el archivo de propiedades, si no se puede
 	 * parsear lanzar {@link py.una.pol.karaku.exception.KarakuRuntimeException}
-	 *
+	 * 
 	 * @param key
 	 *            llave en el archivo de propiedades
 	 * @param def

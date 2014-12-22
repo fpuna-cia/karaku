@@ -55,8 +55,8 @@ import py.una.pol.karaku.test.util.TestWSCaller;
  * <p>
  * 
  * <p>
- * El método {@link #getClassesToBound()} debe retornar las clases que se pueden
- * marshalizar/desmarshalizar
+ * El método {@link #getClassesToBound()} debe retornar las clases que se
+ * pueden marshalizar/desmarshalizar
  * </p>
  * 
  * @author Arturo Volpe
@@ -71,7 +71,7 @@ public abstract class WebServiceTestConfiguration extends BaseTestConfiguration
 
 	public abstract Class<?>[] getClassesToBound();
 
-	private Logger log = LoggerFactory
+	private final Logger log = LoggerFactory
 			.getLogger(WebServiceTestConfiguration.class);
 
 	@Bean
@@ -112,6 +112,12 @@ public abstract class WebServiceTestConfiguration extends BaseTestConfiguration
 
 	@Bean
 	Executor executor() {
+
+		return new SyncTaskExecutor();
+	}
+
+	@Bean
+	public SyncTaskExecutor syncExecutor() {
 
 		return new SyncTaskExecutor();
 	}
