@@ -67,10 +67,11 @@ public class EncuestaDAO extends KarakuBaseDao<Encuesta, Long> implements
 		Where<EncuestaDetalle> where = Where.get();
 		where.addClause(Clauses.eq("encuesta", entity));
 		List<EncuestaDetalle> listaDB = detalleDao.getAll(where, null);
+		List<EncuestaDetalle> forDelete = new ArrayList<EncuestaDetalle>();
 
 		for (EncuestaDetalle detalle : listaDB) {
 			if (!entity.getDetalles().contains(detalle)) {
-				detalleDao.remove(detalle);
+				forDelete.add(detalle);
 			}
 		}
 
@@ -97,6 +98,12 @@ public class EncuestaDAO extends KarakuBaseDao<Encuesta, Long> implements
 			if (!allOption.contains(opcion)) {
 				opcionDao.remove(opcion);
 			}
+		}
+
+		// Se borran los detalles al final para evitar conflictos, ya que los
+		// detalles se traen de la BD más de una vez dentro de este metodo
+		for (EncuestaDetalle detalle : forDelete) {
+			detalleDao.remove(detalle);
 		}
 
 		return super.update(entity);
