@@ -62,6 +62,10 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 		extends KarakuBaseController<T, K> implements
 		IKarakuAdvancedController<T, K> {
 
+	/**
+	 * 
+	 */
+	private static final String JSFUNCTION = "equalColumnWidth()";
 	private static final String DELETE_FAILURE = "BASE_ABM_DELETE_FAILURE";
 	private static final String EDIT_FAILURE = "BASE_ABM_EDIT_FAILURE";
 	private static final String CREATE_FAILURE = "BASE_ABM_CREATE_FAILURE";
@@ -470,14 +474,14 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 			@Override
 			public void appendScript(Appendable target) throws IOException {
 
-				CharSequence cs = "equalColumnWidth()";
+				CharSequence cs = JSFUNCTION;
 				target.append(cs);
 			}
 
 			@Override
 			public void appendScriptToStringBuilder(StringBuilder stringBuilder) {
 
-				stringBuilder.append("equalColumnWidth()");
+				stringBuilder.append(JSFUNCTION);
 			}
 		};
 		jsService.addPageReadyScript(FacesContext.getCurrentInstance(), js);
