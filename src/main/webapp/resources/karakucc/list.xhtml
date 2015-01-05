@@ -51,12 +51,12 @@
 		shortDescription="Define si el enlace editar sera visible" />
 	<composite:facet name="extraColumnButtons" />
 	<composite:attribute name="withViewVisible" type="java.lang.Boolean"
-		default="true"
-		shortDescription="Define si el enlace ver sera visible" />
+		default="true" shortDescription="Define si el enlace ver sera visible" />
 </composite:interface>
 <composite:implementation
 	xmlns:k="http://java.sun.com/jsf/composite/karakucc">
 
+	#{cc.attrs.controller.columnFix()}
 	<h:outputLabel value="#{cc.attrs.controller.usarController}" />
 	<rich:messages ajaxRendered="true" showDetail="true"
 		id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
@@ -108,8 +108,7 @@
 		<h:panelGrid columns="3" width="100%"
 			columnClasses="list_button_class,list_export_class,list_pagin_class">
 			<o:separateConversationContext>
-				<tk:security
-					hasPermission="#{cc.attrs.controller.createPermission}">
+				<tk:security hasPermission="#{cc.attrs.controller.createPermission}">
 					<h:commandButton value="#{msg['BASE_FORM_NEW']}" immediate="true"
 						rendered="#{cc.attrs.withCreateButton}"
 						action="#{cc.attrs.controller.preCreate()}"
