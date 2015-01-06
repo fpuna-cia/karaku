@@ -65,7 +65,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 	/**
 	 * 
 	 */
-	private static final String JSFUNCTION = "equalColumnWidth()";
+	private static final String JSFUNCTION = "KarakuExtendedDataTableFix.fixColumns()";
 	private static final String DELETE_FAILURE = "BASE_ABM_DELETE_FAILURE";
 	private static final String EDIT_FAILURE = "BASE_ABM_EDIT_FAILURE";
 	private static final String CREATE_FAILURE = "BASE_ABM_CREATE_FAILURE";
