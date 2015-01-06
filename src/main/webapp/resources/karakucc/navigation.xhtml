@@ -21,12 +21,13 @@
 	<div id="navigator">
 		<h:panelGroup id="#{cc.attrs.idPanel}">
 			<a4j:commandButton value="&lt;&lt;"
-				action="#{cc.attrs.helper.first()}" oncomplete="equalColumnWidth()"
+				action="#{cc.attrs.helper.first()}"
+				oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 				disabled="#{not cc.attrs.helper.hasPrevious()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 			<a4j:commandButton value="&lt;"
 				action="#{cc.attrs.helper.previous()}"
-				oncomplete="equalColumnWidth()"
+				oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 				disabled="#{not cc.attrs.helper.hasPrevious()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 			<rich:inputNumberSpinner
@@ -45,10 +46,11 @@
 			de #{cc.attrs.helper.maxReadablePage}
 			<a4j:commandButton value="&gt;" action="#{cc.attrs.helper.next()}"
 				disabled="#{not cc.attrs.helper.hasNext()}"
-				oncomplete="equalColumnWidth()"
+				oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 			<a4j:commandButton value="&gt;&gt;"
-				action="#{cc.attrs.helper.last()}" oncomplete="equalColumnWidth()"
+				action="#{cc.attrs.helper.last()}"
+				oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 				disabled="#{not cc.attrs.helper.hasNext()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 		</h:panelGroup>
