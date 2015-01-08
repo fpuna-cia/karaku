@@ -924,7 +924,7 @@ public final class DynamicUtils {
 				this.getStyleColumnHeaderTransparentUnderlineTop(), null);
 
 		structBlockReport.setUseFullPageWidth(true);
-		structBlockReport.setTopMargin(0);
+		structBlockReport.setTopMargin(50);
 		this.setWhenNotDataEmpty(structBlockReport);
 
 		try {
@@ -939,8 +939,6 @@ public final class DynamicUtils {
 				}
 
 			}
-
-			structReportHead.addConcatenatedReport(this.buildReportSeparator());
 
 			Subreport subReport = new SubReportBuilder()
 					.setDataSource("")
@@ -961,23 +959,6 @@ public final class DynamicUtils {
 		return ColumnBuilder.getNew().setStyle(this.getStyleColumnHeader())
 				.setColumnProperty("label", String.class)
 				.setWidth(WIDTH_SEPARATOR).build();
-	}
-
-	private Subreport buildReportSeparator() {
-
-		FastReportBuilder structReport = new FastReportBuilder();
-		structReport.setDefaultStyles(this.getStyleTitle(),
-				this.getStyleTitle(),
-				this.getStyleColumnHeaderTransparentUnderlineTop(), null);
-		structReport.addColumn(this.buildColumnSeparator());
-		structReport.setUseFullPageWidth(true);
-		this.setWhenNotDataEmpty(structReport);
-
-		Subreport subReport = new SubReportBuilder()
-				.setDataSource("")
-				.setDynamicReport(structReport.build(),
-						new ClassicLayoutManager()).build();
-		return subReport;
 	}
 
 	/**
