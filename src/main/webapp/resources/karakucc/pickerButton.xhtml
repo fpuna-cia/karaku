@@ -19,6 +19,7 @@
 			default="#{cc.attrs.pickerField.emptyMethod()}"
 			method-signature="java.lang.String action()" />
 		<cc:attribute name="chooseButtonRender" />
+		<cc:attribute name="keyupActive" default="false" />
 		<cc:attribute name="valueButtonChoose"
 			default="#{msg['COMPONENT_PICKER_CHOOSE']}"></cc:attribute>
 	</cc:interface>
@@ -27,20 +28,29 @@
 		<h:panelGroup id="#{cc.attrs.panelId}">
 			<k:pickerUpdater pickerField="#{cc.attrs.pickerField}" />
 			<h:inputText id="valueId" value="#{cc.attrs.pickerField.code}"
-				rendered="#{cc.attrs.pickerField.hasCodeInput}"
+				rendered="#{cc.attrs.pickerField.hasCodeInput and !cc.attrs.keyupActive}"
 				disabled="#{cc.attrs.pickerField.buttonDisabled}">
 				<a4j:ajax event="blur"
 					listener="#{cc.attrs.pickerField.keyUpListener}"
 					disabled="#{not cc.attrs.pickerField.hasCodeInput}"
-					render="#{cc.attrs.panelId} #{cc.attrs.pickerField.idMessage} #{cc.attrs.reRenderRegionId}"
+					render="#{cc.attrs.panelId } #{cc.attrs.pickerField.idMessage} #{cc.attrs.reRenderRegionId}"
 					execute="valueId" immediate="true" />
+			</h:inputText>
+				<h:inputText id="valueId2" value="#{cc.attrs.pickerField.code}"
+				rendered="#{cc.attrs.pickerField.hasCodeInput and cc.attrs.keyupActive}"
+				disabled="#{cc.attrs.pickerField.buttonDisabled}">
+				<a4j:ajax event="keyup"
+					listener="#{cc.attrs.pickerField.keyUpListener}"
+					disabled="#{not cc.attrs.pickerField.hasCodeInput}"
+					render="outputId #{cc.attrs.pickerField.idMessage} #{cc.attrs.reRenderRegionId}"
+					execute="valueId2" immediate="true" />
 			</h:inputText>
 			<a4j:commandButton disabled="#{cc.attrs.pickerField.buttonDisabled}"
 				action="#{cc.attrs.chooseButtonAction}"
 				onclick="#{cc.attrs.chooseButtonOnComplete}"
 				render="#{cc.attrs.chooseButtonRender}"
 				value="#{cc.attrs.valueButtonChoose}" immediate="true" />
-			<h:outputLabel value="#{cc.attrs.resultValue}"
+			<h:outputLabel id="outputId" value="#{cc.attrs.resultValue}"
 				style="text-transform:none" />
 		</h:panelGroup>
 	</cc:implementation>
