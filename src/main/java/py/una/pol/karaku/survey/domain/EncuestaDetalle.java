@@ -46,6 +46,7 @@ import py.una.pol.karaku.domain.BaseEntity;
  * 
  * 
  * @author Nathalia Ochoa
+ * @author Gabriela Vazquez
  * @since 1.0
  * @version 1.0 29/05/2013
  * 
@@ -160,6 +161,16 @@ public class EncuestaDetalle extends BaseEntity {
 	public Integer getNumeroPregunta() {
 
 		return getPregunta().getOrden();
+	}
+
+	/**
+	 * Obtener el tag apartir de la pregunta
+	 * 
+	 * @return tag
+	 */
+	public String getTagPregunta() {
+
+		return getPregunta().getTag();
 	}
 
 }

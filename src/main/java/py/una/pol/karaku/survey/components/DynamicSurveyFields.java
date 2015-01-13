@@ -154,6 +154,22 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 		return getQuestions().get(index).getTipoObjeto().getNombre();
 	}
+	/**
+	 * Busca el numero de la pregunta teniendo el tag.
+	 * @param tag
+	 * 		tag de la pregunta que deseamos buscar
+	 * @return retorna un entero que representa el numero de orden de la
+	 * 		pregunta cuyo tag coincide con el pasado como parametro 
+	 */
+	public int getQuestionNumber(String tag){
+		List<EncuestaPlantillaPregunta> listaPreguntas = getQuestions();
+		for(EncuestaPlantillaPregunta pregunta : listaPreguntas){
+			if(pregunta.getTag().equals(tag)){
+				return pregunta.getOrden();
+			}
+		}
+		return 0;
+	}
 
 	/**
 	 * Retorna true si la pregunta recibida como parametro es requerida, de lo
@@ -250,5 +266,6 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 		String value = (String) ((UIInput) event.getComponent()).getValue();
 		fields[index].setFieldValue(value);
 	}
+	
 
 }
