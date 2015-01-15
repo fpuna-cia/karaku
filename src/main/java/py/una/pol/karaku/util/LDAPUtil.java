@@ -45,6 +45,7 @@ import py.una.pol.karaku.exception.KarakuRuntimeException;
  * Clase para realizar operaciones de directorio en LDAP
  * 
  * @author Uriel Gonzalez
+ * @author Romina Fernandez
  * 
  */
 @Component
@@ -59,12 +60,14 @@ public class LDAPUtil {
 	private static final String LDAP_ADMIN_PASS_KEY = "ldap.user.password";
 
 	/**
-	 * Los usuarios especiales son utilizado por los sistemas para autenticarse.
-	 * Estos usuarios no se deben de mostrar al usuario final
+	 * Usuarios especiales que no deben mostrarse al usuario final.
 	 * 
 	 * TODO cambiar a propiedad
 	 */
 	private static final String LDAP_SPECIAL_USER_PREFIX = "sigh_";
+	private static final String[] EXCLUDED_USERS = { "cas", "root",
+			"configuracion", "desarrollador", "farmacia", "identificacion",
+			"social", "stock", "ws_sigh" };
 
 	@Autowired
 	private PropertiesUtil propertiesUtil;
@@ -110,8 +113,9 @@ public class LDAPUtil {
 			while (answer.hasMore()) {
 				SearchResult sr = answer.next();
 				String uid = sr.getName().substring(4);
-				// No ser retornan los usuarios especialess
-				if (!uid.startsWith(LDAP_SPECIAL_USER_PREFIX)) {
+				// No se retornan los usuarios especiales
+				if (!uid.startsWith(LDAP_SPECIAL_USER_PREFIX)
+						&& !ListHelper.contains(EXCLUDED_USERS, uid)) {
 					User user = new User();
 					user.setUid(uid);
 					Attributes atributos = sr.getAttributes();
