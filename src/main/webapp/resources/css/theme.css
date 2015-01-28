@@ -154,14 +154,13 @@ textarea {
 	text-transform: none;
 	vertical-align: middle !important;
 	
+	
 }
 
 .faces-error {
 	text-align: left;
 	color: #880000 !important;
-	background: #FFE3E3;
-    border-color: #DD0000;
-    border-style: solid;
+
 }
 
 /* Estilo para los botones de la izquierda */
@@ -568,17 +567,34 @@ li.divider:after {
 /*	margin-left: 0px !important; */
 /*	padding-left: 0px !important;  */
 	color: #880000 !important;
-	background: #FFE3E3;
-    border-color: #DD0000;
+/*	background: #FFE3E3;
+    border-color: #cccccc;
     border-style: solid;
     display: block !important;
 	margin-left: 20px !important;
 	padding-left: 20px !important;
-   
+	border-width: 1px;  */
+    
 }
 
 .rf-msg-det {
 	text-transform: none !important;
+	
+}
+
+.rf-msg-sum, .rf-msgs-sum {
+    display: inline; 
+   
+}
+.rf-msg-ftl, .rf-msgs-ftl   {
+    color: #880000 !important;
+	background: #FFE3E3;
+    border-color: #cccccc;
+    border-style: solid;
+/*    display: block !important;  */
+	margin-left: 20px !important;
+	padding-left: 20px !important;
+	border-width: 1px;
 }
 
 /* rich:popupPanel */
@@ -621,10 +637,13 @@ td.form_input select {
 /* Agregados */
 
 
-.rf-pm-itm-sel {
-    
-}
 
+.rf-pm-itm-sel {
+    font-style: normal !important;
+}
+.rf-pm-itm-sel:hover {
+    font-style: normal !important;
+}
 
 #top .rf-p-b {
  /*   background-color: #3B598D !important;   */
@@ -649,8 +668,7 @@ background-color: #FFFFFF !important;
 }
 
 .rf-p{
-	
-	
+
 	/* Este modifique para la raya de arriva....*/
 	color: #FFFFFF !important;
 /*	color: #991E99 !important;   */
@@ -693,23 +711,48 @@ button[disabled], input[type="reset"][disabled], input[type="submit"][disabled],
 }
 
 .rf-ico-triangle, .rf-ico-triangle-dis, .rf-ico-triangle-hdr-dis {
-    background-image: url("/SIGHStock/resources/images/p3.png") !important;
+    background-image: url("../resources/images/p3.png") !important;
     
 }
 
 .rf-ico-triangle-down, .rf-ico-triangle-down-dis, .rf-ico-triangle-down-hdr-dis {
-    background-image: url("/SIGHStock/resources/images/p3.png") !important;
+    background-image: url("../resources/images/p3.png") !important;
 }
 
 .rf-ico-triangle-up, .rf-ico-triangle-up-dis, .rf-ico-triangle-up-hdr-dis {
-    background-image: url("/SIGHStock/resources/images/p3.png") !important;
+    background-image: url("../resources/images/p3.png") !important;
 }
+
+.rf-msg-inf, .rf-msgs-inf {
+    background-image: url("../resources/images/bien.gif") !important;
+}
+
+.rf-msg-err, .rf-msgs-err {
+	background: #FFFFFF url("../resources/images/mal.png") no-repeat top left; 
+	padding-left: 15px;
+}
+
+.faces-error {
+	background: #FFFFFF url("../resources/images/mal.png") no-repeat top left ; 
+	padding-left: 15px; 
+}
+
 
 .rf-pm-top-gr {
     border-color: #FFFFFF !important;
     border-style: solid;
-    border-width: 1px;
+    border-width: 1px; 
     margin-bottom: 3px;
+}
+
+.rf-msg-wrn, .rf-msgs-wrn {
+    color: #880000 !important;
+	background: #FFE3E3 url('../resources/images/mal.png')  no-repeat top left;
+    border-color: #DD0000;
+    border-style: solid;
+	margin-left: 20px !important;
+	padding-left: 20px !important;
+	border-width: 2px;  
 }
 
 /* Fin agregados..  */
