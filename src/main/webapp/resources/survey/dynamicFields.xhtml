@@ -39,6 +39,7 @@
 				<f:subview
 					rendered="#{cc.attrs.block.getTypeField(cont) eq 'TEXTO'}">
 					<h:panelGrid columns="2" columnClasses="form_input,form_error">
+
 						<h:inputText value="#{element.field.value}"
 							id="#{cc.attrs.block.id}_#{cont}"
 							style="#{cc.attrs.block.getStyleQuestion(cont)}"
@@ -48,6 +49,7 @@
 						<h:messages ajaxRendered="true" for="#{cc.attrs.block.id}_#{cont}"
 							styleClass="form_error" />
 					</h:panelGrid>
+
 				</f:subview>
 				<f:subview
 					rendered="#{cc.attrs.block.getTypeField(cont) eq 'RADIO'}">
@@ -150,7 +152,7 @@
 					<h:panelGrid columns="2" columnClasses="form_input,form_error">
 						<h:inputTextarea value="#{element.field.value}"
 							id="#{cc.attrs.block.id}_#{cont}"
-							style="width:182px; height: 115px; text-transform: uppercase;"
+							style="width:500px; height: 115px; text-transform: uppercase;"
 							disabled="#{not cc.attrs.controller.isEditable() or not cc.attrs.block.isEditableField(cont)}"
 							required="#{cc.attrs.block.isRequiredField(cont)}"
 							requiredMessage="#{msg['SURVEY_REQUIRED_MESSAGE']}" />
@@ -161,7 +163,6 @@
 				<c:set value="#{cont + 1}" var="cont" />
 			</c:forEach>
 		</h:panelGrid>
-
 	</rich:collapsiblePanel>
 
 </composite:implementation>
