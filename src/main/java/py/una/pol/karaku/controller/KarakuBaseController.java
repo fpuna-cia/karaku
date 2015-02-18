@@ -28,11 +28,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.model.SelectItem;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import py.una.pol.karaku.breadcrumb.BreadcrumbController;
 import py.una.pol.karaku.business.reports.KarakuBaseReportSimple;
 import py.una.pol.karaku.dao.restrictions.Where;
@@ -48,6 +51,7 @@ import py.una.pol.karaku.security.KarakuSecurity;
 import py.una.pol.karaku.util.ControllerHelper;
 import py.una.pol.karaku.util.EntitySerializer;
 import py.una.pol.karaku.util.I18nHelper;
+import py.una.pol.karaku.util.LazyModel;
 import py.una.pol.karaku.util.PagingHelper;
 import py.una.pol.karaku.util.PagingHelper.ChangeListener;
 import py.una.pol.karaku.util.SelectHelper;
@@ -115,7 +119,10 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 
 	@Autowired
 	private KarakuBaseReportSimple baseReportSimple;
-
+	
+	@Autowired
+	protected LazyModel<T, K> lazyModel;
+	
 	/**
 	 * Lista de entidades mostradas actualmente, cualquier manipulación a ella
 	 * se vera reflejada cuando se refresque la grilla, si se la marca como nula
@@ -432,6 +439,7 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 
 		this.entities = this.getBaseLogic().getAll(baseWhere, sp);
 	}
+
 
 	/**
 	 * Retorna un {@link Where} configurado como base, notar que si
@@ -1011,6 +1019,14 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 	public boolean isList() {
 
 		return this.getMode().equals(Mode.LIST);
+	}
+
+	public LazyModel<T, K> getLazyModel() {
+		return lazyModel;
+	}
+
+	public void setLazyModel(LazyModel<T, K> lazyModel) {
+		this.lazyModel = lazyModel;
 	}
 
 }
