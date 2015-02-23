@@ -120,6 +120,10 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 	@Autowired
 	private KarakuBaseReportSimple baseReportSimple;
 	
+	/**
+	 * Componente de PrimeFaces para el LazyLoad, utilizado en el listado
+	 * de las entidades.
+	 */
 	@Autowired
 	protected LazyModel<T, K> lazyModel;
 	
