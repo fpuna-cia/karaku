@@ -27,6 +27,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,6 +37,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.envers.Audited;
 import py.una.pol.karaku.domain.BaseEntity;
 
@@ -43,6 +46,7 @@ import py.una.pol.karaku.domain.BaseEntity;
  * 
  * 
  * @author Nathalia Ochoa
+ * @author Gabriela Vazquez
  * @since 1.0
  * @version 1.0 29/05/2013
  * 
@@ -73,7 +77,8 @@ public class EncuestaDetalle extends BaseEntity {
 	@Column(name = "nro_fila")
 	private Integer numeroFila;
 
-	@OneToMany(mappedBy = "encuestaDetalle", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "encuestaDetalle", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
 	private List<EncuestaDetalleOpcionRespuesta> opcionRespuesta;
 
 	@Override
@@ -82,6 +87,7 @@ public class EncuestaDetalle extends BaseEntity {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 
 		this.id = id;
@@ -155,6 +161,16 @@ public class EncuestaDetalle extends BaseEntity {
 	public Integer getNumeroPregunta() {
 
 		return getPregunta().getOrden();
+	}
+
+	/**
+	 * Obtener el tag apartir de la pregunta
+	 * 
+	 * @return tag
+	 */
+	public String getTagPregunta() {
+
+		return getPregunta().getTag();
 	}
 
 }

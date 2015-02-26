@@ -7,9 +7,9 @@
 	<artifactId>SIGHproject</artifactId>
 	<packaging>war</packaging>
 	<!-- Version -->
-	<!-- Karaku Base: 2.3.12 -->
-	<!-- Sistema: 2.3.12 -->
-	<version>2.3.12</version>
+	<!-- Karaku Base: 2.4.0 -->
+	<!-- Sistema: 2.4.0 -->
+	<version>2.4.0</version>
 	<name>Sistema Integral de Gestion Hospitalaria - project</name>
 	<description>
 		Sistema encargado de la administracion de project.

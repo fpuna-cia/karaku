@@ -24,9 +24,11 @@ package py.una.pol.karaku.survey.components;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.component.UIInput;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
+
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 import py.una.pol.karaku.survey.domain.OpcionRespuesta;
 import py.una.pol.karaku.util.KarakuConverter;
@@ -34,15 +36,18 @@ import py.una.pol.karaku.util.KarakuConverter;
 /**
  * 
  * @author Nathalia Ochoa
+ * @author Gabriela Vazquez
  * @since 1.0
  * @version 1.0 07/06/2013
  * 
  */
+
 public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 	private DynamicSurveyFieldOption[] fields;
 	private int fieldsNumber = 0;
 	public static final String TYPE = "py.una.pol.karaku.survey.components.DynamicSurveyFields";
+	private boolean expandir = false;
 
 	/**
 	 * Construye un bloque del tipo Simple.
@@ -93,6 +98,16 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 		this.fields[index - 1].setFieldValue(fieldValue);
 	}
 
+	public void setExpadir(boolean expandir) {
+
+		this.expandir = expandir;
+	}
+
+	public boolean isExpadir() {
+
+		return this.expandir;
+	}
+
 	@Override
 	public String getType() {
 
@@ -123,6 +138,9 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 
 				fields[i].setField(DynamicSurveyField
 						.fieldFactory(getQuestions().get(i)));
+				if (getQuestions().get(i).isObligatoria() == true) {
+					setExpadir(true);
+				}
 			}
 		}
 		return fields;
@@ -142,6 +160,24 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	}
 
 	/**
+	 * Busca el numero de la pregunta teniendo el tag.
+	 * 
+	 * @param tag
+	 *            tag de la pregunta que deseamos buscar
+	 * @return retorna un entero que representa el numero de orden de la
+	 *         pregunta cuyo tag coincide con el pasado como parametro
+	 */
+	public int getQuestionNumber(String tag) {
+		List<EncuestaPlantillaPregunta> listaPreguntas = getQuestions();
+		for (EncuestaPlantillaPregunta pregunta : listaPreguntas) {
+			if (pregunta.getTag().equals(tag)) {
+				return pregunta.getOrden();
+			}
+		}
+		return 0;
+	}
+
+	/**
 	 * Retorna true si la pregunta recibida como parametro es requerida, de lo
 	 * contrario retorna false.
 	 * 
@@ -152,6 +188,26 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
 	public Boolean isRequiredField(int index) {
 
 		return getQuestions().get(index).isObligatoria();
+	}
+
+	/**
+	 * Retorna un String que representa el Style que tendrá una fila de tipo
+	 * inputText. El tamaño es calculado teniendo en cuenta la longitud de la
+	 * pregunta.
+	 * 
+	 * @param index
+	 *            Posicion de la pregunta dentro de la encuesta
+	 * @return tamaño del Style
+	 */
+	public String getStyleQuestion(int index) {
+		Integer size = getQuestions().get(index).getLongitudRespuesta();
+		String width = "width: ";
+		if (size < 10) {
+			return width + size * 15 + "px;";
+		} else if (size < 100) {
+			return width + size * 10 + "px;";
+		}
+		return width + size * 5 + "px;";
 	}
 
 	public Boolean isEditableField(int index) {

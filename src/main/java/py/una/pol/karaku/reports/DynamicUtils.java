@@ -150,6 +150,13 @@ public final class DynamicUtils {
 
 	}
 
+	public FastReportBuilder newInstanceWithCustomTemplate(String path) {
+
+		FastReportBuilder structReport = this.newInstance();
+		this.setTemplate(path, structReport);
+		return structReport;
+	}
+
 	/**
 	 * Metodo que crea un reporte dinamico(en memoria), utilizando el template
 	 * base (con la sección de criterios)para la configuracion general. Se
@@ -223,6 +230,19 @@ public final class DynamicUtils {
 		this.addBlocks(structReport, blocks);
 
 		return structReport.build();
+	}
+
+	public <T> DynamicReport buildReportBlock(boolean criteria,
+			List<KarakuReportBlock> blocks, String templateFile)
+			throws ReportException {
+
+		FastReportBuilder structReport = this
+				.newInstanceWithCustomTemplate(templateFile);
+
+		this.addBlocks(structReport, blocks);
+
+		return structReport.build();
+
 	}
 
 	public <T> DynamicReport buidReportBlockGrid(
@@ -904,7 +924,7 @@ public final class DynamicUtils {
 				this.getStyleColumnHeaderTransparentUnderlineTop(), null);
 
 		structBlockReport.setUseFullPageWidth(true);
-		structBlockReport.setTopMargin(0);
+		structBlockReport.setTopMargin(50);
 		this.setWhenNotDataEmpty(structBlockReport);
 
 		try {
@@ -919,8 +939,6 @@ public final class DynamicUtils {
 				}
 
 			}
-
-			structReportHead.addConcatenatedReport(this.buildReportSeparator());
 
 			Subreport subReport = new SubReportBuilder()
 					.setDataSource("")
@@ -941,23 +959,6 @@ public final class DynamicUtils {
 		return ColumnBuilder.getNew().setStyle(this.getStyleColumnHeader())
 				.setColumnProperty("label", String.class)
 				.setWidth(WIDTH_SEPARATOR).build();
-	}
-
-	private Subreport buildReportSeparator() {
-
-		FastReportBuilder structReport = new FastReportBuilder();
-		structReport.setDefaultStyles(this.getStyleTitle(),
-				this.getStyleTitle(),
-				this.getStyleColumnHeaderTransparentUnderlineTop(), null);
-		structReport.addColumn(this.buildColumnSeparator());
-		structReport.setUseFullPageWidth(true);
-		this.setWhenNotDataEmpty(structReport);
-
-		Subreport subReport = new SubReportBuilder()
-				.setDataSource("")
-				.setDynamicReport(structReport.build(),
-						new ClassicLayoutManager()).build();
-		return subReport;
 	}
 
 	/**
@@ -1013,9 +1014,10 @@ public final class DynamicUtils {
 
 		Style styleColumns = new Style();
 		styleColumns.setTransparent(false);
-		styleColumns.setBackgroundColor(Color.darkGray);
+		styleColumns.setBorder(Border.THIN());
+		styleColumns.setBackgroundColor(Color.white);
 		styleColumns.setFont(Font.ARIAL_SMALL_BOLD);
-		styleColumns.setTextColor(Color.white);
+		styleColumns.setTextColor(Color.black);
 		styleColumns.setHorizontalAlign(HorizontalAlign.CENTER);
 		styleColumns.setVerticalAlign(VerticalAlign.MIDDLE);
 		return styleColumns;

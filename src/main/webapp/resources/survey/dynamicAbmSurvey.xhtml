@@ -27,6 +27,7 @@
 	<composite:attribute name="withDeleteButton"
 		default="#{cc.attrs.controller.isDelete()}" />
 	<composite:attribute name="withCancelButton" default="true" />
+	<composite:facet name="bottomFields" required="false"/>
 </composite:interface>
 <composite:implementation
 	xmlns:survey="http://java.sun.com/jsf/composite/survey">
@@ -37,15 +38,20 @@
 			<c:forEach items="#{cc.attrs.controller.blocks}" var="block">
 				<c:if
 					test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyDataTable'}">
+				
 					<survey:dynamicDataTable controller="#{cc.attrs.controller}"
 						block="#{block}" idBlock="#{block.id}" />
+						
 				</c:if>
 				<c:if
 					test="#{block.type eq 'py.una.pol.karaku.survey.components.DynamicSurveyFields'}">
+					
 					<survey:dynamicFields block="#{block}" idBlock="#{block.id}"
 						controller="#{cc.attrs.controller}" />
+						
 				</c:if>
 			</c:forEach>
+			<composite:renderFacet name="bottomFields"/>
 		</h:panelGrid>
 
 		<h:commandButton value="#{msg['ABM_SURVEY_BUTTON_SAVE']}"

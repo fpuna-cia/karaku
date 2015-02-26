@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -144,6 +145,12 @@ public class KarakuWSClientConfiguration {
 	public Marshaller marshaller() {
 
 		return getJaxb2Marshaller();
+	}
+
+	@Bean
+	public SyncTaskExecutor getSyncExecutor() {
+
+		return new SyncTaskExecutor();
 	}
 
 	/**

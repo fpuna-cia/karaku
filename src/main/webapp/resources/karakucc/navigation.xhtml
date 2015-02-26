@@ -22,14 +22,17 @@
 		<h:panelGroup id="#{cc.attrs.idPanel}">
 			<a4j:commandButton value="&lt;&lt;"
 				action="#{cc.attrs.helper.first()}"
+				oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 				disabled="#{not cc.attrs.helper.hasPrevious()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 			<a4j:commandButton value="&lt;"
 				action="#{cc.attrs.helper.previous()}"
+				oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 				disabled="#{not cc.attrs.helper.hasPrevious()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
-			<rich:inputNumberSpinner minValue="#{cc.attrs.helper.minReadablePage}"
-				id="ins" maxValue="#{cc.attrs.helper.maxReadablePage}"
+			<rich:inputNumberSpinner
+				minValue="#{cc.attrs.helper.minReadablePage}" id="ins"
+				maxValue="#{cc.attrs.helper.maxReadablePage}"
 				disabled="#{cc.attrs.helper.minReadablePage eq cc.attrs.helper.maxReadablePage}"
 				value="#{cc.attrs.helper.readablePage}"
 				onkeypress="if ((event.which || event.keyCode) == 13) { submitInput(#{rich:element('ins')}.firstChild.value); return false; }">
@@ -43,9 +46,11 @@
 			de #{cc.attrs.helper.maxReadablePage}
 			<a4j:commandButton value="&gt;" action="#{cc.attrs.helper.next()}"
 				disabled="#{not cc.attrs.helper.hasNext()}"
+				oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 			<a4j:commandButton value="&gt;&gt;"
 				action="#{cc.attrs.helper.last()}"
+				oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 				disabled="#{not cc.attrs.helper.hasNext()}"
 				render="#{cc.attrs.render}, #{cc.attrs.idPanel}" />
 		</h:panelGroup>

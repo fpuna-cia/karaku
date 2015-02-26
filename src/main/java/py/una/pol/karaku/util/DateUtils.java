@@ -37,6 +37,10 @@ import javax.annotation.Nullable;
  */
 public final class DateUtils {
 
+	private static final String[] MESES = { "Enero", "Febrero", "Marzo",
+			"Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+			"Octubre", "Noviembre", "Diciembre" };
+
 	private DateUtils() {
 
 	}
@@ -209,6 +213,50 @@ public final class DateUtils {
 		nuevo.set(Calendar.MINUTE, 0);
 		nuevo.set(Calendar.HOUR_OF_DAY, 0);
 		return nuevo.getTime();
+	}
+
+	/**
+	 * Calcula la diferencia en años entre la fecha pasada como parámetro y la
+	 * fecha actual.
+	 * 
+	 * @param date
+	 *            Fecha
+	 * @return Diferencia en años
+	 */
+	public static int calculateYearsFromNow(Date date) {
+
+		int edad = 0;
+		if (date != null) {
+			Calendar fechaNacimiento = Calendar.getInstance();
+			fechaNacimiento.setTime(date);
+			Calendar fechaActual = Calendar.getInstance();
+
+			edad = fechaActual.get(Calendar.YEAR)
+					- fechaNacimiento.get(Calendar.YEAR);
+			if ((fechaNacimiento.get(Calendar.DAY_OF_YEAR) - fechaActual
+					.get(Calendar.DAY_OF_YEAR)) > 0) {
+				edad--;
+			}
+		}
+		return edad;
+	}
+
+	/**
+	 * Convierte de número a nombre del mes pasado como parametro
+	 * 
+	 * @param mes
+	 *            mes del cual se desea el nombre
+	 * 
+	 *            <li>Ejemplo: obtenerMesEnLetras(Calendar.JANUARY) = Enero
+	 */
+
+	public static String obtenerMesEnLetras(int mes) {
+
+		if (mes < 0 || mes > MESES.length - 1) {
+			return "";
+		}
+
+		return MESES[mes];
 	}
 
 }
