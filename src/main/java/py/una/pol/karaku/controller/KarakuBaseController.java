@@ -51,7 +51,6 @@ import py.una.pol.karaku.security.KarakuSecurity;
 import py.una.pol.karaku.util.ControllerHelper;
 import py.una.pol.karaku.util.EntitySerializer;
 import py.una.pol.karaku.util.I18nHelper;
-import py.una.pol.karaku.util.LazyModel;
 import py.una.pol.karaku.util.PagingHelper;
 import py.una.pol.karaku.util.PagingHelper.ChangeListener;
 import py.una.pol.karaku.util.SelectHelper;
@@ -119,13 +118,6 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 
 	@Autowired
 	private KarakuBaseReportSimple baseReportSimple;
-	
-	/**
-	 * Componente de PrimeFaces para el LazyLoad, utilizado en el listado
-	 * de las entidades.
-	 */
-	@Autowired
-	protected LazyModel<T, K> lazyModel;
 	
 	/**
 	 * Lista de entidades mostradas actualmente, cualquier manipulación a ella
@@ -1023,14 +1015,6 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 	public boolean isList() {
 
 		return this.getMode().equals(Mode.LIST);
-	}
-
-	public LazyModel<T, K> getLazyModel() {
-		return lazyModel;
-	}
-
-	public void setLazyModel(LazyModel<T, K> lazyModel) {
-		this.lazyModel = lazyModel;
 	}
 
 }

@@ -28,9 +28,7 @@ import py.una.pol.karaku.log.Log;
  * @since 1.0
  * @version 1.0 15/01/2015
  */
-
 @Component
-@Scope(value = KarakuBaseConfiguration.SCOPE_CONVERSATION)
 public class LazyModel<T , K extends Serializable> extends LazyDataModel<T>  {
 	
 	protected IKarakuBaseLogic<T, K> logic;
