@@ -7,11 +7,9 @@ import java.util.Map;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 import org.slf4j.Logger;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import py.una.pol.karaku.business.IKarakuBaseLogic;
-import py.una.pol.karaku.configuration.KarakuBaseConfiguration;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.search.ISearchParam;
 import py.una.pol.karaku.dao.search.SearchParam;
