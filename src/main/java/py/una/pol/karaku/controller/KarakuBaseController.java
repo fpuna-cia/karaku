@@ -28,11 +28,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.model.SelectItem;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import py.una.pol.karaku.breadcrumb.BreadcrumbController;
 import py.una.pol.karaku.business.reports.KarakuBaseReportSimple;
 import py.una.pol.karaku.dao.restrictions.Where;
@@ -115,7 +118,7 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 
 	@Autowired
 	private KarakuBaseReportSimple baseReportSimple;
-
+	
 	/**
 	 * Lista de entidades mostradas actualmente, cualquier manipulación a ella
 	 * se vera reflejada cuando se refresque la grilla, si se la marca como nula
@@ -432,6 +435,7 @@ public abstract class KarakuBaseController<T, K extends Serializable>
 
 		this.entities = this.getBaseLogic().getAll(baseWhere, sp);
 	}
+
 
 	/**
 	 * Retorna un {@link Where} configurado como base, notar que si

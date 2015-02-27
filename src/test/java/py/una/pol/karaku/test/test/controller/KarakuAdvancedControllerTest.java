@@ -24,6 +24,9 @@ package py.una.pol.karaku.test.test.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.io.Serializable;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+
 import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.controller.KarakuAdvancedController;
 import py.una.pol.karaku.domain.AuditTrail;
@@ -39,6 +43,7 @@ import py.una.pol.karaku.test.base.BaseControllerTest;
 import py.una.pol.karaku.test.configuration.ControllerTestConfiguration;
 import py.una.pol.karaku.test.util.TestControllerHelper;
 import py.una.pol.karaku.test.util.TestI18nHelper;
+import py.una.pol.karaku.util.LazyModel;
 
 /**
  * 
@@ -48,22 +53,26 @@ import py.una.pol.karaku.test.util.TestI18nHelper;
  * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
-public class KarakuAdvancedControllerTest extends BaseControllerTest {
+public class KarakuAdvancedControllerTest<T, K extends Serializable> extends BaseControllerTest {
 
 	@Configuration
-	static class ContextConfiguration extends ControllerTestConfiguration {
+	static class ContextConfiguration<T, K extends Serializable> extends ControllerTestConfiguration {
 
 		@Bean
 		public TestController testController() {
 
 			return new TestController();
 		}
-
+		
+		@Bean
+		public LazyModel<T,K> lazyModel() {
+			return new LazyModel<T,K>();
+		}	
 	}
 
 	@Autowired
 	private TestController controller;
-
+	
 	@Autowired
 	private TestControllerHelper helper;
 
@@ -99,6 +108,10 @@ public class KarakuAdvancedControllerTest extends BaseControllerTest {
 		assertEquals(null, helper.getLastMessageComponentId());
 
 	}
+	
+	
+	
+	
 
 	static class TestController extends
 			KarakuAdvancedController<AuditTrail, Long> {
