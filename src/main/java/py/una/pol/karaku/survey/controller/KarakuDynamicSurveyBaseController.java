@@ -25,10 +25,13 @@ package py.una.pol.karaku.survey.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import py.una.pol.karaku.business.IKarakuBaseLogic;
+import py.una.pol.karaku.exception.KarakuRuntimeException;
 import py.una.pol.karaku.survey.business.IEncuestaDetalleLogic;
 import py.una.pol.karaku.survey.business.IEncuestaLogic;
 import py.una.pol.karaku.survey.business.IEncuestaPlantillaBloqueLogic;
@@ -117,10 +120,18 @@ public abstract class KarakuDynamicSurveyBaseController implements
 	}
 
 	@Override
+	/*
+	 * Construye los bloques en base al template asociado a la encuesta,
+	 * si la lista de bloques es vacia, lanza una excepcion, si no
+	 * construye los bloques. 
+	 */
 	public void buildBlocksFromSurvey() {
-
+		List<EncuestaPlantillaBloque> list = getBlocksByTemplate();
+		if(list.isEmpty()){
+			throw new KarakuRuntimeException("No se encontraron bloques para esta plantilla");
+		}
 		for (EncuestaPlantillaBloque bloque : getBlocksByTemplate()) {
-
+	
 			addBlock(createBlock(getQuestionsByBlock(bloque), bloque));
 		}
 

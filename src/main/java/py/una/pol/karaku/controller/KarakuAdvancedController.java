@@ -63,7 +63,7 @@ public abstract class KarakuAdvancedController<T, K extends Serializable>
 		IKarakuAdvancedController<T, K> {
 
 	/**
-	 * 
+	 * Cadenas estáticas para los mensajes mostrados en las vistas.
 	 */
 	private static final String JSFUNCTION = "KarakuExtendedDataTableFix.fixColumns()";
 	private static final String DELETE_FAILURE = "BASE_ABM_DELETE_FAILURE";

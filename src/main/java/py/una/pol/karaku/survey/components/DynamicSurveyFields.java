@@ -34,6 +34,7 @@ import py.una.pol.karaku.util.KarakuConverter;
 /**
  * 
  * @author Nathalia Ochoa
+ * @author Gabriela Vazquez
  * @since 1.0
  * @version 1.0 07/06/2013
  * @author Diego Ramírez
@@ -41,6 +42,7 @@ import py.una.pol.karaku.util.KarakuConverter;
  * @version 1.1 Feb 25, 2015
  * 
  */
+
 public class DynamicSurveyFields extends DynamicSurveyBlock {
 
     private static final String INDEX = "index";
@@ -255,4 +257,43 @@ public class DynamicSurveyFields extends DynamicSurveyBlock {
         fields[index].setFieldValue(value);
     }
 
+    /**
+     * Retorna un String que representa el Style que tendrá una fila de tipo
+     * inputText. El tamaño es calculado teniendo en cuenta la longitud de la
+     * pregunta.
+     * 
+     * @param index
+     *            Posicion de la pregunta dentro de la encuesta
+     * @return tamaño del Style
+     */
+    public String getStyleQuestion(int index) {
+
+        Integer size = getQuestions().get(index).getLongitudRespuesta();
+        String width = "width: ";
+        if (size < 10) {
+            return width + size * 15 + "px;";
+        } else if (size < 100) {
+            return width + size * 10 + "px;";
+        }
+        return width + size * 5 + "px;";
+    }
+
+    /**
+     * Busca el numero de la pregunta teniendo el tag.
+     * 
+     * @param tag
+     *            tag de la pregunta que deseamos buscar
+     * @return retorna un entero que representa el numero de orden de la
+     *         pregunta cuyo tag coincide con el pasado como parametro
+     */
+    public int getQuestionNumber(String tag) {
+
+        List<EncuestaPlantillaPregunta> listaPreguntas = getQuestions();
+        for (EncuestaPlantillaPregunta pregunta : listaPreguntas) {
+            if (pregunta.getTag().equals(tag)) {
+                return pregunta.getOrden();
+            }
+        }
+        return 0;
+    }
 }

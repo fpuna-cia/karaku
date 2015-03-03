@@ -1,0 +1,123 @@
+/*Estilo para los componentes de primeFaces*/
+.ui-menu {
+	padding: 0em;
+	background: #F8EFFB !important;
+	border: none;
+}
+
+.ui-menu-child {
+	background: #F8EFFB !important;
+}
+
+.ui-menu,.ui-menuitem-link {
+	width: 100% !important;
+}
+
+/*Estilo de los elementos cuando nos posicionamos sobre ellos*/
+.ui-state-hover,.ui-state-focus {
+	background: #F8EFFB !important;
+	border-color: #E0ABF0 !important;
+	box-shadow: 0px 0px 4px #6A0888 !important;
+	color: #6A0888 !important;
+}
+
+.ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited {
+	color: #6A0888 !important;
+	text-decoration: none;
+}
+
+/**Estilo del elemento seleccionado de un selecOneMenu*/
+.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
+	{
+	background: #F8EFFB !important;
+	color: #E0ABF0 !important;
+}
+
+.ui-state-default,.ui-widget-content .ui-state-default,.ui-widget-header .ui-state-default
+	{
+	font-weight: normal;
+	border: 1px solid #a8a8a8;
+	background: #ffffff linear-gradient(top, rgba(255, 255, 255, 0),
+		rgba(255, 255, 255, 0.4));
+	background: #ffffff
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
+		0)), to(rgba(255, 255, 255, 0.4)));
+	background: #ffffff -moz-linear-gradient(top, rgba(255, 255, 255, 0),
+		rgba(255, 255, 255, 0.4));
+}
+
+.ui-state-active,.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active
+	{
+	background: #E0ABF0 linear-gradient(top, rgba(255, 255, 255, 0),
+		rgba(255, 255, 255, 0.4));
+	background: #E0ABF0
+		-webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255,
+		0)), to(rgba(255, 255, 255, 0.4)));
+	background: #E0ABF0 -moz-linear-gradient(top, rgba(255, 255, 255, 0),
+		rgba(255, 255, 255, 0.4));
+	font-weight: bold;
+	color: #6A0888 !important;
+	text-shadow: 0 1px 0 #6A0888;
+}
+
+.ui-dialog,.ui-dialog-titlebar {
+	background: #F8EFFB !important;
+	color: #6A0888 !important;
+}
+
+.ui-widget-header {
+	font-size: 11px;
+	font-weight: bold;
+	padding: 2px !important;
+}
+
+.ui-panel-titlebar {
+	background: #F8EFFB !important;
+	color: #6A0888 !important;
+	border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.ui-panelgrid .ui-panelgrid-cell {
+	border-style: none;
+	vertical-align: top;
+	padding: 1px 1px;
+}
+
+.ui-widget-content {
+	vertical-align: top;
+}
+
+.ui-panel .ui-panel-content {
+	padding: 0.1em;
+}
+
+.ui-dialog .ui-dialog-content {
+	padding: 0em 0em;
+}
+/*Para centrar bien el triangulito del selectOneMenu*/
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	width: 21px;
+}
+
+.ui-widget {
+	font-size: 11px !important;
+}
+/*Estilo de los botones*/
+.ui-button-text-only .ui-button-text {
+	margin: 2px;
+	padding: .3em .3em;
+	display: inline-block;
+	font-size: 10px;
+	height: 26px;
+	line-height: 10px;
+	color: #333333;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+	vertical-align: middle;
+	cursor: pointer;
+	background-color: #fff;
+}
+
+.ui-button {
+	height: 22px;
+}

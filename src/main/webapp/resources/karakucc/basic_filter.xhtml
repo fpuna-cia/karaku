@@ -25,6 +25,7 @@
 		</h:selectOneMenu>
 		<a4j:commandButton value="#{msg['BASE_SEARCH_SIMPLE_SEARCH']}"
 			action="#{cc.attrs.controller.doSimpleSearch()}"
+			oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 			execute="panelGridSearch" render="#{cc.attrs.searchRender}" />
 		<composite:insertChildren />
 	</h:panelGrid>
