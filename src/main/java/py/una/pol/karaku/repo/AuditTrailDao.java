@@ -28,11 +28,11 @@ import py.una.pol.karaku.domain.AuditTrail;
 
 @Repository
 @Transactional
-public class AuditTrailDao extends KarakuBaseDao<AuditTrail, Integer> implements
-		IAuditTrailDao {
+public class AuditTrailDao extends KarakuBaseDao<AuditTrail, Long> implements
+        IAuditTrailDao {
 
-	public AuditTrailDao() {
+    public AuditTrailDao() {
 
-	}
+    }
 
 }

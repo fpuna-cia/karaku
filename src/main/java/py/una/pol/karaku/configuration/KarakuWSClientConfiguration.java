@@ -56,6 +56,16 @@ import py.una.pol.karaku.services.client.WSInformationProvider;
 public class KarakuWSClientConfiguration {
 
 	/**
+     * 
+     */
+    private static final String URLS_JSON = "urls.json";
+
+    /**
+     * 
+     */
+    private static final String KARAKU_MENU_JSON_URLS = "karaku.menu.json_urls";
+
+    /**
 	 *
 	 */
 	private static final String DEFAULT_PACKAGES_TO_SCAN_EXPRESSION = "[\\w\\.]*services\\.schemas";
@@ -114,13 +124,13 @@ public class KarakuWSClientConfiguration {
 		if (properties.getBoolean(KarakuPersistence.KARAKU_JPA_ENABLED, true)) {
 			return new EntityURLProvider();
 		}
-		String url = properties.get("karaku.menu.json_urls", "urls.json");
+		String url = properties.get(KARAKU_MENU_JSON_URLS, URLS_JSON);
 		InputStream is;
 		if (url.startsWith("/")) {
 			is = new FileInputStream(url);
 		} else {
-			is = new ClassPathResource(properties.get("karaku.menu.json_urls",
-					"urls.json")).getInputStream();
+			is = new ClassPathResource(properties.get(KARAKU_MENU_JSON_URLS,
+					URLS_JSON)).getInputStream();
 		}
 		return new JsonURLProvider(is);
 	}

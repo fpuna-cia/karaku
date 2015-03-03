@@ -61,210 +61,210 @@ import py.una.pol.karaku.test.util.TestPropertiesUtil;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class MenuTest extends BaseTest {
 
-	@Configuration
-	static class ContextConfiguration extends BaseTestConfiguration {
+    @Configuration
+    static class ContextConfiguration extends BaseTestConfiguration {
 
-		@Bean
-		MenuServerLogic menuServerLogic() {
+        @Bean
+        MenuServerLogic menuServerLogic() {
 
-			return new MenuServerLogic();
-		}
+            return new MenuServerLogic();
+        }
 
-		@Bean
-		MenuHelper menuHelper() {
+        @Bean
+        MenuHelper menuHelper() {
 
-			return new MenuHelper();
-		}
+            return new MenuHelper();
+        }
 
-		@Bean
-		TestMenuProvider testMenuHelper() {
+        @Bean
+        TestMenuProvider testMenuHelper() {
 
-			return new TestMenuProvider();
-		}
-	}
+            return new TestMenuProvider();
+        }
+    }
 
-	@Log
-	private Logger log;
+    @Log
+    private Logger log;
 
-	/**
+    /**
  *
  */
-	@Autowired
-	MenuServerLogic menuServerLogic;
+    @Autowired
+    MenuServerLogic menuServerLogic;
 
-	@Autowired
-	TestI18nHelper i18nHelper;
+    @Autowired
+    TestI18nHelper i18nHelper;
 
-	@Autowired
-	TestPropertiesUtil propertiesUtil;
+    @Autowired
+    TestPropertiesUtil propertiesUtil;
 
-	@Autowired
-	MenuHelper mh;
+    @Autowired
+    MenuHelper mh;
 
-	@Autowired
-	TestMenuProvider testMenuProvider;
+    @Autowired
+    TestMenuProvider testMenuProvider;
 
-	private Menu m1;
+    private Menu m1;
 
-	private Menu m12;
+    private Menu m12;
 
-	private Menu m11;
+    private Menu m11;
 
-	private Menu m122;
+    private Menu m122;
 
-	private Menu m121;
+    private Menu m121;
 
-	@Before
-	public void addEntriesI18() {
+    @Before
+    public void addEntriesI18() {
 
-		i18nHelper.addString("1", "UNO");
-		i18nHelper.addString("1.1", "UNO.UNO");
-		i18nHelper.addString("1.2", "UNO.DOS");
-		i18nHelper.addString("1.2.1", "UNO.DOS.UNO");
-		i18nHelper.addString("1.2.2", "UNO.DOS.DOS");
-		i18nHelper.addString("TEST_STRING", "test");
+        i18nHelper.addString("1", "UNO");
+        i18nHelper.addString("1.1", "UNO.UNO");
+        i18nHelper.addString("1.2", "UNO.DOS");
+        i18nHelper.addString("1.2.1", "UNO.DOS.UNO");
+        i18nHelper.addString("1.2.2", "UNO.DOS.DOS");
+        i18nHelper.addString("TEST_STRING", "test");
 
-	}
+    }
 
-	@Before
-	public void initialize() {
+    @Before
+    public void initialize() {
 
-		m1 = m(null, "1", 1, null);
-		m12 = m(m1, "1.2", 2, null);
-		m11 = m(m1, "1.1", 1, "/views/caso3/list.xhtml\n");
-		m121 = m(m12, "1.2.1", 1, "/views/caso4/report.xhtml");
-		m122 = m(m12, "1.2.2", 2, "/views/caso5/list.xhtml");
-	}
+        m1 = m(null, "1", 1, null);
+        m12 = m(m1, "1.2", 2, null);
+        m11 = m(m1, "1.1", 1, "/views/caso3/list.xhtml\n");
+        m121 = m(m12, "1.2.1", 1, "/views/caso4/report.xhtml");
+        m122 = m(m12, "1.2.2", 2, "/views/caso5/list.xhtml");
+    }
 
-	@Before
-	public void setProperties() {
+    @Before
+    public void setProperties() {
 
-		propertiesUtil.put("application.appUrlPlaceHolder", "base");
-	}
+        propertiesUtil.put("application.appUrlPlaceHolder", "base");
+    }
 
-	/**
-	 * Si este test falla, verificar el test {@link #converTest()} que convierte
-	 * un formato viejo al nuevo.
-	 */
-	@Test
-	public void getMenuTest() {
+    /**
+     * Si este test falla, verificar el test {@link #converTest()} que convierte
+     * un formato viejo al nuevo.
+     */
+    @Test
+    public void getMenuTest() {
 
-		try {
-			Menu m = menuServerLogic.getCurrentSystemMenu().get(0);
-			assertNotNull(m.getItems());
-			assertFalse(m.getOrder() == 0);
-		} catch (KarakuRuntimeException kre) {
-			if (kre.getCause() instanceof FileNotFoundException) {
-				fail("El menu del sistema actual no existe");
-			}
-			if (kre.getCause() instanceof JAXBException) {
-				fail("El menu del sistema esta mal formateado");
-			}
-			if (kre.getCause() instanceof UnsupportedEncodingException) {
-				fail("El menu del sistema tiene un encoding incorrecto");
-			}
+        try {
+            Menu m = menuServerLogic.getCurrentSystemMenu().get(0);
+            assertNotNull(m.getItems());
+            assertFalse(m.getOrder() == 0);
+        } catch (KarakuRuntimeException kre) {
+            if (kre.getCause() instanceof FileNotFoundException) {
+                fail("El menu del sistema actual no existe");
+            }
+            if (kre.getCause() instanceof JAXBException) {
+                fail("El menu del sistema esta mal formateado");
+            }
+            if (kre.getCause() instanceof UnsupportedEncodingException) {
+                fail("El menu del sistema tiene un encoding incorrecto");
+            }
 
-		}
-	}
+        }
+    }
 
-	@Test
-	public void buildMenuTest() {
+    @Test
+    public void buildMenuTest() {
 
-		menuServerLogic.configMenu(m1);
+        menuServerLogic.configMenu(m1);
 
-		assertEquals("No ordena (1er level)", Arrays.asList(m11, m12),
-				m1.getItems());
+        assertEquals("No ordena (1er level)", Arrays.asList(m11, m12),
+                m1.getItems());
 
-		assertEquals("No ordena (2do level)", Arrays.asList(m121, m122),
-				m12.getItems());
-		mh.createAlias();
-	}
+        assertEquals("No ordena (2do level)", Arrays.asList(m121, m122),
+                m12.getItems());
+        mh.createAlias();
+    }
 
-	@Test
-	public void internationalizationTest() {
+    @Test
+    public void internationalizationTest() {
 
-		menuServerLogic.configMenu(m1);
-		assertEquals("UNO", m1.getName());
-		assertEquals("UNO.UNO", m11.getName());
-		assertEquals("UNO.DOS", m12.getName());
-		assertEquals("UNO.DOS.DOS", m122.getName());
-	}
+        menuServerLogic.configMenu(m1);
+        assertEquals("UNO", m1.getName());
+        assertEquals("UNO.UNO", m11.getName());
+        assertEquals("UNO.DOS", m12.getName());
+        assertEquals("UNO.DOS.DOS", m122.getName());
+    }
 
-	@Test
-	public void testMenuHelperFather() {
+    @Test
+    public void testMenuHelperFather() {
 
-		Menu root = menuServerLogic.configMenu(m1);
-		testMenuProvider.setRoot(root);
-		mh.createAlias();
+        Menu root = menuServerLogic.configMenu(m1);
+        testMenuProvider.setRoot(root);
+        mh.createAlias();
 
-		assertEquals(m1, mh.getFather(m11));
-		assertEquals(m12, mh.getFather(m122));
-		assertEquals(null, mh.getFather(m1));
-		assertEquals(m1, mh.getFather(m12));
+        assertEquals(m1, mh.getFather(m11));
+        assertEquals(m12, mh.getFather(m122));
+        assertEquals(null, mh.getFather(m1));
+        assertEquals(m1, mh.getFather(m12));
 
-	}
+    }
 
-	@Test
-	public void testMenuHelperGetByUri() {
+    @Test
+    public void testMenuHelperGetByUri() {
 
-		Menu root = menuServerLogic.configMenu(m1);
-		testMenuProvider.setRoot(root);
-		mh.createAlias();
+        Menu root = menuServerLogic.configMenu(m1);
+        testMenuProvider.setRoot(root);
+        mh.createAlias();
 
-		assertEquals(m11, mh.getMenuByUrl("/views/caso3/abm.xhtml"));
-		assertEquals(m11, mh.getMenuByUrl("/views/caso3/list.xhtml"));
-		assertEquals(m121, mh.getMenuByUrl("/views/caso4/report.xhtml"));
-		assertEquals(m122, mh.getMenuByUrl("/views/caso5/abm.xhtml"));
-		assertEquals(m122, mh.getMenuByUrl("/views/caso5/list.xhtml"));
+        assertEquals(m11, mh.getMenuByUrl("/views/caso3/abm.xhtml"));
+        assertEquals(m11, mh.getMenuByUrl("/views/caso3/list.xhtml"));
+        assertEquals(m121, mh.getMenuByUrl("/views/caso4/report.xhtml"));
+        assertEquals(m122, mh.getMenuByUrl("/views/caso5/abm.xhtml"));
+        assertEquals(m122, mh.getMenuByUrl("/views/caso5/list.xhtml"));
 
-	}
+    }
 
-	// /////////////////////////////
-	// MÉTODO Y CLASES UTILITARIAS//
-	// /////////////////////////////
+    // /////////////////////////////
+    // MÉTODO Y CLASES UTILITARIAS//
+    // /////////////////////////////
 
-	public Menu m(Menu father, String id, int order, String uri) {
+    public Menu m(Menu father, String id, int order, String uri) {
 
-		Menu toRet = new Menu();
-		toRet.setId(id);
-		toRet.setOrder(order);
-		toRet.setName(id);
-		toRet.setUrl(uri);
-		if (father != null) {
-			father.getItems().add(toRet);
-		}
-		return toRet;
-	}
+        Menu toRet = new Menu();
+        toRet.setId(id);
+        toRet.setOrder(order);
+        toRet.setName(id);
+        toRet.setUrl(uri);
+        if (father != null) {
+            father.getItems().add(toRet);
+        }
+        return toRet;
+    }
 
-	static class TestMenuProvider extends AbstractMenuProvider {
+    static class TestMenuProvider extends AbstractMenuProvider {
 
-		List<Menu> roots;
+        List<Menu> roots;
 
-		public void setRoot(Menu root) {
+        public void setRoot(Menu root) {
 
-			this.roots = new ArrayList<Menu>();
-			this.roots.add(root);
-			notifyMenuRebuild(this.roots);
-		}
+            this.roots = new ArrayList<Menu>();
+            this.roots.add(root);
+            notifyMenuRebuild(this.roots);
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public List<Menu> getMenu() {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public List<Menu> getMenu() {
 
-			return roots;
-		}
+            return roots;
+        }
 
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public List<Menu> getLocalMenu() {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public List<Menu> getLocalMenu() {
 
-			return roots;
-		}
+            return roots;
+        }
 
-	}
+    }
 
 }
