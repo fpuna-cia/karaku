@@ -27,7 +27,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -39,6 +41,7 @@ import py.una.pol.karaku.survey.domain.EncuestaPlantillaBloque;
 import py.una.pol.karaku.survey.domain.EncuestaPlantillaPregunta;
 import py.una.pol.karaku.test.base.BaseTest;
 import py.una.pol.karaku.test.configuration.ControllerTestConfiguration;
+import py.una.pol.karaku.test.util.TestI18nHelper;
 
 /**
  * 
@@ -55,6 +58,19 @@ public class DynamicSurveyDataTableTest extends BaseTest {
     static class ContextConfiguration extends ControllerTestConfiguration {
 
     }
+    
+    private static final String NOT_DELETE_ROW = "NOT_DELETE_ROW";
+    private static final String NOT_ADD_ROW = "NOT_ADD_ROW"; 
+
+	@Autowired
+	private TestI18nHelper h;
+
+	@Before
+	public void before() {
+
+		h.addString(NOT_DELETE_ROW, "No existen registros a eliminar");
+		h.addString(NOT_ADD_ROW, "No se pueden agregar mas registros");
+	}
 
     private final DynamicSurveyDataTable survey;
 
@@ -90,11 +106,7 @@ public class DynamicSurveyDataTableTest extends BaseTest {
         assertEquals(50, survey.getRowsNumber());
 
         survey.addRow();
-        /*
-         * No existe cade internacionalizada para NOT_ADD_ROW, por eso se
-         * utiliza "NOT_ADD_ROW&&&" en la siguiente comparación
-         */
-        assertEquals("NOT_ADD_ROW&&&", survey.getGlobalMessage());
+        assertEquals(h.getString(NOT_ADD_ROW), survey.getGlobalMessage());
         assertEquals(50, survey.getRowsNumber());
     }
 
@@ -118,7 +130,7 @@ public class DynamicSurveyDataTableTest extends BaseTest {
         }
 
         survey.deleteRow(0);
-        assertEquals("NOT_DELETE_ROW&&&", survey.getGlobalMessage());
+        assertEquals(h.getString(NOT_DELETE_ROW), survey.getGlobalMessage());
     }
 
     /**
