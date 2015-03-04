@@ -33,16 +33,16 @@ import py.una.pol.karaku.domain.AuditTrailDetail;
  * @version 1.0
  * 
  */
-public interface IAuditLogic extends IKarakuBaseLogic<AuditTrail, Integer> {
+public interface IAuditLogic extends IKarakuBaseLogic<AuditTrail, Long> {
 
-	/**
-	 * Agrega un registro de auditoria y todos sus detalles
-	 * 
-	 * @param auditTrail
-	 *            Cabecera del registro
-	 * @param details
-	 *            Lista de detalles
-	 */
-	void saveAudit(AuditTrail auditTrail, List<AuditTrailDetail> details);
+    /**
+     * Agrega un registro de auditoria y todos sus detalles
+     * 
+     * @param auditTrail
+     *            Cabecera del registro
+     * @param details
+     *            Lista de detalles
+     */
+    void saveAudit(AuditTrail auditTrail, List<AuditTrailDetail> details);
 
 }

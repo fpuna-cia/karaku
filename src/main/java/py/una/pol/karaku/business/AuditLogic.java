@@ -42,28 +42,28 @@ import py.una.pol.karaku.repo.IKarakuBaseDao;
  */
 @Service
 @Transactional
-public class AuditLogic extends KarakuBaseLogic<AuditTrail, Integer> implements
-		IAuditLogic {
+public class AuditLogic extends KarakuBaseLogic<AuditTrail, Long> implements
+        IAuditLogic {
 
-	@Autowired
-	private IAuditTrailDao dao;
+    @Autowired
+    private IAuditTrailDao dao;
 
-	@Autowired
-	private IAuditTrailDetailDao detailDao;
+    @Autowired
+    private IAuditTrailDetailDao detailDao;
 
-	@Override
-	public IKarakuBaseDao<AuditTrail, Integer> getDao() {
+    @Override
+    public IKarakuBaseDao<AuditTrail, Long> getDao() {
 
-		return dao;
-	}
+        return dao;
+    }
 
-	@Override
-	public void saveAudit(AuditTrail auditTrail, List<AuditTrailDetail> details) {
+    @Override
+    public void saveAudit(AuditTrail auditTrail, List<AuditTrailDetail> details) {
 
-		dao.add(auditTrail);
-		for (AuditTrailDetail detail : details) {
-			detailDao.add(detail);
-		}
-	}
+        dao.add(auditTrail);
+        for (AuditTrailDetail detail : details) {
+            detailDao.add(detail);
+        }
+    }
 
 }

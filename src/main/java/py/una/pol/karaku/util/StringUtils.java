@@ -41,7 +41,11 @@ import org.apache.commons.lang3.ArrayUtils;
  */
 public final class StringUtils {
 
-	private static final List<Character> VOCALES = Arrays.asList('a', 'e', 'i',
+	/**
+     * 
+     */
+    private static final String SEPARATOR_CAN_T_BE_NULL = "Separator can't be null";
+    private static final List<Character> VOCALES = Arrays.asList('a', 'e', 'i',
 			'o', 'u', 'A', 'E', 'I', 'O', 'U');
 	private static final List<Character> VOCALES_FUERTES_TONICAS = Arrays
 			.asList('á', 'é', 'ó');
@@ -266,7 +270,7 @@ public final class StringUtils {
 	private static boolean checkParams(final String separator,
 			final String ... strings) {
 
-		notNull(separator, "Separator can't be null");
+		notNull(separator, SEPARATOR_CAN_T_BE_NULL);
 		if (ArrayUtils.isEmpty(strings)) {
 			return false;
 		}
@@ -280,7 +284,7 @@ public final class StringUtils {
 	private static boolean checkParams(final String separator,
 			final Collection<String> strings) {
 
-		notNull(separator, "Separator can't be null");
+		notNull(separator, SEPARATOR_CAN_T_BE_NULL);
 		if (!ListHelper.hasElements(strings)) {
 			return false;
 		}

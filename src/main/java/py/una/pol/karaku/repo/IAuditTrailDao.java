@@ -32,6 +32,6 @@ import py.una.pol.karaku.domain.AuditTrail;
  * @version 1.0 Jan 13, 2014
  * 
  */
-public interface IAuditTrailDao extends IKarakuBaseDao<AuditTrail, Integer> {
+public interface IAuditTrailDao extends IKarakuBaseDao<AuditTrail, Long> {
 
 }
