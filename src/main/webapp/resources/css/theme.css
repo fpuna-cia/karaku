@@ -567,13 +567,13 @@ li.divider:after {
 /*	margin-left: 0px !important; */
 /*	padding-left: 0px !important;  */
 	color: #880000 !important;
-/*	background: #FFE3E3;
-    border-color: #cccccc;
+	background: #FFE3E3;
+    border-color: #DD0000;
     border-style: solid;
     display: block !important;
 	margin-left: 20px !important;
 	padding-left: 20px !important;
-	border-width: 1px;  */
+	border-width: 1px;  
     
 }
 
@@ -725,10 +725,11 @@ button[disabled], input[type="reset"][disabled], input[type="submit"][disabled],
 
 .rf-msg-inf, .rf-msgs-inf {
     background-image: url("../resources/images/bien.gif") !important;
+    background-repeat: no-repeat;
 }
 
 .rf-msg-err, .rf-msgs-err {
-	background: #FFFFFF url("../resources/images/mal.png") no-repeat top left; 
+	background: #FFE3E3 url("../resources/images/mal.png") no-repeat top left; 
 	padding-left: 15px;
 }
 
