@@ -30,7 +30,8 @@
 		displayName="Determina cuando un botón es o no ajax, por defecto es false, es decir, cuando se presionan se refresca la página," />
 	<composite:facet name="preMainForm" />
 	<composite:facet name="moreButtons" />
-	<composite:attribute name="viewIsPrime" default="false"  displayName="Determina si la vista utiliza componentes del framework primeFaces"/>
+	<composite:attribute name="viewIsPrime" default="false"
+		displayName="Determina si la vista utiliza componentes del framework primeFaces" />
 
 </composite:interface>
 <composite:implementation>
@@ -56,14 +57,14 @@
 
 	<h:form id="base_abm_form"
 		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
-		
+
 		<rich:messages ajaxRendered="true" showDetail="true"
 			rendered="#{not cc.attrs.viewIsPrime}"
 			id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
 		<p:messages id="#{cc.attrs.controller.messageIdName}_prime"
-			showDetail="true" autoUpdate="true" closable="true"
-			rendered="#{cc.attrs.viewIsPrime}" />
-		
+			showDetail="false" showSummary="true" autoUpdate="true"
+			closable="true" rendered="#{cc.attrs.viewIsPrime}" />
+
 		<rich:panel>
 			<f:facet name="header">
 				<h:outputLabel value="#{cc.attrs.controller.headerText}" />
