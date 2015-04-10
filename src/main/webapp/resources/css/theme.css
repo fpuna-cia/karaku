@@ -68,16 +68,19 @@ button:hover,input[type="reset"]:hover,input[type="submit"]:hover,input[type="bu
 	color: #333333;
 	background-color: #F8EFFB;
 	*background-color: #d9d9d9;
+	background-image: none;
 }
 
 button:active,input[type="reset"]:active,input[type="submit"]:active,input[type="button"]:active
 	{
 	background-color: #cccccc \9;
+	background-image: none;
 }
 
 button:first-child,input[type="reset"]:first-child,input[type="submit"]:first-child,input[type="button"]:first-child
 	{
 	*margin-left: 0;
+	background-image: none;
 }
 
 button:hover,input[type="reset"]:hover,input[type="submit"]:hover,input[type="button"]:hover,button:focus,input[type="reset"]:focus,input[type="submit"]:focus,input[type="button"]:focus
@@ -90,6 +93,7 @@ button:hover,input[type="reset"]:hover,input[type="submit"]:hover,input[type="bu
 	-moz-transition: background-position 0.1s linear;
 	-o-transition: background-position 0.1s linear;
 	transition: background-position 0.1s linear;
+	background-image: none;
 }
 
 button:focus,input[type="reset"]:focus,input[type="submit"]:focus,input[type="button"]:focus
@@ -97,11 +101,13 @@ button:focus,input[type="reset"]:focus,input[type="submit"]:focus,input[type="bu
 	outline: thin dotted #333;
 	outline: 5px auto -webkit-focus-ring-color;
 	outline-offset: -2px;
+	background-image: none;
 }
 
 button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],input[type="button"][disabled]
 	{
-	color: grey;
+	color: #ffffff;
+	background-image: none;
 }
 
 input,button,select,textarea {
@@ -271,7 +277,13 @@ li.divider:after {
 }
 
 #top img {
-	width: 70px;
+   /**  display: block; **/
+    margin-left: auto;
+    margin-right: auto;
+    width: 120px;
+   /** position: fixed;  **/
+    text-align: center;
+    /** left: 80px;  **/
 }
 
 #top a {
@@ -311,9 +323,7 @@ li.divider:after {
 	text-shadow: 1px 0 rgba(0, 0, 0, 0.25);
 }
 
-#top img {
-	margin-left: 25%;
-}
+
 
 
 
@@ -677,11 +687,11 @@ background-color: #FFFFFF !important;
 }
 
 button[disabled], input[type="reset"][disabled], input[type="submit"][disabled], input[type="button"][disabled] {
-    background-color: #cccccc !important;
+    background-color: #ffffff !important;
  /*   background-image: url("/SIGHStock/faces/rfRes/buttonDisabledBackgroundImage.png?v=4.2.2.Final&db=eAFjZGBkZOBm!P-f8f!Hjx8Z!585c4aBCQBP8glH&ln=org.richfaces.images");   */
     background-position: left top;
     border-color: #CCCCCC;
-    color: #67AA67;
+    color: #000000;
 }
 
 .rf-pm-top-gr {
@@ -929,3 +939,6 @@ Css para los requeridos
     overflow-x: hidden;
     vertical-align: top;
 }
+
+
+
