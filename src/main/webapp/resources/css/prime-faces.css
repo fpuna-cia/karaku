@@ -15,10 +15,10 @@
 
 /*Estilo de los elementos cuando nos posicionamos sobre ellos*/
 .ui-state-hover,.ui-state-focus {
-	background: #F8EFFB !important;
+	background: none !important;
 	border-color: #E0ABF0 !important;
 	box-shadow: 0px 0px 4px #6A0888 !important;
-	color: #6A0888 !important;
+	color: #555555; !important;
 }
 
 .ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited {
