@@ -13,9 +13,12 @@ Windows ->
   Buscar: spelling
 
 1. Poner en parte donde dice User defined dictionary, poner la 
-   ubicacion del archivo ES.txt
-2. Poner en el encoding Other ISO 8859-1
+   ubicacion del archivo ES.utf8.txt
+2. Poner en el encoding UTF-8 , si no es la codifiación por defecto ir a Other UTF-8
 3. Reiniciar ecilpse (File -> Restart)
+
+OBS: Si por alguna razón no se pudiese usar la codificación UTF-8 se provee un fichero 
+alternativo ES.iso8859-1.txt con el cuál configurar el diccionario
 
 Cualquier consulta, comunicarse con Arturo Volpe, o enviar un mail a 
 arturovolpe@gmail.com
