@@ -60,7 +60,7 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
     public List<T> load(int first, int pageSize, String sortField,
             SortOrder sortOrder, Map<String, Object> filters) {
 
-        Where<T> where = getMoreWheres();
+        Where<T> where = getPreFilterWhere();
         ISearchParam params = new SearchParam();
 
         if (filters != null) {
@@ -98,7 +98,7 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
      * 
      * @return {link <Where>}
      */
-    public Where<T> getMoreWheres() {
+    public Where<T> getPreFilterWhere() {
 
         return new Where<T>();
     }
