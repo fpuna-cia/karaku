@@ -18,12 +18,20 @@
 	background: none !important;
 	border-color: #E0ABF0 !important;
 	box-shadow: 0px 0px 4px #6A0888 !important;
-	color: #555555; !important;
+	color: #555555 !important;
 }
 
 .ui-state-active a,.ui-state-active a:link,.ui-state-active a:visited {
 	color: #6A0888 !important;
 	text-decoration: none;
+}
+
+button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],input[type="button"][disabled]
+	{
+	background-color: #cccccc !important;
+	background-position: left top;
+	border-color: #cccccc;
+	color: grey;
 }
 
 /**Estilo del elemento seleccionado de un selecOneMenu*/
@@ -96,7 +104,7 @@
 }
 /*Para centrar bien el triangulito del selectOneMenu*/
 .ui-selectonemenu .ui-selectonemenu-trigger {
-	width: 21px;
+	width: 25px !important;
 }
 
 .ui-widget {
@@ -120,4 +128,9 @@
 
 .ui-button {
 	height: 22px;
+}
+/*Para evitar el efecto sombreado de los componentes */
+.ui-inputfield,.ui-widget-content .ui-inputfield,.ui-widget-header .ui-inputfield
+	{
+	box-shadow: none !important;
 }
