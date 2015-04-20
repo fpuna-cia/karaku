@@ -11,51 +11,50 @@
 	xmlns:k="http://java.sun.com/jsf/composite/karakucc"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:o="http://myfaces.apache.org/orchestra">			
-		
-	<composite:interface>
-		<composite:attribute name="items" required="true" />
-		<composite:attribute name="idDataTable" required="true" />
-		<composite:attribute name="controller" required="true" />
-		<composite:attribute name="deleteVisible" default="true"
-			shortDescription="Controla la visibilidad del link borrar" />
-		<composite:attribute name="editVisible" default="true"
-			shortDescription="Controla la visibilidad del link editar" />
-		<composite:attribute name="viewVisible" default="true"
-			shortDescription="Controla la visibilidad del link ver" />
-	
-		<composite:attribute name="withActions" default="true"
-			shortDescription="Show a column with create, delete and view"
-			type="java.lang.Boolean" />
-		<composite:attribute name="withExports" default="false"
-			shortDescription="Show a column with exports to xls, pdf"
-			type="java.lang.Boolean" />
-		<composite:attribute name="deleteText"
-			default="#{msg['BASE_LIST_DELETE']}"
-			shortDescription="Texto que aparecera en el link que invoque a los metodos preDelete, doDelete, postDelete" />
-		<composite:attribute name="editText" default="#{msg.BASE_LIST_EDIT}" />
-		<composite:attribute name="height" />
-		<composite:attribute name="width" default="620px" />
-		<composite:attribute name="disableSelection" default="true" />
-		<composite:attribute name="renderOnClick" />	
-	</composite:interface>
-	
-	<composite:implementation>
-		<h:outputStylesheet library="css" name="karaku-primefaces.css" />
-		<h:form id="form"> 
-			<p:dataTable var="item" value="#{cc.attrs.items}" paginator="true" 
-					 id="idDataTable" lazy="true" paginatorPosition="bottom"
-					 rowsPerPageTemplate="10,25,50,100" rows="10" sortBy="#{item.id}"
-					 stickyHeader="true" >
-	       
-	       	<composite:insertChildren />
-	       
-	       	<c:if test="#{cc.attrs.withActions}" >
-	       		<p:column >
-	       			<f:facet name="header">
-	       				<h:outputText value="#{msg['BASE_LIST_ACTION_TITLE']}" />
-	       			</f:facet>
-	       			<o:separateConversationContext>
+	xmlns:o="http://myfaces.apache.org/orchestra">
+
+<composite:interface>
+	<composite:attribute name="items" required="true" />
+	<composite:attribute name="idDataTable" required="true" />
+	<composite:attribute name="controller" required="true" />
+	<composite:attribute name="deleteVisible" default="true"
+		shortDescription="Controla la visibilidad del link borrar" />
+	<composite:attribute name="editVisible" default="true"
+		shortDescription="Controla la visibilidad del link editar" />
+	<composite:attribute name="viewVisible" default="true"
+		shortDescription="Controla la visibilidad del link ver" />
+	<composite:attribute name="withActions" default="true"
+		shortDescription="Show a column with create, delete and view"
+		type="java.lang.Boolean" />
+	<composite:attribute name="withExports" default="false"
+		shortDescription="Show a column with exports to xls, pdf"
+		type="java.lang.Boolean" />
+	<composite:attribute name="deleteText"
+		default="#{msg['BASE_LIST_DELETE']}"
+		shortDescription="Texto que aparecera en el link que invoque a los metodos preDelete, doDelete, postDelete" />
+	<composite:attribute name="editText" default="#{msg.BASE_LIST_EDIT}" />
+	<composite:attribute name="height" />
+	<composite:attribute name="width" default="620px" />
+	<composite:attribute name="disableSelection" default="true" />
+	<composite:attribute name="renderOnClick" />
+</composite:interface>
+
+<composite:implementation>
+	<h:outputStylesheet library="css" name="karaku-primefaces.css" />
+	<h:form id="form">
+		<p:dataTable var="item" value="#{cc.attrs.items}" paginator="true"
+			id="idDataTable" lazy="true" paginatorPosition="bottom"
+			rowsPerPageTemplate="10,25,50,100" rows="10" sortBy="#{item.id}" 
+			withSticky="{cc.attrs.withSticky}">
+
+			<composite:insertChildren />
+
+			<c:if test="#{cc.attrs.withActions}">
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="#{msg['BASE_LIST_ACTION_TITLE']}" />
+					</f:facet>
+					<o:separateConversationContext>
 						<h:commandButton value="#{cc.attrs.editText}" immediate="true"
 							action="#{cc.attrs.controller.preEdit()}"
 							rendered="#{cc.attrs.editVisible and authorityController.hasRole(cc.attrs.controller.editPermission)}"
@@ -63,8 +62,8 @@
 							<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
 								value="#{item}" />
 						</h:commandButton>
-						<h:commandButton value="#{msg['BASE_LIST_VIEW']} " immediate="true"
-							action="#{cc.attrs.controller.preView()}"
+						<h:commandButton value="#{msg['BASE_LIST_VIEW']} "
+							immediate="true" action="#{cc.attrs.controller.preView()}"
 							rendered="#{cc.attrs.viewVisible}" styleClass="commandButton">
 							<f:setPropertyActionListener target="#{cc.attrs.controller.bean}"
 								value="#{item}" />
@@ -77,11 +76,11 @@
 								value="#{item}" />
 						</h:commandButton>
 						<composite:renderFacet name="extraColumnButtons" />
-					</o:separateConversationContext>		
-	       		</p:column>		
-	       </c:if>
-	       
-	       <p:column width="50%" style="text-align:center"
+					</o:separateConversationContext>
+				</p:column>
+			</c:if>
+
+			<p:column width="50%" style="text-align:center"
 				styleClass="data-table-exports" rendered="#{cc.attrs.withExports}">
 				<f:facet name="header">
 					<h:outputText value="#{msg['BASE_LIST_EXPORT']}" />
@@ -101,7 +100,7 @@
 						value="#{item}" />
 				</h:commandLink>>
 	       	</p:column>
-	    </p:dataTable>	
+		</p:dataTable>
 	</h:form>
-	</composite:implementation>		   			
+</composite:implementation>
 </html>
