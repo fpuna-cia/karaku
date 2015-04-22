@@ -46,7 +46,7 @@
 			<p:dataTable var="item" value="#{cc.attrs.items}" paginator="true" 
 					 id="idDataTable" lazy="true" paginatorPosition="bottom"
 					 rowsPerPageTemplate="10,25,50,100" rows="10" sortBy="#{item.id}"
-					 stickyHeader="true" >
+					 stickyHeader="true" emptyMessage="#{msg['BASE_NO_REGISTROS_EN_TABLA']}">
 	       
 	       	<composite:insertChildren />
 	       
