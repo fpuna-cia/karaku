@@ -20,9 +20,9 @@
 		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
 	<composite:attribute name="idListEntities" default="idListEntities"
 		displayName="id de la tabla de entidades (dataTable), el nombre de la variable de esta tabla es dataTable" />
-	<composite:attribute name="urlColumns" required="true" />	
-	<composite:facet name="extraButtons" />	
-	<composite:attribute name="deleteButtonName" />	
+	<composite:attribute name="urlColumns" required="true" />
+	<composite:facet name="extraButtons" />
+	<composite:attribute name="deleteButtonName" />
 	<composite:attribute name="editButtonName" />
 	<composite:attribute name="withRowExports" default="false"
 		type="java.lang.Boolean"
@@ -34,12 +34,13 @@
 		type="java.lang.Boolean"
 		displayName="Muestra una columna con las acciones editar, borrar y ver" />
 	<composite:attribute name="showMessages" default="true" />
-	<composite:attribute name="viewIsPrime" default="false"  
-		displayName="Determina si la vista utiliza componentes del framework primeFaces"/>
+	<composite:attribute name="viewIsPrime" default="false"
+		displayName="Determina si la vista utiliza componentes del framework primeFaces" />
 	<composite:attribute name="withMessages" default="true"
 		type="java.lang.Boolean" />
 	<composite:attribute name="withCreateButton" type="java.lang.Boolean"
-		default="true" shortDescription="Define si el boton crear sera visible" />
+		default="true"
+		shortDescription="Define si el boton crear sera visible" />
 	<composite:attribute name="withDeleteVisible" type="java.lang.Boolean"
 		default="true"
 		shortDescription="Define si el enlace borrar sera visible" />
@@ -49,6 +50,9 @@
 	<composite:facet name="extraColumnButtons" />
 	<composite:attribute name="withViewVisible" type="java.lang.Boolean"
 		default="true" shortDescription="Define si el enlace ver sera visible" />
+	<composite:attribute name="withSticky" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el encabezado de la tabla sera visible en todo momento" />
 </composite:interface>
 
 <composite:implementation
@@ -56,17 +60,17 @@
 
 	#{cc.attrs.controller.columnFix()}
 	<h:outputLabel value="#{cc.attrs.controller.usarController}" />
-		
-	<rich:panel 
+
+	<rich:panel
 		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 		<p:messages id="#{cc.attrs.controller.messageIdName}"
 			showDetail="false" showSummary="true" autoUpdate="true"
-			closable="true"/>
+			closable="true" />
 		<f:facet name="header">
 			<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
 		</f:facet>
 		<div class="space"></div>
-		
+
 		<h:form
 			rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 			<k:primeDataTable items="#{cc.attrs.controller.lazyModel}"
@@ -78,7 +82,8 @@
 				deleteVisible="#{cc.attrs.withDeleteVisible}"
 				editVisible="#{cc.attrs.withEditVisible}"
 				viewVisible="#{cc.attrs.withViewVisible}"
-				withExports="#{cc.attrs.withRowExports}">
+				withExports="#{cc.attrs.withRowExports}"
+				withSticky="{cc.attrs.withSticky}">
 
 				<f:facet name="extraColumnButtons">
 					<h:inputHidden value="facetRender" />
@@ -88,7 +93,7 @@
 			</k:primeDataTable>
 		</h:form>
 	</rich:panel>
-	
+
 	<h:form
 		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 		<h:panelGrid columns="3" width="100%"
@@ -114,9 +119,9 @@
 						style="width:24px;height:24px" />
 				</h:commandLink>
 			</h:panelGrid>
-			
+
 		</h:panelGrid>
 	</h:form>
-	
+
 </composite:implementation>
 </html>
