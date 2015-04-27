@@ -69,6 +69,7 @@
 					oncomplete="#{rich:component('puSearch')}.show()"
 					rendered="#{cc.attrs.withAdvancedSearch}" />
 				<a4j:commandButton value="#{msg['LIST_CLEAR']}"
+					oncomplete="KarakuExtendedDataTableFix.fixColumns()"
 					action="#{cc.attrs.controller.clearFilters}"
 					render="@form,#{cc.attrs.idListEntities}, #{cc.attrs.controller.messageIdName} idPagingPanel"
 					execute="@this" />
