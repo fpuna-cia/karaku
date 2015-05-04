@@ -65,7 +65,7 @@
 		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
 		<p:messages id="#{cc.attrs.controller.messageIdName}"
 			showDetail="false" showSummary="true" autoUpdate="true"
-			closable="true" />
+			closable="true" globalOnly="true" />
 		<f:facet name="header">
 			<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
 		</f:facet>
