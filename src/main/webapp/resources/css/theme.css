@@ -68,19 +68,16 @@ button:hover,input[type="reset"]:hover,input[type="submit"]:hover,input[type="bu
 	color: #333333;
 	background-color: #F8EFFB;
 	*background-color: #d9d9d9;
-	background-image: none;
 }
 
 button:active,input[type="reset"]:active,input[type="submit"]:active,input[type="button"]:active
 	{
 	background-color: #cccccc \9;
-	background-image: none;
 }
 
 button:first-child,input[type="reset"]:first-child,input[type="submit"]:first-child,input[type="button"]:first-child
 	{
 	*margin-left: 0;
-	background-image: none;
 }
 
 button:hover,input[type="reset"]:hover,input[type="submit"]:hover,input[type="button"]:hover,button:focus,input[type="reset"]:focus,input[type="submit"]:focus,input[type="button"]:focus
@@ -93,7 +90,6 @@ button:hover,input[type="reset"]:hover,input[type="submit"]:hover,input[type="bu
 	-moz-transition: background-position 0.1s linear;
 	-o-transition: background-position 0.1s linear;
 	transition: background-position 0.1s linear;
-	background-image: none;
 }
 
 button:focus,input[type="reset"]:focus,input[type="submit"]:focus,input[type="button"]:focus
@@ -101,13 +97,11 @@ button:focus,input[type="reset"]:focus,input[type="submit"]:focus,input[type="bu
 	outline: thin dotted #333;
 	outline: 5px auto -webkit-focus-ring-color;
 	outline-offset: -2px;
-	background-image: none;
 }
 
 button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],input[type="button"][disabled]
 	{
-	color: #ffffff;
-	background-image: none;
+	color: grey;
 }
 
 input,button,select,textarea {
@@ -129,6 +123,21 @@ select,textarea,input[type="text"],input[type="password"],input[type="datetime"]
 	border-radius: 4px;
 }
 
+select[disabled],input[disabled],input[type="text"][disabled],input[type="password"][disabled],input[type="datetime"][disabled],input[type="datetime-local"][disabled],input[type="date"][disabled],input[type="month"][disabled],input[type="time"][disabled],input[type="week"][disabled],input[type="number"][disabled],input[type="email"],input[type="url"][disabled],input[type="search"][disabled],input[type="tel"][disabled],input[type="color"][disabled]
+{
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border:0;
+  color:#000000;
+  background-image: none;
+}
+
+textarea[disabled]{
+	color:#000000;
+}
+
+
+
 input.large {
 	width: 200px;
 }
@@ -145,12 +154,23 @@ textarea {
 .form_label {
 	text-align: right;
 	vertical-align: middle !important;
+	font-weight: bold;
+	color:#555555;
 }
 
 /* Este estilo sera aplicado a todos los inputs de los formularios */
 .form_input {
 	text-transform: uppercase;
 	text-align: left;
+	font-weight: normal;
+}
+
+.form_input_disabled{
+	text-transform: uppercase;
+	text-align: left;
+	font-weight: normal;
+	border: 0;
+	color: #FFFFFF;
 }
 
 /* Este estilo sera aplicado a todos los errores de los inputs */
@@ -277,13 +297,10 @@ li.divider:after {
 }
 
 #top img {
-   /**  display: block; **/
     margin-left: auto;
     margin-right: auto;
     width: 120px;
-   /** position: fixed;  **/
     text-align: center;
-    /** left: 80px;  **/
 }
 
 #top a {
@@ -322,10 +339,6 @@ li.divider:after {
 	color: #6E6E6E;
 	text-shadow: 1px 0 rgba(0, 0, 0, 0.25);
 }
-
-
-
-
 
 #top .rf-p {
 	-webkit-border-radius: 10px !important;
@@ -545,7 +558,7 @@ li.divider:after {
 	height: 26px !important;
 	font-size: 11px !important;
 	border-bottom-style: none !important;
-	color: #555555 !important;
+	color: #808080 !important;
 	border-width: 1px !important;
 	border-style: solid !important;
 	border-color: #C0C0C0 !important;
@@ -641,6 +654,9 @@ td.form_input select {
 	/* rich:calendar calendar exterior */ {
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	
 	border-radius: 4px;
 }
 
@@ -687,11 +703,18 @@ background-color: #FFFFFF !important;
 }
 
 button[disabled], input[type="reset"][disabled], input[type="submit"][disabled], input[type="button"][disabled] {
-    background-color: #ffffff !important;
- /*   background-image: url("/SIGHStock/faces/rfRes/buttonDisabledBackgroundImage.png?v=4.2.2.Final&db=eAFjZGBkZOBm!P-f8f!Hjx8Z!585c4aBCQBP8glH&ln=org.richfaces.images");   */
+    background-color: #d7d7d7 !important;
+/*    background-image: url("/SIGHStock/faces/rfRes/buttonDisabledBackgroundImage.png?v=4.2.2.Final&db=eAFjZGBkZOBm!P-f8f!Hjx8Z!585c4aBCQBP8glH&ln=org.richfaces.images");   */
+background-image:none;
     background-position: left top;
     border-color: #CCCCCC;
-    color: #000000;
+    color: #808080;
+    cursor: not-allowed;
+     
+}
+
+span{
+	color:#555555 !important;
 }
 
 .rf-pm-top-gr {
@@ -798,7 +821,7 @@ button[disabled], input[type="reset"][disabled], input[type="submit"][disabled],
 }
 
 .rf-tab-hdr-act /* rich:tabPanel active tab */ {
-	background: #89A0A4 !important;
+	background: #FFFFFF !important;
 	font-widht: normal !important;
 	border: 1px solid #99B2B7 !important;
 	border-bottom-width: 0px !important;
@@ -902,7 +925,7 @@ button[disabled], input[type="reset"][disabled], input[type="submit"][disabled],
 Css para los requeridos
 */
 .required_label {
-	
+	color:#555555;
 }
 
 .required_label:after {
@@ -915,7 +938,7 @@ Css para los requeridos
 }
 
 .rf-pm-itm-sel {
-	color : #99B2B7 !important;
+	color : #9F9F9F !important;
 	font-weight: bold !important;
 }
 
@@ -940,5 +963,6 @@ Css para los requeridos
     vertical-align: top;
 }
 
-
-
+element.style {
+    vertical-align: middle;
+}
