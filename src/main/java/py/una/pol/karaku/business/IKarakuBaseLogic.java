@@ -46,7 +46,8 @@ import py.una.pol.karaku.repo.IKarakuBaseDao;
  * @param <K>
  *            Clase del id de la entidad
  */
-public interface IKarakuBaseLogic<T, K extends Serializable> {
+public interface IKarakuBaseLogic<T, K extends Serializable> extends
+		Serializable {
 
 	/**
 	 * Retorna el DAO que se utiliza para realizar operaciones baáicas.
