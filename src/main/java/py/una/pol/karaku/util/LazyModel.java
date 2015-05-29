@@ -11,6 +11,7 @@ import py.una.pol.karaku.business.IKarakuBaseLogic;
 import py.una.pol.karaku.dao.restrictions.Where;
 import py.una.pol.karaku.dao.search.ISearchParam;
 import py.una.pol.karaku.dao.search.SearchParam;
+import py.una.pol.karaku.dao.select.Select;
 import py.una.pol.karaku.dao.where.Clauses;
 import py.una.pol.karaku.log.Log;
 
@@ -82,8 +83,13 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
 
         params.setOffset(first);
         params.setLimit(pageSize);
-
-        List<T> entities = logic.getAll(where, params);
+        List<T> entities;
+        Select select = getProjectionColumn();
+        if (!select.getAttributes().isEmpty()) {
+            entities = logic.get(select, where, params);
+        } else {
+            entities = logic.getAll(where, params);
+        }
 
         this.setRowCount(logic.getCount(where).intValue());
         this.setPageSize(pageSize);
@@ -101,6 +107,18 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
     public Where<T> getPreFilterWhere() {
 
         return new Where<T>();
+    }
+
+    /***
+     * Este método debe ser sobrescrito por los controladores que requieran
+     * proyecciones especiales en las grillas. Debe retornar un {@link Select}
+     * que contenga todas las columnas que se desean proyectar.
+     * 
+     * @return {@link Select}
+     */
+    public Select getProjectionColumn() {
+
+        return Select.build("");
     }
 
 }
