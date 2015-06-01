@@ -41,203 +41,234 @@ import py.una.pol.karaku.util.StringUtils;
 
 public final class FieldBlockBuilder {
 
-	private String title;
-	private String nameDataSource;
-	private int widthLabel;
-	private int widthValue;
-	private List<Field> fields;
+    private String title;
+    private boolean isSubBlock;
+    private String nameDataSource;
+    private int widthLabel;
+    private int widthValue;
+    private List<Field> fields;
 
-	/**
-	 * Construye una instancia de un builder para diseñar bloques de reporte del
-	 * tipo {@link KarakuReportBlockField} y {@link KarakuReportBlockGrid}
-	 * 
-	 * @param title
-	 *            título del bloque a construir.
-	 *            <p>
-	 *            <li>Debe ser una cadena de internacionalización.
-	 */
-	public FieldBlockBuilder(String title) {
+    /**
+     * Construye una instancia de un builder para diseñar bloques de reporte del
+     * tipo {@link KarakuReportBlockField} y {@link KarakuReportBlockGrid}
+     * 
+     * @param title
+     *            título del bloque a construir.
+     *            <p>
+     *            <li>Debe ser una cadena de internacionalización.
+     */
+    public FieldBlockBuilder(String title) {
 
-		this.title = getMessage(title);
-		this.fields = new ArrayList<Field>();
-	}
+        this.title = getMessage(title);
+        this.fields = new ArrayList<Field>();
+        this.isSubBlock = false;
+    }
 
-	/**
-	 * 
-	 * @param title
-	 * @param i18n
-	 *            true si se desea internacionalizar el título del bloque
-	 */
-	public FieldBlockBuilder(String title, boolean i18n) {
+    public FieldBlockBuilder() {
 
-		if (i18n) {
-			this.title = getMessage(title);
+        this.fields = new ArrayList<Field>();
+        this.isSubBlock = false;
+    }
 
-		} else {
-			this.title = title;
+    /**
+     * 
+     * @param title
+     * @param i18n
+     *            true si se desea internacionalizar el título del bloque
+     */
+    public FieldBlockBuilder(String title, boolean i18n) {
 
-		}
-		this.fields = new ArrayList<Field>();
-	}
+        checkTitle(title, i18n);
+        this.fields = new ArrayList<Field>();
+        this.isSubBlock = false;
+    }
 
-	public String getTitle() {
+    public FieldBlockBuilder(String title, boolean i18n, boolean isSubBlock) {
 
-		return title;
-	}
+        checkTitle(title, i18n);
+        this.fields = new ArrayList<Field>();
+        this.isSubBlock = isSubBlock;
+    }
 
-	public void setTitle(String title) {
+    private void checkTitle(String title, boolean i18n) {
 
-		this.title = title;
-	}
+        if (i18n) {
+            this.title = getMessage(title);
 
-	public String getNameDataSource() {
+        } else {
+            this.title = title;
 
-		return nameDataSource;
-	}
+        }
+    }
 
-	/**
-	 * Configura el identificador del dataSource utilizado en el bloque.
-	 * 
-	 * <li>El identificador debe ser único.
-	 * 
-	 * @param nameDataSource
-	 *            identificador del {@link JRDataSource}
-	 * @return
-	 */
-	protected FieldBlockBuilder setNameDataSource(String nameDataSource) {
+    public String getTitle() {
 
-		this.nameDataSource = nameDataSource;
-		return this;
-	}
+        return title;
+    }
 
-	public int getWidthLabel() {
+    public void setTitle(String title) {
 
-		return widthLabel;
-	}
+        this.title = title;
+    }
 
-	/**
-	 * Configura el ancho del label de un bloque del tipo
-	 * {@link KarakuReportBlockField}.
-	 * 
-	 * @param widthLabel
-	 *            ancho de la columna que representa el label del bloque
-	 *            (columna izquierda.)
-	 * @return
-	 */
-	public FieldBlockBuilder setWidthLabel(int widthLabel) {
+    public String getNameDataSource() {
 
-		this.widthLabel = widthLabel;
-		return this;
-	}
+        return nameDataSource;
+    }
 
-	public int getWidthValue() {
+    /**
+     * Configura el identificador del dataSource utilizado en el bloque.
+     * 
+     * <li>El identificador debe ser único.
+     * 
+     * @param nameDataSource
+     *            identificador del {@link JRDataSource}
+     * @return
+     */
+    protected FieldBlockBuilder setNameDataSource(String nameDataSource) {
 
-		return widthValue;
-	}
+        this.nameDataSource = nameDataSource;
+        return this;
+    }
 
-	/**
-	 * Configura el ancho del valor de un bloque del tipo
-	 * {@link KarakuReportBlockField}.
-	 * 
-	 * @param widthValue
-	 *            ancho de la columna que representa el valor del bloque
-	 *            (columna derecha.)
-	 * @return
-	 */
-	public FieldBlockBuilder setWidthValue(int widthValue) {
+    public int getWidthLabel() {
 
-		this.widthValue = widthValue;
-		return this;
-	}
+        return widthLabel;
+    }
 
-	/**
-	 * Fields utilizados para representar un bloque del tipo
-	 * {@link KarakuReportBlockField}
-	 * 
-	 * @param fields
-	 *            atributos a mostrar
-	 */
-	public void setFields(List<Field> fields) {
+    /**
+     * Configura el ancho del label de un bloque del tipo
+     * {@link KarakuReportBlockField}.
+     * 
+     * @param widthLabel
+     *            ancho de la columna que representa el label del bloque
+     *            (columna izquierda.)
+     * @return
+     */
+    public FieldBlockBuilder setWidthLabel(int widthLabel) {
 
-		this.fields = notNull(fields,
-				"No se puede crear un block con fields nulos");
-	}
+        this.widthLabel = widthLabel;
+        return this;
+    }
 
-	public List<Field> getFields() {
+    public int getWidthValue() {
 
-		return fields;
-	}
+        return widthValue;
+    }
 
-	public FieldBlockBuilder addField(String label, String value) {
+    /**
+     * Configura el ancho del valor de un bloque del tipo
+     * {@link KarakuReportBlockField}.
+     * 
+     * @param widthValue
+     *            ancho de la columna que representa el valor del bloque
+     *            (columna derecha.)
+     * @return
+     */
+    public FieldBlockBuilder setWidthValue(int widthValue) {
 
-		this.fields.add(new Field(getLabelFied(label), value));
-		return this;
-	}
+        this.widthValue = widthValue;
+        return this;
+    }
 
-	public FieldBlockBuilder addField(String label, boolean i18n, String value) {
+    /**
+     * Fields utilizados para representar un bloque del tipo
+     * {@link KarakuReportBlockField}
+     * 
+     * @param fields
+     *            atributos a mostrar
+     */
+    public void setFields(List<Field> fields) {
 
-		if (i18n) {
-			return addField(label, value);
-		} else {
-			this.fields
-					.add(new Field(StringUtils.join(": ", label, ""), value));
-			return this;
-		}
-	}
+        this.fields = notNull(fields,
+                "No se puede crear un block con fields nulos");
+    }
 
-	/**
-	 * Internacionaliza el valor del label y le concatena dos puntos.
-	 * <p>
-	 * <b>Ejemplo: </b> key ="NOMBRE_USUARIO"
-	 * <li>retornará "Nombre:"
-	 * <li>suponiendo que la internacionalización de la cadena "NOMBRE_USUARIO"
-	 * es "Nombre".
-	 * 
-	 * @param key
-	 *            Cadena de internacionalización.
-	 * @return
-	 */
-	private static String getLabelFied(String key) {
+    public List<Field> getFields() {
 
-		return StringUtils.join(": ", getMessage(key), "");
-	}
+        return fields;
+    }
 
-	/**
-	 * Internacionaliza la cadena recibida como parámetro.
-	 * 
-	 * @param key
-	 *            cadena de internacionalización.
-	 * @return
-	 */
-	private static String getMessage(String key) {
+    public FieldBlockBuilder addField(String label, String value) {
 
-		return I18nHelper.getSingleton().getString(key);
-	}
+        this.fields.add(new Field(getLabelFied(label), value));
+        return this;
+    }
 
-	/**
-	 * Contruye un bloque {@link KarakuReportBlockField}
-	 * 
-	 * <p>
-	 * Ejemplo del bloque:
-	 * </p>
-	 * 
-	 * <b>Datos generales</b>
-	 * 
-	 * <p>
-	 * Nombre: Matias Gabriel
-	 * </p>
-	 * <p>
-	 * Apellido: Ozuna Cantero
-	 * </p>
-	 * Profesion: Ingeniero Electromecánico.
-	 * 
-	 * @return bloque configurado correctamente.
-	 */
-	public KarakuReportBlockField build() {
+    public FieldBlockBuilder addField(String label, boolean i18n, String value) {
 
-		return new KarakuReportBlockField(getTitle(), getNameDataSource(),
-				fields, getWidthLabel(), getWidthValue());
+        if (i18n) {
+            return addField(label, value);
+        } else {
+            this.fields
+                    .add(new Field(StringUtils.join(": ", label, ""), value));
+            return this;
+        }
+    }
 
-	}
+    /**
+     * Internacionaliza el valor del label y le concatena dos puntos.
+     * <p>
+     * <b>Ejemplo: </b> key ="NOMBRE_USUARIO"
+     * <li>retornará "Nombre:"
+     * <li>suponiendo que la internacionalización de la cadena "NOMBRE_USUARIO"
+     * es "Nombre".
+     * 
+     * @param key
+     *            Cadena de internacionalización.
+     * @return
+     */
+    private static String getLabelFied(String key) {
+
+        return StringUtils.join(": ", getMessage(key), "");
+    }
+
+    /**
+     * Internacionaliza la cadena recibida como parámetro.
+     * 
+     * @param key
+     *            cadena de internacionalización.
+     * @return
+     */
+    private static String getMessage(String key) {
+
+        return I18nHelper.getSingleton().getString(key);
+    }
+
+    /**
+     * Contruye un bloque {@link KarakuReportBlockField}
+     * 
+     * <p>
+     * Ejemplo del bloque:
+     * </p>
+     * 
+     * <b>Datos generales</b>
+     * 
+     * <p>
+     * Nombre: Matias Gabriel
+     * </p>
+     * <p>
+     * Apellido: Ozuna Cantero
+     * </p>
+     * Profesion: Ingeniero Electromecánico.
+     * 
+     * @return bloque configurado correctamente.
+     */
+    public KarakuReportBlockField build() {
+
+        return new KarakuReportBlockField(getTitle(), getNameDataSource(),
+                fields, getWidthLabel(), getWidthValue(), isSubBlock);
+
+    }
+
+    public boolean isSubBlock() {
+
+        return isSubBlock;
+    }
+
+    public void setSubBlock(boolean isSubBlock) {
+
+        this.isSubBlock = isSubBlock;
+    }
 
 }

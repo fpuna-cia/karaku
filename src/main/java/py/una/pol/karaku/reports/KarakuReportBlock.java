@@ -39,54 +39,60 @@ import net.sf.jasperreports.engine.JRDataSource;
  */
 public class KarakuReportBlock {
 
-	private String title;
-	// origen de los datos
-	private String nameDataSource;
-	private JRDataSource dataSource;
+    private String title;
+    // origen de los datos
+    private String nameDataSource;
+    private JRDataSource dataSource;
 
-	public KarakuReportBlock(String title, String nameDataSource) {
+    public KarakuReportBlock() {
 
-		super();
-		this.title = title;
-		this.nameDataSource = nameDataSource;
+        super();
 
-	}
+    }
 
-	public KarakuReportBlock(String title) {
+    public KarakuReportBlock(String title, String nameDataSource) {
 
-		super();
-		this.title = title;
+        super();
+        this.title = title;
+        this.nameDataSource = nameDataSource;
 
-	}
+    }
 
-	public String getTitle() {
+    public KarakuReportBlock(String title) {
 
-		return title;
-	}
+        super();
+        this.title = title;
 
-	public void setTitle(String title) {
+    }
 
-		this.title = title;
-	}
+    public String getTitle() {
 
-	public String getNameDataSource() {
+        return title;
+    }
 
-		return nameDataSource;
-	}
+    public void setTitle(String title) {
 
-	public void setNameDataSource(String nameDataSource) {
+        this.title = title;
+    }
 
-		this.nameDataSource = nameDataSource;
-	}
+    public String getNameDataSource() {
 
-	public JRDataSource getDataSource() {
+        return nameDataSource;
+    }
 
-		return dataSource;
-	}
+    public void setNameDataSource(String nameDataSource) {
 
-	public void setDataSource(JRDataSource dataSource) {
+        this.nameDataSource = nameDataSource;
+    }
 
-		this.dataSource = dataSource;
-	}
+    public JRDataSource getDataSource() {
+
+        return dataSource;
+    }
+
+    public void setDataSource(JRDataSource dataSource) {
+
+        this.dataSource = dataSource;
+    }
 
 }
