@@ -32,53 +32,53 @@ import py.una.pol.karaku.util.ListHelper;
 
 public final class KarakuReportBlockGrid extends KarakuReportBlock {
 
-	private List<Column> columns;
+    private List<Column> columns;
 
-	public KarakuReportBlockGrid(String title, String nameDataSource,
-			List<Column> columns, List<?> listElement) {
+    public KarakuReportBlockGrid(String title, String nameDataSource,
+            List<Column> columns, List<?> listElement) {
 
-		super(title, nameDataSource);
-		setDataSource(buildDataSource(columns, listElement));
+        super(title, nameDataSource);
+        setDataSource(buildDataSource(columns, listElement));
 
-	}
+    }
 
-	public JRDataSource buildDataSource(List<Column> columns,
-			List<?> listElement) {
+    public JRDataSource buildDataSource(List<Column> columns,
+            List<?> listElement) {
 
-		this.columns = columns;
+        this.columns = columns;
 
-		if (listElement.isEmpty()) {
-			return new DRDataSource();
-		}
+        if (!ListHelper.hasElements(listElement)) {
+            return new DRDataSource();
+        }
 
-		Object first = listElement.get(0);
+        Object first = listElement.get(0);
 
-		if (first instanceof BaseEntity) {
-			return new JRBeanCollectionDataSource(listElement);
+        if (first instanceof BaseEntity) {
+            return new JRBeanCollectionDataSource(listElement);
 
-		}
+        }
 
-		List<String> columnsDataSource = new ArrayList<String>();
-		for (Column column : columns) {
-			columnsDataSource.add(column.getField());
-		}
+        List<String> columnsDataSource = new ArrayList<String>();
+        for (Column column : columns) {
+            columnsDataSource.add(column.getField());
+        }
 
-		DRDataSource ds = new DRDataSource(
-				ListHelper.asArray(columnsDataSource));
-		for (Object o : listElement) {
-			ds.add((Object[]) o);
-		}
+        DRDataSource ds = new DRDataSource(
+                ListHelper.asArray(columnsDataSource));
+        for (Object o : listElement) {
+            ds.add((Object[]) o);
+        }
 
-		return ds;
-	}
+        return ds;
+    }
 
-	public List<Column> getColumns() {
+    public List<Column> getColumns() {
 
-		return columns;
-	}
+        return columns;
+    }
 
-	public void setColumns(List<Column> columns) {
+    public void setColumns(List<Column> columns) {
 
-		this.columns = columns;
-	}
+        this.columns = columns;
+    }
 }

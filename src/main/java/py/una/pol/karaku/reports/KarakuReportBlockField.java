@@ -40,81 +40,105 @@ import net.sf.jasperreports.engine.JRDataSource;
  */
 public final class KarakuReportBlockField extends KarakuReportBlock {
 
-	private int widthLabel;
-	private int widthValue;
+    private int widthLabel;
+    private int widthValue;
+    private boolean isSubBlock;
 
-	public KarakuReportBlockField(String title, String nameDataSource,
-			List<Field> fields, int widthLabel, int widthValue) {
+    public KarakuReportBlockField(String title, String nameDataSource,
+            List<Field> fields, int widthLabel, int widthValue,
+            boolean isSubBlock) {
 
-		super(title, nameDataSource);
-		setDataSource(buildDataSource(fields));
-		this.widthLabel = widthLabel;
-		this.widthValue = widthValue;
+        super(title, nameDataSource);
+        setDataSource(buildDataSource(fields));
+        this.widthLabel = widthLabel;
+        this.widthValue = widthValue;
+        this.isSubBlock = isSubBlock;
 
-	}
+    }
 
-	public JRDataSource buildDataSource(List<Field> fields) {
+    public KarakuReportBlockField(String title, String nameDataSource,
+            List<Field> fields, int widthLabel, int widthValue) {
 
-		DRDataSource ds = new DRDataSource("label", "value");
+        super(title, nameDataSource);
+        setDataSource(buildDataSource(fields));
+        this.widthLabel = widthLabel;
+        this.widthValue = widthValue;
+        this.isSubBlock = false;
 
-		for (Field field : fields) {
-			ds.add(field.getLabel(), field.getValue());
-		}
-		return ds;
-	}
+    }
 
-	public int getWidthValue() {
+    public JRDataSource buildDataSource(List<Field> fields) {
 
-		return widthValue;
-	}
+        DRDataSource ds = new DRDataSource("label", "value");
 
-	public void setWidthValue(int widthValue) {
+        for (Field field : fields) {
+            ds.add(field.getLabel(), field.getValue());
+        }
+        return ds;
+    }
 
-		this.widthValue = widthValue;
-	}
+    public int getWidthValue() {
 
-	public int getWidthLabel() {
+        return widthValue;
+    }
 
-		return widthLabel;
-	}
+    public void setWidthValue(int widthValue) {
 
-	public void setWidthLabel(int widthLabel) {
+        this.widthValue = widthValue;
+    }
 
-		this.widthLabel = widthLabel;
-	}
+    public int getWidthLabel() {
 
-	public static class Field {
+        return widthLabel;
+    }
 
-		private String label;
-		private String value;
+    public void setWidthLabel(int widthLabel) {
 
-		public Field(String label, String value) {
+        this.widthLabel = widthLabel;
+    }
 
-			super();
-			this.label = label;
-			this.value = value;
-		}
+    public static class Field {
 
-		public String getValue() {
+        private String label;
+        private String value;
 
-			return value;
-		}
+        public Field(String label, String value) {
 
-		public void setValue(String value) {
+            super();
+            this.label = label;
+            this.value = value;
+        }
 
-			this.value = value;
-		}
+        public String getValue() {
 
-		public String getLabel() {
+            return value;
+        }
 
-			return label;
-		}
+        public void setValue(String value) {
 
-		public void setLabel(String label) {
+            this.value = value;
+        }
 
-			this.label = label;
-		}
+        public String getLabel() {
 
-	}
+            return label;
+        }
+
+        public void setLabel(String label) {
+
+            this.label = label;
+        }
+
+    }
+
+    public boolean isSubBlock() {
+
+        return isSubBlock;
+    }
+
+    public void setSubBlock(boolean isSubBlock) {
+
+        this.isSubBlock = isSubBlock;
+    }
 
 }
