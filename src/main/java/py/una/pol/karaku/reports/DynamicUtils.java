@@ -855,11 +855,15 @@ public final class DynamicUtils {
         } else {
             styleTitle = getStyleTitleTransparentUnderline();
         }
+        if (block.isTitle()) {
+            styleTitle = getStyleOnlyTitle();
+        }
 
         structBlockReport.setDefaultStyles(styleTitle, this.getStyleTitle(),
                 this.getStyleColumnHeaderBlank(), styleDetail);
 
         structBlockReport.setUseFullPageWidth(true);
+
         this.setWhenNotData(structBlockReport);
 
         try {
@@ -1012,6 +1016,27 @@ public final class DynamicUtils {
 
         Style styleTitle = new Style();
         styleTitle.setFont(Font.ARIAL_MEDIUM_BOLD);
+
+        return styleTitle;
+    }
+
+    /**
+     * Metodo que define el estilo que debe ser aplicado al titulo principal de
+     * los reportes.
+     * 
+     * @return StyleTitle
+     */
+    public Style getStyleOnlyTitle() {
+
+        Style styleTitle = new Style();
+        styleTitle.setFont(Font.ARIAL_BIG_BOLD);
+        styleTitle.setHorizontalAlign(HorizontalAlign.CENTER);
+        styleTitle.setVerticalAlign(VerticalAlign.MIDDLE);
+        styleTitle.setBorderBottom(Border.THIN());
+        styleTitle.setBorderLeft(Border.THIN());
+        styleTitle.setBorderRight(Border.THIN());
+        styleTitle.setBorderTop(Border.THIN());
+        styleTitle.setTransparent(false);
         return styleTitle;
     }
 
