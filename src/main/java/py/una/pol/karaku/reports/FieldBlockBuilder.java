@@ -47,6 +47,7 @@ public final class FieldBlockBuilder {
     private int widthLabel;
     private int widthValue;
     private List<Field> fields;
+    private boolean isTitle;
 
     /**
      * Construye una instancia de un builder para diseñar bloques de reporte del
@@ -195,6 +196,12 @@ public final class FieldBlockBuilder {
         return this;
     }
 
+    public FieldBlockBuilder addEmptyField() {
+
+        this.fields.add(new Field("", ""));
+        return this;
+    }
+
     public FieldBlockBuilder addField(String label, boolean i18n, String value) {
 
         if (i18n) {
@@ -261,6 +268,13 @@ public final class FieldBlockBuilder {
 
     }
 
+    public KarakuReportBlockField buildTitle() {
+
+        return new KarakuReportBlockField(getTitle(), getNameDataSource(),
+                fields, getWidthLabel(), getWidthValue(), isSubBlock, isTitle);
+
+    }
+
     public boolean isSubBlock() {
 
         return isSubBlock;
@@ -269,6 +283,23 @@ public final class FieldBlockBuilder {
     public void setSubBlock(boolean isSubBlock) {
 
         this.isSubBlock = isSubBlock;
+    }
+
+    /**
+     * @return isTitle
+     */
+    public boolean isTitle() {
+
+        return isTitle;
+    }
+
+    /**
+     * @param isTitle
+     *            isTitle para setear
+     */
+    public void setTitle(boolean isTitle) {
+
+        this.isTitle = isTitle;
     }
 
 }

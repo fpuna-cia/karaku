@@ -43,6 +43,7 @@ public final class KarakuReportBlockField extends KarakuReportBlock {
     private int widthLabel;
     private int widthValue;
     private boolean isSubBlock;
+    private boolean isTitle;
 
     public KarakuReportBlockField(String title, String nameDataSource,
             List<Field> fields, int widthLabel, int widthValue,
@@ -64,6 +65,19 @@ public final class KarakuReportBlockField extends KarakuReportBlock {
         this.widthLabel = widthLabel;
         this.widthValue = widthValue;
         this.isSubBlock = false;
+
+    }
+
+    public KarakuReportBlockField(String title, String nameDataSource,
+            List<Field> fields, int widthLabel, int widthValue,
+            boolean isSubBlock, boolean isTitle) {
+
+        super(title, nameDataSource);
+        setDataSource(buildDataSource(fields));
+        this.widthLabel = widthLabel;
+        this.widthValue = widthValue;
+        this.isSubBlock = isSubBlock;
+        this.isTitle = isTitle;
 
     }
 
@@ -139,6 +153,16 @@ public final class KarakuReportBlockField extends KarakuReportBlock {
     public void setSubBlock(boolean isSubBlock) {
 
         this.isSubBlock = isSubBlock;
+    }
+
+    public boolean isTitle() {
+
+        return isTitle;
+    }
+
+    public void setTitle(boolean isTitle) {
+
+        this.isTitle = isTitle;
     }
 
 }
