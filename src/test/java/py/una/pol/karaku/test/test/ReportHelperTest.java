@@ -22,14 +22,17 @@
  */
 package py.una.pol.karaku.test.test;
 
+import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import py.una.pol.karaku.exception.ReportException;
 import py.una.pol.karaku.reports.Column;
 import py.una.pol.karaku.reports.KarakuReportBlockField;
 import py.una.pol.karaku.reports.KarakuReportBlockField.Field;
@@ -50,88 +53,100 @@ import py.una.pol.karaku.util.ReportHelper;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class ReportHelperTest extends BaseTest {
 
-	@Configuration
-	static class ContextConfiguration extends ControllerTestConfiguration {
+    @Configuration
+    static class ContextConfiguration extends ControllerTestConfiguration {
 
-		@Bean
-		public ReportHelper reportHelper() {
+        @Bean
+        public ReportHelper reportHelper() {
 
-			return new ReportHelper();
-		}
-	}
+            return new ReportHelper();
+        }
+    }
 
-	@Autowired
-	private ReportHelper reportHelper;
+    @Autowired
+    private ReportHelper reportHelper;
 
-	@Test
-	public void testGenerateMasterDetail() {
+    @Test
+    public void testGetJasperPrinter() throws ReportException {
 
-		ReportBuilder builder = new ReportBuilder(
-				"Reporte del tipo cabecera-detalle", "pdf");
-		builder.setMaster(getBlockHeader());
-		builder.addDetail(getBlockDetail());
+        ReportBuilder builder = new ReportBuilder(
+                "Reporte del tipo cabecera-detalle", "pdf");
+        builder.setMaster(getBlockHeader());
+        builder.addDetail(getBlockDetail());
+        JasperPrint r = reportHelper.getJasperPrinter(builder);
 
-		reportHelper.generateMasterDetail(builder);
-	}
+        assertEquals(true, r != null);
+    }
 
-	@Test
-	public void testgenerateReportBlocks() throws Exception {
+    @Test
+    public void testGenerateMasterDetail() {
 
-		ReportBuilder builder = new ReportBuilder(
-				"Reporte que contiene una lista de bloques", "pdf");
-		builder.addBlock(getBlockDetail());
-		builder.addBlock(getBlockDetail());
-		builder.addBlock(getBlockDetail());
-		builder.addBlock(getBlockDetail());
+        ReportBuilder builder = new ReportBuilder(
+                "Reporte del tipo cabecera-detalle", "pdf");
+        builder.setMaster(getBlockHeader());
+        builder.addDetail(getBlockDetail());
 
-		reportHelper.generateReportBlocks(builder);
-	}
+        reportHelper.generateMasterDetail(builder);
+    }
 
-	@Test
-	public void testgenerateReportBlocksBlank() throws Exception {
+    @Test
+    public void testgenerateReportBlocks() throws Exception {
 
-		ReportBuilder builder = new ReportBuilder("Reporte sin bloques", "pdf");
+        ReportBuilder builder = new ReportBuilder(
+                "Reporte que contiene una lista de bloques", "pdf");
+        builder.addBlock(getBlockDetail());
+        builder.addBlock(getBlockDetail());
+        builder.addBlock(getBlockDetail());
+        builder.addBlock(getBlockDetail());
 
-		reportHelper.generateReportBlocks(builder);
-	}
+        reportHelper.generateReportBlocks(builder);
+    }
 
-	protected KarakuReportBlockGrid getBlockDetail() {
+    @Test
+    public void testgenerateReportBlocksBlank() throws Exception {
 
-		List<Column> columns = new ArrayList<Column>();
-		columns.add(new Column("Operadora", "operadora"));
-		columns.add(new Column("Numero", "numero"));
+        ReportBuilder builder = new ReportBuilder("Reporte sin bloques", "pdf");
 
-		KarakuReportBlockGrid block2 = new KarakuReportBlockGrid("Teléfonos",
-				"tel_paciente", columns, getData());
-		return block2;
-	}
+        reportHelper.generateReportBlocks(builder);
+    }
 
-	protected KarakuReportBlockField getBlockHeader() {
+    protected KarakuReportBlockGrid getBlockDetail() {
 
-		List<Field> fields = new ArrayList<Field>();
-		fields.add(new Field("Nombre", "Daniel"));
-		fields.add(new Field("Apellido", "Quintana"));
-		fields.add(new Field("Sexo", "Masculino"));
+        List<Column> columns = new ArrayList<Column>();
+        columns.add(new Column("Operadora", "operadora"));
+        columns.add(new Column("Numero", "numero"));
 
-		KarakuReportBlockField block1 = new KarakuReportBlockField(
-				"Datos del paciente", "datos_paciente", fields, 10, 50);
-		return block1;
-	}
+        KarakuReportBlockGrid block2 = new KarakuReportBlockGrid("Teléfonos",
+                "tel_paciente", columns, getData());
+        return block2;
+    }
 
-	private List<String[]> getData() {
+    protected KarakuReportBlockField getBlockHeader() {
 
-		List<String[]> data = new ArrayList<String[]>();
+        List<Field> fields = new ArrayList<Field>();
+        fields.add(new Field("Nombre", "Daniel"));
+        fields.add(new Field("Apellido", "Quintana"));
+        fields.add(new Field("Sexo", "Masculino"));
 
-		String[] row = new String[2];
-		row[0] = "Valor de: columna 1, fila 1";
-		row[1] = "Valor de: columna 2, fila 1";
+        KarakuReportBlockField block1 = new KarakuReportBlockField(
+                "Datos del paciente", "datos_paciente", fields, 10, 50);
+        return block1;
+    }
 
-		row = new String[2];
-		row[0] = "Valor de: columna 1, fila 2";
-		row[1] = "Valor de: columna 2, fila 2";
-		data.add(row);
+    private List<String[]> getData() {
 
-		return data;
+        List<String[]> data = new ArrayList<String[]>();
 
-	}
+        String[] row = new String[2];
+        row[0] = "Valor de: columna 1, fila 1";
+        row[1] = "Valor de: columna 2, fila 1";
+
+        row = new String[2];
+        row[0] = "Valor de: columna 1, fila 2";
+        row[1] = "Valor de: columna 2, fila 2";
+        data.add(row);
+
+        return data;
+
+    }
 }
