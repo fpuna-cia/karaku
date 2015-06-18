@@ -85,13 +85,16 @@ public class ReportHelper {
 
     }
 
-    public JasperPrint getJasperPrinter(ReportBuilder reportBuilder) throws ReportException {
+    public JasperPrint getJasperPrinter(ReportBuilder reportBuilder, String path)
+            throws ReportException {
 
         Map<String, Object> params = setDataSources(reportBuilder.getBlocks(),
                 reportBuilder.getParams());
         return exportReport.getJasperPrintReportBlock(reportBuilder.getAlign(),
                 reportBuilder.isSectionCriteria(), reportBuilder.getBlocks(),
-                params, reportBuilder.getType());
+
+                params, reportBuilder.getType(), path);
+
     }
 
     public void generateReportBlocks(ReportBuilder reportBuilder) {
