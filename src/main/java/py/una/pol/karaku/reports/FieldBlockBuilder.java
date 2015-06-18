@@ -204,13 +204,14 @@ public final class FieldBlockBuilder {
 
     public FieldBlockBuilder addField(String label, boolean i18n, String value) {
 
-        if (i18n) {
-            return addField(label, value);
-        } else {
-            this.fields
-                    .add(new Field(StringUtils.join(": ", label, ""), value));
-            return this;
-        }
+        this.fields.add(new Field(getLabelFied(label, i18n), value));
+        return this;
+    }
+
+    public FieldBlockBuilder addField(String string) {
+
+        this.fields.add(new Field(string, ""));
+        return this;
     }
 
     /**
@@ -228,6 +229,26 @@ public final class FieldBlockBuilder {
     private static String getLabelFied(String key) {
 
         return StringUtils.join(": ", getMessage(key), "");
+    }
+
+    /**
+     * Concatena el valor del field con dos puntos.
+     * <p>
+     * <b>Ejemplo: </b> key ="Nombre"
+     * <li>retornará "Nombre:"
+     * 
+     * @param key
+     *            Label.
+     * @return
+     */
+    private static String getLabelFied(String key, boolean i18) {
+
+        if (i18) {
+            return getLabelFied(key);
+        } else {
+
+            return StringUtils.join(": ", key, "");
+        }
     }
 
     /**

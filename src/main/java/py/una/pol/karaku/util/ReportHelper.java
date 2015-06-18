@@ -92,7 +92,9 @@ public class ReportHelper {
                 reportBuilder.getParams());
         return exportReport.getJasperPrintReportBlock(reportBuilder.getAlign(),
                 reportBuilder.isSectionCriteria(), reportBuilder.getBlocks(),
+
                 params, reportBuilder.getType(), path);
+
     }
 
     public void generateReportBlocks(ReportBuilder reportBuilder) {
