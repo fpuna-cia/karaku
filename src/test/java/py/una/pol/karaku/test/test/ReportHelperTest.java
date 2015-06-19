@@ -73,7 +73,7 @@ public class ReportHelperTest extends BaseTest {
                 "Reporte del tipo cabecera-detalle", "pdf");
         builder.setMaster(getBlockHeader());
         builder.addDetail(getBlockDetail());
-        JasperPrint r = reportHelper.getJasperPrinter(builder);
+        JasperPrint r = reportHelper.getJasperPrinter(builder, null);
 
         assertEquals(true, r != null);
     }
