@@ -62,7 +62,7 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
             SortOrder sortOrder, Map<String, Object> filters) {
 
         Where<T> where = getPreFilterWhere();
-        ISearchParam params = new SearchParam();
+        ISearchParam params = getOrderParam();
 
         if (filters != null) {
             for (Map.Entry<String, Object> entry : filters.entrySet()) {
@@ -107,6 +107,11 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
     public Where<T> getPreFilterWhere() {
 
         return new Where<T>();
+    }
+
+    public SearchParam getOrderParam() {
+
+        return new SearchParam();
     }
 
     /***
