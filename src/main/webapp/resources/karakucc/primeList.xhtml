@@ -53,6 +53,10 @@
 	<composite:attribute name="withSticky" type="java.lang.Boolean"
 		default="false"
 		shortDescription="Define si el encabezado de la tabla sera visible en todo momento" />
+	<composite:attribute name="withMessage" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el mensaje de la grilla de registros será renderizado" />	
+	
 </composite:interface>
 
 <composite:implementation
@@ -63,9 +67,13 @@
 
 	<rich:panel
 		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+		
+		
 		<p:messages id="#{cc.attrs.controller.messageIdName}"
 			showDetail="false" showSummary="true" autoUpdate="true"
-			closable="true" globalOnly="true" />
+			closable="true" globalOnly="true" rendered="#{cc.attrs.withMessage}" />
+		
+		
 		<f:facet name="header">
 			<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
 		</f:facet>
