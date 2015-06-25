@@ -799,14 +799,21 @@ public class ExportReport {
 
     public JasperPrint getJasperPrintReportBlock(Align align, boolean criteria,
             List<KarakuReportBlock> blocks, Map<String, Object> params,
-            String type) throws ReportException {
+            String type, String path) throws ReportException {
 
         JasperPrint jasperPrint;
         try {
-            jasperPrint = DynamicJasperHelper.generateJasperPrint(
-                    dynamicUtils.buildReportBlock(align, criteria, blocks),
-                    new ClassicLayoutManager(), new JREmptyDataSource(),
-                    getDetailsReport(params));
+            if (path == null) {
+                jasperPrint = DynamicJasperHelper.generateJasperPrint(
+                        dynamicUtils.buildReportBlock(align, criteria, blocks),
+                        new ClassicLayoutManager(), new JREmptyDataSource(),
+                        getDetailsReport(params));
+            } else {
+                jasperPrint = DynamicJasperHelper.generateJasperPrint(
+                        dynamicUtils.buildReportBlock(criteria, blocks, path),
+                        new ClassicLayoutManager(), new JREmptyDataSource(),
+                        getDetailsReport(params));
+            }
 
         } catch (JRException e) {
             throw new ReportException(e);
