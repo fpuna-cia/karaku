@@ -1,4 +1,10 @@
 /*Estilo para los componentes de primeFaces*/
+
+/*Estilo para el input de la búsqueda de la cabecera de la lista */
+.ui-datatable .ui-column-filter {
+	width: 100% !important;
+}
+
 .ui-menu {
 	padding: 0em;
 	background: #F8EFFB !important;
