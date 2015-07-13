@@ -60,7 +60,7 @@
 				rendered="#{cc.attrs.controller.saveButtonVisible()}" />
 			<h:commandButton action="#{cc.attrs.controller.doSaveAndContinue}"
 				value="#{msg['BASE_ADVANCED_ABM_SAVE_AND_CONTINUE']}"
-				rendered="#{cc.attrs.controller.saveButtonVisible()}" />
+				rendered="#{cc.attrs.controller.saveAndContinueButtonVisible()}" />
 		</h:panelGroup>
 		<h:panelGroup rendered="#{cc.attrs.ajaxSave}">
 			<a4j:commandButton value="#{msg['BASE_ADVANCED_ABM_SAVE']}"
@@ -70,7 +70,7 @@
 			<a4j:commandButton action="#{cc.attrs.saveAndContinueAction}"
 				value="#{msg['BASE_ADVANCED_ABM_SAVE_AND_CONTINUE']}"
 				render="#{cc.attrs.saveRender}"
-				rendered="#{cc.attrs.controller.saveButtonVisible()}"
+				rendered="#{cc.attrs.controller.saveAndContinueButtonVisible()}"
 				oncomplete="#{cc.attrs.saveOnComple}" />
 		</h:panelGroup>
 		<h:commandButton action="#{cc.attrs.controller.doDelete()}"
