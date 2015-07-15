@@ -22,6 +22,7 @@
  */
 package py.una.pol.karaku.util;
 
+import static py.una.pol.karaku.util.Checker.notNull;
 import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.Nullable;
@@ -37,6 +38,8 @@ import javax.annotation.Nullable;
  */
 public final class DateUtils {
 
+    private static final int LAST_MINUTE = 59;
+    private static final int LAST_HOUR = 23;
     private static final String[] MESES = { "Enero", "Febrero", "Marzo",
             "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
             "Octubre", "Noviembre", "Diciembre" };
@@ -257,6 +260,38 @@ public final class DateUtils {
         }
 
         return MESES[mes];
+    }
+
+    /**
+     * Configura la fecha recibida con la última hora y minuto del día definido
+     * por la misma
+     * 
+     * @param d
+     * @return
+     */
+    public static Date setTimeToEnd(Date d) {
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        c.set(Calendar.MINUTE, LAST_MINUTE);
+        c.set(Calendar.HOUR_OF_DAY, LAST_HOUR);
+        return notNull(c.getTime());
+    }
+
+    /**
+     * Configura la fecha recibida sin hora ni minuto del día definido por la
+     * misma
+     * 
+     * @param d
+     * @return
+     */
+    public static Date setTimeToBegin(Date d) {
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        return notNull(c.getTime());
     }
 
 }
