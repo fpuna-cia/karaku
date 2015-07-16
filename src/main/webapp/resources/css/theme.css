@@ -925,6 +925,10 @@ Css para los requeridos
 	
 }
 
+.rf-pm-exp {
+	display: block;
+	text-align: left;
+}
 .rf-pm-itm-sel {
 	color: #9F9F9F !important;
 	font-weight: bold !important;
