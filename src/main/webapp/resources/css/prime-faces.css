@@ -150,8 +150,8 @@ button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],in
 	white-space: normal !important;
 }
 
-.ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
-	.ui-widget-header .ui-state-active {
+.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active,.ui-widget-header .ui-state-active
+	{
 	text-shadow: none !important;
 	background: white;
 	color: black;
@@ -162,27 +162,26 @@ button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],in
 	width: auto !important;
 }
 
-.ui-state-disabled, .ui-widget-content .ui-state-disabled,
-	.ui-widget-header .ui-state-disabled {
+.ui-state-disabled,.ui-widget-content .ui-state-disabled,.ui-widget-header .ui-state-disabled
+	{
 	opacity: 0.75 !important;
 }
 
-
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active
+.ui-state-active,.ui-widget-content .ui-state-active,.ui-widget-header .ui-state-active
 	{
 	color: #4f4f4f !important;
 	font-weight: normal;
 	text-shadow: 0 1px 0 #6a0888;
 }
 
-.ui-state-highlight, .ui-widget-content .ui-state-highlight,
-	.ui-widget-header .ui-state-highlight {
+.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
+	{
 	background: none repeat scroll 0 0 #f8effb !important;
 	color: #4f4f4f !important;
 }
 
-.ui-state-highlight, .ui-widget-content .ui-state-highlight,
-	.ui-widget-header .ui-state-highlight {
+.ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
+	{
 	background: -moz-linear-gradient(center top, rgba(0, 0, 0, 0.25),
 		rgba(0, 0, 0, 0)) repeat scroll 0 0 #aaaaaa;
 	border: 1px solid #666666;
