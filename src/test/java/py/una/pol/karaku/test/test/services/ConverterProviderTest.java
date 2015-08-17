@@ -36,7 +36,7 @@ import py.una.pol.karaku.services.Converter;
 import py.una.pol.karaku.services.ConverterProvider;
 import py.una.pol.karaku.services.ReflectionConverter;
 import py.una.pol.karaku.test.base.BaseTest;
-import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
+import py.una.pol.karaku.test.configuration.TransactionTestConfiguration;
 
 /**
  * 
@@ -48,140 +48,140 @@ import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class ConverterProviderTest extends BaseTest {
 
-	@Configuration
-	static class ContextConfiguration extends BaseTestConfiguration {
+    @Configuration
+    static class ContextConfiguration extends TransactionTestConfiguration {
 
-		@Bean
-		ConverterProvider converterProvider() {
+        @Bean
+        ConverterProvider converterProvider() {
 
-			return new ConverterProvider();
-		}
+            return new ConverterProvider();
+        }
 
-		@Bean
-		Converter1 converter1() {
+        @Bean
+        Converter1 converter1() {
 
-			return new Converter1();
-		}
+            return new Converter1();
+        }
 
-		@Bean
-		Converter2 converter2() {
+        @Bean
+        Converter2 converter2() {
 
-			return new Converter2();
-		}
+            return new Converter2();
+        }
 
-	}
+    }
 
-	@Autowired
-	private ConverterProvider converterProvider;
+    @Autowired
+    private ConverterProvider converterProvider;
 
-	@Test
-	public void testGetDefault() throws Exception {
+    @Test
+    public void testGetDefault() throws Exception {
 
-		assertTrue(converterProvider.getConverter(Shareable.class, DTO.class) instanceof ReflectionConverter);
+        assertTrue(converterProvider.getConverter(Shareable.class, DTO.class) instanceof ReflectionConverter);
 
-	}
+    }
 
-	@Test
-	@SuppressWarnings("rawtypes")
-	public void testGetContextConverters() throws Exception {
+    @Test
+    @SuppressWarnings("rawtypes")
+    public void testGetContextConverters() throws Exception {
 
-		Converter c = converterProvider.getConverter(Sharable1.class,
-				DTO1.class);
-		assertTrue(c.getClass().equals(Converter1.class));
+        Converter c = converterProvider.getConverter(Sharable1.class,
+                DTO1.class);
+        assertTrue(c.getClass().equals(Converter1.class));
 
-		c = converterProvider.getConverter(Sharable2.class, DTO2.class);
-		assertTrue(c.getClass().equals(Converter2.class));
-	}
+        c = converterProvider.getConverter(Sharable2.class, DTO2.class);
+        assertTrue(c.getClass().equals(Converter2.class));
+    }
 
-	static class Converter1 extends AbstractConverter<Sharable1, DTO1> {
+    static class Converter1 extends AbstractConverter<Sharable1, DTO1> {
 
-	}
+    }
 
-	static class Converter2 extends AbstractConverter<Sharable2, DTO2> {
+    static class Converter2 extends AbstractConverter<Sharable2, DTO2> {
 
-	}
+    }
 
-	static class Sharable1 implements Shareable {
+    static class Sharable1 implements Shareable {
 
-		@Override
-		public String getUri() {
+        @Override
+        public String getUri() {
 
-			return null;
-		}
+            return null;
+        }
 
-		@Override
-		public void inactivate() {
+        @Override
+        public void inactivate() {
 
-		}
+        }
 
-		@Override
-		public void activate() {
+        @Override
+        public void activate() {
 
-		}
+        }
 
-		@Override
-		public boolean isActive() {
+        @Override
+        public boolean isActive() {
 
-			return false;
-		}
+            return false;
+        }
 
-	}
+    }
 
-	static class Sharable2 implements Shareable {
+    static class Sharable2 implements Shareable {
 
-		@Override
-		public String getUri() {
+        @Override
+        public String getUri() {
 
-			return null;
-		}
+            return null;
+        }
 
-		@Override
-		public void inactivate() {
+        @Override
+        public void inactivate() {
 
-		}
+        }
 
-		@Override
-		public void activate() {
+        @Override
+        public void activate() {
 
-		}
+        }
 
-		@Override
-		public boolean isActive() {
+        @Override
+        public boolean isActive() {
 
-			return false;
-		}
+            return false;
+        }
 
-	}
+    }
 
-	static class DTO1 implements DTO {
+    static class DTO1 implements DTO {
 
-		@Override
-		public String getUri() {
+        @Override
+        public String getUri() {
 
-			return null;
-		}
+            return null;
+        }
 
-		@Override
-		public boolean isActive() {
+        @Override
+        public boolean isActive() {
 
-			return false;
-		}
+            return false;
+        }
 
-	}
+    }
 
-	static class DTO2 implements DTO {
+    static class DTO2 implements DTO {
 
-		@Override
-		public String getUri() {
+        @Override
+        public String getUri() {
 
-			return null;
-		}
+            return null;
+        }
 
-		@Override
-		public boolean isActive() {
+        @Override
+        public boolean isActive() {
 
-			return false;
-		}
+            return false;
+        }
 
-	}
+    }
 }

@@ -66,8 +66,8 @@ import py.una.pol.karaku.util.KarakuReflectionUtils;
  * 
  * </li>
  * <li>Agregar la anotación {@literal @}
- * {@link py.una.pol.karaku.services.server.WebServiceDefinition} y configurar los
- * <i>xsd's</i> anteriormente generados</li>
+ * {@link py.una.pol.karaku.services.server.WebServiceDefinition} y configurar
+ * los <i>xsd's</i> anteriormente generados</li>
  * <li>Crear un método de la siguiente forma
  * 
  * <pre>
@@ -127,119 +127,123 @@ import py.una.pol.karaku.util.KarakuReflectionUtils;
  * @version 1.0 Nov 7, 2013
  * 
  */
+
 public class AbstractReplicationEndpoint<E extends Shareable, T extends DTO> {
 
-	@Nonnull
-	private Class<E> clazzEntity;
-	@Nonnull
-	private Class<T> clazzDTO;
+    @Nonnull
+    private final Class<E> clazzEntity;
+    @Nonnull
+    private final Class<T> clazzDTO;
 
-	@Autowired
-	private ReplicationProvider replicationProvider;
+    @Autowired
+    private ReplicationProvider replicationProvider;
 
-	@Autowired
-	private ConverterProvider converterProvider;
+    @Autowired
+    private ConverterProvider converterProvider;
 
-	private Converter<E, T> converter;
+    private Converter<E, T> converter;
 
-	/**
-	 * Crea una nueva instancia, recuperando información acerca de la entidad y
-	 * su DTO (para obtener converters).
-	 */
-	public AbstractReplicationEndpoint() {
+    /**
+     * Crea una nueva instancia, recuperando información acerca de la entidad y
+     * su DTO (para obtener converters).
+     */
+    public AbstractReplicationEndpoint() {
 
-		clazzEntity = KarakuReflectionUtils.getParameterizedClass(this, 0);
-		clazzDTO = KarakuReflectionUtils.getParameterizedClass(this, 1);
+        clazzEntity = KarakuReflectionUtils.getParameterizedClass(this, 0);
+        clazzDTO = KarakuReflectionUtils.getParameterizedClass(this, 1);
 
-	}
+    }
 
-	/**
-	 * Crea una nueva instancia, recuperando información acerca de la entidad y
-	 * su DTO (para obtener converters).
-	 * 
-	 * <p>
-	 * Initialize puede ser false, si no se desea que se obtenga por reflexión
-	 * los tipos parameterizados, si se utiliza este camino, se debe invocar a
-	 * {@link #setClazzDTO(Class)} y {@link #setClazzEntity(Class)} para que el
-	 * componente se mantenga consistente.
-	 * </p>
-	 * <p>
-	 * Es útil utilizar este método con <code>false</code> para poder hacer que
-	 * el componente mismo sea transaccional.
-	 * </p>
-	 */
-	public AbstractReplicationEndpoint(@Nonnull Class<E> entity,
-			@Nonnull Class<T> dto) {
+    /**
+     * Crea una nueva instancia, recuperando información acerca de la entidad y
+     * su DTO (para obtener converters).
+     * 
+     * <p>
+     * Initialize puede ser false, si no se desea que se obtenga por reflexión
+     * los tipos parameterizados, si se utiliza este camino, se debe invocar a
+     * {@link #setClazzDTO(Class)} y {@link #setClazzEntity(Class)} para que el
+     * componente se mantenga consistente.
+     * </p>
+     * <p>
+     * Es útil utilizar este método con <code>false</code> para poder hacer que
+     * el componente mismo sea transaccional.
+     * </p>
+     */
+    public AbstractReplicationEndpoint(@Nonnull Class<E> entity,
+            @Nonnull Class<T> dto) {
 
-		clazzEntity = entity;
-		clazzDTO = dto;
-	}
+        clazzEntity = entity;
+        clazzDTO = dto;
+    }
 
-	@PostConstruct
-	void postConstruct() {
+    @PostConstruct
+    void postConstruct() {
 
-		converter = converterProvider.getConverter(clazzEntity, clazzDTO);
-	}
+        converter = converterProvider.getConverter(clazzEntity, clazzDTO);
+    }
 
-	/**
-	 * Retorna una lista de los cambios relacionados a la entidad.
-	 * 
-	 * <p>
-	 * Se utiliza el {@link ReplicationProvider} para obtener todos los cambios.
-	 * </p>
-	 * 
-	 * @param lastId
-	 *            ultimo identificador
-	 * @return {@link Bundle} de cambios, nunca <code>null</code>
-	 */
-	public Bundle<T> getChanges(String lastId) {
+    /**
+     * Retorna una lista de los cambios relacionados a la entidad.
+     * 
+     * <p>
+     * Se utiliza el {@link ReplicationProvider} para obtener todos los cambios.
+     * </p>
+     * 
+     * @param lastId
+     *            ultimo identificador
+     * @return {@link Bundle} de cambios, nunca <code>null</code>
+     */
 
-		String id = isValid(lastId, "Can not get changes of invalid lastid");
+    public Bundle<T> getChanges(String lastId) {
 
-		Bundle<E> changes = replicationProvider.getChanges(clazzEntity, id);
+        String id = isValid(lastId, "Can not get changes of invalid lastid");
 
-		Bundle<T> changesConverted = new Bundle<T>(changes.getLastId());
+        Bundle<E> changes = replicationProvider.getChanges(clazzEntity, id);
 
-		for (Change<E> change : changes) {
-			if (change == null) {
-				continue;
-			}
-			changesConverted.add(converter.toDTO(change.getEntity(), 0),
-					change.getId());
-		}
+        Bundle<T> changesConverted = new Bundle<T>(changes.getLastId());
 
-		return changesConverted;
-	}
+        for (Change<E> change : changes) {
+            if (change == null) {
+                continue;
+            }
 
-	/**
-	 * Retorna los cambios de un bundle como una lista de entidades.
-	 * 
-	 * @param bundle
-	 *            set de cambios
-	 * @return lista de objetos que cambiaron.
-	 */
-	public List<T> getAsList(Bundle<T> bundle) {
+            changesConverted.add(converter.beforeToDTO(change.getEntity(), 0),
+                    change.getId());
 
-		List<T> toRet = new ArrayList<T>(bundle.size());
-		for (Change<T> p : bundle) {
-			toRet.add(p.getEntity());
-		}
-		return toRet;
-	}
+        }
 
-	/**
-	 * Converter de entidad a DTO.
-	 * 
-	 * <p>
-	 * El converter definido para convertir desde {@link #clazzEntity} a
-	 * {@link #clazzDTO}, necesario para el envio por servicios.
-	 * </p>
-	 * 
-	 * @return converter, nunca <code>null</code>.
-	 */
-	public Converter<E, T> getConverter() {
+        return changesConverted;
+    }
 
-		return converter;
-	}
+    /**
+     * Retorna los cambios de un bundle como una lista de entidades.
+     * 
+     * @param bundle
+     *            set de cambios
+     * @return lista de objetos que cambiaron.
+     */
+    public List<T> getAsList(Bundle<T> bundle) {
+
+        List<T> toRet = new ArrayList<T>(bundle.size());
+        for (Change<T> p : bundle) {
+            toRet.add(p.getEntity());
+        }
+        return toRet;
+    }
+
+    /**
+     * Converter de entidad a DTO.
+     * 
+     * <p>
+     * El converter definido para convertir desde {@link #clazzEntity} a
+     * {@link #clazzDTO}, necesario para el envio por servicios.
+     * </p>
+     * 
+     * @return converter, nunca <code>null</code>.
+     */
+    public Converter<E, T> getConverter() {
+
+        return converter;
+    }
 
 }

@@ -22,8 +22,15 @@
  */
 package py.una.pol.karaku.services;
 
+import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import py.una.pol.karaku.log.Log;
 import py.una.pol.karaku.replication.DTO;
 import py.una.pol.karaku.replication.EntityNotFoundException;
 import py.una.pol.karaku.replication.Shareable;
@@ -48,93 +55,119 @@ import py.una.pol.karaku.util.KarakuReflectionUtils;
  * @version 1.0 Nov 11, 2013
  * 
  */
+@Transactional
 public abstract class AbstractConverter<E extends Shareable, T extends DTO>
-		implements Converter<E, T> {
+        implements Converter<E, T> {
 
-	/**
-	 * Clase del DTO.
-	 */
-	private Class<T> dtoClass;
+    @Log
+    private Logger log;
 
-	/**
-	 * Clase de la entidad.
-	 */
-	private Class<E> entityClass;
+    @Autowired
+    private SessionFactory factory;
 
-	@Override
-	public Class<T> getDtoType() {
+    /**
+     * Clase del DTO.
+     */
+    private Class<T> dtoClass;
 
-		if (dtoClass == null) {
-			dtoClass = KarakuReflectionUtils.getParameterizedClass(this, 1);
-		}
-		return dtoClass;
-	}
+    /**
+     * Clase de la entidad.
+     */
+    private Class<E> entityClass;
 
-	@Override
-	public Class<E> getEntityType() {
+    @Override
+    public Class<T> getDtoType() {
 
-		if (entityClass == null) {
-			entityClass = KarakuReflectionUtils.getParameterizedClass(this, 0);
-		}
-		return entityClass;
-	}
+        if (dtoClass == null) {
+            dtoClass = KarakuReflectionUtils.getParameterizedClass(this, 1);
+        }
+        return dtoClass;
+    }
 
-	/**
-	 * Throw {@link NotImplementedException} exception, su intención es que si
-	 * se usa este método sea sobreescrito.
-	 * 
-	 * <br>
-	 * 
-	 * {@inheritDoc}
-	 */
+    @Override
+    public Class<E> getEntityType() {
 
-	@Override
-	public T toDTO(E entity, int depth) {
+        if (entityClass == null) {
+            entityClass = KarakuReflectionUtils.getParameterizedClass(this, 0);
+        }
+        return entityClass;
+    }
 
-		throw new NotImplementedException();
-	}
+    @Override
+    public T beforeToDTO(E entity, int depth) {
 
-	/**
-	 * Throw {@link NotImplementedException} exception, su intención es que si
-	 * se usa este método sea sobreescrito.
-	 * 
-	 * <br>
-	 * {@inheritDoc}
-	 */
-	@Override
-	public E toEntity(T dto) throws EntityNotFoundException {
+        Session session = factory.getCurrentSession();
+        try {
+            E fromdb = (E) session.get(entity.getClass(), (Long) entity
+                    .getClass().getMethod("getId").invoke(entity));
+            return toDTO(fromdb, depth);
+        } catch (IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException | NoSuchMethodException
+                | SecurityException e) {
+            // TODO Auto-generated catch block
+            log.error(
+                    "Replication terminated with errors, could not refresh entity",
+                    e);
 
-		throw new NotImplementedException();
-	}
+        }
+        return null;
+    }
 
-	@Override
-	public int hashCode() {
+    /**
+     * Throw {@link NotImplementedException} exception, su intención es que si
+     * se usa este método sea sobreescrito.
+     * 
+     * <br>
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public T toDTO(E entity, int depth) {
 
-		final int prime = 31;
-		int result = 1;
-		result = (prime * result)
-				+ ((dtoClass == null) ? 0 : dtoClass.getName().hashCode());
-		result = (prime * result)
-				+ ((entityClass == null) ? 0 : entityClass.getName().hashCode());
-		return result;
-	}
+        throw new NotImplementedException();
+    }
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public boolean equals(Object obj) {
+    /**
+     * Throw {@link NotImplementedException} exception, su intención es que si
+     * se usa este método sea sobreescrito.
+     * 
+     * <br>
+     * {@inheritDoc}
+     */
+    @Override
+    public E toEntity(T dto) throws EntityNotFoundException {
 
-		if (obj == null) {
-			return false;
-		}
-		if (obj == this) {
-			return true;
-		}
-		if (obj.getClass() != getClass()) {
-			return false;
-		}
-		AbstractConverter rhs = (AbstractConverter) obj;
-		return new EqualsBuilder().append(dtoClass, rhs.getDtoType())
-				.append(entityClass, rhs.getEntityType()).isEquals();
-	}
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int hashCode() {
+
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result)
+                + ((dtoClass == null) ? 0 : dtoClass.getName().hashCode());
+        result = (prime * result)
+                + ((entityClass == null) ? 0 : entityClass.getName().hashCode());
+        return result;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        AbstractConverter rhs = (AbstractConverter) obj;
+        return new EqualsBuilder().append(dtoClass, rhs.getDtoType())
+                .append(entityClass, rhs.getEntityType()).isEquals();
+    }
 
 }

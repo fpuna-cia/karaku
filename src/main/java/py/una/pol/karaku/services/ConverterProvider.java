@@ -40,57 +40,64 @@ import py.una.pol.karaku.replication.Shareable;
 @Component
 public class ConverterProvider {
 
-	@Autowired(required = false)
-	@SuppressWarnings("rawtypes")
-	private List<Converter> converters;
+    @Autowired(required = false)
+    @SuppressWarnings("rawtypes")
+    private List<Converter> converters;
 
-	/**
-	 * Provee un converter.
-	 * 
-	 * <p>
-	 * Busca en el contexto de Spring por algún converter que se pueda aplicar a
-	 * los tipos pedidos, en el caso de que ninún converter sea encontrado,
-	 * retorna un {@link ReflectionConverter}
-	 * </p>
-	 * 
-	 * @param entityClass
-	 *            clase de la entidad
-	 * @param dtoClass
-	 *            clase del dto objetivo
-	 * @return converter, nunca <code>null</code>
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <E extends Shareable, T extends DTO> Converter<E, T> getConverter(
-			Class<E> entityClass, Class<T> dtoClass) {
+    /**
+     * Provee un converter.
+     * 
+     * <p>
+     * Busca en el contexto de Spring por algún converter que se pueda aplicar a
+     * los tipos pedidos, en el caso de que ninún converter sea encontrado,
+     * retorna un {@link ReflectionConverter}
+     * </p>
+     * 
+     * @param entityClass
+     *            clase de la entidad
+     * @param dtoClass
+     *            clase del dto objetivo
+     * @return converter, nunca <code>null</code>
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public <E extends Shareable, T extends DTO> Converter<E, T> getConverter(
+            Class<E> entityClass, Class<T> dtoClass) {
 
-		if (converters != null) {
-			for (Converter c : converters) {
-				if (c.getDtoType().equals(dtoClass)
-						&& c.getEntityType().equals(entityClass)) {
-					return c;
-				}
-			}
-		}
-		return new ContextReflexionConverter<E, T>(dtoClass, entityClass);
-	}
+        if (converters != null) {
+            for (Converter c : converters) {
+                if (c.getDtoType().equals(dtoClass)
+                        && c.getEntityType().equals(entityClass)) {
+                    return c;
+                }
+            }
+        }
+        return new ContextReflexionConverter<E, T>(dtoClass, entityClass);
+    }
 
-	private class ContextReflexionConverter<E extends Shareable, T extends DTO>
-			extends ReflectionConverter<E, T> {
+    private class ContextReflexionConverter<E extends Shareable, T extends DTO>
+            extends ReflectionConverter<E, T> {
 
-		/**
-		 * @param dtoClass
-		 * @param entityClass
-		 */
-		public ContextReflexionConverter(Class<T> dtoClass, Class<E> entityClass) {
+        /**
+         * @param dtoClass
+         * @param entityClass
+         */
+        public ContextReflexionConverter(Class<T> dtoClass, Class<E> entityClass) {
 
-			super(dtoClass, entityClass);
-		}
+            super(dtoClass, entityClass);
+        }
 
-		@Override
-		public <Y extends Shareable, O extends DTO> Converter<Y, O> getConverter(
-				Class<Y> entityClass, Class<O> dtoClass) {
+        @Override
+        public <Y extends Shareable, O extends DTO> Converter<Y, O> getConverter(
+                Class<Y> entityClass, Class<O> dtoClass) {
 
-			return ConverterProvider.this.getConverter(entityClass, dtoClass);
-		}
-	}
+            return ConverterProvider.this.getConverter(entityClass, dtoClass);
+        }
+
+        @Override
+        public T beforeToDTO(E entity, int depth) {
+
+            // TODO Auto-generated method stub
+            return toDTO(entity, depth);
+        }
+    }
 }
