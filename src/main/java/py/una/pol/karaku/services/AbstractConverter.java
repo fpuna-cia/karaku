@@ -55,6 +55,13 @@ import py.una.pol.karaku.util.KarakuReflectionUtils;
  * @version 1.0 Nov 11, 2013
  * 
  */
+/**
+ * 
+ * @author Victor Ughelli
+ * @since 1.0
+ * @version 1.0 17/08/2015
+ * 
+ */
 @Transactional
 public abstract class AbstractConverter<E extends Shareable, T extends DTO>
         implements Converter<E, T> {
@@ -104,7 +111,6 @@ public abstract class AbstractConverter<E extends Shareable, T extends DTO>
         } catch (IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {
-            // TODO Auto-generated catch block
             log.error(
                     "Replication terminated with errors, could not refresh entity",
                     e);

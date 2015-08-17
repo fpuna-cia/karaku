@@ -64,6 +64,13 @@ import py.una.pol.karaku.replication.Shareable;
  * @see ReflectionConverter
  * 
  */
+/**
+ * 
+ * @author Victor Ughelli
+ * @since 1.0
+ * @version 1.0 17/08/2015
+ * 
+ */
 public interface Converter<E extends Shareable, T extends DTO> {
 
     /**
@@ -134,5 +141,17 @@ public interface Converter<E extends Shareable, T extends DTO> {
      */
     Class<E> getEntityType();
 
+    /**
+     * 
+     * Refresca la entidad a replicar
+     * 
+     * Este método trae de forma completa todos los atributos de la entidad a
+     * replicar. De manera a que la replicación de entidades que referencien a
+     * otras entidades se realice de forma correcta.
+     * 
+     * @param entity
+     * @param depth
+     * @return
+     */
     T beforeToDTO(E entity, int depth);
 }
