@@ -1,9 +1,9 @@
 /*-
  * Copyright (c)
  *
- * 		2012-2014, Facultad Politécnica, Universidad Nacional de Asunción.
- * 		2012-2014, Facultad de Ciencias Médicas, Universidad Nacional de Asunción.
- * 		2012-2013, Centro Nacional de Computación, Universidad Nacional de Asunción.
+ *      2012-2014, Facultad Politécnica, Universidad Nacional de Asunción.
+ *      2012-2014, Facultad de Ciencias Médicas, Universidad Nacional de Asunción.
+ *      2012-2013, Centro Nacional de Computación, Universidad Nacional de Asunción.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -75,201 +75,206 @@ import py.una.pol.karaku.test.util.transaction.SQLFiles;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class ReplicationHandlerTest extends BaseTestWithDatabase {
 
-	@Configuration
-	@EnableTransactionManagement()
-	static class ContextConfiguration extends TransactionTestConfiguration {
+    @Configuration
+    @EnableTransactionManagement()
+    static class ContextConfiguration extends TransactionTestConfiguration {
 
-		@Override
-		public Class<?>[] getEntityClasses() {
+        @Override
+        public Class<?>[] getEntityClasses() {
 
-			return TestUtils.getReferencedClasses(ReplicatedEntity.class,
-					ReplicationInfo.class, KarakuRevisionEntity.class);
-		}
+            return TestUtils.getReferencedClasses(ReplicatedEntity.class,
+                    ReplicationInfo.class, KarakuRevisionEntity.class);
+        }
 
-		@Bean
-		ReplicationHandler replicationHandler() {
+        @Bean
+        ReplicationHandler replicationHandler() {
 
-			return new ReplicationHandler();
-		}
+            return new ReplicationHandler();
+        }
 
-		@Bean
-		IReplicationLogic iReplicationLogic() {
+        @Bean
+        IReplicationLogic iReplicationLogic() {
 
-			return new ReplicationLogic();
-		}
+            return new ReplicationLogic();
+        }
 
-		@Bean
-		ReplicationInfoDao dao() {
+        @Bean
+        ReplicationInfoDao dao() {
 
-			return new ReplicationInfoDao();
-		}
+            return new ReplicationInfoDao();
+        }
 
-		@Bean
-		WSSecurityInterceptor interceptor() {
+        @Bean
+        WSSecurityInterceptor interceptor() {
 
-			return new WSSecurityInterceptor();
-		}
+            return new WSSecurityInterceptor();
+        }
 
-		@Bean
-		WebServiceTemplate serviceTemplate() {
+        @Bean
+        WebServiceTemplate serviceTemplate() {
 
-			return new WSTemplate();
-		}
+            return new WSTemplate();
+        }
 
-		@Bean
-		ConverterProvider converterProvider() {
+        @Bean
+        ConverterProvider converterProvider() {
 
-			return new ConverterProvider();
-		}
+            return new ConverterProvider();
+        }
 
-		@Bean
-		ReplicatedEntityDao entityDao() {
+        @Bean
+        ReplicatedEntityDao entityDao() {
 
-			return new ReplicatedEntityDao();
-		}
+            return new ReplicatedEntityDao();
+        }
 
-		@Bean
-		ReplicationRequestFactory requestFactory() {
+        @Bean
+        ReplicationRequestFactory requestFactory() {
 
-			return new ReplicationRequestFactory();
-		}
+            return new ReplicationRequestFactory();
+        }
 
-		@Bean
-		ReplicationResponseHandler responseHandler() {
+        @Bean
+        ReplicationResponseHandler responseHandler() {
 
-			return new ReplicationResponseHandler();
-		}
+            return new ReplicationResponseHandler();
+        }
 
-		@Override
-		protected boolean getWithEnvers() {
+        @Override
+        protected boolean getWithEnvers() {
 
-			return true;
-		}
+            return true;
+        }
 
-		@Bean
-		TestUriCache testUriCache() {
+        @Bean
+        TestUriCache testUriCache() {
 
-			return new TestUriCache();
-		}
+            return new TestUriCache();
+        }
 
-		@Bean
-		ReplicatedEntityConverter replicatedEntityConverter() {
+        @Bean
+        ReplicatedEntityConverter replicatedEntityConverter() {
 
-			return new ReplicatedEntityConverter();
-		}
+            return new ReplicatedEntityConverter();
+        }
 
-	}
+    }
 
-	@Autowired
-	private TestDateProvider dateProvider;
+    @Autowired
+    private TestDateProvider dateProvider;
 
-	@Autowired
-	private ReplicationHandler replicationHandler;
+    @Autowired
+    private ReplicationHandler replicationHandler;
 
-	@Autowired
-	private IReplicationLogic logic;
+    @Autowired
+    private IReplicationLogic logic;
 
-	@Autowired
-	private ReplicatedEntityDao dao;
+    @Autowired
+    private ReplicatedEntityDao dao;
 
-	@Autowired
-	private WSTemplate template;
+    @Autowired
+    private WSTemplate template;
 
-	@Autowired
-	private TestPropertiesUtil propertiesUtil;
+    @Autowired
+    private TestPropertiesUtil propertiesUtil;
 
-	@Before
-	public void activePermissions() {
+    @Before
+    public void activePermissions() {
 
-		propertiesUtil.put(ReplicationHandler.REPLICATION_ENABLED, "true");
-		propertiesUtil.put("karaku.ws.client.enabled", "true");
-	}
+        propertiesUtil.put(ReplicationHandler.REPLICATION_ENABLED, "true");
+        propertiesUtil.put("karaku.ws.client.enabled", "true");
+    }
 
-	@Test
-	public void testDoSync() throws Exception {
+    @Test
+    public void testDoSync() throws Exception {
 
-		ReplicatedEntity re1 = new ReplicatedEntity();
-		re1.setDescription("DESC1");
-		re1.setUri("re1");
+        ReplicatedEntity re1 = new ReplicatedEntity();
+        re1.setDescription("DESC1");
+        re1.setUri("re1");
 
-		ReplicatedEntity re2 = new ReplicatedEntity();
-		re2.setUri("re2");
-		re2.setDescription("222");
+        ReplicatedEntity re2 = new ReplicatedEntity();
+        re2.setUri("re2");
+        re2.setDescription("222");
 
-		template.addReplicatedEntity(re1);
+        template.addReplicatedEntity(re1);
 
-		replicationHandler.doSync();
-		// the first is skiped
-		replicationHandler.doSync();
-		assertTrue(logic.getReplicationsToDo().isEmpty());
-		assertThat(dao.getCount(), is(1L));
-		assertThat(dao.getAll(null), hasItem(re1));
+        replicationHandler.doSync();
+        // the first is skiped
+        replicationHandler.doSync();
+        assertTrue(logic.getReplicationsToDo().isEmpty());
+        assertThat(dao.getCount(), is(1L));
+        assertThat(dao.getAll(null), hasItem(re1));
 
-		// minutos 2
-		// limpiamos todo y agregamos dos, una de las cuales ya es vieja
-		dateProvider.forward(2);
-		template.clear();
+        // minutos 2
+        // limpiamos todo y agregamos dos, una de las cuales ya es vieja
+        dateProvider.forward(2);
+        template.clear();
 
-		re1.setDescription("updated");
+        re1.setDescription("updated");
 
-		template.addReplicatedEntity(re1);
-		template.addReplicatedEntity(re2);
+        template.addReplicatedEntity(re1);
+        template.addReplicatedEntity(re2);
 
-		assertFalse("dont have changes to sync", logic.getReplicationsToDo()
-				.isEmpty());
-		replicationHandler.doSync();
-		assertTrue(logic.getReplicationsToDo().isEmpty());
-		assertThat(dao.getCount(), is(2L));
-		assertThat(dao.getAll(null), hasItems(re1, re2));
+        assertFalse("dont have changes to sync", logic.getReplicationsToDo()
+                .isEmpty());
+        replicationHandler.doSync();
+        assertTrue(logic.getReplicationsToDo().isEmpty());
+        assertThat(dao.getCount(), is(2L));
+        assertThat(dao.getAll(null), hasItems(re1, re2));
 
-	}
+        propertiesUtil.put(ReplicationHandler.REPLICATION_ENABLED, "false");
+        propertiesUtil.put("karaku.ws.client.enabled", "false");
+        replicationHandler.doSync();
+        assertTrue(logic.getReplicationsToDo().isEmpty());
 
-	//
-	@CacheAll
-	public static class ReplicatedEntityConverter extends
-			AbstractConverter<ReplicatedEntity, ReplicatedEntity> {
+    }
 
-		@Override
-		public ReplicatedEntity toEntity(ReplicatedEntity dto)
-				throws EntityNotFoundException {
+    //
+    @CacheAll
+    public static class ReplicatedEntityConverter extends
+            AbstractConverter<ReplicatedEntity, ReplicatedEntity> {
 
-			return dto;
-		}
+        @Override
+        public ReplicatedEntity toEntity(ReplicatedEntity dto)
+                throws EntityNotFoundException {
 
-		@Override
-		public ReplicatedEntity toDTO(ReplicatedEntity entity, int depth) {
+            return dto;
+        }
 
-			return entity;
-		}
-	}
+        @Override
+        public ReplicatedEntity toDTO(ReplicatedEntity entity, int depth) {
 
-	private static class WSTemplate extends WebServiceTemplate {
+            return entity;
+        }
+    }
 
-		List<ReplicatedEntity> entities = new ArrayList<ReplicatedEntity>();
+    private static class WSTemplate extends WebServiceTemplate {
 
-		@Override
-		public Object marshalSendAndReceive(String uri, Object requestPayload,
-				WebServiceMessageCallback requestCallback) {
+        List<ReplicatedEntity> entities = new ArrayList<ReplicatedEntity>();
 
-			return getEntityResponse();
-		}
+        @Override
+        public Object marshalSendAndReceive(String uri, Object requestPayload,
+                WebServiceMessageCallback requestCallback) {
 
-		public void clear() {
+            return getEntityResponse();
+        }
 
-			entities.clear();
-		}
+        public void clear() {
 
-		public void addReplicatedEntity(ReplicatedEntity re) {
+            entities.clear();
+        }
 
-			entities.add(re);
-		}
+        public void addReplicatedEntity(ReplicatedEntity re) {
 
-		private ReplicatedEntityResponse getEntityResponse() {
+            entities.add(re);
+        }
 
-			ReplicatedEntityResponse toRet = new ReplicatedEntityResponse();
-			toRet.setEntities(entities);
-			return toRet;
-		}
-	}
+        private ReplicatedEntityResponse getEntityResponse() {
+
+            ReplicatedEntityResponse toRet = new ReplicatedEntityResponse();
+            toRet.setEntities(entities);
+            return toRet;
+        }
+    }
 
 }
