@@ -26,6 +26,7 @@
 	<composite:attribute name="saveOnComple" default="" />
 	<composite:attribute name="saveAction" method-signature="void f()" />
 	<composite:attribute name="saveRender" default="" />
+	<composite:attribute name="viewLoadingPopup" default="true" />
 	<composite:attribute name="ajaxSave" default="false"
 		displayName="Determina cuando un botón es o no ajax, por defecto es false, es decir, cuando se presionan se refresca la página," />
 	<composite:facet name="preMainForm" />
@@ -36,7 +37,7 @@
 </composite:interface>
 <composite:implementation>
 
-	<rich:popupPanel id="loadingPopup" modal="true" autosized="true">
+	<rich:popupPanel rendered="#{cc.attrs.viewLoadingPopup}" id="loadingPopup" autosized="true">
 		<h:panelGrid columns="1" columnClasses="loading_pop_up">
 			<h:outputLabel value="#{msg.LOADING_POPUP_TEXT}" />
 			<h:graphicImage value="/resources/images/ajaxloadingbar.gif" />
