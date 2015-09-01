@@ -68,12 +68,14 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
             for (Map.Entry<String, Object> entry : filters.entrySet()) {
                 String filterProperty = entry.getKey();
                 Object filterValue = filters.get(filterProperty);
-                if (filterValue instanceof Number) {
+                try {
+                    Integer.valueOf(String.valueOf(filterValue));
                     where.addClause(Clauses.numberLike(filterProperty,
                             String.valueOf(filterValue)));
-                } else {
+                } catch (NumberFormatException e) {
                     where.addClause(Clauses.iLike(filterProperty, filterValue));
                 }
+
             }
         }
 
