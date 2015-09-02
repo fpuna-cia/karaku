@@ -91,7 +91,7 @@ public class ReportControllerHelper {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public void print(@PathVariable("id") final String id,
             final HttpServletResponse httpServletResponse)
-                    throws ReportException {
+            throws ReportException {
 
         this.setLoad(false);
 
@@ -114,7 +114,7 @@ public class ReportControllerHelper {
     private boolean checkPermission(String user) {
 
         return user.equals(SecurityContextHolder.getContext()
-                .getAuthentication().getName());
+                .getAuthentication().getName().toUpperCase());
     }
 
     /**
