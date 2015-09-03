@@ -1,11 +1,10 @@
 package py.una.pol.karaku.test.util;
 
 import static org.junit.Assert.assertNotNull;
-
+import static org.junit.Assert.assertNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.Test;
 import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-
+import py.una.pol.karaku.dao.select.Select;
 import py.una.pol.karaku.survey.business.EncuestaLogic;
 import py.una.pol.karaku.survey.business.EncuestaPlantillaLogic;
 import py.una.pol.karaku.survey.business.IEncuestaPlantillaLogic;
@@ -32,77 +31,94 @@ import py.una.pol.karaku.util.LazyModel;
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class LazyModelTest extends BaseTestWithDatabase {
 
-	@Configuration
-	static class ContextConfiguration extends ControllerTestConfiguration {
+    @Configuration
+    static class ContextConfiguration extends ControllerTestConfiguration {
 
-		@Bean
-		public LazyModel<EncuestaPlantilla, Long> lazyModel() {
-			return new LazyModel<EncuestaPlantilla, Long>();
+        @Bean
+        public LazyModel<EncuestaPlantilla, Long> lazyModel() {
 
-		}
-	}
+            return new LazyModel<EncuestaPlantilla, Long>();
 
-	@Configuration
-	static class ContextConfiguration2 extends TransactionTestConfiguration {
+        }
+    }
 
-		@Bean
-		public TestBeanCreator beanCreator() {
+    @Configuration
+    static class ContextConfiguration2 extends TransactionTestConfiguration {
 
-			return new TestBeanCreator(TestUtils.getAsClassArray(
-					EncuestaLogic.class, EncuestaDetalleDAO.class,
-					EncuestaPlantillaLogic.class,
-					EncuestaPlantillaDAO.class,
-					EncuestaDAO.class, EncuestaDetalleOpcionRespuestaDAO.class));
-		}
+        @Bean
+        public TestBeanCreator beanCreator() {
 
-		@Override
-		public Class<?>[] getEntityClasses() {
+            return new TestBeanCreator(TestUtils.getAsClassArray(
+                    EncuestaLogic.class, EncuestaDetalleDAO.class,
+                    EncuestaPlantillaLogic.class, EncuestaPlantillaDAO.class,
+                    EncuestaDAO.class, EncuestaDetalleOpcionRespuestaDAO.class));
+        }
 
-			return TestUtils.getReferencedClasses(Encuesta.class,
-					EncuestaPlantilla.class);
-		}
-	}
+        @Override
+        public Class<?>[] getEntityClasses() {
 
-	@Autowired
-	private IEncuestaPlantillaLogic logic;
+            return TestUtils.getReferencedClasses(Encuesta.class,
+                    EncuestaPlantilla.class);
+        }
+    }
 
-	@Autowired
-	private TestControllerHelper controllerHelper;
+    @Autowired
+    private IEncuestaPlantillaLogic logic;
 
-	@Autowired
-	private LazyModel<EncuestaPlantilla, Long> lazyModel;
+    @Autowired
+    private TestControllerHelper controllerHelper;
 
-	@Test
-	public void getLoad() {
+    @Autowired
+    private LazyModel<EncuestaPlantilla, Long> lazyModel;
 
-		int pageSize = 10;
-		int first = 0;
-		Map<String, Object> filters = new HashMap<String, Object>();
+    @Test
+    public void getLoad() {
 
-		String sortField = "id";
-		Long value = 1L;
-		String nameField = "id";
+        int pageSize = 10;
+        int first = 0;
+        Map<String, Object> filters = new HashMap<String, Object>();
 
-		filters.put(nameField, value);
+        String sortField = "id";
+        Long value = 1L;
+        String nameField = "id";
 
-		lazyModel.setLogic(logic);
+        filters.put(nameField, value);
 
-		List<EncuestaPlantilla> Encuestaes = lazyModel.load(first, pageSize, sortField,
-				SortOrder.ASCENDING, filters);
+        lazyModel.setLogic(logic);
 
-		assertNotNull(Encuestaes);
-		
-		sortField = "usuario";
-		String valor = "";
-		nameField = "usuario";
+        List<EncuestaPlantilla> Encuestaes = lazyModel.load(first, pageSize,
+                sortField, SortOrder.ASCENDING, filters);
 
-		filters.put(nameField, valor);
-		
-		List<EncuestaPlantilla> Encuestas = lazyModel.load(first, pageSize, sortField,
-				SortOrder.ASCENDING, filters);
+        assertNotNull(Encuestaes);
 
-		assertNotNull(Encuestas);
-		
-	}
+        sortField = "usuario";
+        String valor = "";
+        nameField = "usuario";
+
+        filters.put(nameField, valor);
+
+        List<EncuestaPlantilla> Encuestas = lazyModel.load(first, pageSize,
+                sortField, SortOrder.ASCENDING, filters);
+
+        assertNotNull(Encuestas);
+        // prueba con getProjectionColumn
+        lazyModel = new LazyModel<EncuestaPlantilla, Long>() {
+
+            @Override
+            public Select getProjectionColumn() {
+
+                Select s = Select.build("descripcion");
+                return s;
+
+            }
+        };
+        lazyModel.setLogic(logic);
+
+        List<EncuestaPlantilla> encuestas = lazyModel.load(first, pageSize,
+                null, SortOrder.ASCENDING, null);
+        assertNotNull(encuestas.get(0).getDescripcion());
+        assertNull(encuestas.get(0).getFechaCreacion());
+
+    }
 
 }
