@@ -113,8 +113,8 @@ public class ReportControllerHelper {
 
     private boolean checkPermission(String user) {
 
-        return user.equals(SecurityContextHolder.getContext()
-                .getAuthentication().getName().toUpperCase());
+        return user.equalsIgnoreCase(SecurityContextHolder.getContext()
+                .getAuthentication().getName());
     }
 
     /**
