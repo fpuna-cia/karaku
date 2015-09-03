@@ -42,11 +42,11 @@ import py.una.pol.karaku.reports.ExportReport;
 /**
  * Helper utilizado para escuchar las peticiones de impresión de reportes entre
  * el ciclo JSF.
- *
+ * 
  * @author Nathalia Ochoa
  * @since 1.0
  * @version 1.0 03/10/2013
- *
+ * 
  */
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
@@ -62,7 +62,7 @@ public class ReportControllerHelper {
 
     /**
      * Agrega un reporte a la cola de impresión de la aplicación.
-     *
+     * 
      * @param key
      *            Identificador del reporte.
      * @param print
@@ -81,7 +81,7 @@ public class ReportControllerHelper {
 
     /**
      * Imprime un reporte existente en la cola.
-     *
+     * 
      * @param key
      *            Key que referencia al reporte que se desea imprimir
      * @param response
@@ -119,7 +119,7 @@ public class ReportControllerHelper {
 
     /**
      * Verifica si existe un ticket en cola de impresión.
-     *
+     * 
      * @return<code>true</code> Sí existe al menos un reporte en la cola de
      *                          impresión de la aplicación, <code>false</code>
      *                          Caso contrario
@@ -157,7 +157,7 @@ public class ReportControllerHelper {
 
         /**
          * Constructor por defecto.
-         *
+         * 
          * @param jasperPrint
          *            Reporte creado que se desea exportar.
          * @param name
@@ -179,7 +179,7 @@ public class ReportControllerHelper {
 
         /**
          * Obtiene el jasperPrint del reporte.
-         *
+         * 
          * @return JasperPrint
          */
         public JasperPrint getJasperPrint() {
@@ -189,7 +189,7 @@ public class ReportControllerHelper {
 
         /**
          * Obtiene el nombre del archivo generado por el reporte.
-         *
+         * 
          * @return Nombre del reporte.
          */
         public String getName() {
@@ -199,7 +199,7 @@ public class ReportControllerHelper {
 
         /**
          * Retorna el tipo de reporte a generar.
-         *
+         * 
          * @return Tipo de reporte.
          */
         public String getType() {
@@ -209,7 +209,7 @@ public class ReportControllerHelper {
 
         /**
          * Retorna el usuario que genero el reporte.
-         *
+         * 
          * @return
          */
         public String getUser() {
