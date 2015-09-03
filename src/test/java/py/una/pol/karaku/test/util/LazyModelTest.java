@@ -1,6 +1,7 @@
 package py.una.pol.karaku.test.util;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import py.una.pol.karaku.dao.select.Select;
 import py.una.pol.karaku.survey.business.EncuestaLogic;
 import py.una.pol.karaku.survey.business.EncuestaPlantillaLogic;
 import py.una.pol.karaku.survey.business.IEncuestaPlantillaLogic;
@@ -99,6 +101,23 @@ public class LazyModelTest extends BaseTestWithDatabase {
                 sortField, SortOrder.ASCENDING, filters);
 
         assertNotNull(Encuestas);
+        // prueba con getProjectionColumn
+        lazyModel = new LazyModel<EncuestaPlantilla, Long>() {
+
+            @Override
+            public Select getProjectionColumn() {
+
+                Select s = Select.build("descripcion");
+                return s;
+
+            }
+        };
+        lazyModel.setLogic(logic);
+
+        List<EncuestaPlantilla> encuestas = lazyModel.load(first, pageSize,
+                null, SortOrder.ASCENDING, null);
+        assertNotNull(encuestas.get(0).getDescripcion());
+        assertNull(encuestas.get(0).getFechaCreacion());
 
     }
 
