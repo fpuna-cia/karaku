@@ -91,7 +91,7 @@ public class ExportReport {
      * 
      * @throws ReportException
      */
-    private JasperReport compile(String fileReport) throws ReportException {
+    public JasperReport compile(String fileReport) throws ReportException {
 
         try {
             ClassPathResource resource = new ClassPathResource(FILE_LOCATION
