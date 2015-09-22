@@ -359,7 +359,11 @@ public class FormatProvider {
      */
     public String asDateTime(@Nullable Date date) {
 
-        return this.dateToString(date, DATETIME_FORMAT);
+        if (date != null) {
+            return this.dateToString(date, DATE_FORMAT) + " "
+                    + this.dateToString(date, TIME_FORMAT);
+        }
+        return "";
     }
 
     /**
