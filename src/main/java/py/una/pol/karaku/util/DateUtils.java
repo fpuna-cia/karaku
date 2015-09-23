@@ -245,6 +245,139 @@ public final class DateUtils {
     }
 
     /**
+     * Calcula la diferencia en meses entre la fecha pasada como parámetro y la
+     * fecha actual.
+     * 
+     * @param date
+     *            Fecha
+     * @return Diferencia en meses
+     */
+    public static int calculateMonthsFromNow(Date date) {
+
+        int edad = 0;
+        if (date != null) {
+            Calendar fechaNacimiento = Calendar.getInstance();
+            fechaNacimiento.setTime(date);
+            Calendar fechaActual = Calendar.getInstance();
+
+            edad = fechaActual.get(Calendar.MONTH)
+                    - fechaNacimiento.get(Calendar.MONTH);
+            if ((fechaNacimiento.get(Calendar.DAY_OF_YEAR) - fechaActual
+                    .get(Calendar.DAY_OF_YEAR)) > 0) {
+                edad--;
+            }
+        }
+        return edad;
+    }
+
+    /**
+     * Método utilizado para, dada un {@link Date}, retorne la cantidad de años,
+     * meses o días de edad de diferencia según la fecha pasada y la fecha
+     * actual, pluralizado correctamente. Si la diferencia es menor a un día
+     * (por ejemplo la diferencia es de solo horas), retorna 1 día. Si recibe
+     * una fecha nula, retorna null
+     * <p>
+     * Ejemplo:
+     * </p>
+     * 
+     * <p>
+     * Para: 22-09-2015 (hoy)
+     * </p>
+     * <p>
+     * Retorna: 1 día
+     * </p>
+     * <p>
+     * Para: 22-09-2010
+     * </p>
+     * <p>
+     * Retorna: 5 años </dia>
+     * <p>
+     * Para: 22-08-2015
+     * </p>
+     * <p>
+     * Retorna: 1 mes </dia>
+     * 
+     * @param date
+     * @return String con tiempo de diferencia a hoy
+     */
+    public static String getEdad(Date date) {
+
+        if (date == null) {
+            return null;
+        }
+        int anhos = calculateYearsFromNow(date);
+
+        if (anhos == 0) {
+            int meses = calculateMonthsFromNow(date);
+            if (meses == 0) {
+                int dias = calculateDaysFromNow(date);
+                if (dias == 0) {
+                    return "1 día";
+                }
+                return parseDays(dias);
+            } else {
+                return parseMonths(meses);
+            }
+        } else {
+            return parseYears(anhos);
+        }
+    }
+
+    private static String parseDays(int dias) {
+
+        String aRet = String.valueOf(dias);
+        if (dias == 1) {
+            return aRet + " día";
+
+        } else {
+            return aRet + " días";
+        }
+    }
+
+    private static String parseMonths(int meses) {
+
+        String aRet = String.valueOf(meses);
+        if (meses == 1) {
+            return aRet + " mes";
+        } else {
+            return aRet + " meses";
+        }
+    }
+
+    private static String parseYears(int anhos) {
+
+        String aRet = String.valueOf(anhos);
+        if (anhos == 1) {
+            return aRet + " año";
+        } else {
+            return aRet + " años";
+        }
+    }
+
+    /**
+     * Calcula la diferencia en dias entre la fecha pasada como parámetro y la
+     * fecha actual.
+     * 
+     * @param date
+     *            Fecha
+     * @return Diferencia en dias
+     */
+    public static int calculateDaysFromNow(Date date) {
+
+        int edad = 0;
+        if (date != null) {
+            Calendar fechaNacimiento = Calendar.getInstance();
+            fechaNacimiento.setTime(date);
+            Calendar fechaActual = Calendar.getInstance();
+
+            edad = fechaActual.get(Calendar.DAY_OF_YEAR)
+                    - fechaNacimiento.get(Calendar.DAY_OF_YEAR);
+
+        }
+        return edad;
+    }
+
+    /**
      * Convierte de número a nombre del mes pasado como parametro
      * 
      * @param mes
