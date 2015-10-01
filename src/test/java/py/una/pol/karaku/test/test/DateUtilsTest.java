@@ -44,11 +44,11 @@ import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 import py.una.pol.karaku.util.DateUtils;
 
 /**
- * 
+ *
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 15, 2013
- * 
+ *
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class DateUtilsTest extends BaseTest {
@@ -175,15 +175,9 @@ public class DateUtilsTest extends BaseTest {
         dateClear.set(Calendar.MONTH, c1.get(Calendar.MONTH));
         dateClear.set(Calendar.YEAR, c1.get(Calendar.YEAR) - 1);
         assertEquals(DateUtils.getEdad(dateClear.getTime()), "1 año");
-        // prueba con meses
-        dateClear.set(Calendar.DAY_OF_MONTH, 1);
-        dateClear.set(Calendar.MONTH, 1);
-        dateClear.set(Calendar.YEAR, c1.get(Calendar.YEAR));
-        assertEquals(DateUtils.getEdad(dateClear.getTime()),
-                DateUtils.calculateMonthsFromNow(dateClear.getTime())
-                        + " meses");
+
         // prueba con mes
-        dateClear.set(Calendar.DAY_OF_MONTH, 1);
+        dateClear.set(Calendar.DAY_OF_MONTH, c1.get(Calendar.DAY_OF_MONTH));
         if (c1.get(Calendar.MONTH) == 0) {
             dateClear.set(Calendar.MONTH, 11);
         } else {
@@ -192,22 +186,6 @@ public class DateUtilsTest extends BaseTest {
 
         dateClear.set(Calendar.YEAR, c1.get(Calendar.YEAR));
         assertEquals(DateUtils.getEdad(dateClear.getTime()), "1 mes");
-        // prueba con dias
-        dateClear.set(Calendar.DAY_OF_MONTH, 1);
-        dateClear.set(Calendar.MONTH, c1.get(Calendar.MONTH));
-        dateClear.set(Calendar.YEAR, c1.get(Calendar.YEAR));
-        assertEquals(DateUtils.getEdad(dateClear.getTime()),
-                DateUtils.calculateDaysFromNow(dateClear.getTime()) + " días");
-        // prueba con dia
-        if (c1.get(Calendar.DAY_OF_YEAR) == 1) {
-            dateClear.set(Calendar.DAY_OF_YEAR, c1.get(Calendar.DAY_OF_YEAR));
-        } else {
-            dateClear.set(Calendar.DAY_OF_YEAR,
-                    c1.get(Calendar.DAY_OF_YEAR) - 1);
-        }
 
-        dateClear.set(Calendar.MONTH, c1.get(Calendar.MONTH));
-        dateClear.set(Calendar.YEAR, c1.get(Calendar.YEAR));
-        assertEquals(DateUtils.getEdad(dateClear.getTime()), "1 día");
     }
 }
