@@ -56,3 +56,6 @@ database.password = postgres
 # Si el sistema es independiente, y tiene su propia página principal, 
 # se puede asignar la misma, o en el web.xml (se recomienda el web.xml) 
 application.homePage = /SIGH/faces/views/index.xhtml
+
+# Cadena de conexion al servidor de archivos.
+fileserver.url = http://storage-cia01.pol.una.py:8080/modeshape-rest
