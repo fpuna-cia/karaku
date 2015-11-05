@@ -64,6 +64,33 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
         Where<T> where = getPreFilterWhere();
         ISearchParam params = getOrderParam();
 
+        where = constructWhereByFilters(filters, where);
+        params = constructSearchParam(first, pageSize, sortField, sortOrder,
+                params);
+        Select select = getProjectionColumn();
+        this.setRowCount(logic.getCount(where).intValue());
+        this.setPageSize(pageSize);
+
+        return loadEntity(select, where, params);
+    }
+
+    protected List<T> loadEntity(Select select, Where<T> where,
+            ISearchParam params) {
+
+        List<T> entities;
+        if (!select.getAttributes().isEmpty()) {
+            entities = logic.get(select, where, params);
+        } else {
+            entities = logic.getAll(where, params);
+        }
+
+        return entities;
+
+    }
+
+    protected Where<T> constructWhereByFilters(Map<String, Object> filters,
+            Where<T> where) {
+
         if (filters != null) {
             for (Map.Entry<String, Object> entry : filters.entrySet()) {
                 String filterProperty = entry.getKey();
@@ -79,24 +106,19 @@ public class LazyModel<T, K extends Serializable> extends LazyDataModel<T> {
             }
         }
 
+        return where;
+    }
+
+    protected ISearchParam constructSearchParam(int first, int pageSize,
+            String sortField, SortOrder sortOrder, ISearchParam sp) {
+
         if (sortField != null) {
-            params.addOrder(sortField, SortOrder.ASCENDING.equals(sortOrder));
+            sp.addOrder(sortField, SortOrder.ASCENDING.equals(sortOrder));
         }
 
-        params.setOffset(first);
-        params.setLimit(pageSize);
-        List<T> entities;
-        Select select = getProjectionColumn();
-        if (!select.getAttributes().isEmpty()) {
-            entities = logic.get(select, where, params);
-        } else {
-            entities = logic.getAll(where, params);
-        }
-
-        this.setRowCount(logic.getCount(where).intValue());
-        this.setPageSize(pageSize);
-
-        return entities;
+        sp.setOffset(first);
+        sp.setLimit(pageSize);
+        return sp;
     }
 
     /***
