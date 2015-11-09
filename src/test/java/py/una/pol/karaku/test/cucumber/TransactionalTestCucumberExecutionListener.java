@@ -28,7 +28,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.test.annotation.NotTransactional;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.AbstractTestExecutionListener;
@@ -43,7 +42,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttributeSource;
-import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
@@ -51,7 +49,6 @@ import org.springframework.util.ReflectionUtils;
  * <code>TestExecutionListener</code> that provides support for executing tests
  * within transactions by using the
  * {@link org.springframework.transaction.annotation.Transactional
- * &#064;Transactional} and {@link NotTransactional &#064;NotTransactional}
  * annotations.
  * </p>
  * <p>
@@ -84,7 +81,6 @@ import org.springframework.util.ReflectionUtils;
  * @since 2.5
  * @see TransactionConfiguration
  * @see org.springframework.transaction.annotation.Transactional
- * @see org.springframework.test.annotation.NotTransactional
  * @see org.springframework.test.annotation.Rollback
  * @see BeforeTransaction
  * @see AfterTransaction
@@ -116,7 +112,6 @@ public class TransactionalTestCucumberExecutionListener extends
 	 * methods} will not be invoked, and a transaction will not be started.
 	 * 
 	 * @see org.springframework.transaction.annotation.Transactional
-	 * @see org.springframework.test.annotation.NotTransactional
 	 */
 	@SuppressWarnings("serial")
 	@Override

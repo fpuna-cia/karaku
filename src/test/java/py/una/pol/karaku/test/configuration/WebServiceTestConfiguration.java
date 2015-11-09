@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +37,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.test.server.MockWebServiceClient;
+import py.una.pol.karaku.configuration.KarakuAsyncUncaughtExceptionHandler;
 import py.una.pol.karaku.exception.KarakuRuntimeException;
 import py.una.pol.karaku.services.client.JsonURLProvider;
 import py.una.pol.karaku.services.client.WSCaller;
@@ -104,6 +106,11 @@ public abstract class WebServiceTestConfiguration extends BaseTestConfiguration
 		return new WSSecurityInterceptor();
 	}
 
+	@Override
+	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+
+		return new KarakuAsyncUncaughtExceptionHandler();
+	}
 	@Override
 	public Executor getAsyncExecutor() {
 

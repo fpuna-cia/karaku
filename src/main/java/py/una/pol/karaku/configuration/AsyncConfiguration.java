@@ -23,6 +23,8 @@
 package py.una.pol.karaku.configuration;
 
 import java.util.concurrent.Executor;
+
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,82 +36,84 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * Clase que agrega soporte para tareas asíncronas a Karaku,
- * 
- * @see <a href="http://appcia.cnc.una.py/wf/index.php/Asyn_task">Wiki</a>
+ *
  * @author Arturo Volpe Torres
- * @since 1.0
  * @version 1.0 Jun 17, 2013
- * 
+ * @see <a href="http://appcia.cnc.una.py/wf/index.php/Asyn_task">Wiki</a>
+ * @since 1.0
  */
 @Configuration
 @EnableAsync
 @EnableScheduling
 public class AsyncConfiguration implements AsyncConfigurer {
 
-	/**
-	 * Tamaño por defecto del pool.
-	 */
-	private static final int DEFAULT_CORE_POOL_SIZE = 10;
-	/**
-	 * Tamaño máximo del pool.
-	 */
-	private static final int DEFAULT_CORE_POOL_MAX_SIZE = 20;
-	/**
-	 * Tamaño de la cola de espera.
-	 */
-	private static final int DEFAULT_ASYNC_QUEUE_SIZE = 10;
+    /**
+     * Tamaño por defecto del pool.
+     */
+    private static final int DEFAULT_CORE_POOL_SIZE = 10;
+    /**
+     * Tamaño máximo del pool.
+     */
+    private static final int DEFAULT_CORE_POOL_MAX_SIZE = 20;
+    /**
+     * Tamaño de la cola de espera.
+     */
+    private static final int DEFAULT_ASYNC_QUEUE_SIZE = 10;
 
-	/**
-	 * Nombre por defecto de los hilos.
-	 */
-	private static final String DEFAULT_THREAD_PREFIX = "karaku-async-executor";
+    /**
+     * Nombre por defecto de los hilos.
+     */
+    private static final String DEFAULT_THREAD_PREFIX = "karaku-async-executor";
 
-	@Autowired
-	private PropertiesUtil properties;
+    @Autowired
+    private PropertiesUtil properties;
 
-	@Override
-	public Executor getAsyncExecutor() {
+    @Override
+    public Executor getAsyncExecutor() {
 
-		return asyncExecutor();
-	}
+        return asyncExecutor();
+    }
 
-	/**
-	 * Crea un nuevo executor. Véase {@link #getAsyncExecutor()}
-	 * 
-	 * @see <a href="http://appcia.cnc.una.py/wf/index.php/Asyn_task">Wiki</a>
-	 * @return {@link Executor} de tareas asíncronas
-	 */
-	@Bean
-	public AsyncTaskExecutor asyncExecutor() {
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
 
-		final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(getInt("karaku.async.pool.size",
-				DEFAULT_CORE_POOL_SIZE));
-		executor.setMaxPoolSize(getInt("karaku.async.pool.max_size",
-				DEFAULT_CORE_POOL_MAX_SIZE));
-		executor.setQueueCapacity(getInt("karaku.async.queue.size",
-				DEFAULT_ASYNC_QUEUE_SIZE));
-		executor.setThreadNamePrefix(properties.get(
-				"karaku.async.thread.prefix", DEFAULT_THREAD_PREFIX));
-		// TODO cambiar por un SyncTaskExecutor
-		return executor;
-	}
+        return new KarakuAsyncUncaughtExceptionHandler();
+    }
 
-	/**
-	 * Retorna el valor de la llave en el archivo de propiedades, si no se puede
-	 * parsear lanzar {@link py.una.pol.karaku.exception.KarakuRuntimeException}
-	 * 
-	 * @param key
-	 *            llave en el archivo de propiedades
-	 * @param def
-	 *            valor por defecto
-	 * @throws py.una.pol.karaku.exception.KarakuRuntimeException
-	 *             si no puede parsear el valor del archivo de propiedades
-	 * @return def si no se encuentra, en caso contrario el valor parseado.
-	 */
-	private int getInt(String key, int def) {
+    /**
+     * Crea un nuevo executor. Véase {@link #getAsyncExecutor()}
+     *
+     * @return {@link Executor} de tareas asíncronas
+     * @see <a href="http://appcia.cnc.una.py/wf/index.php/Asyn_task">Wiki</a>
+     */
+    @Bean
+    public AsyncTaskExecutor asyncExecutor() {
 
-		return properties.getInteger(key, def);
-	}
+        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(
+                getInt("karaku.async.pool.size", DEFAULT_CORE_POOL_SIZE));
+        executor.setMaxPoolSize(getInt("karaku.async.pool.max_size",
+                DEFAULT_CORE_POOL_MAX_SIZE));
+        executor.setQueueCapacity(
+                getInt("karaku.async.queue.size", DEFAULT_ASYNC_QUEUE_SIZE));
+        executor.setThreadNamePrefix(properties
+                .get("karaku.async.thread.prefix", DEFAULT_THREAD_PREFIX));
+        // TODO cambiar por un SyncTaskExecutor
+        return executor;
+    }
+
+    /**
+     * Retorna el valor de la llave en el archivo de propiedades, si no se puede
+     * parsear lanzar {@link py.una.pol.karaku.exception.KarakuRuntimeException}
+     *
+     * @param key llave en el archivo de propiedades
+     * @param def valor por defecto
+     * @return def si no se encuentra, en caso contrario el valor parseado.
+     * @throws py.una.pol.karaku.exception.KarakuRuntimeException si no puede parsear el valor del archivo de propiedades
+     */
+    private int getInt(String key, int def) {
+
+        return properties.getInteger(key, def);
+    }
 
 }
