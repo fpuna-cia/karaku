@@ -22,9 +22,9 @@
  */
 package py.una.pol.karaku.test.test.menu;
 
-import static org.junit.Assert.assertFalse;
 import java.io.IOException;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,89 +49,116 @@ import py.una.pol.karaku.test.util.TestI18nHelper;
 import py.una.pol.karaku.test.util.TestPropertiesUtil;
 import py.una.pol.karaku.test.util.TestUtils;
 
+import static org.junit.Assert.*;
+
 /**
- * 
- * 
+ * Clase de Test para {@link WSMenuProvider}
+ *
  * @author Arturo Volpe
- * @since 2.2.8
+ * @author Diego Ramírez
  * @version 1.0 Oct 18, 2013
- * 
+ * @since 2.2.8
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class MenuProviderTest extends BaseTestWebService {
 
-	@Configuration
-	@EnableScheduling
-	static class ContextConfiguration extends WebServiceTestConfiguration {
+    @Configuration
+    static class ContextConfiguration extends WebServiceTestConfiguration {
 
-		@Bean
-		MenuServerLogic menuServerLogic() {
+        @Bean
+        MenuServerLogic menuServerLogic() {
 
-			return new MenuServerLogic();
-		}
+            return new MenuServerLogic();
+        }
 
-		@Bean
-		MenuServiceEndpoint menuServiceEndpoint() {
+        @Bean
+        MenuServiceEndpoint menuServiceEndpoint() {
 
-			return new MenuServiceEndpoint();
-		}
+            return new MenuServiceEndpoint();
+        }
 
-		@Bean
-		AbstractMenuProvider menuClientLogic() {
+        @Bean
+        AbstractMenuProvider menuClientLogic() {
 
-			return new WSMenuProvider();
-		}
+            return new WSMenuProvider();
+        }
 
-		@Bean
-		@Override
-		protected WSInformationProvider wsInformationProvider()
-				throws IOException {
+        @Bean
+        @Override
+        protected WSInformationProvider wsInformationProvider()
+                throws IOException {
 
-			return new JsonURLProvider(TestUtils.getSiblingResource(
-					MenuProviderTest.class, "urls.json").getInputStream());
-		}
+            return new JsonURLProvider(TestUtils
+                    .getSiblingResource(MenuProviderTest.class, "urls.json")
+                    .getInputStream());
+        }
 
-		@Bean
-		MenuWSCaller menuWSCaller() {
+        @Bean
+        MenuWSCaller menuWSCaller() {
 
-			return new MenuWSCaller();
-		}
+            return new MenuWSCaller();
+        }
 
-		@Override
-		public Class<?>[] getClassesToBound() {
+        @Override
+        public Class<?>[] getClassesToBound() {
 
-			return TestUtils.getAsClassArray(MenuRequest.class,
-					MenuResponse.class);
-		}
+            return TestUtils
+                    .getAsClassArray(MenuRequest.class, MenuResponse.class);
+        }
 
-	}
+    }
 
-	@Autowired
-	TestPropertiesUtil propertiesUtil;
+    @Autowired
+    WSInformationProvider wsInformationProvider;
 
-	@Autowired
-	TestI18nHelper helper;
+    @Autowired
+    TestPropertiesUtil propertiesUtil;
 
-	@Autowired
-	AbstractMenuProvider menuClientLogic;
+    @Autowired
+    TestI18nHelper helper;
 
-	@Autowired
-	MenuServerLogic serverLogic;
+    @Autowired
+    AbstractMenuProvider menuClientLogic;
 
-	@Before
-	public void before() {
+    @Autowired
+    MenuServerLogic serverLogic;
 
-		propertiesUtil.put(MenuServerLogic.KARAKU_MENU_LOCATION_KEY,
-				TestUtils.getSiblingResourceName(getClass(), "testMenu.xml"));
+    @Before
+    public void before() throws IOException {
 
-		helper.addString("TEST_STRING", "test");
-	}
+        propertiesUtil.put(MenuServerLogic.KARAKU_MENU_LOCATION_KEY,
+                TestUtils.getSiblingResourceName(getClass(), "testMenu.xml"));
 
-	@Test
-	public void testCallMocked() {
+        helper.addString("TEST_STRING", "test");
+    }
 
-		List<Menu> menu = menuClientLogic.getMenu();
-		assertFalse(menu.isEmpty());
-		// TODO comparar el menu con el proveido directamente por serverlogic
-	}
+    @Test
+    public void testCallMocked() {
+
+        List<Menu> menu = menuClientLogic.getMenu();
+        assertFalse(menu.isEmpty());
+        // TODO comparar el menu con el proveido directamente por serverlogic
+    }
+
+    @Test
+    public void testGetMenu() {
+
+        WSMenuProvider wsMenuProvider = (WSMenuProvider) menuClientLogic;
+        // isDirty = true luego del postConstruct(), fuerza la reconstrucción de la lista de menus
+        List<Menu> menu0 = wsMenuProvider.getMenu();
+        wsMenuProvider.notifyMenuChange();
+
+        // isDirty = false no se vuelve a reconstruir la lista de menus
+        List<Menu> menu1 = wsMenuProvider.getMenu();
+        assertEquals("Las listas de menus deben ser las mismas", menu0, menu1);
+    }
+
+    @Test
+    public void testCall() {
+
+        WSMenuProvider wsMenuProvider = (WSMenuProvider) menuClientLogic;
+        assertEquals("Debe existir solo un menu en la lista",1,wsMenuProvider.getMenu().size());
+        wsMenuProvider.call();
+        assertEquals("Deben existir 3 menus en la lista",3,wsMenuProvider.getMenu().size());
+    }
 }
