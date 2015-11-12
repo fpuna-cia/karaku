@@ -201,3 +201,7 @@ button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],in
 .ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger .ui-icon {
 	margin-left: -5px;
 }
+
+.ui-outputlabel .ui-outputlabel-rfi {
+	display: none !important;
+}
