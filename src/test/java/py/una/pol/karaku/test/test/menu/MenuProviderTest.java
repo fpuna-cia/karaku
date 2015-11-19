@@ -126,6 +126,7 @@ public class MenuProviderTest extends BaseTestWebService {
     @Before
     public void before() throws IOException {
 
+        propertiesUtil.put("karaku.ws.client.enabled","true");
         propertiesUtil.put(MenuServerLogic.KARAKU_MENU_LOCATION_KEY,
                 TestUtils.getSiblingResourceName(getClass(), "testMenu.xml"));
 
