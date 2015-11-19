@@ -8,7 +8,8 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:composite="http://java.sun.com/jsf/composite"
-	xmlns:k="http://java.sun.com/jsf/composite/karakucc">
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc"
+	xmlns:p="http://primefaces.org/ui">
 
 <composite:interface>
 	<composite:attribute name="controller" required="true"
@@ -25,20 +26,46 @@
 	<composite:attribute name="saveOnComple" default="" />
 	<composite:attribute name="saveAction" method-signature="void f()" />
 	<composite:attribute name="saveRender" default="" />
+	<composite:attribute name="viewLoadingPopup" default="true" />
 	<composite:attribute name="ajaxSave" default="false"
 		displayName="Determina cuando un botón es o no ajax, por defecto es false, es decir, cuando se presionan se refresca la página," />
 	<composite:facet name="preMainForm" />
 	<composite:facet name="moreButtons" />
+	<composite:attribute name="viewIsPrime" default="false"
+		displayName="Determina si la vista utiliza componentes del framework primeFaces" />
 
 </composite:interface>
 <composite:implementation>
+
+	<rich:popupPanel rendered="#{cc.attrs.viewLoadingPopup}" id="loadingPopup" autosized="true">
+		<h:panelGrid columns="1" columnClasses="loading_pop_up">
+			<h:outputLabel value="#{msg.LOADING_POPUP_TEXT}" />
+			<h:graphicImage value="/resources/images/ajaxloadingbar.gif" />
+		</h:panelGrid>
+	</rich:popupPanel>
+
+
 	<h:outputScript library="scripts" name="navigation_checker.js"
 		target="head" />
+	<h:outputScript>
+		var loadingPopup = #{rich:component('loadingPopup')};
+	</h:outputScript>
+
+
+
+
 	<composite:renderFacet name="preMainForm" />
+
 	<h:form id="base_abm_form"
 		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+
 		<rich:messages ajaxRendered="true" showDetail="true"
+			rendered="#{not cc.attrs.viewIsPrime}"
 			id="#{cc.attrs.controller.messageIdName}" globalOnly="true" />
+		<p:messages id="#{cc.attrs.controller.messageIdName}_prime"
+			showDetail="false" showSummary="true" autoUpdate="true"
+			closable="true" rendered="#{cc.attrs.viewIsPrime}" />
+
 		<rich:panel>
 			<f:facet name="header">
 				<h:outputLabel value="#{cc.attrs.controller.headerText}" />
@@ -72,7 +99,7 @@
 					render="#{cc.attrs.saveRender}"
 					rendered="#{cc.attrs.controller.edit and authorityController.hasRole(cc.attrs.controller.editPermission)}"
 					oncomplete="#{cc.attrs.saveOnComple}" execute="base_abm_form" />
-					
+
 				<a4j:commandButton action="#{cc.attrs.saveAction}"
 					value="#{msg['BASE_FORM_CREATE']}"
 					rendered="#{cc.attrs.controller.create  and authorityController.hasRole(cc.attrs.controller.createPermission)}"

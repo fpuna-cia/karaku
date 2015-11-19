@@ -16,6 +16,7 @@
 	<h:outputStylesheet library="css" name="theme.css" />
 	<h:outputScript library="scripts" name="menu.js" />
 	<h:outputScript library="scripts" name="validation.js" />
+	<h:outputStylesheet library="css" name="prime-faces.css" />
 	<title>#{menuController.appName}</title>
 </h:head>
 
@@ -37,11 +38,13 @@
 			<ui:insert name="top">
 				<rich:panel>
 					<div class="row-fluid">
-						<div class="span1">
-							<h:graphicImage value="/resources/images/logo.jpg"
-								alt="Facultad de Medicina" />
+						<div class="span2"   >
+							<h:graphicImage value="/resources/images/logo/invierno.gif"
+								alt="Facultad de Medicina" 
+								 />
+					 		 
 						</div>
-						<div class="span10 app-title">
+						<div class="app-title" style="margin-left: 1%;" >
 							<h1>#{menuController.baseName}</h1>
 							<h1>#{menuController.appName}</h1>
 						</div>
@@ -104,6 +107,8 @@
 			</h:panelGrid>
 		</rich:panel>
 	</div>
+
+	<h:outputScript library="scripts" name="extendedDataTableFix.js" />
 
 </h:body>
 

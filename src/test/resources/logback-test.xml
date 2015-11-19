@@ -11,4 +11,7 @@
 		<appender-ref ref="STDOUT" />
 	</root>
 
+	<!-- For debugging the Spring Context Cache -->
+	<!-- <logger name="org.springframework.test.context.cache" level="DEBUG"/> -->
+
 </configuration>

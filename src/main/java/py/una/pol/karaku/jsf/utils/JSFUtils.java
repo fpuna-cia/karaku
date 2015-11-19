@@ -25,6 +25,8 @@ package py.una.pol.karaku.jsf.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import javax.faces.component.UIComponent;
 import org.richfaces.component.UICalendar;
 import org.springframework.stereotype.Component;
 
@@ -78,5 +80,29 @@ public class JSFUtils {
 	public Date asDate(String string) throws ParseException {
 
 		return new SimpleDateFormat(CALENDAR_DATE_PATTERN).parse(string);
+	}
+
+	/**
+	 * Método necesario, pues {@link #findComponent(String)} no recupera
+	 * correctamente los elementos anidados en un cc.
+	 * 
+	 * @param id
+	 * @param uiComponent
+	 * @return
+	 */
+	public static UIComponent find(String id, UIComponent uiComponent) {
+
+		Iterator<UIComponent> it = uiComponent.getFacetsAndChildren();
+		while (it.hasNext()) {
+			UIComponent ui = it.next();
+			if (id.equals(ui.getId())) {
+				return ui;
+			}
+			UIComponent finded = find(id, ui);
+			if (finded != null) {
+				return finded;
+			}
+		}
+		return null;
 	}
 }

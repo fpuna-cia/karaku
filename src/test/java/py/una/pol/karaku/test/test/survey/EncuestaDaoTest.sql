@@ -1,5 +1,5 @@
 --Tabla: encuesta_plantilla
-INSERT INTO encuesta_plantilla(id, fecha_creacion, usuario_id, activo)VALUES (500000, '2014-05-06 00:00:00-04', 'ROOT', 'SI');
+INSERT INTO encuesta_plantilla(id, fecha_creacion, usuario_id, activo, descripcion, key) VALUES (500000, '2014-05-06 00:00:00-04', 'ROOT', 'SI','descripcion', 'key');
 
 --Tabla: tipo_bloque
 INSERT INTO tipo_bloque(id, descripcion)VALUES (1, 'SIMPLE');

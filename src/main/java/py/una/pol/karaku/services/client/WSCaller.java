@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceMessageCallback;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -148,7 +149,7 @@ public class WSCaller {
 	private WSInformationProvider provider;
 
 	@Autowired
-	private Executor executor;
+	private SyncTaskExecutor executor;
 
 	@Autowired
 	private WSSecurityInterceptor interceptor;
@@ -178,7 +179,7 @@ public class WSCaller {
 			throw new IllegalArgumentException(REQUEST_CAN_NOT_BE_NULL);
 		}
 		Info info = provider.getInfoByReturnType(request.getClass());
-		call(request, info, callback);
+		call(executor, request, info, callback);
 	}
 
 	/**
@@ -211,7 +212,13 @@ public class WSCaller {
 			throw new IllegalArgumentException(REQUEST_CAN_NOT_BE_NULL);
 		}
 		Info info = provider.getInfoByReturnType(request.getClass());
-		call(request, info, callback);
+		call(executor, request, info, callback);
+	}
+
+	public <T> void call(final Object request, final Info info,
+			final WSCallBack<T> callBack) {
+
+		call(executor, request, info, callBack);
 	}
 
 	/**
@@ -232,8 +239,8 @@ public class WSCaller {
 	 *            callBack que será invocado cuando se reciba la llamada del
 	 *            servicio.
 	 */
-	public <T> void call(final Object request, final Info info,
-			final WSCallBack<T> callBack) {
+	public <T> void call(final Executor executor, final Object request,
+			final Info info, final WSCallBack<T> callBack) {
 
 		if (callBack == null) {
 			throw new IllegalArgumentException("CallBack no puede ser nulo");

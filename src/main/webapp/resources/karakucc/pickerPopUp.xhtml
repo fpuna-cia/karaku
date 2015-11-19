@@ -55,12 +55,10 @@
 				<h:panelGroup id="pg">
 					<rich:extendedDataTable
 						value="#{cc.attrs.pickerField.listHelper.entities}" var="item"
-						selection="#{cc.currentSelection}" selectionMode="single"
-						noDataLabel="No se encontraron registros" style="height:300px"
-						id="#{cc.attrs.pickerField.dataTableID}">
-
+						selectionMode="single" noDataLabel="No se encontraron registros"
+						style="height:300px" id="#{cc.attrs.pickerField.dataTableID}">
 						<a4j:ajax execute="@form" event="selectionchange"
-							listener="#{cc.selectionListener}" render="@form" />
+							render="picker_selected_value" />
 						<ui:include src="#{cc.attrs.urlColumns}" />
 					</rich:extendedDataTable>
 					<h:panelGrid columns="3" width="100%"
@@ -70,7 +68,7 @@
 						<k:navigation helper="#{cc.attrs.pickerField.listHelper.helper}"
 							idPanel="idPagingPanel" render="pg" />
 					</h:panelGrid>
-					<rich:panel>
+					<rich:panel id="picker_selected_value">
 						<h:outputLabel value="Valor Seleccionado: " />
 						<h:outputText
 							value="#{cc.attrs.pickerField.getFormmatedOption(cc.selectedItem)} "
@@ -79,10 +77,9 @@
 					<h:panelGrid id="picker_control" columns="2">
 						<a4j:commandButton value="#{msg['PICKER_SELECCIONAR']}"
 							render="#{cc.attrs.render} #{cc.attrs.reRenderRegionId}"
-							id="buttonSelect" action="#{cc.clear()}"
-							actionListener="#{cc.attrs.pickerField.changeValueListener(cc.selectedItem)}"
-							oncomplete="#{empty facesContext.maximumSeverity ? cc.attrs.closeJS : ''}">
-						</a4j:commandButton>
+							execute="@form" immediate="true"
+							actionListener="#{cc.aceptarClicked}"
+							oncomplete="#{empty facesContext.maximumSeverity ? cc.attrs.closeJS : ''}" />
 						<a4j:commandButton value="#{msg['PICKER_CANCELAR']}"
 							oncomplete="#{cc.attrs.closeJS}" immediate="true">
 						</a4j:commandButton>

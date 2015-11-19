@@ -40,81 +40,129 @@ import net.sf.jasperreports.engine.JRDataSource;
  */
 public final class KarakuReportBlockField extends KarakuReportBlock {
 
-	private int widthLabel;
-	private int widthValue;
+    private int widthLabel;
+    private int widthValue;
+    private boolean isSubBlock;
+    private boolean isTitle;
 
-	public KarakuReportBlockField(String title, String nameDataSource,
-			List<Field> fields, int widthLabel, int widthValue) {
+    public KarakuReportBlockField(String title, String nameDataSource,
+            List<Field> fields, int widthLabel, int widthValue,
+            boolean isSubBlock) {
 
-		super(title, nameDataSource);
-		setDataSource(buildDataSource(fields));
-		this.widthLabel = widthLabel;
-		this.widthValue = widthValue;
+        super(title, nameDataSource);
+        setDataSource(buildDataSource(fields));
+        this.widthLabel = widthLabel;
+        this.widthValue = widthValue;
+        this.isSubBlock = isSubBlock;
 
-	}
+    }
 
-	public JRDataSource buildDataSource(List<Field> fields) {
+    public KarakuReportBlockField(String title, String nameDataSource,
+            List<Field> fields, int widthLabel, int widthValue) {
 
-		DRDataSource ds = new DRDataSource("label", "value");
+        super(title, nameDataSource);
+        setDataSource(buildDataSource(fields));
+        this.widthLabel = widthLabel;
+        this.widthValue = widthValue;
+        this.isSubBlock = false;
 
-		for (Field field : fields) {
-			ds.add(field.getLabel(), field.getValue());
-		}
-		return ds;
-	}
+    }
 
-	public int getWidthValue() {
+    public KarakuReportBlockField(String title, String nameDataSource,
+            List<Field> fields, int widthLabel, int widthValue,
+            boolean isSubBlock, boolean isTitle) {
 
-		return widthValue;
-	}
+        super(title, nameDataSource);
+        setDataSource(buildDataSource(fields));
+        this.widthLabel = widthLabel;
+        this.widthValue = widthValue;
+        this.isSubBlock = isSubBlock;
+        this.isTitle = isTitle;
 
-	public void setWidthValue(int widthValue) {
+    }
 
-		this.widthValue = widthValue;
-	}
+    public JRDataSource buildDataSource(List<Field> fields) {
 
-	public int getWidthLabel() {
+        DRDataSource ds = new DRDataSource("label", "value");
 
-		return widthLabel;
-	}
+        for (Field field : fields) {
+            ds.add(field.getLabel(), field.getValue());
+        }
+        return ds;
+    }
 
-	public void setWidthLabel(int widthLabel) {
+    public int getWidthValue() {
 
-		this.widthLabel = widthLabel;
-	}
+        return widthValue;
+    }
 
-	public static class Field {
+    public void setWidthValue(int widthValue) {
 
-		private String label;
-		private String value;
+        this.widthValue = widthValue;
+    }
 
-		public Field(String label, String value) {
+    public int getWidthLabel() {
 
-			super();
-			this.label = label;
-			this.value = value;
-		}
+        return widthLabel;
+    }
 
-		public String getValue() {
+    public void setWidthLabel(int widthLabel) {
 
-			return value;
-		}
+        this.widthLabel = widthLabel;
+    }
 
-		public void setValue(String value) {
+    public static class Field {
 
-			this.value = value;
-		}
+        private String label;
+        private String value;
 
-		public String getLabel() {
+        public Field(String label, String value) {
 
-			return label;
-		}
+            super();
+            this.label = label;
+            this.value = value;
+        }
 
-		public void setLabel(String label) {
+        public String getValue() {
 
-			this.label = label;
-		}
+            return value;
+        }
 
-	}
+        public void setValue(String value) {
+
+            this.value = value;
+        }
+
+        public String getLabel() {
+
+            return label;
+        }
+
+        public void setLabel(String label) {
+
+            this.label = label;
+        }
+
+    }
+
+    public boolean isSubBlock() {
+
+        return isSubBlock;
+    }
+
+    public void setSubBlock(boolean isSubBlock) {
+
+        this.isSubBlock = isSubBlock;
+    }
+
+    public boolean isTitle() {
+
+        return isTitle;
+    }
+
+    public void setTitle(boolean isTitle) {
+
+        this.isTitle = isTitle;
+    }
 
 }

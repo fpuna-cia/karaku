@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="aferreira@pol.una.py"
+        id="karaku_audit_encuesta_plantilla_ac_descripcion_001">
+        <addColumn tableName="encuesta_plantilla_aud" schemaName="audit">
+            <column name="descripcion" type="VARCHAR(100)">
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

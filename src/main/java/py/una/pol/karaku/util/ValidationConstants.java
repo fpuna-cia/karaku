@@ -51,7 +51,21 @@ public final class ValidationConstants {
 	private static final String UC_NASAL = "ÃẼĨÕŨỸÄËÏÖÜŸÂÊÎÔÛŶ";
 	private static final String NASAL = LC_NASAL + UC_NASAL;
 
-	private static final String SPECIAL = "\"¿?¡!\\(\\),\\.=\\+\\-\\_\\*\\$&%\\/\\\\º";
+	/**
+	 * Expresión que admite los siguientes caracteres especiales:
+	 * 
+	 * <ul>
+	 * <li>"</li>
+	 * <li>¿?</li>
+	 * <li>¡!</li>
+	 * <li>\ /</li>
+	 * <li>()</li>
+	 * <li>, . :</li>
+	 * <li>=+ - * %</li>
+	 * <li>& $ # º</li>
+	 * </ul>
+	 */
+	private static final String SPECIAL = "\"¿?¡!\\(\\),\\.=\\+\\-\\_\\*\\$&%\\/\\\\º\\#\\:";
 
 	/**
 	 * Expresión que admite caracteres del castellano y guaraní (incluído el ')
@@ -152,7 +166,7 @@ public final class ValidationConstants {
 	public static final String ALPHANUMERIC_HYPHEN = "[a-zA-Z0-9ñÑ" + GRAVE
 			+ HYPHEN + END;
 
-	public static final String ALPHANUMERIC_HYPHEN_NOT_NUMERIC = SPANISH_LETTERS 
+	public static final String ALPHANUMERIC_HYPHEN_NOT_NUMERIC = SPANISH_LETTERS
 			+ GRAVE + HYPHEN + END;
 
 	/**

@@ -171,6 +171,12 @@ public class WSMenuProvider extends AbstractMenuProvider {
 	private void rebuild() {
 
 		synchronized (menu) {
+			/*
+				XXX: rebuild() se llama desde dos métodos solamente notifyMenuChange()
+				y getMenu(), el primero fuerza isDirty al valor true y el segundo
+				solo llama a rebuild() si isDirty == true, por lo tanto el siguiente
+				if parece no tener mucho sentido.
+			 */
 			if (!isDirty) {
 				return;
 			}

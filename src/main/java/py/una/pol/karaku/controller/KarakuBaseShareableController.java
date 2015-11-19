@@ -50,7 +50,7 @@ public abstract class KarakuBaseShareableController<T extends Shareable> extends
 	public Where<T> getBaseWhere() {
 
 		return super.getBaseWhere().addClause(
-				Clauses.eq(getActivoFieldName(), Shareable.YES));
+				Clauses.eq(getActivoFieldName(), getActivoValue()));
 	}
 
 	/**
@@ -65,7 +65,7 @@ public abstract class KarakuBaseShareableController<T extends Shareable> extends
 	public Where<T> getWhereReport() {
 
 		return super.getWhereReport().addClause(
-				Clauses.eq(getActivoFieldName(), Shareable.YES));
+				Clauses.eq(getActivoFieldName(), getActivoValue()));
 	}
 
 	/**
@@ -76,7 +76,7 @@ public abstract class KarakuBaseShareableController<T extends Shareable> extends
 	protected <Z> Where<Z> getOnlyActivosWhere() {
 
 		Where<Z> where = Where.get();
-		where.addClause(Clauses.eq(getActivoFieldName(), Shareable.YES));
+		where.addClause(Clauses.eq(getActivoFieldName(), getActivoValue()));
 		return where;
 
 	}
@@ -89,6 +89,15 @@ public abstract class KarakuBaseShareableController<T extends Shareable> extends
 	protected String getActivoFieldName() {
 
 		return FIELD_ACTIVO;
+	}
+
+	/**
+	 * Devuelve el valor de verdad contra el que se tiene que comparar el campo
+	 * que indica si está o no borrado el registro
+	 */
+	protected Object getActivoValue() {
+
+		return Shareable.YES;
 	}
 
 }

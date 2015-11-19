@@ -23,6 +23,7 @@
 package py.una.pol.karaku.dao.restrictions;
 
 import static py.una.pol.karaku.util.Checker.notNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +46,9 @@ import py.una.pol.karaku.dao.where.Clause;
  * @version 1.1
  * @since 1.0 06/02/2013
  */
-public class Where<T> {
+public class Where<T> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private List<Criterion> criterions;
 

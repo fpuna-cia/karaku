@@ -7,6 +7,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:k="http://java.sun.com/jsf/composite/karakucc"
+	xmlns:karaku="http://www.pol.una.py/jsf/karaku"
 	template="/views/templates/header.xhtml">
 
 	<ui:define name="content">
@@ -16,9 +17,12 @@
 			urlSearchForm="/views/karaku/replication/fields.xhtml">
 		</k:list>
 		<h:form>
-			<h:commandButton value="Do all sync"
-				action="#{replicationHandler.doSync()}" />
-			<h:commandButton value="Go to main" action="../main.xhtml" />
+			<karaku:security
+				hasPermission="#{propertyPlaceholder.get('karaku.admin.permission', 'KARAKU_MAIN')}">
+				<h:commandButton value="Do all sync"
+					action="#{replicationHandler.doSync()}" />
+				<h:commandButton value="Go to main" action="../main.xhtml" />
+			</karaku:security>
 		</h:form>
 	</ui:define>
 </ui:composition>

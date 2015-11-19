@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="aferreira@pol.una.py"
+		id="karaku_public_encuesta_plantilla_ac_descripcion_001">
+		<addColumn tableName="encuesta_plantilla" schemaName="public">
+			<column name="descripcion" type="VARCHAR(100)">
+				<constraints nullable="true" />
+			</column>
+		</addColumn>
+		
+		<sql>
+		  UPDATE public.encuesta_plantilla SET descripcion='COMPLETAR DESCRIPCION ' || id;
+		</sql>
+        
+        <addNotNullConstraint columnName="descripcion"
+            schemaName="public"
+            tableName="encuesta_plantilla"/>
+	</changeSet>
+</databaseChangeLog>

@@ -25,6 +25,9 @@ package py.una.pol.karaku.test.test.replication;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -98,6 +101,17 @@ public class ShareableWatcherTest extends BaseTest {
 
 		boolean state;
 
+        @Id
+        Long id;
+
+        public Long getId(){
+            return id;
+        }
+
+        public void setId(Long id){
+            this.id = id;
+        }
+
 		@Override
 		public String getUri() {
 
@@ -126,6 +140,15 @@ public class ShareableWatcherTest extends BaseTest {
 
 	@Entity
 	public static class EntityNotShareable {
+        @Id
+        Long id;
 
+        public Long getId(){
+            return id;
+        }
+
+        public void setId(Long id){
+            this.id = id;
+        }
 	}
 }

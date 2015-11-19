@@ -193,10 +193,15 @@
   }
   .span2 {
     width: 104px;
+    
   }
   .span1 {
     width: 42px;
+    min-width: 80px;
+	text-align: center;
+	position: fixed;
   }
+      
   .offset12 {
     margin-left: 764px;
   }
@@ -542,14 +547,17 @@
     float: left;
     width: 100%;
     min-height: 30px;
-    margin-left: 2.564102564102564%;
-    *margin-left: 2.5109110747408616%;
+    /**  margin-left: 2.564102564102564%; **/
+    
+    margin-left: 13%; 
+    *margin-left: 2.5109110747408616%; 
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
   }
   .row-fluid [class*="span"]:first-child {
     margin-left: 0;
+    text-align: center;
   }
   .row-fluid .controls-row [class*="span"] + [class*="span"] {
     margin-left: 2.564102564102564%;

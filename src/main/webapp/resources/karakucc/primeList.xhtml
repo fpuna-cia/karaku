@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://myfaces.apache.org/orchestra"
+	xmlns:tk="http://www.pol.una.py/jsf/karaku"
+	xmlns:p="http://primefaces.org/ui">
+
+<composite:interface>
+	<composite:attribute name="controller" required="true"
+		type="py.una.pol.karaku.controller.IKarakuBaseController"
+		displayName="Controllador que rige esta vista, por defecto sera marcado como el controlador activo" />
+	<composite:attribute name="idListEntities" default="idListEntities"
+		displayName="id de la tabla de entidades (dataTable), el nombre de la variable de esta tabla es dataTable" />
+	<composite:attribute name="urlColumns" required="true" />
+	<composite:facet name="extraButtons" />
+	<composite:attribute name="deleteButtonName" />
+	<composite:attribute name="editButtonName" />
+	<composite:attribute name="withRowExports" default="false"
+		type="java.lang.Boolean"
+		displayName="Muestra una columna con las opciones de exportacion" />
+	<composite:attribute name="withGridExports" default="true"
+		type="java.lang.Boolean"
+		displayName="Muestra abajo opciones de exportacion" />
+	<composite:attribute name="withRowActions" default="true"
+		type="java.lang.Boolean"
+		displayName="Muestra una columna con las acciones editar, borrar y ver" />
+	<composite:attribute name="showMessages" default="true" />
+	<composite:attribute name="viewIsPrime" default="false"
+		displayName="Determina si la vista utiliza componentes del framework primeFaces" />
+	<composite:attribute name="withMessages" default="true"
+		type="java.lang.Boolean" />
+	<composite:attribute name="withCreateButton" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el boton crear sera visible" />
+	<composite:attribute name="withDeleteVisible" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el enlace borrar sera visible" />
+	<composite:attribute name="withEditVisible" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el enlace editar sera visible" />
+	<composite:facet name="extraColumnButtons" />
+	<composite:attribute name="withViewVisible" type="java.lang.Boolean"
+		default="true" shortDescription="Define si el enlace ver sera visible" />
+	<composite:attribute name="withSticky" type="java.lang.Boolean"
+		default="false"
+		shortDescription="Define si el encabezado de la tabla sera visible en todo momento" />
+	<composite:attribute name="withMessage" type="java.lang.Boolean"
+		default="true"
+		shortDescription="Define si el mensaje de la grilla de registros será renderizado" />	
+	
+</composite:interface>
+
+<composite:implementation
+	xmlns:k="http://java.sun.com/jsf/composite/karakucc">
+
+	#{cc.attrs.controller.columnFix()}
+	<h:outputLabel value="#{cc.attrs.controller.usarController}" />
+
+	<rich:panel
+		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+		
+		
+		<p:messages id="#{cc.attrs.controller.messageIdName}"
+			showDetail="false" showSummary="true" autoUpdate="true"
+			closable="true" globalOnly="true" rendered="#{cc.attrs.withMessage}" />
+		
+		
+		<f:facet name="header">
+			<h:outputLabel value="#{msg['LIST_ENTITYTABLE_HEADER']}" />
+		</f:facet>
+		<div class="space"></div>
+
+		<h:form
+			rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+			<k:primeDataTable items="#{cc.attrs.controller.lazyModel}"
+				idDataTable="#{cc.attrs.idListEntities}"
+				controller="#{cc.attrs.controller}"
+				deleteText="#{cc.attrs.deleteButtonName}"
+				editText="#{cc.attrs.editButtonName}"
+				withActions="#{cc.attrs.withRowActions}" width="100%"
+				deleteVisible="#{cc.attrs.withDeleteVisible}"
+				editVisible="#{cc.attrs.withEditVisible}"
+				viewVisible="#{cc.attrs.withViewVisible}"
+				withExports="#{cc.attrs.withRowExports}"
+				withSticky="{cc.attrs.withSticky}">
+
+				<f:facet name="extraColumnButtons">
+					<h:inputHidden value="facetRender" />
+					<composite:insertFacet name="extraColumnButtons" />
+				</f:facet>
+				<ui:include src="#{cc.attrs.urlColumns}" />
+			</k:primeDataTable>
+		</h:form>
+	</rich:panel>
+
+	<h:form
+		rendered="#{authorityController.hasRole(cc.attrs.controller.defaultPermission)}">
+		<h:panelGrid columns="3" width="100%"
+			columnClasses="list_button_class,list_export_class,list_pagin_class">
+			<o:separateConversationContext>
+				<tk:security hasPermission="#{cc.attrs.controller.createPermission}">
+					<h:commandButton value="#{msg['BASE_FORM_NEW']}" immediate="true"
+						rendered="#{cc.attrs.withCreateButton}"
+						action="#{cc.attrs.controller.preCreate()}"
+						render="panelGridCreate" />
+				</tk:security>
+			</o:separateConversationContext>
+			<h:panelGrid columns="3" rendered="#{cc.attrs.withGridExports}">
+				<h:outputLabel value="#{msg['BASE_LIST_EXPORT']}" />
+				<h:commandLink action="#{cc.attrs.controller.generateReport('xls')}">
+					<h:graphicImage value="/resources/images/csv-ico.png"
+						alt="Exportar a CSV" title="Exportar a CSV"
+						style="width:24px;height:24px" />
+				</h:commandLink>
+				<h:commandLink action="#{cc.attrs.controller.generateReport('pdf')}">
+					<h:graphicImage value="/resources/images/pdf-ico.png"
+						alt="Exportar a PDF" title="Exportar a PDF"
+						style="width:24px;height:24px" />
+				</h:commandLink>
+			</h:panelGrid>
+
+		</h:panelGrid>
+	</h:form>
+
+</composite:implementation>
+</html>

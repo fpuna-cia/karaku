@@ -22,14 +22,17 @@
  */
 package py.una.pol.karaku.dao.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import py.una.pol.karaku.dao.where.MatchMode;
 
-public class EntityExample<T> {
+public class EntityExample<T> implements Serializable {
 
-	private T entity;
+	private static final long serialVersionUID = 1L;
+
+	private final T entity;
 	private List<String> excluded;
 	private MatchMode matchMode = MatchMode.CONTAIN;
 	private boolean ignoreCase = true;

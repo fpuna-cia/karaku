@@ -64,73 +64,94 @@ import py.una.pol.karaku.replication.Shareable;
  * @see ReflectionConverter
  * 
  */
+/**
+ * 
+ * @author Victor Ughelli
+ * @since 1.0
+ * @version 1.0 17/08/2015
+ * 
+ */
 public interface Converter<E extends Shareable, T extends DTO> {
 
-	/**
-	 * Convierte una entidad a un DTO.
-	 * 
-	 * <p>
-	 * La conversión no necesariamente debe ser atributo por atributo, y esta
-	 * limitada a un <i>depth</i> o profundidad, que define cuantos niveles
-	 * deben ser convertidos.
-	 * </p>
-	 * 
-	 * <p>
-	 * <b>Todos los atributos que retorna este método deben ser
-	 * serializables.</b>
-	 * </p>
-	 * 
-	 * @param entity
-	 *            entidad a ser convertida
-	 * @param depth
-	 *            máximo nivel de anidación de relaciones a convertir
-	 * @return objeto listo para ser enviado por la red, nunca <code>null</code>
-	 */
-	@Nonnull
-	T toDTO(E entity, int depth);
+    /**
+     * Convierte una entidad a un DTO.
+     * 
+     * <p>
+     * La conversión no necesariamente debe ser atributo por atributo, y esta
+     * limitada a un <i>depth</i> o profundidad, que define cuantos niveles
+     * deben ser convertidos.
+     * </p>
+     * 
+     * <p>
+     * <b>Todos los atributos que retorna este método deben ser
+     * serializables.</b>
+     * </p>
+     * 
+     * @param entity
+     *            entidad a ser convertida
+     * @param depth
+     *            máximo nivel de anidación de relaciones a convertir
+     * @return objeto listo para ser enviado por la red, nunca <code>null</code>
+     */
+    @Nonnull
+    T toDTO(E entity, int depth);
 
-	/**
-	 * Convierte un DTO a una entidad válida para la base de datos actual.
-	 * 
-	 * <p>
-	 * Esta conversión puede utilizar otras llamadas a servicios para completar
-	 * un objeto más grande.
-	 * </p>
-	 * 
-	 * <p>
-	 * No se debe completar el identificador del mismo, es decir el ID del
-	 * objeto debe ser nulo, el {@link Shareable#getUri()} es el mecanismo
-	 * elegido para poder apuntar a la entidad de la base de datos a la que
-	 * apunta.
-	 * </p>
-	 * 
-	 * @param dto
-	 * @return entidad del sistema, nunca <code>null</code>
-	 */
-	@Nonnull
-	E toEntity(T dto) throws EntityNotFoundException;
+    /**
+     * Convierte un DTO a una entidad válida para la base de datos actual.
+     * 
+     * <p>
+     * Esta conversión puede utilizar otras llamadas a servicios para completar
+     * un objeto más grande.
+     * </p>
+     * 
+     * <p>
+     * No se debe completar el identificador del mismo, es decir el ID del
+     * objeto debe ser nulo, el {@link Shareable#getUri()} es el mecanismo
+     * elegido para poder apuntar a la entidad de la base de datos a la que
+     * apunta.
+     * </p>
+     * 
+     * @param dto
+     * @return entidad del sistema, nunca <code>null</code>
+     */
+    @Nonnull
+    E toEntity(T dto) throws EntityNotFoundException;
 
-	/**
-	 * Retorna la clase del DTO.
-	 * 
-	 * <p>
-	 * Este método es un método que facilita el trabajo del
-	 * {@link ConverterProvider}, no debería ser necesario reimplementarlo.
-	 * </p>
-	 * 
-	 * @return clase del DTO, nunca <code>null</code>
-	 */
-	Class<T> getDtoType();
+    /**
+     * Retorna la clase del DTO.
+     * 
+     * <p>
+     * Este método es un método que facilita el trabajo del
+     * {@link ConverterProvider}, no debería ser necesario reimplementarlo.
+     * </p>
+     * 
+     * @return clase del DTO, nunca <code>null</code>
+     */
+    Class<T> getDtoType();
 
-	/**
-	 * Retorna el tipo de la entidad.
-	 * 
-	 * <p>
-	 * Este método es un método que facilita el trabajo del
-	 * {@link ConverterProvider}, no debería ser necesario reimplementarlo.
-	 * </p>
-	 * 
-	 * @return tipo de la clase, nunca <code>null</code>
-	 */
-	Class<E> getEntityType();
+    /**
+     * Retorna el tipo de la entidad.
+     * 
+     * <p>
+     * Este método es un método que facilita el trabajo del
+     * {@link ConverterProvider}, no debería ser necesario reimplementarlo.
+     * </p>
+     * 
+     * @return tipo de la clase, nunca <code>null</code>
+     */
+    Class<E> getEntityType();
+
+    /**
+     * 
+     * Refresca la entidad a replicar
+     * 
+     * Este método trae de forma completa todos los atributos de la entidad a
+     * replicar. De manera a que la replicación de entidades que referencien a
+     * otras entidades se realice de forma correcta.
+     * 
+     * @param entity
+     * @param depth
+     * @return
+     */
+    T beforeToDTO(E entity, int depth);
 }
