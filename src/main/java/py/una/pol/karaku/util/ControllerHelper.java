@@ -203,6 +203,34 @@ public class ControllerHelper {
 	}
 
 	/**
+	 * Crea un mensaje  personalizado para un componente determinado utilizando
+	 * las claves  y los argumentos recibidos como parametros.
+	 *
+	 * @see I18nHelper#getString(String, Object...)
+	 *
+	 * @param severity
+	 *            Severidad {@link FacesMessage}
+	 * @param summary
+	 *            Clave internacionalizada del sumario
+	 * @param summaryArgs
+	 *            Argumentos para personalizar el sumario
+	 * @param detail
+	 *            Clave internacionalizada del detalle
+	 * @param detailArgs
+	 *            Argumentos para personalizar el detalle
+	 * @param componentId
+	 *            Nombre del componente,
+	 *            {@link ControllerHelper#getClientId(String)}
+	 */
+	public void createFacesMessage(final Severity severity,
+			final String summary,Object[] summaryArgs ,final String detail,
+			final Object[] detailArgs, final String componentId) {
+
+		createFacesMessageSimple(severity, getString(summary,summaryArgs),
+				getString(detail,detailArgs), componentId);
+	}
+
+	/**
 	 * Emite un mensaje recibido como parámetro en el componente cuyo
 	 * identificador es recibido como parámetro.
 	 * 
@@ -619,6 +647,12 @@ public class ControllerHelper {
 
 		return i18nHelper.getString(code);
 	}
+
+	private String getString(final String code, Object ... arguments) {
+
+		return i18nHelper.getString(code,arguments);
+	}
+
 
 	/**
 	 * Retorna el contexto.
