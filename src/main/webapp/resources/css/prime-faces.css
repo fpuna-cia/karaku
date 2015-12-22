@@ -123,13 +123,13 @@ button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],in
 	display: inline-block;
 	font-size: 10px;
 	height: 26px;
-	line-height: 10px;
+	line-height: 1em !important;
 	color: #333333;
 	text-align: center;
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 	vertical-align: middle;
 	cursor: pointer;
-	background-color: #fff;
+	background-color: transparent;
 }
 
 .ui-button {
