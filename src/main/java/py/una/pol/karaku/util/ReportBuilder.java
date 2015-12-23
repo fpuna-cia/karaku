@@ -222,4 +222,43 @@ public final class ReportBuilder {
 
         this.params.putAll(params);
     }
+
+    /*
+     * Método para agregar filtros en los reportes, un título y una descripción.
+     * Ejemplo: title=Fecha, description=22/10/2015 -> Resultado Fecha:
+     * 22/10/2015
+     */
+    public void addFilter(String title, String description) {
+
+        if (getParams().get("selectionFilters") == null) {
+            addParam("selectionFilters", title + ": " + description);
+        } else {
+            addParam("selectionFilters", getParams().get("selectionFilters")
+                    + "; " + title + ": " + description);
+        }
+
+    }
+
+    /*
+     * Método para agregar filtros en los reportes, un título y una lista de
+     * descripciones. Ejemplo: title=Fechas, description=[22/10/2015,
+     * 22/10/2016, 22/10/2017] -> Resultado Fecha: 22/10/2015, 22/10/2016,
+     * 22/10/2017
+     */
+    public void addFilterList(String title, List<String> list) {
+
+        String cadena = "";
+        for (String s : list) {
+            cadena = cadena + s + ", ";
+        }
+        // se elimina la ultima coma de la cadena generada
+        cadena = cadena.substring(0, cadena.length() - 2);
+
+        if (getParams().get("selectionFilters") == null) {
+            addParam("selectionFilters", title + ": " + cadena);
+        } else {
+            addParam("selectionFilters", getParams().get("selectionFilters")
+                    + "; " + title + ": " + cadena);
+        }
+    }
 }
