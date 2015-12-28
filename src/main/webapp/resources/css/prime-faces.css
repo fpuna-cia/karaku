@@ -21,8 +21,7 @@
 
 /*Estilo de los elementos cuando nos posicionamos sobre ellos*/
 .ui-state-hover,.ui-state-focus {
-	background: none !important;
-	border-color: #E0ABF0 !important;
+	background-color: #F8EFFB !important;
 	box-shadow: 0px 0px 4px #6A0888 !important;
 	color: #555555 !important;
 }
@@ -40,6 +39,18 @@ button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],in
 	color: grey;
 }
 
+button[disabled] .ui-button-text {
+	background-color: #CCC;
+	margin: 0px!important;
+	border-top: 3px solid #CCC;
+	cursor: auto;
+
+}
+
+button[disabled]:hover {
+	box-shadow: none;
+
+}
 /**Estilo del elemento seleccionado de un selecOneMenu*/
 .ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
 	{
@@ -129,11 +140,11 @@ button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],in
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 	vertical-align: middle;
 	cursor: pointer;
-	background-color: transparent;
 }
 
 .ui-button {
 	height: 22px;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6)) !important;
 }
 /*Para evitar el efecto sombreado de los componentes */
 .ui-inputfield,.ui-widget-content .ui-inputfield,.ui-widget-header .ui-inputfield
