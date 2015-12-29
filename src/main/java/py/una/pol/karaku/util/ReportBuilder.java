@@ -49,6 +49,7 @@ public final class ReportBuilder {
     private String type;
     private boolean sectionCriteria;
     private Align align;
+    private static final String SELECTIONFILTER = "selectionFilters";
 
     public ReportBuilder(String title, String type) {
 
@@ -230,11 +231,11 @@ public final class ReportBuilder {
      */
     public void addFilter(String title, String description) {
 
-        if (getParams().get("selectionFilters") == null) {
-            addParam("selectionFilters", title + ": " + description);
+        if (getParams().get(SELECTIONFILTER) == null) {
+            addParam(SELECTIONFILTER, title + ": " + description);
         } else {
-            addParam("selectionFilters", getParams().get("selectionFilters")
-                    + "; " + title + ": " + description);
+            addParam(SELECTIONFILTER, getParams().get(SELECTIONFILTER) + "; "
+                    + title + ": " + description);
         }
 
     }
@@ -248,17 +249,20 @@ public final class ReportBuilder {
     public void addFilterList(String title, List<String> list) {
 
         String cadena = "";
+        StringBuilder sb = new StringBuilder();
         for (String s : list) {
-            cadena = cadena + s + ", ";
+
+            sb.append(s).append(", ");
         }
         // se elimina la ultima coma de la cadena generada
+        cadena = sb.toString();
         cadena = cadena.substring(0, cadena.length() - 2);
 
-        if (getParams().get("selectionFilters") == null) {
-            addParam("selectionFilters", title + ": " + cadena);
+        if (getParams().get(SELECTIONFILTER) == null) {
+            addParam(SELECTIONFILTER, title + ": " + cadena);
         } else {
-            addParam("selectionFilters", getParams().get("selectionFilters")
-                    + "; " + title + ": " + cadena);
+            addParam(SELECTIONFILTER, getParams().get(SELECTIONFILTER) + "; "
+                    + title + ": " + cadena);
         }
     }
 }
