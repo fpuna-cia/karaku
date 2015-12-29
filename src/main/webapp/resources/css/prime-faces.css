@@ -44,12 +44,13 @@ button[disabled] .ui-button-text {
 	margin: 0px!important;
 	border-top: 3px solid #CCC;
 	cursor: auto;
+	height: auto;
 
 }
 
-button[disabled]:hover {
+button[disabled]:hover, input[type="submit"][disabled]:hover {
 	box-shadow: none;
-
+	cursor:auto;
 }
 /**Estilo del elemento seleccionado de un selecOneMenu*/
 .ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
