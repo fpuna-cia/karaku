@@ -23,13 +23,13 @@
 	</background>
 	<title>
 		<band height="155" splitType="Stretch">
-			<textField pattern="dd/MM/yyyy">
+			<textField pattern="dd-MM-yyyy">
 				<reportElement x="425" y="44" width="147" height="18" uuid="3f8cc264-de02-4284-b345-d14f5740c044"/>
 				<box>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$P{date}+new java.text.SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{date}+new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="79" y="24" width="346" height="20" uuid="3aed6b81-6bf4-4b87-bc0e-a258e1552266"/>
