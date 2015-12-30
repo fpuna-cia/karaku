@@ -31,27 +31,12 @@
 	text-decoration: none;
 }
 
-button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],input[type="button"][disabled]
-	{
-	background-color: #cccccc !important;
-	background-position: left top;
-	border-color: #cccccc;
-	color: grey;
-}
-
-button[disabled] .ui-button-text {
-	background-color: #CCC;
-	margin: 0px!important;
-	border-top: 3px solid #CCC;
-	cursor: auto;
-	height: auto;
-
-}
-
-button[disabled]:hover, input[type="submit"][disabled]:hover {
+button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],input[type="button"][disabled]{
+	background-image: -webkit-linear-gradient(top, #CCC, #CCC)!important;
+	background-image: -moz-linear-gradient(top, #CCC, #CCC)!important;
 	box-shadow: none;
-	cursor:auto;
 }
+
 /**Estilo del elemento seleccionado de un selecOneMenu*/
 .ui-state-highlight,.ui-widget-content .ui-state-highlight,.ui-widget-header .ui-state-highlight
 	{
@@ -140,7 +125,6 @@ button[disabled]:hover, input[type="submit"][disabled]:hover {
 	text-align: center;
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 	vertical-align: middle;
-	cursor: pointer;
 }
 
 .ui-button {
