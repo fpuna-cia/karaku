@@ -23,6 +23,7 @@
 package py.una.pol.karaku.util;
 
 import static py.una.pol.karaku.util.Checker.notNull;
+
 import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.Nullable;
@@ -30,11 +31,10 @@ import javax.annotation.Nullable;
 /**
  * Provee funcionalidades básicas para manipulación de {@link Date} y
  * {@link Calendar}.
- * 
+ *
  * @author Arturo Volpe
- * @since 2.2.8
  * @version 1.0 Nov 14, 2013
- * 
+ * @since 2.2.8
  */
 public final class DateUtils {
 
@@ -50,11 +50,10 @@ public final class DateUtils {
 
     /**
      * Retorna una copia del objeto.
-     * 
-     * @param date
-     *            fecha a copiar
+     *
+     * @param date fecha a copiar
      * @return <code>null</code> si la fecha es nula, una copia de la misma en
-     *         caso contrario.
+     * caso contrario.
      */
     public static Date cloneDate(Date date) {
 
@@ -67,11 +66,10 @@ public final class DateUtils {
 
     /**
      * Retorna una copia del objeto.
-     * 
-     * @param calendar
-     *            fecha a copiar
+     *
+     * @param calendar fecha a copiar
      * @return <code>null</code> si la fecha es nula, una copia de la misma en
-     *         caso contrario.
+     * caso contrario.
      */
     public static Calendar cloneCalendar(Calendar calendar) {
 
@@ -84,7 +82,7 @@ public final class DateUtils {
 
     /**
      * Determina si una fecha ocurrio antes que otra o si ambas son iguales.
-     * 
+     * <p/>
      * <ol>
      * <li>Si ambas fechas son <code>null</code> o iguales, entonces retorna
      * <code>true</code></li>
@@ -95,12 +93,9 @@ public final class DateUtils {
      * <li>Si <code>before</code> ocurrió antes que <code>after</code> retorna
      * <code>true</code></li>
      * </ol>
-     * 
-     * 
-     * @param before
-     *            primera fecha, nulable.
-     * @param after
-     *            fecha después, nulable
+     *
+     * @param before primera fecha, nulable.
+     * @param after  fecha después, nulable
      * @return condiciones especificadas arriba.
      */
     public static boolean isBeforeOrEqual(@Nullable Date before,
@@ -122,7 +117,7 @@ public final class DateUtils {
 
     /**
      * Determina si una fecha es anterior a otra.
-     * 
+     * <p/>
      * <ol>
      * <li>Si ambas fechas son <code>null</code> o iguales entonces retorna
      * <code>false</code></li>
@@ -132,15 +127,13 @@ public final class DateUtils {
      * <code>true</code></li>
      * <li>Si <code>before</code> ocurrió antes que <code>after</code> retorna
      * <code>true</code></li>
-     * 
-     * 
-     * @param before
-     *            primera fecha, nulable.
-     * @param after
-     *            fecha después, nulable
+     *
+     * @param before primera fecha, nulable.
+     * @param after  fecha después, nulable
      * @return condiciones especificadas arriba.
      */
-    public static boolean isBefore(@Nullable Date before, @Nullable Date after) {
+    public static boolean isBefore(@Nullable Date before,
+            @Nullable Date after) {
 
         if ((before == null) && (after == null)) {
             return false;
@@ -157,7 +150,7 @@ public final class DateUtils {
 
     /**
      * Determina si una fecha ocurrio despúes que otra o si ambas son iguales.
-     * 
+     * <p/>
      * <ol>
      * <li>Si ambas fechas son <code>null</code> o iguales, entonces retorna
      * <code>true</code></li>
@@ -168,12 +161,9 @@ public final class DateUtils {
      * <li>Si <code>after</code> ocurrió después que <code>before</code> retorna
      * <code>true</code></li>
      * </ol>
-     * 
-     * 
-     * @param before
-     *            primera fecha, nulable.
-     * @param after
-     *            fecha después, nulable
+     *
+     * @param before primera fecha, nulable.
+     * @param after  fecha después, nulable
      * @return condiciones especificadas arriba.
      */
     public static boolean isAfterOrEqual(@Nullable Date before,
@@ -200,9 +190,9 @@ public final class DateUtils {
      * <li>Si la fecha es<code>null</code>, entonces retorna <code>null</code></li>
      * <li>Si la fecha no es <code>null</code>, retorna
      * <code>la fecha sin horas, minutos, segundos ni milisegundos.</code></li>
-     * 
+     * <p/>
      * </ol>
-     * 
+     *
      * @param date
      * @return condiciones especificadas arriba.
      */
@@ -223,9 +213,8 @@ public final class DateUtils {
     /**
      * Calcula la diferencia en años entre la fecha pasada como parámetro y la
      * fecha actual.
-     * 
-     * @param date
-     *            Fecha
+     *
+     * @param date Fecha
      * @return Diferencia en años
      */
     public static int calculateYearsFromNow(Date date) {
@@ -236,8 +225,8 @@ public final class DateUtils {
             fechaNacimiento.setTime(date);
             Calendar fechaActual = Calendar.getInstance();
 
-            edad = fechaActual.get(Calendar.YEAR)
-                    - fechaNacimiento.get(Calendar.YEAR);
+            edad = fechaActual.get(Calendar.YEAR) - fechaNacimiento
+                    .get(Calendar.YEAR);
             if ((fechaNacimiento.get(Calendar.DAY_OF_YEAR) - fechaActual
                     .get(Calendar.DAY_OF_YEAR)) > 0) {
                 edad--;
@@ -249,9 +238,8 @@ public final class DateUtils {
     /**
      * Calcula la diferencia en meses entre la fecha pasada como parámetro y la
      * fecha actual.
-     * 
-     * @param date
-     *            Fecha
+     *
+     * @param date Fecha
      * @return Diferencia en meses
      */
     public static int calculateMonthsFromNow(Date date) {
@@ -262,8 +250,8 @@ public final class DateUtils {
             fechaNacimiento.setTime(date);
             Calendar fechaActual = Calendar.getInstance();
 
-            edad = fechaActual.get(Calendar.MONTH)
-                    - fechaNacimiento.get(Calendar.MONTH);
+            edad = fechaActual.get(Calendar.MONTH) - fechaNacimiento
+                    .get(Calendar.MONTH);
             if ((fechaNacimiento.get(Calendar.DAY_OF_YEAR) - fechaActual
                     .get(Calendar.DAY_OF_YEAR)) > 0) {
                 edad--;
@@ -281,7 +269,7 @@ public final class DateUtils {
      * <p>
      * Ejemplo:
      * </p>
-     * 
+     * <p/>
      * <p>
      * Para: 22-09-2015 (hoy)
      * </p>
@@ -296,9 +284,9 @@ public final class DateUtils {
      * <p>
      * Para: 22-08-2015
      * </p>
-     * <p>
+     * <p/>
      * Retorna: 1 mes </dia>
-     * 
+     *
      * @param date
      * @return String con tiempo de diferencia a hoy
      */
@@ -359,9 +347,8 @@ public final class DateUtils {
     /**
      * Calcula la diferencia en dias entre la fecha pasada como parámetro y la
      * fecha actual.
-     * 
-     * @param date
-     *            Fecha
+     *
+     * @param date Fecha
      * @return Diferencia en dias
      */
     public static int calculateDaysFromNow(Date date) {
@@ -372,8 +359,8 @@ public final class DateUtils {
             fechaNacimiento.setTime(date);
             Calendar fechaActual = Calendar.getInstance();
 
-            edad = fechaActual.get(Calendar.DAY_OF_YEAR)
-                    - fechaNacimiento.get(Calendar.DAY_OF_YEAR);
+            edad = fechaActual.get(Calendar.DAY_OF_YEAR) - fechaNacimiento
+                    .get(Calendar.DAY_OF_YEAR);
 
         }
         return edad;
@@ -381,10 +368,9 @@ public final class DateUtils {
 
     /**
      * Convierte de número a nombre del mes pasado como parametro
-     * 
-     * @param mes
-     *            mes del cual se desea el nombre
-     * 
+     *
+     * @param mes mes del cual se desea el nombre
+     *            <p/>
      *            <li>Ejemplo: obtenerMesEnLetras(Calendar.JANUARY) = Enero
      */
 
@@ -400,7 +386,7 @@ public final class DateUtils {
     /**
      * Configura la fecha recibida con la última hora y minuto del día definido
      * por la misma
-     * 
+     *
      * @param d
      * @return
      */
@@ -416,7 +402,7 @@ public final class DateUtils {
     /**
      * Configura la fecha recibida sin hora ni minuto del día definido por la
      * misma
-     * 
+     *
      * @param d
      * @return
      */
