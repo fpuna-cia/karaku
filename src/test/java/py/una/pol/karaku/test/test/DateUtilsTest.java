@@ -33,6 +33,7 @@ import static py.una.pol.karaku.util.DateUtils.cloneDate;
 import static py.una.pol.karaku.util.DateUtils.isAfterOrEqual;
 import static py.una.pol.karaku.util.DateUtils.isBefore;
 import static py.una.pol.karaku.util.DateUtils.isBeforeOrEqual;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.Test;
@@ -44,11 +45,11 @@ import py.una.pol.karaku.test.configuration.BaseTestConfiguration;
 import py.una.pol.karaku.util.DateUtils;
 
 /**
- *
+ * 
  * @author Arturo Volpe
  * @since 2.2.8
  * @version 1.0 Nov 15, 2013
- *
+ * 
  */
 @ContextConfiguration(loader = AnnotationConfigContextLoader.class)
 public class DateUtilsTest extends BaseTest {
@@ -91,7 +92,7 @@ public class DateUtilsTest extends BaseTest {
     }
 
     @Test
-    public void testBeforeOrEqual() throws Exception {
+    public void testBeforeOrEqual1() throws Exception {
 
         Calendar before = Calendar.getInstance();
         before.add(Calendar.MINUTE, -1);
@@ -106,7 +107,108 @@ public class DateUtilsTest extends BaseTest {
     }
 
     @Test
-    public void testAfterOrEqual() throws Exception {
+    public void testBeforeOrEqual2() throws Exception {
+
+        Calendar before = Calendar.getInstance();
+        before.add(Calendar.MINUTE, -10);
+        Date dBefore = before.getTime();
+
+        /*
+         * Realizamos las pruebas correspondientes para el siguiente caso de:
+         * Before: Date || After: Date
+         */
+        assertTrue(isBeforeOrEqual(dBefore, before.getTime()));
+
+        assertTrue(isBeforeOrEqual(dBefore, new Date()));
+
+        assertFalse(isBeforeOrEqual(new Date(), dBefore));
+
+    }
+
+    @Test
+    public void testBeforeOrEqual3() throws Exception {
+
+        Calendar before = Calendar.getInstance();
+        before.add(Calendar.MINUTE, -10);
+
+        Date dBefore = before.getTime();
+        Timestamp dBeforeTimeStamp = new Timestamp(before.getTime().getTime());
+
+        /*
+         * Realizamos las pruebas correspondientes para el siguiente caso de:
+         * Before: Date || After: Timestamp
+         */
+        assertTrue(isBeforeOrEqual(dBefore, dBeforeTimeStamp));
+
+        // Retrocedemos 10 Min el Reloj
+        before.add(Calendar.MINUTE, -10);
+        assertFalse(isBeforeOrEqual(dBefore, new Timestamp(before.getTime()
+                .getTime())));
+
+        // Adelantamos 100 Min el Reloj
+        before.add(Calendar.MINUTE, 100);
+        assertTrue(isBeforeOrEqual(new Date(), new Timestamp(before.getTime()
+                .getTime())));
+
+    }
+
+    @Test
+    public void testBeforeOrEqual4() throws Exception {
+
+        Calendar before = Calendar.getInstance();
+        before.add(Calendar.MINUTE, -10);
+
+        Date dBefore = before.getTime();
+        Timestamp dBeforeTimeStamp = new Timestamp(before.getTime().getTime());
+
+        /*
+         * Realizamos las pruebas correspondientes para el siguiente caso de:
+         * Before: Timestamp || After: Date
+         */
+        assertTrue(isBeforeOrEqual(dBeforeTimeStamp, dBefore));
+
+        // Retrocedemos 10 Min el Reloj
+        before.add(Calendar.MINUTE, -10);
+        assertFalse(isBeforeOrEqual(dBeforeTimeStamp, new Date(before.getTime()
+                .getTime())));
+
+        // Adelantamos 100 Min el Reloj
+        before.add(Calendar.MINUTE, 100);
+        assertTrue(isBeforeOrEqual(dBeforeTimeStamp, new Date(before.getTime()
+                .getTime())));
+
+    }
+
+    @Test
+    public void testBeforeOrEqual5() throws Exception {
+
+        Calendar before = Calendar.getInstance();
+        before.add(Calendar.MINUTE, -10);
+
+        Date dBefore = before.getTime();
+        Timestamp dBeforeTimeStamp = new Timestamp(before.getTime().getTime());
+
+        /*
+         * Realizamos las pruebas correspondientes para el siguiente caso de:
+         * Before: Timestamp || After: Timestamp
+         */
+        assertTrue(isBeforeOrEqual(dBeforeTimeStamp, new Timestamp(before
+                .getTime().getTime())));
+
+        // Retrocedemos 10 Min el Reloj
+        before.add(Calendar.MINUTE, -10);
+        assertFalse(isBeforeOrEqual(dBeforeTimeStamp, new Timestamp(before
+                .getTime().getTime())));
+
+        // Adelantamos 100 Min el Reloj
+        before.add(Calendar.MINUTE, 100);
+        assertTrue(isBeforeOrEqual(dBeforeTimeStamp, new Timestamp(before
+                .getTime().getTime())));
+
+    }
+
+    @Test
+    public void testAfterOrEqual1() throws Exception {
 
         Calendar after = Calendar.getInstance();
         after.add(Calendar.MINUTE, 10);
@@ -118,6 +220,108 @@ public class DateUtilsTest extends BaseTest {
         assertTrue(isAfterOrEqual(null, new Date()));
         assertTrue(isAfterOrEqual(null, null));
         assertFalse(isAfterOrEqual(dAfter, new Date()));
+    }
+
+    @Test
+    public void testAfterOrEqual2() throws Exception {
+
+        Calendar after = Calendar.getInstance();
+
+        Date dAfter = after.getTime();
+
+        /*
+         * Realizamos las pruebas correspondientes para el siguiente caso de:
+         * Before: Date || After: Date
+         */
+        assertTrue(isAfterOrEqual(dAfter, after.getTime()));
+
+        // Adelantamos el Reloj en 10 min
+        after.add(Calendar.MINUTE, 10);
+        assertTrue(isAfterOrEqual(new Date(), new Date(after.getTime()
+                .getTime())));
+
+        // Retrocedemos el Reloj en 10 min
+        after.add(Calendar.MINUTE, -100);
+        assertFalse(isAfterOrEqual(dAfter, new Date(after.getTime().getTime())));
+
+    }
+
+    @Test
+    public void testAfterOrEqual3() throws Exception {
+
+        Calendar after = Calendar.getInstance();
+
+        Date dAfter = after.getTime();
+        Timestamp dAfterTimeStamp = new Timestamp(after.getTime().getTime());
+
+        /*
+         * Realizamos las pruebas correspondientes para el siguiente caso de:
+         * Before: Date || After: Timestamp
+         */
+        assertTrue(isAfterOrEqual(dAfter, dAfterTimeStamp));
+
+        // Adelantamos el Reloj en 10 Minutos
+        after.add(Calendar.MINUTE, 10);
+        assertTrue(isAfterOrEqual(dAfter, new Timestamp(after.getTime()
+                .getTime())));
+
+        // Retrocedemos el Reloj en 100 Minutos
+        after.add(Calendar.MINUTE, -100);
+        assertFalse(isAfterOrEqual(dAfter, new Timestamp(after.getTime()
+                .getTime())));
+
+    }
+
+    @Test
+    public void testAfterOrEqual4() throws Exception {
+
+        Calendar after = Calendar.getInstance();
+
+        Date dAfter = after.getTime();
+        Timestamp dAfterTimeStamp = new Timestamp(after.getTime().getTime());
+
+        /*
+         * Realizamos las pruebas correspondientes para el siguiente caso de:
+         * Before: Timestamp || After: Date
+         */
+        assertTrue(isAfterOrEqual(dAfterTimeStamp, dAfter));
+
+        // Adelantamos el Reloj en 10 Minutos
+        after.add(Calendar.MINUTE, 10);
+        assertTrue(isAfterOrEqual(dAfterTimeStamp, new Date(after.getTime()
+                .getTime())));
+
+        // Retrocedemos el Reloj en 100 Minutos
+        after.add(Calendar.MINUTE, -100);
+        assertFalse(isAfterOrEqual(dAfterTimeStamp, new Date(after.getTime()
+                .getTime())));
+
+    }
+
+    @Test
+    public void testAfterOrEqual5() throws Exception {
+
+        Calendar after = Calendar.getInstance();
+        after.add(Calendar.MINUTE, 10);
+
+        Timestamp dAfterTimeStamp = new Timestamp(after.getTime().getTime());
+
+        /*
+         * Realizamos las pruebas correspondientes para el siguiente caso de:
+         * Before: Timestamp || After: TimeStamp
+         */
+        assertTrue(isAfterOrEqual(dAfterTimeStamp, dAfterTimeStamp));
+
+        // Adelantamos el Reloj en 10 Minutos
+        after.add(Calendar.MINUTE, 10);
+        assertTrue(isAfterOrEqual(dAfterTimeStamp, new Timestamp(after
+                .getTime().getTime())));
+
+        // Retrocedemos el Reloj en 100 Minutos
+        after.add(Calendar.MINUTE, -100);
+        assertFalse(isAfterOrEqual(dAfterTimeStamp, new Timestamp(after
+                .getTime().getTime())));
+
     }
 
     @Test

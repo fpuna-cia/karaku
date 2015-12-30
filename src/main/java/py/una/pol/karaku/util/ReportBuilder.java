@@ -41,185 +41,228 @@ import py.una.pol.karaku.reports.KarakuReportBlockField;
 
 public final class ReportBuilder {
 
-	private KarakuReportBlockField master;
+    private KarakuReportBlockField master;
 
-	private List<KarakuReportBlock> details;
+    private List<KarakuReportBlock> details;
 
-	private Map<String, Object> params;
-	private String type;
-	private boolean sectionCriteria;
-	private Align align;
+    private Map<String, Object> params;
+    private String type;
+    private boolean sectionCriteria;
+    private Align align;
+    private static final String SELECTIONFILTER = "selectionFilters";
 
-	public ReportBuilder(String title, String type) {
+    public ReportBuilder(String title, String type) {
 
-		this.params = new HashMap<String, Object>();
-		// Agrega el título del reporte en la los parámetros.
-		this.addParam("titleReport", getMessage(title));
-		this.sectionCriteria = false;
-		this.setAlign(Align.VERTICAL);
-		this.type = type;
-	}
+        this.params = new HashMap<String, Object>();
+        // Agrega el título del reporte en la los parámetros.
+        this.addParam("titleReport", getMessage(title));
+        this.sectionCriteria = false;
+        this.setAlign(Align.VERTICAL);
+        this.type = type;
+    }
 
-	/**
-	 * Constructor por defecto
-	 */
-	public ReportBuilder() {
+    /**
+     * Constructor por defecto
+     */
+    public ReportBuilder() {
 
-		this.params = new HashMap<String, Object>();
-		// Agrega el título del reporte en la los parámetros.
-		this.sectionCriteria = false;
-		this.setAlign(Align.VERTICAL);
-	}
+        this.params = new HashMap<String, Object>();
+        // Agrega el título del reporte en la los parámetros.
+        this.sectionCriteria = false;
+        this.setAlign(Align.VERTICAL);
+    }
 
-	/**
-	 * @param block
-	 *            Representa la cabecera de un reporte cabecera-detalle
-	 */
-	public ReportBuilder setMaster(KarakuReportBlockField block) {
+    /**
+     * @param block
+     *            Representa la cabecera de un reporte cabecera-detalle
+     */
+    public ReportBuilder setMaster(KarakuReportBlockField block) {
 
-		this.master = block;
-		return this;
-	}
+        this.master = block;
+        return this;
+    }
 
-	/**
-	 * @param block
-	 *            Representa un determinado detalle de un reporte
-	 *            cabecera-detalle
-	 */
-	public ReportBuilder addDetail(KarakuReportBlock block) {
+    /**
+     * @param block
+     *            Representa un determinado detalle de un reporte
+     *            cabecera-detalle
+     */
+    public ReportBuilder addDetail(KarakuReportBlock block) {
 
-		if (details == null) {
-			details = new ArrayList<KarakuReportBlock>();
-		}
-		this.details.add(block);
-		return this;
-	}
+        if (details == null) {
+            details = new ArrayList<KarakuReportBlock>();
+        }
+        this.details.add(block);
+        return this;
+    }
 
-	/**
-	 * Agrega un bloque al reporte.
-	 * 
-	 * Cada bloque se considera como un subreporte.
-	 * 
-	 * @param block
-	 * @return
-	 */
-	public ReportBuilder addBlock(KarakuReportBlock block) {
+    /**
+     * Agrega un bloque al reporte.
+     * 
+     * Cada bloque se considera como un subreporte.
+     * 
+     * @param block
+     * @return
+     */
+    public ReportBuilder addBlock(KarakuReportBlock block) {
 
-		return this.addDetail(block);
-	}
+        return this.addDetail(block);
+    }
 
-	/**
-	 * Agrega una lista de bloques al reporte.
-	 * 
-	 * @param blocks
-	 *            bloques que se desean agregar al reporte
-	 * @return Reporte con los bloques agregados.
-	 */
-	public ReportBuilder addBlocks(List<KarakuReportBlock> blocks) {
+    /**
+     * Agrega una lista de bloques al reporte.
+     * 
+     * @param blocks
+     *            bloques que se desean agregar al reporte
+     * @return Reporte con los bloques agregados.
+     */
+    public ReportBuilder addBlocks(List<KarakuReportBlock> blocks) {
 
-		for (KarakuReportBlock block : blocks) {
-			addDetail(block);
-		}
-		return this;
-	}
+        for (KarakuReportBlock block : blocks) {
+            addDetail(block);
+        }
+        return this;
+    }
 
-	public List<KarakuReportBlock> getDetails() {
+    public List<KarakuReportBlock> getDetails() {
 
-		return details;
-	}
+        return details;
+    }
 
-	public KarakuReportBlockField getMaster() {
+    public KarakuReportBlockField getMaster() {
 
-		return master;
-	}
+        return master;
+    }
 
-	public Map<String, Object> getParams() {
+    public Map<String, Object> getParams() {
 
-		return params;
-	}
+        return params;
+    }
 
-	public void setParams(Map<String, Object> params) {
+    public void setParams(Map<String, Object> params) {
 
-		this.params = params;
-	}
+        this.params = params;
+    }
 
-	public ReportBuilder addParam(String key, Object value) {
+    public ReportBuilder addParam(String key, Object value) {
 
-		this.params.put(key, value);
-		return this;
+        this.params.put(key, value);
+        return this;
 
-	}
+    }
 
-	public String getType() {
+    public String getType() {
 
-		return type;
-	}
+        return type;
+    }
 
-	public ReportBuilder setType(String type) {
+    public ReportBuilder setType(String type) {
 
-		this.type = type;
-		return this;
-	}
+        this.type = type;
+        return this;
+    }
 
-	/**
-	 * Retorna los bloques del reporte master-detail.
-	 * 
-	 * Donde el primer bloque representa la cabecera y los demás cada uno de los
-	 * detalles asociados.
-	 * 
-	 * @return Lista de bloques del reporte del tipo master-detail.
-	 */
-	public List<KarakuReportBlock> getBlocksMasterDetail() {
+    /**
+     * Retorna los bloques del reporte master-detail.
+     * 
+     * Donde el primer bloque representa la cabecera y los demás cada uno de los
+     * detalles asociados.
+     * 
+     * @return Lista de bloques del reporte del tipo master-detail.
+     */
+    public List<KarakuReportBlock> getBlocksMasterDetail() {
 
-		List<KarakuReportBlock> blocks = new ArrayList<KarakuReportBlock>();
-		blocks.add(master);
-		blocks.addAll(details);
-		return blocks;
-	}
+        List<KarakuReportBlock> blocks = new ArrayList<KarakuReportBlock>();
+        blocks.add(master);
+        blocks.addAll(details);
+        return blocks;
+    }
 
-	/**
-	 * Retorna los bloques asociados al reporte.
-	 * 
-	 * @return Lista de bloques del reporte.
-	 */
-	public List<KarakuReportBlock> getBlocks() {
+    /**
+     * Retorna los bloques asociados al reporte.
+     * 
+     * @return Lista de bloques del reporte.
+     */
+    public List<KarakuReportBlock> getBlocks() {
 
-		return details;
-	}
+        return details;
+    }
 
-	private static String getMessage(String key) {
+    private static String getMessage(String key) {
 
-		return I18nHelper.getSingleton().getString(key);
-	}
+        return I18nHelper.getSingleton().getString(key);
+    }
 
-	public boolean isSectionCriteria() {
+    public boolean isSectionCriteria() {
 
-		return sectionCriteria;
-	}
+        return sectionCriteria;
+    }
 
-	public void setSectionCriteria(boolean sectionCriteria) {
+    public void setSectionCriteria(boolean sectionCriteria) {
 
-		this.sectionCriteria = sectionCriteria;
-	}
+        this.sectionCriteria = sectionCriteria;
+    }
 
-	public Align getAlign() {
+    public Align getAlign() {
 
-		return align;
-	}
+        return align;
+    }
 
-	public void setAlign(Align align) {
+    public void setAlign(Align align) {
 
-		this.align = align;
-	}
+        this.align = align;
+    }
 
-	/**
-	 * Agrega un conjunto de parámetros al reporte.
-	 * 
-	 * @param params
-	 *            Parámetros que se desean agregar.
-	 */
-	public void addAllParam(Map<String, Object> params) {
+    /**
+     * Agrega un conjunto de parámetros al reporte.
+     * 
+     * @param params
+     *            Parámetros que se desean agregar.
+     */
+    public void addAllParam(Map<String, Object> params) {
 
-		this.params.putAll(params);
-	}
+        this.params.putAll(params);
+    }
+
+    /*
+     * Método para agregar filtros en los reportes, un título y una descripción.
+     * Ejemplo: title=Fecha, description=22/10/2015 -> Resultado Fecha:
+     * 22/10/2015
+     */
+    public void addFilter(String title, String description) {
+
+        if (getParams().get(SELECTIONFILTER) == null) {
+            addParam(SELECTIONFILTER, title + ": " + description);
+        } else {
+            addParam(SELECTIONFILTER, getParams().get(SELECTIONFILTER) + "; "
+                    + title + ": " + description);
+        }
+
+    }
+
+    /*
+     * Método para agregar filtros en los reportes, un título y una lista de
+     * descripciones. Ejemplo: title=Fechas, description=[22/10/2015,
+     * 22/10/2016, 22/10/2017] -> Resultado Fecha: 22/10/2015, 22/10/2016,
+     * 22/10/2017
+     */
+    public void addFilterList(String title, List<String> list) {
+
+        String cadena = "";
+        StringBuilder sb = new StringBuilder();
+        for (String s : list) {
+
+            sb.append(s).append(", ");
+        }
+        // se elimina la ultima coma de la cadena generada
+        cadena = sb.toString();
+        cadena = cadena.substring(0, cadena.length() - 2);
+
+        if (getParams().get(SELECTIONFILTER) == null) {
+            addParam(SELECTIONFILTER, title + ": " + cadena);
+        } else {
+            addParam(SELECTIONFILTER, getParams().get(SELECTIONFILTER) + "; "
+                    + title + ": " + cadena);
+        }
+    }
 }

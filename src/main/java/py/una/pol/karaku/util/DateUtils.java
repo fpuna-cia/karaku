@@ -111,7 +111,8 @@ public final class DateUtils {
         if (after == null) {
             return true;
         }
-        return before.before(after) || before.equals(after);
+        return before.before(after) || after.equals(before)
+                || before.equals(after);
     }
 
     /**
@@ -178,7 +179,8 @@ public final class DateUtils {
         if (after == null) {
             return false;
         }
-        return before.before(after) || before.equals(after);
+        return before.before(after) || after.equals(before)
+                || before.equals(after);
     }
 
     /**

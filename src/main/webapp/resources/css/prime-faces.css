@@ -21,8 +21,7 @@
 
 /*Estilo de los elementos cuando nos posicionamos sobre ellos*/
 .ui-state-hover,.ui-state-focus {
-	background: none !important;
-	border-color: #E0ABF0 !important;
+	background-color: #F8EFFB !important;
 	box-shadow: 0px 0px 4px #6A0888 !important;
 	color: #555555 !important;
 }
@@ -32,12 +31,10 @@
 	text-decoration: none;
 }
 
-button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],input[type="button"][disabled]
-	{
-	background-color: #cccccc !important;
-	background-position: left top;
-	border-color: #cccccc;
-	color: grey;
+button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],input[type="button"][disabled]{
+	background-image: -webkit-linear-gradient(top, #CCC, #CCC)!important;
+	background-image: -moz-linear-gradient(top, #CCC, #CCC)!important;
+	box-shadow: none;
 }
 
 /**Estilo del elemento seleccionado de un selecOneMenu*/
@@ -123,17 +120,16 @@ button[disabled],input[type="reset"][disabled],input[type="submit"][disabled],in
 	display: inline-block;
 	font-size: 10px;
 	height: 26px;
-	line-height: 10px;
+	line-height: 1em !important;
 	color: #333333;
 	text-align: center;
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 	vertical-align: middle;
-	cursor: pointer;
-	background-color: #fff;
 }
 
 .ui-button {
 	height: 22px;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6)) !important;
 }
 /*Para evitar el efecto sombreado de los componentes */
 .ui-inputfield,.ui-widget-content .ui-inputfield,.ui-widget-header .ui-inputfield
